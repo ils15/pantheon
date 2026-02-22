@@ -10,6 +10,7 @@
 - [How It Works](#how-it-works)
 - [The 9 Agents](#the-9-agents)
 - [Workflow](#workflow)
+- [Artifact System](#artifact-system)
 - [Memory System](#memory-system)
 - [Quick Start](#quick-start)
 - [Repository Structure](#repository-structure)
@@ -88,9 +89,9 @@ GREEN    Write the minimum implementation to make it pass.
 REFACTOR Improve the code without breaking the test.
 ```
 
-**3. You stay in control**
+**3. You stay in control — via artifacts**
 
-There are three explicit pause points where the system stops and waits for your approval before continuing. AI does the work; you make every architectural and commit decision.
+Every phase produces a structured **artifact** (a file in `docs/memory-bank/.tmp/`) before anything proceeds. You read the artifact, approve or request changes, then the next phase begins. There are three explicit pause points where the system stops and waits for your approval. AI does the work; you make every architectural and commit decision.
 
 ---
 
@@ -151,24 +152,56 @@ Zeus plans with Athena, discovers context with Apollo, then coordinates Maat →
 @athena: Plan email verification flow — registration sends email, link expires 24h, frontend shows form, rate limit 5/min
 ```
 
-**Phase 1 — Database** (Maat, 1–2 hours):
-- `VerificationCode` table with UUID, `expires_at`, `attempted_at`
-- `verified_at` column on `User`
-- Indexes for lookup performance
-- 4 migration tests: forward, backward, validation
+**Phase 1 — Planning** (Athena):
+- Produces **`PLAN-email-verification.md`** in `docs/memory-bank/.tmp/`
+- ⏸️ You read the plan, approve or request changes
 
-**Phase 2 — Backend** (Hermes, 2–3 hours, parallel):
-- `EmailService`, `VerificationService`
-- `POST /auth/register`, `POST /auth/verify`
-- 8 unit tests + 4 integration tests — 94% coverage
+**Phase 2 — Implementation (parallel)** (Hermes + Aphrodite + Maat simultaneously):
+- Hermes: `IMPL-phase2-hermes.md` — APIs, services, 12 tests
+- Aphrodite: `IMPL-phase2-aphrodite.md` — `VerificationForm` component, 8 tests
+- Maat: `IMPL-phase2-maat.md` — migration, indexes, rollback verified
 
-**Phase 3 — Frontend** (Aphrodite, 2–3 hours, parallel):
-- `VerificationForm` component + `useVerification` hook
-- 6 component tests + 2 hook tests — 92% coverage, WCAG AA
+**Phase 3 — Quality gate** (Temis):
+- Produces **`REVIEW-email-verification.md`** — verdict + "Human Review Focus" items
+- ⏸️ You read the review, validate the items only you can judge
 
 **Sprint close** (Mnemosyne):
-- `docs/memory-bank/04-active-context.md` updated
-- `docs/memory-bank/05-progress-log.md` entry appended
+- `docs/memory-bank/.tmp/` wiped (all ephemeral artifacts deleted)
+- `04-active-context.md` updated with sprint summary
+- ⏸️ You execute `git commit`
+
+---
+
+## Artifact System
+
+Every phase produces a **structured artifact** — a temporary file written to `docs/memory-bank/.tmp/` that summarizes what was done and what you need to review before the next phase begins.
+
+| Artifact | Produced by | Consumed by | What it contains |
+|---|---|---|---|
+| `PLAN-<feature>.md` | Athena | You, Zeus | Phases, risks, open questions for your judgment |
+| `IMPL-<phase>-<agent>.md` | Hermes / Aphrodite / Maat | Temis | What was built, test results, notes for reviewer |
+| `REVIEW-<feature>.md` | Temis | You | Verdict, issues found, **Human Review Focus** |
+| `DISC-<topic>.md` | Apollo (subagent) | Athena, Zeus | Discovery findings from isolated research |
+| `ADR-<topic>.md` | Any agent | All | Architectural decisions — **permanent, committed** |
+
+### Key properties
+
+- **`docs/memory-bank/.tmp/`** is gitignored — artifacts never enter the git history
+- On `@mnemosyne Close sprint`, the entire `.tmp/` folder is wiped automatically
+- **ADR artifacts** (architectural decisions) go to `docs/memory-bank/_notes/` and are never deleted
+- You can inspect the tmp folder at any time — it's a plain directory of markdown files
+
+### Cleanup commands
+
+```
+@mnemosyne Close sprint: [summary]    ← wipes .tmp/ + closes sprint
+@mnemosyne Clean tmp                  ← wipes .tmp/ without closing sprint
+@mnemosyne List artifacts             ← shows what's in .tmp/
+```
+
+### Human Review Focus
+
+Every `REVIEW-` artifact includes a **Human Review Focus** section — 1–2 specific items that require your judgment and cannot be fully validated by AI (e.g., business logic correctness, UX decisions, security edge cases specific to your domain).
 
 ---
 
@@ -184,7 +217,7 @@ flowchart LR
     end
 
     subgraph L2["Level 2 — Narrative (explicit read)"]
-        MB["docs/memory-bank/\n00 — Project overview\n01 — Architecture\n02 — Components\n03 — Tech context\n04 — Active context  ← priority\n05 — Progress log\n_tasks/ — task records\n_notes/ — decision records (ADRs)"]
+        MB["docs/memory-bank/\n00 — Project overview\n01 — Architecture\n02 — Components\n03 — Tech context\n04 — Active context  ← priority\n05 — Progress log\n.tmp/ — ephemeral artifacts (gitignored)\n_notes/ — decision records (ADRs, committed)"]
     end
 
     L1 -. "graduates to at sprint close" .-> L2
@@ -237,18 +270,31 @@ cp -r copilot-agents/agents copilot-agents/instructions \
 
 ### Your first feature
 
-```bash
+```
 # 1. Plan
 @athena: Plan JWT authentication with refresh tokens
+```
 
-# 2. Review the plan in docs/memory-bank/04-active-context.md
-#    Approve: "Plan looks good, proceed"
+Athena produces `docs/memory-bank/.tmp/PLAN-jwt-auth.md`.
+
+```
+# 2. Read the plan artifact, then approve
+# Open docs/memory-bank/.tmp/PLAN-jwt-auth.md
+# Reply: "Approved, proceed"
 
 # 3. Implement
 @zeus: Implement JWT auth using the approved plan
+```
 
-# 4. After each phase review and commit
+Zeus coordinates parallel execution (Maat + Hermes + Aphrodite). Each worker produces an `IMPL-` artifact. Temis reviews and produces `REVIEW-jwt-auth.md`.
+
+```
+# 4. Read the review artifact, validate Human Review Focus items, then commit
+# Open docs/memory-bank/.tmp/REVIEW-jwt-auth.md
 git add -A && git commit -m "feat: JWT authentication"
+
+# 5. Close sprint
+@mnemosyne Close sprint: JWT authentication complete with refresh tokens
 ```
 
 Total time for a production-ready feature: **6–8 hours**.
@@ -279,6 +325,7 @@ copilot-agents/
 │   └── mnemosyne.agent.md  memory
 │
 ├── instructions/           — per-domain coding standards
+│   ├── artifact-protocol.instructions.md    ← artifact system rules
 │   ├── backend-standards.instructions.md
 │   ├── frontend-standards.instructions.md
 │   ├── database-standards.instructions.md
@@ -310,10 +357,10 @@ copilot-agents/
         ├── 03-tech-context.md      stack, setup, commands
         ├── 04-active-context.md    current sprint focus  ← agents read this first
         ├── 05-progress-log.md      completed milestones (append-only)
-        ├── _tasks/
-        │   └── _index.md           task record index
+        ├── .tmp/                   ← GITIGNORED — ephemeral artifacts (wiped on sprint close)
+        │   └── PLAN-*.md, IMPL-*.md, REVIEW-*.md, DISC-*.md
         └── _notes/
-            └── _index.md           architectural decision records (ADRs)
+            └── ADR-*.md            architectural decision records (permanent, committed)
 ```
 
 ---
@@ -425,4 +472,4 @@ Yes. Read `AGENTS.md` for the architecture, then create a new `.agent.md` file i
 
 ---
 
-**Version:** 2.1 &nbsp;|&nbsp; **Updated:** February 2026 &nbsp;|&nbsp; **License:** MIT
+**Version:** 2.2 &nbsp;|&nbsp; **Updated:** February 2026 &nbsp;|&nbsp; **License:** MIT

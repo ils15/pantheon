@@ -490,6 +490,61 @@ class User:
 
 ---
 
+## 🏺 Artifact Protocol
+
+The system operates with **structured artifacts** — persisted outputs that create an audit trail and enable human-in-the-loop approval at every phase.
+
+### Artifact Types
+
+| Prefix | Produced by | Persisted by | Location |
+|---|---|---|---|
+| `PLAN-` | Athena | Mnemosyne | `docs/memory-bank/.tmp/PLAN-<feature>.md` ⚠️ gitignored |
+| `IMPL-` | Hermes / Aphrodite / Maat | Mnemosyne | `docs/memory-bank/.tmp/IMPL-<phase>-<agent>.md` ⚠️ gitignored |
+| `REVIEW-` | Temis | Mnemosyne | `docs/memory-bank/.tmp/REVIEW-<feature>.md` ⚠️ gitignored |
+| `DISC-` | Apollo (`#runSubagent`) | Mnemosyne | `docs/memory-bank/.tmp/DISC-<topic>.md` ⚠️ gitignored |
+| `ADR-` | Any agent | Mnemosyne | `docs/memory-bank/_notes/ADR-<topic>.md` ✅ committed |
+
+**Reference:** `instructions/artifact-protocol.instructions.md`
+
+### Full Flow with Artifact Gates
+
+```
+You (Architect)
+    └─► Zeus (Orchestrator)
+            │
+            ├─► Athena ──────────────── PLAN-<feature>.md
+            │       └─► Apollo (DISC)
+            │
+            │   ⏸️ GATE 1: You approve PLAN artifact
+            │
+            ├─► [PARALLEL 🔀]
+            │       ├─► Hermes ───── IMPL-phase2-hermes.md
+            │       ├─► Aphrodite ── IMPL-phase2-aphrodite.md
+            │       └─► Maat ──────── IMPL-phase2-maat.md
+            │
+            ├─► Temis ───────────────── REVIEW-<feature>.md
+            │       └─► "Human Review Focus" (you must validate)
+            │
+            │   ⏸️ GATE 2: You approve REVIEW artifact
+            │
+            └─► [optional] Ra → deploy
+                    ⏸️ GATE 3: You execute git commit
+```
+
+### Parallel Execution Declaration
+
+When Zeus dispatches multiple workers, it always announces:
+```
+🔀 PARALLEL EXECUTION — Phase 2
+Running simultaneously (independent scopes):
+- @hermes   → backend endpoints + tests
+- @aphrodite → frontend components
+- @maat     → database migration
+All three produce IMPL artifacts. Temis reviews after all complete.
+```
+
+---
+
 ## 🔧 Direct Invocation
 
 Each agent can be invoked directly for bypass orchestration:

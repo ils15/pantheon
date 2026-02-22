@@ -26,3 +26,6 @@ copilot-instructions.md
 instructions/DOCUMENTATION-STRUCTURE.md
 agents/coupon.agent.md
 instructions/vault-secrets-access.instructions.md
+
+# Artifact temp folder (ephemeral — wiped on sprint close, never committed)
+docs/memory-bank/.tmp/

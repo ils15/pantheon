@@ -76,7 +76,7 @@ Delegate to specialized agents:
 
 ### Step 3: Create CONCISE Implementation Plan
 
-**Plan Structure** (3-5 phases MAX, presented in chat - NO files created):
+**Plan Structure** (3-5 phases MAX):
 ```
 📋 Implementation Plan: [Feature Title]
 
@@ -89,7 +89,7 @@ Delegate to specialized agents:
    - What to implement
    - Files affected: [list]
 
-2️⃣ [Phase Name] → Delegate to @aphrodite
+2️⃣ [Phase Name] → Delegate to @aphrodite (parallel with Phase 1)
    - Component to create
    - Tests needed
    - Files affected: [list]
@@ -100,17 +100,37 @@ Delegate to specialized agents:
    - Files affected: [list]
 
 ⚠️ Risks: [Brief list]
-🎬 Next: Hand off to @zeus for execution
+🕵️ Open Questions Requiring Human Judgment:
+- [ ] [Anything that requires user decision before implementation]
+
+🎬 Next: Open for user approval, then hand off to @zeus
 ```
 
-🚨 **IMPORTANT**: Present plan in CHAT only. Do NOT create plan.md files unless explicitly requested by user.
+🚨 **IMPORTANT**: Present plan in CHAT **and** request Mnemosyne to save as artifact:
+```
+@mnemosyne Create artifact: PLAN-<feature> with the plan above
+```
+This creates `docs/memory-bank/.tmp/PLAN-<feature>.md` (gitignored, ephemeral).
 
-### Step 4: Delegate Execution
+### Step 4: Wait for Human Approval — Then Delegate
 
-After plan is created:
-- Present CONCISE plan in chat (not as file)
-- Ask user: "Ready to implement? I'll hand off to @zeus"
-- When approved: Delegate to @zeus with full plan context
+After plan and artifact are ready:
+1. Present CONCISE plan in chat
+2. Request Mnemosyne to save as `PLAN-<feature>.md`
+3. **Show approval prompt** and wait for explicit user confirmation:
+
+```
+⏸️ PLANNING GATE — Waiting for your approval
+
+Plan: PLAN-<feature>.md has been saved to docs/memory-bank/.tmp/
+
+Open questions requiring your judgment:
+- [ ] [Question 1]
+
+When you're ready: reply "approved" or request changes.
+```
+
+4. Only after explicit approval: Delegate to @zeus with full plan context
 
 **REMEMBER**: You create the plan. Others implement it. You NEVER touch code.
 
@@ -257,15 +277,20 @@ For parallel discovery without context contamination:
 
 ## 🚨 Documentation Policy
 
-**YOU CANNOT CREATE .md FILES**
+**Artifact via Mnemosyne (MANDATORY for plans):**
+- ✅ `@mnemosyne Create artifact: PLAN-<feature>` after every plan
+- ✅ This creates `docs/memory-bank/.tmp/PLAN-<feature>.md` (gitignored, ephemeral)
+- ❌ Direct file creation by Athena (create via Mnemosyne only)
 
-- ❌ NO planning docs, research summaries, RCA reports
-- ✅ Handoff to @mnemosyne for ALL documentation
-- ✅ Mnemosyne uses: `instructions/documentation-standards.instructions.md`
+**Ephemeral session memory (for work-in-progress):**
+- ✅ Plans → `/memories/session/` (ephemeral, during sprint)
+- ✅ Facts → `/memories/repo/` (permanent, auto-loaded)
+
+**Artifact Protocol Reference:** `instructions/artifact-protocol.instructions.md`
 
 **Example**: After planning:
 ```
-"@mnemosyne Document the JWT authentication architecture decision"
+"@mnemosyne Create artifact: PLAN-jwt-authentication with the following content: ..."
 ```
 
 ## Key Principles

@@ -201,18 +201,21 @@ Found 47 auth-related files across backend, frontend, tests
 
 ## 🚨 Documentation Policy
 
-**YOU CANNOT CREATE .md FILES**
+**Artifact via Mnemosyne (for isolated subagent results):**
+- ✅ When running as `#runSubagent`, return findings AND request Mnemosyne to save as `DISC-<topic>.md`
+- ✅ When invoked directly as `@apollo`, return findings in chat (no artifact needed)
+- ❌ Direct .md file creation by Apollo
 
-- ❌ NO discovery reports as .md files, analysis docs, summaries
-- ✅ Return findings verbally or in chat
-- ✅ Handoff to @mnemosyne if persistent documentation needed
-- ✅ Mnemosyne uses: `instructions/documentation-standards.instructions.md`
+**Artifact Protocol Reference:** `instructions/artifact-protocol.instructions.md`
 
-**Example**: After discovery:
-```
-Return findings in chat (not as .md file)
-If persistence needed: "@mnemosyne Document the authentication architecture discovery"
-```
+## When to Use: `#runSubagent apollo` vs. `@apollo`
+
+| Mode | When to use | Output |
+|---|---|---|
+| `@apollo` (direct) | When parent agent needs findings in same context | Chat report only |
+| `#runSubagent apollo` | Independent deep-dive, prevent context contamination | Chat + `DISC-<topic>.md` artifact |
+
+**Example**: Use `#runSubagent apollo` when researching 3 separate topics in parallel that should NOT contaminate each other's context.
 
 ## Read-Only Constraint
 

@@ -56,11 +56,16 @@ Read `docs/memory-bank/active-context.md` **only when**:
 
 > If `docs/memory-bank/active-context.md` is empty or says "Nenhum" — proceed without reading further.
 
-## ⏸️ MANDATORY PAUSE POINTS
-You must pause and wait for user approval:
-1. **Planning Approval:** After Athena generates an `implementation_plan.md` in the chat.
-2. **Phase Completion:** After each implementation phase is reviewed by Temis.
-3. **Git Commit:** Before any merge or finalization, suggest a commit message.
+## ⏸️ MANDATORY PAUSE POINTS — Human Approval Gates
+
+You must **stop and wait for explicit user approval** at each gate:
+
+1. **Planning Gate:** Athena generates `PLAN-<feature>.md` artifact → pause until user approves
+2. **Phase Review Gate:** After Temis produces `REVIEW-<feature>.md` → pause, highlight the **Human Review Focus** items, wait for approval
+3. **Git Commit Gate:** Before any merge/finalization, suggest a specific commit message → user executes manually
+
+> [!IMPORTANT]
+> Never proceed to the next phase without explicit user approval at each gate. The artifact file IS the approval document.
 
 ## 🎯 TASK ROUTING ALGORITHM
 
@@ -166,25 +171,43 @@ Full debugging guide with 7-step process in documentation.
 
 ## Orchestration Workflow
 
-### Phase-Based Execution
+### Phase-Based Execution with Artifact Gates
+
 ```
 Phase 1: Planning & Research
-  ├─ @athena (create TDD plan + research)
+  ├─ @athena → creates PLAN-<feature>.md (via Mnemosyne)
   ├─ @apollo (parallel discovery + docs/GitHub evidence)
-  └─ Implementation plan ready
+  └─ ⏸️ GATE 1: User reads PLAN artifact → approves or requests changes
 
-Phase 2: Implementation
-  ├─ @hermes (Phase 2a - Backend tests & code)
-  ├─ @aphrodite (Phase 2b - React components)
-  ├─ @maat (Phase 2c - Schema migrations)
-  └─ Tests pass ✓
+Phase 2: Implementation (PARALLEL — declare explicitly)
+  ╭─ @hermes  → backend + tests  → IMPL-phase2-hermes.md
+  ├─ @aphrodite → frontend       → IMPL-phase2-aphrodite.md
+  ╰─ @maat    → schema/migrations → IMPL-phase2-maat.md
+  (all three run simultaneously when scopes don’t overlap)
 
 Phase 3: Quality Gate
-  └─ @temis (Review Phase 2 changes)
-      └─ Status: APPROVED ✓
+  └─ @temis → reviews all IMPL artifacts → REVIEW-<feature>.md
+      └─ ⏸️ GATE 2: User reviews REVIEW artifact + Human Review Focus items
 
-Phase 4: Deployment
-  └─ @ra (Deploy to staging/prod)
+Phase 4: Deployment (optional)
+  └─ @ra → deploy to staging/prod
+
+⏸️ GATE 3: User executes git commit
+```
+
+### Parallel Execution Declaration
+
+When dispatching multiple workers, **always announce**:
+
+```
+🔀 PARALLEL EXECUTION — Phase 2
+Running simultaneously (independent scopes):
+- @hermes   → backend endpoints + tests
+- @aphrodite → frontend components
+- @maat     → database migration
+
+All three will produce IMPL artifacts.
+Temis reviews after all three complete.
 ```
 
 ### Context Conservation
@@ -223,6 +246,22 @@ Orchestrate a feature for adding user dashboard:
 - **Use Temis** before merging any code (includes security checklist)
 - **Use Maat** for migrations and query optimization
 - **Use Ra** for deployment or infrastructure changes
+
+## 🏛️ Artifact Gates
+
+For every feature, Zeus enforces the artifact lifecycle:
+
+| Phase | Producing Agent | Artifact | Gate type |
+|---|---|---|---|
+| Planning | Athena + Mnemosyne | `PLAN-<feature>.md` | Human approval |
+| Discovery | Apollo (`#runSubagent`) | `DISC-<topic>.md` | Informational |
+| Implementation | Workers + Mnemosyne | `IMPL-<phase>-<agent>.md` | Temis review |
+| Quality | Temis + Mnemosyne | `REVIEW-<feature>.md` | Human approval |
+| Decisions | Any + Mnemosyne | `ADR-<topic>.md` | Archive |
+
+**Artifact Protocol Reference:** `instructions/artifact-protocol.instructions.md`
+
+Zeus does NOT write artifacts directly. Zeus instructs the appropriate worker to produce the artifact, then instructs Mnemosyne to persist it.
 
 ## Output Format
 
