@@ -1,251 +1,164 @@
 ---
 applyTo: '**'
 name: "Documentation Standards"
-description: 'Documentation Standards - Where, What, and How to document'
+description: 'Documentation Standards — Where, what, and how to document in mythic-agents projects'
 ---
 
 # Documentation Standards
 
-## 🚨 THE GOLDEN RULE
+## The Two-System Model
 
-**NEVER create .md files automatically.**
+| System | Where | Owner | Lifetime | Purpose |
+|--------|-------|-------|----------|---------|
+| **Memory Bank** | `docs/memory-bank/` | You (the team) | Permanent, versioned | Project context: architecture, patterns, progress |
+| **Copilot Memory** | GitHub Cloud (server-side) | Copilot | 28 days, auto-expires | What the agent learned from PRs, code review, CLI |
+| **Native `/memories/`** | VS Code Copilot Chat | Any agent | Repo/session/user scoped | Atomic facts and conversation-scoped plans |
 
-```
-┌──────────────────────────────────────────┐
-│ ❌ NO .md files outside Memory Bank      │
-│ ❌ NO STATUS.md, SUMMARY.md, etc         │
-│ ❌ NO session documentation              │
-│ ✅ Memory Bank ONLY for persistence      │
-└──────────────────────────────────────────┘
-```
+These three systems are complementary. The Memory Bank is **yours** — you write it, it lives in git, and `copilot-instructions.md` points to it by path. The agent memory systems are automatic or ephemeral.
 
 ---
 
-## 📁 Official Documentation Structure
+## The Golden Rule
 
-### **REQUIRED** in `/docs/memory-bank/`:
+**Never create `.md` files outside of `docs/memory-bank/` or the explicitly allowed locations below.**
+
+What is allowed outside `docs/memory-bank/`:
+- `README.md` — project overview (only if explicitly requested)
+- `CONTRIBUTING.md` — contribution guidelines (only if explicitly requested)
+- `.github/` — instructions, agents, skills, prompts (config only, never session output)
+
+What is permanently forbidden:
+- `ANALYSIS_*.md`, `SUMMARY_*.md`, `STATUS_*.md` anywhere in the repo
+- Any `.md` file in the root created as session or task output
+- Duplicating information that already exists in the Memory Bank
+
+---
+
+## Memory Bank Structure
+
+This is the **recommended template** for product repos adopting mythic-agents. Copy it once, fill it incrementally.
 
 ```
 docs/memory-bank/
-├── 00-overview.md           # Project brief
-├── 01-architecture.md       # System design
-├── 02-components.md         # Component breakdown
-├── 03-tech-context.md       # Technologies, setup
-├── 04-active-context.md     # Current focus, decisions
-├── 05-progress-log.md       # What works, what's left
+├── 00-overview.md           ← What is this project? (fill once)
+├── 01-architecture.md       ← System design and agent hierarchy (fill once, update rarely)
+├── 02-components.md         ← Component breakdown and ownership (update as components are added)
+├── 03-tech-context.md       ← Tech stack, setup, environment (fill once)
+├── 04-active-context.md     ← Current sprint focus, recent decisions, blockers (update each sprint)
+├── 05-progress-log.md       ← What works, what is left, completed milestones (append-only)
 ├── _tasks/
-│   ├── _index.md            # Task master list
-│   ├── TASK0001-name.md     # Completed tasks/bugs
-│   └── ...
+│   ├── _index.md            ← Task master list with status
+│   └── TASK0001-name.md     ← Individual task record
 └── _notes/
-    ├── _index.md            # Note master list
-    ├── NOTE0001-subject.md  # Decisions, patterns, discoveries
-    └── ...
+    ├── _index.md            ← Notes index
+    └── NOTE0001-topic.md    ← Architectural decisions, patterns, findings
 ```
 
-### **ALLOWED** outside Memory Bank:
+**`04-active-context.md` is the most important file** — it is what `copilot-instructions.md` points to. Keep it current.
 
-- `.github/` - Instructions, agents, skills, prompts (FIXED CONFIG)
-- `README.md` - Project overview (ONLY if explicitly requested)
-- `CONTRIBUTING.md` - Contribution guidelines (ONLY if explicitly requested)
+### File purposes
 
-### **PERMANENTLY FORBIDDEN**:
-
-- `/agent-output/analysis/` - Temporary analysis docs ❌
-- Root `.md` files - ANALYSIS_*, SUMMARY_*, STATUS_* ❌
-- `/docs/` - Random documentation outside memory-bank ❌
-- Session-based docs - QA_*, IMPLEMENTATION_*, CHANGELOG_*, RESUMO_* ❌
+| File | Fill when | Update frequency |
+|------|-----------|-----------------|
+| `00-overview.md` | Project start | Rarely |
+| `01-architecture.md` | Project start | On significant architecture changes |
+| `02-components.md` | Project start | When components are added/removed |
+| `03-tech-context.md` | Project start | On stack changes |
+| `04-active-context.md` | Each sprint start | Each sprint / major decision |
+| `05-progress-log.md` | First completion | Append-only after each milestone |
+| `_tasks/` | When sprint tracking is needed | Per task |
+| `_notes/` | On significant findings | Per finding |
 
 ---
 
-## 🎯 What Type of Documentation Goes Where?
+## Who Writes What
 
-| Type | Location | Owner | Format |
-|------|----------|-------|--------|
-| **Completed Task** | `_tasks/TASK000X-*.md` | Implementer (handoff to Planner) | Structured task file |
-| **Bug Fix Analysis** | `_tasks/TASK000X-*.md` or `_notes/NOTE000X-*.md` | Analyst/Implementer → Planner | Description + Solution |
-| **Architectural Decision** | `_notes/NOTE000X-*.md` | Architect → Planner | Decision + Rationale |
-| **Technical Pattern** | `_notes/NOTE000X-*.md` | Discoverer → Planner | Pattern + Usage |
-| **Security Finding** | `_notes/NOTE000X-*.md` | Security → Planner | Finding + Remediation |
-| **Temporary Analysis** | ❌ NOWHERE (can be verbal) | - | - |
-| **Session Status** | ❌ NOWHERE (use 05-progress-log.md) | Planner | Inline in memory-bank |
+| Content | Written by | Where |
+|---------|-----------|-------|
+| Project overview, architecture, tech context | Mnemosyne (at project init) | `00-03.md` |
+| Sprint focus, recent decisions | Agent completing sprint / Mnemosyne | `04-active-context.md` |
+| Milestone completions | Any agent or Mnemosyne | `05-progress-log.md` (append) |
+| Task records | Mnemosyne (from handoff) | `_tasks/TASK000X-*.md` |
+| Architecture decisions with rationale | Mnemosyne (from handoff) | `_notes/NOTE000X-*.md` |
+| Atomic facts (stack, commands, conventions) | Any agent (directly) | `/memories/repo/` |
+| Conversation-scoped plans | Athena / any agent (directly) | `/memories/session/` |
 
----
-
-## 👥 Agent Responsibilities
-
-### **@mnemosyne** (EXCLUSIVE OWNER)
-✅ Creates/updates ALL Memory Bank files  
-✅ Manages `_tasks/_index.md` and `_notes/_index.md`  
-✅ Handoff: None (Planner is final destination)  
-
-### **All Other Agents** (Backend, Frontend, Database, Analyst, etc)
-❌ NEVER create .md files  
-✅ Handoff to @mnemosyne with structured data  
-✅ Example: "Update Memory Bank with bug fix analysis"  
-
-### **Subagents**
-❌ NEVER create any documentation  
-✅ Return only: code, test results, or analysis  
-✅ Handoff to parent agent for documentation  
+**Mnemosyne is the quality owner of `docs/memory-bank/`** — she enforces structure and writes when asked. Other agents may write to `04-active-context.md` and `05-progress-log.md` directly when Mnemosyne is not invoked.
 
 ---
 
-## 📝 How to Create Documentation
+## Session Memory → Active Context Graduation
 
-### **Option 1: When User Explicitly Requests**
+Plans and work-in-progress live in `/memories/session/` during a conversation. At sprint close, the relevant parts graduate to `docs/memory-bank/`.
 
-User says: *"Create a note about the JWT implementation"*
-
-**Then you must:**
-1. Create in `/docs/memory-bank/_notes/`
-2. Use format: `NOTE000X-jwt-implementation.md`
-3. Update `_notes/_index.md`
-4. Store final reference in Memory Bank
-
-### **Option 2: During Implementation (Handoff to Planner)**
-
-**Implementer/Analyst finishes work:**
 ```
-Use @mnemosyne to: Document the following in Memory Bank:
-- Task: Product extraction bug fix
-- Type: TASK update or NOTE creation
-- Content: [brief summary of what to document]
+During sprint:
+  Athena writes plan → /memories/session/sprint-plan.md   (ephemeral)
+  Agents track wip  → /memories/session/wip.md            (ephemeral)
+
+At sprint close:
+  @mnemosyne Update 04-active-context.md and append to 05-progress-log.md
+  → docs/memory-bank/04-active-context.md                 (permanent)
+  → docs/memory-bank/05-progress-log.md                   (permanent, appended)
 ```
 
-**Planner:**
-```
-✅ TASK0044 updated with findings
-✅ NOTE0010 created with pattern discovery
-✅ _tasks/_index.md and _notes/_index.md updated
-```
+Session memory is never promoted to `_tasks/` or `_notes/` automatically — that requires an explicit handoff.
 
 ---
 
-## 🚫 Anti-Patterns (What NOT to Do)
+## Documentation Workflow
 
-### ❌ Anti-Pattern 1: Session Documentation
-```
-DO NOT create:
-- ANALYSIS_COMPLETE_STATUS.md
-- IMPLEMENTATION_SUMMARY.txt
-- QA_REVIEW_RESULTS.md
-- SESSION_SUMMARY.md
+### Automatic (no handoff needed)
+- Any agent writes atomic facts to `/memories/repo/` on discovery
+- Athena writes sprint plan to `/memories/session/` at planning phase start
+- Any agent appends to `04-active-context.md` or `05-progress-log.md` after completing work
 
-USE:
-- Update 05-progress-log.md instead
-- Create TASK/NOTE via @mnemosyne
-```
-
-### ❌ Anti-Pattern 2: Duplicate Documentation
-```
-DO NOT create:
-- docs/QUICK_START.md (if Memory Bank exists)
-- docs/ARCHITECTURE.md (if 01-architecture.md exists)
-- docs/IMPLEMENTATION_CHECKLIST.md (if _tasks/ exists)
-
-USE:
-- Reference Memory Bank files
-- Update existing Memory Bank files
-```
-
-### ❌ Anti-Pattern 3: Unstructured Notes
-```
-DO NOT create:
-- docs/NOTES.md (random thoughts)
-- root/TODO.txt (scattered tasks)
-- config/DECISIONS.log (untracked decisions)
-
-USE:
-- _notes/NOTE000X-subject.md (structured)
-- _tasks/TASK000X-subject.md (structured)
-- manage_todo_list tool (for session tasks)
-```
+### Explicit (invoke @mnemosyne)
+- Project initialization: `@mnemosyne Initialize memory bank for this repo`
+- Task record: `@mnemosyne Create TASK for the JWT implementation we just completed`
+- Architecture decision: `@mnemosyne Document decision: using Redis instead of DB sessions`
+- Sprint close: `@mnemosyne Update active context and progress log for this sprint`
 
 ---
 
-## ✅ Checklist Before Creating Any .md
+## Anti-Patterns
 
-1. [ ] User explicitly asked for this documentation? (or is it code output)
-2. [ ] Does it belong in Memory Bank?
-3. [ ] Is it a TASK or NOTE that needs tracking?
-4. [ ] Should I handoff to @mnemosyne instead?
-5. [ ] Am I replacing or duplicating an existing file?
-6. [ ] Will this still be useful in 1 month?
-
-If ANY answer is "no", DON'T CREATE IT.
-
----
-
-## 📚 Reference Documents
-
-- [memory-bank.instructions.md](memory-bank.instructions.md) - Full Memory Bank spec
-- [core-rules.instructions.md](core-rules.instructions.md) - Documentation Rules (Rule 2.x)
-- [copilot-instructions.md](../copilot-instructions.md) - Rule 1: Never auto-create .md
-- [subagents.instructions.md](subagents.instructions.md) - Subagent rules (no .md)
-
----
-
-## 🎓 Examples
-
-### ✅ GOOD: Document a Bug Fix
-
-**Scenario**: Backend agent fixes product extraction bug
-
-**Action**:
+### ❌ Session output as files
 ```
-Handoff to @mnemosyne:
-"Document the product extraction bug fix. 
-Root cause: JSON mapping missing null check.
-Solution: Added validation in ProductExtractor.validate_json()
-Impact: Fixes 15% of failed extractions"
+# Wrong
+Create IMPLEMENTATION_SUMMARY.md with what we did
+Create STATUS.md with progress
+
+# Right
+@mnemosyne Append to 05-progress-log.md: [summary of what was completed]
 ```
 
-**Result**:
+### ❌ Mandatory automatic handoff after every phase
 ```
-/docs/memory-bank/_tasks/TASK0044-product-extraction-bugs.md
-(Created with timestamp, status, solution details)
-```
+# Wrong (creates overhead, Mnemosyne becomes a bottleneck)
+After every Hermes/Aphrodite/Maat phase → always handoff to @mnemosyne
 
-### ✅ GOOD: Document an Architecture Decision
-
-**Scenario**: Architect decides to use async/await everywhere
-
-**Action**:
-```
-Handoff to @mnemosyne:
-"Create a note about async/await decision.
-Decision: All I/O operations must use async/await
-Rationale: Performance, consistency, handles network timeouts
-Status: Approved and implemented"
+# Right
+After every phase → agent appends to 04-active-context.md directly
+At sprint close → explicit @mnemosyne invocation to consolidate
 ```
 
-**Result**:
+### ❌ Duplicating information
 ```
-/docs/memory-bank/_notes/NOTE0001-async-await-pattern.md
-(Created with decision, rationale, implementation status)
-```
+# Wrong
+Write the tech stack in 03-tech-context.md AND in /memories/repo/stack.json
 
-### ❌ BAD: Random Documentation
-
-**Scenario**: Analysis finds an issue
-
-**Wrong**:
-```
-Create:
-- docs/ANALYSIS_FINDINGS.md
-- root/FINDINGS_20250112.txt
-- agent-output/analysis/findings.md
+# Right
+Write atomic facts to /memories/repo/ (auto-loaded, zero token cost)
+Write narrative context to 03-tech-context.md (explicit read, for humans and deep context)
 ```
 
-**Correct**:
+### ❌ Bypassing structure
 ```
-Handoff to @mnemosyne:
-"Update Memory Bank with analysis findings regarding [topic]"
+# Wrong
+Create docs/memory-bank/my-random-notes.md
+
+# Right
+Create docs/memory-bank/_notes/NOTE0001-topic.md
+Update docs/memory-bank/_notes/_index.md
 ```
-
----
-
-**Last Updated**: 2025-01-12  
-**Version**: 1.0  
-**Owner**: Copilot Global Standards

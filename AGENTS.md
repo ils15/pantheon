@@ -193,18 +193,25 @@ Code review, security audit, quality gates.
 #### 📚 **Mnemosyne** (agents/mnemosyne.agent.md)
 Memory bank management, decision documentation, progress tracking.
 
-**When to use:** End of sprint/feature, decision documentation, retrospectives, memory updates  
-**Specialization:** Knowledge preservation, institutional memory, task tracking  
-**Maintains:** `/docs/memory-bank/` directory structure  
-**Input from:** All agents feed information  
+**When to use:** Explicit invocation only — project initialization or significant architectural decisions  
+**Specialization:** `project.md` initialization, ADR writing (`decisions/YYYY-MM-DD-topic.md`)  
+**Input from:** User / Zeus (explicit request only — NOT automatic after phases)  
 **Skills:** None specific (documentation focused)  
 
+**Two-Tier Strategy:**
+
+| Tier | Where | What | Token cost |
+|---|---|---|---|
+| **Tier 1 — Native** | `/memories/repo/` | Atomic facts (stack, commands, conventions) | Zero — auto-loaded |
+| **Tier 2 — Reference** | `docs/memory-bank/` | Minimal project docs: `project.md` (fill once) + `decisions/` ADRs | Read cost per file |
+| **Session** | `/memories/session/` | Current conversation plans, work-in-progress | One read per conversation |
+
 **Responsibilities:**
-- [ ] Update memory bank with decisions
-- [ ] Document architectural patterns discovered
-- [ ] Track completed features in progress log
-- [ ] Archive session decisions in notes
-- [ ] Maintain task index and status
+- [ ] Write atomic facts to `/memories/repo/` (Tier 1) when discovering permanent facts  
+- [ ] Create `docs/memory-bank/project.md` once when a product first adopts mythic-agents (Tier 2)  
+- [ ] Append ADR files to `decisions/` for significant architectural decisions (Tier 2, append-only, on-demand)  
+
+> Mnemosyne is **not** invoked automatically after phases. Sprint state lives in `/memories/session/` (ephemeral) or git commits (permanent).
 
 ---
 
@@ -429,13 +436,15 @@ class User:
 
 ---
 
-## � DOCUMENTATION PHILOSOPHY: MINIMAL & IN-CODE
+## 📄 DOCUMENTATION PHILOSOPHY: MINIMAL & IN-CODE
 
 🚨 **CRITICAL RULE**: **NO excessive file creation**. Information lives in:
 1. **Git commits** (what changed and why)
 2. **Code comments** (complex logic only)
 3. **Tests** (behavior documentation)
 4. **README updates** (if feature changes usage)
+5. **`/memories/repo/`** (atomic facts — auto-loaded, zero token cost)
+6. **`docs/memory-bank/`** (narrative context — sprint state, decisions)
 
 ### ❌ DO NOT CREATE:
 - `plan.md` files (present plans in chat)
@@ -448,7 +457,8 @@ class User:
 1. **Plans**: Present in CHAT, get approval, proceed
 2. **Progress**: Track via git commits with descriptive messages
 3. **Completion**: Summary in CHAT, no files created
-4. **Decisions**: Captured in commit messages and code comments
+4. **Decisions**: Append `decisions/YYYY-MM-DD-topic.md` via Mnemosyne
+5. **Facts**: Write to `/memories/repo/` for permanent, auto-loaded context
 
 ### Example Workflow (NO files created):
 ```
@@ -519,7 +529,8 @@ Each agent can be invoked directly for bypass orchestration:
 | Database optimization | maat | `/optimize-database` |
 | Deploy changes | ra | Direct: @ra |
 | Code review | temis | `/review-code` |
-| Document decisions | mnemosyne | Direct: @mnemosyne |
+| Document architectural decisions (ADRs) | mnemosyne | Direct: @mnemosyne |
+| Initialize project.md | mnemosyne | Direct: @mnemosyne |
 | Coordinate feature | zeus | `/implement-feature` |
 
 ---
@@ -668,13 +679,46 @@ Edit `agents/athena.agent.md` and add:
 
 ---
 
-## �📚 References
+## 🚀 PRODUCT ADOPTION
+
+When using mythic-agents in a product repo, follow this pattern:
+
+### What to copy
+```bash
+# Copy agents, instructions, prompts, skills — these are the framework
+cp -r agents/ instructions/ prompts/ skills/ /path/to/your-product/
+
+# Initialize empty memory bank (do NOT copy mythic-agents content)
+mkdir -p /path/to/your-product/docs/memory-bank/decisions
+```
+
+> **Do NOT copy** `docs/memory-bank/` content from mythic-agents — it describes the framework itself, not your product.
+
+### Initialize the product's memory bank
+After copying, run this in the product repo:
+```
+@athena Initialize the Memory Bank for this project —
+analyze the repo structure and fill project.md
+```
+
+Athena will populate `project.md`, write Tier 1 facts to `/memories/repo/`, and prepare `active-context.md` for your first sprint.
+
+### Native memory is automatic
+No setup needed for `/memories/repo/` — VS Code Copilot handles it per-repo. Agents write to it as facts are discovered.
+
+### Memory bank per product
+Each product maintains its own `docs/memory-bank/` with its own sprint state, decisions, and project context. Mythic-agents' own memory bank is the template/reference — not the product's source of truth.
+
+---
+
+## 📚 References
 
 - **Agent Skills:** `skills/*/SKILL.md`
 - **Custom Instructions:** `instructions/*-standards.instructions.md`
 - **Prompt Files:** `prompts/*.prompt.md`
 - **Agent Definitions:** `agents/*.agent.md`
-- **Memory Bank:** `/docs/memory-bank/`
+- **Memory Bank:** `docs/memory-bank/` (template — initialize per product)
+- **Memory Standards:** `instructions/memory-bank-standards.instructions.md`
 - **VSCode Settings:** `.vscode/settings.json`
 
 ---

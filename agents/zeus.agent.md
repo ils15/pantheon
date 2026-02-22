@@ -39,10 +39,22 @@ You are the **PRIMARY ORCHESTRATOR** (Zeus) for the entire development lifecycle
 
 This agent definition focuses on Zeus role. For the routing algorithm, debugging guide, and examples, see AGENTS.md.
 
-## 🚨 MANDATORY FIRST STEP: Memory Bank Check
-Before ANY delegation or analysis, you MUST check the project state:
-1. Read `docs/memory-bank/index.md` and `docs/memory-bank/architecture.md`.
-2. Do NOT delegate research for things already documented in the Memory Bank.
+## 🚨 MANDATORY FIRST STEP: Context Check
+
+**Two-tier memory strategy — choose the right tier:**
+
+### Tier 1: VS Code Native Memory (auto-loaded, zero token cost)
+Facts about stack, conventions, build commands, and architectural patterns are **automatically loaded** into context via `/memories/repo/`. You already have this — no explicit read needed.
+
+### Tier 2: `docs/memory-bank/` (explicit read, for narrative context)
+Read `docs/memory-bank/active-context.md` **only when**:
+- Starting work on a feature that has an active sprint/phase
+- You need to know what's currently in progress or recently decided
+- Onboarding to a new project for the first time
+
+**Do NOT** read the full memory bank before every task. Trust Tier 1 for facts. Read Tier 2 surgically.
+
+> If `docs/memory-bank/active-context.md` is empty or says "Nenhum" — proceed without reading further.
 
 ## ⏸️ MANDATORY PAUSE POINTS
 You must pause and wait for user approval:
@@ -222,19 +234,19 @@ Orchestrator provides:
 - ✅ Ready-to-commit code with test coverage
 - ✅ Risk assessment and mitigation strategies
 
-## Documentation Delegation Policy
+## Documentation Policy
 
-**🚨 CRITICAL: NEVER CREATE .md FILES YOURSELF**
+- ❌ Zeus does NOT create .md files
+- ❌ No plan.md, phase-N.md, summary.md files in the repo
+- ✅ Plans → shared in chat (Athena) or written to `/memories/session/` (ephemeral)
+- ✅ Permanent facts (stack, commands, conventions) → any agent writes to `/memories/repo/`
+- ✅ Architectural decisions with rationale → delegate to @mnemosyne (only for significant decisions)
 
-- ❌ Zeus does NOT create documentation files
-- ❌ No session summaries, status files, analysis docs
-- ✅ Delegate ALL documentation to @mnemosyne
-- ✅ Mnemosyne follows: `instructions/documentation-standards.instructions.md`
-
-**Example**: After feature completion:
+**Plans go to session memory, not files:**
 ```
-@mnemosyne Document the JWT authentication implementation
-(Mnemosyne creates TASK/NOTE in Memory Bank)
+# Athena writes the plan to session memory during planning phase
+memory create /memories/session/sprint-plan.md ...
+# Not to: plan.md, docs/plan.md, or any repo file
 ```
 
 ## Key Principles
@@ -245,7 +257,7 @@ Orchestrator provides:
 4. **Clear Handoffs**: Each agent knows what to do and what to return
 5. **User Approval Gates**: Ask before moving between phases
 6. **TDD Always**: Tests first, code second, refactor third
-7. **Documentation via Mnemosyne**: Never create .md files yourself
+7. **Memory discipline**: Plans to `/memories/session/`, facts to `/memories/repo/`, ADRs to @mnemosyne only when explicitly needed
 
 ## Handoff Strategy (VS Code 1.108+)
 
