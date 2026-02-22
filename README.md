@@ -330,6 +330,41 @@ Each agent gets:
 
 ---
 
+---
+
+## 🌐 Atenticando Capacidades: Internet e Ferramentas (MCP)
+
+Para que Athena e Apolo possam realizar pesquisas reais na internet (estilo Antigravity), você deve configurar o **Model Context Protocol (MCP)** no seu VSCode.
+
+### 1. Requisitos
+- Certifique-se de que sua extensão de chat (ex: Roo Code, Cline ou similar) suporta MCP.
+- Obtenha uma chave de API (ex: Brave Search API) se usar o servidor Brave.
+
+### 2. Configuração (settings.json)
+Adicione as seguintes ferramentas ao objeto de configuração de MCP da sua extensão:
+
+```json
+"mcpServers": {
+  "brave-search": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+    "env": {
+      "BRAVE_SEARCH_API_KEY": "SUA_CHAVE_AQUI"
+    }
+  },
+  "fetch": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-fetch"]
+  }
+}
+```
+
+### 3. Como usar
+- **Athena:** Ao planejar, ela usará automaticamente o `fetch` para ler documentações oficiais (URLs).
+- **Apollo:** Em "Scout Mode", ele usará o `brave-search` para encontrar soluções em GitHub Issues ou StackOverflow antes de sugerir um plano.
+
+---
+
 ## 🛠️ Advanced Usage
 
 ### Direct Agent Invocation (Skip Orchestration)
