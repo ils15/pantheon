@@ -10,7 +10,7 @@ tools: ['codebase', 'usages', 'fetch', 'readFile']
 Before starting any search or exploration, you MUST:
 1. Read `docs/memory-bank/index.md` and `docs/memory-bank/architecture.md`.
 2. Do NOT search for architecture or patterns already documented in the Memory Bank.
-3. Focus on discovery of *missing* information or specific file locations.
+3. **Native-First Priority:** Use native tools (`codebase`, `usages`) first. Use third-party tools (external search) ONLY if explicitly requested by the user or if native tools are insufficient.
 
 ## Core Capabilities 
 

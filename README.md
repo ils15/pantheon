@@ -332,38 +332,39 @@ Each agent gets:
 
 ---
 
-## 🌐 Atenticando Capacidades: Internet e Ferramentas (MCP)
+## 🔍 Filosofia de Pesquisa: Native-First
 
-Para que Athena e Apolo possam realizar pesquisas reais na internet (estilo Antigravity), você deve configurar o **Model Context Protocol (MCP)** no seu VSCode.
+O sistema prioriza as ferramentas nativas do VSCode e GitHub Copilot para manter a segurança e a simplicidade.
+
+### 1. Ferramentas Nativas (Padrão)
+Os agentes usarão automaticamente:
+- **`codebase`**: Para buscas contextuais no repositório inteiro.
+- **`usages`**: Para encontrar referências de funções e classes.
+- **`fetch`**: Para ler arquivos específicos ou documentações acessíveis via HTTP (quando suportado nativamente).
+
+### 2. Ferramentas de Terceiros (Opcional - MCP)
+Se você precisar de capacidades estendidas de internet (como busca ativa no Google/Brave ou leitura profunda de sites complexos), você pode configurar o **Model Context Protocol (MCP)**.
+
+---
+
+## 🌐 Configuração Opcional: Internet Estendida (MCP)
+
+Siga estes passos **apenas se desejar** que Athena e Apolo façam pesquisas fora do ambiente nativo:
 
 ### 1. Requisitos
 - Certifique-se de que sua extensão de chat (ex: Roo Code, Cline ou similar) suporta MCP.
 - Obtenha uma chave de API (ex: Brave Search API) se usar o servidor Brave.
 
 ### 2. Configuração (settings.json)
-Adicione as seguintes ferramentas ao objeto de configuração de MCP da sua extensão:
-
 ```json
 "mcpServers": {
   "brave-search": {
     "command": "npx",
     "args": ["-y", "@modelcontextprotocol/server-brave-search"],
-    "env": {
-      "BRAVE_SEARCH_API_KEY": "SUA_CHAVE_AQUI"
-    }
-  },
-  "fetch": {
-    "command": "npx",
-    "args": ["-y", "@modelcontextprotocol/server-fetch"]
+    "env": { "BRAVE_SEARCH_API_KEY": "SUA_CHAVE_AQUI" }
   }
 }
 ```
-
-### 3. Como usar
-- **Athena:** Ao planejar, ela usará automaticamente o `fetch` para ler documentações oficiais (URLs).
-- **Apollo:** Em "Scout Mode", ele usará o `brave-search` para encontrar soluções em GitHub Issues ou StackOverflow antes de sugerir um plano.
-
----
 
 ## 🛠️ Advanced Usage
 
