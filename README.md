@@ -42,35 +42,47 @@ mythic-agents solves this with **specialization**: each agent is an expert at ex
 The system operates in three phases controlled by **you**. Agents work in parallel within each phase. You approve before anything proceeds.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e1e1e', 'primaryTextColor': '#fff', 'primaryBorderColor': '#333', 'lineColor': '#888', 'secondaryColor': '#2d2d2d', 'tertiaryColor': '#2d2d2d'}}}%%
 flowchart TD
-    User([You]) --> P1
+    classDef default fill:#252526,stroke:#454545,stroke-width:1px,color:#d4d4d4,rx:5px,ry:5px;
+    classDef highlight fill:#0e639c,stroke:#1177bb,stroke-width:2px,color:#ffffff,rx:8px,ry:8px;
+    classDef pause fill:#6b1717,stroke:#901f1f,stroke-width:2px,color:#ffffff,rx:8px,ry:8px;
 
-    subgraph P1["Phase 1: Planning"]
-        Athena[Athena\nStrategic planner]
-        Apollo1[Apollo\nCodebase discovery]
+    User([👤 You]):::highlight --> P1
+
+    subgraph P1["🧠 Phase 1: Planning"]
+        direction TB
+        Athena["🦉 Athena<br/>Strategic planner"]
+        Apollo1["🏹 Apollo<br/>Codebase discovery"]
         Athena -- uses --> Apollo1
-        Athena -- produces --> Plan[implementation plan]
+        Athena -- produces --> Plan["📄 implementation plan"]
     end
 
-    Plan --> Pause1{Pause Point 1\nYou approve plan}
+    Plan --> Pause1{"⏸️ Pause Point 1<br/>You approve plan"}:::pause
     Pause1 --> P2
 
-    subgraph P2["Phase 2: Implementation (parallel)"]
-        Hermes[Hermes\nBackend]
-        Aphrodite[Aphrodite\nFrontend]
-        Maat[Maat\nDatabase]
+    subgraph P2["⚙️ Phase 2: Implementation (parallel)"]
+        direction LR
+        Hermes["⚡ Hermes<br/>Backend"]
+        Aphrodite["✨ Aphrodite<br/>Frontend"]
+        Maat["⚖️ Maat<br/>Database"]
     end
 
-    P2 --> Temis[Temis\nCode review & quality gate]
-    Temis --> Pause2{Pause Point 2\nYou review results}
+    P2 --> Temis["👁️ Temis<br/>Code review & quality gate"]
+    Temis --> Pause2{"⏸️ Pause Point 2<br/>You review results"}:::pause
     Pause2 --> P3
 
-    subgraph P3["Phase 3: Delivery"]
-        Ra[Ra\nInfrastructure & deploy]
-        Mnemosyne[Mnemosyne\nMemory bank update]
+    subgraph P3["🚀 Phase 3: Delivery"]
+        direction LR
+        Ra["☀️ Ra<br/>Infrastructure & deploy"]
+        Mnemosyne["📚 Mnemosyne<br/>Memory update"]
     end
 
-    P3 --> Pause3{Pause Point 3\nYou commit}
+    P3 --> Pause3{"⏸️ Pause Point 3<br/>You commit"}:::pause
+    
+    style P1 fill:#1e1e1e,stroke:#333,stroke-width:2px,rx:10px
+    style P2 fill:#1e1e1e,stroke:#333,stroke-width:2px,rx:10px
+    style P3 fill:#1e1e1e,stroke:#333,stroke-width:2px,rx:10px
 ```
 
 ### Three Core Principles
@@ -173,6 +185,21 @@ Zeus plans with Athena, discovers context with Apollo, then coordinates Maat →
 
 ---
 
+
+### 🔄 Native VS Code Handoff Integration
+
+**mythic-agents** is built to take full advantage of the [VS Code Copilot native Agent Handoff feature](https://code.visualstudio.com/docs/copilot/agents/overview#_hand-off-a-session-to-another-agent) out of the box!
+
+Instead of mixing all contexts into a single messy chat window, you can seamlessly **hand off** your current context and history to a specialized agent using the UI or the `/delegate` command.
+
+1. **Context Isolation**: When Zeus delegates to Athena (or you click the suggested handoff button), VS Code opens a **brand new chat session** specifically for Athena.
+2. **Context Injection**: The *entire chat history* from your conversation with Zeus is automatically carried over to Athena so she doesn't lose track of the plan.
+3. **Pristine History**: The original Zeus orchestrator session is archived smoothly, keeping your active chat extremely focused and token-efficient.
+
+All agents have their `handoffs:` pre-configured in their YAML definitions to prompt UI buttons within Copilot chat automatically!
+
+---
+
 ## Artifact System
 
 Every phase produces a **structured artifact** — a temporary file written to `docs/memory-bank/.tmp/` that summarizes what was done and what you need to review before the next phase begins.
@@ -211,17 +238,26 @@ Every `REVIEW-` artifact includes a **Human Review Focus** section — 1–2 spe
 mythic-agents uses two complementary memory layers:
 
 ```mermaid
+%%{init: {'theme': 'dark'}}%%
 flowchart LR
-    subgraph L1["Level 1 — Native (auto-loaded)"]
-        MR["/memories/repo/\nAtomic facts: stack, commands,\nconventions — always in context"]
-        MS["/memories/session/\nConversation plans, WIP\nDiscarded on session end"]
+    classDef default fill:#2d2d2d,stroke:#555,stroke-width:1px,color:#eee,rx:5px,ry:5px;
+    classDef level1 fill:#1e3a5f,stroke:#2a5082,stroke-width:2px,color:#fff;
+    classDef level2 fill:#4b2743,stroke:#6e3962,stroke-width:2px,color:#fff;
+
+    subgraph L1["⚡ Level 1 — Native (auto-loaded)"]
+        direction TB
+        MR["/memories/repo/<br/>Atomic facts: stack, commands,<br/>conventions — always in context"]:::level1
+        MS["/memories/session/<br/>Conversation plans, WIP<br/>Discarded on session end"]:::level1
     end
 
-    subgraph L2["Level 2 — Narrative (explicit read)"]
-        MB["docs/memory-bank/\n00 — Project overview\n01 — Architecture\n02 — Components\n03 — Tech context\n04 — Active context  ← priority\n05 — Progress log\n.tmp/ — ephemeral artifacts (gitignored)\n_notes/ — decision records (ADRs, committed)"]
+    subgraph L2["📚 Level 2 — Narrative (explicit read)"]
+        MB["docs/memory-bank/<br/>00 — Project overview<br/>01 — Architecture<br/>02 — Components<br/>03 — Tech context<br/>04 — Active context  ← priority<br/>05 — Progress log<br/>.tmp/ — ephemeral artifacts (gitignored)<br/>_notes/ — decision records (ADRs, committed)"]:::level2
     end
 
     L1 -. "graduates to at sprint close" .-> L2
+    
+    style L1 fill:#1e1e1e,stroke:#333,stroke-width:2px,rx:10px
+    style L2 fill:#1e1e1e,stroke:#333,stroke-width:2px,rx:10px
 ```
 
 **`04-active-context.md`** is the priority file. Agents read it first when starting any task. It contains the current sprint focus, the most recent architectural decision, active blockers, and next steps.
