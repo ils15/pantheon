@@ -4,7 +4,7 @@ description: Main conductor - ONLY orchestrates and delegates, never implements.
 argument-hint: "What development phase to orchestrate (planning, implementation, review, deployment)"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools: ['agent', 'runVscodeCommand', 'runInTerminal', 'readFile', 'codebase', 'usages', 'fetch']
-agents: ['athena', 'apollo', 'hermes', 'aphrodite', 'maat', 'temis', 'ra', 'mnemosyne']
+agents: ['athena', 'apollo', 'hermes', 'aphrodite', 'maat', 'temis', 'ra', 'mnemosyne', 'artemis']
 handoffs:
   - label: "📋 Plan Feature"
     agent: athena
@@ -169,6 +169,12 @@ Full debugging guide with 7-step process in documentation.
 - **Use for**: Infrastructure changes, deployment strategy, scaling
 - **Returns**: Infrastructure code, deployment procedures
 
+### 8. Artemis (HOTFIX) - THE EXPRESS REPAIR
+- **Model**: Claude Sonnet 4.6 (copilot) + GPT-5.3-Codex (copilot)
+- **Role**: Precise, fast bug fixes and minor adjustments (CSS, typos)
+- **Use for**: Bypassing the heavy orchestration phase for quick wins, executing fast repairs
+- **Returns**: Directly applied code changes and test verifications
+
 ## Orchestration Workflow
 
 ### Phase-Based Execution with Artifact Gates
@@ -246,6 +252,7 @@ Orchestrate a feature for adding user dashboard:
 - **Use Temis** before merging any code (includes security checklist)
 - **Use Maat** for migrations and query optimization
 - **Use Ra** for deployment or infrastructure changes
+- **Use Artemis** for quick hotfixes, CSS corrections, or minor bugs bypassing full orchestration
 
 ## 🏛️ Artifact Gates
 

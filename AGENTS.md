@@ -2,8 +2,8 @@
 
 ## 🏛️ Agent Architecture
 
-Architecture based on **Conductor-Delegate pattern** with 9 mythological deities:
-- 1 Orchestrator (Zeus) + 8 Specialized Subagents
+Architecture based on **Conductor-Delegate pattern** with 10 mythological deities:
+- 1 Orchestrator (Zeus) + 9 Specialized Subagents
 
 ### Orchestrator Tier
 
@@ -162,6 +162,25 @@ Infrastructure, Docker containerization, deployment orchestration.
 - Zero-downtime deployment strategy
 - Environment variable management
 - Secrets from vault (not hardcoded)
+
+---
+
+### Hotfix Tier (Express Lane)
+
+#### 🏹 **Artemis** (agents/artemis.agent.md)
+Hotfix and Rapid Repair specialist. Bypasses standard orchestration for small bugs and direct fast fixes.
+
+**When to use:** CSS fixes, typos, simple logic bugs that don't require architectural changes  
+**Specialization:** Speed, precision, bypassing standard orchestration  
+**Depends on:** None (works independently for small fixes)  
+**Tools:** search, usages, read-file, edit, runCommands  
+
+**Hotfix Standards Applied:**
+- No mandatory TDD for trivial fixes (like CSS classes)
+- Edits files directly
+- Runs existing tests to verify unbroken build
+- No `PLAN-` or `REVIEW-` artifacts required
+- Recommends commit immediately after fix
 
 ---
 
@@ -567,6 +586,8 @@ Each agent can be invoked directly for bypass orchestration:
 
 @mnemosyne: Update memory bank with completed features
 
+@artemis: Fix the hidden lg:flex CSS bug on MobileMenuButton.tsx
+
 @zeus: Orchestrate full feature implementation
 ```
 
@@ -779,9 +800,9 @@ Each product maintains its own `docs/memory-bank/` with its own sprint state, de
 ---
 
 **Last Updated:** February 22, 2026  
-**Total Agents:** 9 (1 orchestrator + 8 specialized)  
+**Total Agents:** 10 (1 orchestrator + 9 specialized)  
 **Total Skills:** 17  
 **Total Custom Instructions:** 6  
 **Total Prompt Files:** 6  
 **Architecture Pattern:** Conductor-Delegate  
-**Mythology Reference:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Temis/Thêmis, Mnemosyne), Egyptian (Ra, Maat)
+**Mythology Reference:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Artemis, Temis/Thêmis, Mnemosyne), Egyptian (Ra, Maat)

@@ -1,6 +1,6 @@
 # mythic-agents
 
-**A multi-agent orchestration framework for GitHub Copilot that coordinates 9 specialized AI agents to implement production-ready features with enforced TDD, continuous code review, and persistent project memory.**
+**A multi-agent orchestration framework for GitHub Copilot that coordinates 10 specialized AI agents to implement production-ready features with enforced TDD, continuous code review, and persistent project memory.**
 
 ---
 
@@ -8,7 +8,7 @@
 
 - [Overview](#overview)
 - [How It Works](#how-it-works)
-- [The 9 Agents](#the-9-agents)
+- [The 10 Agents](#the-10-agents)
 - [Workflow](#workflow)
 - [Artifact System](#artifact-system)
 - [Memory System](#memory-system)
@@ -95,7 +95,7 @@ Every phase produces a structured **artifact** (a file in `docs/memory-bank/.tmp
 
 ---
 
-## The 9 Agents
+## The 10 Agents
 
 | Agent | Role | Invoked when |
 |---|---|---|
@@ -107,6 +107,7 @@ Every phase produces a structured **artifact** (a file in `docs/memory-bank/.tmp
 | **Maat** | Database specialist | Schema design, query optimization, zero-downtime migrations |
 | **Temis** | Code reviewer | Auto-invoked after each phase — enforces coverage, OWASP, performance |
 | **Ra** | Infrastructure | Docker, CI/CD, zero-downtime deployments, Traefik |
+| **Artemis** | Hotfix specialist | Rapid bug fixes, CSS tweaks, typos — bypasses orchestration |
 | **Mnemosyne** | Memory owner | Sprint close, ADR recording, task documentation |
 
 Each agent is defined in its own `.agent.md` file with a specific model assignment, tool set, and behavioral rules. See [AGENTS.md](AGENTS.md) for the full reference.
