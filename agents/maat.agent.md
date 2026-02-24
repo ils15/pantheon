@@ -3,7 +3,7 @@ name: maat
 description: Database specialist - schema design, migrations, query optimization, SQLAlchemy, Alembic
 argument-hint: "What database task to perform (migrations, schema, optimization, query analysis)"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
-tools: ['search/codebase', 'search/usages', 'edit/editFiles', 'execute/runInTerminal', 'read/readFile', 'read/problems', 'execute/testFailure', 'execute/getTerminalOutput']
+tools: ['search/codebase', 'search/usages', 'agent/askQuestions', 'edit/editFiles', 'execute/runInTerminal', 'read/readFile', 'read/problems', 'execute/testFailure', 'execute/getTerminalOutput']
 handoffs:
   - label: "➡️ Send to Temis"
     agent: temis

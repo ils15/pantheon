@@ -115,7 +115,7 @@ Frontend UI/UX, React components, responsive design.
 **Depends on:** hermes (API endpoints)  
 **Can call:** apollo (for component discovery)  
 **Skills:** frontend-standards.instructions, tdd-testing, api-design  
-**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`  
+**Tools:** `search/codebase`, `search/usages`, `agent/askQuestions`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `mcp_browser_takeScreenshot`, `mcp_browser_getConsoleErrors`, `mcp_browser_runAccessibilityAudit`  
 
 **Frontend Standards Applied:**
 - TypeScript strict mode
@@ -124,6 +124,7 @@ Frontend UI/UX, React components, responsive design.
 - Component composition patterns
 - State management discipline
 - >80% test coverage (vitest)
+- **Visual verification:** screenshot diff + accessibility audit via browser integration after each component
 
 ---
 
@@ -675,6 +676,14 @@ model: ['Claude Haiku 4.5 (copilot)']
 - Use subagent streaming/progress and prompt queuing for long workflows.
 - Compact context and prefer file-backed large outputs when sessions grow.
 
+**Changelog-aligned notes (VS Code Feb 2026):**
+- **`agent/askQuestions` in subagents** (#294949): ALL agents now have this tool. Replace ⏸️ text-based pause patterns with actual interactive question calls that block until the user responds. Zeus and Athena use this at every approval gate.
+- **`~/.copilot/instructions/` auto-loaded globally** (#297179): This directory is for *user-level* personal preferences that apply across all repos. **Do not migrate `.github/copilot-instructions.md`** — it is repo-level, shared with the team, and should stay. Add personal cross-repo conventions to `~/.copilot/instructions/` instead.
+- **Native browser integration for Aphrodite** (#274118): `mcp_browser_takeScreenshot`, `mcp_browser_getConsoleErrors`, `mcp_browser_runAccessibilityAudit` added to Aphrodite. Use after component implementation for visual diff and automated WCAG audit before handoff to Temis.
+- **`/fork` command** (#291481): Creates a new chat session inheriting current context. Athena can suggest `/fork` when the user wants to explore an alternative architectural approach without losing the current plan thread.
+- **Slash commands in background agents** (#297117): `/implement-feature`, `/plan-architecture`, `/debug-issue`, etc. now work from background agent contexts — no need to return to foreground chat to invoke them.
+- **Local MCP sandbox** (#294029): MCP servers with `stdio` transport can run sandboxed (file/network isolation). Ra and security-sensitive agents benefit from recommending sandboxed MCP servers for infra tooling.
+
 **Changelog-aligned note (GitHub Copilot 2026):**
 - If using Copilot Coding Agent on managed/self-hosted runners, validate network routing endpoints by plan (`api.business.githubcopilot.com` / `api.enterprise.githubcopilot.com`) before rollout.
 
@@ -759,6 +768,18 @@ Edit `agents/athena.agent.md` and add:
 
 When using mythic-agents in a product repo, follow this pattern:
 
+### Instructions loading hierarchy
+
+There are **three levels** of instruction loading — choose the right one:
+
+| Level | Where | Scope | Use for |
+|---|---|---|---|
+| **User-global** | `~/.copilot/instructions/` | All repos, all users (personal) | Personal style preferences, cross-project conventions |
+| **Repo-shared** | `.github/copilot-instructions.md` | This repo, all team members | Product standards, agent coordination rules |
+| **Repo-per-file** | `.vscode/settings.json` → `codeGeneration.instructions` | Per file pattern | Language-specific rules wired to `instructions/*.instructions.md` |
+
+> **Common mistake:** People migrate `.github/copilot-instructions.md` to `~/.copilot/instructions/` thinking it's "more powerful" — it's not. They serve different audiences. Keep repo standards in `.github/` so team members automatically get them.
+
 ### What to copy
 ```bash
 # Copy agents, instructions, prompts, skills — these are the framework
@@ -799,7 +820,7 @@ Each product maintains its own `docs/memory-bank/` with its own sprint state, de
 
 ---
 
-**Last Updated:** February 22, 2026  
+**Last Updated:** February 24, 2026  
 **Total Agents:** 10 (1 orchestrator + 9 specialized)  
 **Total Skills:** 17  
 **Total Custom Instructions:** 6  

@@ -3,7 +3,7 @@ name: temis
 description: Code review specialist - quality validation, correctness, test coverage analysis, security audits (consolidated from code-reviewer + security-specialist)
 argument-hint: "What code should be reviewed and validated (changed files, test coverage, security)"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
-tools: ['search/codebase', 'search/usages', 'edit/editFiles', 'execute/runInTerminal', 'read/problems', 'search/changes', 'execute/testFailure']
+tools: ['search/codebase', 'search/usages', 'agent/askQuestions', 'edit/editFiles', 'execute/runInTerminal', 'read/problems', 'search/changes', 'execute/testFailure']
 handoffs:
   - label: "🔧 Fix Review Issues"
     agent: zeus
