@@ -37,7 +37,7 @@ Zeus orchestrates:
 Strategic planner with research capability. Generates detailed TDD-driven implementation roadmaps.
 
 **When to use:** Architecture decisions, technology research, detailed planning before implementation  
-**Tools:** search, usages, web/fetch (for external research)  
+**Tools:** `search/codebase`, `search/usages`, `web/fetch`, `search/fileSearch`, `search/textSearch` (for external research)  
 **Calls:** apollo (for codebase discovery + docs/GitHub evidence), hands off to zeus for implementation  
 **Skills:** plan-architecture.prompt  
 
@@ -62,7 +62,7 @@ Investigation agent for rapid codebase discovery plus external docs and GitHub r
 
 **When to use:** Rapid codebase exploration, bug root cause discovery, finding files before implementation, helping any agent locate code  
 **Called by:** Athena (planning), Zeus (debugging), Hermes/Aphrodite/Maat (locating existing patterns)  
-**Tools:** search, usages, web/fetch (read-only parallel searches + public docs/GitHub pages)  
+**Tools:** `search/codebase`, `search/usages`, `web/fetch`, `read/readFile`, `search/fileSearch`, `search/textSearch`, `search/listDirectory` (read-only parallel searches + public docs/GitHub pages)  
 **Parallelism:** Up to 10 simultaneous search queries  
 **Web/GitHub Research:** Pulls docs and GitHub references; escalates deep research to Athena  
 **Skills:** debug-issue.prompt  
@@ -95,7 +95,7 @@ Backend APIs, FastAPI services, async business logic.
 **Depends on:** maat (database), ra (deployment)  
 **Can call:** apollo (for codebase discovery)  
 **Skills:** backend-standards.instructions, tdd-testing, api-design, security-audit  
-**Tools:** search, usages, read-file, edit, runCommands  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`  
 
 **Backend Standards Applied:**
 - Async/await on ALL I/O operations
@@ -115,7 +115,7 @@ Frontend UI/UX, React components, responsive design.
 **Depends on:** hermes (API endpoints)  
 **Can call:** apollo (for component discovery)  
 **Skills:** frontend-standards.instructions, tdd-testing, api-design  
-**Tools:** search, usages, read-file, edit, runCommands  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`  
 
 **Frontend Standards Applied:**
 - TypeScript strict mode
@@ -134,7 +134,7 @@ Database design, SQL optimization, migration management.
 **Specialization:** SQLAlchemy ORM, Alembic migrations, query analysis  
 **Dependencies:** athena (planning), hermes (schema needs)  
 **Skills:** database-standards.instructions, database-migration, performance-optimization, security-audit  
-**Tools:** search, usages, read-file, edit, runCommands  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`  
 
 **Database Standards Applied:**
 - Zero-downtime migration strategy
@@ -153,7 +153,7 @@ Infrastructure, Docker containerization, deployment orchestration.
 **Specialization:** Docker, docker-compose, multi-stage builds, health checks, CI/CD workflows  
 **Depends on:** All agents (needs their deployment requirements)  
 **Skills:** docker-deployment, performance-optimization  
-**Tools:** search, usages, read-file, edit, runCommands  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `execute/createAndRunTask`, `execute/getTerminalOutput`, `read/problems`  
 
 **Infrastructure Standards Applied:**
 - Multi-stage Docker builds
@@ -173,7 +173,7 @@ Hotfix and Rapid Repair specialist. Bypasses standard orchestration for small bu
 **When to use:** CSS fixes, typos, simple logic bugs that don't require architectural changes  
 **Specialization:** Speed, precision, bypassing standard orchestration  
 **Depends on:** None (works independently for small fixes)  
-**Tools:** search, usages, read-file, edit, runCommands  
+**Tools:** `search/codebase`, `search/usages`, `read/readFile`, `edit/editFiles`, `execute/runInTerminal`, `vscode/runCommand`, `read/problems`, `execute/testFailure`  
 
 **Hotfix Standards Applied:**
 - No mandatory TDD for trivial fixes (like CSS classes)
@@ -193,7 +193,7 @@ Code review, security audit, quality gates.
 **Specialization:** Code review checklist, OWASP security audit, >80% coverage validation  
 **Reviews:** All outputs from hermes, aphrodite, maat  
 **Skills:** code-review-standards.instructions, security-audit, tdd-testing  
-**Tools:** search, usages, read-file, edit, runTasks  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/problems`, `search/changes`, `execute/testFailure`  
 
 **Quality Gates:**
 - ✅ >80% test coverage
@@ -692,11 +692,11 @@ mkdir -p agents
 cat > agents/database-expert-subagent.agent.md << 'EOF'
 ---
 name: database-expert
-user-invokable: false  # Only for internal delegation
+user-invocable: false  # Only for internal delegation
 description: Specialized database architect and query optimizer
 argument-hint: "Analyze and optimize database schema and queries"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
-tools: ['search', 'usages', 'edit', 'runCommands']
+tools: ['search/codebase', 'search/usages', 'edit/editFiles', 'execute/runInTerminal']
 ---
 
 You are a DATABASE EXPERT SUBAGENT.
