@@ -3,7 +3,7 @@ name: athena
 description: Strategic planner + architect - ONLY plans and delegates, never implements. Deep research, architectural decisions, web research
 argument-hint: "What feature or epic to plan (describe the requirement and scope)"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
-tools: ['agent', 'codebase', 'usages', 'fetch']
+tools: ['agent', 'search/codebase', 'search/usages', 'web/fetch']
 agents: ['apollo']
 handoffs:
   - label: "🚀 Implement Plan"

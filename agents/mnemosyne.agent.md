@@ -2,7 +2,7 @@
 name: mnemosyne
 description: Memory bank quality owner. Initializes docs/memory-bank/, writes ADRs and task records on request, and closes sprints.
 model: Claude Haiku 4.5 (copilot)
-tools: ['codebase', 'usages', 'editFiles', 'readFile']
+tools: ['search/codebase', 'search/usages', 'edit/editFiles', 'read/readFile']
 argument-hint: "What to document: initialize project | close sprint | record decision TOPIC | create task DESCRIPTION"
 ---
 

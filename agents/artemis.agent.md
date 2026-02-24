@@ -3,7 +3,7 @@ name: artemis
 description: Hotfix & Rapid Repair specialist - Bypasses standard orchestration for small bugs and direct fast fixes
 argument-hint: "Describe the bug, CSS issue, or quick fix needed"
 model: ['Claude Sonnet 4.6 (copilot)']
-tools: ['codebase', 'usages', 'readFile', 'runInTerminal', 'runVscodeCommand']
+tools: ['search/codebase', 'search/usages', 'read/readFile', 'execute/runInTerminal', 'vscode/runCommand']
 ---
 
 # Artemis - Hotfix & Rapid Repair
