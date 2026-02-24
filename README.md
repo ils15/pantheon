@@ -42,36 +42,72 @@ mythic-agents solves this with **specialization**: each agent is an expert at ex
 The system operates in three phases controlled by **you**. Agents work in parallel within each phase. You approve before anything proceeds.
 
 ```mermaid
-%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e1e2e', 'primaryTextColor': '#cdd6f4', 'primaryBorderColor': '#89b4fa', 'lineColor': '#a6adc8', 'secondaryColor': '#313244', 'tertiaryColor': '#45475a', 'clusterBkg': '#181825', 'clusterBorder': '#b4befe', 'fontSize': '14px', 'fontFamily': 'Inter, sans-serif' }}}%%
+%%{init: {'theme': 'dark'}}%%
 flowchart TD
-    User([You]) --> P1
+    classDef user fill:#6d28d9,stroke:#a78bfa,stroke-width:2px,color:#fff,font-weight:bold
+    classDef orchestrator fill:#1d4ed8,stroke:#93c5fd,stroke-width:2px,color:#fff,font-weight:bold
+    classDef planner fill:#047857,stroke:#34d399,stroke-width:2px,color:#fff,font-weight:bold
+    classDef executor fill:#b45309,stroke:#fbbf24,stroke-width:2px,color:#fff,font-weight:bold
+    classDef qa fill:#be123c,stroke:#fb7185,stroke-width:2px,color:#fff,font-weight:bold
+    classDef infra fill:#db2777,stroke:#f472b6,stroke-width:2px,color:#fff,font-weight:bold
+    classDef memory fill:#0f766e,stroke:#2dd4bf,stroke-width:2px,color:#fff,font-weight:bold
+    classDef artifact fill:#374151,stroke:#9ca3af,stroke-width:1px,color:#f3f4f6,stroke-dasharray: 5 5
+
+    User([You / Human Control]):::user
+
+    subgraph Core["Core Orchestration"]
+        Zeus{"Zeus<br/>Orchestrator"}:::orchestrator
+    end
 
     subgraph P1["Phase 1: Planning"]
-        Athena[Athena\nStrategic planner]
-        Apollo1[Apollo\nCodebase discovery]
-        Athena -- uses --> Apollo1
-        Athena -- produces --> Plan[implementation plan]
+        Athena["Athena<br/>Strategic Planner"]:::planner
+        Apollo["Apollo<br/>Codebase Scout"]:::planner
+        PlanArt[["Implementation<br/>Plan Artifact"]]:::artifact
+        
+        Athena -- "Delegates search" --> Apollo
+        Apollo -. "Returns context" .-> Athena
+        Athena -- "Generates" --> PlanArt
     end
 
-    Plan --> Pause1{Pause Point 1\nYou approve plan}
-    Pause1 --> P2
+    subgraph P2["Phase 2: Implementation (Parallel)"]
+        Hermes["Hermes<br/>Backend APIs"]:::executor
+        Aphrodite["Aphrodite<br/>Frontend UI"]:::executor
+        Maat["Maat<br/>Database Schema"]:::executor
+        Artemis["Artemis<br/>Hotfix Specialist"]:::executor
+        
+        ImplArt[["Implementation<br/>Artifacts"]]:::artifact
 
-    subgraph P2["Phase 2: Implementation (parallel)"]
-        Hermes[Hermes\nBackend]
-        Aphrodite[Aphrodite\nFrontend]
-        Maat[Maat\nDatabase]
+        Hermes & Aphrodite & Maat -- "Yield outputs" --> ImplArt
     end
 
-    P2 --> Temis[Temis\nCode review & quality gate]
-    Temis --> Pause2{Pause Point 2\nYou review results}
-    Pause2 --> P3
-
-    subgraph P3["Phase 3: Delivery"]
-        Ra[Ra\nInfrastructure & deploy]
-        Mnemosyne[Mnemosyne\nMemory bank update]
+    subgraph P3["Phase 3: Validation"]
+        Temis["Temis<br/>Code Review &<br/>Security Gate"]:::qa
+        RevArt[["Review<br/>Artifact"]]:::artifact
+        Temis -- "Generates QA" --> RevArt
     end
 
-    P3 --> Pause3{Pause Point 3\nYou commit}
+    subgraph P4["Phase 4: Deployment"]
+        Ra["Ra<br/>Infrastructure"]:::infra
+        Mnemosyne["Mnemosyne<br/>Memory Bank"]:::memory
+    end
+
+    %% Flow connections
+    User -->|"Task Prompt"| Zeus
+    Zeus -->|"Initiates"| P1
+    PlanArt -.->|"Pause Point 1<br/>Requires Approval"| User
+    User -->|"Approves Plan"| Zeus
+
+    Zeus -->|"Dispatches"| P2
+    ImplArt -->|"Triggers Review"| P3
+
+    Artemis -.->|"Direct Commits"| User
+
+    RevArt -.->|"Pause Point 2<br/>Requires Approval"| User
+    User -->|"Approves Review"| Zeus
+
+    Zeus -->|"Finalizes"| P4
+    Mnemosyne -.->|"Close Sprint"| User
+    User -.->|"Pause Point 3<br/>Git Commit"| User
 ```
 
 ### Three Core Principles
