@@ -44,70 +44,34 @@ The system operates in three phases controlled by **you**. Agents work in parall
 ```mermaid
 %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e1e2e', 'primaryTextColor': '#cdd6f4', 'primaryBorderColor': '#89b4fa', 'lineColor': '#a6adc8', 'secondaryColor': '#313244', 'tertiaryColor': '#45475a', 'clusterBkg': '#181825', 'clusterBorder': '#b4befe', 'fontSize': '14px', 'fontFamily': 'Inter, sans-serif' }}}%%
 flowchart TD
-    classDef user fill:#cba6f7,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
-    classDef orchestrator fill:#89b4fa,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
-    classDef planner fill:#a6e3a1,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
-    classDef executor fill:#f9e2af,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
-    classDef qa fill:#f38ba8,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
-    classDef infra fill:#fab387,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
-    classDef memory fill:#b4befe,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
-    classDef artifact fill:#313244,stroke:#a6adc8,stroke-width:1px,color:#cdd6f4,stroke-dasharray: 5 5
+    User([You]) --> P1
 
-    User([User Application and Control]):::user
-
-    subgraph Core["Core Orchestration"]
-        Zeus{"Zeus\nOrchestrator"}:::orchestrator
+    subgraph P1["Phase 1: Planning"]
+        Athena[Athena\nStrategic planner]
+        Apollo1[Apollo\nCodebase discovery]
+        Athena -- uses --> Apollo1
+        Athena -- produces --> Plan[implementation plan]
     end
 
-    subgraph Phase1["Phase 1: Planning and Discovery"]
-        Athena["Athena\nStrategic Planner"]:::planner
-        Apollo["Apollo\nCodebase Scout"]:::planner
-        PlanArt[["Implementation Plan\nArtifact"]]:::artifact
-        Athena -- "Delegates Context Search" --> Apollo
-        Apollo -. "Returns Codebase Context" .-> Athena
-        Athena -- "Generates Roadmap" --> PlanArt
+    Plan --> Pause1{Pause Point 1\nYou approve plan}
+    Pause1 --> P2
+
+    subgraph P2["Phase 2: Implementation (parallel)"]
+        Hermes[Hermes\nBackend]
+        Aphrodite[Aphrodite\nFrontend]
+        Maat[Maat\nDatabase]
     end
 
-    subgraph Phase2["Phase 2: Implementation (Parallel Execution)"]
-        direction LR
-        Hermes["Hermes\nBackend APIs"]:::executor
-        Aphrodite["Aphrodite\nFrontend UI"]:::executor
-        Maat["Maat\nDatabase Schema"]:::executor
-        Artemis["Artemis\nHotfix Specialist"]:::executor
-        ImplArt[["Implementation\nArtifacts"]]:::artifact
+    P2 --> Temis[Temis\nCode review & quality gate]
+    Temis --> Pause2{Pause Point 2\nYou review results}
+    Pause2 --> P3
 
-        Hermes & Aphrodite & Maat -- "Yields Outputs" --> ImplArt
+    subgraph P3["Phase 3: Delivery"]
+        Ra[Ra\nInfrastructure & deploy]
+        Mnemosyne[Mnemosyne\nMemory bank update]
     end
 
-    subgraph Phase3["Phase 3: Validation and Quality Gates"]
-        Temis["Temis\nCode Reviewer\nand Security Gate"]:::qa
-        RevArt[["Review and Audit\nArtifact"]]:::artifact
-        Temis -- "Generates QA Report" --> RevArt
-    end
-
-    subgraph Phase4["Phase 4: Deployment and Memory Persistence"]
-        direction LR
-        Ra["Ra\nInfrastructure Deploy"]:::infra
-        Mnemosyne["Mnemosyne\nMemory Bank Manager"]:::memory
-    end
-
-    %% Flow connections
-    User -->|"Task Prompt"| Zeus
-    Zeus -->|"Initiates"| Phase1
-    PlanArt -.->|"Pause Point 1:\nRequires Approval"| User
-    User -->|"Approves Plan"| Zeus
-
-    Zeus -->|"Dispatches"| Phase2
-    ImplArt -->|"Triggers Review"| Phase3
-
-    Artemis -.->|"Direct Commits\n(Bypass Orchestration)"| User
-
-    RevArt -.->|"Pause Point 2:\nRequires Approval"| User
-    User -->|"Approves Review"| Zeus
-
-    Zeus -->|"Finalizes"| Phase4
-    Mnemosyne -.->|"Updates Context\n(Sprint Close)"| User
-    User -.->|"Pause Point 3:\nGit Commit"| User
+    P3 --> Pause3{Pause Point 3\nYou commit}
 ```
 
 ### Three Core Principles
@@ -210,6 +174,21 @@ Zeus plans with Athena, discovers context with Apollo, then coordinates Maat →
 
 ---
 
+
+### 🔄 Native VS Code Handoff Integration
+
+**mythic-agents** is built to take full advantage of the [VS Code Copilot native Agent Handoff feature](https://code.visualstudio.com/docs/copilot/agents/overview#_hand-off-a-session-to-another-agent) out of the box!
+
+Instead of mixing all contexts into a single messy chat window, you can seamlessly **hand off** your current context and history to a specialized agent using the UI or the `/delegate` command.
+
+1. **Context Isolation**: When Zeus delegates to Athena (or you click the suggested handoff button), VS Code opens a **brand new chat session** specifically for Athena.
+2. **Context Injection**: The *entire chat history* from your conversation with Zeus is automatically carried over to Athena so she doesn't lose track of the plan.
+3. **Pristine History**: The original Zeus orchestrator session is archived smoothly, keeping your active chat extremely focused and token-efficient.
+
+All agents have their `handoffs:` pre-configured in their YAML definitions to prompt UI buttons within Copilot chat automatically!
+
+---
+
 ## Artifact System
 
 Every phase produces a **structured artifact** — a temporary file written to `docs/memory-bank/.tmp/` that summarizes what was done and what you need to review before the next phase begins.
@@ -248,17 +227,26 @@ Every `REVIEW-` artifact includes a **Human Review Focus** section — 1–2 spe
 mythic-agents uses two complementary memory layers:
 
 ```mermaid
+%%{init: {'theme': 'dark'}}%%
 flowchart LR
-    subgraph L1["Level 1 — Native (auto-loaded)"]
-        MR["/memories/repo/\nAtomic facts: stack, commands,\nconventions — always in context"]
-        MS["/memories/session/\nConversation plans, WIP\nDiscarded on session end"]
+    classDef default fill:#2d2d2d,stroke:#555,stroke-width:1px,color:#eee,rx:5px,ry:5px;
+    classDef level1 fill:#1e3a5f,stroke:#2a5082,stroke-width:2px,color:#fff;
+    classDef level2 fill:#4b2743,stroke:#6e3962,stroke-width:2px,color:#fff;
+
+    subgraph L1["⚡ Level 1 — Native (auto-loaded)"]
+        direction TB
+        MR["/memories/repo/<br/>Atomic facts: stack, commands,<br/>conventions — always in context"]:::level1
+        MS["/memories/session/<br/>Conversation plans, WIP<br/>Discarded on session end"]:::level1
     end
 
-    subgraph L2["Level 2 — Narrative (explicit read)"]
-        MB["docs/memory-bank/\n00 — Project overview\n01 — Architecture\n02 — Components\n03 — Tech context\n04 — Active context  ← priority\n05 — Progress log\n.tmp/ — ephemeral artifacts (gitignored)\n_notes/ — decision records (ADRs, committed)"]
+    subgraph L2["📚 Level 2 — Narrative (explicit read)"]
+        MB["docs/memory-bank/<br/>00 — Project overview<br/>01 — Architecture<br/>02 — Components<br/>03 — Tech context<br/>04 — Active context  ← priority<br/>05 — Progress log<br/>.tmp/ — ephemeral artifacts (gitignored)<br/>_notes/ — decision records (ADRs, committed)"]:::level2
     end
 
     L1 -. "graduates to at sprint close" .-> L2
+    
+    style L1 fill:#1e1e1e,stroke:#333,stroke-width:2px,rx:10px
+    style L2 fill:#1e1e1e,stroke:#333,stroke-width:2px,rx:10px
 ```
 
 **`04-active-context.md`** is the priority file. Agents read it first when starting any task. It contains the current sprint focus, the most recent architectural decision, active blockers, and next steps.
