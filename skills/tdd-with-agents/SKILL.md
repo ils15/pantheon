@@ -9,6 +9,14 @@ Comprehensive guide to Test-Driven Development (TDD) workflow as implemented by 
 
 ---
 
+## ⚠️ Non-Interactive Testing Rule
+
+**CRITICAL:** Agents must ALWAYS run tests in a non-interactive mode. Never use watch modes, debuggers, or commands that require user input (e.g. `q` to quit).
+- **Frontend:** Use `npx vitest run` instead of `vitest` (which defaults to watch mode).
+- **Backend/Database:** Use `pytest` but NEVER append `--pdb` or start interactive shells.
+
+---
+
 ## Core TDD Philosophy
 
 **TDD = Write Tests First, Not After**
@@ -87,7 +95,7 @@ test("submits form with email and password", async () => {
     });
 });
 
-// Run: npm test LoginForm.test.tsx
+// Run: npx vitest run LoginForm.test.tsx
 // Result: ❌ FAILED - LoginForm doesn't exist yet
 ```
 
@@ -182,7 +190,7 @@ export function LoginForm({ onSubmit }) {
     );
 }
 
-// Run: npm test LoginForm.test.tsx
+// Run: npx vitest run LoginForm.test.tsx
 // Result: ✅ PASSED - Test is green!
 ```
 
@@ -442,7 +450,7 @@ export const LoginForm: FC<LoginFormProps> = ({
     );
 };
 
-// Run tests: npm test LoginForm.test.tsx
+// Run tests: npx vitest run LoginForm.test.tsx
 // Result: ✅ ALL TESTS PASS (including accessibility checks)
 ```
 
@@ -541,7 +549,7 @@ export default defineConfig({
 });
 
 # Run tests with coverage
-npm run test -- --coverage
+npx vitest run --coverage
 ```
 
 **Measurement (Database - Maat):**

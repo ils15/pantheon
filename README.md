@@ -42,35 +42,72 @@ mythic-agents solves this with **specialization**: each agent is an expert at ex
 The system operates in three phases controlled by **you**. Agents work in parallel within each phase. You approve before anything proceeds.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#1e1e2e', 'primaryTextColor': '#cdd6f4', 'primaryBorderColor': '#89b4fa', 'lineColor': '#a6adc8', 'secondaryColor': '#313244', 'tertiaryColor': '#45475a', 'clusterBkg': '#181825', 'clusterBorder': '#b4befe', 'fontSize': '14px', 'fontFamily': 'Inter, sans-serif' }}}%%
 flowchart TD
-    User([You]) --> P1
+    classDef user fill:#cba6f7,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
+    classDef orchestrator fill:#89b4fa,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
+    classDef planner fill:#a6e3a1,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
+    classDef executor fill:#f9e2af,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
+    classDef qa fill:#f38ba8,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
+    classDef infra fill:#fab387,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
+    classDef memory fill:#b4befe,stroke:#11111b,stroke-width:2px,color:#11111b,font-weight:bold
+    classDef artifact fill:#313244,stroke:#a6adc8,stroke-width:1px,color:#cdd6f4,stroke-dasharray: 5 5
 
-    subgraph P1["Phase 1: Planning"]
-        Athena[Athena\nStrategic planner]
-        Apollo1[Apollo\nCodebase discovery]
-        Athena -- uses --> Apollo1
-        Athena -- produces --> Plan[implementation plan]
+    User([User Application and Control]):::user
+
+    subgraph Core["Core Orchestration"]
+        Zeus{"Zeus\nOrchestrator"}:::orchestrator
     end
 
-    Plan --> Pause1{Pause Point 1\nYou approve plan}
-    Pause1 --> P2
-
-    subgraph P2["Phase 2: Implementation (parallel)"]
-        Hermes[Hermes\nBackend]
-        Aphrodite[Aphrodite\nFrontend]
-        Maat[Maat\nDatabase]
+    subgraph Phase1["Phase 1: Planning and Discovery"]
+        Athena["Athena\nStrategic Planner"]:::planner
+        Apollo["Apollo\nCodebase Scout"]:::planner
+        PlanArt[["Implementation Plan\nArtifact"]]:::artifact
+        Athena -- "Delegates Context Search" --> Apollo
+        Apollo -. "Returns Codebase Context" .-> Athena
+        Athena -- "Generates Roadmap" --> PlanArt
     end
 
-    P2 --> Temis[Temis\nCode review & quality gate]
-    Temis --> Pause2{Pause Point 2\nYou review results}
-    Pause2 --> P3
+    subgraph Phase2["Phase 2: Implementation (Parallel Execution)"]
+        direction LR
+        Hermes["Hermes\nBackend APIs"]:::executor
+        Aphrodite["Aphrodite\nFrontend UI"]:::executor
+        Maat["Maat\nDatabase Schema"]:::executor
+        Artemis["Artemis\nHotfix Specialist"]:::executor
+        ImplArt[["Implementation\nArtifacts"]]:::artifact
 
-    subgraph P3["Phase 3: Delivery"]
-        Ra[Ra\nInfrastructure & deploy]
-        Mnemosyne[Mnemosyne\nMemory bank update]
+        Hermes & Aphrodite & Maat -- "Yields Outputs" --> ImplArt
     end
 
-    P3 --> Pause3{Pause Point 3\nYou commit}
+    subgraph Phase3["Phase 3: Validation and Quality Gates"]
+        Temis["Temis\nCode Reviewer\nand Security Gate"]:::qa
+        RevArt[["Review and Audit\nArtifact"]]:::artifact
+        Temis -- "Generates QA Report" --> RevArt
+    end
+
+    subgraph Phase4["Phase 4: Deployment and Memory Persistence"]
+        direction LR
+        Ra["Ra\nInfrastructure Deploy"]:::infra
+        Mnemosyne["Mnemosyne\nMemory Bank Manager"]:::memory
+    end
+
+    %% Flow connections
+    User -->|"Task Prompt"| Zeus
+    Zeus -->|"Initiates"| Phase1
+    PlanArt -.->|"Pause Point 1:\nRequires Approval"| User
+    User -->|"Approves Plan"| Zeus
+
+    Zeus -->|"Dispatches"| Phase2
+    ImplArt -->|"Triggers Review"| Phase3
+
+    Artemis -.->|"Direct Commits\n(Bypass Orchestration)"| User
+
+    RevArt -.->|"Pause Point 2:\nRequires Approval"| User
+    User -->|"Approves Review"| Zeus
+
+    Zeus -->|"Finalizes"| Phase4
+    Mnemosyne -.->|"Updates Context\n(Sprint Close)"| User
+    User -.->|"Pause Point 3:\nGit Commit"| User
 ```
 
 ### Three Core Principles
