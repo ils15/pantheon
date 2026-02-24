@@ -2,8 +2,8 @@
 
 ## 🏛️ Agent Architecture
 
-Architecture based on **Conductor-Delegate pattern** with 10 mythological deities:
-- 1 Orchestrator (Zeus) + 9 Specialized Subagents
+Architecture based on **Conductor-Delegate pattern** with 11 agents:
+- 1 Orchestrator (Zeus) + 9 Specialized Subagents + 1 Domain Expert (RemoteSensingExpert)
 
 ### Orchestrator Tier
 
@@ -163,6 +163,25 @@ Infrastructure, Docker containerization, deployment orchestration.
 - Zero-downtime deployment strategy
 - Environment variable management
 - Secrets from vault (not hardcoded)
+
+---
+
+### Domain Specialist Tier
+
+#### 🛰️ **RemoteSensingExpert** (agents/remote-sensing-expert.agent.md)
+Especialista em sensoriamento remoto — pesquisa científica, análise de produtos LULC e processamento de imagens.
+
+**When to use:** Análise de produtos LULC (MapBiomas, CGLS, ESRI, GLAD), métricas de acordância inter-produto, pesquisa de literatura em revistas indexadas (MDPI Remote Sensing, RSE, IEEE TGRS, ISPRS), revisão técnico-científica de processamento raster, recomendações metodológicas baseadas em evidências  
+**Specialization:** LULC agreement metrics, temporal frequency analysis, raster processing, spatial statistics, scientific literature search  
+**Tools:** `search/codebase`, `search/usages`, `read/readFile`, `web/fetch`, `search/fileSearch`, `search/textSearch`, `search/listDirectory`  
+**Skills:** remote-sensing-analysis  
+
+**Capacidades:**
+- Busca paralela em IEEE TGRS, Remote Sensing of Environment, MDPI, ISPRS, arXiv
+- Análise de implementações Python/R de sensoriamento remoto no codebase
+- Métricas de acordância: Kappa, OA, F1, Dice, frequência temporal
+- Revisão de pipelines raster com embasamento na literatura
+- Recomendação de métodos de ensemble de produtos LULC
 
 ---
 
@@ -821,8 +840,8 @@ Each product maintains its own `docs/memory-bank/` with its own sprint state, de
 ---
 
 **Last Updated:** February 24, 2026  
-**Total Agents:** 10 (1 orchestrator + 9 specialized)  
-**Total Skills:** 17  
+**Total Agents:** 11 (1 orchestrator + 9 specialized + 1 domain expert)  
+**Total Skills:** 18  
 **Total Custom Instructions:** 6  
 **Total Prompt Files:** 6  
 **Architecture Pattern:** Conductor-Delegate  
