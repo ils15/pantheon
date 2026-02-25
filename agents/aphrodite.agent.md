@@ -1,14 +1,28 @@
 ---
 name: aphrodite
-description: React 19 + TypeScript UI/UX specialist - components, hooks, styling, responsive design
-argument-hint: "What frontend implementation task to perform (component, page, hook, styling)"
+description: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD. Called by zeus. Sends completed work to: temis (review)."
+argument-hint: "Frontend task: component, page, hook, or styling — include name, props, and UX behaviour (e.g. 'ProductCard with image, title, price and add-to-cart button')"
 model: ['Gemini 3.1 Pro (Preview) (copilot)', 'Claude Sonnet 4.6 (copilot)']
-tools: ['search/codebase', 'search/usages', 'agent/askQuestions', 'edit/editFiles', 'execute/runInTerminal', 'read/readFile', 'read/problems', 'execute/testFailure', 'execute/getTerminalOutput', 'search/changes', 'mcp_browser_takeScreenshot', 'mcp_browser_getConsoleErrors', 'mcp_browser_runAccessibilityAudit']
+tools:
+  - search/codebase
+  - search/usages
+  - read/readFile
+  - read/problems
+  - edit/editFiles
+  - execute/runInTerminal
+  - execute/testFailure
+  - execute/getTerminalOutput
+  - search/changes
+  - agent
+  - mcp_browser_takeScreenshot
+  - mcp_browser_getConsoleErrors
+  - mcp_browser_runAccessibilityAudit
 handoffs:
   - label: "➡️ Send to Temis"
     agent: temis
     prompt: "Please perform a code review and accessibility audit on these frontend changes according to your instructions."
     send: false
+user-invokable: true
 ---
 
 # Aphrodite - React Implementation Specialist

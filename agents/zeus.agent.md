@@ -1,9 +1,17 @@
 ---
 name: zeus
-description: Main conductor - ONLY orchestrates and delegates, never implements. Coordinates specialized agents through development lifecycle
-argument-hint: "What development phase to orchestrate (planning, implementation, review, deployment)"
+description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), mnemosyne (docs), artemis (hotfix)"
+argument-hint: "Describe the feature, bug, or epic to orchestrate (Zeus plans, delegates, and coordinates the full lifecycle)"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
-tools: ['agent', 'vscode/runCommand', 'agent/askQuestions', 'execute/runInTerminal', 'read/readFile', 'search/codebase', 'search/usages', 'web/fetch', 'search/changes', 'agent']
+tools:
+  - agent
+  - vscode/runCommand
+  - execute/runInTerminal
+  - read/readFile
+  - search/codebase
+  - search/usages
+  - web/fetch
+  - search/changes
 agents: ['athena', 'apollo', 'hermes', 'aphrodite', 'maat', 'temis', 'ra', 'mnemosyne', 'artemis']
 handoffs:
   - label: "📋 Plan Feature"
@@ -14,6 +22,7 @@ handoffs:
     agent: mnemosyne
     prompt: "Document the completed work and decisions in the Memory Bank."
     send: false
+user-invokable: true
 ---
 
 # Zeus - Main Conductor

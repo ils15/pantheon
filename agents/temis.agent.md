@@ -1,9 +1,17 @@
 ---
 name: temis
-description: Code review specialist - quality validation, correctness, test coverage analysis, security audits (consolidated from code-reviewer + security-specialist)
-argument-hint: "What code should be reviewed and validated (changed files, test coverage, security)"
+description: "Quality & security gate — reviews only changed files, OWASP Top 10, coverage >80%, correctness. Called by: hermes, aphrodite, maat, zeus. Escalates blockers to zeus."
+argument-hint: "What to review — point at the phase or changed files (e.g. 'review Phase 1: auth endpoints and JWT middleware added by hermes')"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
-tools: ['search/codebase', 'search/usages', 'agent/askQuestions', 'edit/editFiles', 'execute/runInTerminal', 'read/problems', 'search/changes', 'execute/testFailure']
+tools:
+  - search/codebase
+  - search/usages
+  - read/problems
+  - search/changes
+  - execute/runInTerminal
+  - execute/testFailure
+  - edit/editFiles
+  - agent
 handoffs:
   - label: "🔧 Fix Review Issues"
     agent: zeus
@@ -13,6 +21,7 @@ handoffs:
     agent: mnemosyne
     prompt: "Document the review findings and decisions above in the Memory Bank."
     send: false
+user-invokable: true
 ---
 
 # Temis - Quality & Security Gate Specialist

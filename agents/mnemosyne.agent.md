@@ -1,9 +1,15 @@
 ---
 name: mnemosyne
-description: Memory bank quality owner. Initializes docs/memory-bank/, writes ADRs and task records on request, and closes sprints.
-model: Claude Haiku 4.5 (copilot)
-tools: ['search/codebase', 'search/usages', 'agent/askQuestions', 'edit/editFiles', 'read/readFile']
-argument-hint: "What to document: initialize project | close sprint | record decision TOPIC | create task DESCRIPTION"
+description: "Memory bank quality owner — initializes docs/memory-bank/, writes ADRs and task records on explicit request. Called by zeus. Never invoked automatically after phases."
+model: ['Claude Haiku 4.5 (copilot)']
+tools:
+  - search/codebase
+  - search/usages
+  - read/readFile
+  - edit/editFiles
+  - agent
+argument-hint: "What to document: 'initialize project' | 'close sprint' | 'record decision TOPIC' | 'create task DESCRIPTION'"
+user-invokable: true
 ---
 
 # Mnemosyne - Memory Agent

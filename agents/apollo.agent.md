@@ -1,10 +1,18 @@
 ---
 name: apollo
-description: Investigation scout - rapid codebase discovery plus external docs and GitHub research
-argument-hint: "What files or patterns to search for (e.g. 'all React components in admin/pages')"
+description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, maat. No edits, no commands."
+argument-hint: "What to find: files, patterns, existing implementations, or documentation references (e.g. 'all FastAPI routers in the auth module')"
 model: ['Claude Haiku 4.5 (copilot)', 'Gemini 3 Flash (Preview) (copilot)']
-tools: ['search/codebase', 'search/usages', 'agent/askQuestions', 'web/fetch', 'read/readFile', 'search/fileSearch', 'search/textSearch', 'search/listDirectory']
-user-invocable: false
+tools:
+  - search/codebase
+  - search/usages
+  - search/fileSearch
+  - search/textSearch
+  - search/listDirectory
+  - read/readFile
+  - web/fetch
+  - agent
+user-invokable: false
 ---
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check

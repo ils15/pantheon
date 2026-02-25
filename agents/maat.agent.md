@@ -1,14 +1,24 @@
 ---
 name: maat
-description: Database specialist - schema design, migrations, query optimization, SQLAlchemy, Alembic
-argument-hint: "What database task to perform (migrations, schema, optimization, query analysis)"
+description: "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention, TDD migrations. Called by zeus. Sends completed work to: temis (review)."
+argument-hint: "Database task: migration, schema change, query optimization, or index strategy — include table names and constraints (e.g. 'add index on products.created_at for cursor pagination')"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
-tools: ['search/codebase', 'search/usages', 'agent/askQuestions', 'edit/editFiles', 'execute/runInTerminal', 'read/readFile', 'read/problems', 'execute/testFailure', 'execute/getTerminalOutput']
+tools:
+  - search/codebase
+  - search/usages
+  - read/readFile
+  - read/problems
+  - edit/editFiles
+  - execute/runInTerminal
+  - execute/testFailure
+  - execute/getTerminalOutput
+  - agent
 handoffs:
   - label: "➡️ Send to Temis"
     agent: temis
     prompt: "Please perform a code review and security audit on these database/migration changes."
     send: false
+user-invokable: true
 ---
 
 # Maat - Database Specialist
