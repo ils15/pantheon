@@ -1,6 +1,6 @@
 # mythic-agents
 
-**A multi-agent orchestration framework for GitHub Copilot that coordinates 10 specialized AI agents to implement production-ready features with enforced TDD, continuous code review, and persistent project memory.**
+**A multi-agent orchestration framework for GitHub Copilot that coordinates specialized AI agents to implement production-ready features with enforced TDD, continuous code review, and persistent project memory.**
 
 ---
 
@@ -8,7 +8,7 @@
 
 - [Overview](#overview)
 - [How It Works](#how-it-works)
-- [The 10 Agents](#the-10-agents)
+- [The Agents](#the-agents)
 - [Workflow](#workflow)
 - [Artifact System](#artifact-system)
 - [Memory System](#memory-system)
@@ -132,7 +132,7 @@ Every phase produces a structured **artifact** (a file in `docs/memory-bank/.tmp
 
 ---
 
-## The 11 Agents
+## The Agents
 
 | Agent | Role | Invoked when |
 |---|---|---|
@@ -376,7 +376,7 @@ copilot-agents/
 ├── .github/
 │   └── copilot-instructions.md   — global rules (auto-read every Copilot session)
 │
-├── agents/                 — 10 agent definitions (.agent.md)
+├── agents/                 — agent definitions (.agent.md)
 │   ├── zeus.agent.md       orchestrator
 │   ├── athena.agent.md     planner
 │   ├── apollo.agent.md     discovery

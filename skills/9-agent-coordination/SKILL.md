@@ -9,7 +9,7 @@ Master guide to orchestrating the complete agent system for rapid, TDD-driven fe
 
 ## System Overview
 
-**Architecture:** Conductor-Delegate pattern with 9 specialized agents
+**Architecture:** Conductor-Delegate pattern with specialized agents (extensible)
 
 ```
                     ⚡ ZEUS (Orchestrator)

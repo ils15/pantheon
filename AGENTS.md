@@ -2,8 +2,8 @@
 
 ## 🏛️ Agent Architecture
 
-Architecture based on **Conductor-Delegate pattern** with 11 agents:
-- 1 Orchestrator (Zeus) + 9 Specialized Subagents + 1 Domain Specialist (Gaia)
+Architecture based on **Conductor-Delegate pattern** (extensible — add new specialized agents as the project grows):
+- 1 Orchestrator (Zeus) + Planning + Discovery + Implementation + QA + Infra + Memory + Domain Specialists
 
 ### Orchestrator Tier
 
@@ -834,6 +834,44 @@ Each product maintains its own `docs/memory-bank/` with its own sprint state, de
 
 ---
 
+## 🌐 Ecosystem & Inspiration
+
+mythic-agents draws from and diverges from the broader multi-agent landscape. Understanding the ecosystem helps when extending the framework or adopting best practices.
+
+### Other notable multi-agent frameworks
+
+| Framework | Pattern | Strengths | Key difference from mythic-agents |
+|---|---|---|---|
+| **AutoGen** (Microsoft) | Event-driven async conversations | Deep observability, async messaging, research-grade | General-purpose; mythic-agents is VS Code-native with `.agent.md` files |
+| **CrewAI** | Role-based crews | Visual editor, self-hosted, clean Python API | Framework-level; mythic-agents lives inside VS Code with zero infra |
+| **LangGraph** | Stateful graph of actors | Cyclical execution, precise state control | Code-first graph DSL; mythic-agents uses markdown+YAML as config |
+| **MetaGPT** | Software company roles (PM, Architect, QA) | Full project lifecycle, SOP-driven | Simulates a company; mythic-agents delegates to you at every gate |
+| **OpenAI Swarm** | Lightweight handoffs | Minimal, easy to test | Sequential only; mythic-agents supports parallel subagents |
+| **Semantic Kernel** | Modular SDK (C#/Python/Java) | Enterprise-grade, model-agnostic | SDK dependency; mythic-agents is config-only, no code to install |
+
+**Community resources:**
+- [`github/awesome-copilot`](https://github.com/github/awesome-copilot) — curated shared agents, skills, instructions, prompts for VS Code Copilot
+- [VS Code Custom Agents docs](https://code.visualstudio.com/docs/copilot/customization/custom-agents) — official reference for `.agent.md` authoring
+- [VS Code Agent Skills docs](https://code.visualstudio.com/docs/copilot/customization/agent-skills) — on-demand skill loading (Level 1/2/3 progressive disclosure)
+- [VS Code Subagents docs](https://code.visualstudio.com/docs/copilot/agents/subagents) — parallel execution, context isolation, orchestration patterns
+
+### Optimization patterns adopted in this framework
+
+Based on industry best practices across all frameworks above:
+
+| Technique | Where applied in mythic-agents |
+|---|---|
+| **Context isolation via subagents** | Apollo runs in isolated context window; only its summary returns to Zeus/Athena |
+| **Parallel execution** | Zeus dispatches Hermes + Aphrodite + Maat simultaneously when scopes don't overlap |
+| **Scoped `agents:` property** | Each orchestrator declares exactly which subagents it may invoke — prevents drift |
+| **Tool minimization per agent** | Apollo has no `edit/` tools; Artemis has no `agent` tool — smallest possible surface |
+| **Progressive context loading** | Zeus reads `04-active-context.md` only when a sprint is active (Tier 2 on demand) |
+| **Auto-loaded Tier 1 memory** | `/memories/repo/` facts are injected by VS Code — zero explicit read calls needed |
+| **Human approval gates** | `agent/askQuestions` blocks at Planning, Review, and Commit — no auto-merging |
+| **Model-role alignment** | Fast models (Haiku, Gemini Flash) for shallow discovery; Sonnet/Opus for planning and production code |
+
+---
+
 ## 📚 References
 
 - **Agent Skills:** `skills/*/SKILL.md`
@@ -846,10 +884,6 @@ Each product maintains its own `docs/memory-bank/` with its own sprint state, de
 
 ---
 
-**Last Updated:** February 24, 2026  
-**Total Agents:** 11 (1 orchestrator + 9 specialized + 1 domain specialist)  
-**Total Skills:** 18  
-**Total Custom Instructions:** 6  
-**Total Prompt Files:** 6  
-**Architecture Pattern:** Conductor-Delegate  
+**Last Updated:** February 25, 2026  
+**Architecture Pattern:** Conductor-Delegate (extensible — add new domain agents as needed)  
 **Mythology Reference:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Artemis, Temis/Thêmis, Mnemosyne, **Gaia**), Egyptian (Ra, Maat)

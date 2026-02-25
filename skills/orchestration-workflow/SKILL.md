@@ -13,7 +13,7 @@ Practical walkthrough for using the 9-agent system end-to-end. This is your "how
 
 **Scenario:** You want to add JWT authentication to your app.  
 **Time:** ~6-8 hours total (spread across 1-2 days)  
-**Team:** All 9 agents working together  
+**Team:** All agents working together  
 **Result:** Complete feature with 95% coverage, security audit passed, ready to deploy
 
 ---

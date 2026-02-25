@@ -67,7 +67,7 @@ applyTo: "**/*.{ext1,ext2}"
 
 ## 3. Creating a New Agent
 
-If the existing 9 agents (Zeus, Athena, Apollo, Hermes, Aphrodite, Maat, Temis, Ra, Mnemosyne) cannot handle a specific domain, you can create a new specialized agent.
+If the existing agents (Zeus, Athena, Apollo, Hermes, Aphrodite, Maat, Temis, Ra, Mnemosyne, Artemis, Gaia, and any you've added) cannot handle a specific domain, you can create a new specialized agent.
 
 ### The Agent File
 Create a new file in `/agents/` named `[agent-name].agent.md`.
