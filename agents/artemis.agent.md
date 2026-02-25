@@ -12,6 +12,11 @@ tools:
   - execute/runInTerminal
   - execute/testFailure
   - vscode/runCommand
+handoffs:
+  - label: "🚨 Escalate to Zeus"
+    agent: zeus
+    prompt: "This fix is more complex than expected and requires multi-agent orchestration. Please take over."
+    send: false
 user-invocable: true
 disable-model-invocation: true
 ---

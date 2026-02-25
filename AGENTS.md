@@ -378,6 +378,41 @@ User: /optimize-database GET /products endpoint slow
 ⏸️  MANDATORY STOP: User commits to git
 ```
 
+### Pattern 4: Hotfix (Artemis — Express Lane)
+```
+User: /fix CSS bug MobileMenuButton missing hidden class
+
+1. Artemis searches (TARGETED — 1-3 searches max)
+   └─ Find the component file directly
+
+2. Artemis fixes (NO TDD REQUIRED FOR TRIVIAL FIX)
+   ├─ Edit the file directly
+   ├─ Run existing tests to verify no regressions
+   └─ Report change in 1-2 lines
+
+⏸️  MANDATORY STOP: User commits to git
+```
+
+### Pattern 5: Infrastructure Change (Ra)
+```
+User: /deploy Add Redis container to docker-compose
+
+1. Apollo discovers (optional, if codebase unfamiliar)
+   └─ Find existing compose files and service configs
+
+2. Ra implements
+   ├─ Adds Redis service to docker-compose.yml
+   ├─ Configures healthchecks and restart policies
+   ├─ Updates env template (.env.example)
+   └─ Documents startup order
+
+3. Ra validates
+   ├─ Dry-run: docker-compose config (no errors)
+   └─ Startup test: all services healthy
+
+⏸️  MANDATORY STOP: User commits to git
+```
+
 ---
 
 ## 🧠 CONTEXT WINDOW MANAGEMENT
@@ -669,7 +704,7 @@ model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 # Opus for strategic planning, long multi-step decomposition, and high-agency workflows
 
 # Apollo (Discovery)
-model: ['Gemini 3 Flash (copilot)', 'Claude Haiku 4.5 (copilot)']
+model: ['Gemini 3 Flash (Preview) (copilot)', 'Claude Haiku 4.5 (copilot)']
 # Flash for fast parallel searches
 
 # Hermes (Backend)
@@ -691,6 +726,14 @@ model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
 # Mnemosyne (Memory)
 model: ['Claude Haiku 4.5 (copilot)']  
 # Haiku is sufficient for documentation
+
+# Ra (Infrastructure)
+model: ['Claude Sonnet 4.6 (copilot)']
+# Sonnet for Docker, compose, CI/CD, and deployment code
+
+# Artemis (Hotfix)
+model: ['Claude Sonnet 4.6 (copilot)']
+# Sonnet for precise, fast bug fixes and minor repairs
 
 # Gaia (Domain Specialist — Remote Sensing)
 model: ['Claude Sonnet 4.6 (copilot)', 'Claude Opus 4.6 (copilot)']

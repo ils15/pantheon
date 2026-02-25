@@ -5,12 +5,13 @@ argument-hint: "Feature or epic to plan — describe the requirement, goal, and 
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools:
   - agent
+  - agent/askQuestions
   - search/codebase
   - search/usages
   - search/fileSearch
   - search/textSearch
   - web/fetch
-agents: ['apollo']
+agents: ['apollo', 'mnemosyne']
 handoffs:
   - label: "🚀 Implement Plan"
     agent: zeus
@@ -59,6 +60,20 @@ Before ANY research, plan creation, or analysis, you MUST:
 - **Strength**: TDD workflow, async/await patterns, type safety
 - **Returns**: Working code with >80% test coverage
 
+### 3. Aphrodite - THE FRONTEND DEVELOPER
+- **Role**: React component and page implementation, responsive design, WCAG accessibility
+- **When to use**: "Build ProductCard component", "Create admin dashboard page"
+- **Strength**: TDD for UI, Tailwind, TypeScript strict, browser verification
+- **Returns**: Tested components with >80% coverage
+
+### 4. Maat - THE DATABASE DEVELOPER
+- **Role**: SQLAlchemy models, Alembic migrations, query optimization, N+1 prevention
+- **When to use**: "Add index on products.created_at", "Migrate users table schema"
+- **Strength**: Zero-downtime migrations, backward compatibility, EXPLAIN ANALYZE
+- **Returns**: Migration files with upgrade/downgrade tested
+
+> **Note**: Athena directly invokes Apollo (#1) only. Hermes, Aphrodite, and Maat are invoked by Zeus after plan approval — use the handoff button below.
+
 ## Planning Process
 
 ### Step 1: Understand Requirements
@@ -67,19 +82,18 @@ Before ANY research, plan creation, or analysis, you MUST:
 - What needs to be built?
 
 ### Step 2: Research Phase
-Delegate to specialized agents:
+Delegate to Apollo for all codebase discovery (Athena only calls Apollo directly):
 ```
 @apollo Find:
   - All React components in admin/pages/
   - All FastAPI routers for authentication
   - All database models related to users
+  - Current authentication architecture and API design patterns
+  - State management strategies in use
   - Relevant docs or public GitHub references (issues/PRs/READMEs)
-
-@aphrodite Analyze:
-  - Current authentication architecture
-  - API design patterns used
-  - State management strategies
 ```
+
+> Implementation delegation (hermes, aphrodite, maat) happens after plan approval via handoff to Zeus — not directly from Athena.
 
 ### Step 3: Create CONCISE Implementation Plan
 

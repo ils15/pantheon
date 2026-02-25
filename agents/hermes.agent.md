@@ -4,6 +4,8 @@ description: "Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→
 argument-hint: "Backend task: endpoint, service, router, schema, or test — include module name and expected behaviour (e.g. 'POST /users endpoint with email uniqueness validation')"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
 tools:
+  - agent
+  - agent/askQuestions
   - search/codebase
   - search/usages
   - read/readFile
@@ -13,13 +15,12 @@ tools:
   - execute/testFailure
   - execute/getTerminalOutput
   - search/changes
-  - agent
 handoffs:
   - label: "➡️ Send to Temis"
     agent: temis
     prompt: "Please perform a code review and security audit on these backend changes according to your instructions."
     send: false
-agents: ['apollo']
+agents: ['apollo', 'mnemosyne']
 user-invocable: true
 ---
 
@@ -143,11 +144,10 @@ When creating a new feature:
 
 ## When to Delegate
 
-- **@aphrodite**: When you need React components
-- **@maat**: For Alembic migrations or complex SQL queries
-- **@ra**: For Docker deployment or Traefik configuration
-- **@mnemosyne**: For ALL documentation (MANDATORY)
-- **@temis**: For code review or E2E testing
+- **@apollo** (via `agent` tool): For codebase discovery — find existing patterns, related files, async examples
+- **@mnemosyne** (via `agent` tool): For ALL artifact creation — `@mnemosyne Create artifact: IMPL-phase<N>-hermes` (MANDATORY after each phase)
+- **@temis** (via handoff button): For code review and security audit when phase is complete
+- **@aphrodite / @maat / @ra**: Route through **Zeus** — Hermes cannot directly invoke these agents
 
 ## Handoff Strategy (VS Code 1.108+)
 

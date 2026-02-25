@@ -4,6 +4,8 @@ description: "Database specialist — SQLAlchemy 2.0, Alembic, query optimizatio
 argument-hint: "Database task: migration, schema change, query optimization, or index strategy — include table names and constraints (e.g. 'add index on products.created_at for cursor pagination')"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
 tools:
+  - agent
+  - agent/askQuestions
   - search/codebase
   - search/usages
   - read/readFile
@@ -12,6 +14,7 @@ tools:
   - execute/runInTerminal
   - execute/testFailure
   - execute/getTerminalOutput
+agents: ['apollo', 'mnemosyne']
 handoffs:
   - label: "➡️ Send to Temis"
     agent: temis

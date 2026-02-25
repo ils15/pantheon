@@ -4,6 +4,8 @@ description: "Frontend specialist — React 19, TypeScript strict, WCAG accessib
 argument-hint: "Frontend task: component, page, hook, or styling — include name, props, and UX behaviour (e.g. 'ProductCard with image, title, price and add-to-cart button')"
 model: ['Gemini 3.1 Pro (Preview) (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools:
+  - agent
+  - agent/askQuestions
   - search/codebase
   - search/usages
   - read/readFile
@@ -13,7 +15,6 @@ tools:
   - execute/testFailure
   - execute/getTerminalOutput
   - search/changes
-  - agent
   - mcp_browser_takeScreenshot
   - mcp_browser_getConsoleErrors
   - mcp_browser_runAccessibilityAudit
@@ -22,7 +23,7 @@ handoffs:
     agent: temis
     prompt: "Please perform a code review and accessibility audit on these frontend changes according to your instructions."
     send: false
-agents: ['apollo']
+agents: ['apollo', 'mnemosyne']
 user-invocable: true
 ---
 

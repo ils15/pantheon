@@ -5,6 +5,7 @@ argument-hint: "Describe the feature, bug, or epic to orchestrate (Zeus plans, d
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools:
   - agent
+  - agent/askQuestions
   - vscode/runCommand
   - execute/runInTerminal
   - read/readFile
@@ -182,10 +183,16 @@ Full debugging guide with 7-step process in documentation.
 - **Returns**: Infrastructure code, deployment procedures
 
 ### 8. Artemis (HOTFIX) - THE EXPRESS REPAIR
-- **Model**: Claude Sonnet 4.6 (copilot) + GPT-5.3-Codex (copilot)
+- **Model**: Claude Sonnet 4.6 (copilot)
 - **Role**: Precise, fast bug fixes and minor adjustments (CSS, typos)
 - **Use for**: Bypassing the heavy orchestration phase for quick wins, executing fast repairs
 - **Returns**: Directly applied code changes and test verifications
+
+### 9. Mnemosyne (MEMORY) - THE MEMORY KEEPER
+- **Model**: Claude Haiku 4.5 (copilot)
+- **Role**: Memory bank management, artifact persistence, ADR writing, sprint close
+- **Use for**: Creating PLAN/IMPL/REVIEW/DISC artifacts, project initialization, sprint documentation
+- **Returns**: Confirmation of saved artifacts, updated `docs/memory-bank/` files
 
 ## Orchestration Workflow
 

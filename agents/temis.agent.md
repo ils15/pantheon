@@ -4,13 +4,17 @@ description: "Quality & security gate — reviews only changed files, OWASP Top 
 argument-hint: "What to review — point at the phase or changed files (e.g. 'review Phase 1: auth endpoints and JWT middleware added by hermes')"
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
 tools:
+  - agent
+  - agent/askQuestions
   - search/codebase
   - search/usages
+  - read/readFile
   - read/problems
   - search/changes
   - execute/runInTerminal
   - execute/testFailure
   - edit/editFiles
+agents: ['mnemosyne']
 handoffs:
   - label: "🔧 Fix Review Issues"
     agent: zeus

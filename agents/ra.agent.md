@@ -4,6 +4,8 @@ description: "Infrastructure specialist — Docker multi-stage builds, docker-co
 argument-hint: "Infrastructure task: Dockerfile, compose service, CI/CD workflow, or env setup — describe the service and deployment target (e.g. 'multi-stage Dockerfile for FastAPI with non-root user and health check')"
 model: ['Claude Sonnet 4.6 (copilot)']
 tools:
+  - agent
+  - agent/askQuestions
   - search/codebase
   - search/usages
   - read/readFile
@@ -17,6 +19,7 @@ handoffs:
     agent: mnemosyne
     prompt: "Please document the new infrastructure changes and deployment procedures in the Memory Bank."
     send: false
+agents: ['mnemosyne']
 user-invocable: true
 ---
 
