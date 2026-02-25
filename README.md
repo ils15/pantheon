@@ -132,7 +132,7 @@ Every phase produces a structured **artifact** (a file in `docs/memory-bank/.tmp
 
 ---
 
-## The 10 Agents
+## The 11 Agents
 
 | Agent | Role | Invoked when |
 |---|---|---|
@@ -146,6 +146,7 @@ Every phase produces a structured **artifact** (a file in `docs/memory-bank/.tmp
 | **Ra** | Infrastructure | Docker, CI/CD, zero-downtime deployments, Traefik |
 | **Artemis** | Hotfix specialist | Rapid bug fixes, CSS tweaks, typos — bypasses orchestration |
 | **Mnemosyne** | Memory owner | Sprint close, ADR recording, task documentation |
+| **Gaia** | Remote sensing expert | LULC analysis, inter-product agreement, scientific literature, raster pipelines |
 
 Each agent is defined in its own `.agent.md` file with a specific model assignment, tool set, and behavioral rules. See [AGENTS.md](AGENTS.md) for the full reference.
 
@@ -375,7 +376,7 @@ copilot-agents/
 ├── .github/
 │   └── copilot-instructions.md   — global rules (auto-read every Copilot session)
 │
-├── agents/                 — 9 agent definitions (.agent.md)
+├── agents/                 — 10 agent definitions (.agent.md)
 │   ├── zeus.agent.md       orchestrator
 │   ├── athena.agent.md     planner
 │   ├── apollo.agent.md     discovery
@@ -384,7 +385,9 @@ copilot-agents/
 │   ├── maat.agent.md       database
 │   ├── temis.agent.md      reviewer
 │   ├── ra.agent.md         infrastructure
-│   └── mnemosyne.agent.md  memory
+│   ├── artemis.agent.md    hotfix
+│   ├── mnemosyne.agent.md  memory
+│   └── gaia.agent.md       remote sensing domain specialist
 │
 ├── instructions/           — per-domain coding standards
 │   ├── artifact-protocol.instructions.md    ← artifact system rules
@@ -534,4 +537,4 @@ Yes. Read `AGENTS.md` for the architecture, then create a new `.agent.md` file i
 
 ---
 
-**Version:** 2.2 &nbsp;|&nbsp; **Updated:** February 2026 &nbsp;|&nbsp; **License:** MIT
+**Version:** 2.3 &nbsp;|&nbsp; **Updated:** February 2026 &nbsp;|&nbsp; **License:** MIT

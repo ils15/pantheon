@@ -3,7 +3,7 @@
 ## 🏛️ Agent Architecture
 
 Architecture based on **Conductor-Delegate pattern** with 11 agents:
-- 1 Orchestrator (Zeus) + 9 Specialized Subagents + 1 Domain Expert (RemoteSensingExpert)
+- 1 Orchestrator (Zeus) + 9 Specialized Subagents + 1 Domain Specialist (Gaia)
 
 ### Orchestrator Tier
 
@@ -168,20 +168,20 @@ Infrastructure, Docker containerization, deployment orchestration.
 
 ### Domain Specialist Tier
 
-#### 🛰️ **RemoteSensingExpert** (agents/remote-sensing-expert.agent.md)
-Especialista em sensoriamento remoto — pesquisa científica, análise de produtos LULC e processamento de imagens.
+#### 🌍 **Gaia** (agents/gaia.agent.md)
+Remote sensing domain expert — scientific literature research, LULC analysis, and geospatial image processing.
 
-**When to use:** Análise de produtos LULC (MapBiomas, CGLS, ESRI, GLAD), métricas de acordância inter-produto, pesquisa de literatura em revistas indexadas (MDPI Remote Sensing, RSE, IEEE TGRS, ISPRS), revisão técnico-científica de processamento raster, recomendações metodológicas baseadas em evidências  
+**When to use:** Analysis of LULC products (MapBiomas, CGLS, ESRI, GLAD, ESA WorldCover), inter-product agreement metrics, scientific literature search in indexed journals (MDPI Remote Sensing, RSE, IEEE TGRS, ISPRS), technical-scientific review of raster processing pipelines, evidence-based methodological recommendations  
 **Specialization:** LULC agreement metrics, temporal frequency analysis, raster processing, spatial statistics, scientific literature search  
 **Tools:** `search/codebase`, `search/usages`, `read/readFile`, `web/fetch`, `search/fileSearch`, `search/textSearch`, `search/listDirectory`  
 **Skills:** remote-sensing-analysis  
 
-**Capacidades:**
-- Busca paralela em IEEE TGRS, Remote Sensing of Environment, MDPI, ISPRS, arXiv
-- Análise de implementações Python/R de sensoriamento remoto no codebase
-- Métricas de acordância: Kappa, OA, F1, Dice, frequência temporal
-- Revisão de pipelines raster com embasamento na literatura
-- Recomendação de métodos de ensemble de produtos LULC
+**Capabilities:**
+- Parallel search across IEEE TGRS, Remote Sensing of Environment, MDPI, ISPRS, arXiv
+- Analysis of Python/R remote sensing implementations in the codebase
+- Agreement metrics: Kappa, OA, F1, Dice, temporal frequency
+- Raster pipeline review grounded in scientific literature
+- LULC product ensemble method recommendations
 
 ---
 
@@ -608,6 +608,8 @@ Each agent can be invoked directly for bypass orchestration:
 
 @artemis: Fix the hidden lg:flex CSS bug on MobileMenuButton.tsx
 
+@gaia: Analyze inter-product agreement metrics and recommend ensemble method
+
 @zeus: Orchestrate full feature implementation
 ```
 
@@ -627,6 +629,7 @@ Each agent can be invoked directly for bypass orchestration:
 | Code review | temis | `/review-code` |
 | Document architectural decisions (ADRs) | mnemosyne | Direct: @mnemosyne |
 | Initialize project.md | mnemosyne | Direct: @mnemosyne |
+| Remote sensing / LULC analysis | gaia | Direct: @gaia |
 | Coordinate feature | zeus | `/implement-feature` |
 
 ---
@@ -688,6 +691,10 @@ model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
 # Mnemosyne (Memory)
 model: ['Claude Haiku 4.5 (copilot)']  
 # Haiku is sufficient for documentation
+
+# Gaia (Domain Specialist — Remote Sensing)
+model: ['Claude Sonnet 4.6 (copilot)', 'Claude Opus 4.6 (copilot)']
+# Sonnet for scientific analysis; Opus fallback for complex methodology and literature synthesis
 ```
 
 **Changelog-aligned notes (VS Code 1.110):**
@@ -840,9 +847,9 @@ Each product maintains its own `docs/memory-bank/` with its own sprint state, de
 ---
 
 **Last Updated:** February 24, 2026  
-**Total Agents:** 11 (1 orchestrator + 9 specialized + 1 domain expert)  
+**Total Agents:** 11 (1 orchestrator + 9 specialized + 1 domain specialist)  
 **Total Skills:** 18  
 **Total Custom Instructions:** 6  
 **Total Prompt Files:** 6  
 **Architecture Pattern:** Conductor-Delegate  
-**Mythology Reference:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Artemis, Temis/Thêmis, Mnemosyne), Egyptian (Ra, Maat)
+**Mythology Reference:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Artemis, Temis/Thêmis, Mnemosyne, **Gaia**), Egyptian (Ra, Maat)
