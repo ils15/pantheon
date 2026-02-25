@@ -80,51 +80,9 @@ You are a **database implementation specialist** (Maat) focused on SQLAlchemy as
 - Define constraints and validation rules
 - Plan for scalability and performance
 
-## Project Context (OfertasDaChina)
+## Project Context
 
-### Current Database: MariaDB 11.0
-- **Migration to PostgreSQL planned for Q1 2026**
-- Connection: async SQLAlchemy
-- ORM: SQLAlchemy 2.0+ with async support
-
-### Main Models (`backend/models/`)
-```python
-models/
-├── user.py              # User, UserRole
-├── product.py           # Product, ProductVariant
-├── offer.py             # Offer, OfferType
-├── media.py             # MediaFile, MediaType
-├── category.py          # Category (hierarchical)
-├── brand.py             # Brand
-├── store.py             # Store
-├── rating.py            # Rating, Comment
-├── banner.py            # Banner, BannerPosition
-├── price_history.py     # PriceHistory
-├── admin_log.py         # AdminLog (audit trail)
-└── setting.py           # SystemSetting
-```
-
-### Relationships
-```python
-# Product has many relationships
-Product:
-  - category_id → Category (many-to-one)
-  - brand_id → Brand (many-to-one)
-  - store_id → Store (many-to-one)
-  - variants → ProductVariant[] (one-to-many)
-  - ratings → Rating[] (one-to-many)
-  - media → MediaFile[] (many-to-many via association table)
-  - price_history → PriceHistory[] (one-to-many)
-```
-
-### Migration Location
-```
-backend/alembic/versions/
-├── 001_initial_schema.py
-├── 002_add_media_table.py
-├── 003_add_r2_integration.py
-└── ...
-```
+> **Adopt this agent for your product:** Replace this section with your database engine, ORM version, model structure, and migration path. Store that context in `/memories/repo/` (auto-loaded at zero token cost) or reference `docs/memory-bank/`.
 
 ## Implementation Process
 

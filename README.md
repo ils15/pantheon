@@ -408,7 +408,7 @@ copilot-agents/
 │   └── orchestrate-with-zeus.prompt.md
 │
 ├── skills/                 — reference documentation (24 directories)
-│   ├── 9-agent-coordination/       start here — agent selection guide
+│   ├── agent-coordination/         start here — agent selection guide
 │   ├── orchestration-workflow/     step-by-step real-world walkthrough
 │   ├── tdd-with-agents/            TDD standards and examples
 │   ├── artifact-management/        memory bank structure
@@ -530,7 +530,7 @@ Yes. Read `AGENTS.md` for the architecture, then create a new `.agent.md` file i
 |---|---|
 | [AGENTS.md](AGENTS.md) | Full agent reference — behavior, tools, constraints |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to extend the framework |
-| [skills/9-agent-coordination/](skills/9-agent-coordination/SKILL.md) | Agent selection guide — when to use which agent |
+| [skills/agent-coordination/](skills/agent-coordination/SKILL.md) | Agent selection guide — when to use which agent |
 | [skills/orchestration-workflow/](skills/orchestration-workflow/SKILL.md) | Real-world step-by-step walkthrough |
 | [skills/tdd-with-agents/](skills/tdd-with-agents/SKILL.md) | TDD standards and coverage rules |
 | [instructions/memory-bank-standards.instructions.md](instructions/memory-bank-standards.instructions.md) | Memory architecture — how agents read and write context |

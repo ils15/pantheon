@@ -1,11 +1,11 @@
 ---
 name: tdd-with-agents
-description: "Comprehensive TDD enforcement guide for the 9-agent system - RED→GREEN→REFACTOR cycle across backend, frontend, and database agents"
+description: "Comprehensive TDD enforcement guide — RED→GREEN→REFACTOR cycle across backend, frontend, and database agents"
 ---
 
 # TDD Enforcement Across All Implementation Agents
 
-Comprehensive guide to Test-Driven Development (TDD) workflow as implemented by Hermes (backend), Aphrodite (frontend), and Maat (database) agents. This ensures consistent RED → GREEN → REFACTOR cycle across the entire 9-agent system.
+Comprehensive guide to Test-Driven Development (TDD) workflow as implemented by Hermes (backend), Aphrodite (frontend), and Maat (database) agents. This ensures consistent RED → GREEN → REFACTOR cycle across all implementation agents.
 
 ---
 

@@ -1,6 +1,6 @@
 # Contributing to VSCode Copilot Agents
 
-Welcome to the 9-Agent Orchestration System! This system is designed to be highly modular and extensible. Since this architecture leverages specialized VS Code Copilot agents, contributing means extending its cognitive capabilities rather than just adding code.
+Welcome to the Multi-Agent Orchestration System! This system is designed to be highly modular and extensible. Since this architecture leverages specialized VS Code Copilot agents, contributing means extending its cognitive capabilities rather than just adding code.
 
 This guide explains how to add new Skills, Instructions, and Agents to the system properly.
 
@@ -101,7 +101,7 @@ For your new agent to be part of the orchestration, you must register it with th
 
 🚨 **CRITICAL RULE:** Do NOT create standalone `.md` documentation files for features inside the repository tree.
 
-The 9-Agent system strictly follows a "Memory Bank" philosophy:
+The agent system strictly follows a "Memory Bank" philosophy:
 - **All architectural plans, state tracking, and feature documentation** must be placed exclusively in the `/docs/memory-bank/` directory by the `@mnemosyne` agent.
 - Operational knowledge belongs in code comments and git commit messages.
 

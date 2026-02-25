@@ -1,11 +1,11 @@
 ---
 name: orchestration-workflow
-description: "Practical step-by-step walkthrough for orchestrating features end-to-end using the 9-agent system, from planning through deployment"
+description: "Practical step-by-step walkthrough for orchestrating features end-to-end using the multi-agent system, from planning through deployment"
 ---
 
 # Orchestration Workflow: Step-by-Step Guide
 
-Practical walkthrough for using the 9-agent system end-to-end. This is your "how-to" guide for orchestrating features from planning through production deployment.
+Practical walkthrough for using the multi-agent system end-to-end. This is your "how-to" guide for orchestrating features from planning through production deployment.
 
 ---
 
@@ -25,7 +25,7 @@ Practical walkthrough for using the 9-agent system end-to-end. This is your "how
 Open VS Code, start a chat with Copilot:
 
 ```
-@aphrodite: Plan JWT authentication with refresh tokens
+@athena: Plan JWT authentication with refresh tokens
 
 Requirements:
 - User login with email + password
@@ -697,15 +697,15 @@ Artifacts:       4 documents (plan + 3 phases + complete)
 ## Next Steps
 
 1. ✅ Read this guide (done!)
-2. ✅ Review agent reference in `9-agent-coordination/SKILL.md`
+2. ✅ Review agent reference in `agent-coordination/SKILL.md`
 3. ✅ Review TDD standards in `tdd-with-agents/SKILL.md`
 4. ✅ Review artifacts in `artifact-management/SKILL.md`
-5. 🚀 Start your first feature: `@aphrodite: Plan [your idea]`
+5. 🚀 Start your first feature: `@athena: Plan [your idea]`
 
 ---
 
 **Version:** 1.0  
-**Purpose:** Practical walkthrough of 9-agent system  
+**Purpose:** Practical walkthrough of multi-agent system  
 **Time to complete:** Your first feature in 1-2 days  
 **Status:** Ready to use
 

@@ -1,5 +1,5 @@
 ---
-name: 9-agent-coordination
+name: agent-coordination
 description: "Master guide to orchestrating the multi-agent system for rapid, TDD-driven feature development with guaranteed code quality and audit trails"
 ---
 

@@ -9,7 +9,7 @@ Custom Agent Skills for VS Code Copilot. Skills are folders with instructions, s
 ### Orchestration & Coordination
 | Skill | Purpose |
 |---|---|
-| **9-agent-coordination** | Master guide to the 9-agent system for TDD-driven feature development |
+| **agent-coordination** | Master guide to the multi-agent system for TDD-driven feature development |
 | **orchestration-workflow** | Step-by-step walkthrough for orchestrating features end-to-end |
 | **artifact-management** | Artifact trail system — plans directory structure, templates, documentation |
 | **tdd-with-agents** | TDD enforcement across all agents — RED→GREEN→REFACTOR cycle |

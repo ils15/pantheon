@@ -282,7 +282,7 @@ For parallel discovery without context contamination:
 ### Direct Delegation vs Isolated
 
 - ✓ **Direct @hermes**: When you need to build context (architecture analysis)
-- ✓ **#runSubagent hermes**: When finding unrelated patterns for comparison
+- ✓ **#runSubagent apollo**: When finding unrelated patterns for comparison
 - ✓ **Hand off to @zeus**: When plan is finalized and ready to execute
 
 ---

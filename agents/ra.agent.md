@@ -80,56 +80,9 @@ You are the **INFRASTRUCTURE TASK IMPLEMENTER** (Ra) called by Zeus for deployme
 - Backup and restore procedures
 - Troubleshooting container issues
 
-## Project Context (OfertasDaChina)
+## Project Context
 
-### 3-Layer Architecture
-
-```
-services/
-├── database/              # Layer 1: Database
-│   ├── docker-compose.yml
-│   └── init.sql
-├── infra/                 # Layer 2: Infrastructure
-│   ├── docker-compose.yml
-│   ├── traefik/
-│   │   ├── traefik.yml
-│   │   └── dynamic.yml
-│   ├── redis/
-│   └── elasticsearch/
-└── website/               # Layer 3: Application
-    ├── docker-compose.yml
-    ├── frontend/
-    │   └── Dockerfile
-    └── backend/
-        └── Dockerfile
-```
-
-### Service Map
-
-| Service | Layer | Port | Purpose |
-|---------|-------|------|---------|
-| **mariadb** | database | 3306 | Database |
-| **traefik** | infra | 80, 443, 8080 | Reverse Proxy |
-| **redis** | infra | 6379 | Cache |
-| **elasticsearch** | infra | 9200 | Search (optional) |
-| **frontend** | website | 3000 | React app |
-| **backend** | website | 8000 | FastAPI |
-
-### Startup Order (CRITICAL!)
-
-```bash
-# MUST start in this order:
-1. Database Layer (mariadb)
-  cd /path/to/website/services/database && docker-compose up -d
-
-2. Infra Layer (traefik + redis)
-  cd /path/to/website/services/infra && docker-compose up -d
-
-3. Website Layer (frontend + backend)
-  cd /path/to/website/services/website && docker-compose up -d
-```
-
-**⚠️ NEVER expose port 80 from frontend - Traefik controls it!**
+> **Adopt this agent for your product:** Replace this section with your service architecture, layer map, and startup order. Store that context in `/memories/repo/` (auto-loaded at zero token cost) or reference `docs/memory-bank/`.
 
 ## Implementation Examples
 
@@ -163,7 +116,7 @@ services:
     build:
       context: ../../backend
       dockerfile: Dockerfile
-    container_name: ofertachina-backend
+    container_name: myapp-backend
     restart: unless-stopped
     ports:
       - "8000:8000"
@@ -178,7 +131,7 @@ services:
       - ../../backend:/app
       - /app/__pycache__
     networks:
-      - ofertachina
+      - myapp
     depends_on:
       mariadb:
         condition: service_healthy
@@ -192,8 +145,8 @@ services:
       start_period: 40s
 
 networks:
-  ofertachina:
-    name: ofertachina
+  myapp:
+    name: myapp
     driver: bridge
 ```
 
@@ -214,7 +167,7 @@ entryPoints:
 providers:
   docker:
     exposedByDefault: false
-    network: ofertachina
+    network: myapp
   file:
     filename: /etc/traefik/dynamic.yml
 
@@ -280,10 +233,10 @@ docker ps
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
 # Check specific service logs
-docker logs -f ofertachina-backend
+docker logs -f myapp-backend
 
 # Check healthcheck status
-docker inspect --format='{{.State.Health.Status}}' ofertachina-backend
+docker inspect --format='{{.State.Health.Status}}' myapp-backend
 ```
 
 ### Rebuilding After Code Changes
@@ -320,10 +273,10 @@ kill -9 <PID>
 docker network ls
 
 # Inspect network
-docker network inspect ofertachina
+docker network inspect myapp
 
 # Reconnect service to network
-docker network connect ofertachina <container_name>
+docker network connect myapp <container_name>
 ```
 
 ## Best Practices
