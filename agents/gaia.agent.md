@@ -12,6 +12,7 @@ tools:
   - read/readFile
   - web/fetch
 user-invocable: true
+disable-model-invocation: true
 ---
 
 # 🌍 Gaia — Remote Sensing Domain Specialist

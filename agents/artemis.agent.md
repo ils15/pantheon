@@ -13,6 +13,7 @@ tools:
   - execute/testFailure
   - vscode/runCommand
 user-invocable: true
+disable-model-invocation: true
 ---
 
 # Artemis - Hotfix & Rapid Repair

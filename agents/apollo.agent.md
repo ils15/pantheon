@@ -370,15 +370,38 @@ Returns: Structured report with root cause hypothesis
 
 ## Output Format
 
-Always return:
+Always return **structured findings** — your output is consumed by parent agents and must be parseable:
 
-1. **Summary** - What was searched, count of results
-2. **Key Files** - Priority-ordered list of important files
-3. **File Relationships** - How files connect (imports, dependencies)
-4. **Patterns Found** - Common conventions/approaches
-5. **Issues Identified** - Deprecated files, inconsistencies, missing tests
-6. **External Research Recommendations** - Docs or GitHub sources to consult
-7. **Next Steps** - Suggested delegation to specialized agents
+```
+## Discovery Report: <topic>
+
+### Summary
+- Files searched: N | Results found: M
+- Time scope: <e.g. recent changes only / full codebase>
+
+### Key Files (priority-ordered)
+1. path/to/file.py — <one-line purpose>
+2. path/to/file.ts — <one-line purpose>
+
+### File Relationships
+- file_a imports file_b (dependency)
+- file_c extends file_d (inheritance)
+
+### Patterns Found
+- <convention or approach observed>
+
+### Issues Identified
+- <deprecated file, inconsistency, missing test>
+
+### External Research Recommended
+- <URL or topic for Athena to fetch>
+
+### Suggested Next Agents
+- Hermes: <what to implement>
+- Aphrodite: <what to build>
+```
+
+> **When called as subagent** (`#runSubagent apollo`): return ONLY the structured report above — no preamble, no explanation, no raw file content. The parent agent receives only your final output.
 
 ## Speed Tips for You
 
