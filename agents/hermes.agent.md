@@ -19,7 +19,8 @@ handoffs:
     agent: temis
     prompt: "Please perform a code review and security audit on these backend changes according to your instructions."
     send: false
-user-invokable: true
+agents: ['apollo']
+user-invocable: true
 ---
 
 # Hermes - Backend Executor (FastAPI Specialist)

@@ -12,8 +12,7 @@ tools:
   - execute/runInTerminal
   - execute/testFailure
   - vscode/runCommand
-  - agent
-user-invokable: true
+user-invocable: true
 ---
 
 # Artemis - Hotfix & Rapid Repair

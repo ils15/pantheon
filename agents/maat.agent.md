@@ -12,13 +12,12 @@ tools:
   - execute/runInTerminal
   - execute/testFailure
   - execute/getTerminalOutput
-  - agent
 handoffs:
   - label: "➡️ Send to Temis"
     agent: temis
     prompt: "Please perform a code review and security audit on these database/migration changes."
     send: false
-user-invokable: true
+user-invocable: true
 ---
 
 # Maat - Database Specialist

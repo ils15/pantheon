@@ -12,13 +12,12 @@ tools:
   - execute/runInTerminal
   - execute/createAndRunTask
   - execute/getTerminalOutput
-  - agent
 handoffs:
   - label: "➡️ Document Infrastructure"
     agent: mnemosyne
     prompt: "Please document the new infrastructure changes and deployment procedures in the Memory Bank."
     send: false
-user-invokable: true
+user-invocable: true
 ---
 
 # Ra - Infrastructure Implementation Specialist

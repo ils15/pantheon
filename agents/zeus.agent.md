@@ -22,7 +22,7 @@ handoffs:
     agent: mnemosyne
     prompt: "Document the completed work and decisions in the Memory Bank."
     send: false
-user-invokable: true
+user-invocable: true
 ---
 
 # Zeus - Main Conductor
@@ -56,14 +56,14 @@ This agent definition focuses on Zeus role. For the routing algorithm, debugging
 Facts about stack, conventions, build commands, and architectural patterns are **automatically loaded** into context via `/memories/repo/`. You already have this — no explicit read needed.
 
 ### Tier 2: `docs/memory-bank/` (explicit read, for narrative context)
-Read `docs/memory-bank/active-context.md` **only when**:
+Read `docs/memory-bank/04-active-context.md` **only when**:
 - Starting work on a feature that has an active sprint/phase
 - You need to know what's currently in progress or recently decided
 - Onboarding to a new project for the first time
 
 **Do NOT** read the full memory bank before every task. Trust Tier 1 for facts. Read Tier 2 surgically.
 
-> If `docs/memory-bank/active-context.md` is empty or says "Nenhum" — proceed without reading further.
+> If `docs/memory-bank/04-active-context.md` is empty or says "Nenhum" — proceed without reading further.
 
 ## ⏸️ MANDATORY PAUSE POINTS — Human Approval Gates
 

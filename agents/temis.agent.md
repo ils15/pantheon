@@ -11,7 +11,6 @@ tools:
   - execute/runInTerminal
   - execute/testFailure
   - edit/editFiles
-  - agent
 handoffs:
   - label: "🔧 Fix Review Issues"
     agent: zeus
@@ -21,7 +20,7 @@ handoffs:
     agent: mnemosyne
     prompt: "Document the review findings and decisions above in the Memory Bank."
     send: false
-user-invokable: true
+user-invocable: true
 ---
 
 # Temis - Quality & Security Gate Specialist

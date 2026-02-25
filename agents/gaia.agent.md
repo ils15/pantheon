@@ -11,8 +11,7 @@ tools:
   - search/listDirectory
   - read/readFile
   - web/fetch
-  - agent
-user-invokable: true
+user-invocable: true
 ---
 
 # 🌍 Gaia — Remote Sensing Domain Specialist

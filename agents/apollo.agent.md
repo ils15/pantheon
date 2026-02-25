@@ -11,13 +11,12 @@ tools:
   - search/listDirectory
   - read/readFile
   - web/fetch
-  - agent
-user-invokable: false
+user-invocable: false
 ---
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check
 Before starting any search or exploration, you MUST:
-1. Read `docs/memory-bank/index.md` and `docs/memory-bank/architecture.md`.
+1. Read `docs/memory-bank/00-overview.md` and `docs/memory-bank/01-architecture.md` (if they have content — skip if they are empty templates).
 2. Do NOT search for architecture or patterns already documented in the Memory Bank.
 3. **Native-First Priority:** Use native tools (`codebase`, `usages`) first. Use third-party tools (external search) ONLY if explicitly requested by the user or if native tools are insufficient.
 

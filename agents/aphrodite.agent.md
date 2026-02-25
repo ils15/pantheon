@@ -22,7 +22,8 @@ handoffs:
     agent: temis
     prompt: "Please perform a code review and accessibility audit on these frontend changes according to your instructions."
     send: false
-user-invokable: true
+agents: ['apollo']
+user-invocable: true
 ---
 
 # Aphrodite - React Implementation Specialist

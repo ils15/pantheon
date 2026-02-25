@@ -7,9 +7,9 @@ tools:
   - search/usages
   - read/readFile
   - edit/editFiles
-  - agent
+agents: []
 argument-hint: "What to document: 'initialize project' | 'close sprint' | 'record decision TOPIC' | 'create task DESCRIPTION'"
-user-invokable: true
+user-invocable: true
 ---
 
 # Mnemosyne - Memory Agent
@@ -103,8 +103,8 @@ Artifact naming convention (all land in `.tmp/` except ADR):
 ## Memory Architecture
 
 ### Native memory — primary, no action from you
-- `/memories/repo/` — atomic facts (stack, commands, conventions). **Any agent writes here directly.**
-- `/memories/session/` — conversation plans, ephemeral. **Athena or any agent writes here.**
+- `/memories/repo/` — atomic facts (stack, commands, conventions). **Any agent writes here via `edit/editFiles` using the required JSON format (`subject`, `fact`, `citations`, `reason`, `category`).** VS Code auto-loads these into every agent context — no explicit `read` call needed.
+- `/memories/session/` — conversation plans, ephemeral. **Any agent writes here via `edit/editFiles`.** Read explicitly with `read/readFile` when needed.
 
 ### `docs/memory-bank/` — what you own
 ```
