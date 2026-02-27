@@ -99,7 +99,7 @@ class ProductPage(BasePage):
     """Product search and listing page"""
     
     # Selectors
-    SEARCH_INPUT = 'input[placeholder="Buscar ofertas"]'
+    SEARCH_INPUT = 'input[placeholder="Search deals"]'
     SEARCH_BUTTON = 'button[type="submit"]'
     PRODUCT_CARD = '.product-card'
     PRODUCT_TITLE = '.product-title'
@@ -145,8 +145,8 @@ class ProductPage(BasePage):
         
         for element in price_elements:
             text = await element.text_content()
-            # Parse "R$ 99,99" → 99.99
-            price = float(text.replace("R$", "").replace(",", ".").strip())
+            # Parse "$ 99.99" → 99.99
+            price = float(text.replace("$", "").replace(",", ".").strip())
             prices.append(price)
         
         return (min(prices), max(prices)) if prices else (0, 0)
@@ -225,7 +225,7 @@ class TestProductSearch:
         assert count == 0, "Should return no products"
         
         # Verify "no results" message
-        await product_page.expect_text('.no-results', "Nenhum produto encontrado")
+        await product_page.expect_text('.no-results', "No products found")
     
     @pytest.mark.asyncio
     async def test_filter_by_category(self, product_page: ProductPage):
@@ -247,7 +247,7 @@ class TestProductSearch:
     @pytest.mark.asyncio
     async def test_pagination(self, product_page: ProductPage):
         """Should paginate results"""
-        await product_page.search("teclado")
+        await product_page.search("mouse")
         
         # Get products on page 1
         count_page1 = await product_page.get_product_count()

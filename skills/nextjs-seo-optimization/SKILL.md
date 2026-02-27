@@ -25,28 +25,28 @@ Use this skill when:
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'OfertaChina - Melhores Cupons e Ofertas',
-  description: 'Encontre as melhores ofertas da AliExpress e plataformas chinesas. Cupons exclusivos, frete grátis e cashback.',
-  keywords: 'ofertas AliExpress, cupons, cashback, frete grátis',
-  metadataBase: new URL('https://ofertachina.com'),
+  title: 'MyShop - Best Deals and Coupons',
+  description: 'Find the best deals from top marketplaces. Exclusive coupons, free shipping and cashback.',
+  keywords: 'deals, coupons, cashback, free shipping',
+  metadataBase: new URL('https://myshop.com'),
   openGraph: {
     type: 'website',
-    locale: 'pt_BR',
-    url: 'https://ofertachina.com',
-    siteName: 'OfertaChina',
+    locale: 'en_US',
+    url: 'https://myshop.com',
+    siteName: 'MyShop',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'OfertaChina - Melhores ofertas online'
+        alt: 'MyShop - Best deals online'
       }
     ]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'OfertaChina',
-    description: 'Melhores cupons e ofertas da AliExpress',
+    title: 'MyShop',
+    description: 'Best coupons and deals from top marketplaces',
     images: ['/og-image.png']
   },
   robots: {
@@ -64,7 +64,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-BR">
+    <html lang="en">
       <head>
         {/* Additional meta tags */}
         <meta charSet="utf-8" />
@@ -97,19 +97,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!product) {
     return {
-      title: 'Produto não encontrado',
-      description: 'O produto solicitado não existe'
+      title: 'Product not found',
+      description: 'The requested product does not exist'
     }
   }
 
   // Dynamic metadata based on product data
   return {
-    title: `${product.title} | OfertaChina`,
+    title: `${product.title} | MyShop`,
     description: product.description.substring(0, 160),
-    keywords: `${product.title}, cupom, oferta, ${product.category}`,
+    keywords: `${product.title}, coupon, deal, ${product.category}`,
     openGraph: {
       type: 'product',
-      url: `https://ofertachina.com/products/${product.slug}`,
+      url: `https://myshop.com/products/${product.slug}`,
       title: product.title,
       description: product.description,
       images: [
@@ -143,7 +143,7 @@ export default async function ProductPage({ params }: Props) {
   const product = await getProduct(params.slug)
 
   if (!product) {
-    return <div>Produto não encontrado</div>
+    return <div>Product not found</div>
   }
 
   return (
@@ -170,7 +170,7 @@ export default function ProductPage({ product }) {
     name: product.title,
     description: product.description,
     image: product.imageUrl,
-    url: `https://ofertachina.com/products/${product.slug}`,
+    url: `https://myshop.com/products/${product.slug}`,
     sku: product.sku,
     brand: {
       '@type': 'Brand',
@@ -178,14 +178,14 @@ export default function ProductPage({ product }) {
     },
     offers: {
       '@type': 'Offer',
-      url: `https://ofertachina.com/products/${product.slug}`,
-      priceCurrency: 'BRL',
+      url: `https://myshop.com/products/${product.slug}`,
+      priceCurrency: 'USD',
       price: product.price.toString(),
       priceValidUntil: product.expiresAt,
       availability: product.inStock ? 'InStock' : 'OutOfStock',
       seller: {
         '@type': 'Organization',
-        name: 'OfertaChina'
+        name: 'MyShop'
       }
     },
     aggregateRating: product.rating ? {
@@ -215,7 +215,7 @@ import { MetadataRoute } from 'next'
 import { getAllProducts } from '@/lib/api'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://ofertachina.com'
+  const baseUrl = 'https://myshop.com'
   
   // Static routes
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -277,7 +277,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/',
       },
     ],
-    sitemap: 'https://ofertachina.com/sitemap.xml',
+    sitemap: 'https://myshop.com/sitemap.xml',
   }
 }
 ```
@@ -291,7 +291,7 @@ interface CanonicalURLProps {
   baseUrl?: string
 }
 
-export function CanonicalURL({ path, baseUrl = 'https://ofertachina.com' }: CanonicalURLProps) {
+export function CanonicalURL({ path, baseUrl = 'https://myshop.com' }: CanonicalURLProps) {
   return (
     <link
       rel="canonical"
@@ -305,7 +305,7 @@ export function CanonicalURL({ path, baseUrl = 'https://ofertachina.com' }: Cano
 export const metadata: Metadata = {
   // ... other metadata
   other: {
-    canonical: 'https://ofertachina.com/products/smartphone-xyz'
+    canonical: 'https://myshop.com/products/smartphone-xyz'
   }
 }
 ```
@@ -388,7 +388,7 @@ export default async function Image({ params }: Props) {
       >
         <div>
           <h1>{product.title}</h1>
-          <p>💰 R$ {product.price}</p>
+          <p>💰 ${product.price}</p>
           <p>⭐ {product.rating}/5</p>
         </div>
       </div>
