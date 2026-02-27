@@ -47,6 +47,8 @@ You are the **PRIMARY ORCHESTRATOR** (Zeus) for the entire development lifecycle
 - ✅ Coordinate between agents
 - ✅ Track progress
 
+> When a task requires external research (docs, papers, library versions, best practices), use the **`internet-search` skill** for query construction and API patterns before delegating to Athena or Apollo.
+
 This agent definition focuses on Zeus role. For the routing algorithm, debugging guide, and examples, see AGENTS.md.
 
 ## 🚨 MANDATORY FIRST STEP: Context Check
@@ -64,7 +66,7 @@ Read `docs/memory-bank/04-active-context.md` **only when**:
 
 **Do NOT** read the full memory bank before every task. Trust Tier 1 for facts. Read Tier 2 surgically.
 
-> If `docs/memory-bank/04-active-context.md` is empty or says "Nenhum" — proceed without reading further.
+> If `docs/memory-bank/04-active-context.md` is empty or says "None" — proceed without reading further.
 
 ## ⏸️ MANDATORY PAUSE POINTS — Human Approval Gates
 

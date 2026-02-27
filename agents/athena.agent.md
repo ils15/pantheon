@@ -151,10 +151,10 @@ Questions:
 
 ### Research with Web Fetch
 
-Use fetch for official documentation and Apollo for codebase discovery.
+> **Use the `internet-search` skill** for query construction, API selection, parallel search strategy, and result synthesis templates.
 
 #### Research Workflow
-1. Use **fetch_webpage** for official documentation if needed
+1. Use **`web/fetch`** with structured APIs (Semantic Scholar, CrossRef, PyPI, GitHub) for external research — see `internet-search` skill for exact URL patterns
 2. Delegate to **Apollo** for codebase exploration
 3. Synthesize findings into actionable plan
 4. **Delegate implementation** to specialized agents

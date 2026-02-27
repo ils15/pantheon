@@ -3,30 +3,30 @@
 ```typescript
 // seo-config.ts
 export const seoConfig = {
-  siteName: 'OfertaChina',
-  defaultTitle: 'OfertaChina - Melhores Cupons e Ofertas',
-  defaultDescription: 'Encontre as melhores ofertas da AliExpress e plataformas chinesas. Cupons exclusivos, frete grátis e cashback.',
-  url: 'https://ofertachina.com',
-  twitterHandle: '@ofertachina',
-  email: 'contato@ofertachina.com',
+  siteName: 'MyShop',
+  defaultTitle: 'MyShop - Best Deals & Offers',
+  defaultDescription: 'Find the best deals online. Exclusive coupons, free shipping and cashback.',
+  url: 'https://myshop.com',
+  twitterHandle: '@myshop',
+  email: 'contact@myshop.com',
   
   // Image sizes
   ogImageWidth: 1200,
   ogImageHeight: 630,
   
   // Locales
-  locales: ['pt-BR', 'pt', 'en'],
-  defaultLocale: 'pt-BR',
+  locales: ['en', 'en-US'],
+  defaultLocale: 'en-US',
   
   // Categories for products
   categories: [
-    'eletrônicos',
-    'moda',
-    'casa',
+    'electronics',
+    'fashion',
+    'home',
     'games',
-    'livros',
-    'esportes',
-    'saúde'
+    'books',
+    'sports',
+    'health'
   ]
 }
 

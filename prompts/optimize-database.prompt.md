@@ -6,36 +6,36 @@ agent: maat
 tools: ['search', 'usages']
 ---
 
-# Otimizar Database (Maat)
+# Optimize Database (Maat)
 
 ## Performance Analysis
 
 ### Query Optimization
-- Identificar N+1 queries
-- Analisar query plans (EXPLAIN)
-- Sugerir índices estratégicos
-- Otimizar JOINs
+- Identify N+1 queries
+- Analyse query plans (EXPLAIN)
+- Suggest strategic indexes
+- Optimise JOINs
 - Batch operations when possible
 
 ### Index Strategy
-- Índices em WHERE columns
-- Índices em JOIN columns
-- Índices em ORDER BY columns
-- Composite indexes quando apropriado
+- Indexes on WHERE columns
+- Indexes on JOIN columns
+- Indexes on ORDER BY columns
+- Composite indexes when appropriate
 - Remove unused indexes
 
 ### Schema Design
-- Normalize tables (3NF)
-- Apropriate data types
-- Constraints e defaults
+- Normalise tables (3NF)
+- Appropriate data types
+- Constraints and defaults
 - Partition strategies
 - Archive old data
 
 ### Migration Safety
 - Forward + backward migrations
-- Test em production-like data
+- Test on production-like data
 - Zero-downtime deployment
-- Rollback procedure definida
+- Rollback procedure defined
 - Document breaking changes
 
 ### Monitoring
@@ -43,7 +43,7 @@ tools: ['search', 'usages']
 - Index usage metrics
 - Table size tracking
 - Connection pool health
-- Replication lag (se aplicável)
+- Replication lag (if applicable)
 
 ## Output
 - 📊 Performance baseline
@@ -53,7 +53,7 @@ tools: ['search', 'usages']
 - 📋 Monitoring dashboard setup
 
 ## When to Use
-- Query é lenta
-- Table cresceu muito
-- Múltiplas queries podem consolidar
-- Design review antes de production
+- Query is slow
+- Table has grown significantly
+- Multiple queries can be consolidated
+- Design review before production

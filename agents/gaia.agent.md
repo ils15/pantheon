@@ -2,7 +2,7 @@
 name: gaia
 description: "Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, statistical analysis, scientific literature (MDPI, IEEE TGRS, RSE, ISPRS). Covers full RS pipeline from raw image to product."
 argument-hint: "Remote sensing task: e.g. 'compute NDVI time series for Sentinel-2', 'apply speckle filter to SAR backscatter', 'recommend change detection algorithm for deforestation mapping', 'review atmospheric correction pipeline', 'train U-Net for semantic segmentation'"
-model: ['Claude Opus 4.6 (copilot)',GPT-5.3-Codex (copilot)]
+model: ['Claude Opus 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
 tools:
   - search/codebase
   - search/usages
@@ -165,6 +165,8 @@ Before any research or analysis, you MUST:
 
 ### Research Strategy
 
+> **Use the `internet-search` skill** for query construction, API URLs, result synthesis templates, and rate-limit guidance.
+
 ```
 For each technical topic, run IN PARALLEL:
 
@@ -173,16 +175,16 @@ For each technical topic, run IN PARALLEL:
    - Identify patterns and approaches used
    - Check existing tests
 
-2. 📖 LITERATURE SEARCH (fetch)
-   - MDPI Remote Sensing: https://www.mdpi.com/search?q=TERM&journal=remotesensing
-   - Google Scholar (fetch): https://scholar.google.com/scholar?q=TERM+remote+sensing
-   - Semantic Scholar: https://api.semanticscholar.org/graph/v1/paper/search?query=TERM
-   - arXiv: https://arxiv.org/search/?searchtype=all&query=TERM
+2. 📖 LITERATURE SEARCH (web/fetch — see internet-search skill for full URL patterns)
+   - Semantic Scholar: search papers by keyword + filter by year
+   - CrossRef: journal-article filter + polite pool
+   - arXiv / EarthArXiv: preprints in eess.SP, cs.CV
+   - MDPI Remote Sensing: open-access RS articles
 
 3. 🗂️ STRUCTURED SYNTHESIS
    - Relate existing code to best practices from literature
    - Identify methodological gaps
-   - Recommend evidence-based improvements
+   - Recommend evidence-based improvements with citations
 ```
 
 ---

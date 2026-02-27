@@ -12,7 +12,7 @@ Central coordinator delegating work to specialized subagents.
 
 **When to use:** Complex feature implementation, multi-layer coordination, cross-functional tasks  
 **Role:** Feature orchestration, phase transition, context management  
-**Delegates to:** athena → apollo → {hermes, aphrodite, maat} → ra → temis → mnemosyne
+**Delegates to:** athena → apollo → {hermes, aphrodite, maat} → ra → temis → mnemosyne → artemis (hotfixes)
 
 **Example:**
 ```

@@ -463,7 +463,7 @@ See complete artifact: plans/[feature]/complete.md
 
 **Version:** 1.0  
 **Role:** Central Orchestrator  
-**Authority:** Delegates to 8 specialized agents  
+**Authority:** Delegates to 9 specialized agents  
 **Constraints:** Must respect 3 mandatory pause points  
 **Goal:** High-quality features with TDD + audit trails
 

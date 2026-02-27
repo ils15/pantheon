@@ -4,7 +4,7 @@ Custom Agent Skills for VS Code Copilot. Skills are folders with instructions, s
 
 **Location**: `skills/` directory. Each skill has a `SKILL.md` with YAML frontmatter (`name`, `description`).
 
-## Available Skills (17)
+## Available Skills (19)
 
 ### Orchestration & Coordination
 | Skill | Purpose |
@@ -41,6 +41,12 @@ Custom Agent Skills for VS Code Copilot. Skills are folders with instructions, s
 |---|---|
 | **code-review-checklist** | Systematic code review with SOLID principles, quality gates |
 | **playwright-e2e-testing** | End-to-end testing with Playwright — patterns and templates |
+
+### Domain Specialist
+| Skill | Purpose |
+|---|---|
+| **remote-sensing-analysis** | Full RS pipeline — spectral indices, SAR, change detection, time series, ML/DL, LULC products, accuracy assessment |
+| **internet-search** | Web research — academic APIs (Semantic Scholar, CrossRef, arXiv), GitHub search, docs lookup, query construction, result synthesis |
 
 ### Utilities
 | Skill | Purpose |
