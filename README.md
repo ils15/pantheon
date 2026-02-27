@@ -39,7 +39,7 @@ mythic-agents solves this with **specialization**: each agent is an expert at ex
 
 ## How It Works
 
-The system operates in three phases controlled by **you**. Agents work in parallel within each phase. You approve before anything proceeds.
+The system operates in defined phases controlled by **you**. Agents work in parallel within each phase, and every transition is gated by your explicit approval.
 
 ```mermaid
 %%{init: {'theme': 'dark'}}%%
@@ -52,62 +52,75 @@ flowchart TD
     classDef infra fill:#db2777,stroke:#f472b6,stroke-width:2px,color:#fff,font-weight:bold
     classDef memory fill:#0f766e,stroke:#2dd4bf,stroke-width:2px,color:#fff,font-weight:bold
     classDef artifact fill:#374151,stroke:#9ca3af,stroke-width:1px,color:#f3f4f6,stroke-dasharray: 5 5
+    classDef domain fill:#7c3aed,stroke:#c4b5fd,stroke-width:2px,color:#fff,font-weight:bold
+    classDef hotfix fill:#92400e,stroke:#fcd34d,stroke-width:2px,color:#fff
 
     User([You / Human Control]):::user
 
-    subgraph Core["Core Orchestration"]
+    subgraph Core["⚡ Core Orchestration"]
         Zeus{"Zeus<br/>Orchestrator"}:::orchestrator
     end
 
-    subgraph P1["Phase 1: Planning"]
-        Athena["Athena<br/>Strategic Planner"]:::planner
-        Apollo["Apollo<br/>Codebase Scout"]:::planner
-        PlanArt[["Implementation<br/>Plan Artifact"]]:::artifact
-        
-        Athena -- "Delegates search" --> Apollo
-        Apollo -. "Returns context" .-> Athena
-        Athena -- "Generates" --> PlanArt
+    subgraph P1["🧠 Phase 1 — Planning & Research"]
+        Athena["Athena<br/>Strategic Planner<br/>(TDD roadmaps · internet-search)"]:::planner
+        Apollo["Apollo<br/>Codebase & Web Scout<br/>(3–10 parallel searches)"]:::planner
+        PlanArt[["📋 Plan Artifact"]]:::artifact
+
+        Athena -- "delegates discovery" --> Apollo
+        Apollo -. "returns findings" .-> Athena
+        Athena -- "generates" --> PlanArt
     end
 
-    subgraph P2["Phase 2: Implementation (Parallel)"]
-        Hermes["Hermes<br/>Backend APIs"]:::executor
-        Aphrodite["Aphrodite<br/>Frontend UI"]:::executor
-        Maat["Maat<br/>Database Schema"]:::executor
-        Artemis["Artemis<br/>Hotfix Specialist"]:::executor
-        
-        ImplArt[["Implementation<br/>Artifacts"]]:::artifact
-
-        Hermes & Aphrodite & Maat -- "Yield outputs" --> ImplArt
+    subgraph P2["⚙️ Phase 2 — Implementation (Parallel)"]
+        Hermes["Hermes<br/>Backend · FastAPI · TDD"]:::executor
+        Aphrodite["Aphrodite<br/>Frontend · React · WCAG"]:::executor
+        Maat["Maat<br/>Database · Alembic · N+1"]:::executor
+        ImplArt[["📦 Implementation Artifacts"]]:::artifact
+        Hermes & Aphrodite & Maat -- "yield outputs" --> ImplArt
     end
 
-    subgraph P3["Phase 3: Validation"]
-        Temis["Temis<br/>Code Review &<br/>Security Gate"]:::qa
-        RevArt[["Review<br/>Artifact"]]:::artifact
-        Temis -- "Generates QA" --> RevArt
+    subgraph P3["✅ Phase 3 — Quality Gate"]
+        Temis["Temis<br/>OWASP · Coverage ≥80%<br/>Diff-only review"]:::qa
+        RevArt[["🔍 Review Artifact"]]:::artifact
+        Temis -- "generates report" --> RevArt
     end
 
-    subgraph P4["Phase 4: Deployment"]
-        Ra["Ra<br/>Infrastructure"]:::infra
-        Mnemosyne["Mnemosyne<br/>Memory Bank"]:::memory
+    subgraph P4["🚀 Phase 4 — Delivery"]
+        Ra["Ra<br/>Docker · CI/CD · Traefik"]:::infra
+        Mnemosyne["Mnemosyne<br/>ADRs · Sprint close · Memory"]:::memory
     end
 
-    %% Flow connections
-    User -->|"Task Prompt"| Zeus
-    Zeus -->|"Initiates"| P1
-    PlanArt -.->|"Pause Point 1<br/>Requires Approval"| User
-    User -->|"Approves Plan"| Zeus
+    subgraph Bypass["🏹 Hotfix Express Lane"]
+        Artemis["Artemis<br/>Rapid fixes · no ceremony"]:::hotfix
+    end
 
-    Zeus -->|"Dispatches"| P2
-    ImplArt -->|"Triggers Review"| P3
+    subgraph DS["🌍 Domain Specialist (user-invocable)"]
+        Gaia["Gaia<br/>Remote Sensing Expert<br/>(RS · LULC · SAR · literature)"]:::domain
+    end
 
-    Artemis -.->|"Direct Commits"| User
+    %% Main orchestration flow
+    User -->|"task prompt"| Zeus
+    Zeus -->|"initiates planning"| P1
+    PlanArt -.->|"⏸️ Pause Point 1<br/>Awaits your approval"| User
+    User -->|"approved — proceed"| Zeus
 
-    RevArt -.->|"Pause Point 2<br/>Requires Approval"| User
-    User -->|"Approves Review"| Zeus
+    Zeus -->|"dispatches in parallel"| P2
+    ImplArt -->|"triggers review"| P3
 
-    Zeus -->|"Finalizes"| P4
-    Mnemosyne -.->|"Close Sprint"| User
-    User -.->|"Pause Point 3<br/>Git Commit"| User
+    RevArt -.->|"⏸️ Pause Point 2<br/>Awaits your approval"| User
+    User -->|"approved — deploy"| Zeus
+
+    Zeus -->|"finalises"| P4
+    Mnemosyne -.->|"sprint closed"| User
+    User -.->|"⏸️ Pause Point 3<br/>git commit"| User
+
+    %% Bypass paths
+    Zeus -.->|"hotfix shortcut"| Bypass
+    Artemis -.->|"direct fix · no artifacts"| User
+
+    %% Domain specialist (direct invocation only)
+    User -.->|"@gaia"| DS
+    Gaia -.->|"analysis report"| User
 ```
 
 ### Three Core Principles
@@ -134,19 +147,19 @@ Every phase produces a structured **artifact** (a file in `docs/memory-bank/.tmp
 
 ## The Agents
 
-| Agent | Role | Invoked when |
-|---|---|---|
-| **Zeus** | Orchestrator | Features spanning multiple layers — coordinates all other agents |
-| **Athena** | Strategic planner | Any complex new feature — produces phased implementation plan |
-| **Apollo** | Codebase scout | Pattern discovery, existing code analysis, parallel search |
-| **Hermes** | Backend specialist | APIs, services, business logic — FastAPI, async/await, TDD |
-| **Aphrodite** | Frontend specialist | UI components, React, TypeScript, WCAG accessibility |
-| **Maat** | Database specialist | Schema design, query optimization, zero-downtime migrations |
-| **Temis** | Code reviewer | Auto-invoked after each phase — enforces coverage, OWASP, performance |
-| **Ra** | Infrastructure | Docker, CI/CD, zero-downtime deployments, Traefik |
-| **Artemis** | Hotfix specialist | Rapid bug fixes, CSS tweaks, typos — bypasses orchestration |
-| **Mnemosyne** | Memory owner | Sprint close, ADR recording, task documentation |
-| **Gaia** | Remote sensing expert | LULC analysis, inter-product agreement, scientific literature, raster pipelines |
+| Agent | Specialty | Key capabilities | When to call |
+|---|---|---|---|
+| **Zeus** | Central orchestrator | Multi-agent coordination, parallel phase dispatch, approval gates, mid-session model switching | Any feature spanning 2+ layers — backend + frontend + database |
+| **Athena** | Strategic planner | Research-first architecture design, phased TDD roadmaps, `internet-search` skill, delegates codebase discovery to Apollo | Before any complex feature or architectural decision |
+| **Apollo** | Codebase & web scout | 3–10 parallel read-only searches, `web/fetch` for external docs and GitHub — never edits files | Locating existing code, debugging root cause, pre-implementation discovery |
+| **Hermes** | Backend specialist | FastAPI async/await, Pydantic v2, TDD (RED→GREEN→REFACTOR), OWASP-safe APIs, `security-audit` skill | New endpoints, services, business logic, auth flows |
+| **Aphrodite** | Frontend specialist | React 19, TypeScript strict, WCAG AA, browser screenshot + accessibility audit, `frontend-analyzer` skill | Components, pages, hooks, responsive layouts, accessibility fixes |
+| **Maat** | Database specialist | SQLAlchemy 2.0, Alembic, N+1 detection, EXPLAIN ANALYZE, zero-downtime migrations, `database-optimization` skill | Schema changes, slow query diagnosis, index strategy, migration planning |
+| **Temis** | Quality & security gate | OWASP Top 10, coverage ≥80% hard block, diff-only review, `code-review-checklist` skill | Auto-invoked after every implementation phase; explicit PR or security review |
+| **Ra** | Infrastructure | Multi-stage Docker builds, docker-compose, GitHub Actions, health checks, non-root containers, `docker-best-practices` skill | Container builds, deployment pipelines, environment management |
+| **Artemis** | Hotfix express lane | Direct file edits, no TDD ceremony, regression check against existing tests — bypasses all orchestration overhead | CSS fixes, typos, simple logic bugs |
+| **Mnemosyne** | Memory & documentation | `docs/memory-bank/` init, ADR authoring, sprint close, `.tmp/` wipe, `/memories/repo/` atomic facts | Only on explicit request — sprint close, recording architectural decisions |
+| **Gaia** | Remote sensing expert | Full RS pipeline: spectral indices (NDVI/EVI/SAR/BSI), change detection, time series, ML/DL (U-Net/RF/XGBoost), LULC product ensembles, inter-product agreement (Kappa/OA/F1/Dice), Olofsson 2014 accuracy assessment, scientific literature (IEEE TGRS, RSE, ISPRS, MDPI), `remote-sensing-analysis` + `internet-search` skills | Satellite image processing, LULC mapping, algorithm selection, raster pipeline design, scientific literature review |
 
 Each agent is defined in its own `.agent.md` file with a specific model assignment, tool set, and behavioral rules. See [AGENTS.md](AGENTS.md) for the full reference.
 
@@ -266,24 +279,34 @@ mythic-agents uses two complementary memory layers:
 ```mermaid
 %%{init: {'theme': 'dark'}}%%
 flowchart LR
-    classDef default fill:#2d2d2d,stroke:#555,stroke-width:1px,color:#eee,rx:5px,ry:5px;
-    classDef level1 fill:#1e3a5f,stroke:#2a5082,stroke-width:2px,color:#fff;
-    classDef level2 fill:#4b2743,stroke:#6e3962,stroke-width:2px,color:#fff;
+    classDef skills fill:#3b1f08,stroke:#d97706,stroke-width:2px,color:#fff
+    classDef level1 fill:#1e3a5f,stroke:#2a5082,stroke-width:2px,color:#fff
+    classDef level2a fill:#14532d,stroke:#22c55e,stroke-width:2px,color:#fff
+    classDef level2b fill:#4b2743,stroke:#6e3962,stroke-width:2px,color:#fff
 
-    subgraph L1["⚡ Level 1 — Native (auto-loaded)"]
+    subgraph L0["📖 Skills — On-demand Domain Knowledge"]
         direction TB
-        MR["/memories/repo/<br/>Atomic facts: stack, commands,<br/>conventions — always in context"]:::level1
-        MS["/memories/session/<br/>Conversation plans, WIP<br/>Discarded on session end"]:::level1
+        SK["skills/ (19 directories)<br/>Loaded when triggered by agent<br/>instructions — never auto-loaded<br/>Examples: internet-search,<br/>remote-sensing-analysis,<br/>tdd-with-agents, security-audit"]:::skills
     end
 
-    subgraph L2["📚 Level 2 — Narrative (explicit read)"]
-        MB["docs/memory-bank/<br/>00 — Project overview<br/>01 — Architecture<br/>02 — Components<br/>03 — Tech context<br/>04 — Active context  ← priority<br/>05 — Progress log<br/>.tmp/ — ephemeral artifacts (gitignored)<br/>_notes/ — decision records (ADRs, committed)"]:::level2
+    subgraph L1["⚡ Level 1 — Native Memory (auto-loaded, zero cost)"]
+        direction TB
+        MR["/memories/repo/<br/>Permanent facts: stack, commands,<br/>build scripts, conventions"]:::level1
+        MS["/memories/session/<br/>In-flight: plans, WIP notes<br/>Cleared after session ends"]:::level1
     end
 
-    L1 -. "graduates to at sprint close" .-> L2
-    
-    style L1 fill:#1e1e1e,stroke:#333,stroke-width:2px,rx:10px
-    style L2 fill:#1e1e1e,stroke:#333,stroke-width:2px,rx:10px
+    subgraph L2["📚 Level 2 — Project Narrative (explicit read)"]
+        direction TB
+        AC["docs/memory-bank/04-active-context.md<br/>← READ FIRST by every agent<br/>Current sprint · last decision · next steps"]:::level2a
+        MB["docs/memory-bank/<br/>00 — Project overview<br/>01 — Architecture & patterns<br/>02 — Components<br/>03 — Tech context & commands<br/>05 — Progress log (append-only)<br/>.tmp/ — ephemeral artifacts (gitignored)<br/>_notes/ — ADRs (permanent, committed)"]:::level2b
+    end
+
+    L0 -. "agent reads skill when task requires it" .-> L1
+    L1 -. "key facts graduate to narrative at sprint close" .-> L2
+
+    style L0 fill:#1e1e1e,stroke:#444,stroke-width:2px
+    style L1 fill:#1e1e1e,stroke:#333,stroke-width:2px
+    style L2 fill:#1e1e1e,stroke:#333,stroke-width:2px
 ```
 
 **`04-active-context.md`** is the priority file. Agents read it first when starting any task. It contains the current sprint focus, the most recent architectural decision, active blockers, and next steps.
@@ -436,21 +459,38 @@ copilot-agents/
 
 Each agent declares its own model in the `.agent.md` frontmatter. The assignments follow the principle of matching model capability to the cognitive cost of the task:
 
-| Agent | Model | Reason |
-|---|---|---|
-| Zeus, Athena | Claude Opus (high-capability) | Strategic planning requires deep reasoning |
-| Hermes, Maat, Temis | Claude Sonnet | Implementation and review balance depth and speed |
-| Aphrodite | Gemini Pro | UI iteration speed |
-| Apollo | Lightweight model | Parallel codebase search at low token cost |
+| Agent | Primary model | Fallback | Rationale |
+|---|---|---|---|
+| **Zeus** | Claude Opus 4.6 | Claude Sonnet 4.6 | Deep long-context reasoning for multi-agent orchestration |
+| **Athena** | Claude Opus 4.6 | Claude Sonnet 4.6 | Architecture planning, TDD decomposition, multi-step research |
+| **Hermes** | Claude Sonnet 4.6 | GPT-5.3-Codex | Production backend code, security-conscious API design |
+| **Maat** | Claude Sonnet 4.6 | GPT-5.3-Codex | Migration reasoning, complex SQL, schema trade-offs |
+| **Temis** | Claude Sonnet 4.6 | GPT-5.3-Codex | Broad code review; Codex fallback for deep security audits |
+| **Aphrodite** | Gemini 3.1 Pro | Claude Sonnet 4.6 | Fast UI iteration and visual/layout-heavy generation |
+| **Ra** | Claude Sonnet 4.6 | — | Docker, compose, CI/CD and deployment configuration |
+| **Artemis** | Claude Sonnet 4.6 | — | Precise rapid fixes — lower latency suits hotfixes |
+| **Gaia** | Claude Opus 4.6 | GPT-5.3-Codex | Scientific methodology synthesis, literature reasoning, complex RS analysis |
+| **Apollo** | Gemini 3 Flash | Claude Haiku 4.5 | Parallel codebase search at minimal token cost |
+| **Mnemosyne** | Claude Haiku 4.5 | — | Documentation formatting — Haiku is sufficient for text-only tasks |
 
 You do not need to configure this — it is defined per agent in the frontmatter.
 
+### Built-in web research (`internet-search` skill)
+
+Agents with `web/fetch` access — Athena, Apollo, Gaia, Zeus — use the **`internet-search` skill** for structured external research without any additional setup:
+
+- **Academic APIs**: Semantic Scholar, CrossRef, arXiv, EarthArXiv, MDPI — structured JSON, no scraping required
+- **Code research**: GitHub Search API, PyPI JSON API, npm registry
+- **Pattern**: parallel queries → parse structured JSON → synthesise → cite sources in output
+
+See [skills/internet-search/SKILL.md](skills/internet-search/SKILL.md) for URL patterns, query construction, and result synthesis templates.
+
 ### Extended internet access (optional MCP)
 
-By default, agents use native VSCode tools (`codebase`, `usages`, `readFile`). If you need external search:
+For broader web search beyond structured APIs, you can optionally add an MCP search server:
 
 ```json
-// .vscode/settings.json or mcp config
+// .vscode/settings.json or MCP config
 "mcpServers": {
   "brave-search": {
     "command": "npx",
@@ -460,7 +500,7 @@ By default, agents use native VSCode tools (`codebase`, `usages`, `readFile`). I
 }
 ```
 
-MCP is optional and only needed for active internet search. All core functionality works without it.
+MCP is optional. All structured API research (academic papers, GitHub, PyPI) works natively via the `internet-search` skill without MCP.
 
 ---
 
