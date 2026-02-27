@@ -407,12 +407,12 @@ copilot-agents/
 │   ├── optimize-database.prompt.md
 │   └── orchestrate-with-zeus.prompt.md
 │
-├── skills/                 — reference documentation (24 directories)
+├── skills/                 — reference documentation (19 directories)
 │   ├── agent-coordination/         start here — agent selection guide
 │   ├── orchestration-workflow/     step-by-step real-world walkthrough
 │   ├── tdd-with-agents/            TDD standards and examples
 │   ├── artifact-management/        memory bank structure
-│   └── ...                         20 additional specialized skills
+│   └── ...                         15 additional specialized skills
 │
 └── docs/
     └── memory-bank/        — project memory templates (fill per product)
@@ -537,4 +537,46 @@ Yes. Read `AGENTS.md` for the architecture, then create a new `.agent.md` file i
 
 ---
 
-**Version:** 2.3 &nbsp;|&nbsp; **Updated:** February 2026 &nbsp;|&nbsp; **License:** MIT
+## Changelog
+
+### v2.4 — February 27, 2026
+
+#### New Skills
+- **`internet-search`** — Web research skill covering `web/fetch` usage patterns, structured academic APIs (Semantic Scholar, CrossRef, arXiv, EarthArXiv, MDPI), GitHub and PyPI search, query construction best practices, parallel search strategy, and result synthesis templates. Wired into `gaia`, `athena`, and `zeus`.
+
+#### Expanded Skills
+- **`remote-sensing-analysis`** — Completely rewritten from LULC-only scope to full remote sensing pipeline. Now covers: raster processing, radiometric & atmospheric correction, spectral indices (NDVI, EVI, SAVI, NDWI, NBR, NDSI, BSI), SAR processing & speckle filtering, change detection methods, time series analysis, ML/DL classification (U-Net, Random Forest, SVM, XGBoost), LULC product ensembles, inter-product agreement metrics (Kappa, OA, F1, Dice, temporal frequency), accuracy assessment (Olofsson 2014 method), LULC reference tables, quality checklist, and remote sensing data API index.
+
+#### Full English Translation
+All framework files are now entirely in English. Previously Portuguese content translated:
+- `skills/nextjs-seo-optimization/SKILL.md` and `seo-config.ts` — site name, locale, currency, category strings, descriptions
+- `skills/playwright-e2e-testing/SKILL.md` — test selector strings, assertion messages
+- `skills/remote-sensing-analysis/SKILL.md` — full rewrite in English
+- `prompts/optimize-database.prompt.md` — title and all bullet points
+- `agents/zeus.agent.md` — isolated Portuguese word (`"Nenhum"` → `"None"`)
+
+#### Bug Fixes
+- **`agents/gaia.agent.md`** — Fixed YAML syntax error: `model:` second entry was missing quotes, causing invalid frontmatter
+- **`AGENTS.md`** — Zeus `Delegates to:` chain was missing `artemis`; updated to reflect the full 9-agent delegation list
+- **`prompts/orchestrate-with-zeus.prompt.md`** — Hardcoded agent count `8` → `9` (Zeus frontmatter has 9 agents: athena, apollo, hermes, aphrodite, maat, temis, ra, mnemosyne, artemis)
+- **`skills/README.md`** — Corrected skill count, added **Domain Specialist** category listing `remote-sensing-analysis` and `internet-search`
+- **`README.md`** — Corrected hardcoded `(24 directories)` → `(19 directories)` and `20 additional` → `15 additional` in the repo tree
+
+#### Cleanup
+- Removed zombie directory `skills/9-agent-coordination/` — was an orphaned duplicate of `agent-coordination/` with no references
+
+---
+
+### v2.3 — February 2026
+
+- Added **Gaia** remote sensing domain specialist agent (`agents/gaia.agent.md`) with `disable-model-invocation: true` to prevent accidental generic invocation
+- Added **Artemis** hotfix express-lane agent (`agents/artemis.agent.md`) with bypass for TDD ceremony on trivial fixes
+- Native VS Code Handoff integration documented — all agents now have `handoffs:` pre-configured in YAML
+- Added `agent/askQuestions` tool to orchestrator and planner agents (Athena, Zeus, Aphrodite, Hermes, Maat) to support interactive approval gates
+- Added browser integration tools to Aphrodite (`mcp_browser_takeScreenshot`, `mcp_browser_getConsoleErrors`, `mcp_browser_runAccessibilityAudit`)
+- `skills/prompt-improver` — added with `EXAMPLES.md` and `USAGE.md`
+- `skills/frontend-analyzer` and `skills/web-ui-analysis` — added
+
+---
+
+**Version:** 2.4 &nbsp;|&nbsp; **Updated:** February 27, 2026 &nbsp;|&nbsp; **License:** MIT
