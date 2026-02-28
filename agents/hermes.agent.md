@@ -5,7 +5,6 @@ argument-hint: "Backend task: endpoint, service, router, schema, or test — inc
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
 tools:
   - agent
-  - agent/askQuestions
   - search/codebase
   - search/usages
   - read/readFile
