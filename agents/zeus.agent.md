@@ -1,6 +1,6 @@
 ---
 name: zeus
-description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), mnemosyne (docs), artemis (hotfix)"
+description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), mnemosyne (docs), hephaestus (hotfix)"
 argument-hint: "Describe the feature, bug, or epic to orchestrate (Zeus plans, delegates, and coordinates the full lifecycle)"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools:
@@ -13,7 +13,7 @@ tools:
   - search/usages
   - web/fetch
   - search/changes
-agents: ['athena', 'apollo', 'hermes', 'aphrodite', 'maat', 'temis', 'ra', 'mnemosyne', 'artemis']
+agents: ['athena', 'apollo', 'hermes', 'aphrodite', 'maat', 'temis', 'ra', 'mnemosyne', 'hephaestus']
 handoffs:
   - label: "📋 Plan Feature"
     agent: athena
@@ -184,7 +184,7 @@ Full debugging guide with 7-step process in documentation.
 - **Use for**: Infrastructure changes, deployment strategy, scaling
 - **Returns**: Infrastructure code, deployment procedures
 
-### 8. Artemis (HOTFIX) - THE EXPRESS REPAIR
+### 8. Hephaestus (HOTFIX) - THE EXPRESS REPAIR
 - **Model**: Claude Sonnet 4.6 (copilot)
 - **Role**: Precise, fast bug fixes and minor adjustments (CSS, typos)
 - **Use for**: Bypassing the heavy orchestration phase for quick wins, executing fast repairs
@@ -273,7 +273,7 @@ Orchestrate a feature for adding user dashboard:
 - **Use Temis** before merging any code (includes security checklist)
 - **Use Maat** for migrations and query optimization
 - **Use Ra** for deployment or infrastructure changes
-- **Use Artemis** for quick hotfixes, CSS corrections, or minor bugs bypassing full orchestration
+- **Use Hephaestus** for quick hotfixes, CSS corrections, or minor bugs bypassing full orchestration
 
 ## 🏛️ Artifact Gates
 

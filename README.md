@@ -90,8 +90,8 @@ flowchart TD
         Mnemosyne["Mnemosyne<br/>ADRs · Sprint close · Memory"]:::memory
     end
 
-    subgraph Bypass["🏹 Hotfix Express Lane"]
-        Artemis["Artemis<br/>Rapid fixes · no ceremony"]:::hotfix
+    subgraph Bypass["⚒️ Hotfix Express Lane"]
+        Hephaestus["Hephaestus<br/>Rapid fixes · no ceremony"]:::hotfix
     end
 
     subgraph DS["🌍 Domain Specialist (user-invocable)"]
@@ -116,7 +116,7 @@ flowchart TD
 
     %% Bypass paths
     Zeus -.->|"hotfix shortcut"| Bypass
-    Artemis -.->|"direct fix · no artifacts"| User
+    Hephaestus -.->|"direct fix · no artifacts"| User
 
     %% Domain specialist (direct invocation only)
     User -.->|"@gaia"| DS
@@ -157,7 +157,7 @@ Every phase produces a structured **artifact** (a file in `docs/memory-bank/.tmp
 | **Maat** | Database specialist | SQLAlchemy 2.0, Alembic, N+1 detection, EXPLAIN ANALYZE, zero-downtime migrations, `database-optimization` skill | Schema changes, slow query diagnosis, index strategy, migration planning |
 | **Temis** | Quality & security gate | OWASP Top 10, coverage ≥80% hard block, diff-only review, `code-review-checklist` skill | Auto-invoked after every implementation phase; explicit PR or security review |
 | **Ra** | Infrastructure | Multi-stage Docker builds, docker-compose, GitHub Actions, health checks, non-root containers, `docker-best-practices` skill | Container builds, deployment pipelines, environment management |
-| **Artemis** | Hotfix express lane | Direct file edits, no TDD ceremony, regression check against existing tests — bypasses all orchestration overhead | CSS fixes, typos, simple logic bugs |
+| **Hephaestus** | Hotfix express lane | Direct file edits, no TDD ceremony, regression check against existing tests — bypasses all orchestration overhead | CSS fixes, typos, simple logic bugs |
 | **Mnemosyne** | Memory & documentation | `docs/memory-bank/` init, ADR authoring, sprint close, `.tmp/` wipe, `/memories/repo/` atomic facts | Only on explicit request — sprint close, recording architectural decisions |
 | **Gaia** | Remote sensing expert | Full RS pipeline: spectral indices (NDVI/EVI/SAR/BSI), change detection, time series, ML/DL (U-Net/RF/XGBoost), LULC product ensembles, inter-product agreement (Kappa/OA/F1/Dice), Olofsson 2014 accuracy assessment, scientific literature (IEEE TGRS, RSE, ISPRS, MDPI), `remote-sensing-analysis` + `internet-search` skills | Satellite image processing, LULC mapping, algorithm selection, raster pipeline design, scientific literature review |
 
@@ -408,7 +408,7 @@ copilot-agents/
 │   ├── maat.agent.md       database
 │   ├── temis.agent.md      reviewer
 │   ├── ra.agent.md         infrastructure
-│   ├── artemis.agent.md    hotfix
+│   ├── hephaestus.agent.md hotfix
 │   ├── mnemosyne.agent.md  memory
 │   └── gaia.agent.md       remote sensing domain specialist
 │
@@ -468,7 +468,7 @@ Each agent declares its own model in the `.agent.md` frontmatter. The assignment
 | **Temis** | Claude Sonnet 4.6 | GPT-5.3-Codex | Broad code review; Codex fallback for deep security audits |
 | **Aphrodite** | Gemini 3.1 Pro | Claude Sonnet 4.6 | Fast UI iteration and visual/layout-heavy generation |
 | **Ra** | Claude Sonnet 4.6 | — | Docker, compose, CI/CD and deployment configuration |
-| **Artemis** | Claude Sonnet 4.6 | — | Precise rapid fixes — lower latency suits hotfixes |
+| **Hephaestus** | Claude Sonnet 4.6 | — | Precise rapid fixes — lower latency suits hotfixes |
 | **Gaia** | Claude Opus 4.6 | GPT-5.3-Codex | Scientific methodology synthesis, literature reasoning, complex RS analysis |
 | **Apollo** | Gemini 3 Flash | Claude Haiku 4.5 | Parallel codebase search at minimal token cost |
 | **Mnemosyne** | Claude Haiku 4.5 | — | Documentation formatting — Haiku is sufficient for text-only tasks |
@@ -597,8 +597,8 @@ All framework files are now entirely in English. Previously Portuguese content t
 
 #### Bug Fixes
 - **`agents/gaia.agent.md`** — Fixed YAML syntax error: `model:` second entry was missing quotes, causing invalid frontmatter
-- **`AGENTS.md`** — Zeus `Delegates to:` chain was missing `artemis`; updated to reflect the full 9-agent delegation list
-- **`prompts/orchestrate-with-zeus.prompt.md`** — Hardcoded agent count `8` → `9` (Zeus frontmatter has 9 agents: athena, apollo, hermes, aphrodite, maat, temis, ra, mnemosyne, artemis)
+- **`AGENTS.md`** — Zeus `Delegates to:` chain was missing `hephaestus`; updated to reflect the full 9-agent delegation list
+- **`prompts/orchestrate-with-zeus.prompt.md`** — Hardcoded agent count `8` → `9` (Zeus frontmatter has 9 agents: athena, apollo, hermes, aphrodite, maat, temis, ra, mnemosyne, hephaestus)
 - **`skills/README.md`** — Corrected skill count, added **Domain Specialist** category listing `remote-sensing-analysis` and `internet-search`
 - **`README.md`** — Corrected hardcoded `(24 directories)` → `(19 directories)` and `20 additional` → `15 additional` in the repo tree
 
@@ -610,7 +610,7 @@ All framework files are now entirely in English. Previously Portuguese content t
 ### v2.3 — February 2026
 
 - Added **Gaia** remote sensing domain specialist agent (`agents/gaia.agent.md`) with `disable-model-invocation: true` to prevent accidental generic invocation
-- Added **Artemis** hotfix express-lane agent (`agents/artemis.agent.md`) with bypass for TDD ceremony on trivial fixes
+- Added **Hephaestus** hotfix express-lane agent (`agents/hephaestus.agent.md`) with bypass for TDD ceremony on trivial fixes
 - Native VS Code Handoff integration documented — all agents now have `handoffs:` pre-configured in YAML
 - Added `agent/askQuestions` tool to orchestrator and planner agents (Athena, Zeus, Aphrodite, Hermes, Maat) to support interactive approval gates
 - Added browser integration tools to Aphrodite (`mcp_browser_takeScreenshot`, `mcp_browser_getConsoleErrors`, `mcp_browser_runAccessibilityAudit`)
