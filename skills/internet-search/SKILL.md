@@ -1,6 +1,6 @@
 ---
 name: internet-search
-description: "Web research and internet search — query construction, source selection, academic databases (Semantic Scholar, CrossRef, arXiv), GitHub search, official documentation lookup, result filtering and synthesis. Use when tasks require external knowledge, up-to-date docs, library references, scientific literature, or technology best practices not available in the codebase."
+description: "Web research and internet search — source trust hierarchy, structured API patterns for general web (DuckDuckGo, Wikipedia, Jina Reader), tech community (Stack Overflow, Hacker News, Reddit, Dev.to), official vendor docs, academic databases (Semantic Scholar, CrossRef, arXiv), GitHub search, package registries, and remote sensing data sources. All sources are free and require no API key. Covers query construction, site-scoped search, parallel search strategy, and result synthesis."
 ---
 
 # Internet Search Skill
@@ -9,134 +9,323 @@ description: "Web research and internet search — query construction, source se
 
 Use this skill when:
 - Looking up library documentation, API references, or framework best practices
+- Finding answers to technical problems (Stack Overflow, GitHub Issues, forums)
+- Checking community consensus on architectural or tooling decisions
 - Searching for scientific papers or technical literature
 - Finding GitHub repos, issues, PRs, or community solutions
-- Checking the latest version of a dependency or tool
-- Validating an architectural approach against external references
+- Checking the latest version or changelog of a dependency
+- Validating an approach against external real-world references
 - Fetching real-world data (LULC product specs, sensor band definitions, etc.)
 
 ---
 
-## 1. Tool Available: `web/fetch`
+## 1. Tool: `web/fetch`
 
-VS Code agents use the `web/fetch` tool to retrieve web pages. It returns the page content as text (HTML stripped or Markdown).
+VS Code agents use `web/fetch` to retrieve web pages. It returns content as plain text (HTML stripped or Markdown).
 
 ```
 web/fetch(url)    → returns page text
 ```
 
-**Always prefer structured APIs** (returning JSON/XML) over raw HTML scraping — they are faster, more reliable, and need no parsing.
+**Always prefer structured APIs** (JSON/XML responses) over raw HTML scraping — faster, more reliable, no parsing fragility.
+
+**When you must fetch raw HTML** (forums, blog posts): extract only the relevant section, ignore navigation and ads.
+
+### Jina Reader — free URL-to-Markdown converter (no API key required)
+
+Prefix any URL with `https://r.jina.ai/` to get back clean, LLM-readable Markdown — no HTML parsing, no ads, no navigation noise. Works on any public page.
+
+```
+# Convert any URL to clean markdown
+https://r.jina.ai/{FULL_URL}
+
+# Examples:
+https://r.jina.ai/https://docs.sqlalchemy.org/en/20/orm/session_basics.html
+https://r.jina.ai/https://stackoverflow.com/questions/12345678/
+https://r.jina.ai/https://fastapi.tiangolo.com/tutorial/dependencies/
+```
+
+> Use Jina Reader whenever a direct `web/fetch` on a page returns messy HTML. It is completely free, requires no key, and is ideal for documentation pages, blog posts, and forum threads.
 
 ---
 
-## 2. Search Strategies by Category
+## 2. Source Trust Hierarchy
 
-### 2.1 General Web Search
+Always escalate from the highest trust tier before falling back:
 
-There is no direct Google/Bing API in VS Code agents. Use structured query URLs that return useful content:
+| Tier | Sources | Use for |
+|------|---------|---------|
+| **Tier 1 — Authoritative** | Official vendor docs, RFC/specs, peer-reviewed papers, GitHub repo READMEs | Definitive answers, API contracts, algorithm correctness |
+| **Tier 2 — High-signal community** | Stack Overflow (accepted/high-vote answers), GitHub Issues/Discussions, official changelogs, MDN | Real-world implementation patterns, known bugs, version-specific behaviours |
+| **Tier 3 — Useful but verify** | Hacker News, Reddit (engineering subreddits), Dev.to, well-cited blog posts (e.g. Martin Fowler, Netlify blog, AWS blog) | Current opinions, ecosystem trends, practical tips |
+| **Tier 4 — Last resort** | General blog posts, tutorials, Medium articles | Background context only — always cross-check with Tier 1/2 |
 
-```
-# DuckDuckGo instant answers (text summaries)
-https://api.duckduckgo.com/?q={QUERY}&format=json&no_html=1&skip_disambig=1
+> **Rule**: Never cite Tier 3/4 as the sole source for a technical decision. Always pair with a Tier 1 primary source.
 
-# Wikipedia summary
-https://en.wikipedia.org/api/rest_v1/page/summary/{TOPIC}
+---
 
-# MDN Web Docs (JavaScript / Web APIs)
-https://developer.mozilla.org/en-US/search?q={QUERY}
-```
+## 3. Search Strategies by Category
 
-### 2.2 Academic / Scientific Literature
+### 3.1 General Web — Structured APIs
 
-Best sources for peer-reviewed papers:
+No Google/Bing API in VS Code agents. Use these reliable structured alternatives:
 
 ```yaml
-# Semantic Scholar — returns papers, abstracts, citations (FREE, no key required)
-semantic_scholar_search: "https://api.semanticscholar.org/graph/v1/paper/search?query={TERM}&fields=title,authors,year,abstract,citationCount,openAccessPdf&limit=10"
-semantic_scholar_paper:  "https://api.semanticscholar.org/graph/v1/paper/{PAPER_ID}?fields=title,authors,year,abstract,references"
+# DuckDuckGo Instant Answers — fast text summaries, entity cards
+ddg_instant:  "https://api.duckduckgo.com/?q={QUERY}&format=json&no_html=1&skip_disambig=1"
 
-# CrossRef — DOI resolution, journal filtering, date ranges
-crossref_search: "https://api.crossref.org/works?query={TERM}&filter=type:journal-article,from-pub-date:2020&rows=10&sort=relevance"
+# Wikipedia — encyclopaedic summaries and definitions
+wikipedia:    "https://en.wikipedia.org/api/rest_v1/page/summary/{TOPIC}"
 
-# arXiv — preprints (cs, physics, eess, q-bio)
-arxiv_search: "https://export.arxiv.org/api/query?search_query=all:{TERM}&start=0&max_results=10&sortBy=relevance"
+# Wikipedia full search (returns list of matching articles)
+wikipedia_search: "https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch={QUERY}&format=json&srlimit=5"
 
-# EarthArXiv — geoscience and remote sensing preprints
-eartharxiv: "https://eartharxiv.org/repository/search/?q={TERM}"
-
-# MDPI Remote Sensing (open access)
-mdpi_rs: "https://www.mdpi.com/search?q={TERM}&journal=remotesensing&article_type=research-article"
-
-# Google Scholar (no official API — fetch HTML with caution; rate-limited)
-# Prefer Semantic Scholar as equivalent
+# Wikidata — structured facts (entity properties, identifiers)
+wikidata:     "https://www.wikidata.org/w/api.php?action=wbsearchentities&search={QUERY}&language=en&format=json"
 ```
 
-**Example — fetch top 5 papers on a topic:**
-```
-web/fetch("https://api.semanticscholar.org/graph/v1/paper/search?query=change+detection+SAR+deep+learning&fields=title,authors,year,abstract,citationCount&limit=5")
+### 3.2 Technology Q&A — Tier 2 Sources
+
+**Stack Overflow** (most reliable for programming questions):
+
+```yaml
+# Search questions — sorted by votes, accepted answers only
+so_search:    "https://api.stackexchange.com/2.3/search/advanced?q={QUERY}&site=stackoverflow&order=desc&sort=votes&accepted=True&pagesize=5"
+
+# Get answers for a specific question ID
+so_answers:   "https://api.stackexchange.com/2.3/questions/{ID}/answers?site=stackoverflow&order=desc&sort=votes&filter=withbody"
+
+# Search across all Stack Exchange sites (ServerFault, SuperUser, etc.)
+se_all:       "https://api.stackexchange.com/2.3/search/advanced?q={QUERY}&order=desc&sort=votes&site={SITE}"
 ```
 
-### 2.3 GitHub Search
+> Available `{SITE}` values: `stackoverflow`, `serverfault`, `superuser`, `askubuntu`, `unix`, `datascience`, `gis`, `stats`
+
+**Example — find top voted accepted answers on FastAPI async SQLAlchemy:**
+```
+web/fetch("https://api.stackexchange.com/2.3/search/advanced?q=FastAPI+async+SQLAlchemy+session&site=stackoverflow&order=desc&sort=votes&accepted=True&pagesize=5")
+```
+
+**GitHub Issues and Discussions** (authoritative for library bugs/patterns):
+
+```yaml
+github_issues: "https://api.github.com/search/issues?q={QUERY}+repo:{OWNER}/{REPO}+is:issue&sort=reactions&order=desc"
+github_discussions: "https://api.github.com/search/discussions?q={QUERY}+repo:{OWNER}/{REPO}"
+github_issues_open: "https://api.github.com/search/issues?q={QUERY}+state:open+label:bug&sort=reactions"
+```
+
+### 3.3 Tech Community & News — Tier 3 Sources
+
+**Hacker News** (Algolia API — fast, reliable):
+
+```yaml
+# Search stories and comments
+hn_search:    "https://hn.algolia.com/api/v1/search?query={QUERY}&tags=story&hitsPerPage=10"
+
+# Search only Ask HN / Show HN posts
+hn_ask:       "https://hn.algolia.com/api/v1/search?query={QUERY}&tags=ask_hn&hitsPerPage=5"
+
+# Filter by date (recent posts only)
+hn_recent:    "https://hn.algolia.com/api/v1/search_by_date?query={QUERY}&tags=story&hitsPerPage=10&numericFilters=created_at_i>1700000000"
+```
+
+**Dev.to** (practitioner articles, open source community):
+
+```yaml
+devto_search: "https://dev.to/api/articles?tag={TAG}&per_page=10&top=1"
+devto_query:  "https://dev.to/search?q={QUERY}"
+```
+
+> Good tags: `python`, `fastapi`, `react`, `typescript`, `docker`, `postgresql`, `machinelearning`, `webdev`, `opensource`
+
+**Reddit** (subreddit-scoped, useful for community picks and comparisons):
+
+```yaml
+# Search within a specific subreddit — returns JSON
+reddit_sub:   "https://www.reddit.com/r/{SUBREDDIT}/search.json?q={QUERY}&restrict_sr=1&sort=top&t=year&limit=10"
+
+# Cross-subreddit search
+reddit_all:   "https://www.reddit.com/search.json?q={QUERY}&sort=top&t=year&limit=10"
+```
+
+> High-signal subreddits by domain:
+>
+> | Domain | Subreddit |
+> |--------|-----------|
+> | Python | `r/Python`, `r/learnpython` |
+> | Web Dev | `r/webdev`, `r/reactjs`, `r/node` |
+> | DevOps / Docker | `r/devops`, `r/docker` |
+> | Machine Learning | `r/MachineLearning`, `r/learnmachinelearning` |
+> | Data Science | `r/datascience`, `r/statistics` |
+> | Remote Sensing / GIS | `r/gis`, `r/remotesensing` |
+> | Databases | `r/PostgreSQL`, `r/SQL` |
+> | Open Source | `r/opensource`, `r/programming` |
+
+### 3.4 Official Vendor Documentation — Tier 1 Sources
+
+**Always fetch official docs before any community source:**
+
+```yaml
+# Web platform (MDN — most authoritative for browser APIs, JS, CSS, HTML)
+mdn_search:     "https://developer.mozilla.org/api/v1/search?q={QUERY}&locale=en-US"
+mdn_page:       "https://developer.mozilla.org/en-US/docs/Web/{PATH}"
+
+# Python standard library
+python_docs:    "https://docs.python.org/3/library/{MODULE}.html"
+python_search:  "https://docs.python.org/3/search.html?q={QUERY}"
+
+# FastAPI
+fastapi:        "https://fastapi.tiangolo.com/{PATH}"
+
+# SQLAlchemy
+sqlalchemy:     "https://docs.sqlalchemy.org/en/20/{PATH}"
+
+# React
+react_docs:     "https://react.dev/reference/react/{API}"
+
+# TypeScript
+typescript:     "https://www.typescriptlang.org/docs/handbook/{PATH}"
+
+# Docker
+docker_docs:    "https://docs.docker.com/reference/{PATH}"
+
+# GitHub Actions
+gha_docs:       "https://docs.github.com/en/actions/{PATH}"
+
+# Traefik
+traefik_docs:   "https://doc.traefik.io/traefik/{PATH}"
+```
+
+### 3.5 Package Registries & Changelogs
+
+```yaml
+# PyPI — version, dependencies, homepage, release date
+pypi:           "https://pypi.org/pypi/{PACKAGE}/json"
+pypi_releases:  "https://pypi.org/pypi/{PACKAGE}/json"   # releases key in response
+
+# npm
+npm:            "https://registry.npmjs.org/{PACKAGE}"
+npm_latest:     "https://registry.npmjs.org/{PACKAGE}/latest"
+
+# Conda (conda-forge)
+conda:          "https://api.anaconda.org/package/conda-forge/{PACKAGE}"
+
+# crates.io (Rust, if needed)
+crates:         "https://crates.io/api/v1/crates/{CRATE}"
+```
+
+### 3.6 GitHub — Code, Repos, Issues
 
 ```yaml
 # Search repositories
-github_repos: "https://api.github.com/search/repositories?q={QUERY}&sort=stars&order=desc"
+github_repos:   "https://api.github.com/search/repositories?q={QUERY}&sort=stars&order=desc&per_page=5"
 
-# Search code
-github_code: "https://api.github.com/search/code?q={QUERY}+language:python"
+# Search code (find implementations in the wild)
+github_code:    "https://api.github.com/search/code?q={QUERY}+language:python&per_page=5"
 
-# Search issues
-github_issues: "https://api.github.com/search/issues?q={QUERY}+repo:{OWNER}/{REPO}"
+# Search issues (bugs, questions, workarounds)
+github_issues:  "https://api.github.com/search/issues?q={QUERY}&sort=reactions&order=desc&per_page=5"
 
-# Get README of a repo
-github_readme: "https://raw.githubusercontent.com/{OWNER}/{REPO}/main/README.md"
+# Get README
+github_readme:  "https://raw.githubusercontent.com/{OWNER}/{REPO}/main/README.md"
 
-# Get file from repo
-github_file: "https://raw.githubusercontent.com/{OWNER}/{REPO}/main/{PATH}"
+# Get specific file
+github_file:    "https://raw.githubusercontent.com/{OWNER}/{REPO}/main/{PATH}"
+
+# List releases / changelog
+github_releases: "https://api.github.com/repos/{OWNER}/{REPO}/releases?per_page=5"
 ```
 
-### 2.4 Software Documentation
+### 3.7 Academic / Scientific Literature
 
 ```yaml
-# PyPI package info
-pypi: "https://pypi.org/pypi/{PACKAGE}/json"
+# Semantic Scholar — papers, abstracts, citations (no key required)
+s2_search:      "https://api.semanticscholar.org/graph/v1/paper/search?query={TERM}&fields=title,authors,year,abstract,citationCount,openAccessPdf&limit=10"
+s2_paper:       "https://api.semanticscholar.org/graph/v1/paper/{PAPER_ID}?fields=title,authors,year,abstract,references"
 
-# npm package info
-npm: "https://registry.npmjs.org/{PACKAGE}"
+# CrossRef — DOI resolution, journal/date filters
+crossref:       "https://api.crossref.org/works?query={TERM}&filter=type:journal-article,from-pub-date:2020&rows=10&sort=relevance&mailto=researcher@example.com"
 
-# Read the Docs / Sphinx sites — fetch directly
-# e.g. rasterio docs: https://rasterio.readthedocs.io/en/stable/
-# e.g. FastAPI docs:  https://fastapi.tiangolo.com/
+# arXiv — preprints (cs.*, eess.*, physics.*, q-bio.*)
+arxiv:          "https://export.arxiv.org/api/query?search_query=all:{TERM}&start=0&max_results=10&sortBy=relevance"
 
-# Python standard library
-python_docs: "https://docs.python.org/3/library/{MODULE}.html"
+# EarthArXiv — geoscience and remote sensing preprints
+eartharxiv:     "https://eartharxiv.org/repository/search/?q={TERM}"
+
+# MDPI Remote Sensing (open access, peer-reviewed)
+mdpi_rs:        "https://www.mdpi.com/search?q={TERM}&journal=remotesensing&article_type=research-article"
+
+# MDPI broad search
+mdpi:           "https://www.mdpi.com/search?q={TERM}&article_type=research-article"
+
+# PubMed (biology, environment, health)
+pubmed:         "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term={TERM}&retmax=10&retmode=json"
 ```
 
-### 2.5 Remote Sensing & Geospatial Data Sources
+**Example — fetch top papers with citation count:**
+```
+web/fetch("https://api.semanticscholar.org/graph/v1/paper/search?query=change+detection+SAR+deep+learning&fields=title,authors,year,abstract,citationCount,openAccessPdf&limit=5")
+```
+
+### 3.8 Remote Sensing & Geospatial Sources
 
 ```yaml
-# Earth Engine dataset catalog
-gee_catalog: "https://developers.google.com/earth-engine/datasets/catalog/{DATASET_ID}"
+# Google Earth Engine dataset catalog
+gee_catalog:    "https://developers.google.com/earth-engine/datasets/catalog/{DATASET_ID}"
 
-# STAC browser — search spatiotemporal assets
+# STAC — spatiotemporal asset catalog
 stac_planetary: "https://planetarycomputer.microsoft.com/api/stac/v1/search"
 stac_element84: "https://earth-search.aws.element84.com/v1/collections"
 
-# USGS Landsat product specifications
-usgs_landsat: "https://www.usgs.gov/landsat-missions/landsat-collection-2"
+# USGS Landsat
+usgs_landsat:   "https://www.usgs.gov/landsat-missions/landsat-collection-2"
 
-# Copernicus / Sentinel product specs
-sentinel_docs: "https://sentinel.esa.int/web/sentinel/technical-guides"
+# Copernicus / ESA Sentinel
+sentinel_docs:  "https://sentinel.esa.int/web/sentinel/technical-guides"
 
-# MapBiomas collection docs
-mapbiomas_docs: "https://mapbiomas.org/en/colecoes-mapbiomas-1"
+# MapBiomas
+mapbiomas:      "https://mapbiomas.org/en/colecoes-mapbiomas-1"
+
+# OpenStreetMap Nominatim (geocoding)
+nominatim:      "https://nominatim.openstreetmap.org/search?q={QUERY}&format=json&limit=5"
 ```
 
 ---
 
-## 3. Query Construction Best Practices
+## 4. Site-Scoped Search (when you know the target site)
 
-### Use Specific, Targeted Queries
+When you know the domain but not the exact URL, use DuckDuckGo with `site:` operator embedded in the query:
+
+```yaml
+# Site-scoped via DuckDuckGo instant answers
+ddg_site: "https://api.duckduckgo.com/?q=site:{DOMAIN}+{QUERY}&format=json&no_html=1"
+
+# Examples:
+"https://api.duckduckgo.com/?q=site:stackoverflow.com+FastAPI+async+context+manager&format=json&no_html=1"
+"https://api.duckduckgo.com/?q=site:docs.python.org+asyncio+gather&format=json&no_html=1"
+"https://api.duckduckgo.com/?q=site:github.com+rasterio+issue+band+count&format=json&no_html=1"
+```
+
+**Useful `site:` targets:**
+
+| Target | Domain |
+|--------|--------|
+| Stack Overflow | `stackoverflow.com` |
+| Python docs | `docs.python.org` |
+| MDN | `developer.mozilla.org` |
+| FastAPI docs | `fastapi.tiangolo.com` |
+| SQLAlchemy docs | `docs.sqlalchemy.org` |
+| GitHub Issues | `github.com` |
+| Docker docs | `docs.docker.com` |
+| AWS docs | `docs.aws.amazon.com` |
+| Traefik docs | `doc.traefik.io` |
+| Read the Docs | `readthedocs.io` |
+
+---
+
+## 5. Query Construction Best Practices
+
+### 5.1 Be Specific
 
 ```
 ❌ Too broad:  "machine learning remote sensing"
@@ -144,100 +333,143 @@ mapbiomas_docs: "https://mapbiomas.org/en/colecoes-mapbiomas-1"
 
 ❌ Too broad:  "Python async"
 ✅ Specific:   "FastAPI background tasks SQLAlchemy async session 2024"
+
+❌ Too broad:  "Docker error"
+✅ Specific:   "Docker multi-stage build COPY --from permission denied non-root"
 ```
 
-### Add Filters When Available
+### 5.2 Boolean & Filter Operators
 
 ```
-# Date filter (CrossRef)
-&filter=from-pub-date:2021
+# Stack Overflow — keyword combinations
+"FastAPI" AND "async" AND "SQLAlchemy" AND "session"
 
-# Language filter (GitHub)
-+language:python
+# GitHub Issues — filters
+is:issue is:closed label:bug "NoneType" "async_session"
 
-# Journal filter (MDPI)
-&journal=remotesensing
+# CrossRef — date + type filter
+&filter=type:journal-article,from-pub-date:2021
 
-# Document type (CrossRef)
-&filter=type:journal-article
+# arXiv — category filter  
+search_query=cat:eess.IV+AND+all:sentinel+deforestation
+
+# GitHub code — language filter
+{QUERY}+language:python+extension:py
 ```
 
-### Encode Spaces and Special Characters
+### 5.3 URL Encoding
+
+Always encode spaces and special characters:
 
 ```python
-# URL-encode the query before passing
 import urllib.parse
-query = urllib.parse.quote("change detection SAR backscatter")
+query = urllib.parse.quote("change detection SAR backscatter temporal")
 url = f"https://api.semanticscholar.org/graph/v1/paper/search?query={query}&limit=5"
 ```
 
 ---
 
-## 4. Parallel Search Strategy
+## 6. Parallel Search Strategy
 
-When researching a topic, launch multiple searches simultaneously:
+For any non-trivial research question, launch sources in parallel grouped by trust tier:
 
 ```
-PARALLEL:
-  1. web/fetch(semantic_scholar: "conceptual overview paper")
-  2. web/fetch(github_repos: "reference implementation")
-  3. web/fetch(pypi: "relevant library")
-  4. web/fetch(official docs: "API reference")
+STEP 1 — PARALLEL (Tier 1 primary sources):
+  ├── web/fetch(official docs)
+  ├── web/fetch(PyPI or GitHub README)
+  └── web/fetch(Semantic Scholar — if academic topic)
 
-→ Synthesise all results before responding
-→ Cite sources with title + URL + year
+STEP 2 — PARALLEL (Tier 2 community sources):
+  ├── web/fetch(Stack Overflow — top voted accepted answer)
+  ├── web/fetch(GitHub Issues — known bugs on this topic)
+  └── web/fetch(arXiv or CrossRef — alternate paper source)
+
+STEP 3 — ONLY IF NEEDED (Tier 3):
+  ├── web/fetch(Hacker News — community discussion)
+  └── web/fetch(Reddit — engineering subreddit)
+
+→ Synthesise after each step; stop when enough evidence gathered
+→ Never cite Tier 3 as sole source for a technical decision
 ```
 
 ---
 
-## 5. Result Synthesis Template
+## 7. Result Synthesis Template
 
 After fetching, always return structured findings:
 
 ```markdown
 ## Research Findings: {TOPIC}
 
-### Key Papers
-| Title | Authors | Year | Key Finding |
-|-------|---------|------|-------------|
-| [Paper Title](url) | Smith et al. | 2023 | ... |
+### Summary
+[2–3 sentence answer to the question based on findings]
+
+### Key Papers / Specs
+| Title | Source | Year | Trust | Key Point |
+|-------|--------|------|-------|-----------|
+| [Paper Title](url) | Semantic Scholar | 2023 | Tier 1 | ... |
+
+### Community Evidence
+| Source | Votes/Stars | Finding |
+|--------|-------------|---------|
+| [SO answer](url) | 342 votes ✓ accepted | Use `asyncio.gather` instead of `create_task` here |
+| [GH issue #123](url) | 87 👍 | Fixed in v2.1.0 — upgrade required |
 
 ### Reference Implementations
-| Repo | Stars | Notes |
-|------|-------|-------|
-| [repo/name](url) | 1.2k | FastAPI + SQLAlchemy pattern |
+| Repo | Stars | Relevant file |
+|------|-------|---------------|
+| [owner/repo](url) | 1.2k | `src/service.py` — async session pattern |
 
 ### Official Docs
-- [Library Name Docs](url) — relevant section: ...
+- [Library Name — relevant section](url): key quote or note
 
 ### Recommendation
-Based on the above: [concise recommendation with justification]
+**Answer**: [Direct answer]
+**Confidence**: High / Medium / Low  
+**Caveat**: [Any version-specific or context-specific warnings]
+**Sources**: [List citations with tier]
 ```
 
 ---
 
-## 6. Quality Guidelines
+## 8. Source Quality Checklist
 
-- **Prefer primary sources**: official docs > tutorials > blog posts
-- **Check recency**: flag papers or libraries older than 5 years if the field moves fast
-- **Verify open access**: for academic papers, prefer PDFs available via `openAccessPdf` in Semantic Scholar
-- **Avoid hallucinating URLs**: only use URLs from fetch results or known stable patterns above
-- **Cite everything**: always include author/year/URL so the user can verify independently
-- **Stop at 3-5 sources**: do not over-fetch. Synthesise quickly and offer to dig deeper on request.
+Before citing a source, verify:
+
+- [ ] **Recency**: is the information still valid? Check date. Flag anything >3 years old in fast-moving fields (JS/TS, LLMs, cloud infra).
+- [ ] **Votes / citations**: SO answers with <5 votes or papers with <10 citations are weak signal — note it.
+- [ ] **Version alignment**: does the answer target the same version as the project? A SQLAlchemy 1.4 answer may not apply to SQLAlchemy 2.0.
+- [ ] **Accepted/merged**: for GitHub issues, check if it's resolved. For SO, prefer accepted answers.
+- [ ] **Open access**: for academic papers, prefer `openAccessPdf` in Semantic Scholar or arXiv preprint. Avoid citing paywalled abstracts as evidence.
+- [ ] **Primary over secondary**: prefer the library's own docs over any tutorial or blog that re-explains them.
+- [ ] **No hallucinated URLs**: only use URLs from actual fetch results or from the known stable patterns in this skill.
 
 ---
 
-## 7. Rate Limits & Etiquette
+## 9. Rate Limits & Etiquette
 
 | API | Limit | Notes |
 |-----|-------|-------|
-| Semantic Scholar | 100 req/5 min (unauthenticated) | Add API key via header for higher limits |
-| CrossRef | 50 req/s | Use `mailto=` param for polite pool |
-| arXiv | ~3 req/s | Add delay between calls if batching |
-| GitHub (unauthenticated) | 10 req/min search, 60 req/hr general | Prefer authenticated for heavy use |
-| PyPI | No official limit | Very permissive |
+| **Jina Reader** (`r.jina.ai`) | No hard limit | Converts any URL to clean Markdown; no key needed |
+| Semantic Scholar | 100 req/5 min | Pass `x-api-key` header for higher dedicated limit |
+| CrossRef | ~50 req/s | Use `mailto=` param for polite pool (faster queue) |
+| arXiv | ~3 req/s | Add 1s delay between batched calls |
+| GitHub (unauthenticated) | 10 search req/min · 60 req/hr | Optionally pass `Authorization: token {TOKEN}` for 30 search req/min |
+| Stack Exchange (unauthenticated) | 300 req/day | Free app key at stackapps.com raises limit to 10,000/day |
+| DuckDuckGo Instant Answers | No official limit | Respectful crawl rate |
+| Wikipedia / Wikidata | No hard limit | Add `User-Agent` header with contact info |
+| Reddit | 10 req/min | Use `User-Agent: MyApp/1.0` header |
+| Hacker News (Algolia) | No hard limit | Very permissive |
+| PyPI / npm / conda | No hard limit | Very permissive |
+| PubMed (NCBI) | 3 req/s | Free API key at NCBI raises limit to 10 req/s |
 
-```
-# CrossRef polite pool (faster, prioritised)
-https://api.crossref.org/works?query={TERM}&mailto=your@email.com
+```yaml
+# CrossRef polite pool — faster, prioritised queue
+"https://api.crossref.org/works?query={TERM}&mailto=researcher@example.com"
+
+# GitHub optional auth header (higher limits)
+headers: { "Authorization": "token {GITHUB_TOKEN}" }
+
+# Stack Exchange free app key (10k/day)
+"https://api.stackexchange.com/2.3/search/advanced?q={QUERY}&site=stackoverflow&key={APP_KEY}"
 ```

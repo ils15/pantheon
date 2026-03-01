@@ -12,7 +12,7 @@ Central coordinator delegating work to specialized subagents.
 
 **When to use:** Complex feature implementation, multi-layer coordination, cross-functional tasks  
 **Role:** Feature orchestration, phase transition, context management  
-**Delegates to:** athena → apollo → {hermes, aphrodite, maat} → ra → temis → mnemosyne → artemis (hotfixes)
+**Delegates to:** athena → apollo → {hermes, aphrodite, maat} → ra → temis → mnemosyne → hephaestus (hotfixes)
 
 **Example:**
 ```
@@ -187,7 +187,7 @@ Remote sensing domain expert — scientific literature research, LULC analysis, 
 
 ### Hotfix Tier (Express Lane)
 
-#### 🏹 **Artemis** (agents/artemis.agent.md)
+#### ⚒️ **Hephaestus** (agents/hephaestus.agent.md)
 Hotfix and Rapid Repair specialist. Bypasses standard orchestration for small bugs and direct fast fixes.
 
 **When to use:** CSS fixes, typos, simple logic bugs that don't require architectural changes  
@@ -378,14 +378,14 @@ User: /optimize-database GET /products endpoint slow
 ⏸️  MANDATORY STOP: User commits to git
 ```
 
-### Pattern 4: Hotfix (Artemis — Express Lane)
+### Pattern 4: Hotfix (Hephaestus — Express Lane)
 ```
 User: /fix CSS bug MobileMenuButton missing hidden class
 
-1. Artemis searches (TARGETED — 1-3 searches max)
+1. Hephaestus searches (TARGETED — 1-3 searches max)
    └─ Find the component file directly
 
-2. Artemis fixes (NO TDD REQUIRED FOR TRIVIAL FIX)
+2. Hephaestus fixes (NO TDD REQUIRED FOR TRIVIAL FIX)
    ├─ Edit the file directly
    ├─ Run existing tests to verify no regressions
    └─ Report change in 1-2 lines
@@ -641,7 +641,7 @@ Each agent can be invoked directly for bypass orchestration:
 
 @mnemosyne: Update memory bank with completed features
 
-@artemis: Fix the hidden lg:flex CSS bug on MobileMenuButton.tsx
+@hephaestus: Fix the hidden lg:flex CSS bug on MobileMenuButton.tsx
 
 @gaia: Analyze inter-product agreement metrics and recommend ensemble method
 
@@ -731,7 +731,7 @@ model: ['Claude Haiku 4.5 (copilot)']
 model: ['Claude Sonnet 4.6 (copilot)']
 # Sonnet for Docker, compose, CI/CD, and deployment code
 
-# Artemis (Hotfix)
+# Hephaestus (Hotfix)
 model: ['Claude Sonnet 4.6 (copilot)']
 # Sonnet for precise, fast bug fixes and minor repairs
 
@@ -752,7 +752,7 @@ model: ['Claude Sonnet 4.6 (copilot)', 'Claude Opus 4.6 (copilot)']
 - **`/fork` command** (#291481): Creates a new chat session inheriting current context. Athena can suggest `/fork` when the user wants to explore an alternative architectural approach without losing the current plan thread.
 - **Slash commands in background agents** (#297117): `/implement-feature`, `/plan-architecture`, `/debug-issue`, etc. now work from background agent contexts — no need to return to foreground chat to invoke them.
 - **Local MCP sandbox** (#294029): MCP servers with `stdio` transport can run sandboxed (file/network isolation). Ra and security-sensitive agents benefit from recommending sandboxed MCP servers for infra tooling.
-- **`disable-model-invocation: true`** (Feb 2026): Add to domain specialist agents (Gaia, Artemis) that should only be user-invoked. Prevents any orchestrator from treating them as generic subagents. An explicit `agents: ['gaia']` in a coordinator overrides this when intentional delegation is needed.
+- **`disable-model-invocation: true`** (Feb 2026): Add to domain specialist agents (Gaia, Hephaestus) that should only be user-invoked. Prevents any orchestrator from treating them as generic subagents. An explicit `agents: ['gaia']` in a coordinator overrides this when intentional delegation is needed.
 - **`handoffs.model`** (Feb 2026): Handoffs can now specify a target model: `handoffs[].model: 'Claude Haiku 4.5 (copilot)'`. Use to switch to a faster model for lighter follow-up phases (e.g., Hermes → Temis handoff uses Sonnet, not Opus).
 - **Claude agent format** (Feb 2026): VS Code detects `.md` files in `.claude/agents/` folder using Claude-specific frontmatter (`tools` as comma-separated string). Same agent files can now run in both VS Code and Claude Code without modification.
 - **awesome-copilot MCP server**: Install community agents, skills and instructions directly via MCP: `copilot plugin marketplace add github/awesome-copilot`. Browse 22k+ starred collection without leaving VS Code.
@@ -913,7 +913,7 @@ Based on industry best practices across all frameworks above:
 | **Context isolation via subagents** | Apollo runs in isolated context window; only its summary returns to Zeus/Athena |
 | **Parallel execution** | Zeus dispatches Hermes + Aphrodite + Maat simultaneously when scopes don't overlap |
 | **Scoped `agents:` property** | Each orchestrator declares exactly which subagents it may invoke — prevents drift |
-| **Tool minimization per agent** | Apollo has no `edit/` tools; Artemis has no `agent` tool — smallest possible surface |
+| **Tool minimization per agent** | Apollo has no `edit/` tools; Hephaestus has no `agent` tool — smallest possible surface |
 | **Progressive context loading** | Zeus reads `04-active-context.md` only when a sprint is active (Tier 2 on demand) |
 | **Auto-loaded Tier 1 memory** | `/memories/repo/` facts are injected by VS Code — zero explicit read calls needed |
 | **Human approval gates** | `agent/askQuestions` blocks at Planning, Review, and Commit — no auto-merging |
@@ -935,4 +935,4 @@ Based on industry best practices across all frameworks above:
 
 **Last Updated:** February 25, 2026  
 **Architecture Pattern:** Conductor-Delegate (extensible — add new domain agents as needed)  
-**Mythology Reference:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Artemis, Temis/Thêmis, Mnemosyne, **Gaia**), Egyptian (Ra, Maat)
+**Mythology Reference:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Hephaestus, Temis/Thêmis, Mnemosyne, **Gaia**), Egyptian (Ra, Maat)
