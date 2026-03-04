@@ -1,6 +1,6 @@
 {
   "chat.plugins.enabled": true,
-  "chat.plugins.paths": {
-    "/home/ils15/copilot-agents": true
-  }
+  "chat.plugins.marketplaces": [
+    "ils15/mythic-agents"
+  ]
 }
