@@ -1,0 +1,27 @@
+{
+  "name": "mythic-agents",
+  "version": "2.6.1",
+  "description": "Multi-agent orchestration framework for VS Code Copilot with 12 agents and 19 skills.",
+  "private": true,
+  "scripts": {
+    "plugin:validate": "node -e \"const fs=require('fs'); const p='.github/plugin/plugin.json'; if(!fs.existsSync(p)){throw new Error('Missing '+p);} JSON.parse(fs.readFileSync(p,'utf8')); console.log('OK: '+p+' is valid JSON');\"",
+    "plugin:inspect": "node -e \"const m=require('./.github/plugin/plugin.json'); console.log(JSON.stringify({name:m.name,version:m.version,agents:m.agents?.length||0,skills:m.skills?.length||0},null,2));\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ils15/mythic-agents.git"
+  },
+  "keywords": [
+    "github",
+    "copilot",
+    "agents",
+    "skills",
+    "plugin",
+    "orchestration"
+  ],
+  "author": "ils15",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
