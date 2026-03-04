@@ -12,7 +12,7 @@ Central coordinator delegating work to specialized subagents.
 
 **When to use:** Complex feature implementation, multi-layer coordination, cross-functional tasks  
 **Role:** Feature orchestration, phase transition, context management  
-**Delegates to:** athena → apollo → {hermes, aphrodite, maat} → ra → temis → mnemosyne → hephaestus (hotfixes)
+**Delegates to:** athena → apollo → {hermes, aphrodite, maat} → ra → temis → iris → mnemosyne → hephaestus (hotfixes)
 
 **Example:**
 ```
@@ -26,7 +26,8 @@ Zeus orchestrates:
 5. Maat handles database migrations
 6. Ra updates Docker
 7. Temis reviews all changes
-8. Mnemosyne documents
+8. Iris opens PR + handles GitHub flow
+9. Mnemosyne documents
 ```
 
 ---
@@ -182,6 +183,30 @@ Remote sensing domain expert — scientific literature research, LULC analysis, 
 - Agreement metrics: Kappa, OA, F1, Dice, temporal frequency
 - Raster pipeline review grounded in scientific literature
 - LULC product ensemble method recommendations
+
+---
+
+### Publishing & GitHub Tier
+
+#### 🌈 **Iris** (agents/iris.agent.md)
+GitHub operations specialist — branches, pull requests, issues, releases, and tags.
+
+**When to use:** After Temis approves a phase and the user has committed locally; creating and managing PRs; opening/closing GitHub Issues; creating release tags and changelogs; any GitHub repository operation  
+**Specialization:** Branch naming conventions, Conventional Commits, PR templating, semantic versioning, GitHub release notes  
+**Called by:** Zeus (after Temis review gate), user (direct invocation)  
+**Depends on:** Temis (review approval), user (`git commit` gate)  
+**Handoffs to:** Mnemosyne (release documentation), Zeus (outcome status)  
+**Tools:** `agent/askQuestions`, `read/readFile`, `execute/runInTerminal`, all `mcp_github2_*` write tools  
+
+**GitHub Standards Applied:**
+- Conventional Commits for branch names and PR titles (`feat/`, `fix/`, `chore/`, `docs/`, `release/`)
+- Every PR opens as **DRAFT** unless instructed otherwise
+- PR description always includes: what changed, why, how to test, breaking changes
+- Checks for `.github/pull_request_template.md` before drafting PR body
+- Semantic versioning: BREAKING → MAJOR, `feat:` → MINOR, `fix:`/others → PATCH
+- **Never** merges without explicit human confirmation via `agent/askQuestions`
+- **Never** uses `--force` push or bypasses branch protection
+- Confirms identity via `mcp_github2_get_me` before any write operation
 
 ---
 
@@ -662,6 +687,9 @@ Each agent can be invoked directly for bypass orchestration:
 | Database optimization | maat | `/optimize-database` |
 | Deploy changes | ra | Direct: @ra |
 | Code review | temis | `/review-code` |
+| Open PR / manage GitHub | iris | Direct: @iris |
+| Create release / tag | iris | Direct: @iris |
+| Open or triage issues | iris | Direct: @iris |
 | Document architectural decisions (ADRs) | mnemosyne | Direct: @mnemosyne |
 | Initialize project.md | mnemosyne | Direct: @mnemosyne |
 | Remote sensing / LULC analysis | gaia | Direct: @gaia |
@@ -738,6 +766,10 @@ model: ['Claude Sonnet 4.6 (copilot)']
 # Gaia (Domain Specialist — Remote Sensing)
 model: ['Claude Sonnet 4.6 (copilot)', 'Claude Opus 4.6 (copilot)']
 # Sonnet for scientific analysis; Opus fallback for complex methodology and literature synthesis
+
+# Iris (GitHub Operations)
+model: ['Claude Sonnet 4.6 (copilot)']
+# Sonnet for structured GitHub workflow tasks — branching, PRs, releases, semantic versioning
 ```
 
 **Changelog-aligned notes (VS Code 1.110):**

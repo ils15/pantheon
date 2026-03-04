@@ -1,6 +1,6 @@
 ---
 name: zeus
-description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), mnemosyne (docs), hephaestus (hotfix)"
+description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), iris (GitHub), mnemosyne (docs), hephaestus (hotfix)"
 argument-hint: "Describe the feature, bug, or epic to orchestrate (Zeus plans, delegates, and coordinates the full lifecycle)"
 model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools:
@@ -13,7 +13,7 @@ tools:
   - search/usages
   - web/fetch
   - search/changes
-agents: ['athena', 'apollo', 'hermes', 'aphrodite', 'maat', 'temis', 'ra', 'mnemosyne', 'hephaestus']
+agents: ['athena', 'apollo', 'hermes', 'aphrodite', 'maat', 'temis', 'ra', 'iris', 'mnemosyne', 'hephaestus']
 handoffs:
   - label: "📋 Plan Feature"
     agent: athena

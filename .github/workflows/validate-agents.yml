@@ -1,0 +1,103 @@
+name: Validate Agent Files
+
+on:
+  pull_request:
+    paths:
+      - 'agents/**'
+      - 'AGENTS.md'
+
+jobs:
+  validate-frontmatter:
+    name: Validate .agent.md frontmatter syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Extract and validate YAML frontmatter
+        run: |
+          set -e
+          FAILED=0
+
+          for file in agents/*.agent.md; do
+            # Extract frontmatter block between the first two '---' delimiters
+            frontmatter=$(awk '/^---/{if(found){exit}else{found=1;next}} found{print}' "$file")
+
+            if [ -z "$frontmatter" ]; then
+              echo "❌ No frontmatter found in $file"
+              FAILED=1
+              continue
+            fi
+
+            # Write to a temp file and validate with yamllint
+            tmpfile=$(mktemp --suffix=.yml)
+            echo "$frontmatter" > "$tmpfile"
+
+            if yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$tmpfile"; then
+              echo "✅ $file — frontmatter OK"
+            else
+              echo "❌ $file — frontmatter has YAML errors"
+              FAILED=1
+            fi
+
+            rm "$tmpfile"
+          done
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo ""
+            echo "One or more agent files have invalid frontmatter. Fix the YAML errors above before merging."
+            exit 1
+          fi
+
+  check-agent-consistency:
+    name: Check AGENTS.md ↔ agents/ consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify every agent in AGENTS.md has a .agent.md file
+        run: |
+          set -e
+          FAILED=0
+
+          # Extract agent names referenced in AGENTS.md using the pattern:
+          # (agents/NAME.agent.md) — matches the header lines in each tier section
+          referenced=$(grep -oP '\(agents/\K[^)]+(?=\.agent\.md\))' AGENTS.md | sort -u)
+
+          for name in $referenced; do
+            if [ ! -f "agents/${name}.agent.md" ]; then
+              echo "❌ AGENTS.md references '${name}' but agents/${name}.agent.md does not exist"
+              FAILED=1
+            else
+              echo "✅ agents/${name}.agent.md — exists"
+            fi
+          done
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo ""
+            echo "Create the missing .agent.md files or remove the stale references in AGENTS.md."
+            exit 1
+          fi
+
+      - name: Verify every .agent.md file is documented in AGENTS.md
+        run: |
+          set -e
+          FAILED=0
+
+          for file in agents/*.agent.md; do
+            basename=$(basename "$file" .agent.md)
+            if ! grep -q "(agents/${basename}.agent.md)" AGENTS.md; then
+              echo "⚠️  agents/${basename}.agent.md exists but is not referenced in AGENTS.md"
+              FAILED=1
+            else
+              echo "✅ ${basename} — documented in AGENTS.md"
+            fi
+          done
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo ""
+            echo "Add documentation for the undocumented agents in AGENTS.md."
+            exit 1
+          fi
