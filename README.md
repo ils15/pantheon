@@ -54,6 +54,7 @@ flowchart TD
     classDef artifact fill:#374151,stroke:#9ca3af,stroke-width:1px,color:#f3f4f6,stroke-dasharray: 5 5
     classDef domain fill:#7c3aed,stroke:#c4b5fd,stroke-width:2px,color:#fff,font-weight:bold
     classDef hotfix fill:#92400e,stroke:#fcd34d,stroke-width:2px,color:#fff
+    classDef publish fill:#155e75,stroke:#67e8f9,stroke-width:2px,color:#fff,font-weight:bold
 
     User([You / Human Control]):::user
 
@@ -90,6 +91,10 @@ flowchart TD
         Mnemosyne["Mnemosyne<br/>ADRs · Sprint close · Memory"]:::memory
     end
 
+    subgraph P5["🌈 Phase 5 — GitHub Publish"]
+        Iris["Iris<br/>Branch · PR · Issues · Releases<br/>(Conventional Commits · Semver)"]:::publish
+    end
+
     subgraph Bypass["⚒️ Hotfix Express Lane"]
         Hephaestus["Hephaestus<br/>Rapid fixes · no ceremony"]:::hotfix
     end
@@ -113,6 +118,8 @@ flowchart TD
     Zeus -->|"finalises"| P4
     Mnemosyne -.->|"sprint closed"| User
     User -.->|"⏸️ Pause Point 3<br/>git commit"| User
+    User -->|"committed — publish"| Iris
+    Iris -.->|"⏸️ Pause Point 4<br/>approve merge / release"| User
 
     %% Bypass paths
     Zeus -.->|"hotfix shortcut"| Bypass
@@ -156,6 +163,7 @@ Every phase produces a structured **artifact** (a file in `docs/memory-bank/.tmp
 | **Aphrodite** | Frontend specialist | React 19, TypeScript strict, WCAG AA, browser screenshot + accessibility audit, `frontend-analyzer` skill | Components, pages, hooks, responsive layouts, accessibility fixes |
 | **Maat** | Database specialist | SQLAlchemy 2.0, Alembic, N+1 detection, EXPLAIN ANALYZE, zero-downtime migrations, `database-optimization` skill | Schema changes, slow query diagnosis, index strategy, migration planning |
 | **Temis** | Quality & security gate | OWASP Top 10, coverage ≥80% hard block, diff-only review, `code-review-checklist` skill | Auto-invoked after every implementation phase; explicit PR or security review |
+| **Iris** | GitHub operations | Branch creation (Conventional Commits), PR lifecycle (draft → review → merge), issue management, releases & semantic versioning | After `git commit` — push, open PR, handle GitHub workflow, create releases |
 | **Ra** | Infrastructure | Multi-stage Docker builds, docker-compose, GitHub Actions, health checks, non-root containers, `docker-best-practices` skill | Container builds, deployment pipelines, environment management |
 | **Hephaestus** | Hotfix express lane | Direct file edits, no TDD ceremony, regression check against existing tests — bypasses all orchestration overhead | CSS fixes, typos, simple logic bugs |
 | **Mnemosyne** | Memory & documentation | `docs/memory-bank/` init, ADR authoring, sprint close, `.tmp/` wipe, `/memories/repo/` atomic facts | Only on explicit request — sprint close, recording architectural decisions |
@@ -189,6 +197,10 @@ Zeus plans with Athena, discovers context with Apollo, then coordinates Maat →
 
 # Review only
 @temis: Review this PR for security vulnerabilities
+
+# GitHub workflow
+@iris: Create branch feat/product-search and open a draft PR
+@iris: Create release v2.5.0 with changelog from last tag
 
 # Discovery only
 @apollo: Find all usages of the deprecated getUserById method
@@ -407,6 +419,7 @@ copilot-agents/
 │   ├── aphrodite.agent.md  frontend
 │   ├── maat.agent.md       database
 │   ├── temis.agent.md      reviewer
+│   ├── iris.agent.md       github operations
 │   ├── ra.agent.md         infrastructure
 │   ├── hephaestus.agent.md hotfix
 │   ├── mnemosyne.agent.md  memory
@@ -467,7 +480,9 @@ Each agent declares its own model in the `.agent.md` frontmatter. The assignment
 | **Maat** | Claude Sonnet 4.6 | GPT-5.3-Codex | Migration reasoning, complex SQL, schema trade-offs |
 | **Temis** | Claude Sonnet 4.6 | GPT-5.3-Codex | Broad code review; Codex fallback for deep security audits |
 | **Aphrodite** | Gemini 3.1 Pro | Claude Sonnet 4.6 | Fast UI iteration and visual/layout-heavy generation |
+| **Iris** | Claude Sonnet 4.6 | — | Structured GitHub workflow tasks — lower latency is ideal for branch/PR operations |
 | **Ra** | Claude Sonnet 4.6 | — | Docker, compose, CI/CD and deployment configuration |
+| **Iris** | Claude Sonnet 4.6 | — | Structured GitHub workflow tasks — branching, PRs, releases, semantic versioning |
 | **Hephaestus** | Claude Sonnet 4.6 | — | Precise rapid fixes — lower latency suits hotfixes |
 | **Gaia** | Claude Opus 4.6 | GPT-5.3-Codex | Scientific methodology synthesis, literature reasoning, complex RS analysis |
 | **Apollo** | Gemini 3 Flash | Claude Haiku 4.5 | Parallel codebase search at minimal token cost |
@@ -578,6 +593,23 @@ Yes. Read `AGENTS.md` for the architecture, then create a new `.agent.md` file i
 ---
 
 ## Changelog
+
+### v2.5 — March 4, 2026
+
+#### New Agent
+- **`Iris`** (η ἴρις) — GitHub operations specialist. Closes the last manual gap in the development lifecycle by owning all GitHub write operations: branch creation (Conventional Commits), pull request lifecycle (draft → review → squash merge), issue management, semantic release tagging, and changelog generation. Uses all `mcp_github2_*` tools. Never merges or releases without explicit human confirmation via `agent/askQuestions`.
+
+#### New GitHub Actions
+- **`.github/workflows/validate-agents.yml`** — On every PR, validates YAML frontmatter syntax of all `.agent.md` files. Catches broken frontmatter before it ships (see v2.4 Gaia bug). Uses `yamllint` + a custom consistency checker that verifies every agent listed in `AGENTS.md` has a corresponding file in `agents/`.
+- **`.github/workflows/release.yml`** — On `git tag v*.*.*` push, automatically creates a GitHub Release with the body extracted from the matching section in `CHANGELOG.md`. Enables `@iris` to trigger versioned releases by pushing a tag.
+
+#### Documentation
+- **`CHANGELOG.md`** — Standalone changelog file added to root (previously changelog was embedded only in `README.md`). Both are now kept in sync.
+- **`README.md`** — Added Iris to agents table, repository structure, mermaid orchestration diagram (Phase 5 — GitHub Publish), model assignment table, and direct invocation examples.
+- **`AGENTS.md`** — Added Iris section under new Publishing & GitHub Tier, updated Zeus delegates chain, Agent Selection Guide, and Model Strategy.
+- **`agents/zeus.agent.md`** — Added `iris` to `agents:` list and `description:` delegates chain.
+
+---
 
 ### v2.4 — February 27, 2026
 

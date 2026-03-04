@@ -1,0 +1,49 @@
+name: Create GitHub Release
+
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Create release from CHANGELOG.md
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract release notes for this version
+        id: notes
+        run: |
+          VERSION="${GITHUB_REF_NAME}"   # e.g. v2.5.0
+
+          # Find the block in CHANGELOG.md for this version.
+          # Sections start with "## [vX.Y.Z]" and end before the next "## [" or EOF.
+          notes=$(awk -v ver="$VERSION" '
+            /^\#\# \[/ {
+              if (found) exit
+              if (index($0, ver)) found=1
+              next
+            }
+            found { print }
+          ' CHANGELOG.md)
+
+          if [ -z "$notes" ]; then
+            echo "⚠️  No entry found for $VERSION in CHANGELOG.md — using generic message."
+            notes="See [CHANGELOG.md](CHANGELOG.md) for details."
+          fi
+
+          # Write to a file to avoid shell escaping issues with multiline strings
+          echo "$notes" > release_notes.md
+          echo "notes_file=release_notes.md" >> "$GITHUB_OUTPUT"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "mythic-agents ${{ github.ref_name }}"
+          body_path: ${{ steps.notes.outputs.notes_file }}
+          draft: false
+          prerelease: ${{ contains(github.ref_name, '-') }}
