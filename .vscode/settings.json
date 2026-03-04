@@ -1,0 +1,6 @@
+{
+  "chat.plugins.enabled": true,
+  "chat.plugins.paths": {
+    "/home/ils15/copilot-agents": true
+  }
+}
