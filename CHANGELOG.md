@@ -7,6 +7,26 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [v2.6.0] — 2026-03-04
+
+### Added
+
+#### VS Code Agent Plugin Support 🔌
+- **`.github/plugin/plugin.json`** — Declares the repo as an installable VS Code Agent Plugin (Claude Code spec format). Bundles all 12 agents and 19 skills into a single installable package. Users can now install mythic-agents without cloning or copying files:
+  ```json
+  // settings.json
+  { "chat.plugins.marketplaces": ["ils15/mythic-agents"] }
+  ```
+  Then browse and install from Extensions view (`@agentPlugins` search) or via local path:
+  ```json
+  { "chat.plugins.paths": { "/path/to/mythic-agents": true } }
+  ```
+
+### Changed
+- **`README.md`** — Replaced single-method Installation section with two options: **Option A (Plugin, recommended)** covering marketplace install and local path; **Option B (Manual copy)** for the previous git-clone approach.
+
+---
+
 ## [v2.5.0] — 2026-03-04
 
 ### Added

@@ -350,12 +350,45 @@ Infra: Docker, Traefik, GitHub Actions
 
 ### Installation
 
+#### Option A — VS Code Agent Plugin (recommended, no file copy needed)
+
+> Requires VS Code 1.110+ with `chat.plugins.enabled: true`
+
+**1. Add to your VS Code `settings.json`:**
+
+```json
+{
+  "chat.plugins.enabled": true,
+  "chat.plugins.marketplaces": ["ils15/mythic-agents"]
+}
+```
+
+**2. Install from Extensions view:**  
+Open Extensions (`Ctrl+Shift+X`) → search `@agentPlugins` → find **mythic-agents** → **Install**
+
+All 12 agents and 19 skills appear immediately in your Copilot session — no file copying, no repo changes.
+
+**Or install via local path** (if you've already cloned the repo):
+
+```json
+{
+  "chat.plugins.enabled": true,
+  "chat.plugins.paths": {
+    "/path/to/mythic-agents": true
+  }
+}
+```
+
+---
+
+#### Option B — Manual copy into your project
+
 ```bash
 # 1. Clone into your project (or copy the framework folders)
-git clone https://github.com/your-org/copilot-agents
-cp -r copilot-agents/agents copilot-agents/instructions \
-      copilot-agents/prompts copilot-agents/skills \
-      copilot-agents/.github copilot-agents/docs \
+git clone https://github.com/ils15/mythic-agents
+cp -r mythic-agents/agents mythic-agents/instructions \
+      mythic-agents/prompts mythic-agents/skills \
+      mythic-agents/.github mythic-agents/docs \
       /path/to/your-product/
 
 # 2. Customize the Copilot instructions for your product

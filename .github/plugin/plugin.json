@@ -1,0 +1,58 @@
+{
+  "name": "mythic-agents",
+  "description": "12-agent orchestration system for VS Code Copilot. Zeus orchestrates a full Conductor-Delegate pipeline: Athena (planning), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Iris (GitHub), Temis (code review), Hephaestus (hotfix), Mnemosyne (memory), Gaia (remote sensing). Includes 19 on-demand skills covering TDD, security audit, API design, database migration, Docker, Playwright, and more.",
+  "version": "2.6.0",
+  "keywords": [
+    "multi-agent",
+    "orchestration",
+    "tdd",
+    "fastapi",
+    "react",
+    "docker",
+    "github",
+    "database",
+    "security",
+    "remote-sensing",
+    "conductor-delegate"
+  ],
+  "author": {
+    "name": "ils15"
+  },
+  "repository": "https://github.com/ils15/mythic-agents",
+  "license": "MIT",
+  "agents": [
+    "./agents/zeus.agent.md",
+    "./agents/athena.agent.md",
+    "./agents/apollo.agent.md",
+    "./agents/hermes.agent.md",
+    "./agents/aphrodite.agent.md",
+    "./agents/maat.agent.md",
+    "./agents/ra.agent.md",
+    "./agents/iris.agent.md",
+    "./agents/temis.agent.md",
+    "./agents/hephaestus.agent.md",
+    "./agents/mnemosyne.agent.md",
+    "./agents/gaia.agent.md"
+  ],
+  "skills": [
+    "./skills/agent-coordination/",
+    "./skills/api-design-patterns/",
+    "./skills/artifact-management/",
+    "./skills/code-review-checklist/",
+    "./skills/database-migration/",
+    "./skills/database-optimization/",
+    "./skills/docker-best-practices/",
+    "./skills/fastapi-async-patterns/",
+    "./skills/frontend-analyzer/",
+    "./skills/internet-search/",
+    "./skills/nextjs-seo-optimization/",
+    "./skills/orchestration-workflow/",
+    "./skills/performance-optimization/",
+    "./skills/playwright-e2e-testing/",
+    "./skills/prompt-improver/",
+    "./skills/remote-sensing-analysis/",
+    "./skills/security-audit/",
+    "./skills/tdd-with-agents/",
+    "./skills/web-ui-analysis/"
+  ]
+}
