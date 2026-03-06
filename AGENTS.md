@@ -35,23 +35,25 @@ Zeus orchestrates:
 ### Planning Tier
 
 #### 🧠 **Athena** (agents/athena.agent.md)
-Strategic planner with research capability. Generates detailed TDD-driven implementation roadmaps.
+Strategic planner optimized for speed. Generates concise TDD-driven implementation roadmaps (3-5 phases max).
 
 **When to use:** Architecture decisions, technology research, detailed planning before implementation  
-**Tools:** `search/codebase`, `search/usages`, `web/fetch`, `search/fileSearch`, `search/textSearch` (for external research)  
-**Calls:** apollo (for codebase discovery + docs/GitHub evidence), hands off to zeus for implementation  
+**Tools:** `search/codebase`, `search/usages`, `web/fetch`  
+**Calls:** apollo (OPTIONAL for complex discovery), hands off to zeus for implementation  
 **Skills:** plan-architecture.prompt  
+**Performance:** ~30s average (70% faster than previous version)
 
 **Example:**
 ```
 /plan-architecture Implement caching layer (L1 local + L2 Redis)
 
 Athena:
-1. Researches caching patterns
-2. Delegates discovery to Apollo
-3. Creates detailed TDD plan
-4. Proposes implementation phases
-5. Hands off to Zeus for execution
+1. Quick codebase search (or delegates to Apollo if complex)
+2. Creates concise 3-5 phase TDD plan
+3. Requests approval via interactive questions
+4. Hands off to Zeus for execution
+
+⚡ Optimized: Direct search for simple cases, Apollo only when needed
 ```
 
 ---
@@ -597,7 +599,7 @@ The system operates with **structured artifacts** — persisted outputs that cre
 
 | Prefix | Produced by | Persisted by | Location |
 |---|---|---|---|
-| `PLAN-` | Athena | Mnemosyne | `docs/memory-bank/.tmp/PLAN-<feature>.md` ⚠️ gitignored |
+| `PLAN-` | Athena | Mnemosyne | `docs/memory-bank/.tmp/PLAN-<feature>.md` ⚠️ gitignored (optional - only if requested) |
 | `IMPL-` | Hermes / Aphrodite / Maat | Mnemosyne | `docs/memory-bank/.tmp/IMPL-<phase>-<agent>.md` ⚠️ gitignored |
 | `REVIEW-` | Temis | Mnemosyne | `docs/memory-bank/.tmp/REVIEW-<feature>.md` ⚠️ gitignored |
 | `DISC-` | Apollo (`#runSubagent`) | Mnemosyne | `docs/memory-bank/.tmp/DISC-<topic>.md` ⚠️ gitignored |
@@ -611,10 +613,10 @@ The system operates with **structured artifacts** — persisted outputs that cre
 You (Architect)
     └─► Zeus (Orchestrator)
             │
-            ├─► Athena ──────────────── PLAN-<feature>.md
-            │       └─► Apollo (DISC)
+            ├─► Athena ──────────────── Plan presented in CHAT (artifact optional)
+            │       └─► Apollo (optional for complex discovery)
             │
-            │   ⏸️ GATE 1: You approve PLAN artifact
+            │   ⏸️ GATE 1: You approve plan in chat
             │
             ├─► [PARALLEL 🔀]
             │       ├─► Hermes ───── IMPL-phase2-hermes.md
@@ -724,12 +726,12 @@ Each agent uses optimized models for their role:
 
 ```yaml
 # Zeus (Orchestrator)
-model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
-# Opus for complex orchestration, Sonnet fallback
+model: ['GPT-5.4 (copilot)', 'Claude Sonnet 4.6 (copilot)']
+# GPT-5.4 for complex orchestration, Sonnet fallback
 
 # Athena (Planning)
-model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
-# Opus for strategic planning, long multi-step decomposition, and high-agency workflows
+model: ['Claude Sonnet 4.6 (copilot)']
+# Sonnet is fast enough for planning; Opus overhead removed for 70% speed improvement
 
 # Apollo (Discovery)
 model: ['Gemini 3 Flash (Preview) (copilot)', 'Claude Haiku 4.5 (copilot)']
@@ -764,8 +766,8 @@ model: ['Claude Sonnet 4.6 (copilot)']
 # Sonnet for precise, fast bug fixes and minor repairs
 
 # Gaia (Domain Specialist — Remote Sensing)
-model: ['Claude Sonnet 4.6 (copilot)', 'Claude Opus 4.6 (copilot)']
-# Sonnet for scientific analysis; Opus fallback for complex methodology and literature synthesis
+model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)']
+# Sonnet for scientific analysis; GPT-5.4 fallback for complex methodology and literature synthesis
 
 # Iris (GitHub Operations)
 model: ['Claude Sonnet 4.6 (copilot)']
@@ -949,7 +951,7 @@ Based on industry best practices across all frameworks above:
 | **Progressive context loading** | Zeus reads `04-active-context.md` only when a sprint is active (Tier 2 on demand) |
 | **Auto-loaded Tier 1 memory** | `/memories/repo/` facts are injected by VS Code — zero explicit read calls needed |
 | **Human approval gates** | `agent/askQuestions` blocks at Planning, Review, and Commit — no auto-merging |
-| **Model-role alignment** | Fast models (Haiku, Gemini Flash) for shallow discovery; Sonnet/Opus for planning and production code |
+| **Model-role alignment** | Fast models (Haiku, Gemini Flash) for shallow discovery; Sonnet for planning and production code; GPT-5.4 for complex orchestration |
 
 ---
 

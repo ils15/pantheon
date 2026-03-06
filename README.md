@@ -507,8 +507,8 @@ Each agent declares its own model in the `.agent.md` frontmatter. The assignment
 
 | Agent | Primary model | Fallback | Rationale |
 |---|---|---|---|
-| **Zeus** | Claude Opus 4.6 | Claude Sonnet 4.6 | Deep long-context reasoning for multi-agent orchestration |
-| **Athena** | Claude Opus 4.6 | Claude Sonnet 4.6 | Architecture planning, TDD decomposition, multi-step research |
+| **Zeus** | GPT-5.4 | Claude Sonnet 4.6 | Deep long-context reasoning for multi-agent orchestration |
+| **Athena** | Claude Sonnet 4.6 | — | Architecture planning, TDD decomposition, multi-step research |
 | **Hermes** | Claude Sonnet 4.6 | GPT-5.3-Codex | Production backend code, security-conscious API design |
 | **Maat** | Claude Sonnet 4.6 | GPT-5.3-Codex | Migration reasoning, complex SQL, schema trade-offs |
 | **Temis** | Claude Sonnet 4.6 | GPT-5.3-Codex | Broad code review; Codex fallback for deep security audits |
@@ -517,7 +517,7 @@ Each agent declares its own model in the `.agent.md` frontmatter. The assignment
 | **Ra** | Claude Sonnet 4.6 | — | Docker, compose, CI/CD and deployment configuration |
 | **Iris** | Claude Sonnet 4.6 | — | Structured GitHub workflow tasks — branching, PRs, releases, semantic versioning |
 | **Hephaestus** | Claude Sonnet 4.6 | — | Precise rapid fixes — lower latency suits hotfixes |
-| **Gaia** | Claude Opus 4.6 | GPT-5.3-Codex | Scientific methodology synthesis, literature reasoning, complex RS analysis |
+| **Gaia** | GPT-5.4 | GPT-5.3-Codex | Scientific methodology synthesis, literature reasoning, complex RS analysis |
 | **Apollo** | Gemini 3 Flash | Claude Haiku 4.5 | Parallel codebase search at minimal token cost |
 | **Mnemosyne** | Claude Haiku 4.5 | — | Documentation formatting — Haiku is sufficient for text-only tasks |
 

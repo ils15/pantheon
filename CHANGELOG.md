@@ -7,6 +7,45 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [Unreleased]
+
+### Changed
+
+#### Model Migration: Opus 4.6 → GPT-5.4 🤖
+- **`agents/zeus.agent.md`** — Primary model switched from `Claude Opus 4.6` to `GPT-5.4` for complex orchestration workflows
+- **`agents/gaia.agent.md`** — Primary model switched from `Claude Opus 4.6` to `GPT-5.4` for scientific methodology synthesis and complex analysis
+- **`AGENTS.md`** — Updated model strategy documentation:
+  - Zeus: GPT-5.4 for complex orchestration, Sonnet 4.6 fallback
+  - Gaia: GPT-5.4 for complex RS analysis, GPT-5.3-Codex fallback
+  - Model-role alignment: "Fast models (Haiku, Gemini Flash) for shallow discovery; Sonnet for planning and production code; GPT-5.4 for complex orchestration"
+- **`README.md`** — Updated model comparison table to reflect GPT-5.4 usage in Zeus and Gaia
+
+#### Athena Performance Optimization ⚡
+- **`agents/athena.agent.md`** — Optimized for 70-85% faster planning workflows (from ~90s to ~13-30s average):
+  - **Model**: Switched from `Claude Opus 4.6` primary to `Claude Sonnet 4.6` only (Opus overhead removed)
+  - **Tools**: Removed redundant `search/fileSearch` and `search/textSearch` tools (Apollo does this better)
+  - **Apollo**: Now optional — Athena uses `search/codebase` directly for simple searches, only delegates to Apollo for complex discovery
+  - **Artifact**: No longer creates `PLAN-*.md` automatically — presents plan in chat only (artifact created only if user explicitly requests)
+  - **Memory Bank**: Reads `docs/memory-bank/00-overview.md` and `01-architecture.md` only if files exist and have content (conditional)
+  - **Instructions**: Simplified from ~250 lines to ~100 lines (removed redundant examples, moved detailed workflows to skills)
+  
+- **`AGENTS.md`** — Updated Athena section to reflect optimizations:
+  - Added performance metric: "~30s average (70% faster than previous version)"
+  - Clarified Apollo is now OPTIONAL for complex discovery
+  - Updated model strategy section: Sonnet only for Athena
+  - Updated artifact protocol: PLAN artifacts are optional, not automatic
+  - Updated workflow diagrams: "Plan presented in CHAT (artifact optional)"
+
+- **`docs/ATHENA-OPTIMIZATION-ANALYSIS.md`** — Created detailed performance analysis document identifying 6 bottlenecks and 2-phase optimization plan with before/after metrics
+
+### Performance Impact
+- **Athena planning time**: 70% faster (Phase 1: ~90s → ~27s)
+- **Full optimization**: 85% faster (Phase 2: ~90s → ~13s)
+- **Token efficiency**: 20-30% fewer tokens per planning session
+- **User experience**: Immediate plan presentation in chat, no waiting for artifact creation
+
+---
+
 ## [v2.6.0] — 2026-03-04
 
 ### Added

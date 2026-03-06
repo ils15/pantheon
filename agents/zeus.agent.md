@@ -2,7 +2,7 @@
 name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), iris (GitHub), mnemosyne (docs), hephaestus (hotfix)"
 argument-hint: "Describe the feature, bug, or epic to orchestrate (Zeus plans, delegates, and coordinates the full lifecycle)"
-model: ['Claude Opus 4.6 (copilot)', 'Claude Sonnet 4.6 (copilot)']
+model: ['GPT-5.4 (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools:
   - agent
   - agent/askQuestions
@@ -142,7 +142,7 @@ Full debugging guide with 7-step process in documentation.
 ## Available Subagents
 
 ### 1. Athena - THE STRATEGIC PLANNER
-- **Model**: Claude Opus 4.6 (copilot)
+- **Model**: Claude Sonnet 4.6 (copilot)
 - **Role**: Strategic planning, TDD-driven plans, RCA analysis, deep research
 - **Use for**: Feature planning, architectural decisions, root cause analysis
 - **Returns**: Comprehensive implementation plans with risk analysis
@@ -416,7 +416,7 @@ Your orchestration creates traceable sessions:
 ### Model Switching
 Switch models mid-orchestration:
 ```
-/switch-model claude-opus          # For better planning
+/switch-model gpt-5.4              # For complex orchestration
 /switch-model gpt-5.3-codex        # For backend/refactors/review
 ```
 
