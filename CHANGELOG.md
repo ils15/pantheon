@@ -132,7 +132,7 @@ All framework files are now entirely in English. Previously Portuguese content t
 
 ### Fixed
 - **`agents/gaia.agent.md`** — YAML syntax error: `model:` second entry was missing quotes, causing invalid frontmatter
-- **`AGENTS.md`** — Zeus `Delegates to:` chain was missing `hephaestus`; updated to reflect the full 9-agent delegation list
+- **`AGENTS.md`** — Zeus `Delegates to:` chain was missing `talos`; updated to reflect the full 9-agent delegation list
 
 ---
 
