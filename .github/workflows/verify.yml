@@ -1,0 +1,64 @@
+name: Verify Pushes
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Validate .agent.md frontmatter YAML
+        run: |
+          set -e
+          FAILED=0
+
+          for file in agents/*.agent.md; do
+            frontmatter=$(awk '/^---/{if(found){exit}else{found=1;next}} found{print}' "$file")
+
+            if [ -z "$frontmatter" ]; then
+              echo "❌ No frontmatter found in $file"
+              FAILED=1
+              continue
+            fi
+
+            tmpfile=$(mktemp --suffix=.yml)
+            echo "$frontmatter" > "$tmpfile"
+
+            if yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$tmpfile"; then
+              echo "✅ $file — frontmatter OK"
+            else
+              echo "❌ $file — frontmatter has YAML errors"
+              FAILED=1
+            fi
+
+            rm "$tmpfile"
+          done
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo ""
+            echo "One or more agent files have invalid frontmatter."
+            exit 1
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate plugin manifest
+        run: npm run plugin:validate
