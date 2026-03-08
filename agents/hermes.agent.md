@@ -196,7 +196,7 @@ After Mnemosyne persists the artifact, signal Zeus: `Ready for Temis review.`
 
 If you need to research something independently:
 ```
-#runSubagent apollo "Find all async patterns in media_service.py"
+#runSubagent Explore "Find all async patterns in media_service.py (thorough)"
 ```
 
 Returns isolated result without contaminating main context.

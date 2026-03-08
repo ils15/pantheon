@@ -100,6 +100,8 @@ This is worth exploring separately. Use /fork to compare approaches.
 
 **Complex:** "Plan microservices migration" → Delegate to `@apollo` for full discovery → Create 5-phase plan
 
+**Isolated discovery:** use `#runSubagent Explore` for read-only deep dives that should not contaminate the current context.
+
 ---
 
 **REMEMBER**: Plan concisely. Present in chat. Get approval. Hand off to @zeus.
@@ -109,26 +111,4 @@ This is worth exploring separately. Use /fork to compare approaches.
 For external docs/specs, use `web/fetch` (see `internet-search` skill for patterns):
 - RFCs, official documentation, GitHub issues/PRs
 - Synthesize findings into plan recommendations
-
-## Examples
-
-**Simple Planning:**
-```
-User: "Plan JWT auth"
-→ search/codebase for auth files
-→ Create 3-phase plan in chat
-→ Get approval → handoff to @zeus
-```
-
-**Complex Planning:**
-```
-User: "Plan microservices migration"  
-→ @apollo for full discovery (patterns, dependencies)
-→ Create 5-phase plan in chat
-→ Get approval → handoff to @zeus
-```
-
----
-
-**REMEMBER**: Research → Plan concisely → Present in chat → Get approval → Hand off to @zeus.
 

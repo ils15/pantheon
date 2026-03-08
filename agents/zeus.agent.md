@@ -202,9 +202,9 @@ Full debugging guide with 7-step process in documentation.
 
 ```
 Phase 1: Planning & Research
-  ├─ @athena → creates PLAN-<feature>.md (via Mnemosyne)
+  ├─ @athena → presents plan in chat (optional PLAN artifact only if requested)
   ├─ @apollo (parallel discovery + docs/GitHub evidence)
-  └─ ⏸️ GATE 1: User reads PLAN artifact → approves or requests changes
+  └─ ⏸️ GATE 1: User reviews plan in chat → approves or requests changes
 
 Phase 2: Implementation (PARALLEL — declare explicitly)
   ╭─ @hermes  → backend + tests  → IMPL-phase2-hermes.md
@@ -281,8 +281,8 @@ For every feature, Zeus enforces the artifact lifecycle:
 
 | Phase | Producing Agent | Artifact | Gate type |
 |---|---|---|---|
-| Planning | Athena + Mnemosyne | `PLAN-<feature>.md` | Human approval |
-| Discovery | Apollo (`#runSubagent`) | `DISC-<topic>.md` | Informational |
+| Planning | Athena (+ Mnemosyne if requested) | Chat plan (optional `PLAN-<feature>.md`) | Human approval |
+| Discovery | Explore (`#runSubagent`) or Apollo direct | Optional `DISC-<topic>.md` | Informational |
 | Implementation | Workers + Mnemosyne | `IMPL-<phase>-<agent>.md` | Temis review |
 | Quality | Temis + Mnemosyne | `REVIEW-<feature>.md` | Human approval |
 | Decisions | Any + Mnemosyne | `ADR-<topic>.md` | Archive |
@@ -347,7 +347,7 @@ Use isolated subagents for:
 
 Avoid auto-invoking strategic or release agents; require explicit user approval for roadmap decisions or deployments.
 
-**Example**: `#runSubagent apollo "Find all WebSocket patterns"` (isolated)
+**Example**: `#runSubagent Explore "Find all WebSocket patterns (thorough)"` (isolated)
 
 ### Phase-Based Handoff Workflow
 

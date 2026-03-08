@@ -257,21 +257,21 @@ Every response from Apollo MUST follow this structure — no exceptions:
 
 ## 🚨 Documentation Policy
 
-**Artifact via Mnemosyne (for isolated subagent results):**
-- ✅ When running as `#runSubagent`, return findings AND request Mnemosyne to save as `DISC-<topic>.md`
+**Artifact via Mnemosyne (for isolated discovery results):**
+- ✅ When discovery is run in isolated mode via `#runSubagent Explore`, return findings and optionally request Mnemosyne to save as `DISC-<topic>.md`
 - ✅ When invoked directly as `@apollo`, return findings in chat (no artifact needed)
 - ❌ Direct .md file creation by Apollo
 
 **Artifact Protocol Reference:** `instructions/artifact-protocol.instructions.md`
 
-## When to Use: `#runSubagent apollo` vs. `@apollo`
+## When to Use: `#runSubagent Explore` vs. `@apollo`
 
 | Mode | When to use | Output |
 |---|---|---|
 | `@apollo` (direct) | When parent agent needs findings in same context | Chat report only |
-| `#runSubagent apollo` | Independent deep-dive, prevent context contamination | Chat + `DISC-<topic>.md` artifact |
+| `#runSubagent Explore` | Independent deep-dive, prevent context contamination | Chat report (optional `DISC-<topic>.md` via Mnemosyne) |
 
-**Example**: Use `#runSubagent apollo` when researching 3 separate topics in parallel that should NOT contaminate each other's context.
+**Example**: Use `#runSubagent Explore` when researching 3 separate topics in parallel that should NOT contaminate each other's context.
 
 ## Read-Only Constraint
 
@@ -449,7 +449,7 @@ Always return **structured findings** — your output is consumed by parent agen
 - Aphrodite: <what to build>
 ```
 
-> **When called as subagent** (`#runSubagent apollo`): return ONLY the structured report above — no preamble, no explanation, no raw file content. The parent agent receives only your final output.
+> **When discovery is isolated** (`#runSubagent Explore`): return ONLY the structured report above — no preamble, no explanation, no raw file content. The parent agent receives only your final output.
 
 ## Speed Tips for You
 

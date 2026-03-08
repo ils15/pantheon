@@ -16,7 +16,8 @@ tools: ['search', 'usages']
 - What constraints do we have?
 
 ### 2. Research Phase (Parallel)
-Use @apollo-subagent for exploration:
+Use @apollo for exploration.
+If you need isolated read-only research, use `#runSubagent Explore`.
 - Discover related files
 - Understand dependencies
 - Identify existing patterns
@@ -25,7 +26,7 @@ Use @apollo-subagent for exploration:
 
 Your plan MUST have:
 - **Overview**: What will be built, success criteria
-- **3-10 Phases**: Each phase self-contained with tests
+- **3-5 Phases**: Each phase self-contained with tests
 - **Phase Structure**:
   - Tests to write (RED)
   - Minimal code (GREEN)

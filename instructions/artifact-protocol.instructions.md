@@ -45,12 +45,12 @@ docs/memory-bank/
 | `@athena` plans (with or without Zeus) | **Athena** | `PLAN-<feature>.md` |
 | `@hermes` / `@aphrodite` / `@maat` implement | **The worker** | `IMPL-phase<N>-<agent>.md` |
 | `@temis` reviews | **Temis** | `REVIEW-<feature>.md` |
-| `#runSubagent apollo` (isolated mode only) | **Apollo** | `DISC-<topic>.md` |
+| `#runSubagent Explore` (isolated mode only) | **Explore** | `DISC-<topic>.md` |
 | Architectural decision (any agent) | **Any → Mnemosyne** | `ADR-<topic>.md` (permanent) |
 
 > [!IMPORTANT]
 > **Zeus does NOT generate artifacts.** He orchestrates agents that generate them.
-> **`@apollo` direct** (not subagent) does NOT generate artifacts — returns findings in chat only.
+> **`@apollo` direct** is chat-only discovery and does NOT generate artifacts.
 
 ---
 

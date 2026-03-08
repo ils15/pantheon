@@ -9,6 +9,18 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- _No entries yet._
+
+### Changed
+
+- _No entries yet._
+
+---
+
+## [v2.6.1] — 2026-03-08
+
 ### Changed
 
 #### Model Migration: Opus 4.6 → GPT-5.4 🤖
@@ -43,6 +55,10 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - **Full optimization**: 85% faster (Phase 2: ~90s → ~13s)
 - **Token efficiency**: 20-30% fewer tokens per planning session
 - **User experience**: Immediate plan presentation in chat, no waiting for artifact creation
+
+#### Release Automation Hardening
+- **`.github/workflows/release.yml`** — Tag trigger normalized to `v*` to ensure release workflow activation on version tag pushes.
+- **`.github/workflows/verify.yml`** — Added push/PR verification workflow for `main` with agent frontmatter validation (`yamllint`) and plugin manifest validation (`npm run plugin:validate`).
 
 ---
 

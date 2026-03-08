@@ -7,19 +7,17 @@
 
 ## Current Focus
 
-<!-- One sentence: what is being worked on right now? -->
-_Ex: "Implementing JWT authentication with refresh tokens in the FastAPI backend."_
+Harden and automate GitHub workflow operations for tag-based releases and push-time verification.
 
-**Status:** <!-- In planning | In implementation | In review | Complete -->
+**Status:** Complete
 
 ---
 
 ## Most Recent Decision
 
-<!-- The last significant architectural or design decision relevant to current work. -->
-_Ex: "Decided to store refresh tokens in httpOnly cookies with a 7-day TTL to protect against XSS."_
+Keep the existing release workflow and improve it incrementally: fix tag trigger pattern and add a dedicated verify workflow for `main` push/PR checks.
 
-**Date:** <!-- YYYY-MM-DD -->
+**Date:** 2026-03-08
 
 ---
 
@@ -32,9 +30,8 @@ _Ex: "Decided to store refresh tokens in httpOnly cookies with a 7-day TTL to pr
 
 ## Next Steps
 
-<!-- The next 2–3 concrete steps after current focus. -->
-1. _Ex: Review auth endpoints with @temis_
-2. _Ex: Update frontend login flow_
+1. Validate the new workflows in GitHub Actions after the next push.
+2. Use @iris to draft the next release tag and push tags to trigger automated release publication.
 
 ---
 
