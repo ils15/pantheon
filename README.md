@@ -543,6 +543,12 @@ Files updated automatically by the script:
 - `plugin.json`
 - `.github/plugin/plugin.json`
 
+CI automation included:
+- `.github/workflows/version-recommendation.yml` — runs on PR and comments recommended bump (`version:recommend`)
+- `.github/workflows/tag-version-sync.yml` — runs on tag push (`v*`) and validates all 3 manifests are synchronized and match the tag
+- `.github/workflows/release-drafter.yml` + `.github/release-drafter.yml` — optional assisted release draft/changelog generation
+- `.github/workflows/pr-conventional-labels.yml` — applies PR labels automatically from Conventional Commit title (used by Release Drafter/version resolver)
+
 ### Built-in web research (`internet-search` skill)
 
 Agents with `web/fetch` access — Athena, Apollo, Gaia, Zeus — use the **`internet-search` skill** for structured external research without any additional setup:
@@ -662,6 +668,10 @@ Yes. Read `AGENTS.md` for the architecture, then create a new `.agent.md` file i
     - `version:minor`
     - `version:major`
 - Defined dynamic semantic versioning policy based on Conventional Commits directly in this README.
+- Added CI automation for the full flow:
+    - PR comment with recommended bump (`version-recommendation.yml`)
+    - tag-time manifest sync validation (`tag-version-sync.yml`)
+    - optional release draft/changelog assistance (`release-drafter.yml`)
 
 ### v2.6 — March 9, 2026
 

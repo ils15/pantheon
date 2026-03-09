@@ -37,6 +37,11 @@ Versioning follows [Semantic Versioning](https://semver.org/).
   - `BREAKING CHANGE` or `!` in type scope -> major
   - `feat:` -> minor
   - all other conventional types -> patch
+- Added CI workflows to operationalize versioning end-to-end:
+  - `.github/workflows/version-recommendation.yml` posts/upserts recommendation comments on PRs
+  - `.github/workflows/tag-version-sync.yml` validates manifest-version sync and tag/version match on `v*`
+  - `.github/workflows/release-drafter.yml` with `.github/release-drafter.yml` generates optional draft release notes/changelog assistance
+  - `.github/workflows/pr-conventional-labels.yml` auto-labels PRs from Conventional Commit titles (feeds Release Drafter categories/version resolver)
 
 ---
 
