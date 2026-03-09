@@ -2,7 +2,7 @@
 name: talos
 description: "Hotfix express lane — direct fixes for small bugs, CSS, typos, minor logic. No TDD ceremony, no orchestration overhead. Standalone, no subagents. Escalates complex issues to zeus."
 argument-hint: "Exact bug or typo: file name, symptom, and expected fix (e.g. 'hover colour wrong on MobileMenu.tsx button — should be blue-600 not blue-400')"
-model: ['Claude Sonnet 4.6 (copilot)']
+model: ['Claude Haiku 4.5 (copilot)', 'GPT-5.4 (copilot)']
 tools:
   - search/codebase
   - search/usages
@@ -17,6 +17,7 @@ handoffs:
     agent: zeus
     prompt: "This fix is more complex than expected and requires multi-agent orchestration. Please take over."
     send: false
+    model: 'GPT-5.4 (copilot)'
 user-invocable: true
 disable-model-invocation: true
 ---

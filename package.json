@@ -1,9 +1,14 @@
 {
   "name": "mythic-agents",
-  "version": "2.6.1",
+  "version": "2.7.0",
   "description": "Multi-agent orchestration framework for VS Code Copilot with 12 agents and 19 skills.",
   "private": true,
   "scripts": {
+    "version:recommend": "node scripts/versioning.mjs recommend",
+    "version:auto": "node scripts/versioning.mjs apply auto",
+    "version:patch": "node scripts/versioning.mjs apply patch",
+    "version:minor": "node scripts/versioning.mjs apply minor",
+    "version:major": "node scripts/versioning.mjs apply major",
     "plugin:validate": "node -e \"const fs=require('fs'); const p='.github/plugin/plugin.json'; if(!fs.existsSync(p)){throw new Error('Missing '+p);} JSON.parse(fs.readFileSync(p,'utf8')); console.log('OK: '+p+' is valid JSON');\"",
     "plugin:inspect": "node -e \"const m=require('./.github/plugin/plugin.json'); console.log(JSON.stringify({name:m.name,version:m.version,agents:m.agents?.length||0,skills:m.skills?.length||0},null,2));\""
   },

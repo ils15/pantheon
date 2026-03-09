@@ -19,6 +19,59 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [v2.7.0] — 2026-03-09
+
+### Changed
+
+#### Dynamic Versioning and Release Preparation
+- Standardized repository release version to `2.7.0` across all version manifests:
+  - `package.json`
+  - `plugin.json`
+  - `.github/plugin/plugin.json`
+- Added `scripts/versioning.mjs` to automate semantic bump recommendation and application.
+- Added npm scripts for versioning workflow:
+  - `version:recommend` (analyzes commit subjects and recommends bump)
+  - `version:auto` (applies recommended bump)
+  - `version:patch`, `version:minor`, `version:major` (manual override)
+- Introduced Conventional Commit-based bump policy in documentation:
+  - `BREAKING CHANGE` or `!` in type scope -> major
+  - `feat:` -> minor
+  - all other conventional types -> patch
+
+---
+
+## [v2.6.2] — 2026-03-09
+
+### Changed
+
+#### Hardening Final (Model + Browser + Consistency)
+- Standardized model routing across all core agents to the modern baseline:
+  - Zeus, Athena, Hermes, Maat, Temis, Ra, Iris: `GPT-5.4` primary + `Claude Opus 4.6` fallback
+  - Aphrodite: `Gemini 3.1 Pro` primary + `GPT-5.4` fallback
+  - Talos: `Claude Haiku 4.5` primary + `GPT-5.4` fallback
+  - Gaia: `Claude Sonnet 4.6` primary + `GPT-5.4` fallback
+  - Apollo and Mnemosyne unchanged by role design (fast discovery/docs focus)
+- Added explicit plan-validation lane in orchestration: Athena drafts, Temis validates plan quality/risk/test strategy, Zeus executes only after approval.
+- Completed browser modernization to VS Code native integrated browser tools for UI discovery/validation workflows.
+
+#### Agent and Tooling Updates
+- **`agents/aphrodite.agent.md`** — Expanded integrated browser toolkit with:
+  - `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `hoverElement`, `dragElement`, `handleDialog`, `screenshotPage`, `runPlaywrightCode`
+  - clear enablement steps (`workbench.browser.enableChatTools=true` + Share with Agent)
+- **`agents/temis.agent.md`** — Added integrated browser validation flow for critical UI/user-journey review evidence.
+- **`agents/apollo.agent.md`** — Added integrated browser reconnaissance support for live-page evidence during discovery.
+
+#### Documentation Synchronization
+- **`AGENTS.md`** — Updated model strategy and browser-integration guidance; documented plan-validation lane.
+- **`README.md`** — Updated model assignment table and changelog entries to current strategy.
+- **`CONTRIBUTING.md`** — Modernized frontmatter example to model array + canonical tool naming.
+
+#### Verification
+- Perplexity MCP references checked and confirmed absent (`perplexity`, `mcp_perplexity`, `mcp_perplexity-as_perplexity_ask`).
+- Instructions and skills audited for modernization compatibility; no conflicting browser-tool or Perplexity remnants found.
+
+---
+
 ## [v2.6.1] — 2026-03-08
 
 ### Changed

@@ -11,15 +11,21 @@ tools:
   - search/listDirectory
   - read/readFile
   - web/fetch
+  - openBrowserPage
+  - navigatePage
+  - readPage
+  - screenshotPage
 handoffs:
   - label: "📊 Return Findings to Zeus"
     agent: zeus
     prompt: "Process these discovery findings and proceed with orchestration."
     send: false
+    model: 'GPT-5.4 (copilot)'
   - label: "📊 Return Findings to Athena"
     agent: athena
     prompt: "Use these findings to refine or complete the plan."
     send: false
+    model: 'Claude Sonnet 4.6 (copilot)'
 user-invocable: false
 ---
 
@@ -54,6 +60,11 @@ Before starting any search or exploration, you MUST:
 - Summarize relevant RFC or standards sections
 - Use fetch to inspect public GitHub issues, PRs, or READMEs
 - Recommend deeper research tasks to Athena when needed
+
+### 4.1 **Integrated Browser Recon (when web app context matters)**
+- Open and inspect live pages with `openBrowserPage` and `readPage`
+- Navigate through key routes to gather UI flow evidence
+- Capture screenshots for structured discovery reports
 
 ### 5. **Handoff to Planner & Orchestrator**
 - Return findings to parent agent

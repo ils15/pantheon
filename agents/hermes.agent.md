@@ -2,23 +2,20 @@
 name: hermes
 description: "Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR). Called by zeus. Sends completed work to: temis (review)."
 argument-hint: "Backend task: endpoint, service, router, schema, or test — include module name and expected behaviour (e.g. 'POST /users endpoint with email uniqueness validation')"
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
-  - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
-  - search/changes
+    - agent
+    - search/codebase
+    - search/usages
+    - read/readFile
+    - read/problems
+    - edit/editFiles
+    - execute/runInTerminal
+    - execute/testFailure
+    - execute/getTerminalOutput
+    - search/changes
 handoffs:
-  - label: "➡️ Send to Temis"
-    agent: temis
-    prompt: "Please perform a code review and security audit on these backend changes according to your instructions."
-    send: false
+    - { label: "Send to Temis", agent: temis, prompt: "Please perform a code review and security audit on these backend changes according to your instructions.", send: false, model: 'Claude Opus 4.6 (copilot)' }
 agents: ['apollo', 'mnemosyne']
 user-invocable: true
 ---

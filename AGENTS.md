@@ -65,7 +65,7 @@ Investigation agent for rapid codebase discovery plus external docs and GitHub r
 
 **When to use:** Rapid codebase exploration, bug root cause discovery, finding files before implementation, helping any agent locate code  
 **Called by:** Athena (planning), Zeus (debugging), Hermes/Aphrodite/Maat (locating existing patterns)  
-**Tools:** `search/codebase`, `search/usages`, `web/fetch`, `read/readFile`, `search/fileSearch`, `search/textSearch`, `search/listDirectory` (read-only parallel searches + public docs/GitHub pages)  
+**Tools:** `search/codebase`, `search/usages`, `web/fetch`, `read/readFile`, `search/fileSearch`, `search/textSearch`, `search/listDirectory`, `openBrowserPage`, `navigatePage`, `readPage`, `screenshotPage` (read-only parallel searches + public docs/GitHub pages + optional browser recon)  
 **Parallelism:** Up to 10 simultaneous search queries  
 **Web/GitHub Research:** Pulls docs and GitHub references; escalates deep research to Athena  
 **Skills:** debug-issue.prompt  
@@ -118,7 +118,7 @@ Frontend UI/UX, React components, responsive design.
 **Depends on:** hermes (API endpoints)  
 **Can call:** apollo (for component discovery)  
 **Skills:** frontend-standards.instructions, tdd-testing, api-design  
-**Tools:** `search/codebase`, `search/usages`, `agent/askQuestions`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `mcp_browser_takeScreenshot`, `mcp_browser_getConsoleErrors`, `mcp_browser_runAccessibilityAudit`  
+**Tools:** `search/codebase`, `search/usages`, `agent/askQuestions`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `hoverElement`, `dragElement`, `handleDialog`, `screenshotPage`, `runPlaywrightCode`  
 
 **Frontend Standards Applied:**
 - TypeScript strict mode
@@ -240,7 +240,7 @@ Code review, security audit, quality gates.
 **Specialization:** Code review checklist, OWASP security audit, >80% coverage validation  
 **Reviews:** All outputs from hermes, aphrodite, maat  
 **Skills:** code-review-standards.instructions, security-audit, tdd-testing  
-**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/problems`, `search/changes`, `execute/testFailure`  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/problems`, `search/changes`, `execute/testFailure`, `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `screenshotPage`, `runPlaywrightCode`  
 
 **Quality Gates:**
 - ✅ >80% test coverage
@@ -251,6 +251,7 @@ Code review, security audit, quality gates.
 - ✅ Accessibility compliance (frontend)
 - ✅ No SQL injection vulnerabilities
 - ✅ Proper error handling
+- ✅ Optional integrated-browser evidence for critical UI flows (screenshots/interactions)
 
 ---
 
@@ -726,52 +727,52 @@ Each agent uses optimized models for their role:
 
 ```yaml
 # Zeus (Orchestrator)
-model: ['GPT-5.4 (copilot)', 'Claude Sonnet 4.6 (copilot)']
-# GPT-5.4 for complex orchestration, Sonnet fallback
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
+# GPT-5.4 for complex orchestration, Opus fallback for deeper cross-agent reasoning
 
 # Athena (Planning)
-model: ['Claude Sonnet 4.6 (copilot)']
-# Sonnet is fast enough for planning; Opus overhead removed for 70% speed improvement
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
+# GPT-5.4 as default planner, Opus fallback for complex architecture and risk decomposition
 
 # Apollo (Discovery)
 model: ['Gemini 3 Flash (Preview) (copilot)', 'Claude Haiku 4.5 (copilot)']
 # Flash for fast parallel searches
 
 # Hermes (Backend)
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
-# Sonnet for production-grade backend code, Codex fallback for heavy refactors and security-sensitive implementation
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
+# GPT-5.4 for implementation speed, Opus fallback for difficult refactors/security-sensitive execution
 
 # Aphrodite (Frontend)
-model: ['Gemini 3.1 Pro (Preview) (copilot)', 'Claude Sonnet 4.6 (copilot)']
-# Gemini 3.1 Pro for fast UI iteration and visual/layout-heavy tasks
+model: ['Gemini 3.1 Pro (Preview) (copilot)', 'GPT-5.4 (copilot)']
+# Gemini 3.1 Pro as primary for UI/UX layout and visual tasks, GPT-5.4 fallback
 
 # Maat (Database)
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
-# Sonnet for schema/migration reasoning, Codex fallback for complex SQL/refactor changes
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
+# GPT-5.4 default for migration work, Opus fallback for complex schema/risk analysis
 
 # Temis (Review)
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
-# Sonnet for broad review, Codex for deep technical/security checks
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
+# GPT-5.4 broad review, Opus fallback for deep security/architecture validation
 
 # Mnemosyne (Memory)
 model: ['Claude Haiku 4.5 (copilot)']  
 # Haiku is sufficient for documentation
 
 # Ra (Infrastructure)
-model: ['Claude Sonnet 4.6 (copilot)']
-# Sonnet for Docker, compose, CI/CD, and deployment code
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
+# GPT-5.4 default for infra orchestration, Opus fallback for complex CI/deployment reasoning
 
 # Talos (Hotfix)
-model: ['Claude Sonnet 4.6 (copilot)']
-# Sonnet for precise, fast bug fixes and minor repairs
+model: ['Claude Haiku 4.5 (copilot)', 'GPT-5.4 (copilot)']
+# Haiku first for simple low-risk fixes, GPT-5.4 fallback if complexity increases
 
 # Gaia (Domain Specialist — Remote Sensing)
 model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)']
 # Sonnet for scientific analysis; GPT-5.4 fallback for complex methodology and literature synthesis
 
 # Iris (GitHub Operations)
-model: ['Claude Sonnet 4.6 (copilot)']
-# Sonnet for structured GitHub workflow tasks — branching, PRs, releases, semantic versioning
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
+# GPT-5.4 default for workflow-heavy GitHub tasks, Opus fallback for complex release/changelog synthesis
 ```
 
 **Changelog-aligned notes (VS Code 1.110):**
@@ -782,12 +783,25 @@ model: ['Claude Sonnet 4.6 (copilot)']
 **Changelog-aligned notes (VS Code Feb 2026):**
 - **`agent/askQuestions` in subagents** (#294949): ALL agents now have this tool. Replace ⏸️ text-based pause patterns with actual interactive question calls that block until the user responds. Zeus and Athena use this at every approval gate.
 - **`~/.copilot/instructions/` auto-loaded globally** (#297179): This directory is for *user-level* personal preferences that apply across all repos. **Do not migrate `.github/copilot-instructions.md`** — it is repo-level, shared with the team, and should stay. Add personal cross-repo conventions to `~/.copilot/instructions/` instead.
-- **Native browser integration for Aphrodite** (#274118): `mcp_browser_takeScreenshot`, `mcp_browser_getConsoleErrors`, `mcp_browser_runAccessibilityAudit` added to Aphrodite. Use after component implementation for visual diff and automated WCAG audit before handoff to Temis.
+- **Integrated browser tools for agents**: prefer built-in VS Code browser tools (`openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `screenshotPage`, `runPlaywrightCode`) over external MCP browser dependencies when possible.
+- **Enablement flow**: set `workbench.browser.enableChatTools=true`, open the integrated browser, and use **Share with Agent** to grant page access.
 - **`/fork` command** (#291481): Creates a new chat session inheriting current context. Athena can suggest `/fork` when the user wants to explore an alternative architectural approach without losing the current plan thread.
 - **Slash commands in background agents** (#297117): `/implement-feature`, `/plan-architecture`, `/debug-issue`, etc. now work from background agent contexts — no need to return to foreground chat to invoke them.
 - **Local MCP sandbox** (#294029): MCP servers with `stdio` transport can run sandboxed (file/network isolation). Ra and security-sensitive agents benefit from recommending sandboxed MCP servers for infra tooling.
 - **`disable-model-invocation: true`** (Feb 2026): Add to domain specialist agents (Gaia, Talos) that should only be user-invoked. Prevents any orchestrator from treating them as generic subagents. An explicit `agents: ['gaia']` in a coordinator overrides this when intentional delegation is needed.
 - **`handoffs.model`** (Feb 2026): Handoffs can now specify a target model: `handoffs[].model: 'Claude Haiku 4.5 (copilot)'`. Use to switch to a faster model for lighter follow-up phases (e.g., Hermes → Temis handoff uses Sonnet, not Opus).
+- **`handoffs.model` adoption in this repo**: Zeus/Apollo/Temis/Talos route orchestration handoffs with explicit models; Hermes/Aphrodite/Maat pin review handoffs to Opus; docs/release handoffs use Haiku where appropriate.
+- **Model governance**: Athena is the only planner agent that should consult supported-models docs and propose routing changes for the rest of the system.
+
+### Plan Validation Lane (new)
+
+Before implementation starts, Temis validates Athena's plan as a separate quality gate:
+1. Athena drafts plan
+2. Temis validates plan completeness/risk/test strategy
+3. User approves via askQuestions
+4. Zeus dispatches implementation
+
+This keeps execution (Hermes/Aphrodite/Maat) and validation (Temis) decoupled.
 - **Claude agent format** (Feb 2026): VS Code detects `.md` files in `.claude/agents/` folder using Claude-specific frontmatter (`tools` as comma-separated string). Same agent files can now run in both VS Code and Claude Code without modification.
 - **awesome-copilot MCP server**: Install community agents, skills and instructions directly via MCP: `copilot plugin marketplace add github/awesome-copilot`. Browse 22k+ starred collection without leaving VS Code.
 
@@ -811,7 +825,7 @@ name: database-expert
 user-invocable: false  # Only for internal delegation
 description: Specialized database architect and query optimizer
 argument-hint: "Analyze and optimize database schema and queries"
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools: ['search/codebase', 'search/usages', 'edit/editFiles', 'execute/runInTerminal']
 ---
 

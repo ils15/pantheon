@@ -2,7 +2,7 @@
 name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), iris (GitHub), mnemosyne (docs), talos (hotfix)"
 argument-hint: "Describe the feature, bug, or epic to orchestrate (Zeus plans, delegates, and coordinates the full lifecycle)"
-model: ['GPT-5.4 (copilot)', 'Claude Sonnet 4.6 (copilot)']
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
   - agent
   - agent/askQuestions
@@ -19,10 +19,17 @@ handoffs:
     agent: athena
     prompt: "Create an implementation plan for this feature."
     send: false
+    model: 'GPT-5.4 (copilot)'
+  - label: "🔍 Validate Plan"
+    agent: temis
+    prompt: "Validate the plan before execution: coverage, risks, test strategy, and rollout safety."
+    send: false
+    model: 'Claude Opus 4.6 (copilot)'
   - label: "📝 Document Progress"
     agent: mnemosyne
     prompt: "Document the completed work and decisions in the Memory Bank."
     send: false
+    model: 'Claude Haiku 4.5 (copilot)'
 user-invocable: true
 ---
 
@@ -116,6 +123,7 @@ Full debugging guide with 7-step process in documentation.
 
 ### 1. **Phase-Based Execution with Context Conservation**
 - Planning phase: Delegate to Athena + Apollo (parallel)
+- Plan validation phase: Delegate to Temis (plan quality gate before implementation)
 - Implementation phase: Delegate to hermes + aphrodite + maat in parallel
 - Review phase: Delegate to temis (includes security audit)
 - Deployment phase: Coordinate ra
@@ -142,7 +150,7 @@ Full debugging guide with 7-step process in documentation.
 ## Available Subagents
 
 ### 1. Athena - THE STRATEGIC PLANNER
-- **Model**: Claude Sonnet 4.6 (copilot)
+- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
 - **Role**: Strategic planning, TDD-driven plans, RCA analysis, deep research
 - **Use for**: Feature planning, architectural decisions, root cause analysis
 - **Returns**: Comprehensive implementation plans with risk analysis
@@ -155,7 +163,7 @@ Full debugging guide with 7-step process in documentation.
 - **Special**: Launches 3-10 parallel searches simultaneously
 
 ### 3. Hermes (BACKEND) - THE BACKEND DEVELOPER
-- **Model**: GPT-5.3-Codex (copilot)
+- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
 - **Role**: FastAPI endpoints, services, routers implementation
 - **Use for**: Backend code execution following TDD
 - **Returns**: Tested, production-ready code
@@ -167,25 +175,25 @@ Full debugging guide with 7-step process in documentation.
 - **Returns**: Complete React/TypeScript components with tests
 
 ### 5. Temis (REVIEWER) - THE QUALITY GATE
-- **Model**: Claude Sonnet 4.6 (copilot) + GPT-5.3-Codex (copilot)
+- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
 - **Role**: Code correctness, quality, test coverage validation
 - **Use for**: Reviewing implementations before shipping
 - **Returns**: APPROVED / NEEDS_REVISION / FAILED with structured feedback
 
 ### 6. Maat (DATABASE) - THE DATABASE DEVELOPER
-- **Model**: Claude Sonnet 4.6 (copilot) + GPT-5.3-Codex (copilot)
+- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
 - **Role**: Alembic migrations, schema design, query optimization
 - **Use for**: Database changes, migrations, performance analysis
 - **Returns**: Migration files, schema changes, performance reports
 
 ### 7. Ra (INFRA) - THE INFRASTRUCTURE DEVELOPER
-- **Model**: Claude Sonnet 4.6 (copilot)
+- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
 - **Role**: Docker, deployment, CI/CD, monitoring
 - **Use for**: Infrastructure changes, deployment strategy, scaling
 - **Returns**: Infrastructure code, deployment procedures
 
 ### 8. Talos (HOTFIX) - THE EXPRESS REPAIR
-- **Model**: Claude Sonnet 4.6 (copilot)
+- **Model**: Claude Haiku 4.5 (copilot) with GPT-5.4 (copilot) fallback
 - **Role**: Precise, fast bug fixes and minor adjustments (CSS, typos)
 - **Use for**: Bypassing the heavy orchestration phase for quick wins, executing fast repairs
 - **Returns**: Directly applied code changes and test verifications
@@ -417,7 +425,7 @@ Your orchestration creates traceable sessions:
 Switch models mid-orchestration:
 ```
 /switch-model gpt-5.4              # For complex orchestration
-/switch-model gpt-5.3-codex        # For backend/refactors/review
+/switch-model claude-opus-4.6      # For deeper review and high-risk validation
 ```
 
 ---

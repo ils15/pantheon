@@ -2,7 +2,7 @@
 name: temis
 description: "Quality & security gate — reviews only changed files, OWASP Top 10, coverage >80%, correctness. Called by: hermes, aphrodite, maat, zeus. Escalates blockers to zeus."
 argument-hint: "What to review — point at the phase or changed files (e.g. 'review Phase 1: auth endpoints and JWT middleware added by hermes')"
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.3-Codex (copilot)']
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
   - agent
   - agent/askQuestions
@@ -14,16 +14,24 @@ tools:
   - execute/runInTerminal
   - execute/testFailure
   - edit/editFiles
+  - openBrowserPage
+  - navigatePage
+  - readPage
+  - clickElement
+  - screenshotPage
+  - runPlaywrightCode
 agents: ['mnemosyne']
 handoffs:
   - label: "🔧 Fix Review Issues"
     agent: zeus
     prompt: "Fix the issues identified in the code review above."
     send: false
+    model: 'GPT-5.4 (copilot)'
   - label: "📝 Document Findings"
     agent: mnemosyne
     prompt: "Document the review findings and decisions above in the Memory Bank."
     send: false
+    model: 'Claude Haiku 4.5 (copilot)'
 user-invocable: true
 ---
 
@@ -69,6 +77,12 @@ You are the **QUALITY & SECURITY GATE ENFORCER** (Temis) called by Zeus to valid
 - Check for hardcoded credentials or exposed secrets
 - Verify secure data handling and encryption
 - Return security findings with each code review
+
+### 6. **Integrated Browser Validation (UI/Flow)**
+- Use the VS Code integrated browser tools for critical UI flow checks
+- Validate route rendering, click paths, and form behavior with browser actions
+- Capture screenshots for evidence in review output when relevant
+- Use browser checks as complementary evidence, not a replacement for automated tests
 
 ## Core Responsibilities
 

@@ -80,9 +80,9 @@ The file must contain specific VS Code Agent schema frontmatter:
 name: "agent-name"
 description: "Short description of the agent's role"
 argument-hint: "What the user should ask this agent (e.g., 'Analyze security vulnerabilities')"
-model: "Claude Sonnet 4.6 (copilot)" # or your preferred model
-user-invokable: false # Set to true ONLY if users should call it directly via @agent-name
-tools: ['search', 'usages', 'readFile'] # List exact tools needed
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)'] # Primary + fallback
+user-invocable: false # Set to true ONLY if users should call it directly via @agent-name
+tools: ['search/codebase', 'search/usages', 'read/readFile'] # List exact tools needed
 ---
 
 You are a SPECIALIZED AGENT for [Domain].

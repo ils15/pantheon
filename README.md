@@ -507,21 +507,41 @@ Each agent declares its own model in the `.agent.md` frontmatter. The assignment
 
 | Agent | Primary model | Fallback | Rationale |
 |---|---|---|---|
-| **Zeus** | GPT-5.4 | Claude Sonnet 4.6 | Deep long-context reasoning for multi-agent orchestration |
-| **Athena** | Claude Sonnet 4.6 | — | Architecture planning, TDD decomposition, multi-step research |
-| **Hermes** | Claude Sonnet 4.6 | GPT-5.3-Codex | Production backend code, security-conscious API design |
-| **Maat** | Claude Sonnet 4.6 | GPT-5.3-Codex | Migration reasoning, complex SQL, schema trade-offs |
-| **Temis** | Claude Sonnet 4.6 | GPT-5.3-Codex | Broad code review; Codex fallback for deep security audits |
-| **Aphrodite** | Gemini 3.1 Pro | Claude Sonnet 4.6 | Fast UI iteration and visual/layout-heavy generation |
-| **Iris** | Claude Sonnet 4.6 | — | Structured GitHub workflow tasks — lower latency is ideal for branch/PR operations |
-| **Ra** | Claude Sonnet 4.6 | — | Docker, compose, CI/CD and deployment configuration |
-| **Iris** | Claude Sonnet 4.6 | — | Structured GitHub workflow tasks — branching, PRs, releases, semantic versioning |
-| **Talos** | Claude Sonnet 4.6 | — | Precise rapid fixes — lower latency suits hotfixes |
-| **Gaia** | GPT-5.4 | GPT-5.3-Codex | Scientific methodology synthesis, literature reasoning, complex RS analysis |
+| **Zeus** | GPT-5.4 | Claude Opus 4.6 | Complex orchestration, multi-agent coordination, deep reasoning |
+| **Athena** | GPT-5.4 | Claude Opus 4.6 | Architecture planning, TDD decomposition, risk analysis |
+| **Hermes** | GPT-5.4 | Claude Opus 4.6 | Backend implementation, security-conscious API design |
+| **Maat** | GPT-5.4 | Claude Opus 4.6 | Migration reasoning, complex SQL, schema trade-offs |
+| **Temis** | GPT-5.4 | Claude Opus 4.6 | Code review, security audits, OWASP validation |
+| **Aphrodite** | Gemini 3.1 Pro | GPT-5.4 | UI/UX layout and visual generation, fast frontend iteration |
+| **Iris** | GPT-5.4 | Claude Opus 4.6 | GitHub workflow tasks, semantic versioning, release synthesis |
+| **Ra** | GPT-5.4 | Claude Opus 4.6 | Docker, compose, CI/CD orchestration |
+| **Talos** | Claude Haiku 4.5 | GPT-5.4 | Rapid hotfixes, simple bug fixes, low-latency repairs |
+| **Gaia** | Claude Sonnet 4.6 | GPT-5.4 | Scientific methodology synthesis, literature research, complex RS analysis |
 | **Apollo** | Gemini 3 Flash | Claude Haiku 4.5 | Parallel codebase search at minimal token cost |
-| **Mnemosyne** | Claude Haiku 4.5 | — | Documentation formatting — Haiku is sufficient for text-only tasks |
+| **Mnemosyne** | Claude Haiku 4.5 | — | Documentation formatting, text-only tasks, low complexity |
 
 You do not need to configure this — it is defined per agent in the frontmatter.
+
+### Dynamic Versioning Flow (Conventional Commits)
+
+To keep versioning objective and automatic, mythic-agents now supports a commit-driven flow:
+
+- `BREAKING CHANGE` or `type(scope)!:` in commit subject → **major** bump
+- `feat:` commits → **minor** bump
+- any other conventional type (`fix:`, `refactor:`, `docs:`, `chore:`, etc.) → **patch** bump
+
+Commands:
+
+```bash
+npm run version:recommend   # shows recommended bump + next version
+npm run version:auto        # applies recommended bump to all manifests
+npm run version:minor       # force minor bump
+```
+
+Files updated automatically by the script:
+- `package.json`
+- `plugin.json`
+- `.github/plugin/plugin.json`
 
 ### Built-in web research (`internet-search` skill)
 
@@ -627,6 +647,50 @@ Yes. Read `AGENTS.md` for the architecture, then create a new `.agent.md` file i
 
 ## Changelog
 
+### v2.7 — March 9, 2026
+
+#### Versioning and Release Flow
+- Bumped repository version to **2.7.0** and synchronized manifests:
+    - `package.json`
+    - `plugin.json`
+    - `.github/plugin/plugin.json`
+- Added automated versioning script at `scripts/versioning.mjs` with commit-based bump recommendation and apply modes.
+- Added npm scripts for daily release workflow:
+    - `version:recommend`
+    - `version:auto`
+    - `version:patch`
+    - `version:minor`
+    - `version:major`
+- Defined dynamic semantic versioning policy based on Conventional Commits directly in this README.
+
+### v2.6 — March 9, 2026
+
+#### Hardening Final (Model + Browser + Consistency)
+- Standardized model routing across all core agents to the modern baseline:
+    - Zeus, Athena, Hermes, Maat, Temis, Ra, Iris: `GPT-5.4` primary + `Claude Opus 4.6` fallback
+    - Aphrodite: `Gemini 3.1 Pro` primary + `GPT-5.4` fallback
+    - Talos: `Claude Haiku 4.5` primary + `GPT-5.4` fallback
+    - Gaia: `Claude Sonnet 4.6` primary + `GPT-5.4` fallback
+    - Apollo and Mnemosyne unchanged by role design (fast discovery/docs focus)
+- Added explicit **plan validation lane**: Athena drafts the plan, Temis validates plan quality/risk/test strategy, then Zeus executes only after approval.
+- Completed browser modernization from legacy MCP-style references to VS Code native integrated browser tools for web validation workflows.
+
+#### Agent and Tooling Updates
+- **`agents/aphrodite.agent.md`** — browser-enabled frontend verification flow expanded with:
+    - `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `hoverElement`, `dragElement`, `handleDialog`, `screenshotPage`, `runPlaywrightCode`
+    - clear enablement instructions (`workbench.browser.enableChatTools=true` + Share with Agent)
+- **`agents/temis.agent.md`** — integrated browser validation path for critical UI/user-flow review evidence.
+- **`agents/apollo.agent.md`** — integrated browser recon support for discovery when live page evidence is relevant.
+
+#### Documentation Synchronization
+- **`AGENTS.md`** — model strategy table and browser integration guidance refreshed; plan validation lane documented.
+- **`README.md`** — model assignment table updated to current strategy; duplicate/legacy entries cleaned.
+- **`CONTRIBUTING.md`** — frontmatter example modernized to current model array + canonical tool naming.
+
+#### Verification and Cleanup
+- Perplexity MCP references checked and confirmed absent (`perplexity`, `mcp_perplexity`, `mcp_perplexity-as_perplexity_ask`).
+- Instructions and skills reviewed for this modernization pass; no incompatible browser-tool or Perplexity remnants found.
+
 ### v2.5 — March 4, 2026
 
 #### New Agent
@@ -678,10 +742,10 @@ All framework files are now entirely in English. Previously Portuguese content t
 - Added **Talos** hotfix express-lane agent (`agents/talos.agent.md`) with bypass for TDD ceremony on trivial fixes
 - Native VS Code Handoff integration documented — all agents now have `handoffs:` pre-configured in YAML
 - Added `agent/askQuestions` tool to orchestrator and planner agents (Athena, Zeus, Aphrodite, Hermes, Maat) to support interactive approval gates
-- Added browser integration tools to Aphrodite (`mcp_browser_takeScreenshot`, `mcp_browser_getConsoleErrors`, `mcp_browser_runAccessibilityAudit`)
+- Updated browser integration strategy: agents now prefer VS Code Integrated Browser chat tools (`openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `screenshotPage`) instead of external MCP-only browser flows
 - `skills/prompt-improver` — added with `EXAMPLES.md` and `USAGE.md`
 - `skills/frontend-analyzer` and `skills/web-ui-analysis` — added
 
 ---
 
-**Version:** 2.4 &nbsp;|&nbsp; **Updated:** February 27, 2026 &nbsp;|&nbsp; **License:** MIT
+**Version:** 2.7 &nbsp;|&nbsp; **Updated:** March 9, 2026 &nbsp;|&nbsp; **License:** MIT

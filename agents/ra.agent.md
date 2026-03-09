@@ -2,7 +2,7 @@
 name: ra
 description: "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management. Called by zeus. Sends infra docs to: mnemosyne."
 argument-hint: "Infrastructure task: Dockerfile, compose service, CI/CD workflow, or env setup — describe the service and deployment target (e.g. 'multi-stage Dockerfile for FastAPI with non-root user and health check')"
-model: ['Claude Sonnet 4.6 (copilot)']
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
   - agent
   - agent/askQuestions
@@ -19,6 +19,7 @@ handoffs:
     agent: mnemosyne
     prompt: "Please document the new infrastructure changes and deployment procedures in the Memory Bank."
     send: false
+    model: 'Claude Haiku 4.5 (copilot)'
 agents: ['mnemosyne']
 user-invocable: true
 ---
