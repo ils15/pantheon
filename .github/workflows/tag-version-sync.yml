@@ -1,0 +1,38 @@
+name: Tag Version Sync Check
+
+'on':
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-tag-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate manifest versions and tag consistency
+        run: |
+          set -e
+
+          TAG="${GITHUB_REF_NAME}"
+          EXPECTED="${TAG#v}"
+
+          pkg=$(node -p "require('./package.json').version")
+          root_plugin=$(node -p "require('./plugin.json').version")
+          gh_plugin=$(node -p "require('./.github/plugin/plugin.json').version")
+
+          echo "Tag: $TAG"
+          echo "Expected version: $EXPECTED"
+          echo "package.json: $pkg"
+          echo "plugin.json: $root_plugin"
+          echo ".github/plugin/plugin.json: $gh_plugin"
+
+          [ "$pkg" = "$root_plugin" ] || { echo "❌ package.json and plugin.json are out of sync"; exit 1; }
+          [ "$pkg" = "$gh_plugin" ] || { echo "❌ package.json and .github/plugin/plugin.json are out of sync"; exit 1; }
+          [ "$pkg" = "$EXPECTED" ] || { echo "❌ Manifest version ($pkg) does not match tag ($TAG)"; exit 1; }
+
+          echo "✅ Versions are synchronized and match tag"
