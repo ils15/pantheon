@@ -29,7 +29,7 @@ handoffs:
   - label: "➡️ Send to Temis"
     agent: temis
     prompt: "Please perform a code review and accessibility audit on these frontend changes according to your instructions."
-    send: false
+    send: true
     model: 'Claude Opus 4.6 (copilot)'
 agents: ['apollo', 'mnemosyne']
 user-invocable: true

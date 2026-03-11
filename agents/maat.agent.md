@@ -19,7 +19,7 @@ handoffs:
   - label: "➡️ Send to Temis"
     agent: temis
     prompt: "Please perform a code review and security audit on these database/migration changes."
-    send: false
+    send: true
     model: 'Claude Opus 4.6 (copilot)'
 user-invocable: true
 ---

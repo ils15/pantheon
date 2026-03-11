@@ -81,7 +81,7 @@ flowchart TD
     end
 
     subgraph P3["✅ Phase 3 — Quality Gate"]
-        Temis["Temis<br/>OWASP · Coverage ≥80%<br/>Diff-only review"]:::qa
+        Temis["Temis<br/>OWASP · Coverage ≥80%<br/>Lightweight quality checks"]:::qa
         RevArt[["🔍 Review Artifact"]]:::artifact
         Temis -- "generates report" --> RevArt
     end
@@ -162,7 +162,7 @@ Every phase produces a structured **artifact** (a file in `docs/memory-bank/.tmp
 | **Hermes** | Backend specialist | FastAPI async/await, Pydantic v2, TDD (RED→GREEN→REFACTOR), OWASP-safe APIs, `security-audit` skill | New endpoints, services, business logic, auth flows |
 | **Aphrodite** | Frontend specialist | React 19, TypeScript strict, WCAG AA, browser screenshot + accessibility audit, `frontend-analyzer` skill | Components, pages, hooks, responsive layouts, accessibility fixes |
 | **Maat** | Database specialist | SQLAlchemy 2.0, Alembic, N+1 detection, EXPLAIN ANALYZE, zero-downtime migrations, `database-optimization` skill | Schema changes, slow query diagnosis, index strategy, migration planning |
-| **Temis** | Quality & security gate | OWASP Top 10, coverage ≥80% hard block, diff-only review, `code-review-checklist` skill | Auto-invoked after every implementation phase; explicit PR or security review |
+| **Temis** | Quality & security gate | OWASP Top 10, coverage ≥80% hard block, lightweight quality checks (trailing spaces, hard tabs, wild imports), `code-review-checklist` skill | Auto-invoked after every implementation phase; explicit PR or security review |
 | **Iris** | GitHub operations | Branch creation (Conventional Commits), PR lifecycle (draft → review → merge), issue management, releases & semantic versioning | After `git commit` — push, open PR, handle GitHub workflow, create releases |
 | **Ra** | Infrastructure | Multi-stage Docker builds, docker-compose, GitHub Actions, health checks, non-root containers, `docker-best-practices` skill | Container builds, deployment pipelines, environment management |
 | **Talos** | Hotfix express lane | Direct file edits, no TDD ceremony, regression check against existing tests — bypasses all orchestration overhead | CSS fixes, typos, simple logic bugs |
@@ -587,6 +587,7 @@ MCP is optional. All structured API research (academic papers, GitHub, PyPI) wor
 - Commit anything automatically — you control every git operation
 
 **Temis enforces on every phase:**
+- Quick quality checks (changed files only): trailing whitespace, hard tabs in Python, wild imports
 - OWASP Top 10 compliance
 - SQL injection, XSS, CSRF prevention
 - Dependency vulnerability scanning

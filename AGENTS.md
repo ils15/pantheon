@@ -234,15 +234,21 @@ Hotfix and Rapid Repair specialist. Bypasses standard orchestration for small bu
 ### Quality Assurance Tier
 
 #### ⚖️ **Temis** (agents/temis.agent.md)
-Code review, security audit, quality gates.
+Code review, security audit, quality gates, and lightweight code quality checks.
 
-**When to use:** Code review before merge, security scan, test coverage validation, architecture review  
-**Specialization:** Code review checklist, OWASP security audit, >80% coverage validation  
-**Reviews:** All outputs from hermes, aphrodite, maat  
+**When to use:** MANDATORY after every implementation phase (Hermes/Aphrodite/Maat/Ra). Called automatically before merge.  
+**Specialization:** Lightweight quality checks, OWASP security audit, >80% coverage validation  
+**Reviews:** All outputs from hermes, aphrodite, maat, ra  
 **Skills:** code-review-standards.instructions, security-audit, tdd-testing  
 **Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/problems`, `search/changes`, `execute/testFailure`, `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `screenshotPage`, `runPlaywrightCode`  
 
-**Quality Gates:**
+**Quality Checks (LIGHTWEIGHT - CHANGED FILES ONLY):**
+- ✅ **Trailing whitespace** — grep-based check (BLOCKER if found)
+- ✅ **Hard tabs in Python** — grep-based check (BLOCKER if found)
+- ✅ **Wild imports** (`from X import *`) — grep-based check (MEDIUM severity)
+- ✅ **Optional: If tools installed** — ruff, black, isort, eslint, prettier
+
+**Quality Gates (MANUAL REVIEW):**
 - ✅ >80% test coverage
 - ✅ All OWASP Top 10 checks pass
 - ✅ No hardcoded secrets
@@ -281,6 +287,28 @@ Memory bank management, decision documentation, progress tracking.
 > Mnemosyne is **not** invoked automatically after phases. Sprint state lives in `/memories/session/` (ephemeral) or git commits (permanent).
 
 ---
+
+---
+
+## 🔒 MANDATORY QUALITY GATE WORKFLOW
+
+**CRITICAL RULE**: @temis is NOT optional. Every implementation phase MUST pass @temis review:
+
+```
+Implementation Agents Code → @temis IMMEDIATELY
+                                    ↓
+                    Automated Quality Checks (ruff, black, isort, eslint, prettier)
+                                    ↓
+                            ✅ APPROVED or ❌ NEEDS_REVISION
+                                    ↓
+                    (If NEEDS_REVISION: Agent fixes and resubmits)
+                                    ↓
+                            Manual Code Review (OWASP, coverage, tests)
+                                    ↓
+                    ✅ APPROVED → Next Phase or ⏸️ User commits
+```
+
+**Implementers DO NOT skip @temis.** Without approval, code is not ready for merge.
 
 ---
 
