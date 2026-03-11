@@ -1,6 +1,6 @@
 {
   "name": "mythic-agents",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "Multi-agent orchestration framework for VS Code Copilot with 12 agents and 19 skills.",
   "private": true,
   "scripts": {

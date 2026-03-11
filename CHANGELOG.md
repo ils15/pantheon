@@ -19,6 +19,23 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [v2.7.1] — 2026-03-10
+
+### Changed
+
+#### Quality Gate Optimization (@temis)
+- Redesigned `@temis` (Quality & Security Gate) to run **lightweight quality checks on changed files only**:
+  - Trailing whitespace detection (grep-based, BLOCKER)
+  - Hard tabs in Python detection (grep-based, BLOCKER)
+  - Wild imports detection (`from X import *`, MEDIUM severity)
+  - Optional tool-based checks (ruff, black, isort, eslint, prettier) when installed
+- Removed dependency on `git diff` — implementation agents now provide changed files list directly
+- Maintains OWASP Top 10, >80% coverage, and security validation in manual review
+- Updated documentation across `agents/temis.agent.md`, `AGENTS.md`, `README.md`, and `.github/copilot-instructions.md`
+- Reduced @temis execution time to ~30 seconds for typical phases
+
+---
+
 ## [v2.7.0] — 2026-03-09
 
 ### Changed
