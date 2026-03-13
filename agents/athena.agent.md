@@ -38,10 +38,22 @@ Use `web/fetch` to verify availability before proposing model updates to other a
 
 ## Quick Research Strategy
 
-**Simple searches** (1-3 files): Use `search/codebase` directly
-**Complex discovery** (patterns, relationships): Delegate to `@apollo`
+**⚡ RESEARCH TIMEOUT: 5 minutes max**
 
-Only read Memory Bank files (`docs/memory-bank/00-overview.md`, `01-architecture.md`) if they exist and have content.
+**Simple searches** (1-3 files): Use `search/codebase` directly
+- Max 3 targeted queries
+- Stop at 80% convergence or after 3 iterations
+- Keep top-5 results per query
+
+**Complex discovery** (patterns, relationships): Delegate to `@apollo`
+- Only if simple searches insufficient
+- Apollo has 8-minute budget for discovery
+- Apollo will parallel-search with early termination built-in
+
+**Memory Bank Strategy:**
+- Only read if planning multi-layer feature
+- Skip if file is empty template
+- Don't search for what's already documented
 
 ## Plan Structure (CONCISE)
 
@@ -77,13 +89,17 @@ Present plan in **chat only** (no artifact files unless user explicitly requests
 
 ## Approval Gate
 
-After creating plan, use `agent/askQuestions`:
+After creating plan, use `agent/askQuestions` (FAST turnaround):
 ```
 Questions:
-- "Plan ready. Open questions: [list]. Approve? (yes/changes needed)"
+- "✅ Plan ready (5 phases max). Proceed? (yes/revise)"
+- Include only open questions critical for user decision
 ```
 
+⚠️ **NO extended discovery loops.** If plan ready → ask approval NOW.
 Only after explicit "yes" → delegate to @zeus with plan context.
+
+**Timeout Checkpoint:** If research exceeds 5 min → finalize plan with available findings.
 
 ## When to Use Apollo
 

@@ -5,6 +5,24 @@
 Architecture based on **Conductor-Delegate pattern** (extensible — add new specialized agents as the project grows):
 - 1 Orchestrator (Zeus) + Planning + Discovery + Implementation + QA + Infra + Memory + Domain Specialists
 
+---
+
+## ⏱️ RESEARCH PHASE OPTIMIZATION (v2.8+)
+
+**Problem Fixed:** Research phases no longer hang for hours.  
+**Solution:** Strict timeouts + bounded parallelism + early termination (see `docs/AGENT-RESEARCH-OPTIMIZATION.md`)
+
+| Agent | Timeout | Limit | Status |
+|--------|---------|-------|--------|
+| @athena | 5 min | Max 3 searches | Planning |
+| @apollo | 8 min | Max 10 parallel | Discovery |
+| @hermes/@aphrodite/@maat | 30 min | Max 2-3 searches | Implementation |
+| @temis | 2 min | No searches | Review |
+
+**Expected Impact:** Research phases go from **3-5 hours → 10-15 minutes**
+
+---
+
 ### Orchestrator Tier
 
 #### ⚡ **Zeus** (agents/zeus.agent.md)
@@ -19,13 +37,13 @@ Central coordinator delegating work to specialized subagents.
 /implement-feature Add JWT authentication to API
 
 Zeus orchestrates:
-1. Athena plans architecture
-2. Apollo explores codebase
-3. Hermes implements backend
-4. Aphrodite implements frontend
-5. Maat handles database migrations
+1. Athena plans architecture (5 min max)
+2. Apollo explores codebase (8 min max)
+3. Hermes implements backend (30 min max)
+4. Aphrodite implements frontend (30 min max)
+5. Maat handles database migrations (30 min max)
 6. Ra updates Docker
-7. Temis reviews all changes
+7. Temis reviews all changes (2 min max)
 8. Iris opens PR + handles GitHub flow
 9. Mnemosyne documents
 ```
