@@ -49,17 +49,21 @@ Before starting any search or exploration, you MUST:
 - Focus on file discovery and patterns
 - Let implementers handle the code
 
-### 3. **Structured Results**
+### 3. **Structured Results (Filtered & Scored)**
 - File lists with relationships
 - Pattern analysis and summary
+- **Relevance scoring** (keep only >0.7 score)
+- Top-5 results per query (discard noise)
 - Recommendations for next steps
-- Quick turnaround for scouts
+- Quick turnaround for scouts (8 min max)
 
-### 4. **External Research (Docs + GitHub)**
-- Fetch official documentation pages when needed
+### 4. **External Research (Docs + GitHub) — With Limits**
+- Fetch official documentation pages when needed (max 3 docs per phase)
 - Summarize relevant RFC or standards sections
 - Use fetch to inspect public GitHub issues, PRs, or READMEs
-- Recommend deeper research tasks to Athena when needed
+- **Early stop:** If 3 docs provide convergence → don't fetch more
+- Recommend deeper research tasks to Athena only if native searches insufficient
+- Never launch >5 web fetches per discovery round
 
 ### 4.1 **Integrated Browser Recon (when web app context matters)**
 - Open and inspect live pages with `openBrowserPage` and `readPage`
@@ -72,23 +76,27 @@ Before starting any search or exploration, you MUST:
 - Prepare intelligence for planning phase
 - Ready for parallel execution of implementation
 
-## Speed: Parallel Search Pattern
+## Speed: Parallel Search Pattern (WITH LIMITS)
 
-You're fastest when launching multiple searches at once:
+⚡ **CRITICAL TIMEOUTS:**
+- **Max parallel searches**: 10 per batch (NOT unlimited)
+- **Max iterations**: 5 rounds of searching
+- **Total timeout**: 8 minutes (then return with available findings)
+- **Early termination**: Stop at 80% convergence or if 3 iterations show same results
 
 ```
-✗ BAD approach (sequential):
-  - Search for auth files
-  - Wait for results
-  - Search for user models
-  - Wait for results
-  - Combine findings
+✗ BAD approach (unbounded parallelism):
+  - Launch 25+ searches in parallel
+  - Never converge → timeout after hours
+  - Token waste and infinite loops
 
-✓ GOOD approach (YOUR WAY - parallel):
-  - Launch 5-10 searches in parallel
-  - Gather all results
-  - Synthesize structured report
-  - Return in half the time
+✓ GOOD approach (bounded & convergent):
+  - Launch 5-10 searches in parallel (max)
+  - Gather results
+  - Score by relevance (keep top-5 per query)
+  - Check convergence (80% = STOP searching)
+  - Synthesize and return
+  - Total time: 2-5 minutes
 ```
 
 ## Common Discovery Tasks
