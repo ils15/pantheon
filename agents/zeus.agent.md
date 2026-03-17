@@ -5,7 +5,7 @@ argument-hint: "Describe the feature, bug, or epic to orchestrate (Zeus plans, d
 model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
   - agent
-  - agent/askQuestions
+  - vscode/askQuestions
   - vscode/runCommand
   - execute/runInTerminal
   - read/readFile
@@ -77,17 +77,17 @@ Read `docs/memory-bank/04-active-context.md` **only when**:
 
 ## ⏸️ MANDATORY PAUSE POINTS — Human Approval Gates
 
-You must **stop and wait for explicit user approval** at each gate. Use `agent/askQuestions` to ask interactively — do not rely on ⏸️ text markers alone:
+You must **stop and wait for explicit user approval** at each gate. Use `vscode/askQuestions` to ask interactively — do not rely on ⏸️ text markers alone:
 
-1. **Planning Gate:** Athena generates plan → call `agent/askQuestions` asking:  
+1. **Planning Gate:** Athena generates plan → call `vscode/askQuestions` asking:  
    `"Athena's plan is ready. Do you approve it? (yes / request changes)"`  
-2. **Phase Review Gate:** After Temis review → call `agent/askQuestions` asking:  
+2. **Phase Review Gate:** After Temis review → call `vscode/askQuestions` asking:  
    `"Phase N review complete. Issues found: [summary]. Approve to continue? (yes / fix first)"`  
-3. **Git Commit Gate:** Before finalization → call `agent/askQuestions` asking:  
+3. **Git Commit Gate:** Before finalization → call `vscode/askQuestions` asking:  
    `"Suggested commit: '<message>'. Ready to commit? I'll wait — run git commit manually."`
 
 > [!IMPORTANT]
-> Use `agent/askQuestions` at every gate. This replaces passive ⏸️ markers with actual interactive confirmation loops that block until the user responds.
+> Use `vscode/askQuestions` at every gate. This replaces passive ⏸️ markers with actual interactive confirmation loops that block until the user responds.
 
 ## 🎯 TASK ROUTING ALGORITHM
 
@@ -218,7 +218,7 @@ Phase 2: Implementation (PARALLEL — declare explicitly)
   ╭─ @hermes  → backend + tests  → IMPL-phase2-hermes.md
   ├─ @aphrodite → frontend       → IMPL-phase2-aphrodite.md
   ╰─ @maat    → schema/migrations → IMPL-phase2-maat.md
-  (all three run simultaneously when scopes don’t overlap)
+  (all three run simultaneously when scopes don't overlap)
 
 Phase 3: Quality Gate
   └─ @temis → reviews all IMPL artifacts → REVIEW-<feature>.md
