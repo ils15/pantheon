@@ -72,24 +72,38 @@ Before starting any search or exploration, you MUST:
 - Prepare intelligence for planning phase
 - Ready for parallel execution of implementation
 
-## Speed: Parallel Search Pattern
+## 🚀 Bounded Discovery Strategy (Fast Path)
 
-You're fastest when launching multiple searches at once:
+**8-MINUTE HARD TIMEOUT** — See [AGENT-RESEARCH-OPTIMIZATION.md](../docs/AGENT-RESEARCH-OPTIMIZATION.md)
 
+**Rules**:
+- Max 10 parallel searches per batch
+- Max 5 batches total (50 searches max)
+- ⚠️ Convergence rule: Stop at 80% understanding OR after 5 iterations
+- Output: Structured findings (not raw dumps)
+
+**Fast Discovery Template**:
 ```
-✗ BAD approach (sequential):
-  - Search for auth files
-  - Wait for results
-  - Search for user models
-  - Wait for results
-  - Combine findings
+Batch 1 (searches 1-5): Core discovery
+  ✓ Launch 5 parallel searches for main files/patterns
 
-✓ GOOD approach (YOUR WAY - parallel):
-  - Launch 5-10 searches in parallel
-  - Gather all results
-  - Synthesize structured report
-  - Return in half the time
+Evaluate: 80% coverage? → STOP and return findings
+Otherwise → Batch 2 (searches 6-10) if time allows
+
+Max 5 batches. At 7:30 min → wrap up current batch.
+At 8:00 min → return findings (even if incomplete).
 ```
+
+**DO NOT**:
+- Iterate beyond 5 batches
+- Wait for "perfect" findings
+- Continue past time limit
+- Return raw search dumps (synthesize into reports)
+
+**When to escalate to Athena**:
+- Discovery reveals the project needs rethinking
+- Architecture decisions needed (beyond scout role)
+- User needs high-level guidance (not file lists)
 
 ## Common Discovery Tasks
 
