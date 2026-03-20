@@ -19,6 +19,79 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [v2.8.0] — March 10, 2026
+
+### Added
+
+#### Comprehensive Hook System for Automated Quality Gates (Phase 1-3)
+- **Phase 1** — Foundation (Security, Formatting, Logging)
+  - `security.json` (PreToolUse) — Blocks destructive operations (rm -rf, DROP TABLE, TRUNCATE); prevents hardcoded secrets
+  - `format.json` (PostToolUse) — Auto-formats code with multi-language support:
+    - Python: Black + isort
+    - JavaScript/TypeScript: Biome or Prettier  
+    - YAML/JSON: yamlfmt & jq
+    - Auto-detects file type and routes to appropriate formatter
+  - `logging.json` (SessionStart) — Logs session metadata for audit trail
+
+- **Phase 2** — Delegation Tracking
+  - `delegation-start.json` (SubagentStart) — Logs when agents delegate to subagents
+  - `delegation-stop.json` (SubagentStop) — Logs delegation completion (success/failure)
+  - Audit trail stored in `logs/agent-sessions/delegations.log` and `delegation-failures.log`
+
+- **Phase 3** — Advanced Validation
+  - `type-check.json` (PostToolUse) — Validates Python (Pyright) + TypeScript (tsc) types
+  - `import-audit.json` (PostToolUse) — Blocks wildcard imports, detects unused imports
+  - `secret-scan.json` (PreToolUse) — Prevents hardcoded API keys, tokens, passwords
+
+- **Handler Scripts** (11 total in `scripts/hooks/`)
+  - `format-multi-language.sh` — Main router for auto-detection and routing
+  - `format-python.sh` — Black + isort formatter
+  - `format-typescript.sh` — Biome/Prettier formatter
+  - `format-data.sh` — JSON/YAML validation
+  - `validate-tool-safety.sh` — Security gate
+  - `run-type-check.sh` — Type validation
+  - `audit-imports.sh` — Import analysis
+  - `scan-secrets.sh` — Secret detection
+  - `log-session-start.sh` — Session logging
+  - `on-subagent-delegation-start.sh` — Delegation tracking
+  - `on-subagent-delegation-stop.sh` — Completion logging
+
+#### Agent-Hook Integration Documentation
+- Updated `AGENTS.md` with "Agent Collaboration with Hooks" section:
+  - Table showing which hooks each agent inherits
+  - Use cases per agent (Hermes, Aphrodite, Maat, Ra, Temis, Iris)
+  - Explanation that hook execution is automatic when agent is active
+- Updated `.github/copilot-instructions.md` with:
+  - Multi-language formatter descriptions
+  - "Language-Specific Formatters" section with handler scripts list
+  - Hook security gates and quality gates documentation
+  - Timeout limits and query limits for agent research phases
+  - Agent lifecycle hooks reference
+
+#### README Enhancements
+- Added new "Automated Quality Gates via Hooks" section in Advanced Usage
+- Detailed explanation of how hooks work (lifecycle, auto-execution, inheritance)
+- Hook-Agent integration table showing which hooks each agent inherits
+- Real-world example: automatic code validation during Hermes implementation
+- Referenced handlers and scripts in `scripts/hooks/`
+- Instructions for customizing and adding new hooks
+- Updated Table of Contents with new subsections
+
+### Changed
+- Version bumped to `2.8.0` across all manifests:
+  - `package.json`
+  - `plugin.json`
+  - `.github/plugin/plugin.json`
+
+### Technical Details
+- Hooks are workspace-level middleware configured in `.github/hooks/`
+- All scripts are executable (755 permissions) and auto-invoked by configuration
+- Execution is automatic based on lifecycle events (PreToolUse, PostToolUse, SessionStart, SubagentStart, SubagentStop)
+- <100ms execution time per hook; non-blocking
+- Complete audit trail of all operations across agent sessions
+
+---
+
 ## [v2.7.1] — 2026-03-10
 
 ### Changed

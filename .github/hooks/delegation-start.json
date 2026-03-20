@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SubagentStart": [
+      {
+        "type": "command",
+        "command": "./scripts/hooks/on-subagent-delegation-start.sh",
+        "cwd": ".",
+        "timeout": 5,
+        "env": {
+          "HOOK_EVENT": "SubagentStart",
+          "LOG_DIR": "logs/agent-sessions"
+        }
+      }
+    ]
+  }
+}

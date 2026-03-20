@@ -30,6 +30,29 @@ Zeus orchestrates:
 9. Mnemosyne documents
 ```
 
+#### 🔧 **Agent Lifecycle Hooks (March 2026)**
+
+When Zeus delegates work to implementation agents and receives results, VS Code Copilot hooks fire automatically:
+
+**Delegation Handoff (SubagentStart Hook)**:
+- Fires when Zeus delegates to Hermes/Aphrodite/Maat
+- **Interactive approval**: Shows handler script result in VS Code inline
+- **Audit trail**: Logs to `logs/agent-sessions/delegations.log`
+- Example: User sees "[Hermes: Backend API Implementation]" with ✅/❌ status inline
+
+**Completion Capture (SubagentStop Hook)**:
+- Fires when implementing agent returns result to Zeus
+- **Auto-logging**: Captures success (PR link, commit hash) or failure
+- **Audit trail**: Logs to `logs/agent-sessions/delegation-failures.log` (failures only)
+- **QA escalation**: If failure, automates handoff to Temis review
+
+**Security Gates (PreToolUse Hook)**:
+- Blocks destructive tool calls: `rm -rf`, `DROP TABLE`, `TRUNCATE`
+- Allows safe operations without user interruption
+- Audit logged in `logs/agent-sessions/delegations.log`
+
+See `.github/copilot-instructions.md` → "Agent Lifecycle Hooks" section for configuration details.
+
 ---
 
 ### Planning Tier
@@ -246,6 +269,9 @@ Code review, security audit, quality gates, and lightweight code quality checks.
 - ✅ **Trailing whitespace** — grep-based check (BLOCKER if found)
 - ✅ **Hard tabs in Python** — grep-based check (BLOCKER if found)
 - ✅ **Wild imports** (`from X import *`) — grep-based check (MEDIUM severity)
+- ✅ **Format validation** — Leverages `format-*` hooks to auto-verify code style compatibility
+- ✅ **Type checking** — Runs `type-check.json` hook to validate Python/TypeScript types
+- ✅ **Secret scanning** — Leverages `secret-scan.json` hook to ensure no hardcoded credentials
 - ✅ **Optional: If tools installed** — ruff, black, isort, eslint, prettier
 
 **Quality Gates (MANUAL REVIEW):**
@@ -258,6 +284,23 @@ Code review, security audit, quality gates, and lightweight code quality checks.
 - ✅ No SQL injection vulnerabilities
 - ✅ Proper error handling
 - ✅ Optional integrated-browser evidence for critical UI flows (screenshots/interactions)
+
+---
+
+### Agent Collaboration with Hooks (Phase 1-3)
+
+Every agent inherits workspace-level hooks when active. This enables automated validation:
+
+| Agent | Inherited Hooks | Use Case |
+|-------|-----------------|----------|
+| **Hermes** (Backend) | `format.json`, `type-check.json`, `import-audit.json`, `secret-scan.json` | Auto-formats Python code; validates types; blocks wildcard imports; prevents API key commits |
+| **Aphrodite** (Frontend) | `format.json`, `type-check.json`, `secret-scan.json` | Auto-formats JS/TS; validates TypeScript strict; prevents secret leaks |
+| **Maat** (Database) | `format.json`, `secret-scan.json` | Formats SQL migrations; blocks hardcoded DB passwords |
+| **Ra** (Infrastructure) | `format.json`, `secret-scan.json` | Auto-formats YAML/docker-compose; prevents API key leaks in configs |
+| **Temis** (Review) | All hooks (reads-only for validation) | Leverages hooks to auto-verify code quality before approval |
+| **Iris** (GitHub) | `security.json` (PreToolUse) | Blocked from destructive git operations (rm -rf, force push); ensures safe workflows |
+
+**Hook execution is automatic** — agents don't invoke hooks explicitly. Hooks fire on tool use events (PreToolUse, PostToolUse) when the agent is active.
 
 ---
 

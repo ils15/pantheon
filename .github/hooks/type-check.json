@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "type": "command",
+        "command": "scripts/hooks/run-type-check.sh",
+        "cwd": ".",
+        "timeout": 30,
+        "env": {
+          "HOOK_EVENT": "PostToolUse",
+          "HOOK_NAME": "type-check"
+        }
+      }
+    ]
+  }
+}

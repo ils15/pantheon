@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SubagentStop": [
+      {
+        "type": "command",
+        "command": "./scripts/hooks/on-subagent-delegation-stop.sh",
+        "cwd": ".",
+        "timeout": 5,
+        "env": {
+          "HOOK_EVENT": "SubagentStop",
+          "LOG_DIR": "logs/agent-sessions"
+        }
+      }
+    ]
+  }
+}

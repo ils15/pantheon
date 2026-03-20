@@ -1,0 +1,12 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "./scripts/hooks/log-session-start.sh",
+        "cwd": ".",
+        "timeout": 10
+      }
+    ]
+  }
+}

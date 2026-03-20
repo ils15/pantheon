@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "type": "command",
+        "command": "scripts/hooks/audit-imports.sh",
+        "cwd": ".",
+        "timeout": 20,
+        "env": {
+          "HOOK_EVENT": "PostToolUse",
+          "HOOK_NAME": "import-audit"
+        }
+      }
+    ]
+  }
+}

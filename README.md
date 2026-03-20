@@ -15,6 +15,11 @@
 - [Quick Start](#quick-start)
 - [Repository Structure](#repository-structure)
 - [Advanced Usage](#advanced-usage)
+  - [Model assignment](#model-assignment)
+  - [Automated Quality Gates via Hooks](#automated-quality-gates-via-hooks)
+  - [Dynamic Versioning Flow](#dynamic-versioning-flow-conventional-commits)
+  - [Built-in web research](#built-in-web-research-internet-search-skill)
+  - [Extended internet access](#extended-internet-access-optional-mcp)
 - [Security & Privacy](#security--privacy)
 - [Contributing](#contributing)
 - [FAQ](#faq)
@@ -521,6 +526,118 @@ Each agent declares its own model in the `.agent.md` frontmatter. The assignment
 | **Mnemosyne** | Claude Haiku 4.5 | — | Documentation formatting, text-only tasks, low complexity |
 
 You do not need to configure this — it is defined per agent in the frontmatter.
+
+### Automated Quality Gates via Hooks
+
+**mythic-agents** includes a comprehensive hook system that automatically validates code quality, security, and formatting at every phase of execution. Hooks are workspace-level middleware that execute around agent tool calls — no explicit agent invocation needed.
+
+#### How Hooks Work
+
+Hooks are configured in `.github/hooks/` as JSON files and execute automatically when agents are active:
+
+```
+Agent executes a tool → Hook fires (PreToolUse/PostToolUse) → Hook validates/blocks/formats → Tool execution continues or is blocked
+```
+
+**Three key properties:**
+1. **Automatic execution** — Hooks fire based on lifecycle events; agents don't invoke them explicitly
+2. **Agent inheritance** — When an agent is active, it inherits applicable hooks for its domain
+3. **Async, non-blocking** — Hooks execute in <100ms; they augment tool calls without slowing down execution
+
+#### Hook Lifecycle (Phases 1-3)
+
+| Phase | Hooks added | Lifecycle event | Purpose |
+|---|---|---|---|
+| **Phase 1** (Security, Formatting, Logging) | `security.json`, `format.json`, `logging.json` | `PreToolUse`, `PostToolUse`, `SessionStart` | Block destructive operations; auto-format Python/JS/TS/YAML/JSON; log session metadata |
+| **Phase 2** (Delegation tracking) | `delegation-start.json`, `delegation-stop.json` | `SubagentStart`, `SubagentStop` | Track when agents hand off to subagents; complete audit trail of delegation chain |
+| **Phase 3** (Type checking, import analysis, secret scanning) | `type-check.json`, `import-audit.json`, `secret-scan.json` | `PostToolUse`, `PreToolUse` | Validate Python/TypeScript types; prevent wildcard imports; block hardcoded secrets |
+
+#### Hook-Agent Integration
+
+Each agent inherits applicable hooks based on its role. Temis (the QA reviewer) is the primary consumer of validation hooks:
+
+| Agent | Inherited hooks | Auto-validation |
+|---|---|---|
+| **Hermes** (Backend) | `format`, `type-check`, `import-audit`, `secret-scan` | Python code: Black+isort, type errors, wildcard imports, API keys in code |
+| **Aphrodite** (Frontend) | `format`, `type-check`, `secret-scan` | JS/TS code: Biome/Prettier, TypeScript strict mode, secret leaks |
+| **Maat** (Database) | `format`, `secret-scan` | SQL migrations: format validation, password leak prevention |
+| **Ra** (Infrastructure) | `format`, `secret-scan` | Configs: YAML validation, env var security |
+| **Temis** (Review) | All Phase 1-3 hooks | Reads hook outputs to auto-verify code quality before approval |
+| **Iris** (GitHub) | `security` (read-only) | Blocks destructive git operations (rm -rf, force push) |
+
+#### Example: Automatic Code Validation During Implementation
+
+**Scenario:** Hermes is implementing a new backend endpoint. Without hooks, formatting and type errors might slip through. With hooks:
+
+1. **PreToolUse** (`security.json`) fires when Hermes attempts to write code
+   - Checks for hardcoded secrets (API keys, DB passwords)
+   - ✅ Passes — no secrets detected
+
+2. **PostToolUse** (`format.json`) fires after code is written
+   - Detects Python file → routes to `format-python.sh`
+   - Runs Black + isort automatically
+   - Reformatted code is returned to Hermes
+
+3. **PostToolUse** (`type-check.json`) fires
+   - Runs Pyright on changed files
+   - Returns type errors (if any)
+   - Hermes sees the errors and fixes them before moving on
+
+4. **PostToolUse** (`import-audit.json`) fires
+   - Detects and blocks wildcard imports (`from module import *`)
+   - Returns audit results to Hermes
+
+5. **Phase 3** — Temis review phase
+   - Temis reads hook logs from all PostToolUse events
+   - Verifies all auto-validations passed
+   - Approves or requests fixes
+
+**Result:** Code is formatted, type-safe, secure, and audit-logged — all automatically.
+
+#### Handlers and Scripts
+
+All hooks are implemented via shell scripts in `scripts/hooks/`:
+
+```
+scripts/hooks/
+├── validate-tool-safety.sh         # Security gate (PreToolUse)
+├── format-multi-language.sh        # Main formatter router (PostToolUse)
+├── format-python.sh               # Black + isort
+├── format-typescript.sh           # Biome or Prettier
+├── format-data.sh                 # JSON/YAML validation
+├── run-type-check.sh              # Pyright + TypeScript
+├── audit-imports.sh               # Wildcard import detection
+├── scan-secrets.sh                # Secret pattern scanning (PreToolUse)
+├── log-session-start.sh           # Audit trail (SessionStart)
+├── on-subagent-delegation-start.sh  # Delegation tracking
+└── on-subagent-delegation-stop.sh   # Completion logging
+```
+
+Each script is executable (755) and auto-invoked by its corresponding hook configuration file.
+
+#### Customizing Hooks
+
+To add or modify a hook:
+
+1. **Add a JSON config** in `.github/hooks/[name].json`
+   ```json
+   {
+     "event": "PreToolUse",
+     "handler": "scripts/hooks/[your-script].sh",
+     "timeout_ms": 5000
+   }
+   ```
+
+2. **Create the handler script** in `scripts/hooks/[your-script].sh`
+   ```bash
+   #!/bin/bash
+   # Your validation logic here
+   # Return exit code 0 to allow, non-zero to block
+   ```
+
+3. **Test with an agent** — Run an agent operation that triggers the event; hooks execute automatically.
+
+See `.github/copilot-instructions.md` for the full hook system reference.
 
 ### Dynamic Versioning Flow (Conventional Commits)
 

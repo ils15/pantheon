@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "type": "command",
+        "command": "scripts/hooks/format-multi-language.sh",
+        "cwd": ".",
+        "timeout": 45,
+        "env": {
+          "HOOK_EVENT": "PostToolUse",
+          "HOOK_NAME": "format",
+          "FILE_PATH": "${TOOL_INPUT_FILE_PATH}"
+        }
+      }
+    ]
+  }
+}
