@@ -36,12 +36,32 @@ Only Athena should fetch and reconcile supported-model information from:
 
 Use `web/fetch` to verify availability before proposing model updates to other agents.
 
-## Quick Research Strategy
+## 🚀 Bounded Research Strategy (Fast Planning)
 
-**Simple searches** (1-3 files): Use `search/codebase` directly
-**Complex discovery** (patterns, relationships): Delegate to `@apollo`
+**5-MINUTE HARD TIMEOUT** — See [AGENT-RESEARCH-OPTIMIZATION.md](../docs/AGENT-RESEARCH-OPTIMIZATION.md)
 
-Only read Memory Bank files (`docs/memory-bank/00-overview.md`, `01-architecture.md`) if they exist and have content.
+**Rules**:
+- Max 3 direct codebase searches (then delegate to @apollo if needed)
+- Convergence rule: 80% understanding OR stop at 5 min
+- Simple features: Direct search + plan (no Apollo)
+- Complex features: 1-2 searches, delegate to @apollo, plan from findings
+
+**Step-by-step (fast path)**:
+```
+1. User asks to plan Feature X
+2. Run 1-3 targeted codebase searches (parallel)
+3. Have 80% understanding? → Create plan immediately
+4. Want 100% understanding? → Delegate to @apollo (8 min max)
+5. After findings: Create plan and seek approval
+6. Handoff to @zeus
+```
+
+**DO NOT**:
+- Spend time re-planning or iterating beyond 5 min
+- Wait for perfect understanding
+- Make multiple planning attempts
+
+**Only read Memory Bank files** (`docs/memory-bank/00-overview.md`, `01-architecture.md`) if they exist with content — skip research if documented.
 
 ## Plan Structure (CONCISE)
 

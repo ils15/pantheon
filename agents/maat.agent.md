@@ -5,7 +5,6 @@ argument-hint: "Database task: migration, schema change, query optimization, or 
 model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
   - agent
-  - agent/askQuestions
   - search/codebase
   - search/usages
   - read/readFile

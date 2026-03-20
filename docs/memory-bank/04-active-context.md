@@ -7,9 +7,29 @@
 
 ## Current Focus
 
-Agent Lifecycle Hooks implementation (Phase 1 & 2 complete; framework integration in progress).
+**Agent Research Optimization** — Accelerating planning and discovery phases via bounded research (time boxing + convergence rules).
 
-**Status:** Phase 1 & 2 implementation ✅ | Framework integration ✅ (copilot-instructions.md + AGENTS.md updated)
+**Status**: ✅ Strategy designed, documentation complete, agents updated, ready for sprint deployment
+
+---
+
+## Most Recent Decision
+
+Implement **bounded research framework** to accelerate @athena planning (30+min → 5min) and @apollo discovery (20+min → 8min) by enforcing:
+1. Hard time limits (5-8 min per phase)
+2. Query limits (3-10 searches max)
+3. Convergence rule (80% understanding → stop)
+
+**Date:** 2026-03-20
+
+**Rationale**: Large feature planning has become bottleneck. New framework enables incremental delivery (plan-review-implement-approve-plan-next-phase) instead of 30+ min upfront analysis. Applies to all research-heavy agents.
+
+**Files Changed**:
+- [docs/AGENT-RESEARCH-OPTIMIZATION.md](AGENT-RESEARCH-OPTIMIZATION.md) — Master strategy
+- [docs/RESEARCH-OPTIMIZATION-QUICK-REF.md](RESEARCH-OPTIMIZATION-QUICK-REF.md) — Team quick reference  
+- [prompts/quick-plan-large-feature.prompt.md](../prompts/quick-plan-large-feature.prompt.md) — Athena fast-path
+- [prompts/quick-discovery-large-codebase.prompt.md](../prompts/quick-discovery-large-codebase.prompt.md) — Apollo fast-path
+- agents/athena.agent.md, agents/apollo.agent.md — Updated guidance
 
 ---
 
@@ -34,9 +54,11 @@ Implement VS Code Copilot agent lifecycle hooks (March 2026 API) across 5 config
 
 ## Next Steps
 
-1. Deploy hooks to staging branch and test with actual Zeus orchestration workflows.
-2. Iterate on delegation handler scripts based on real agent output.
-3. Add hook configuration examples to agent training docs.
+1. Deploy bounded research rules to team (share [RESEARCH-OPTIMIZATION-QUICK-REF.md](RESEARCH-OPTIMIZATION-QUICK-REF.md))
+2. Start next sprint with @athena 5-minute planning (use quick-plan-large-feature.prompt)
+3. Monitor metrics: plan time, discovery time, execution smoothness
+4. After 2 weeks: Review feedback and adjust convergence thresholds if needed
+5. Update memory bank on deployment success/learnings
 
 ---
 
