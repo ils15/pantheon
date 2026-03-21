@@ -5,7 +5,7 @@ argument-hint: "Feature or epic to plan — describe the requirement, goal, and 
 model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
    - agent
-   - agent/askQuestions
+ 
    - search/codebase
    - search/usages
    - web/fetch
@@ -38,7 +38,6 @@ Use `web/fetch` to verify availability before proposing model updates to other a
 
 ## 🚀 Bounded Research Strategy (Fast Planning)
 
-**5-MINUTE HARD TIMEOUT** — See [AGENT-RESEARCH-OPTIMIZATION.md](../docs/AGENT-RESEARCH-OPTIMIZATION.md)
 
 **Rules**:
 - Max 3 direct codebase searches (then delegate to @apollo if needed)

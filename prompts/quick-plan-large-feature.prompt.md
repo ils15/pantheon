@@ -199,4 +199,3 @@ A "good" quick plan:
 - ✅ Clear risk assessment
 - ✅ Leads to smooth 1-pass implementation (no major revisions)
 
-Track metrics weekly (see [AGENT-RESEARCH-OPTIMIZATION.md](../docs/AGENT-RESEARCH-OPTIMIZATION.md)).

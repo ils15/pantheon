@@ -11,10 +11,10 @@ tools:
   - search/listDirectory
   - read/readFile
   - web/fetch
-  - openBrowserPage
-  - navigatePage
-  - readPage
-  - screenshotPage
+  - browser/openBrowserPage
+  - browser/navigatePage
+  - browser/readPage
+  - browser/screenshotPage
 handoffs:
   - label: "📊 Return Findings to Zeus"
     agent: zeus
@@ -74,7 +74,6 @@ Before starting any search or exploration, you MUST:
 
 ## 🚀 Bounded Discovery Strategy (Fast Path)
 
-**8-MINUTE HARD TIMEOUT** — See [AGENT-RESEARCH-OPTIMIZATION.md](../docs/AGENT-RESEARCH-OPTIMIZATION.md)
 
 **Rules**:
 - Max 10 parallel searches per batch

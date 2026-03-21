@@ -5,7 +5,7 @@ argument-hint: "Infrastructure task: Dockerfile, compose service, CI/CD workflow
 model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
   - agent
-  - agent/askQuestions
+
   - search/codebase
   - search/usages
   - read/readFile

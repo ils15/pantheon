@@ -25,7 +25,6 @@ Implement **bounded research framework** to accelerate @athena planning (30+min 
 **Rationale**: Large feature planning has become bottleneck. New framework enables incremental delivery (plan-review-implement-approve-plan-next-phase) instead of 30+ min upfront analysis. Applies to all research-heavy agents.
 
 **Files Changed**:
-- [docs/AGENT-RESEARCH-OPTIMIZATION.md](AGENT-RESEARCH-OPTIMIZATION.md) — Master strategy
 - [docs/RESEARCH-OPTIMIZATION-QUICK-REF.md](RESEARCH-OPTIMIZATION-QUICK-REF.md) — Team quick reference  
 - [prompts/quick-plan-large-feature.prompt.md](../prompts/quick-plan-large-feature.prompt.md) — Athena fast-path
 - [prompts/quick-discovery-large-codebase.prompt.md](../prompts/quick-discovery-large-codebase.prompt.md) — Apollo fast-path
