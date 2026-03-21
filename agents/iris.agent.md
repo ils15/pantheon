@@ -5,32 +5,11 @@ argument-hint: "GitHub task: 'create branch feat/X' | 'open PR: title + base bra
 model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
    - agent
-   - agent/askQuestions
    - read/readFile
    - search/codebase
    - execute/runInTerminal
    - execute/getTerminalOutput
-   - mcp_github2_get_me
-   - mcp_github2_list_branches
-   - mcp_github2_create_branch
-   - mcp_github2_list_commits
-   - mcp_github2_get_commit
-   - mcp_github2_list_pull_requests
-   - mcp_github2_create_pull_request
-   - mcp_github2_update_pull_request
-   - mcp_github2_merge_pull_request
-   - mcp_github2_pull_request_read
-   - mcp_github2_list_issues
-   - mcp_github2_issue_read
-   - mcp_github2_issue_write
-   - mcp_github2_add_issue_comment
-   - mcp_github2_list_releases
-   - mcp_github2_get_latest_release
-   - mcp_github2_list_tags
-   - mcp_github2_get_tag
-   - mcp_github2_push_files
-   - mcp_github2_search_issues
-   - mcp_github2_search_pull_requests
+
 handoffs:
    - { label: "Merge PR", agent: zeus, prompt: "Iris has opened a PR and is awaiting your approval to merge. Review the PR link above, then reply 'merge' to proceed.", send: false, model: 'GPT-5.4 (copilot)' }
    - { label: "Document release", agent: mnemosyne, prompt: "Please update the memory bank with the release information provided above.", send: false, model: 'Claude Haiku 4.5 (copilot)' }

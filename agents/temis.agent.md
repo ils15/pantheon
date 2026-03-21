@@ -5,7 +5,7 @@ argument-hint: "What to review — point at the phase or changed files (e.g. 're
 model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
   - agent
-  - agent/askQuestions
+
   - search/codebase
   - search/usages
   - read/readFile
@@ -14,12 +14,12 @@ tools:
   - execute/runInTerminal
   - execute/testFailure
   - edit/editFiles
-  - openBrowserPage
-  - navigatePage
-  - readPage
-  - clickElement
-  - screenshotPage
-  - runPlaywrightCode
+  - browser/openBrowserPage
+  - browser/navigatePage
+  - browser/readPage
+  - browser/clickElement
+  - browser/screenshotPage
+  - browser/runPlaywrightCode
 agents: ['mnemosyne']
 handoffs:
   - label: "🔧 Fix Review Issues"

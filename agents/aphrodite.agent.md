@@ -5,7 +5,7 @@ argument-hint: "Frontend task: component, page, hook, or styling — include nam
 model: ['Gemini 3.1 Pro (Preview) (copilot)', 'GPT-5.4 (copilot)']
 tools:
   - agent
-  - agent/askQuestions
+  - vscode/askQuestions
   - search/codebase
   - search/usages
   - read/readFile
@@ -15,16 +15,16 @@ tools:
   - execute/testFailure
   - execute/getTerminalOutput
   - search/changes
-  - openBrowserPage
-  - navigatePage
-  - readPage
-  - clickElement
-  - typeInPage
-  - hoverElement
-  - dragElement
-  - handleDialog
-  - screenshotPage
-  - runPlaywrightCode
+  - browser/openBrowserPage
+  - browser/navigatePage
+  - browser/readPage
+  - browser/clickElement
+  - browser/typeInPage
+  - browser/hoverElement
+  - browser/dragElement
+  - browser/handleDialog
+  - browser/screenshotPage
+  - browser/runPlaywrightCode
 handoffs:
   - label: "➡️ Send to Temis"
     agent: temis

@@ -5,7 +5,6 @@ argument-hint: "Describe the feature, bug, or epic to orchestrate (Zeus plans, d
 model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
   - agent
-  - agent/askQuestions
   - vscode/runCommand
   - execute/runInTerminal
   - read/readFile
