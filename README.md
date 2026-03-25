@@ -895,7 +895,7 @@ Yes. Read `AGENTS.md` for the architecture, then create a new `.agent.md` file i
 ### v2.5 — March 4, 2026
 
 #### New Agent
-- **`Iris`** (η ἴρις) — GitHub operations specialist. Closes the last manual gap in the development lifecycle by owning all GitHub write operations: branch creation (Conventional Commits), pull request lifecycle (draft → review → squash merge), issue management, semantic release tagging, and changelog generation. Uses all `mcp_github2_*` tools. Never merges or releases without explicit human confirmation via `agent/askQuestions`.
+- **`Iris`** (η ἴρις) — GitHub operations specialist. Closes the last manual gap in the development lifecycle by owning all GitHub write operations: branch creation (Conventional Commits), pull request lifecycle (draft → review → squash merge), issue management, semantic release tagging, and changelog generation. Uses all `mcp_github2_*` tools. Never merges or releases without explicit human confirmation via `vscode/askQuestions`.
 
 #### New GitHub Actions
 - **`.github/workflows/validate-agents.yml`** — On every PR, validates YAML frontmatter syntax of all `.agent.md` files. Catches broken frontmatter before it ships (see v2.4 Gaia bug). Uses `yamllint` + a custom consistency checker that verifies every agent listed in `AGENTS.md` has a corresponding file in `agents/`.
@@ -942,7 +942,7 @@ All framework files are now entirely in English. Previously Portuguese content t
 - Added **Gaia** remote sensing domain specialist agent (`agents/gaia.agent.md`) with `disable-model-invocation: true` to prevent accidental generic invocation
 - Added **Talos** hotfix express-lane agent (`agents/talos.agent.md`) with bypass for TDD ceremony on trivial fixes
 - Native VS Code Handoff integration documented — all agents now have `handoffs:` pre-configured in YAML
-- Added `agent/askQuestions` tool to orchestrator and planner agents (Athena, Zeus, Aphrodite, Hermes, Maat) to support interactive approval gates
+- Added `vscode/askQuestions` tool to orchestrator and planner agents (Athena, Zeus, Aphrodite, Hermes, Maat) to support interactive approval gates
 - Updated browser integration strategy: agents now prefer VS Code Integrated Browser chat tools (`openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `screenshotPage`) instead of external MCP-only browser flows
 - `skills/prompt-improver` — added with `EXAMPLES.md` and `USAGE.md`
 - `skills/frontend-analyzer` and `skills/web-ui-analysis` — added
