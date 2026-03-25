@@ -529,7 +529,12 @@ You do not need to configure this — it is defined per agent in the frontmatter
 
 ### Automated Quality Gates via Hooks
 
+**🆕 Introduced:** Version 2.7.0+ (March 2026)  
+**Official docs:** [Agent hooks in VS Code](https://code.visualstudio.com/docs/copilot/customization/hooks)
+
 **mythic-agents** includes a comprehensive hook system that automatically validates code quality, security, and formatting at every phase of execution. Hooks are workspace-level middleware that execute around agent tool calls — no explicit agent invocation needed.
+
+> 📖 **Official VSCode Documentation:** See [Agent hooks in VS Code](https://code.visualstudio.com/docs/copilot/customization/hooks) for the full hook specification, lifecycle events, input/output formats, and security considerations.
 
 #### How Hooks Work
 
@@ -540,17 +545,17 @@ Agent executes a tool → Hook fires (PreToolUse/PostToolUse) → Hook validates
 ```
 
 **Three key properties:**
-1. **Automatic execution** — Hooks fire based on lifecycle events; agents don't invoke them explicitly
+1. **Automatic execution** — Hooks fire based on [lifecycle events](https://code.visualstudio.com/docs/copilot/customization/hooks#_hook-lifecycle-events); agents don't invoke them explicitly
 2. **Agent inheritance** — When an agent is active, it inherits applicable hooks for its domain
 3. **Async, non-blocking** — Hooks execute in <100ms; they augment tool calls without slowing down execution
 
 #### Hook Lifecycle (Phases 1-3)
 
-| Phase | Hooks added | Lifecycle event | Purpose |
+| Phase | Hooks added | [Lifecycle event](https://code.visualstudio.com/docs/copilot/customization/hooks#_hook-lifecycle-events) | Purpose |
 |---|---|---|---|
-| **Phase 1** (Security, Formatting, Logging) | `security.json`, `format.json`, `logging.json` | `PreToolUse`, `PostToolUse`, `SessionStart` | Block destructive operations; auto-format Python/JS/TS/YAML/JSON; log session metadata |
-| **Phase 2** (Delegation tracking) | `delegation-start.json`, `delegation-stop.json` | `SubagentStart`, `SubagentStop` | Track when agents hand off to subagents; complete audit trail of delegation chain |
-| **Phase 3** (Type checking, import analysis, secret scanning) | `type-check.json`, `import-audit.json`, `secret-scan.json` | `PostToolUse`, `PreToolUse` | Validate Python/TypeScript types; prevent wildcard imports; block hardcoded secrets |
+| **Phase 1** (Security, Formatting, Logging) | `security.json`, `format.json`, `logging.json` | [`PreToolUse`](https://code.visualstudio.com/docs/copilot/customization/hooks#_pretooluse), [`PostToolUse`](https://code.visualstudio.com/docs/copilot/customization/hooks#_posttooluse), [`SessionStart`](https://code.visualstudio.com/docs/copilot/customization/hooks#_sessionstart) | Block destructive operations; auto-format Python/JS/TS/YAML/JSON; log session metadata |
+| **Phase 2** (Delegation tracking) | `delegation-start.json`, `delegation-stop.json` | [`SubagentStart`](https://code.visualstudio.com/docs/copilot/customization/hooks#_subagentstart), [`SubagentStop`](https://code.visualstudio.com/docs/copilot/customization/hooks#_subagentstart) | Track when agents hand off to subagents; complete audit trail of delegation chain |
+| **Phase 3** (Type checking, import analysis, secret scanning) | `type-check.json`, `import-audit.json`, `secret-scan.json` | [`PostToolUse`](https://code.visualstudio.com/docs/copilot/customization/hooks#_posttooluse), [`PreToolUse`](https://code.visualstudio.com/docs/copilot/customization/hooks#_pretooluse) | Validate Python/TypeScript types; prevent wildcard imports; block hardcoded secrets |
 
 #### Hook-Agent Integration
 
@@ -564,6 +569,21 @@ Each agent inherits applicable hooks based on its role. Temis (the QA reviewer) 
 | **Ra** (Infrastructure) | `format`, `secret-scan` | Configs: YAML validation, env var security |
 | **Temis** (Review) | All Phase 1-3 hooks | Reads hook outputs to auto-verify code quality before approval |
 | **Iris** (GitHub) | `security` (read-only) | Blocks destructive git operations (rm -rf, force push) |
+
+#### Security Gates & Quality Gates (Automatic)
+
+**Security Gates** — [`PreToolUse` hook](https://code.visualstudio.com/docs/copilot/customization/hooks#_pretooluse) blocks dangerous operations before execution:
+- ❌ `rm -rf` — Destructive file removal
+- ❌ `DROP TABLE` — Database destruction  
+- ⚠️ `TRUNCATE` — Requires user approval
+- ❌ Hardcoded secrets (API keys, tokens) — Blocks on detection
+
+**Quality Gates** — [`PostToolUse` hook](https://code.visualstudio.com/docs/copilot/customization/hooks#_posttooluse) enforces code quality standards:
+- ❌ Wildcard imports (`from X import *`) — Blocked by `import-audit.json`
+- ⚠️ Type errors (Python/TypeScript) — Warned by `type-check.json`
+- ⚠️ Formatting issues — Auto-fixed by `format.json` hooks
+
+All safe operations pass through automatically with no user intervention required.
 
 #### Example: Automatic Code Validation During Implementation
 
@@ -615,16 +635,37 @@ scripts/hooks/
 
 Each script is executable (755) and auto-invoked by its corresponding hook configuration file.
 
-#### Customizing Hooks
+#### Quick Reference: Hook Configuration
+
+See the [VS Code hook configuration guide](https://code.visualstudio.com/docs/copilot/customization/hooks#_configure-hooks) for the complete specification, including:
+
+- [Hook file locations](https://code.visualstudio.com/docs/copilot/customization/hooks#_hook-file-locations) (workspace, user, custom agent)
+- [Hook configuration format](https://code.visualstudio.com/docs/copilot/customization/hooks#_hook-configuration-format)
+- [Hook input and output fields](https://code.visualstudio.com/docs/copilot/customization/hooks#_hook-input-and-output)
+- [Security considerations](https://code.visualstudio.com/docs/copilot/customization/hooks#_security-considerations)
+
+**Language-Specific Formatters Available:**
+- `scripts/hooks/format-multi-language.sh` — Auto-detect & route to language formatter
+- `scripts/hooks/format-python.sh` — Black + isort for Python
+- `scripts/hooks/format-typescript.sh` — Biome or Prettier for JS/TS  
+- `scripts/hooks/format-data.sh` — JSON/YAML validation and formatting
+
+#### Customizing Hooks in mythic-agents
 
 To add or modify a hook:
 
 1. **Add a JSON config** in `.github/hooks/[name].json`
    ```json
    {
-     "event": "PreToolUse",
-     "handler": "scripts/hooks/[your-script].sh",
-     "timeout_ms": 5000
+     "hooks": {
+       "PreToolUse": [
+         {
+           "type": "command",
+           "command": "./scripts/hooks/[your-script].sh",
+           "timeout": 15
+         }
+       ]
+     }
    }
    ```
 
@@ -632,12 +673,16 @@ To add or modify a hook:
    ```bash
    #!/bin/bash
    # Your validation logic here
-   # Return exit code 0 to allow, non-zero to block
+   # Return exit code 0 to allow, 2 to block
+   echo '{"continue": true}' # or {"continue": false, "stopReason": "..."}'
    ```
 
 3. **Test with an agent** — Run an agent operation that triggers the event; hooks execute automatically.
 
-See `.github/copilot-instructions.md` for the full hook system reference.
+**For more details:**
+- See [Hook configuration format](https://code.visualstudio.com/docs/copilot/customization/hooks#_hook-configuration-format) in the VS Code docs
+- See `.github/copilot-instructions.md` for the full mythic-agents hook system configuration
+- See `scripts/hooks/` for existing handler implementations
 
 ### Dynamic Versioning Flow (Conventional Commits)
 
