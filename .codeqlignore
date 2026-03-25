@@ -1,0 +1,39 @@
+# CodeQL ignore patterns - exclude non-Python files from analysis
+
+# Documentation
+**/*.md
+docs/
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+
+# Configuration files
+**/*.yml
+**/*.yaml
+**/*.json
+.github/
+.vscode/
+.gitignore
+
+# Templates and examples (not runnable code)
+**/templates/
+**/examples/
+**/*-template.*
+**/*-example.*
+
+# Dependencies
+node_modules/
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# Build output
+dist/
+build/
+*.egg-info/
+
+# IDE
+.idea/
+.history/
