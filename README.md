@@ -49,92 +49,88 @@ The system operates in defined phases controlled by **you**. Agents work in para
 > 📖 **Official VSCode Documentation:** See [Agents overview](https://code.visualstudio.com/docs/copilot/agents/overview) for built-in agents, [Custom agents](https://code.visualstudio.com/docs/copilot/customization/custom-agents) for agent structure, and [Subagents](https://code.visualstudio.com/docs/copilot/agents/subagents) for delegation patterns.
 
 ```mermaid
-%%{init: {'theme': 'dark'}}%%
+---
+config:
+  look: classic
+  theme: dark
+  layout: elk
+---
 flowchart TD
-    classDef user fill:#6d28d9,stroke:#a78bfa,stroke-width:2px,color:#fff,font-weight:bold
-    classDef orchestrator fill:#1d4ed8,stroke:#93c5fd,stroke-width:2px,color:#fff,font-weight:bold
-    classDef planner fill:#047857,stroke:#34d399,stroke-width:2px,color:#fff,font-weight:bold
-    classDef executor fill:#b45309,stroke:#fbbf24,stroke-width:2px,color:#fff,font-weight:bold
-    classDef qa fill:#be123c,stroke:#fb7185,stroke-width:2px,color:#fff,font-weight:bold
-    classDef infra fill:#db2777,stroke:#f472b6,stroke-width:2px,color:#fff,font-weight:bold
-    classDef memory fill:#0f766e,stroke:#2dd4bf,stroke-width:2px,color:#fff,font-weight:bold
-    classDef artifact fill:#374151,stroke:#9ca3af,stroke-width:1px,color:#f3f4f6,stroke-dasharray: 5 5
-    classDef domain fill:#7c3aed,stroke:#c4b5fd,stroke-width:2px,color:#fff,font-weight:bold
-    classDef hotfix fill:#92400e,stroke:#fcd34d,stroke-width:2px,color:#fff
-    classDef publish fill:#155e75,stroke:#67e8f9,stroke-width:2px,color:#fff,font-weight:bold
+    classDef user fill:#2d5a8c,stroke:#5a8ac4,stroke-width:2px,color:#e2e8f0
+    classDef core fill:#1f2937,stroke:#4b5563,stroke-width:2px,color:#f3f4f6,font-weight:bold
+    classDef phase fill:#374151,stroke:#6b7280,stroke-width:1px,color:#d1d5db
+    classDef planner fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#dbeafe
+    classDef executor fill:#7c2d12,stroke:#ea580c,stroke-width:2px,color:#fed7aa
+    classDef qa fill:#3f1a3e,stroke:#d946a6,stroke-width:2px,color:#f5d1f8
+    classDef infra fill:#1e3a3f,stroke:#14b8a6,stroke-width:2px,color:#ccfbf1
+    classDef memory fill:#1e294b,stroke:#60a5fa,stroke-width:1px,color:#bfdbfe
+    classDef control fill:#1f1f1f,stroke:#9ca3af,stroke-width:1px,color:#d1d5db,stroke-dasharray: 5 5
 
-    User([You / Human Control]):::user
+    User["User / Human Control"]:::user
 
-    subgraph Core["⚡ Core Orchestration"]
-        Zeus{"Zeus<br/>Orchestrator"}:::orchestrator
+    subgraph Core["Orchestrator"]
+        Zeus["Zeus<br/>Central Coordinator"]:::core
     end
 
-    subgraph P1["🧠 Phase 1 — Planning & Research"]
-        Athena["Athena<br/>Strategic Planner<br/>(TDD roadmaps · internet-search)"]:::planner
-        Apollo["Apollo<br/>Codebase & Web Scout<br/>(3–10 parallel searches)"]:::planner
-        PlanArt[["📋 Plan Artifact"]]:::artifact
-
-        Athena -- "delegates discovery" --> Apollo
-        Apollo -. "returns findings" .-> Athena
-        Athena -- "generates" --> PlanArt
+    subgraph P1["Phase 1: Planning & Discovery"]
+        Athena["Athena<br/>Strategic Planner"]:::planner
+        Apollo["Apollo<br/>Codebase Scout<br/>Parallel Research"]:::planner
     end
 
-    subgraph P2["⚙️ Phase 2 — Implementation (Parallel)"]
-        Hermes["Hermes<br/>Backend · FastAPI · TDD"]:::executor
-        Aphrodite["Aphrodite<br/>Frontend · React · WCAG"]:::executor
-        Maat["Maat<br/>Database · Alembic · N+1"]:::executor
-        ImplArt[["📦 Implementation Artifacts"]]:::artifact
-        Hermes & Aphrodite & Maat -- "yield outputs" --> ImplArt
+    subgraph P2["Phase 2: Implementation<br/>Parallel Execution"]
+        Hermes["Hermes<br/>Backend"]:::executor
+        Aphrodite["Aphrodite<br/>Frontend"]:::executor
+        Maat["Maat<br/>Database"]:::executor
     end
 
-    subgraph P3["✅ Phase 3 — Quality Gate"]
-        Temis["Temis<br/>OWASP · Coverage ≥80%<br/>Lightweight quality checks"]:::qa
-        RevArt[["🔍 Review Artifact"]]:::artifact
-        Temis -- "generates report" --> RevArt
+    subgraph P3["Phase 3: Quality Review"]
+        Temis["Temis<br/>Security & Coverage Audit"]:::qa
     end
 
-    subgraph P4["🚀 Phase 4 — Delivery"]
-        Ra["Ra<br/>Docker · CI/CD · Traefik"]:::infra
-        Mnemosyne["Mnemosyne<br/>ADRs · Sprint close · Memory"]:::memory
+    subgraph P4["Phase 4: Deployment"]
+        Ra["Ra<br/>Infrastructure"]:::infra
+        Mnemosyne["Mnemosyne<br/>Documentation"]:::memory
     end
 
-    subgraph P5["🌈 Phase 5 — GitHub Publish"]
-        Iris["Iris<br/>Branch · PR · Issues · Releases<br/>(Conventional Commits · Semver)"]:::publish
+    subgraph P5["Phase 5: Release"]
+        Iris["Iris<br/>GitHub Operations"]:::memory
     end
 
-    subgraph Bypass["⚒️ Hotfix Express Lane"]
-        Talos["Talos<br/>Rapid fixes · no ceremony"]:::hotfix
+    subgraph Express["Express Lane"]
+        Talos["Talos<br/>Rapid Hotfixes"]:::qa
     end
 
-    subgraph DS["🌍 Domain Specialist (user-invocable)"]
-        Gaia["Gaia<br/>Remote Sensing Expert<br/>(RS · LULC · SAR · literature)"]:::domain
+    subgraph Specialist["Specialized Domain"]
+        Gaia["Gaia<br/>Remote Sensing"]:::planner
     end
 
-    %% Main orchestration flow
-    User -->|"task prompt"| Zeus
-    Zeus -->|"initiates planning"| P1
-    PlanArt -.->|"⏸️ Pause Point 1<br/>Awaits your approval"| User
-    User -->|"approved — proceed"| Zeus
-
-    Zeus -->|"dispatches in parallel"| P2
-    ImplArt -->|"triggers review"| P3
-
-    RevArt -.->|"⏸️ Pause Point 2<br/>Awaits your approval"| User
-    User -->|"approved — deploy"| Zeus
-
-    Zeus -->|"finalises"| P4
-    Mnemosyne -.->|"sprint closed"| User
-    User -.->|"⏸️ Pause Point 3<br/>git commit"| User
-    User -->|"committed — publish"| Iris
-    Iris -.->|"⏸️ Pause Point 4<br/>approve merge / release"| User
-
-    %% Bypass paths
-    Zeus -.->|"hotfix shortcut"| Bypass
-    Talos -.->|"direct fix · no artifacts"| User
-
-    %% Domain specialist (direct invocation only)
-    User -.->|"@gaia"| DS
-    Gaia -.->|"analysis report"| User
+    User -->|Task| Zeus
+    Zeus -->|Plan| P1
+    Athena -->|Discovers| Apollo
+    Apollo -->|Findings| Athena
+    
+    Athena -.-> User
+    User -->|Approve| Zeus
+    
+    Zeus -->|Dispatch| P2
+    Hermes & Aphrodite & Maat --> P3
+    Temis -.-> User
+    User -->|Approve| Zeus
+    
+    Zeus -->|Deploy| P4
+    P4 -->|Release| P5
+    
+    User -.->|Direct| Express
+    User -.->|Direct| Specialist
+    
+    style Core fill:#2d3748,stroke:#4a5568,color:#e2e8f0
+    style P1 fill:#2d3748,stroke:#4a5568,color:#e2e8f0
+    style P2 fill:#2d3748,stroke:#4a5568,color:#e2e8f0
+    style P3 fill:#2d3748,stroke:#4a5568,color:#e2e8f0
+    style P4 fill:#2d3748,stroke:#4a5568,color:#e2e8f0
+    style P5 fill:#2d3748,stroke:#4a5568,color:#e2e8f0
+    style Express fill:#2d3748,stroke:#4a5568,color:#e2e8f0
+    style Specialist fill:#2d3748,stroke:#4a5568,color:#e2e8f0
 ```
 
 ### Three Core Principles
@@ -193,6 +189,73 @@ Each agent operates within a specific **context** — a combination of:
 - **Tools**: Restricted tool access (e.g., Apollo = read-only; Hermes = edit/execute)
 - **Model**: Task-appropriate AI model (e.g., Haiku for fast hotfixes, Opus for complex reasoning)
 - **Scope**: Defined boundaries (e.g., Temis reviews only changed files, not entire repo)
+
+### Agent Hierarchy by Specialization
+
+```mermaid
+---
+config:
+  look: classic
+  theme: dark
+  layout: elk
+---
+graph TB
+    classDef tier0 fill:#1f2937,stroke:#4b5563,stroke-width:2px,color:#f3f4f6,font-weight:bold
+    classDef tier1a fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#dbeafe
+    classDef tier1b fill:#7c2d12,stroke:#ea580c,stroke-width:2px,color:#fed7aa
+    classDef tier2 fill:#3f1a3e,stroke:#d946a6,stroke-width:2px,color:#f5d1f8
+    classDef tier3 fill:#1e3a3f,stroke:#14b8a6,stroke-width:2px,color:#ccfbf1
+    classDef tier4 fill:#3f065f,stroke:#a855f7,stroke-width:2px,color:#e9d5ff
+    classDef tier5 fill:#1e294b,stroke:#60a5fa,stroke-width:1px,color:#bfdbfe
+
+    Orch["Orchestrator<br/>Zeus"]:::tier0
+
+    subgraph L1["Tier 1: Discovery & Planning"]
+        Athena["Athena<br/>Strategic Planner"]:::tier1a
+        Apollo["Apollo<br/>Codebase Scout"]:::tier1a
+    end
+
+    subgraph L2["Tier 2: Implementation<br/>Parallel Executors"]
+        Hermes["Hermes<br/>Backend"]:::tier1b
+        Aphrodite["Aphrodite<br/>Frontend"]:::tier1b
+        Maat["Maat<br/>Database"]:::tier1b
+    end
+
+    subgraph L3["Tier 3: Quality & Delivery"]
+        Temis["Temis<br/>Security Audit"]:::tier2
+        Ra["Ra<br/>Infrastructure"]:::tier3
+        Iris["Iris<br/>GitHub Ops"]:::tier3
+    end
+
+    subgraph L4["Tier 4: Memory & Docs"]
+        Mnemosyne["Mnemosyne<br/>Documentation"]:::tier5
+    end
+
+    subgraph L5["Tier 5: Specialized"]
+        Talos["Talos<br/>Hotfixes"]:::tier2
+        Gaia["Gaia<br/>Remote Sensing"]:::tier4
+    end
+
+    Orch --> Athena
+    Orch --> Apollo
+    Orch --> Hermes
+    Orch --> Aphrodite
+    Orch --> Maat
+    Orch --> Temis
+    Orch --> Ra
+    Orch --> Iris
+    Orch -.-> Talos
+    Orch -.-> Gaia
+    Athena --> Apollo
+
+    style L1 fill:#1a1a1a,stroke:#2d3748,stroke-width:1px,color:#cbd5e0
+    style L2 fill:#1a1a1a,stroke:#2d3748,stroke-width:1px,color:#cbd5e0
+    style L3 fill:#1a1a1a,stroke:#2d3748,stroke-width:1px,color:#cbd5e0
+    style L4 fill:#1a1a1a,stroke:#2d3748,stroke-width:1px,color:#cbd5e0
+    style L5 fill:#1a1a1a,stroke:#2d3748,stroke-width:1px,color:#cbd5e0
+```
+
+The hierarchy is not a limitation but a **capability**. Each tier has a narrow focus, and the Orchestrator (Zeus) delegates to the appropriate tier and specialist for each phase of the feature lifecycle.
 
 ---
 
@@ -316,36 +379,41 @@ Every `REVIEW-` artifact includes a **Human Review Focus** section — 1–2 spe
 mythic-agents uses two complementary memory layers:
 
 ```mermaid
-%%{init: {'theme': 'dark'}}%%
+---
+config:
+  look: classic
+  theme: dark
+  layout: elk
+---
 flowchart LR
-    classDef skills fill:#3b1f08,stroke:#d97706,stroke-width:2px,color:#fff
-    classDef level1 fill:#1e3a5f,stroke:#2a5082,stroke-width:2px,color:#fff
-    classDef level2a fill:#14532d,stroke:#22c55e,stroke-width:2px,color:#fff
-    classDef level2b fill:#4b2743,stroke:#6e3962,stroke-width:2px,color:#fff
+    classDef tier1 fill:#1e3a1f,stroke:#4ade80,stroke-width:2px,color:#dcfce7
+    classDef tier2a fill:#1e40af,stroke:#3b82f6,stroke-width:2px,color:#dbeafe
+    classDef tier2b fill:#3f065f,stroke:#a855f7,stroke-width:2px,color:#e9d5ff
+    classDef container fill:#2d3748,stroke:#4a5568,stroke-width:1px,color:#cbd5e0
 
-    subgraph L0["📖 Skills — On-demand Domain Knowledge"]
-        direction TB
-        SK["skills/ (19 directories)<br/>Loaded when triggered by agent<br/>instructions — never auto-loaded<br/>Examples: internet-search,<br/>remote-sensing-analysis,<br/>tdd-with-agents, security-audit"]:::skills
+    subgraph L0["Skills — On-Demand"]
+        SK["skills/ Directory<br/>19 modules<br/>Loaded per agent<br/>internet-search<br/>remote-sensing<br/>security-audit"]:::tier2b
     end
 
-    subgraph L1["⚡ Level 1 — Native Memory (auto-loaded, zero cost)"]
-        direction TB
-        MR["/memories/repo/<br/>Permanent facts: stack, commands,<br/>build scripts, conventions"]:::level1
-        MS["/memories/session/<br/>In-flight: plans, WIP notes<br/>Cleared after session ends"]:::level1
+    subgraph L1["Native Memory<br/>Auto-Loaded"]
+        MR["Repo Memory<br/>/memories/repo/<br/>Stack facts<br/>Commands<br/>Conventions"]:::tier1
+        MS["Session Memory<br/>/memories/session/<br/>Plans<br/>Work in Progress"]:::tier1
     end
 
-    subgraph L2["📚 Level 2 — Project Narrative (explicit read)"]
-        direction TB
-        AC["docs/memory-bank/04-active-context.md<br/>← READ FIRST by every agent<br/>Current sprint · last decision · next steps"]:::level2a
-        MB["docs/memory-bank/<br/>00 — Project overview<br/>01 — Architecture & patterns<br/>02 — Components<br/>03 — Tech context & commands<br/>05 — Progress log (append-only)<br/>.tmp/ — ephemeral artifacts (gitignored)<br/>_notes/ — ADRs (permanent, committed)"]:::level2b
+    subgraph L2["Project Narrative<br/>Explicit Read"]
+        AC["Active Context<br/>docs/memory-bank/04<br/>Current sprint<br/>Recent decisions<br/>Next steps"]:::tier2a
+        
+        MB["Reference Docs<br/>docs/memory-bank/<br/>00 Overview<br/>01 Architecture<br/>02 Components<br/>03 Tech Stack<br/>05 Progress"]:::tier2a
     end
 
-    L0 -. "agent reads skill when task requires it" .-> L1
-    L1 -. "key facts graduate to narrative at sprint close" .-> L2
+    SK -.-> MR
+    MR -.-> AC
+    MS -.-> AC
+    AC -.-> MB
 
-    style L0 fill:#1e1e1e,stroke:#444,stroke-width:2px
-    style L1 fill:#1e1e1e,stroke:#333,stroke-width:2px
-    style L2 fill:#1e1e1e,stroke:#333,stroke-width:2px
+    style L0 fill:#1a1a1a,stroke:#3f3f3f,stroke-width:1px,color:#a0aec0
+    style L1 fill:#1a1a1a,stroke:#3f3f3f,stroke-width:1px,color:#a0aec0
+    style L2 fill:#1a1a1a,stroke:#3f3f3f,stroke-width:1px,color:#a0aec0
 ```
 
 **`04-active-context.md`** is the priority file. Agents read it first when starting any task. It contains the current sprint focus, the most recent architectural decision, active blockers, and next steps.
@@ -564,13 +632,63 @@ You do not need to configure this — it is defined per agent in the frontmatter
 
 > 📖 **Official VSCode Documentation:** See [Agent hooks in VS Code](https://code.visualstudio.com/docs/copilot/customization/hooks) for the full hook specification, lifecycle events, input/output formats, and security considerations.
 
+#### Hook System Lifecycle
+
+```mermaid
+---
+config:
+  look: classic
+  theme: dark
+  layout: elk
+---
+flowchart LR
+    classDef h1 fill:#7c2d12,stroke:#ea580c,stroke-width:2px,color:#fed7aa
+    classDef h2 fill:#1e3a3f,stroke:#14b8a6,stroke-width:2px,color:#ccfbf1
+    classDef h3 fill:#3f065f,stroke:#a855f7,stroke-width:2px,color:#e9d5ff
+    classDef event fill:#1e3a5f,stroke:#3b82f6,stroke-width:2px,color:#dbeafe
+    classDef check fill:#1e3a1f,stroke:#4ade80,stroke-width:2px,color:#dcfce7
+
+    subgraph P1["Phase 1: Security & Format<br/>v2.8.0+"]
+        Pre1["PreToolUse<br/>validate-tool-safety.sh"]:::h1
+        Post1["PostToolUse<br/>format-multi-language.sh"]:::h1
+        Log1["SessionStart<br/>log-session-start.sh"]:::h1
+    end
+
+    subgraph P2["Phase 2: Delegation Tracking<br/>v2.8.0+"]
+        Pre2["SubagentStart<br/>on-subagent-delegation-start.sh"]:::h2
+        Post2["SubagentStop<br/>on-subagent-delegation-stop.sh"]:::h2
+    end
+
+    subgraph P3["Phase 3: Type & Import Audit<br/>v2.8.0+"]
+        Post3a["PostToolUse<br/>run-type-check.sh"]:::h3
+        Post3b["PostToolUse<br/>audit-imports.sh"]:::h3
+        Pre3["PreToolUse<br/>scan-secrets.sh"]:::h3
+    end
+
+    Agent["Agent<br/>Executes Tool"]:::event
+    Block{{"Block<br/>or<br/>Proceed"}}:::check
+    Result["Tool Result<br/>Formatted & Validated"]:::check
+
+    Agent --> Pre1
+    Pre1 --> Post1
+    Post1 --> Log1
+    Log1 --> Pre2
+    Pre2 --> Post2
+    Post2 --> Post3a
+    Post3a --> Post3b
+    Post3b --> Pre3
+    Pre3 --> Block
+    Block -->|Safe| Result
+    Block -->|Blocked| Agent
+
+    style P1 fill:#1a1a1a,stroke:#2d3748,stroke-width:1px,color:#cbd5e0
+    style P2 fill:#1a1a1a,stroke:#2d3748,stroke-width:1px,color:#cbd5e0
+    style P3 fill:#1a1a1a,stroke:#2d3748,stroke-width:1px,color:#cbd5e0
+```
+
 #### How Hooks Work
 
 Hooks are configured in `.github/hooks/` as JSON files and execute automatically when agents are active:
-
-```
-Agent executes a tool → Hook fires (PreToolUse/PostToolUse) → Hook validates/blocks/formats → Tool execution continues or is blocked
-```
 
 **Three key properties:**
 1. **Automatic execution** — Hooks fire based on [lifecycle events](https://code.visualstudio.com/docs/copilot/customization/hooks#_hook-lifecycle-events); agents don't invoke them explicitly
