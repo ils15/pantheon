@@ -19,6 +19,33 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [v2.8.1] — March 25, 2026
+
+### Changed
+
+#### Tool Namespace Standardization & Model Optimization 🔧
+- **Agent Tool References** — Updated all agent YAML frontmatter to use correct VS Code Copilot tool names:
+  - Replaced deprecated `agent/askQuestions` with `vscode/askQuestions` (19 total occurrences across 7 agents)
+  - Refactored browser operations to use `browser/*` namespace (`browser/openBrowserPage`, `browser/navigatePage`, `browser/readPage`, `browser/screenshotPage`)
+  - Cleaned up tool declarations in: Zeus, Iris, Athena, Temis, Ra, Aphrodite, Maat, Apollo
+
+- **Model Priority Update** — Optimized Claude Haiku 4.5 as primary model (first fallback):
+  - `agents/apollo.agent.md` — `['Claude Haiku 4.5 (copilot)', 'Gemini 3 Flash (Preview) (copilot)']`
+  - `agents/mnemosyne.agent.md` — `['Claude Haiku 4.5 (copilot)', 'GPT-5.4 mini (copilot)']`
+  - `agents/talos.agent.md` — `['Claude Haiku 4.5 (copilot)', 'GPT-5.4 (copilot)']`
+  
+  **Rationale:** Fast models (Haiku, Gemini Flash) optimized for shallow discovery and rapid iteration; maintains fallback to GPT-5.4/Sonnet for complex reasoning.
+
+**Files changed:** 9
+- agents/aphrodite.agent.md, apollo.agent.md, athena.agent.md, iris.agent.md, ra.agent.md, temis.agent.md, zeus.agent.md
+- docs/memory-bank/04-active-context.md
+- prompts/quick-plan-large-feature.prompt.md
+
+**Issues closed:** #2, #3  
+**Commit:** `7431127` (2026-03-21)
+
+---
+
 ## [v2.8.0] — March 10, 2026
 
 ### Added
