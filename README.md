@@ -46,6 +46,8 @@ mythic-agents solves this with **specialization**: each agent is an expert at ex
 
 The system operates in defined phases controlled by **you**. Agents work in parallel within each phase, and every transition is gated by your explicit approval.
 
+> 📖 **Official VSCode Documentation:** See [Agents overview](https://code.visualstudio.com/docs/copilot/agents/overview) for built-in agents, [Custom agents](https://code.visualstudio.com/docs/copilot/customization/custom-agents) for agent structure, and [Subagents](https://code.visualstudio.com/docs/copilot/agents/subagents) for delegation patterns.
+
 ```mermaid
 %%{init: {'theme': 'dark'}}%%
 flowchart TD
@@ -159,22 +161,38 @@ Every phase produces a structured **artifact** (a file in `docs/memory-bank/.tmp
 
 ## The Agents
 
-| Agent | Specialty | Key capabilities | When to call |
-|---|---|---|---|
-| **Zeus** | Central orchestrator | Multi-agent coordination, parallel phase dispatch, approval gates, mid-session model switching | Any feature spanning 2+ layers — backend + frontend + database |
-| **Athena** | Strategic planner | Research-first architecture design, phased TDD roadmaps, `internet-search` skill, delegates codebase discovery to Apollo | Before any complex feature or architectural decision |
-| **Apollo** | Codebase & web scout | 3–10 parallel read-only searches, `web/fetch` for external docs and GitHub — never edits files | Locating existing code, debugging root cause, pre-implementation discovery |
-| **Hermes** | Backend specialist | FastAPI async/await, Pydantic v2, TDD (RED→GREEN→REFACTOR), OWASP-safe APIs, `security-audit` skill | New endpoints, services, business logic, auth flows |
-| **Aphrodite** | Frontend specialist | React 19, TypeScript strict, WCAG AA, browser screenshot + accessibility audit, `frontend-analyzer` skill | Components, pages, hooks, responsive layouts, accessibility fixes |
-| **Maat** | Database specialist | SQLAlchemy 2.0, Alembic, N+1 detection, EXPLAIN ANALYZE, zero-downtime migrations, `database-optimization` skill | Schema changes, slow query diagnosis, index strategy, migration planning |
-| **Temis** | Quality & security gate | OWASP Top 10, coverage ≥80% hard block, lightweight quality checks (trailing spaces, hard tabs, wild imports), `code-review-checklist` skill | Auto-invoked after every implementation phase; explicit PR or security review |
-| **Iris** | GitHub operations | Branch creation (Conventional Commits), PR lifecycle (draft → review → merge), issue management, releases & semantic versioning | After `git commit` — push, open PR, handle GitHub workflow, create releases |
-| **Ra** | Infrastructure | Multi-stage Docker builds, docker-compose, GitHub Actions, health checks, non-root containers, `docker-best-practices` skill | Container builds, deployment pipelines, environment management |
-| **Talos** | Hotfix express lane | Direct file edits, no TDD ceremony, regression check against existing tests — bypasses all orchestration overhead | CSS fixes, typos, simple logic bugs |
-| **Mnemosyne** | Memory & documentation | `docs/memory-bank/` init, ADR authoring, sprint close, `.tmp/` wipe, `/memories/repo/` atomic facts | Only on explicit request — sprint close, recording architectural decisions |
-| **Gaia** | Remote sensing expert | Full RS pipeline: spectral indices (NDVI/EVI/SAR/BSI), change detection, time series, ML/DL (U-Net/RF/XGBoost), LULC product ensembles, inter-product agreement (Kappa/OA/F1/Dice), Olofsson 2014 accuracy assessment, scientific literature (IEEE TGRS, RSE, ISPRS, MDPI), `remote-sensing-analysis` + `internet-search` skills | Satellite image processing, LULC mapping, algorithm selection, raster pipeline design, scientific literature review |
+Each agent is a [custom VS Code agent](https://code.visualstudio.com/docs/copilot/customization/custom-agents) optimized for a specific role. Agents inherit the following properties from their `.agent.md` file:
 
-Each agent is defined in its own `.agent.md` file with a specific model assignment, tool set, and behavioral rules. See [AGENTS.md](AGENTS.md) for the full reference.
+- **Model**: CPU allocation (e.g., Haiku for light tasks, Opus for deep reasoning)
+- **Tools**: Capability restrictions (e.g., Temis = read-only; Hermes = read/write/execute)
+- **Handoffs**: Sequential workflow transitions to other agents
+- **Scope**: Context boundaries (e.g., Apollo = isolated research context; Hermes = backend-only)
+
+### Agent Directory
+
+| Agent | Specialty | Key capabilities | Context | When to call |
+|---|---|---|---|---|
+| **Zeus** | Central orchestrator | Multi-agent coordination, parallel phase dispatch, approval gates, mid-session model switching | Orchestrates 2+ agents (Athena, Apollo, {Hermes, Aphrodite, Maat}, Ra, Temis, Iris) | Any feature spanning 2+ layers |
+| **Athena** | Strategic planner | Research-first architecture design, phased TDD roadmaps, `internet-search` skill, delegates to Apollo | Reads codebase via Apollo; generates architectural plans; handoff to Zeus | Before complex features |
+| **Apollo** | Codebase & web scout | 3–10 parallel read-only searches, `web/fetch` for external docs/GitHub — never edits | Isolated context; parallel search; no state changes | Locating code, debugging, pre-implementation discovery |
+| **Hermes** | Backend specialist | FastAPI async/await, Pydantic v2, TDD (RED→GREEN→REFACTOR), OWASP-safe APIs, `security-audit` skill | Full Python/FastAPI editing; can test via CI/CD tools; limited to backend scope | New endpoints, services, business logic, auth |
+| **Aphrodite** | Frontend specialist | React 19, TypeScript strict, WCAG AA, browser screenshot + accessibility audit, `frontend-analyzer` skill | Full React/TypeScript editing; browser tools for visual verification; integration tests | Components, pages, hooks, responsive, accessibility |
+| **Maat** | Database specialist | SQLAlchemy 2.0, Alembic, N+1 detection, EXPLAIN ANALYZE, zero-downtime migrations, `database-optimization` skill | Edit migrations & models; cannot run migrations directly (user must `python manage.py migrate`) | Schema changes, slow queries, indexes, migrations |
+| **Temis** | Quality & security gate | OWASP Top 10, coverage ≥80% hard block, lightweight checks (trailing spaces, hard tabs, wild imports), `code-review-checklist` skill | Read-only; reviews only changed files; calls PreToolUse/PostToolUse hook logs | After every implementation phase |
+| **Iris** | GitHub operations | Branch creation (Conventional Commits), PR lifecycle, issue management, semantic versioning releases | Full GitHub API access; cannot force-push or bypass branch protection | After `git commit` — push, PR, releases |
+| **Ra** | Infrastructure | Multi-stage Docker builds, docker-compose, GitHub Actions, health checks, non-root containers, `docker-best-practices` | YAML/shell editing; container orchestration; deployment verification | Docker, CI/CD, environment setup |
+| **Talos** | Hotfix express lane | Direct file edits, no TDD ceremony, regression check against existing tests — bypasses orchestration | Fast execution; skips approval gates; limited to small fixes | CSS bugs, typos, simple logic issues |
+| **Mnemosyne** | Memory & documentation | `docs/memory-bank/` init, ADR authoring, sprint close, `.tmp/` wipe, `/memories/repo/` atomic facts | Writes to persistent memory; no code editing | Explicit: sprint close, architectural decisions |
+| **Gaia** | Remote sensing expert | Full RS pipeline: spectral indices, change detection, time series, ML/DL, inter-product agreement metrics, scientific literature, `remote-sensing-analysis` + `internet-search` | Specialized domain knowledge; web+academic search; no code editing | RS analysis, LULC products, algorithm selection |
+
+Each agent is defined in its own [`.agent.md` file](https://code.visualstudio.com/docs/copilot/customization/custom-agents#_custom-agent-file-structure) with a specific model assignment, tool set, and behavioral rules. See [AGENTS.md](AGENTS.md) for the full reference.
+
+**Agent Context Overview:**
+Each agent operates within a specific **context** — a combination of:
+- **Specialization**: Narrow expertise (e.g., Hermes = FastAPI only, not React or databases)
+- **Tools**: Restricted tool access (e.g., Apollo = read-only; Hermes = edit/execute)
+- **Model**: Task-appropriate AI model (e.g., Haiku for fast hotfixes, Opus for complex reasoning)
+- **Scope**: Defined boundaries (e.g., Temis reviews only changed files, not entire repo)
 
 ---
 
@@ -187,6 +205,8 @@ Each agent is defined in its own `.agent.md` file with a specific model assignme
 ```
 
 Zeus plans with Athena, discovers context with Apollo, then coordinates Maat → Hermes → Aphrodite in parallel, with Temis reviewing after each phase.
+
+**Orchestration Pattern:** This uses [subagent delegation](https://code.visualstudio.com/docs/copilot/agents/subagents#_orchestration-patterns) — Zeus (coordinator) spawns specialized workers (Athena, Apollo, Hermes, Aphrodite, Maat) with isolated context and tool permissions.
 
 ### Direct invocation (for focused tasks)
 
@@ -246,6 +266,8 @@ Zeus plans with Athena, discovers context with Apollo, then coordinates Maat →
 
 **mythic-agents** is built to take full advantage of the [VS Code Copilot native Agent Handoff feature](https://code.visualstudio.com/docs/copilot/agents/overview#_hand-off-a-session-to-another-agent) out of the box!
 
+> 📖 **Official VSCode Documentation:** See [Handoffs](https://code.visualstudio.com/docs/copilot/customization/custom-agents#_handoffs) for configuring agent transitions with pre-filled prompts.
+
 Instead of mixing all contexts into a single messy chat window, you can seamlessly **hand off** your current context and history to a specialized agent using the UI or the `/delegate` command.
 
 1. **Context Isolation**: When Zeus delegates to Athena (or you click the suggested handoff button), VS Code opens a **brand new chat session** specifically for Athena.
@@ -259,7 +281,7 @@ All agents have their `handoffs:` pre-configured in their YAML definitions to pr
 ## Artifact System
 
 Every phase produces a **structured artifact** — a temporary file written to `docs/memory-bank/.tmp/` that summarizes what was done and what you need to review before the next phase begins.
-
+> 📖 **Official VSCode Documentation:** See [Prompt files](https://code.visualstudio.com/docs/copilot/customization/prompt-files) for how to structure and reuse prompts across agents. Artifacts follow the same customization principles as prompts.
 | Artifact | Produced by | Consumed by | What it contains |
 |---|---|---|---|
 | `PLAN-<feature>.md` | Athena | You, Zeus | Phases, risks, open questions for your judgment |
@@ -334,6 +356,8 @@ flowchart LR
 
 `.github/copilot-instructions.md` is auto-read by Copilot on every VSCode session. It points Copilot to `04-active-context.md` and `00-overview.md` and defines global coding standards for your product.
 
+> 📖 **Official VSCode Documentation:** See [Customization overview](https://code.visualstudio.com/docs/copilot/customization/overview) for the full instruction loading hierarchy and best practices.
+
 When adopting mythic-agents in a product repo, customize this file with your stack and standards.
 
 ---
@@ -357,7 +381,8 @@ Infra: Docker, Traefik, GitHub Actions
 
 #### Option A — VS Code Agent Plugin (recommended, no file copy needed)
 
-> Requires VS Code 1.110+ with `chat.plugins.enabled: true`
+> **🆕 Requires:** VS Code 1.110+ with `chat.plugins.enabled: true`  
+> 📖 **VS Code Plugin Setup:** See [Chat plugins overview](https://code.visualstudio.com/docs/copilot/chat/chat-overview#_chat-plugins) for configuration details.
 
 **1. Add to your VS Code `settings.json`:**
 
@@ -449,7 +474,8 @@ copilot-agents/
 ├── .github/
 │   └── copilot-instructions.md   — global rules (auto-read every Copilot session)
 │
-├── agents/                 — agent definitions (.agent.md)
+├── agents/                 — [custom agent definitions](https://code.visualstudio.com/docs/copilot/customization/custom-agents#_custom-agent-file-locations) (.agent.md)
+│                            See [Custom agent file structure](https://code.visualstudio.com/docs/copilot/customization/custom-agents#_custom-agent-file-structure)
 │   ├── zeus.agent.md       orchestrator
 │   ├── athena.agent.md     planner
 │   ├── apollo.agent.md     discovery
@@ -459,11 +485,11 @@ copilot-agents/
 │   ├── temis.agent.md      reviewer
 │   ├── iris.agent.md       github operations
 │   ├── ra.agent.md         infrastructure
-│   ├── talos.agent.md hotfix
+│   ├── talos.agent.md      hotfix
 │   ├── mnemosyne.agent.md  memory
 │   └── gaia.agent.md       remote sensing domain specialist
 │
-├── instructions/           — per-domain coding standards
+├── instructions/           — [VS Code instruction files](https://code.visualstudio.com/docs/copilot/customization/custom-instructions) (per-domain coding standards)
 │   ├── artifact-protocol.instructions.md    ← artifact system rules
 │   ├── backend-standards.instructions.md
 │   ├── frontend-standards.instructions.md
@@ -473,7 +499,7 @@ copilot-agents/
 │   ├── infra-standards.instructions.md
 │   └── memory-bank-standards.instructions.md
 │
-├── prompts/                — agent invocation guides
+├── prompts/                — [prompt files](https://code.visualstudio.com/docs/copilot/customization/prompt-files) (agent invocation guides)
 │   ├── plan-architecture.prompt.md
 │   ├── implement-feature.prompt.md
 │   ├── debug-issue.prompt.md
@@ -481,7 +507,7 @@ copilot-agents/
 │   ├── optimize-database.prompt.md
 │   └── orchestrate-with-zeus.prompt.md
 │
-├── skills/                 — reference documentation (19 directories)
+├── skills/                 — [agent skills](https://code.visualstudio.com/docs/copilot/customization/agent-skills) — reference documentation (19 directories)
 │   ├── agent-coordination/         start here — agent selection guide
 │   ├── orchestration-workflow/     step-by-step real-world walkthrough
 │   ├── tdd-with-agents/            TDD standards and examples
@@ -508,22 +534,24 @@ copilot-agents/
 
 ### Model assignment
 
-Each agent declares its own model in the `.agent.md` frontmatter. The assignments follow the principle of matching model capability to the cognitive cost of the task:
+Each agent declares its own model in the [`.agent.md` frontmatter](https://code.visualstudio.com/docs/copilot/customization/custom-agents#_header-optional). The assignments follow the principle of matching model capability to the cognitive cost of the task.
+
+> 📖 **Official VSCode Documentation:** See [Model selection in chat](https://code.visualstudio.com/docs/copilot/chat/model-selection) for how VS Code routes queries to available models.
 
 | Agent | Primary model | Fallback | Rationale |
 |---|---|---|---|
-| **Zeus** | GPT-5.4 | Claude Opus 4.6 | Complex orchestration, multi-agent coordination, deep reasoning |
+| **Zeus** | GPT-5.4 | GPT-5.3-Codex | Complex orchestration, multi-agent coordination, deep reasoning |
 | **Athena** | GPT-5.4 | Claude Opus 4.6 | Architecture planning, TDD decomposition, risk analysis |
-| **Hermes** | GPT-5.4 | Claude Opus 4.6 | Backend implementation, security-conscious API design |
-| **Maat** | GPT-5.4 | Claude Opus 4.6 | Migration reasoning, complex SQL, schema trade-offs |
-| **Temis** | GPT-5.4 | Claude Opus 4.6 | Code review, security audits, OWASP validation |
+| **Hermes** | GPT-5.4 | GPT-5.3-Codex | Backend implementation, security-conscious API design |
+| **Maat** | GPT-5.4 | GPT-5.3-Codex | Migration reasoning, complex SQL, schema trade-offs |
+| **Temis** | GPT-5.4 | GPT-5.3-Codex | Code review, security audits, OWASP validation |
 | **Aphrodite** | Gemini 3.1 Pro | GPT-5.4 | UI/UX layout and visual generation, fast frontend iteration |
-| **Iris** | GPT-5.4 | Claude Opus 4.6 | GitHub workflow tasks, semantic versioning, release synthesis |
-| **Ra** | GPT-5.4 | Claude Opus 4.6 | Docker, compose, CI/CD orchestration |
+| **Iris** | GPT-5.4 | GPT-5.3-Codex | GitHub workflow tasks, semantic versioning, release synthesis |
+| **Ra** | GPT-5.4 | GPT-5.3-Codex | Docker, compose, CI/CD orchestration |
 | **Talos** | Claude Haiku 4.5 | GPT-5.4 | Rapid hotfixes, simple bug fixes, low-latency repairs |
-| **Gaia** | Claude Sonnet 4.6 | GPT-5.4 | Scientific methodology synthesis, literature research, complex RS analysis |
-| **Apollo** | Gemini 3 Flash | Claude Haiku 4.5 | Parallel codebase search at minimal token cost |
-| **Mnemosyne** | Claude Haiku 4.5 | — | Documentation formatting, text-only tasks, low complexity |
+| **Gaia** | GPT-5.4 | GPT-5.3-Codex | Scientific methodology synthesis, literature research, complex RS analysis |
+| **Apollo** | Claude Haiku 4.5 | Gemini 3 Flash | Parallel codebase search at minimal token cost |
+| **Mnemosyne** | Claude Haiku 4.5 | GPT-5.4 mini | Documentation formatting, text-only tasks, low complexity |
 
 You do not need to configure this — it is defined per agent in the frontmatter.
 
