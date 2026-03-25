@@ -5,6 +5,7 @@ argument-hint: "GitHub task: 'create branch feat/X' | 'open PR: title + base bra
 model: ['GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools:
    - agent
+   - vscode/askQuestions
    - read/readFile
    - search/codebase
    - execute/runInTerminal

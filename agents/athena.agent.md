@@ -5,7 +5,7 @@ argument-hint: "Feature or epic to plan — describe the requirement, goal, and 
 model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
    - agent
- 
+   - vscode/askQuestions
    - search/codebase
    - search/usages
    - web/fetch
