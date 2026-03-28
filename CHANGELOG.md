@@ -53,6 +53,9 @@ Hermes (implementing backend):
 #### Package Metadata
 - `package.json` — Updated description to include "nested subagent delegation"
 
+#### Documentation Clarity
+- `README.md` and `AGENTS.md` — Clarified that `@agent` invocations must be entered in VS Code Copilot Chat, not in `bash`/terminal shells
+
 ### Technical Details
 
 #### Files Modified

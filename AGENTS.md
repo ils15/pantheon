@@ -769,7 +769,9 @@ All three produce IMPL artifacts. Temis reviews after all complete.
 
 Each agent can be invoked directly for bypass orchestration:
 
-```bash
+Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, or another shell.
+
+```text
 # Invoke specific agent
 @apollo: Find all authentication-related files
 
