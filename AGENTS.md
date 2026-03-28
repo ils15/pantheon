@@ -55,6 +55,53 @@ See `.github/copilot-instructions.md` → "Agent Lifecycle Hooks" section for co
 
 ---
 
+## 🏗️ Nested Subagents (NEW in v2.8.2)
+
+**What are nested subagents?** Instead of Zeus centralizing all discovery, implementation agents can now autonomously call Apollo to investigate specific scopes in isolation. This improves performance, context efficiency, and parallelism.
+
+**Enabled via:**
+```json
+{
+  "chat.subagents.allowInvocationsFromSubagents": true
+}
+```
+
+**Implementation Agents with Nested Apollo Delegation:**
+
+| Agent | When to use nested Apollo | Example |
+|-------|---------------------------|---------|
+| **Athena** | Complex architecture (>5 modules) | "Plan caching — call Apollo to explore existing cache patterns" |
+| **Hermes** | Discovering backend patterns | "Implement endpoint — call Apollo to find similar endpoints" |
+| **Aphrodite** | Locating existing components | "Build component — call Apollo to find design system components" |
+| **Maat** | Database optimization patterns | "Optimize queries — call Apollo to find existing indexes" |
+| **Ra** | Infrastructure patterns | "Deploy service — call Apollo to find Docker/compose patterns" |
+
+**How it works (example):**
+```
+Hermes implementing POST /products endpoint
+
+Hermes: "I need to find POST endpoint patterns"
+↓
+CALLS Apollo as nested subagent (isolated context)
+↓
+Apollo searches: "Find all POST endpoints with validation patterns"
+↓
+Apollo returns: ["src/routes/users/post.py", "src/routes/orders/post.py"]
+↓
+Hermes incorporates findings into implementation
+↓
+Result: Clean context for both agents, 60-70% token savings
+```
+
+**Benefits:**
+- ✅ **Context isolation** — Nested agent has clean context window
+- ✅ **Parallelism** — Multiple agents can spawn nested Apollo tasks simultaneously
+- ✅ **Efficiency** — Focused research returns only synthesized findings (no raw dumps)
+- ✅ **Recursion safety** — Max nesting depth 5 prevents infinite loops
+- ✅ **Transparency** — User sees exactly who delegated to whom
+
+---
+
 ### Planning Tier
 
 #### 🧠 **Athena** (agents/athena.agent.md)

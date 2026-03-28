@@ -2,5 +2,6 @@
   "chat.plugins.enabled": true,
   "chat.plugins.marketplaces": [
     "ils15/mythic-agents"
-  ]
+  ],
+  "chat.subagents.allowInvocationsFromSubagents": true
 }

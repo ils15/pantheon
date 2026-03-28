@@ -1,11 +1,11 @@
 ---
 name: ra
-description: "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management. Called by zeus. Sends infra docs to: mnemosyne."
+description: "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management. Calls apollo as nested subagent for pattern discovery. Sends work to temis for validation."
 argument-hint: "Infrastructure task: Dockerfile, compose service, CI/CD workflow, or env setup — describe the service and deployment target (e.g. 'multi-stage Dockerfile for FastAPI with non-root user and health check')"
 model: ['GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools:
   - agent
-
+  - vscode/askQuestions
   - search/codebase
   - search/usages
   - read/readFile
@@ -14,13 +14,13 @@ tools:
   - execute/runInTerminal
   - execute/createAndRunTask
   - execute/getTerminalOutput
+agents: ['apollo']
 handoffs:
-  - label: "➡️ Document Infrastructure"
-    agent: mnemosyne
-    prompt: "Please document the new infrastructure changes and deployment procedures in the Memory Bank."
+  - label: "➡️ Validate Infrastructure"
+    agent: temis
+    prompt: "Validate these infrastructure changes for best practices, security, and correctness."
     send: false
-    model: 'Claude Haiku 4.5 (copilot)'
-agents: ['mnemosyne']
+    model: 'Claude Opus 4.6 (copilot)'
 user-invocable: true
 ---
 

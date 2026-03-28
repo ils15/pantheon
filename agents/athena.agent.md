@@ -1,6 +1,6 @@
 ---
 name: athena
-description: "Strategic planner & architect — research-first, plan-only, never implements. Optionally calls apollo for discovery. Hands off plan to zeus."
+description: "Strategic planner & architect — research-first, plan-only, never implements. Calls apollo as nested subagent for complex discovery."
 argument-hint: "Feature or epic to plan — describe the requirement, goal, and affected modules (e.g. 'JWT auth with refresh tokens for FastAPI backend')"
 model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 tools:
@@ -9,7 +9,7 @@ tools:
    - search/codebase
    - search/usages
    - web/fetch
-agents: ['apollo', 'temis', 'mnemosyne']
+agents: ['apollo']
 handoffs:
    - { label: "Validate Plan", agent: "temis", prompt: "Validate this implementation plan for completeness, risk coverage, and test strategy before execution.", send: false, model: "Claude Opus 4.6 (copilot)" }
    - { label: "Implement Plan", agent: "zeus", prompt: "Implement the plan outlined above following TDD methodology.", send: false, model: "GPT-5.4 (copilot)" }
