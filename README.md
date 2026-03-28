@@ -316,6 +316,8 @@ Nested subagents are **enabled by default** in v2.8.2+. If you're on an older ve
 
 ### Full orchestration (recommended for complex features)
 
+Use these `@agent` commands in the VS Code Copilot Chat input. They are not shell commands and should not be run in `bash` or another terminal.
+
 ```
 @zeus: Implement email verification with rate limiting and 24-hour token expiry
 ```
@@ -325,6 +327,8 @@ Zeus plans with Athena, discovers context with Apollo, then coordinates Maat →
 **Orchestration Pattern:** This uses [subagent delegation](https://code.visualstudio.com/docs/copilot/agents/subagents#_orchestration-patterns) — Zeus (coordinator) spawns specialized workers (Athena, Apollo, Hermes, Aphrodite, Maat) with isolated context and tool permissions.
 
 ### Direct invocation (for focused tasks)
+
+These examples go in Copilot Chat, not in the integrated terminal.
 
 ```
 # Backend only
