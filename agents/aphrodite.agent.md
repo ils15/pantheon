@@ -1,6 +1,6 @@
 ---
 name: aphrodite
-description: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD. Called by zeus. Sends completed work to: temis (review)."
+description: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD. Calls apollo as nested subagent to discover components. Sends work to temis for review."
 argument-hint: "Frontend task: component, page, hook, or styling — include name, props, and UX behaviour (e.g. 'ProductCard with image, title, price and add-to-cart button')"
 model: ['Gemini 3.1 Pro (Preview) (copilot)', 'GPT-5.4 (copilot)']
 tools:
@@ -25,13 +25,13 @@ tools:
   - browser/handleDialog
   - browser/screenshotPage
   - browser/runPlaywrightCode
+agents: ['apollo']
 handoffs:
   - label: "➡️ Send to Temis"
     agent: temis
     prompt: "Please perform a code review and accessibility audit on these frontend changes according to your instructions."
     send: true
     model: 'Claude Opus 4.6 (copilot)'
-agents: ['apollo', 'mnemosyne']
 user-invocable: true
 ---
 

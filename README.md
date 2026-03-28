@@ -259,6 +259,59 @@ The hierarchy is not a limitation but a **capability**. Each tier has a narrow f
 
 ---
 
+## 🏗️ Nested Subagents (v2.8.2+)
+
+**Context isolation without overhead**: Instead of a single large context window for discovery, implementation agents can now spawn isolated Apollo subagents for focused research — returning only synthesized findings.
+
+### How nested subagents work
+
+```
+Hermes implementing POST /products endpoint
+
+Detects: "I need to find existing POST endpoint patterns"
+    ↓ 
+CALLS Apollo as nested subagent (brand new isolated context)
+    ↓
+Apollo searches: "Find all POST endpoints with validation and error handling"
+    ↓
+Apollo returns: Structured summary with file references
+    ↓
+Hermes incorporates patterns into implementation
+    ↓
+Result: 60-70% fewer tokens, clean context for both agents
+```
+
+### Which agents support nested Apollo delegation?
+
+| Agent | When it calls Apollo | Impact |
+|-------|----------------------|--------|
+| **Athena** | Complex architecture (>5 modules) | Delegates research to isolated context; returns findings for planning |
+| **Hermes** | Discovering backend patterns | Finds similar endpoints before implementing new one |
+| **Aphrodite** | Locating design system components | Discovers existing buttons, modals, headers to reuse |
+| **Maat** | Database optimization patterns | Finds indexes, query patterns to apply to new schema |
+| **Ra** | Infrastructure pattern discovery | Locates Docker/compose configurations to reference |
+
+### Configuration
+
+Nested subagents are **enabled by default** in v2.8.2+. If you're on an older version:
+
+```json
+// .vscode/settings.json
+{
+  "chat.subagents.allowInvocationsFromSubagents": true
+}
+```
+
+### Benefits
+
+- ✅ **Context isolation** — Each nested agent works in a clean window
+- ✅ **Parallelism** — Multiple agents spawn Apollo research simultaneously
+- ✅ **Efficiency** — Focused research with synthesized output (vs raw code dumps)
+- ✅ **Recursion safety** — Max nesting depth 5 prevents loops
+- ✅ **Transparency** — Full visibility of delegation chain in chat
+
+---
+
 ## Workflow
 
 ### Full orchestration (recommended for complex features)

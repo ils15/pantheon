@@ -7,15 +7,64 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [Unreleased]
+## [v2.8.2] — March 27, 2026
 
 ### Added
 
-- _No entries yet._
+#### 🏗️ **Nested Subagents Architecture** — Hierarchical Agent Delegation
+- **Nested subagent support** enabled via `chat.subagents.allowInvocationsFromSubagents: true` in `.vscode/settings.json`
+- **New `agents` property** in agent YAML frontmatter to declare which agents can be invoked as nested subagents
+- **5 Implementation Agents now support nested Apollo delegation**:
+  - **Athena** → calls `apollo` for complex architectural research (isolation of discovery context)
+  - **Hermes** → calls `apollo` to discover existing backend patterns and implementations
+  - **Aphrodite** → calls `apollo` to locate existing components and design patterns
+  - **Maat** → calls `apollo` to find optimization opportunities and query patterns
+  - **Ra** → calls `apollo` to discover infrastructure patterns and deployment strategies
+
+**Benefits:**
+- **Context isolation**: Each nested agent works in a clean context window without inheriting parent's state
+- **Parallelism**: Agents can spawn isolated research tasks that return only synthesized findings (60-70% token savings)
+- **Recursion safety**: Maximum nesting depth of 5 prevents infinite loops
+- **Improved discovery**: Smaller, focused searches replace large monolithic exploration phases
+
+**Example workflow**:
+```
+User: /implement-feature Add Redis caching
+
+Hermes (implementing backend):
+  → Detects complexity
+  → CALLS Apollo as nested subagent: "Find existing cache patterns"
+  → Apollo returns isolated findings
+  → Hermes incorporates patterns into implementation
+```
 
 ### Changed
 
-- _No entries yet._
+#### Agent Descriptions Updated for Nested Delegation
+- **Athena**: "research-first, plan-only → research-first, plan-only, **Calls apollo as nested subagent for complex discovery**"
+- **Hermes**: Added "**Calls apollo as nested subagent to discover patterns**"
+- **Aphrodite**: Added "**Calls apollo as nested subagent to discover components**"
+- **Maat**: Added "**Calls apollo as nested subagent for optimization patterns**"
+- **Ra**: Added "**Calls apollo as nested subagent for pattern discovery**"
+
+#### Settings Configuration
+- `.vscode/settings.json` — Added `chat.subagents.allowInvocationsFromSubagents: true` to enable recursive agent delegation
+
+#### Package Metadata
+- `package.json` — Updated description to include "nested subagent delegation"
+
+### Technical Details
+
+#### Files Modified
+- `agents/athena.agent.md` — Frontmatter: `agents: ['apollo']` (removed mnemosyne, temis handoffs)
+- `agents/hermes.agent.md` — Frontmatter: `agents: ['apollo']` (removed mnemosyne from nested agents list)
+- `agents/aphrodite.agent.md` — Frontmatter: `agents: ['apollo']` (changed from `['apollo', 'mnemosyne']`)
+- `agents/maat.agent.md` — Frontmatter: `agents: ['apollo']` (changed from `['apollo', 'mnemosyne']`)
+- `agents/ra.agent.md` — Frontmatter: `agents: ['apollo']` (changed from `['mnemosyne']`)
+- `.vscode/settings.json` — New setting: `chat.subagents.allowInvocationsFromSubagents: true`
+- `package.json` — Version 2.8.1 → 2.8.2, description updated
+
+**Rationale**: Handoffs (temis, mnemosyne) are explicitly called via `handoffs` property and should NOT appear in `agents` list. Only async helper agents (apollo) that agents can autonomously invoke belong in `agents`.
 
 ---
 
