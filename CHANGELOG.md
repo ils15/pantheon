@@ -7,6 +7,15 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [v2.8.3] — April 3, 2026
+
+### Changed
+
+#### Chore: Copilot agent docs alignment
+- Updated agent frontmatter and orchestration docs to include `GPT-5.4 mini` alongside `Claude Haiku 4.5` for lightweight routing.
+- Added workflow guidance for Chat Customizations, `#codebase` semantic-first search, `/troubleshoot #session`, `#debugEventsSnapshot`, and nested subagents.
+- Aligned memory-bank notes and repository docs with the VS Code 1.111-1.114 Copilot feature set.
+
 ## [v2.8.2] — March 27, 2026
 
 ### Added

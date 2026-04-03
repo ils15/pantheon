@@ -2,7 +2,7 @@
 name: mnemosyne
 description: "Memory bank quality owner — initializes docs/memory-bank/, writes ADRs and task records on explicit request. Called by zeus. Never invoked automatically after phases."
 argument-hint: "What to document: 'initialize project' | 'close sprint' | 'record decision TOPIC' | 'create task DESCRIPTION'"
-model: ['Claude Haiku 4.5 (copilot)', 'GPT-5.4 mini (copilot)']
+model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)']
 tools:
   - search/codebase
   - search/usages
@@ -96,6 +96,12 @@ Artifact naming convention (all land in `.tmp/` except ADR):
 > - `PLAN-`, `IMPL-`, `REVIEW-`, `DISC-` → live in **`.tmp/`** (gitignored, ephemeral)
 > - `ADR-` → live in **`_notes/`** (committed, permanent, never deleted)
 > - If `.tmp/` accumulates > 20 files → warn the user to run `@mnemosyne Close sprint`
+
+## Copilot Workflow Notes
+
+- Use the Chat Customizations editor when keeping agent, instruction, or skill documentation aligned across the repo.
+- Review third-party customization docs before recording them as repository guidance or memory facts.
+- If a customization or model-routing change seems inconsistent, use `/troubleshoot #session` to see what VS Code loaded.
 
 ---
 

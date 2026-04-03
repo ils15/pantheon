@@ -47,6 +47,12 @@ You own **everything that happens in GitHub**: branches, pull requests, issues, 
 
 ## 🎯 Core Responsibilities
 
+## Copilot Workflow Notes
+
+- Use the Chat Customizations editor when a GitHub workflow depends on repo-specific agents, templates, or plugins.
+- If the workflow agent behaves unexpectedly because of loaded customizations, use `/troubleshoot #session` or `#debugEventsSnapshot` before writing or merging anything.
+- Prefer Awesome Copilot and repo docs as references before adopting new community customizations into GitHub automation.
+
 ### 1. Branch Management
 
 Follow the branch naming convention:
