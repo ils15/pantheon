@@ -855,7 +855,7 @@ model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 # GPT-5.4 as default planner, Opus fallback for complex architecture and risk decomposition
 
 # Apollo (Discovery)
-model: ['Gemini 3 Flash (Preview) (copilot)', 'Claude Haiku 4.5 (copilot)']
+model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)', 'Gemini 3 Flash (Preview) (copilot)']
 # Flash for fast parallel searches
 
 # Hermes (Backend)
@@ -875,7 +875,7 @@ model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 # GPT-5.4 broad review, Opus fallback for deep security/architecture validation
 
 # Mnemosyne (Memory)
-model: ['Claude Haiku 4.5 (copilot)']  
+model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)']  
 # Haiku is sufficient for documentation
 
 # Ra (Infrastructure)
@@ -883,7 +883,7 @@ model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 # GPT-5.4 default for infra orchestration, Opus fallback for complex CI/deployment reasoning
 
 # Talos (Hotfix)
-model: ['Claude Haiku 4.5 (copilot)', 'GPT-5.4 (copilot)']
+model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)', 'GPT-5.4 (copilot)']
 # Haiku first for simple low-risk fixes, GPT-5.4 fallback if complexity increases
 
 # Gaia (Domain Specialist — Remote Sensing)
@@ -909,9 +909,15 @@ model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 - **Slash commands in background agents** (#297117): `/implement-feature`, `/plan-architecture`, `/debug-issue`, etc. now work from background agent contexts — no need to return to foreground chat to invoke them.
 - **Local MCP sandbox** (#294029): MCP servers with `stdio` transport can run sandboxed (file/network isolation). Ra and security-sensitive agents benefit from recommending sandboxed MCP servers for infra tooling.
 - **`disable-model-invocation: true`** (Feb 2026): Add to domain specialist agents (Gaia, Talos) that should only be user-invoked. Prevents any orchestrator from treating them as generic subagents. An explicit `agents: ['gaia']` in a coordinator overrides this when intentional delegation is needed.
-- **`handoffs.model`** (Feb 2026): Handoffs can now specify a target model: `handoffs[].model: 'Claude Haiku 4.5 (copilot)'`. Use to switch to a faster model for lighter follow-up phases (e.g., Hermes → Temis handoff uses Sonnet, not Opus).
+- **`handoffs.model`** (Feb 2026): Handoffs can now specify a target model: `handoffs[].model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)']`. Use to switch to a faster model for lighter follow-up phases (e.g., Hermes → Temis handoff uses Sonnet, not Opus).
 - **`handoffs.model` adoption in this repo**: Zeus/Apollo/Temis/Talos route orchestration handoffs with explicit models; Hermes/Aphrodite/Maat pin review handoffs to Opus; docs/release handoffs use Haiku where appropriate.
 - **Model governance**: Athena is the only planner agent that should consult supported-models docs and propose routing changes for the rest of the system.
+- **VS Code 1.111-1.114 agent features to leverage**:
+   - Use the Chat Customizations editor for agent/instruction/skill management when reviewing or onboarding customization files.
+   - Use `agent/askQuestions` for approval gates and `#debugEventsSnapshot`/`/troubleshoot #session` for diagnosing customization loading, tool choices, and latency.
+   - Use nested subagents only for bounded multi-step work; `chat.subagents.allowInvocationsFromSubagents` is available, but the workflow still needs clear recursion limits.
+   - Treat `#codebase` as semantic-first search and pair it with text/symbol search for exact matches.
+   - When consuming third-party customizations, prefer the Awesome Copilot marketplace and review the sourced agent docs before enabling them.
 
 ### Plan Validation Lane (new)
 

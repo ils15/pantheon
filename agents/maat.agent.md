@@ -29,6 +29,12 @@ You are a **database implementation specialist** (Maat) focused on SQLAlchemy as
 
 ## Core Capabilities 
 
+## Copilot Workflow Notes
+
+- Use semantic `#codebase` search to find existing models, migrations, and query patterns before editing schema files.
+- If migration behavior or tool selection looks odd, use `#debugEventsSnapshot` or `/troubleshoot #session` to confirm what the agent loaded.
+- Keep nested Apollo discovery bounded to schema and index patterns; do not expand into unrelated application logic.
+
 ### 1. **TDD for Database**
 - Write migration tests first
 - **CRITICAL:** Always run tests non-interactively (e.g., `pytest -v`). Never use `--pdb` or drop into interactive modes that will hang the agent.

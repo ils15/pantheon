@@ -673,12 +673,20 @@ Each agent declares its own model in the [`.agent.md` frontmatter](https://code.
 | **Aphrodite** | Gemini 3.1 Pro | GPT-5.4 | UI/UX layout and visual generation, fast frontend iteration |
 | **Iris** | GPT-5.4 | GPT-5.3-Codex | GitHub workflow tasks, semantic versioning, release synthesis |
 | **Ra** | GPT-5.4 | GPT-5.3-Codex | Docker, compose, CI/CD orchestration |
-| **Talos** | Claude Haiku 4.5 | GPT-5.4 | Rapid hotfixes, simple bug fixes, low-latency repairs |
+| **Talos** | GPT-5.4 mini | Claude Haiku 4.5 | Rapid hotfixes, simple bug fixes, low-latency repairs |
 | **Gaia** | GPT-5.4 | GPT-5.3-Codex | Scientific methodology synthesis, literature research, complex RS analysis |
-| **Apollo** | Claude Haiku 4.5 | Gemini 3 Flash | Parallel codebase search at minimal token cost |
-| **Mnemosyne** | Claude Haiku 4.5 | GPT-5.4 mini | Documentation formatting, text-only tasks, low complexity |
+| **Apollo** | GPT-5.4 mini | Claude Haiku 4.5, then Gemini 3 Flash | Parallel codebase search at minimal token cost |
+| **Mnemosyne** | GPT-5.4 mini | Claude Haiku 4.5 | Documentation formatting, text-only tasks, low complexity |
 
 You do not need to configure this — it is defined per agent in the frontmatter.
+
+### Copilot features worth using now
+
+- Use the Chat Customizations editor to manage instructions, prompt files, custom agents, skills, and MCP servers in one place.
+- Use `/troubleshoot` with `#session` or `#debugEventsSnapshot` when an agent loads the wrong customization, picks the wrong tools, or slows down unexpectedly.
+- Treat `#codebase` as semantic-only now; pair it with exact text or symbol search when you need precise matches.
+- Use `copilot plugin marketplace add github/awesome-copilot` and `copilot plugin install <plugin-name>@awesome-copilot` to consume shared community customizations.
+- Prefer nested subagents only for bounded multi-step work; the current VS Code releases support this pattern, but it still needs clear scoping.
 
 ### Automated Quality Gates via Hooks
 

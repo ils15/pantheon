@@ -30,6 +30,13 @@ You are the **INFRASTRUCTURE TASK IMPLEMENTER** (Ra) called by Zeus for deployme
 
 ## Core Capabilities 
 
+## Copilot Workflow Notes
+
+- Use the Chat Customizations editor when onboarding MCP servers, plugins, or repo-level instructions.
+- Prefer sandboxed local MCP servers when possible, especially for filesystem or network-facing tooling.
+- If a plugin, server, or customization does not appear to load, use `/troubleshoot #session` and `#debugEventsSnapshot` to inspect the session state.
+- Use semantic `#codebase` search only to locate config fragments; keep deployment work grounded in the actual compose or workflow files.
+
 ### 1. **Infrastructure as Code (IaC) with TDD**
 - Write deployment tests first
 - Create infrastructure configuration

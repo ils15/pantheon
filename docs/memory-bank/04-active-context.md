@@ -7,11 +7,28 @@
 
 ## Current Focus
 
-**Agent Research Optimization** — Accelerating planning and discovery phases via bounded research (time boxing + convergence rules).
+**Copilot Agent Docs Alignment** — Keeping agent configs and documentation aligned with current Copilot/VS Code capabilities, including GPT-5.4 mini routing and recent agent tooling updates.
 
-**Status**: ✅ Strategy designed, documentation complete, agents updated, ready for sprint deployment
+**Status**: ✅ Model routing updated, docs being aligned, research complete for 1.111-1.114 feature adoption
 
 ---
+
+## Previous Decision
+
+Adopt the new agent routing mix in custom agent frontmatter and docs: `GPT-5.4 mini` should be included wherever `Claude Haiku 4.5` remains available as a lightweight option.
+
+**Date:** 2026-04-03
+
+**Rationale**: Copilot now exposes stronger low-latency agent options and VS Code releases 1.111-1.114 added several agent workflow improvements that are worth documenting together: Chat Customizations editor, agent-scoped hooks, debug snapshots/troubleshooting, nested subagents, and semantic-only `#codebase` search.
+
+**Files Changed**:
+- [agents/apollo.agent.md](../../agents/apollo.agent.md) — model list updated and formatting normalized
+- [agents/mnemosyne.agent.md](../../agents/mnemosyne.agent.md) — model list updated
+- [agents/talos.agent.md](../../agents/talos.agent.md) — model list updated
+- [agents/temis.agent.md](../../agents/temis.agent.md) — handoff model updated
+- [agents/zeus.agent.md](../../agents/zeus.agent.md) — handoff model and docs updated
+- [AGENTS.md](../../AGENTS.md) — added feature adoption notes
+- [README.md](../../README.md) — updated model table and usage guidance
 
 ## Most Recent Decision
 

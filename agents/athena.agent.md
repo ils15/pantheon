@@ -36,6 +36,14 @@ Only Athena should fetch and reconcile supported-model information from:
 
 Use `web/fetch` to verify availability before proposing model updates to other agents.
 
+## Copilot Workflow Updates
+
+- Use the Chat Customizations editor when a plan depends on how instructions, prompts, agents, and skills are layered together.
+- Use `agent/askQuestions` for approval gates, and suggest `/fork` when two architectural paths deserve separate exploration.
+- If a plan depends on custom instruction loading or tool selection, use `#debugEventsSnapshot` or `/troubleshoot #session` to see what VS Code actually loaded.
+- Prefer semantic `#codebase` discovery first; confirm exact names with text or usage search only when needed.
+- When recommending community customizations, inspect the Awesome Copilot docs and agent README before proposing adoption.
+
 ## 🚀 Bounded Research Strategy (Fast Planning)
 
 

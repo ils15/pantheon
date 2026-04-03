@@ -29,7 +29,7 @@ handoffs:
     agent: mnemosyne
     prompt: "Document the completed work and decisions in the Memory Bank."
     send: false
-    model: 'Claude Haiku 4.5 (copilot)'
+    model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)']
 user-invocable: true
 ---
 
@@ -121,6 +121,14 @@ Full debugging guide with 7-step process in documentation.
 
 ## Core Capability: Orchestration 
 
+## Copilot Workflow Notes
+
+- Use the Chat Customizations editor to inspect the current agent stack before delegating a multi-phase task.
+- Use `#debugEventsSnapshot` or `/troubleshoot #session` whenever a delegated agent loads the wrong tools, ignores an instruction, or slows down unexpectedly.
+- Treat `#codebase` as semantic-first search and pair it with exact text or usage search only when you need precise evidence.
+- Use nested subagents only for bounded discovery or diagnostics; keep recursion limits explicit.
+- Prefer Awesome Copilot marketplace docs when onboarding third-party agents, skills, or plugins into the orchestration path.
+
 ### 1. **Phase-Based Execution with Context Conservation**
 - Planning phase: Delegate to Athena + Apollo (parallel)
 - Plan validation phase: Delegate to Temis (plan quality gate before implementation)
@@ -193,13 +201,13 @@ Full debugging guide with 7-step process in documentation.
 - **Returns**: Infrastructure code, deployment procedures
 
 ### 8. Talos (HOTFIX) - THE EXPRESS REPAIR
-- **Model**: Claude Haiku 4.5 (copilot) with GPT-5.4 (copilot) fallback
+- **Model**: GPT-5.4 mini (copilot) with Claude Haiku 4.5 (copilot) fallback
 - **Role**: Precise, fast bug fixes and minor adjustments (CSS, typos)
 - **Use for**: Bypassing the heavy orchestration phase for quick wins, executing fast repairs
 - **Returns**: Directly applied code changes and test verifications
 
 ### 9. Mnemosyne (MEMORY) - THE MEMORY KEEPER
-- **Model**: Claude Haiku 4.5 (copilot)
+- **Model**: GPT-5.4 mini (copilot) with Claude Haiku 4.5 (copilot) fallback
 - **Role**: Memory bank management, artifact persistence, ADR writing, sprint close
 - **Use for**: Creating PLAN/IMPL/REVIEW/DISC artifacts, project initialization, sprint documentation
 - **Returns**: Confirmation of saved artifacts, updated `docs/memory-bank/` files

@@ -34,6 +34,29 @@ Or manually:
 
 <!-- Project entries below this line. Most recent at the top. -->
 
+## [2026-04-03] — Copilot Agent Docs Alignment and Feature Review
+
+**Agents involved:** GitHub Copilot
+**Status:** ✅ Delivered
+
+### What was done
+- Updated custom agent frontmatter and orchestration docs to include GPT-5.4 mini alongside Claude Haiku 4.5 where lightweight routing is desired.
+- Reviewed GitHub Awesome Copilot, GitHub Copilot changelog, and VS Code 1.111-1.114 release notes for agent workflow improvements.
+- Added documentation notes for Chat Customizations editor usage, `/troubleshoot` with session/debug snapshots, semantic-only `#codebase` search, and nested subagent scope.
+
+### Key decisions made
+- Keep `GPT-5.4 mini` as the preferred lightweight option where Haiku was previously used for low-latency tasks.
+- Document only features that are available in the current VS Code releases or clearly marked as proposed/future.
+
+### Main files changed
+- `agents/apollo.agent.md` — model list formatting and ordering
+- `agents/mnemosyne.agent.md` — model list ordering
+- `agents/talos.agent.md` — model list ordering
+- `agents/temis.agent.md` — handoff model updated
+- `agents/zeus.agent.md` — handoff model and reference notes updated
+- `AGENTS.md` — added VS Code 1.111-1.114 feature adoption guidance
+- `README.md` — updated model table and usage guidance
+
 ## [2026-03-15] — Agent Lifecycle Hooks Phase 2: Delegation Tracking & Interactive Handoffs
 
 **Agents involved:** GitHub Copilot (Agent Coordination)
