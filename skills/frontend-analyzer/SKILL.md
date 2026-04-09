@@ -112,7 +112,7 @@ Output: % compliance, violations, refactoring recommendations
 
 ## Integrations
 
-### With Playwright
+### With the integrated browser
 - Automated visual analysis
 - Color & typography extraction
 - Accessibility testing

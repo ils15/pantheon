@@ -12,7 +12,7 @@
     {
       "name": "mythic-agents",
       "source": "./",
-      "description": "Complete multi-agent orchestration system featuring Zeus (orchestrator), Athena (planner), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Iris (GitHub), Temis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). 19 on-demand skills for TDD, security, API design, database migration, Docker, Playwright, and more.",
+      "description": "Complete multi-agent orchestration system featuring Zeus (orchestrator), Athena (planner), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Iris (GitHub), Temis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). 18 on-demand skills for TDD, security, API design, database migration, Docker, and more.",
       "version": "2.8.1",
       "agents": [
         "./agents"
@@ -31,7 +31,6 @@
         "./skills/nextjs-seo-optimization",
         "./skills/orchestration-workflow",
         "./skills/performance-optimization",
-        "./skills/playwright-e2e-testing",
         "./skills/prompt-improver",
         "./skills/remote-sensing-analysis",
         "./skills/security-audit",

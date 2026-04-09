@@ -239,7 +239,7 @@ Hermes (implementing backend):
 
 #### Agent and Tooling Updates
 - **`agents/aphrodite.agent.md`** — Expanded integrated browser toolkit with:
-  - `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `hoverElement`, `dragElement`, `handleDialog`, `screenshotPage`, `runPlaywrightCode`
+  - `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `hoverElement`, `dragElement`, `handleDialog`, `screenshotPage`
   - clear enablement steps (`workbench.browser.enableChatTools=true` + Share with Agent)
 - **`agents/temis.agent.md`** — Added integrated browser validation flow for critical UI/user-journey review evidence.
 - **`agents/apollo.agent.md`** — Added integrated browser reconnaissance support for live-page evidence during discovery.
@@ -250,8 +250,7 @@ Hermes (implementing backend):
 - **`CONTRIBUTING.md`** — Modernized frontmatter example to model array + canonical tool naming.
 
 #### Verification
-- Perplexity MCP references checked and confirmed absent (`perplexity`, `mcp_perplexity`, `mcp_perplexity-as_perplexity_ask`).
-- Instructions and skills audited for modernization compatibility; no conflicting browser-tool or Perplexity remnants found.
+- Instructions and skills audited for modernization compatibility; no conflicting browser-tool remnants found.
 
 ---
 
@@ -337,7 +336,7 @@ Hermes (implementing backend):
 - **`.github/workflows/release.yml`** — Triggered on `v*.*.*` tag push. Automatically creates a GitHub Release, extracting the relevant version body from `CHANGELOG.md`. Enables Iris to trigger versioned releases by pushing a tag.
 
 #### Documentation
-- **`CHANGELOG.md`** — This file. Standalone changelog added to repo root. Previously the changelog existed only as a section inside `README.md`; both are now kept in sync.
+- **`CHANGELOG.md`** — This file. Standalone changelog added to repo root. Previously the changelog existed only as a section inside `README.md`; README now links here instead of duplicating release notes.
 
 ### Changed
 - **`README.md`** — Added Iris to agents table, repository structure listing, mermaid orchestration diagram (new Phase 5 — GitHub Publish node), model assignment table, direct invocation examples, and v2.5 changelog entry.
@@ -361,7 +360,7 @@ Hermes (implementing backend):
 #### Full English Translation
 All framework files are now entirely in English. Previously Portuguese content translated:
 - `skills/nextjs-seo-optimization/SKILL.md` and `seo-config.ts`
-- `skills/playwright-e2e-testing/SKILL.md`
+- `skills/frontend-analyzer/SKILL.md` — updated to use integrated browser validation notes
 - `skills/remote-sensing-analysis/SKILL.md` (full rewrite)
 - `prompts/optimize-database.prompt.md`
 - `agents/zeus.agent.md` — isolated Portuguese word (`"Nenhum"` → `"None"`)
@@ -374,4 +373,4 @@ All framework files are now entirely in English. Previously Portuguese content t
 
 ## [v2.3] and earlier
 
-See the `## Changelog` section in [README.md](README.md) for earlier release notes embedded prior to the introduction of this standalone file.
+This file is the canonical changelog for the repository.

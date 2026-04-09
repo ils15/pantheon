@@ -19,7 +19,6 @@ tools:
   - browser/readPage
   - browser/clickElement
   - browser/screenshotPage
-  - browser/runPlaywrightCode
 agents: ['mnemosyne']
 handoffs:
   - label: "🔧 Fix Review Issues"

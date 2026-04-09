@@ -188,7 +188,7 @@ Frontend UI/UX, React components, responsive design.
 **Depends on:** hermes (API endpoints)  
 **Can call:** apollo (for component discovery)  
 **Skills:** frontend-standards.instructions, tdd-testing, api-design  
-**Tools:** `search/codebase`, `search/usages`, `agent/askQuestions`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `hoverElement`, `dragElement`, `handleDialog`, `screenshotPage`, `runPlaywrightCode`  
+**Tools:** `search/codebase`, `search/usages`, `agent/askQuestions`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `hoverElement`, `dragElement`, `handleDialog`, `screenshotPage`  
 
 **Frontend Standards Applied:**
 - TypeScript strict mode
@@ -310,7 +310,7 @@ Code review, security audit, quality gates, and lightweight code quality checks.
 **Specialization:** Lightweight quality checks, OWASP security audit, >80% coverage validation  
 **Reviews:** All outputs from hermes, aphrodite, maat, ra  
 **Skills:** code-review-standards.instructions, security-audit, tdd-testing  
-**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/problems`, `search/changes`, `execute/testFailure`, `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `screenshotPage`, `runPlaywrightCode`  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/problems`, `search/changes`, `execute/testFailure`, `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `screenshotPage`  
 
 **Quality Checks (LIGHTWEIGHT - CHANGED FILES ONLY):**
 - ✅ **Trailing whitespace** — grep-based check (BLOCKER if found)
@@ -903,7 +903,7 @@ model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 **Changelog-aligned notes (VS Code Feb 2026):**
 - **`agent/askQuestions` in subagents** (#294949): ALL agents now have this tool. Replace ⏸️ text-based pause patterns with actual interactive question calls that block until the user responds. Zeus and Athena use this at every approval gate.
 - **`~/.copilot/instructions/` auto-loaded globally** (#297179): This directory is for *user-level* personal preferences that apply across all repos. **Do not migrate `.github/copilot-instructions.md`** — it is repo-level, shared with the team, and should stay. Add personal cross-repo conventions to `~/.copilot/instructions/` instead.
-- **Integrated browser tools for agents**: prefer built-in VS Code browser tools (`openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `screenshotPage`, `runPlaywrightCode`) over external MCP browser dependencies when possible.
+- **Integrated browser tools for agents**: prefer built-in VS Code browser tools (`openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `screenshotPage`) over external MCP browser dependencies when possible.
 - **Enablement flow**: set `workbench.browser.enableChatTools=true`, open the integrated browser, and use **Share with Agent** to grant page access.
 - **`/fork` command** (#291481): Creates a new chat session inheriting current context. Athena can suggest `/fork` when the user wants to explore an alternative architectural approach without losing the current plan thread.
 - **Slash commands in background agents** (#297117): `/implement-feature`, `/plan-architecture`, `/debug-issue`, etc. now work from background agent contexts — no need to return to foreground chat to invoke them.

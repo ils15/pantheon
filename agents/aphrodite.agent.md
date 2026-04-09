@@ -24,7 +24,6 @@ tools:
   - browser/dragElement
   - browser/handleDialog
   - browser/screenshotPage
-  - browser/runPlaywrightCode
 agents: ['apollo']
 handoffs:
   - label: "➡️ Send to Temis"
@@ -72,7 +71,7 @@ After implementing a UI component or page, use VS Code Integrated Browser tools 
 - `readPage` — inspect DOM/content and detect obvious rendering issues
 - `clickElement` / `typeInPage` / `hoverElement` / `dragElement` — validate key UI interactions
 - `screenshotPage` — capture rendered output for visual diff and layout validation
-- `runPlaywrightCode` — run focused checks when direct tools are insufficient
+- Use the browser interaction tools and screenshots for focused checks when direct tools are insufficient
 
 > **Requires:**
 > 1. Enable `workbench.browser.enableChatTools=true`
@@ -251,7 +250,7 @@ After Mnemosyne persists the artifact, signal Zeus: `Ready for Temis review.`
 
 - **@hermes**: When you need new API endpoints
 - **@ra**: For Vite configuration or Docker deployment
-- **@temis**: For Playwright E2E tests and accessibility audit
+- **@temis**: For integrated browser checks and accessibility audit
 - **@mnemosyne**: For ALL documentation (MANDATORY)
 
 ## Output Format
