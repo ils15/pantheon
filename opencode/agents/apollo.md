@@ -2,7 +2,6 @@
 description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, maat. No edits, no commands."
 mode: subagent
 hidden: true
-model: openai/gpt-4o-mini
 permission:
   edit: deny
   write: deny

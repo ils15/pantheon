@@ -1,7 +1,6 @@
 ---
 description: "Strategic planner & architect — research-first, plan-only, never implements. Calls apollo as nested subagent for complex discovery."
 mode: primary
-model: anthropic/claude-opus-4-5
 permission:
   edit: deny
   write: deny

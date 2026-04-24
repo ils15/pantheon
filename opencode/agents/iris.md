@@ -1,7 +1,6 @@
 ---
 description: "GitHub operations specialist — branches, pull requests, issues, releases, tags. Called by zeus after Temis review or directly for any GitHub workflow task. Never pushes or merges without explicit human approval."
 mode: all
-model: openai/gpt-4o
 permission:
   edit: deny
   write: deny

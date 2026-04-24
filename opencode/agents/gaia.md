@@ -2,7 +2,6 @@
 description: "Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, statistical analysis, scientific literature (MDPI, IEEE TGRS, RSE, ISPRS). Covers full RS pipeline from raw image to product."
 mode: primary
 hidden: true
-model: anthropic/claude-sonnet-4-20250514
 permission:
   edit: deny
   write: deny
