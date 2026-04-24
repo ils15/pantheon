@@ -1,7 +1,6 @@
 ---
 description: "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management. Calls apollo as nested subagent for pattern discovery. Sends work to temis for validation."
 mode: all
-model: openai/gpt-4o
 permission:
   edit: allow
   write: allow

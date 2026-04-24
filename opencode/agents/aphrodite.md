@@ -1,7 +1,6 @@
 ---
 description: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD. Calls apollo as nested subagent to discover components. Sends work to temis for review."
 mode: all
-model: google/gemini-2.5-pro
 permission:
   edit: allow
   write: allow

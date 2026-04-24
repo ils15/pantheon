@@ -1,7 +1,6 @@
 ---
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), iris (GitHub), mnemosyne (docs), talos (hotfix)"
 mode: primary
-model: openai/gpt-4o
 permission:
   edit: deny
   write: deny

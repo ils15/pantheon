@@ -1,7 +1,6 @@
 ---
 description: "Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR). Calls apollo as nested subagent to discover patterns. Sends work to temis for review."
 mode: all
-model: openai/gpt-4o
 permission:
   edit: allow
   write: allow

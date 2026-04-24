@@ -1,7 +1,6 @@
 ---
 description: "Quality & security gate — reviews only changed files, OWASP Top 10, coverage >80%, correctness. Called by: hermes, aphrodite, maat, zeus. Escalates blockers to zeus."
 mode: all
-model: openai/gpt-4o
 permission:
   edit: allow
   write: deny
