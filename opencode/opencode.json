@@ -1,0 +1,18 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "../instructions/code-review-standards.instructions.md",
+    "../instructions/backend-standards.instructions.md",
+    "../instructions/frontend-standards.instructions.md",
+    "../instructions/database-standards.instructions.md",
+    "../instructions/infra-standards.instructions.md",
+    "../instructions/memory-bank-standards.instructions.md",
+    "../instructions/documentation-standards.instructions.md",
+    "../AGENTS.md"
+  ],
+  "permission": {
+    "skill": {
+      "*": "allow"
+    }
+  }
+}

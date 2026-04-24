@@ -1,7 +1,7 @@
 {
   "name": "mythic-agents",
   "description": "12-agent orchestration system for VS Code Copilot. Zeus orchestrates a full Conductor-Delegate pipeline: Athena (planning), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Iris (GitHub), Temis (code review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). Includes 18 on-demand skills covering TDD, security audit, API design, database migration, Docker, and more.",
-  "version": "2.8.3",
+  "version": "2.9.0",
   "keywords": [
     "multi-agent",
     "orchestration",
@@ -21,7 +21,7 @@
   "repository": "https://github.com/ils15/mythic-agents",
   "license": "MIT",
   "agents": [
-    "./agents"
+    "./vscode/agents"
   ],
   "skills": [
     "./skills/agent-coordination",

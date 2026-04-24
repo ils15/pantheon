@@ -7,6 +7,43 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [v2.9.0] — April 24, 2026
+
+### Added
+
+#### 🌐 **opencode Compatibility** — Multi-Platform Agent Support
+
+mythic-agents now ships agents for both **GitHub Copilot (VS Code)** and **[opencode](https://opencode.ai)**.
+
+**New structure:**
+- `vscode/agents/` — 12 `.agent.md` files (VS Code Copilot format, previously `agents/`)
+- `opencode/agents/` — 12 `.md` files with opencode-native frontmatter (`mode`, `permission`, `provider/model-id`)
+- `opencode/opencode.json` — config wiring shared `instructions/` and `skills/` into opencode sessions
+
+**Shared across both platforms (unchanged):**
+- `skills/` — 18 on-demand SKILL.md files (opencode discovers them natively from `.agents/skills/`)
+- `instructions/` — all coding standards (loaded via `opencode.json` → `instructions` field)
+- `prompts/`, `docs/memory-bank/` — unchanged
+
+**Installation options added to README:**
+- Option A: opencode (copy `opencode/` + `skills/` into project)
+- Option B: VS Code Agent Plugin (unchanged)
+- Option C: VS Code manual copy (previously Option B)
+
+**opencode frontmatter mapping:**
+- `user-invocable: true/false` → `mode: primary / subagent`
+- `tools: [list]` → `permission: {edit, write, bash, webfetch, task}`
+- `model: ['GPT-5.4 (copilot)']` → `model: openai/gpt-4o`
+- `agents: [list]` → `permission.task: {"*": "deny", "agent": "allow"}`
+- VS Code-only fields (`argument-hint`, `handoffs`) removed from opencode variants
+
+### Changed
+
+- `agents/` directory moved to `vscode/agents/` — update any manual copy scripts
+- `plugin.json` + `.github/plugin/plugin.json` updated to point to `./vscode/agents`
+
+---
+
 ## [v2.8.3] — April 3, 2026
 
 ### Changed
