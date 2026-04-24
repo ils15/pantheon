@@ -1,6 +1,8 @@
 # mythic-agents
 
-**A multi-agent orchestration framework for GitHub Copilot that coordinates specialized AI agents to implement production-ready features with enforced TDD, continuous code review, and persistent project memory.**
+**A multi-agent orchestration framework that coordinates specialized AI agents to implement production-ready features with enforced TDD, continuous code review, and persistent project memory.**
+
+Supports **GitHub Copilot (VS Code)** and **[opencode](https://opencode.ai)** — same agents, skills, and instructions; pick the platform that fits you.
 
 ---
 
@@ -490,10 +492,25 @@ When adopting mythic-agents in a product repo, customize this file with your sta
 
 ## Quick Start
 
+### Platform support
+
+| Platform | Agents | Skills | Instructions | Hooks |
+|---|---|---|---|---|
+| **GitHub Copilot (VS Code)** | `vscode/agents/` | `skills/` | `instructions/` | `.github/hooks/` |
+| **opencode** | `opencode/agents/` | `skills/` | `instructions/` | — |
+
+Skills and instructions are **shared** across platforms. Only the agent format differs.
+
 ### Prerequisites
 
+**VS Code (Copilot)**
 - VSCode 1.87+ with GitHub Copilot Chat 0.20+
 - GitHub Copilot subscription (Pro, Pro+, Business, or Enterprise)
+- Git basics (`clone`, `commit`, `push`)
+
+**opencode**
+- [opencode](https://opencode.ai) installed (`npm i -g opencode-ai` or brew)
+- An LLM provider API key (Anthropic, OpenAI, Google, or opencode Zen)
 - Git basics (`clone`, `commit`, `push`)
 
 ### Supported stacks
@@ -505,7 +522,34 @@ Infra: Docker, Traefik, GitHub Actions
 
 ### Installation
 
-#### Option A — VS Code Agent Plugin (recommended, no file copy needed)
+#### Option A — opencode (recommended for terminal-first workflows)
+
+```bash
+# 1. Clone the framework
+git clone https://github.com/ils15/mythic-agents
+
+# 2. Copy agents + config into your project
+cp -r mythic-agents/opencode/agents   /path/to/your-project/.opencode/agents
+cp     mythic-agents/opencode/opencode.json /path/to/your-project/opencode.json
+cp -r mythic-agents/skills            /path/to/your-project/.opencode/skills
+cp -r mythic-agents/instructions      /path/to/your-project/instructions
+cp     mythic-agents/AGENTS.md        /path/to/your-project/AGENTS.md
+
+# 3. Start opencode in your project
+cd /path/to/your-project
+opencode
+
+# 4. Switch to the orchestrator and start
+# Press Tab to cycle agents → select zeus
+# Or @-mention any agent directly: @athena Plan JWT authentication
+```
+
+> Agents use Tab to cycle (primary agents) and `@name` for subagents.
+> Available models: any provider supported by opencode — set API keys in env or `opencode.json`.
+
+---
+
+#### Option B — VS Code Agent Plugin (recommended for Copilot, no file copy needed)
 
 > **🆕 Requires:** VS Code 1.110+ with `chat.plugins.enabled: true`  
 > 📖 **VS Code Plugin Setup:** See [Chat plugins overview](https://code.visualstudio.com/docs/copilot/chat/chat-overview#_chat-plugins) for configuration details.
@@ -537,15 +581,17 @@ All 12 agents and 19 skills appear immediately in your Copilot session — no fi
 
 ---
 
-#### Option B — Manual copy into your project
+#### Option C — VS Code manual copy into your project
 
 ```bash
-# 1. Clone into your project (or copy the framework folders)
+# 1. Clone the framework
 git clone https://github.com/ils15/mythic-agents
-cp -r mythic-agents/agents mythic-agents/instructions \
-      mythic-agents/prompts mythic-agents/skills \
-      mythic-agents/.github mythic-agents/docs \
-      /path/to/your-product/
+cp -r mythic-agents/vscode/agents    /path/to/your-product/agents
+cp -r mythic-agents/instructions     /path/to/your-product/instructions
+cp -r mythic-agents/prompts          /path/to/your-product/prompts
+cp -r mythic-agents/skills           /path/to/your-product/skills
+cp -r mythic-agents/.github          /path/to/your-product/.github
+cp -r mythic-agents/docs             /path/to/your-product/docs
 
 # 2. Customize the Copilot instructions for your product
 # Edit .github/copilot-instructions.md — set your stack, standards, and coding patterns
@@ -591,29 +637,35 @@ Total time for a production-ready feature: **6–8 hours**.
 ## Repository Structure
 
 ```
-copilot-agents/
+mythic-agents/
 ├── README.md               — this file
-├── AGENTS.md               — full agent reference guide
+├── AGENTS.md               — full agent reference guide (opencode reads this natively)
 ├── CONTRIBUTING.md         — how to extend the framework
 ├── LICENSE
 │
-├── .github/
-│   └── copilot-instructions.md   — global rules (auto-read every Copilot session)
+├── vscode/                 — VS Code / GitHub Copilot assets
+│   └── agents/             — custom agent definitions (.agent.md)
+│       ├── zeus.agent.md       orchestrator
+│       ├── athena.agent.md     planner
+│       ├── apollo.agent.md     discovery
+│       ├── hermes.agent.md     backend
+│       ├── aphrodite.agent.md  frontend
+│       ├── maat.agent.md       database
+│       ├── temis.agent.md      reviewer
+│       ├── iris.agent.md       github operations
+│       ├── ra.agent.md         infrastructure
+│       ├── talos.agent.md      hotfix
+│       ├── mnemosyne.agent.md  memory
+│       └── gaia.agent.md       remote sensing domain specialist
 │
-├── agents/                 — [custom agent definitions](https://code.visualstudio.com/docs/copilot/customization/custom-agents#_custom-agent-file-locations) (.agent.md)
-│                            See [Custom agent file structure](https://code.visualstudio.com/docs/copilot/customization/custom-agents#_custom-agent-file-structure)
-│   ├── zeus.agent.md       orchestrator
-│   ├── athena.agent.md     planner
-│   ├── apollo.agent.md     discovery
-│   ├── hermes.agent.md     backend
-│   ├── aphrodite.agent.md  frontend
-│   ├── maat.agent.md       database
-│   ├── temis.agent.md      reviewer
-│   ├── iris.agent.md       github operations
-│   ├── ra.agent.md         infrastructure
-│   ├── talos.agent.md      hotfix
-│   ├── mnemosyne.agent.md  memory
-│   └── gaia.agent.md       remote sensing domain specialist
+├── opencode/               — opencode assets
+│   ├── opencode.json       — config (instructions + skill permissions)
+│   └── agents/             — markdown agents (opencode format)
+│       ├── zeus.md, athena.md, apollo.md ...
+│       └── (same 12 agents, opencode frontmatter)
+│
+├── .github/
+│   └── copilot-instructions.md   — VS Code Copilot global rules
 │
 ├── instructions/           — [VS Code instruction files](https://code.visualstudio.com/docs/copilot/customization/custom-instructions) (per-domain coding standards)
 │   ├── artifact-protocol.instructions.md    ← artifact system rules
