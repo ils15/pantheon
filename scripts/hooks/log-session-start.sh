@@ -11,7 +11,7 @@ cat > "/home/ils15/mythic-agents/logs/agent-sessions/session-${TIMESTAMP}.log" <
 SESSION_START: ${TIMESTAMP}
 AGENT: ${AGENT_NAME:-unknown}
 USER: ${USER}
-WORKSPACE: ${WORKSPACE_NAME:-mythic-agents}
+WORKSPACE: ${WORKSPACE_NAME:-pantheon}
 EOF
 
 echo '{"continue": true}'

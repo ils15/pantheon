@@ -1,13 +1,13 @@
 ---
 applyTo: '**'
 name: "Memory Bank Standards"
-description: "Memory strategy for mythic-agents: native /memories/ scopes + docs/memory-bank/ structure"
+description: "Memory strategy for Pantheon: native /memories/ scopes + docs/memory-bank/ structure"
 ---
 
 # Memory Bank Standards
 
 > **Template/boilerplate** — not a prescriptive product structure.
-> When adopting mythic-agents in a product, initialize your own `docs/memory-bank/` in that repo.
+> When adopting Pantheon in a product, initialize your own `docs/memory-bank/` in that repo.
 
 ---
 
@@ -114,7 +114,7 @@ At sprint close      → docs/memory-bank/04-active-context.md  (permanent, in g
 
 ## Adopting in a Product
 
-When using mythic-agents in a product repo:
+When using Pantheon in a product repo:
 
 ```bash
 # Copy the framework (agents, instructions, prompts, skills)
@@ -134,7 +134,7 @@ Always read docs/memory-bank/04-active-context.md before answering.
 Always read docs/memory-bank/00-overview.md for project scope.
 ```
 
-> **Do NOT copy** `docs/memory-bank/` content from mythic-agents — it describes the framework itself, not your product.
+> **Do NOT copy** `docs/memory-bank/` content from Pantheon — it describes the framework itself, not your product.
 
 ---
 

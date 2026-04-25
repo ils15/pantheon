@@ -43,7 +43,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          name: "mythic-agents ${{ github.ref_name }}"
+          name: "Pantheon ${{ github.ref_name }}"
           body_path: ${{ steps.notes.outputs.notes_file }}
           draft: false
           prerelease: ${{ contains(github.ref_name, '-') }}

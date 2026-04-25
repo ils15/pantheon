@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to **mythic-agents** are documented here.
+All notable changes to **Pantheon** are documented here.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).  
 Versioning follows [Semantic Versioning](https://semver.org/).
@@ -13,7 +13,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 #### 🌐 **opencode Compatibility** — Multi-Platform Agent Support
 
-mythic-agents now ships agents for both **GitHub Copilot (VS Code)** and **[opencode](https://opencode.ai)**.
+Pantheon now ships agents for both **GitHub Copilot (VS Code)** and **[opencode](https://opencode.ai)**.
 
 **New structure:**
 - `vscode/agents/` — 12 `.agent.md` files (VS Code Copilot format, previously `agents/`)
@@ -339,14 +339,14 @@ Hermes (implementing backend):
 ### Added
 
 #### VS Code Agent Plugin Support 🔌
-- **`.github/plugin/plugin.json`** — Declares the repo as an installable VS Code Agent Plugin (Claude Code spec format). Bundles all 12 agents and 19 skills into a single installable package. Users can now install mythic-agents without cloning or copying files:
+- **`.github/plugin/plugin.json`** — Declares the repo as an installable VS Code Agent Plugin (Claude Code spec format). Bundles all 12 agents and 19 skills into a single installable package. Users can now install Pantheon without cloning or copying files:
   ```json
   // settings.json
-  { "chat.plugins.marketplaces": ["ils15/mythic-agents"] }
+  { "chat.plugins.marketplaces": ["ils15/Pantheon"] }
   ```
   Then browse and install from Extensions view (`@agentPlugins` search) or via local path:
   ```json
-  { "chat.plugins.paths": { "/path/to/mythic-agents": true } }
+  { "chat.plugins.paths": { "/path/to/Pantheon": true } }
   ```
 
 ### Changed

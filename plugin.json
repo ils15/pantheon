@@ -1,9 +1,9 @@
 {
-  "name": "mythic-agents",
+  "name": "pantheon",
   "publisher": "ils15",
   "version": "2.9.0",
-  "displayName": "Mythic Agents - Multi-Agent System",
-  "description": "Conductor-Delegate agent system with 9 specialized agents for feature development",
+  "displayName": "Pantheon - Multi-Agent Orchestration",
+  "description": "Conductor-Delegate orchestration platform with 12 specialized agents across VS Code, OpenCode, and Claude Code",
   "agents": "./vscode/agents",
   "skills": "./skills",
   "instructions": "./instructions",

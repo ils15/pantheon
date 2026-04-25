@@ -8,7 +8,7 @@
 
 ## Overview
 
-Agent hooks provide lifecycle automation for the mythic-agents framework. Three critical hooks have been implemented:
+Agent hooks provide lifecycle automation for the Pantheon framework. Three critical hooks have been implemented:
 
 1. **Security Gate (PreToolUse)** - Blocks dangerous operations before execution
 2. **Auto-Format (PostToolUse)** - Runs Biome formatter on all file modifications
@@ -19,7 +19,7 @@ Agent hooks provide lifecycle automation for the mythic-agents framework. Three 
 ## Directory Structure
 
 ```
-mythic-agents/
+Pantheon/
 ├── .github/
 │   └── hooks/
 │       ├── security.json          # PreToolUse hook configuration
@@ -97,7 +97,7 @@ DELETE FROM users WHERE id > 1000
 SESSION_START: 2026-03-20T07:26:00Z
 AGENT: hermes
 USER: ils15
-WORKSPACE: mythic-agents
+WORKSPACE: Pantheon
 ```
 
 ---
@@ -116,7 +116,7 @@ hooks:
 
 2. Commit hooks configuration to git:
 ```bash
-cd /home/ils15/mythic-agents
+cd /home/ils15/Pantheon
 git add .github/hooks/ scripts/hooks/
 git commit -m "feat: implement agent lifecycle hooks (security, format, logging)"
 ```

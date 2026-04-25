@@ -1,6 +1,6 @@
 {
-  "name": "mythic-agents",
-  "description": "12-agent orchestration system for VS Code Copilot. Zeus orchestrates a full Conductor-Delegate pipeline: Athena (planning), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Iris (GitHub), Temis (code review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). Includes 18 on-demand skills covering TDD, security audit, API design, database migration, Docker, and more.",
+  "name": "pantheon",
+  "description": "Multi-agent orchestration platform. Zeus coordinates 12 specialized agents: Athena (planning), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Iris (GitHub), Temis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). Supports VS Code, OpenCode, and Claude Code. Includes 18 on-demand skills.",
   "version": "2.9.0",
   "keywords": [
     "multi-agent",

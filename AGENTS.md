@@ -371,7 +371,7 @@ Memory bank management, decision documentation, progress tracking.
 
 **Responsibilities:**
 - [ ] Write atomic facts to `/memories/repo/` (Tier 1) when discovering permanent facts  
-- [ ] Create `docs/memory-bank/project.md` once when a product first adopts mythic-agents (Tier 2)  
+- [ ] Create `docs/memory-bank/project.md` once when a product first adopts Pantheon (Tier 2)  
 - [ ] Append ADR files to `decisions/` for significant architectural decisions (Tier 2, append-only, on-demand)  
 
 > Mnemosyne is **not** invoked automatically after phases. Sprint state lives in `/memories/session/` (ephemeral) or git commits (permanent).
@@ -1013,7 +1013,7 @@ Edit `agents/athena.agent.md` and add:
 
 ## 🚀 PRODUCT ADOPTION
 
-When using mythic-agents in a product repo, follow this pattern:
+When using Pantheon in a product repo, follow this pattern:
 
 ### Instructions loading hierarchy
 
@@ -1032,11 +1032,11 @@ There are **three levels** of instruction loading — choose the right one:
 # Copy agents, instructions, prompts, skills — these are the framework
 cp -r agents/ instructions/ prompts/ skills/ /path/to/your-product/
 
-# Initialize empty memory bank (do NOT copy mythic-agents content)
+# Initialize empty memory bank (do NOT copy Pantheon content)
 mkdir -p /path/to/your-product/docs/memory-bank/decisions
 ```
 
-> **Do NOT copy** `docs/memory-bank/` content from mythic-agents — it describes the framework itself, not your product.
+> **Do NOT copy** `docs/memory-bank/` content from Pantheon — it describes the framework itself, not your product.
 
 ### Initialize the product's memory bank
 After copying, run this in the product repo:
@@ -1057,18 +1057,18 @@ Each product maintains its own `docs/memory-bank/` with its own sprint state, de
 
 ## 🌐 Ecosystem & Inspiration
 
-mythic-agents draws from and diverges from the broader multi-agent landscape. Understanding the ecosystem helps when extending the framework or adopting best practices.
+Pantheon draws from and diverges from the broader multi-agent landscape. Understanding the ecosystem helps when extending the framework or adopting best practices.
 
 ### Other notable multi-agent frameworks
 
-| Framework | Pattern | Strengths | Key difference from mythic-agents |
+| Framework | Pattern | Strengths | Key difference from Pantheon |
 |---|---|---|---|
-| **AutoGen** (Microsoft) | Event-driven async conversations | Deep observability, async messaging, research-grade | General-purpose; mythic-agents is VS Code-native with `.agent.md` files |
-| **CrewAI** | Role-based crews | Visual editor, self-hosted, clean Python API | Framework-level; mythic-agents lives inside VS Code with zero infra |
-| **LangGraph** | Stateful graph of actors | Cyclical execution, precise state control | Code-first graph DSL; mythic-agents uses markdown+YAML as config |
-| **MetaGPT** | Software company roles (PM, Architect, QA) | Full project lifecycle, SOP-driven | Simulates a company; mythic-agents delegates to you at every gate |
-| **OpenAI Swarm** | Lightweight handoffs | Minimal, easy to test | Sequential only; mythic-agents supports parallel subagents |
-| **Semantic Kernel** | Modular SDK (C#/Python/Java) | Enterprise-grade, model-agnostic | SDK dependency; mythic-agents is config-only, no code to install |
+| **AutoGen** (Microsoft) | Event-driven async conversations | Deep observability, async messaging, research-grade | General-purpose; Pantheon is VS Code-native with `.agent.md` files |
+| **CrewAI** | Role-based crews | Visual editor, self-hosted, clean Python API | Framework-level; Pantheon lives inside VS Code with zero infra |
+| **LangGraph** | Stateful graph of actors | Cyclical execution, precise state control | Code-first graph DSL; Pantheon uses markdown+YAML as config |
+| **MetaGPT** | Software company roles (PM, Architect, QA) | Full project lifecycle, SOP-driven | Simulates a company; Pantheon delegates to you at every gate |
+| **OpenAI Swarm** | Lightweight handoffs | Minimal, easy to test | Sequential only; Pantheon supports parallel subagents |
+| **Semantic Kernel** | Modular SDK (C#/Python/Java) | Enterprise-grade, model-agnostic | SDK dependency; Pantheon is config-only, no code to install |
 
 **Community resources:**
 - [`github/awesome-copilot`](https://github.com/github/awesome-copilot) — curated shared agents, skills, instructions, prompts for VS Code Copilot (22k+ stars)
@@ -1082,7 +1082,7 @@ mythic-agents draws from and diverges from the broader multi-agent landscape. Un
 
 Based on industry best practices across all frameworks above:
 
-| Technique | Where applied in mythic-agents |
+| Technique | Where applied in Pantheon |
 |---|---|
 | **Context isolation via subagents** | Apollo runs in isolated context window; only its summary returns to Zeus/Athena |
 | **Parallel execution** | Zeus dispatches Hermes + Aphrodite + Maat simultaneously when scopes don't overlap |

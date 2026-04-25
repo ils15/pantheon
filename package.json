@@ -1,7 +1,7 @@
 {
-  "name": "mythic-agents",
+  "name": "pantheon",
   "version": "2.9.0",
-  "description": "Multi-agent orchestration framework for VS Code Copilot with 12 agents, 19 skills, and nested subagent delegation.",
+  "description": "Multi-agent orchestration platform with 12 specialized agents, TDD enforcement, and multi-platform support (VS Code, OpenCode, Claude Code).",
   "private": true,
   "scripts": {
     "version:recommend": "node scripts/versioning.mjs recommend",

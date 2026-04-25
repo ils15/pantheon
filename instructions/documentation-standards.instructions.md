@@ -1,7 +1,7 @@
 ---
 applyTo: '**'
 name: "Documentation Standards"
-description: 'Documentation Standards — Where, what, and how to document in mythic-agents projects'
+description: 'Documentation Standards — Where, what, and how to document in Pantheon projects'
 ---
 
 # Documentation Standards
@@ -36,7 +36,7 @@ What is permanently forbidden:
 
 ## Memory Bank Structure
 
-This is the **recommended template** for product repos adopting mythic-agents. Copy it once, fill it incrementally.
+This is the **recommended template** for product repos adopting Pantheon. Copy it once, fill it incrementally.
 
 ```
 docs/memory-bank/

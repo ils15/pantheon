@@ -1,4 +1,4 @@
-# mythic-agents
+# Pantheon
 
 **A multi-agent orchestration framework that coordinates specialized AI agents to implement production-ready features with enforced TDD, continuous code review, and persistent project memory.**
 
@@ -33,9 +33,9 @@ Supports **GitHub Copilot (VS Code)** and **[opencode](https://opencode.ai)** �
 
 Traditional single-agent coding produces mediocre results because one agent attempts to plan, implement, test, review, and document simultaneously. The result is context fragmentation, skipped tests, and generic code.
 
-mythic-agents solves this with **specialization**: each agent is an expert at exactly one thing and is invoked only when that expertise is needed.
+Pantheon solves this with **specialization**: each agent is an expert at exactly one thing and is invoked only when that expertise is needed.
 
-| Metric | Single Agent | mythic-agents |
+| Metric | Single Agent | Pantheon |
 |---|---|---|
 | Implementation time | 8–10 hours | 6–8 hours |
 | Average test coverage | 65–75% | 92% |
@@ -387,7 +387,7 @@ These examples go in Copilot Chat, not in the integrated terminal.
 
 ### 🔄 Native VS Code Handoff Integration
 
-**mythic-agents** is built to take full advantage of the [VS Code Copilot native Agent Handoff feature](https://code.visualstudio.com/docs/copilot/agents/overview#_hand-off-a-session-to-another-agent) out of the box!
+**Pantheon** is built to take full advantage of the [VS Code Copilot native Agent Handoff feature](https://code.visualstudio.com/docs/copilot/agents/overview#_hand-off-a-session-to-another-agent) out of the box!
 
 > 📖 **Official VSCode Documentation:** See [Handoffs](https://code.visualstudio.com/docs/copilot/customization/custom-agents#_handoffs) for configuring agent transitions with pre-filled prompts.
 
@@ -436,7 +436,7 @@ Every `REVIEW-` artifact includes a **Human Review Focus** section — 1–2 spe
 
 ## Memory System
 
-mythic-agents uses two complementary memory layers:
+Pantheon uses two complementary memory layers:
 
 ```mermaid
 ---
@@ -486,7 +486,7 @@ flowchart LR
 
 > 📖 **Official VSCode Documentation:** See [Customization overview](https://code.visualstudio.com/docs/copilot/customization/overview) for the full instruction loading hierarchy and best practices.
 
-When adopting mythic-agents in a product repo, customize this file with your stack and standards.
+When adopting Pantheon in a product repo, customize this file with your stack and standards.
 
 ---
 
@@ -526,14 +526,14 @@ Infra: Docker, Traefik, GitHub Actions
 
 ```bash
 # 1. Clone the framework
-git clone https://github.com/ils15/mythic-agents
+git clone https://github.com/ils15/mythic-agents # (rename pending)
 
 # 2. Copy agents + config into your project
-cp -r mythic-agents/opencode/agents   /path/to/your-project/.opencode/agents
-cp     mythic-agents/opencode/opencode.json /path/to/your-project/opencode.json
-cp -r mythic-agents/skills            /path/to/your-project/.opencode/skills
-cp -r mythic-agents/instructions      /path/to/your-project/instructions
-cp     mythic-agents/AGENTS.md        /path/to/your-project/AGENTS.md
+cp -r pantheon/opencode/agents   /path/to/your-project/.opencode/agents
+cp     pantheon/opencode/opencode.json /path/to/your-project/opencode.json
+cp -r pantheon/skills            /path/to/your-project/.opencode/skills
+cp -r pantheon/instructions      /path/to/your-project/instructions
+cp     pantheon/AGENTS.md        /path/to/your-project/AGENTS.md
 
 # 3. Start opencode in your project
 cd /path/to/your-project
@@ -559,12 +559,12 @@ opencode
 ```json
 {
   "chat.plugins.enabled": true,
-  "chat.plugins.marketplaces": ["ils15/mythic-agents"]
+  "chat.plugins.marketplaces": ["ils15/pantheon"]
 }
 ```
 
 **2. Install from Extensions view:**  
-Open Extensions (`Ctrl+Shift+X`) → search `@agentPlugins` → find **mythic-agents** → **Install**
+Open Extensions (`Ctrl+Shift+X`) → search `@agentPlugins` → find **Pantheon** → **Install**
 
 All 12 agents and 19 skills appear immediately in your Copilot session — no file copying, no repo changes.
 
@@ -574,7 +574,7 @@ All 12 agents and 19 skills appear immediately in your Copilot session — no fi
 {
   "chat.plugins.enabled": true,
   "chat.plugins.paths": {
-    "/path/to/mythic-agents": true
+    "/path/to/pantheon": true
   }
 }
 ```
@@ -585,13 +585,13 @@ All 12 agents and 19 skills appear immediately in your Copilot session — no fi
 
 ```bash
 # 1. Clone the framework
-git clone https://github.com/ils15/mythic-agents
-cp -r mythic-agents/vscode/agents    /path/to/your-product/agents
-cp -r mythic-agents/instructions     /path/to/your-product/instructions
-cp -r mythic-agents/prompts          /path/to/your-product/prompts
-cp -r mythic-agents/skills           /path/to/your-product/skills
-cp -r mythic-agents/.github          /path/to/your-product/.github
-cp -r mythic-agents/docs             /path/to/your-product/docs
+git clone https://github.com/ils15/mythic-agents # (rename pending)
+cp -r pantheon/vscode/agents    /path/to/your-product/agents
+cp -r pantheon/instructions     /path/to/your-product/instructions
+cp -r pantheon/prompts          /path/to/your-product/prompts
+cp -r pantheon/skills           /path/to/your-product/skills
+cp -r pantheon/.github          /path/to/your-product/.github
+cp -r pantheon/docs             /path/to/your-product/docs
 
 # 2. Customize the Copilot instructions for your product
 # Edit .github/copilot-instructions.md — set your stack, standards, and coding patterns
@@ -637,7 +637,7 @@ Total time for a production-ready feature: **6–8 hours**.
 ## Repository Structure
 
 ```
-mythic-agents/
+pantheon/
 ├── README.md               — this file
 ├── AGENTS.md               — full agent reference guide (opencode reads this natively)
 ├── CONTRIBUTING.md         — how to extend the framework
@@ -746,7 +746,7 @@ You do not need to configure this — it is defined per agent in the frontmatter
 **🆕 Introduced:** Version 2.7.0+ (March 2026)  
 **Official docs:** [Agent hooks in VS Code](https://code.visualstudio.com/docs/copilot/customization/hooks)
 
-**mythic-agents** includes a comprehensive hook system that automatically validates code quality, security, and formatting at every phase of execution. Hooks are workspace-level middleware that execute around agent tool calls — no explicit agent invocation needed.
+**Pantheon** includes a comprehensive hook system that automatically validates code quality, security, and formatting at every phase of execution. Hooks are workspace-level middleware that execute around agent tool calls — no explicit agent invocation needed.
 
 > 📖 **Official VSCode Documentation:** See [Agent hooks in VS Code](https://code.visualstudio.com/docs/copilot/customization/hooks) for the full hook specification, lifecycle events, input/output formats, and security considerations.
 
@@ -914,7 +914,7 @@ See the [VS Code hook configuration guide](https://code.visualstudio.com/docs/co
 - `scripts/hooks/format-typescript.sh` — Biome or Prettier for JS/TS  
 - `scripts/hooks/format-data.sh` — JSON/YAML validation and formatting
 
-#### Customizing Hooks in mythic-agents
+#### Customizing Hooks in Pantheon
 
 To add or modify a hook:
 
@@ -945,12 +945,12 @@ To add or modify a hook:
 
 **For more details:**
 - See [Hook configuration format](https://code.visualstudio.com/docs/copilot/customization/hooks#_hook-configuration-format) in the VS Code docs
-- See `.github/copilot-instructions.md` for the full mythic-agents hook system configuration
+- See `.github/copilot-instructions.md` for the full Pantheon hook system configuration
 - See `scripts/hooks/` for existing handler implementations
 
 ### Dynamic Versioning Flow (Conventional Commits)
 
-To keep versioning objective and automatic, mythic-agents now supports a commit-driven flow:
+To keep versioning objective and automatic, Pantheon now supports a commit-driven flow:
 
 - `BREAKING CHANGE` or `type(scope)!:` in commit subject → **major** bump
 - `feat:` commits → **minor** bump

@@ -1,16 +1,16 @@
 {
-  "name": "mythic-agents",
+  "name": "pantheon",
   "metadata": {
-    "description": "12-agent orchestration system for VS Code Copilot with conductor-delegate pattern, mandatory pause points, and TDD-first implementation. Complete framework for multi-layer feature development: planning → discovery → parallel implementation (backend, frontend, database, infra) → quality review → GitHub operations.",
-    "version": "2.8.1"
+    "description": "Multi-agent orchestration platform with Conductor-Delegate pattern, TDD enforcement, and multi-platform support (VS Code, OpenCode, Claude Code).",
+    "version": "2.9.0"
   },
   "owner": {
     "name": "ils15",
-    "email": "contact@mythic-agents.dev"
+    "email": "contact@usepantheon.dev"
   },
   "plugins": [
     {
-      "name": "mythic-agents",
+      "name": "pantheon",
       "source": "./",
       "description": "Complete multi-agent orchestration system featuring Zeus (orchestrator), Athena (planner), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Iris (GitHub), Temis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). 18 on-demand skills for TDD, security, API design, database migration, Docker, and more.",
       "version": "2.8.1",
