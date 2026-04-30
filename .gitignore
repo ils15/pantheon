@@ -29,3 +29,6 @@ instructions/vault-secrets-access.instructions.md
 
 # Artifact temp folder (ephemeral — wiped on sprint close, never committed)
 docs/memory-bank/.tmp/
+
+# Dependencies
+node_modules/

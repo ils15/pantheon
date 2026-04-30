@@ -10,7 +10,12 @@
     "version:minor": "node scripts/versioning.mjs apply minor",
     "version:major": "node scripts/versioning.mjs apply major",
     "plugin:validate": "node -e \"const fs=require('fs'); const p='.github/plugin/plugin.json'; if(!fs.existsSync(p)){throw new Error('Missing '+p);} JSON.parse(fs.readFileSync(p,'utf8')); console.log('OK: '+p+' is valid JSON');\"",
-    "plugin:inspect": "node -e \"const m=require('./.github/plugin/plugin.json'); console.log(JSON.stringify({name:m.name,version:m.version,agents:m.agents?.length||0,skills:m.skills?.length||0},null,2));\""
+    "plugin:inspect": "node -e \"const m=require('./.github/plugin/plugin.json'); console.log(JSON.stringify({name:m.name,version:m.version,agents:m.agents?.length||0,skills:m.skills?.length||0},null,2));\"",
+    "sync": "node scripts/sync-platforms.mjs",
+    "sync:check": "node scripts/validate-sync.mjs"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.1.0"
   },
   "repository": {
     "type": "git",

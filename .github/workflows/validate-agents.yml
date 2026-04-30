@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'agents/**'
+      - 'opencode/agents/**'
       - 'AGENTS.md'
 
 jobs:
@@ -81,7 +82,7 @@ jobs:
             exit 1
           fi
 
-      - name: Verify every .agent.md file is documented in AGENTS.md
+      - name: Verify every VS Code agent is documented in AGENTS.md
         run: |
           set -e
           FAILED=0
@@ -99,5 +100,26 @@ jobs:
           if [ "$FAILED" -ne 0 ]; then
             echo ""
             echo "Add documentation for the undocumented agents in AGENTS.md."
+            exit 1
+          fi
+
+      - name: Verify every OpenCode agent is documented in AGENTS.md
+        run: |
+          set -e
+          FAILED=0
+
+          for file in opencode/agents/*.md; do
+            basename=$(basename "$file" .md)
+            if ! grep -q "(opencode/agents/${basename})" AGENTS.md; then
+              echo "⚠️  opencode/agents/${basename} exists but is not referenced in AGENTS.md"
+              FAILED=1
+            else
+              echo "✅ opencode/${basename} — documented in AGENTS.md"
+            fi
+          done
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo ""
+            echo "Add documentation for the undocumented OpenCode agents in AGENTS.md."
             exit 1
           fi
