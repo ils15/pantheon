@@ -51,10 +51,17 @@ jobs:
           echo "$notes" > release_notes.md
           echo "notes_file=release_notes.md" >> "$GITHUB_OUTPUT"
 
+      - name: Build release bundle
+        run: |
+          mkdir -p dist
+          node scripts/release-bundle.mjs --output ./dist
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: "Pantheon ${{ github.ref_name }}"
           body_path: "${{ steps.notes.outputs.notes_file }}"
+          files: |
+            dist/pantheon-${{ github.ref_name }}.tar.gz
           draft: false
           prerelease: ${{ contains(github.ref_name, '-') }}

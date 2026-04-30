@@ -1,8 +1,15 @@
 # Pantheon
 
+[![Release](https://img.shields.io/github/v/release/ils15/pantheon?style=flat&label=version)](https://github.com/ils15/pantheon/releases)
+[![License](https://img.shields.io/github/license/ils15/pantheon?style=flat)](LICENSE)
+[![Platforms](https://img.shields.io/badge/platforms-5-blue?style=flat)](docs/PLATFORMS.md)
+[![Agents](https://img.shields.io/badge/agents-12-purple?style=flat)](AGENTS.md)
+
 **A multi-agent orchestration framework that coordinates specialized AI agents to implement production-ready features with enforced TDD, continuous code review, and persistent project memory.**
 
-Supports **GitHub Copilot (VS Code)** and **[opencode](https://opencode.ai)** — same agents, skills, and instructions; pick the platform that fits you.
+Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, and **Windsurf** (preview) — same agents, skills, and instructions across all platforms.
+
+> **Formerly known as mythic-agents** — renamed to Pantheon in v2.9.0 to reflect our multi-platform vision.
 
 ---
 
@@ -492,69 +499,19 @@ When adopting Pantheon in a product repo, customize this file with your stack an
 
 ## Quick Start
 
-### Platform support
-
-| Platform | Agents | Skills | Instructions | Hooks |
-|---|---|---|---|---|
-| **GitHub Copilot (VS Code)** | `vscode/agents/` | `skills/` | `instructions/` | `.github/hooks/` |
-| **opencode** | `opencode/agents/` | `skills/` | `instructions/` | — |
-
-Skills and instructions are **shared** across platforms. Only the agent format differs.
+> 📖 **Detailed installation**: See [INSTALLATION.md](docs/INSTALLATION.md) for all 5 platforms.  
+> 📖 **Platform comparison**: See [PLATFORMS.md](docs/PLATFORMS.md) to choose your platform.  
+> 📖 **Release notes**: See [RELEASING.md](docs/RELEASING.md) for versioning and releases.
 
 ### Prerequisites
 
-**VS Code (Copilot)**
-- VSCode 1.87+ with GitHub Copilot Chat 0.20+
-- GitHub Copilot subscription (Pro, Pro+, Business, or Enterprise)
-- Git basics (`clone`, `commit`, `push`)
+- **Git** basics (`clone`, `commit`, `push`)
+- **A supported editor**: VS Code, OpenCode, Claude Code, or Cursor
+- **Node.js 18+** (optional, only needed for sync engine and installer CLI)
 
-**opencode**
-- [opencode](https://opencode.ai) installed (`npm i -g opencode-ai` or brew)
-- An LLM provider API key (Anthropic, OpenAI, Google, or opencode Zen)
-- Git basics (`clone`, `commit`, `push`)
+### Quick install (VS Code — 30 seconds)
 
-### Supported stacks
-
-Backend: Python/FastAPI, Python/Django, Node.js/Express  
-Frontend: React/TypeScript, Next.js  
-Database: PostgreSQL, MySQL  
-Infra: Docker, Traefik, GitHub Actions
-
-### Installation
-
-#### Option A — opencode (recommended for terminal-first workflows)
-
-```bash
-# 1. Clone the framework
-git clone https://github.com/ils15/pantheon
-
-# 2. Copy agents + config into your project
-cp -r pantheon/opencode/agents   /path/to/your-project/.opencode/agents
-cp     pantheon/opencode/opencode.json /path/to/your-project/opencode.json
-cp -r pantheon/skills            /path/to/your-project/.opencode/skills
-cp -r pantheon/instructions      /path/to/your-project/instructions
-cp     pantheon/AGENTS.md        /path/to/your-project/AGENTS.md
-
-# 3. Start opencode in your project
-cd /path/to/your-project
-opencode
-
-# 4. Switch to the orchestrator and start
-# Press Tab to cycle agents → select zeus
-# Or @-mention any agent directly: @athena Plan JWT authentication
-```
-
-> Agents use Tab to cycle (primary agents) and `@name` for subagents.
-> Available models: any provider supported by opencode — set API keys in env or `opencode.json`.
-
----
-
-#### Option B — VS Code Agent Plugin (recommended for Copilot, no file copy needed)
-
-> **🆕 Requires:** VS Code 1.110+ with `chat.plugins.enabled: true`  
-> 📖 **VS Code Plugin Setup:** See [Chat plugins overview](https://code.visualstudio.com/docs/copilot/chat/chat-overview#_chat-plugins) for configuration details.
-
-**1. Add to your VS Code `settings.json`:**
+Add to your VS Code `settings.json`:
 
 ```json
 {
@@ -563,42 +520,24 @@ opencode
 }
 ```
 
-**2. Install from Extensions view:**  
-Open Extensions (`Ctrl+Shift+X`) → search `@agentPlugins` → find **Pantheon** → **Install**
+All 12 agents load immediately. Try `@zeus: Implement a feature` in Copilot Chat.
 
-All 12 agents and 19 skills appear immediately in your Copilot session — no file copying, no repo changes.
-
-**Or install via local path** (if you've already cloned the repo):
-
-```json
-{
-  "chat.plugins.enabled": true,
-  "chat.plugins.paths": {
-    "/path/to/pantheon": true
-  }
-}
-```
-
----
-
-#### Option C — VS Code manual copy into your project
+### Quick install (other platforms)
 
 ```bash
-# 1. Clone the framework
-git clone https://github.com/ils15/pantheon
-cp -r pantheon/vscode/agents    /path/to/your-product/agents
-cp -r pantheon/instructions     /path/to/your-product/instructions
-cp -r pantheon/prompts          /path/to/your-product/prompts
-cp -r pantheon/skills           /path/to/your-product/skills
-cp -r pantheon/.github          /path/to/your-product/.github
-cp -r pantheon/docs             /path/to/your-product/docs
+# Clone Pantheon
+git clone https://github.com/ils15/pantheon.git
+cd pantheon
+npm install
 
-# 2. Customize the Copilot instructions for your product
-# Edit .github/copilot-instructions.md — set your stack, standards, and coding patterns
+# Claude Code
+node scripts/install.mjs claude
 
-# 3. Initialize your memory bank
-# Fill docs/memory-bank/00-overview.md through 03-tech-context.md (do this once)
-# Keep docs/memory-bank/04-active-context.md updated at every sprint
+# Cursor
+node scripts/install.mjs cursor
+
+# OpenCode
+ln -s platforms/opencode/opencode.json opencode.json
 ```
 
 ### Your first feature

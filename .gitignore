@@ -17,7 +17,7 @@ Thumbs.db
 SECURITY-*.md
 IMPLEMENTATION-*.md
 BEFORE-AFTER-*.md
-INDEX.md
+/INDEX.md
 
 # Scripts (caminhos absolutos, não versionados)
 sync-*.sh

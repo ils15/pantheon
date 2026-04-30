@@ -1,19 +1,39 @@
 # Platform Template
 
-Copy this directory to create a new platform. Then edit `adapter.json`:
+> Use this template to add a new platform to Pantheon.
 
-1. **`name`** — Short platform identifier (e.g., `cursor`, `claude`)
-2. **`displayName`** — Human-readable name
-3. **`frontmatter.include`** — Fields from canonical agent to keep
-4. **`frontmatter.exclude`** — Fields to strip (e.g., VS Code-specific)
-5. **`frontmatter.transform`** — Field transformations (omit → remove, comma-separated → join array)
-6. **`toolMap`** — Map canonical tool names to your platform's names
-7. **`bodyFilters`** — Filters applied to the markdown body
+---
 
-After editing, run:
+## Quick Start
 
 ```bash
-npm run sync
+cp -r platforms/_template platforms/<your-platform>
+# Edit adapter.json with your platform's format rules
+npm run sync  # Generates agents
 ```
 
-This generates `platforms/<name>/agents/` from the canonical `agents/` sources.
+---
+
+## Anatomy of `adapter.json`
+
+| Field | Description |
+|---|---|
+| `name` | Short platform identifier (e.g., `cursor`, `claude`) |
+| `displayName` | Human-readable name |
+| `strategy` | `"identity"` for pass-through, omit for transform |
+| `outputDir` | Where generated files go (e.g., `agents`, `rules`) |
+| `fileExtension` | Output file extension (`.agent.md`, `.md`, `.mdc`) |
+| `frontmatter.include` | Frontmatter fields to keep from canonical |
+| `frontmatter.exclude` | Fields to strip (VS Code-specific) |
+| `frontmatter.transform` | Per-field transformations (`comma-separated`, `omit`, `identity`) |
+| `toolMap` | Map canonical tool names → platform tool names |
+| `bodyFilters` | Modify body (`omit-section`, `prepend`, `append`, `replace`) |
+
+---
+
+## After Creating
+
+1. Create a `README.md` for your platform
+2. Update `docs/PLATFORMS.md` comparison table
+3. Add CI validation in `.github/workflows/validate-agents.yml`
+4. Test with `npm run sync` + `npm run sync:check`
