@@ -21,8 +21,14 @@
   "repository": "https://github.com/ils15/pantheon",
   "license": "MIT",
   "agents": [
-    "./vscode/agents"
+    "./agents"
   ],
+  "platforms": {
+    "vscode": "./platforms/vscode",
+    "opencode": "./platforms/opencode",
+    "claude": "./platforms/claude",
+    "cursor": "./platforms/cursor"
+  },
   "skills": [
     "./skills/agent-coordination",
     "./skills/api-design-patterns",

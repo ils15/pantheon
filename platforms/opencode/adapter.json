@@ -1,0 +1,40 @@
+{
+  "name": "opencode",
+  "displayName": "OpenCode",
+  "version": "1.0.0",
+
+  "description": "OpenCode uses .md files with YAML frontmatter. Strips VS Code-specific frontmatter fields and appends permission blocks.",
+
+  "outputDir": "agents",
+  "fileExtension": ".md",
+
+  "frontmatter": {
+    "include": [
+      "name",
+      "description",
+      "model",
+      "tools",
+      "skills",
+      "instructions",
+      "argument-hint"
+    ],
+    "exclude": [
+      "handoffs",
+      "agents",
+      "disable-model-invocation"
+    ],
+    "transform": {
+      "tools": { "strategy": "identity" },
+      "model": { "strategy": "identity" }
+    }
+  },
+
+  "toolMap": {},
+
+  "bodyFilters": [
+    {
+      "action": "append",
+      "content": "---\n\n## Permissions\n\n- `edit`: deny\n- `execute`: deny\n- `search`: allow\n- `read`: allow"
+    }
+  ]
+}

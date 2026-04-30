@@ -1,0 +1,72 @@
+{
+  "name": "claude",
+  "displayName": "Claude Code",
+  "version": "1.0.0",
+
+  "description": "Claude Code uses .md files in .claude/agents/ with comma-separated tools string (not YAML arrays).",
+
+  "outputDir": "agents",
+  "fileExtension": ".md",
+
+  "frontmatter": {
+    "include": [
+      "name",
+      "description",
+      "tools",
+      "skills",
+      "instructions"
+    ],
+    "exclude": [
+      "handoffs",
+      "agents",
+      "disable-model-invocation",
+      "model",
+      "argument-hint",
+      "user-invocable"
+    ],
+    "transform": {
+      "tools": { "strategy": "comma-separated" },
+      "skills": { "strategy": "comma-separated" },
+      "instructions": { "strategy": "comma-separated" }
+    }
+  },
+
+  "toolMap": {
+    "search/codebase": "search/codebase",
+    "search/usages": "search/usages",
+    "read/readFile": "read/readFile",
+    "edit/editFiles": "edit/editFiles",
+    "execute/runInTerminal": "execute/runInTerminal",
+    "execute/testFailure": "execute/testFailure",
+    "execute/getTerminalOutput": "execute/getTerminalOutput",
+    "search/changes": "search/changes",
+    "web/fetch": "web/fetch",
+    "search/fileSearch": "search/fileSearch",
+    "search/textSearch": "search/textSearch",
+    "search/listDirectory": "search/listDirectory",
+    "vscode/askQuestions": "askQuestions",
+    "openBrowserPage": "openBrowserPage",
+    "navigatePage": "navigatePage",
+    "readPage": "readPage",
+    "screenshotPage": "screenshotPage"
+  },
+
+  "bodyFilters": [
+    {
+      "pattern": "## Copilot Workflow Updates",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "## Agent Lifecycle Hooks",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "### VS Code 1.111-1.114",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "### Changelog-aligned notes",
+      "action": "omit-section"
+    }
+  ]
+}

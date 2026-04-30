@@ -26,22 +26,25 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install dependencies
+        run: npm ci --ignore-scripts || npm install
+
       - name: Check if platforms are in sync with canonical agents
         run: |
           set -e
 
-          # If sync script doesn't exist yet, skip (pre-Fase 1)
           if [ ! -f "scripts/sync-platforms.mjs" ]; then
             echo "⚠️  Sync engine not yet available — skipping sync check."
             exit 0
           fi
 
-          # Run sync in dry-run mode to detect drift
-          npm run sync:check 2>&1 || {
+          echo "🔍 Checking platform sync freshness..."
+
+          if npm run sync:check 2>&1; then
+            echo "✅ All platforms are in sync with canonical agents."
+          else
             echo ""
             echo "❌ Platforms are out of sync with canonical agents."
             echo "   Run 'npm run sync' locally and commit the results."
             exit 1
-          }
-
-          echo "✅ All platforms are in sync with canonical agents ($(ls agents/*.agent.md 2>/dev/null | wc -l) agents)."
+          fi

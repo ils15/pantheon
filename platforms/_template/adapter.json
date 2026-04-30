@@ -1,0 +1,41 @@
+{
+  "name": "your-platform",
+  "displayName": "Your Platform Name",
+  "version": "1.0.0",
+
+  "outputDir": "agents",
+  "fileExtension": ".md",
+
+  "frontmatter": {
+    "include": [
+      "name",
+      "description",
+      "tools",
+      "skills",
+      "instructions"
+    ],
+    "exclude": [
+      "handoffs",
+      "disable-model-invocation"
+    ],
+    "transform": {
+      "tools": { "strategy": "identity" },
+      "model": { "strategy": "omit" }
+    }
+  },
+
+  "toolMap": {
+    "search/codebase": "search/codebase",
+    "search/usages": "search/usages",
+    "read/readFile": "read/readFile",
+    "edit/editFiles": "edit/editFiles",
+    "execute/runInTerminal": "execute/runInTerminal"
+  },
+
+  "bodyFilters": [
+    {
+      "pattern": "## Copilot Workflow Updates",
+      "action": "omit-section"
+    }
+  ]
+}

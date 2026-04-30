@@ -1,0 +1,48 @@
+{
+  "name": "windsurf",
+  "displayName": "Windsurf (stub)",
+  "version": "1.0.0",
+
+  "description": "Windsurf platform stub — placeholder for future Windsurf Cascade integration.",
+
+  "outputDir": "agents",
+  "fileExtension": ".md",
+
+  "frontmatter": {
+    "include": [
+      "name",
+      "description",
+      "tools"
+    ],
+    "exclude": [
+      "model",
+      "skills",
+      "instructions",
+      "handoffs",
+      "agents",
+      "disable-model-invocation",
+      "argument-hint",
+      "user-invocable"
+    ],
+    "transform": {
+      "tools": { "strategy": "identity" },
+      "model": { "strategy": "omit" }
+    }
+  },
+
+  "toolMap": {
+    "search/codebase": "search",
+    "search/usages": "search",
+    "read/readFile": "read",
+    "edit/editFiles": "edit",
+    "execute/runInTerminal": "runInTerminal",
+    "web/fetch": "webFetch"
+  },
+
+  "bodyFilters": [
+    {
+      "pattern": "## Copilot Workflow Updates",
+      "action": "omit-section"
+    }
+  ]
+}

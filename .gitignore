@@ -32,3 +32,6 @@ docs/memory-bank/.tmp/
 
 # Dependencies
 node_modules/
+
+# Platform template — reference only, not generated
+platforms/_template/agents/

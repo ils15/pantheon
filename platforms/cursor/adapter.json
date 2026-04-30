@@ -1,0 +1,53 @@
+{
+  "name": "cursor",
+  "displayName": "Cursor",
+  "version": "1.0.0",
+
+  "description": "Cursor uses .mdc rule files in .cursor/rules/. Each agent becomes a reusable rule with globs and description.",
+
+  "outputDir": "rules",
+  "fileExtension": ".mdc",
+
+  "frontmatter": {
+    "include": [
+      "name",
+      "description"
+    ],
+    "exclude": [
+      "model",
+      "tools",
+      "skills",
+      "instructions",
+      "handoffs",
+      "agents",
+      "disable-model-invocation",
+      "argument-hint",
+      "user-invocable"
+    ],
+    "omitNameSuffix": true,
+    "transform": {
+      "tools": { "strategy": "omit" },
+      "model": { "strategy": "omit" },
+      "handoffs": { "strategy": "omit" },
+      "skills": { "strategy": "omit" },
+      "instructions": { "strategy": "omit" }
+    }
+  },
+
+  "toolMap": {},
+
+  "bodyFilters": [
+    {
+      "action": "prepend",
+      "content": "> This is an AI agent definition for Cursor. Use @<name> to invoke this agent."
+    },
+    {
+      "pattern": "## Copilot Workflow Updates",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "## Agent Lifecycle Hooks",
+      "action": "omit-section"
+    }
+  ]
+}
