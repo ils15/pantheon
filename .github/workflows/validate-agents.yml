@@ -19,6 +19,7 @@ jobs:
           - 'opencode/agents/*.md'
           - 'platforms/claude/agents/*.md'
           - 'platforms/opencode/agents/*.md'
+          - 'platforms/windsurf/agents/*.md'
     steps:
       - uses: actions/checkout@v4
 
@@ -147,14 +148,13 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install dependencies
+        run: npm ci --ignore-scripts || npm install
+
       - name: Check if platforms are in sync with canonical agents
         run: |
           set -e
-
-          if [ ! -f "scripts/sync-platforms.mjs" ]; then
-            echo "⚠️  Sync engine not yet available — skipping sync check."
-            exit 0
-          fi
+          echo "🔍 Checking platform sync freshness..."
 
           npm run sync:check 2>&1 || {
             echo ""

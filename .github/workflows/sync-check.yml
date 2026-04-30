@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
 
 jobs:
   check-sync:
@@ -32,12 +31,6 @@ jobs:
       - name: Check if platforms are in sync with canonical agents
         run: |
           set -e
-
-          if [ ! -f "scripts/sync-platforms.mjs" ]; then
-            echo "⚠️  Sync engine not yet available — skipping sync check."
-            exit 0
-          fi
-
           echo "🔍 Checking platform sync freshness..."
 
           if npm run sync:check 2>&1; then

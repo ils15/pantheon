@@ -65,12 +65,12 @@ jobs:
 
           if [ "$FAILED" -ne 0 ]; then exit 1; fi
 
-      - name: Validate platform frontmatter (claude, opencode)
+      - name: Validate generated platform frontmatter
         run: |
           set -e
           FAILED=0
 
-          for dir in platforms/claude/agents platforms/opencode/agents; do
+          for dir in platforms/claude/agents platforms/opencode/agents platforms/windsurf/agents; do
             [ -d "$dir" ] || continue
             for file in "$dir"/*.md; do
               [ -f "$file" ] || continue
@@ -85,6 +85,27 @@ jobs:
               fi
               rm "$tmpfile"
             done
+          done
+
+          if [ "$FAILED" -ne 0 ]; then exit 1; fi
+
+      - name: Validate VS Code platform (identity — via symlink)
+        run: |
+          set -e
+          FAILED=0
+
+          for file in platforms/vscode/agents/*.agent.md; do
+            [ -f "$file" ] || continue
+            frontmatter=$(awk '/^---/{if(found){exit}else{found=1;next}} found{print}' "$file")
+            if [ -z "$frontmatter" ]; then echo "❌ No frontmatter in $file"; FAILED=1; continue; fi
+            tmpfile=$(mktemp --suffix=.yml)
+            echo "$frontmatter" > "$tmpfile"
+            if yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$tmpfile"; then
+              echo "✅ $file — OK"
+            else
+              echo "❌ $file — YAML errors"; FAILED=1
+            fi
+            rm "$tmpfile"
           done
 
           if [ "$FAILED" -ne 0 ]; then exit 1; fi
@@ -115,6 +136,9 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install dependencies
+        run: npm ci --ignore-scripts || npm install
+
       - name: Validate plugin manifest
         run: npm run plugin:validate
 
@@ -126,6 +150,8 @@ jobs:
           for dir in platforms/*/; do
             adapter="${dir}adapter.json"
             [ -f "$adapter" ] || continue
+            # Skip _template adapter — it's a reference, not a real platform
+            basename "$dir" | grep -q '^_template' && continue
             if node -e "const a=require('./${adapter}'); ['name','displayName','outputDir'].forEach(k=>{if(!a[k])throw new Error('Missing '+k+' in '+a.name)})" 2>&1; then
               echo "✅ $(basename "$dir")/adapter.json — valid"
             else
@@ -135,3 +161,30 @@ jobs:
           done
 
           if [ "$FAILED" -ne 0 ]; then exit 1; fi
+
+      - name: Verify identity sync (agents/ ↔ platforms/vscode/agents/)
+        run: |
+          set -e
+          FAILED=0
+
+          for file in agents/*.agent.md; do
+            basename=$(basename "$file")
+            platform_file="platforms/vscode/agents/${basename}"
+            if [ -f "$platform_file" ]; then
+              if diff "$file" "$platform_file" > /dev/null; then
+                echo "✅ ${basename} — VS Code identity match"
+              else
+                echo "❌ ${basename} — VS Code identity MISMATCH"
+                FAILED=1
+              fi
+            else
+              echo "⚠️  ${basename} — missing in platforms/vscode/agents/"
+            fi
+          done
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo ""
+            echo "VS Code platform is out of identity sync with canonical agents."
+            echo "Run 'npm run sync' to regenerate."
+            exit 1
+          fi

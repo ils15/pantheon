@@ -26,7 +26,15 @@ jobs:
         id: rec
         run: |
           set -e
-          out=$(npm run -s version:recommend)
+          if ! out=$(npm run -s version:recommend 2>&1); then
+            echo "⚠️  Version recommendation script failed:"
+            echo "$out"
+            echo "current=" >> "$GITHUB_OUTPUT"
+            echo "bump=patch" >> "$GITHUB_OUTPUT"
+            echo "next=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
           echo "$out"
 
           current=$(echo "$out" | awk -F': ' '/^Current:/{print $2}')
@@ -34,9 +42,9 @@ jobs:
           next=$(echo "$out" | awk -F': ' '/^Next:/{print $2}')
 
           {
-            echo "current=$current"
-            echo "bump=$bump"
-            echo "next=$next"
+            echo "current=${current:-unknown}"
+            echo "bump=${bump:-patch}"
+            echo "next=${next:-unknown}"
           } >> "$GITHUB_OUTPUT"
 
       - name: Upsert PR comment
@@ -44,12 +52,16 @@ jobs:
         with:
           script: |
             const marker = '<!-- pantheon-version-recommendation -->';
+            const current = '${{ steps.rec.outputs.current }}';
+            const bump = '${{ steps.rec.outputs.bump }}';
+            const next = '${{ steps.rec.outputs.next }}';
+
             const body = `${marker}
             ## Version Recommendation
 
-            - Current: **${{ steps.rec.outputs.current }}**
-            - Recommended bump: **${{ steps.rec.outputs.bump }}**
-            - Next version: **${{ steps.rec.outputs.next }}**
+            - Current: **${current || 'unknown'}**
+            - Recommended bump: **${bump || 'patch'}**
+            - Next version: **${next || 'unknown'}**
 
             Policy:
             - \\`BREAKING CHANGE\\` or \\`!\\` in type scope -> **major**
