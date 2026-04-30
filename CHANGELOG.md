@@ -7,6 +7,80 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [v3.0.0] — April 30, 2026
+
+### ⚠️ Breaking Changes
+
+- **Repository renamed** from `ils15/mythic-agents` to `ils15/pantheon`
+- **Project renamed** from "Mythic-Agents" to "Pantheon" everywhere
+- **Root `opencode/` deprecated** — use `platform/opencode/` instead (root `opencode/` works in v3.x, removed in v4.0)
+- **Plugin marketplace** changed from `ils15/mythic-agents` to `ils15/pantheon`
+
+### Added
+
+#### 🏛️ **Multi-Platform Architecture** — 5 platforms, 1 canonical source
+
+Pantheon now supports **5 AI coding platforms** from a single canonical agent source:
+
+| Platform | Format | Status |
+|---|---|---|
+| VS Code Copilot | `.agent.md` | ✅ Active |
+| OpenCode | `.md` + opencode.json | ✅ Active |
+| Claude Code | `.md` (comma-separated tools) | ✅ Active |
+| Cursor | `.mdc` rules | ✅ Active |
+| Windsurf | `.md` (stub) | 🧪 Preview |
+
+**New engine:**
+- `scripts/sync-platforms.mjs` — transforms canonical `agents/` into platform-specific formats
+- `scripts/lib/canonical.mjs` — YAML frontmatter parser for `.agent.md` files
+- `scripts/lib/transform.mjs` — adapter-based transformation pipeline
+- `scripts/validate-sync.mjs` — CI drift detection
+- `scripts/install.mjs` — CLI installer (`node scripts/install.mjs <platform>`)
+- `scripts/release-bundle.mjs` — generates `pantheon-vX.Y.Z.tar.gz` for releases
+
+**Platform adapters** (each in `platform/<name>/adapter.json`):
+- `vscode/` — identity copy (byte-identical to canonical)
+- `opencode/` — strips VS Code fields, appends permission blocks
+- `claude/` — comma-separated tools, VS Code sections removed
+- `cursor/` — `.mdc` rule files with stripped frontmatter
+- `windsurf/` — stub adapter with tool name mapping
+
+**Template for new platforms:**
+- `platforms/_template/` — copy + edit `adapter.json` → `npm run sync`
+
+#### 📚 **Documentation Restructured**
+
+- `docs/PLATFORMS.md` — platform comparison, format reference, "which to pick"
+- `docs/INSTALLATION.md` — consolidated install guide for all 5 platforms
+- `docs/RELEASING.md` — versioning policy, release workflow, consumption paths
+- `docs/INDEX.md` — rewritten as Pantheon documentation hub
+- `platforms/*/README.md` — per-platform installation notes (all 5 + template)
+- `template/README.md` — GitHub Template quickstart
+- Badges in `README.md`: version, license, platforms (5), agents (12)
+
+#### 🔧 **CI/CD Improvements**
+
+- `validate-agents.yml` — matrix validation across all platforms
+- `verify.yml` — validates canonical + opencode + all platform frontmatter + identity sync
+- `sync-check.yml` — blocks PRs if `platforms/` is stale vs `agents/`
+- `release.yml` — generates release bundle + attaches to GitHub Release
+- `version-recommendation.yml` — error handling for script failures
+
+### Changed
+
+- `README.md` — rewritten Quick Start (references INSTALLATION.md + PLATFORMS.md)
+- All workflows — `platforms/**` trigger paths added
+- `plugin.json` + `.github/plugin/plugin.json` — `agents` path updated, `platforms` field added
+- `package.json` — added `sync`, `sync:check`, `bundle` scripts; `js-yaml` devDependency
+
+### Fixed
+
+- 12 workflow issues across 5 pipelines (matrix coverage, npm installs, action versions, permissions)
+- `.gitignore` — `INDEX.md` rule was ignoring `docs/INDEX.md`
+- `scripts/lib/transform.mjs` — toolMap now runs before comma-separated transform
+
+---
+
 ## [v2.9.0] — April 24, 2026
 
 ### Added

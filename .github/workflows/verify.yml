@@ -70,7 +70,7 @@ jobs:
           set -e
           FAILED=0
 
-          for dir in platforms/claude/agents platforms/opencode/agents platforms/windsurf/agents; do
+          for dir in platform/claude/agents platform/opencode/agents platform/windsurf/agents; do
             [ -d "$dir" ] || continue
             for file in "$dir"/*.md; do
               [ -f "$file" ] || continue
@@ -89,33 +89,12 @@ jobs:
 
           if [ "$FAILED" -ne 0 ]; then exit 1; fi
 
-      - name: Validate VS Code platform (identity — via symlink)
-        run: |
-          set -e
-          FAILED=0
-
-          for file in platforms/vscode/agents/*.agent.md; do
-            [ -f "$file" ] || continue
-            frontmatter=$(awk '/^---/{if(found){exit}else{found=1;next}} found{print}' "$file")
-            if [ -z "$frontmatter" ]; then echo "❌ No frontmatter in $file"; FAILED=1; continue; fi
-            tmpfile=$(mktemp --suffix=.yml)
-            echo "$frontmatter" > "$tmpfile"
-            if yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$tmpfile"; then
-              echo "✅ $file — OK"
-            else
-              echo "❌ $file — YAML errors"; FAILED=1
-            fi
-            rm "$tmpfile"
-          done
-
-          if [ "$FAILED" -ne 0 ]; then exit 1; fi
-
       - name: Validate Cursor .mdc rules
         run: |
           set -e
           FAILED=0
 
-          for file in platforms/cursor/rules/*.mdc; do
+          for file in platform/cursor/rules/*.mdc; do
             [ -f "$file" ] || continue
             frontmatter=$(awk '/^---/{if(found){exit}else{found=1;next}} found{print}' "$file")
             if [ -z "$frontmatter" ]; then echo "❌ No frontmatter in $file"; FAILED=1; continue; fi
@@ -147,7 +126,9 @@ jobs:
           set -e
           FAILED=0
 
-          for dir in platforms/*/; do
+          for dir in platform/*/; do
+            # Skip _template — it's a reference, not a real platform
+            basename "$dir" | grep -q '^_template' && continue
             adapter="${dir}adapter.json"
             [ -f "$adapter" ] || continue
             # Skip _template adapter — it's a reference, not a real platform
@@ -162,29 +143,26 @@ jobs:
 
           if [ "$FAILED" -ne 0 ]; then exit 1; fi
 
-      - name: Verify identity sync (agents/ ↔ platforms/vscode/agents/)
+      - name: Verify canonical agents are valid
         run: |
           set -e
           FAILED=0
 
           for file in agents/*.agent.md; do
-            basename=$(basename "$file")
-            platform_file="platforms/vscode/agents/${basename}"
-            if [ -f "$platform_file" ]; then
-              if diff "$file" "$platform_file" > /dev/null; then
-                echo "✅ ${basename} — VS Code identity match"
-              else
-                echo "❌ ${basename} — VS Code identity MISMATCH"
-                FAILED=1
-              fi
+            frontmatter=$(awk '/^---/{if(found){exit}else{found=1;next}} found{print}' "$file")
+            if [ -z "$frontmatter" ]; then echo "❌ No frontmatter in $file"; FAILED=1; continue; fi
+            tmpfile=$(mktemp --suffix=.yml)
+            echo "$frontmatter" > "$tmpfile"
+            if yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$tmpfile"; then
+              echo "✅ $file — canonical OK"
             else
-              echo "⚠️  ${basename} — missing in platforms/vscode/agents/"
+              echo "❌ $file — YAML errors"; FAILED=1
             fi
+            rm "$tmpfile"
           done
 
           if [ "$FAILED" -ne 0 ]; then
             echo ""
-            echo "VS Code platform is out of identity sync with canonical agents."
-            echo "Run 'npm run sync' to regenerate."
+            echo "Canonical agent files have YAML errors."
             exit 1
           fi

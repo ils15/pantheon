@@ -1,7 +1,7 @@
 {
   "name": "pantheon",
   "publisher": "ils15",
-  "version": "2.9.0",
+  "version": "3.0.0",
   "displayName": "Pantheon - Multi-Agent Orchestration",
   "description": "Conductor-Delegate orchestration platform with 12 specialized agents across VS Code, OpenCode, Claude Code, Cursor, and Windsurf",
   "agents": "./agents",
@@ -10,9 +10,8 @@
   "prompts": "./prompts",
   "repository": "https://github.com/ils15/pantheon",
   "platforms": {
-    "vscode": "./platforms/vscode",
-    "opencode": "./platforms/opencode",
-    "claude": "./platforms/claude",
-    "cursor": "./platforms/cursor"
+    "opencode": "./platform/opencode",
+    "claude": "./platform/claude",
+    "cursor": "./platform/cursor"
   }
 }

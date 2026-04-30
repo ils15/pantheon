@@ -5,7 +5,7 @@ on:
     paths:
       - 'agents/**'
       - 'opencode/agents/**'
-      - 'platforms/**'
+      - 'platform/**'
       - 'AGENTS.md'
 
 jobs:
@@ -17,9 +17,9 @@ jobs:
         agent-dir:
           - 'agents/*.agent.md'
           - 'opencode/agents/*.md'
-          - 'platforms/claude/agents/*.md'
-          - 'platforms/opencode/agents/*.md'
-          - 'platforms/windsurf/agents/*.md'
+          - 'platform/claude/agents/*.md'
+          - 'platform/opencode/agents/*.md'
+          - 'platform/windsurf/agents/*.md'
     steps:
       - uses: actions/checkout@v4
 

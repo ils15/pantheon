@@ -60,17 +60,17 @@ Pantheon's 12 agents are authored once in `agents/` (VS Code `.agent.md` format)
 | Format | Example | Used by |
 |---|---|---|
 | `.agent.md` | `agents/zeus.agent.md` with YAML frontmatter | VS Code (canonical) |
-| `.md` (array tools) | `platforms/opencode/agents/zeus.md` | OpenCode |
-| `.md` (comma tools) | `platforms/claude/agents/zeus.md` | Claude Code |
-| `.mdc` | `platforms/cursor/rules/zeus.mdc` | Cursor |
+| `.md` (array tools) | `platform/opencode/agents/zeus.md` | OpenCode |
+| `.md` (comma tools) | `platform/claude/agents/zeus.md` | Claude Code |
+| `.mdc` | `platform/cursor/rules/zeus.mdc` | Cursor |
 
 ---
 
 ## Adding a New Platform
 
-1. Copy `platforms/_template/` → `platforms/<name>/`
+1. Copy `platform/_template/` → `platform/<name>/`
 2. Edit `adapter.json` with target format rules
-3. Run `npm run sync` → generates agents in `platforms/<name>/agents/`
+3. Run `npm run sync` → generates agents in `platform/<name>/agents/`
 4. Create `<name>/README.md` with platform-specific notes
 5. Add to matrix in this file
 6. Update CI validation in `.github/workflows/`

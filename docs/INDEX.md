@@ -47,7 +47,7 @@ All agents live as **canonical `.agent.md` files** in `agents/` and are auto-gen
 | Concern | Location |
 |---|---|
 | Agent definitions (edit here) | `agents/*.agent.md` |
-| Platform configs (auto-generated) | `platforms/<name>/agents/` |
+| Platform configs (auto-generated) | `platform/<name>/agents/` |
 | Shared skills | `skills/<name>/SKILL.md` |
 | Standards & instructions | `instructions/*.instructions.md` |
 | Prompt templates | `prompts/*.prompt.md` |
@@ -62,9 +62,9 @@ All agents live as **canonical `.agent.md` files** in `agents/` and are auto-gen
 
 Each platform has its own README with installation notes and format details:
 
-- [VS Code](../platforms/vscode/README.md)
-- [OpenCode](../platforms/opencode/README.md)
-- [Claude Code](../platforms/claude/README.md)
-- [Cursor](../platforms/cursor/README.md)
-- [Windsurf](../platforms/windsurf/README.md)
-- [Template (add new platform)](../platforms/_template/README.md)
+- [VS Code](../platform/vscode/README.md)
+- [OpenCode](../platform/opencode/README.md)
+- [Claude Code](../platform/claude/README.md)
+- [Cursor](../platform/cursor/README.md)
+- [Windsurf](../platform/windsurf/README.md)
+- [Template (add new platform)](../platform/_template/README.md)

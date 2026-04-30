@@ -1,6 +1,6 @@
 {
   "name": "pantheon",
-  "version": "2.9.0",
+  "version": "3.0.0",
   "description": "Multi-agent orchestration platform with 12 specialized agents, TDD enforcement, and multi-platform support (VS Code, OpenCode, Claude Code).",
   "private": true,
   "scripts": {
