@@ -79,6 +79,61 @@ Pantheon now supports **5 AI coding platforms** from a single canonical agent so
 - `.gitignore` — `INDEX.md` rule was ignoring `docs/INDEX.md`
 - `scripts/lib/transform.mjs` — toolMap now runs before comma-separated transform
 
+#### 🤖 **4 New Agents** (v3 expansion)
+
+| Agent | Domain | Specialty |
+|-------|--------|-----------|
+| **Hefesto** | AI tooling & pipelines | RAG, LangChain/LangGraph chains, vector stores, embeddings |
+| **Quíron** | Model provider hub | Multi-model routing, AWS Bedrock, cost optimization, local inference |
+| **Eco** | Conversational AI | Rasa NLU pipelines, dialogue management, intent/entity design |
+| **Nix** | Observability & monitoring | OpenTelemetry tracing, token/cost tracking, LangSmith, analytics |
+
+Total agents: **12 → 16**
+
+#### 📚 **9 New Skills**
+
+| Skill | Domain | Agents |
+|-------|--------|--------|
+| `rag-pipelines` | AI — RAG architecture, chunking, embedding strategies | Hefesto |
+| `vector-search` | AI — Vector databases, similarity search, hybrid retrieval | Hefesto |
+| `mcp-server-development` | AI — MCP protocol, tool/resource definition | Hefesto, Quíron, Nix |
+| `multi-model-routing` | AI — Provider abstraction, cost routing, fallback | Quíron, Hefesto |
+| `agent-observability` | Ops — OpenTelemetry, Prometheus, cost tracking | Nix, Quíron |
+| `streaming-patterns` | Ops — SSE, WebSocket, LLM token streaming | Nix |
+| `conversational-ai-design` | AI — Rasa NLU, dialogue management, stories | Eco |
+| `prompt-injection-security` | Security — Jailbreak detection, guardrails, red-teaming | Temis, Eco |
+| `agent-evaluation` | QA — Hallucination detection, behavioral testing | Hefesto, Temis |
+
+Total skills: **18 → 27**
+
+#### 📖 **Documentation Restructured**
+
+New documentation architecture with platform separation:
+
+- **`README.md`** — Generic overview with architecture diagrams (mermaid), hyperlinks per platform
+- **`agents/README.md`** — All 16 agents detailed with delegation matrix and selection guide
+- **`skills/README.md`** — All 27 skills categorized by 8 domains
+- **`docs/platforms/`** — 5 platform-specific setup guides (VS Code, OpenCode, Claude Code, Cursor, Windsurf)
+- **`scripts/validate-agents.py`** — Integration validation (16 agents, 27 skills, cross-agent deps)
+
+#### 🛠️ **8 Skills Updated with New Integrations**
+
+| Skill | New Content |
+|-------|-------------|
+| `agent-coordination` | MCP discovery, LangGraph stateful workflows |
+| `internet-search` | MCP search servers (Brave, Tavily, Perplexity) |
+| `fastapi-async-patterns` | LangChain model interface, Bedrock runtime, MCP tool exposition |
+| `security-audit` | LLM-specific: prompt injection, jailbreaking, output sanitization |
+| `docker-best-practices` | GPU inference containers, agent sandboxing |
+| `tdd-with-agents` | Agent-level evaluation, hallucination testing, LangSmith integration |
+| `database-optimization` | LLM-assisted index suggestions, migration safety review |
+| `remote-sensing-analysis` | STAC MCP servers, Earth Engine integration, automated literature review |
+
+#### ⚡ Agent Enhancements
+
+- **Zeus** — New handoffs for Hefesto, Quíron, Eco, Nix; updated parallel execution patterns
+- **Gaia** — Fixed missing YAML frontmatter in remote-sensing-analysis skill
+
 ---
 
 ## [v2.9.0] — April 24, 2026
