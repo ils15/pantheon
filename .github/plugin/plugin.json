@@ -18,7 +18,7 @@
   "author": {
     "name": "ils15"
   },
-  "repository": "https://github.com/ils15/mythic-agents",
+  "repository": "https://github.com/ils15/pantheon",
   "license": "MIT",
   "agents": [
     "./vscode/agents"

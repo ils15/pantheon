@@ -526,7 +526,7 @@ Infra: Docker, Traefik, GitHub Actions
 
 ```bash
 # 1. Clone the framework
-git clone https://github.com/ils15/mythic-agents # (rename pending)
+git clone https://github.com/ils15/pantheon
 
 # 2. Copy agents + config into your project
 cp -r pantheon/opencode/agents   /path/to/your-project/.opencode/agents
@@ -585,7 +585,7 @@ All 12 agents and 19 skills appear immediately in your Copilot session — no fi
 
 ```bash
 # 1. Clone the framework
-git clone https://github.com/ils15/mythic-agents # (rename pending)
+git clone https://github.com/ils15/pantheon
 cp -r pantheon/vscode/agents    /path/to/your-product/agents
 cp -r pantheon/instructions     /path/to/your-product/instructions
 cp -r pantheon/prompts          /path/to/your-product/prompts
