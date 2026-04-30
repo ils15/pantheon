@@ -3,7 +3,7 @@
 /**
  * validate-sync.mjs — CI drift validation
  *
- * Runs `npm run sync -- --check` and exits with code 1 if platforms/
+ * Runs `npm run sync -- --check` and exits with code 1 if platform/
  * are out of sync with canonical agents/.
  *
  * Designed for CI (GitHub Actions). Silent on success, loud on failure.
@@ -41,17 +41,17 @@ if (result.status === 0) {
 console.log('');
 console.log('❌❌❌ PLATFORM SYNC DRIFT DETECTED ❌❌❌');
 console.log('');
-console.log('The generated platform configs in platforms/ are out of sync');
+console.log('The generated platform configs in platform/ are out of sync');
 console.log('with the canonical agents in agents/. This happens when:');
 console.log('');
-console.log('  1. An agent was edited in agents/ but platforms/ was not regenerated');
+console.log('  1. An agent was edited in agents/ but platform/ was not regenerated');
 console.log('  2. An adapter.json was changed without re-running sync');
 console.log('');
 console.log('To fix:');
 console.log('');
 console.log('  npm run sync');
 console.log('');
-console.log('Then commit the generated files in platforms/.');
+console.log('Then commit the generated files in platform/.');
 console.log('');
 console.log('To prevent this, run `npm run sync:check` before committing.');
 console.log('A CI gate (sync-check.yml) also blocks PRs with drift.');

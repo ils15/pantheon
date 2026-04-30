@@ -26,12 +26,12 @@ OpenCode uses `.md` files with YAML frontmatter and a `opencode.json` config fil
 git clone https://github.com/ils15/pantheon.git
 
 # Link the opencode config
-ln -s pantheon/platforms/opencode/opencode.json opencode.json
+ln -s pantheon/platform/opencode/opencode.json opencode.json
 ```
 
 ### Manual setup
 
-1. Copy or link `platforms/opencode/agents/` → `.opencode/agents/` in your project
+1. Copy or link `platform/opencode/agents/` → `.opencode/agents/` in your project
 2. Create `opencode.json` pointing to agents and instructions:
 
 ```json

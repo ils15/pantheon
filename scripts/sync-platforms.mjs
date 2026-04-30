@@ -4,7 +4,7 @@
  * sync-platforms.mjs — Canonical → platform sync engine
  *
  * Reads canonical agents from agents/ and generates platform-specific
- * configs into platforms/<name>/ based on adapter.json rules.
+ * configs into platform/<name>/ based on adapter.json rules.
  *
  * Usage:
  *   node scripts/sync-platforms.mjs               # sync all platforms
@@ -20,7 +20,7 @@ import { transformAgent, serializeAgent } from './lib/transform.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const AGENTS_DIR = path.join(ROOT, 'agents');
-const PLATFORMS_DIR = path.join(ROOT, 'platforms');
+const PLATFORMS_DIR = path.join(ROOT, 'platform');
 
 function getPlatforms() {
   if (!fs.existsSync(PLATFORMS_DIR)) return [];
@@ -122,8 +122,8 @@ function main() {
 
   if (platforms.length === 0) {
     const hint = requested.length > 0
-      ? `Platforms not found: ${requested.join(', ')}. Create platforms/<name>/adapter.json first.`
-      : 'No platforms found in platforms/ directory. Create platforms/<name>/adapter.json to add one.';
+      ? `Platforms not found: ${requested.join(', ')}. Create platform/<name>/adapter.json first.`
+      : 'No platforms found in platform/ directory. Create platform/<name>/adapter.json to add one.';
     console.log(hint);
     process.exit(1);
   }

@@ -32,7 +32,7 @@ function parseArgs() {
 // Directories to include in the bundle
 const BUNDLE_DIRS = [
   'agents',
-  'platforms',
+  'platform',
   'skills',
   'instructions',
   'prompts',
@@ -93,7 +93,7 @@ function buildBundle(baseDir) {
 
   // Remove generated agent files (user runs sync themselves)
   const generatedDirs = [
-    'platforms/_template/agents',
+    'platform/_template/agents',
   ];
   for (const dir of generatedDirs) {
     const full = path.join(bundleDir, dir);

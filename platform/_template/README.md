@@ -7,7 +7,7 @@
 ## Quick Start
 
 ```bash
-cp -r platforms/_template platforms/<your-platform>
+cp -r platform/_template platform/<your-platform>
 # Edit adapter.json with your platform's format rules
 npm run sync  # Generates agents
 ```

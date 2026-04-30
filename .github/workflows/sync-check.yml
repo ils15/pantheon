@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - 'agents/**'
-      - 'platforms/**'
+      - 'platform/**'
       - 'scripts/sync-platforms.mjs'
       - 'scripts/lib/**'
 

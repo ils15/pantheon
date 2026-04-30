@@ -112,7 +112,7 @@ This copies `.mdc` files to `.cursor/rules/`. Use `@agent-name` in Cursor chat.
 
 ```bash
 # From the Pantheon root, copy generated platform configs
-cp -r platforms/<name>/agents/ /path/to/your-project/<target-dir>/
+cp -r platform/<name>/agents/ /path/to/your-project/<target-dir>/
 ```
 
 See [Platforms docs](PLATFORMS.md) for target directories per platform.

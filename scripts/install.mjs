@@ -17,7 +17,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const PLATFORMS_DIR = path.join(ROOT, 'platforms');
+const PLATFORMS_DIR = path.join(ROOT, 'platform');
 
 // Target directories for each platform (relative to user's project root)
 const TARGET_MAP = {
@@ -52,7 +52,7 @@ function listPlatforms() {
   console.log('🎯 Available Pantheon Platforms:\n');
   for (const p of platforms) {
     const adapter = loadAdapter(p);
-    const target = TARGET_MAP[p] || `platforms/${p}/`;
+    const target = TARGET_MAP[p] || `platform/${p}/`;
     console.log(`  ${p.padEnd(12)} ${adapter.displayName.padEnd(22)} → ${target}`);
   }
   console.log('');
@@ -126,7 +126,7 @@ function installPlatform(platformName, targetDir, dryRun = false) {
     ],
     opencode: [
       '📌 OpenCode: Link the opencode config:',
-      '   ln -s platforms/opencode/opencode.json opencode.json',
+      '   ln -s platform/opencode/opencode.json opencode.json',
     ],
     claude: [
       '📌 Claude Code: Agents appear in @-mentions automatically.',

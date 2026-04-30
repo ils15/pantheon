@@ -1,7 +1,7 @@
 {
   "name": "pantheon",
-  "description": "Multi-agent orchestration platform. Zeus coordinates 12 specialized agents: Athena (planning), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Iris (GitHub), Temis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). Supports VS Code, OpenCode, and Claude Code. Includes 18 on-demand skills.",
-  "version": "2.9.0",
+  "description": "Multi-agent orchestration platform. Zeus coordinates 12 specialized agents: Athena (planning), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Iris (GitHub), Temis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). Supports VS Code, OpenCode, Claude Code, Cursor, and Windsurf. Includes 18 on-demand skills.",
+  "version": "3.0.0",
   "keywords": [
     "multi-agent",
     "orchestration",
@@ -13,7 +13,10 @@
     "database",
     "security",
     "remote-sensing",
-    "conductor-delegate"
+    "conductor-delegate",
+    "claude-code",
+    "cursor",
+    "opencode"
   ],
   "author": {
     "name": "ils15"
@@ -24,10 +27,9 @@
     "./agents"
   ],
   "platforms": {
-    "vscode": "./platforms/vscode",
-    "opencode": "./platforms/opencode",
-    "claude": "./platforms/claude",
-    "cursor": "./platforms/cursor"
+    "opencode": "./platform/opencode",
+    "claude": "./platform/claude",
+    "cursor": "./platform/cursor"
   },
   "skills": [
     "./skills/agent-coordination",
