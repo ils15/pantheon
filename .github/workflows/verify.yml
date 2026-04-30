@@ -25,7 +25,7 @@ jobs:
       - name: Install yamllint
         run: pip install yamllint
 
-      - name: Validate .agent.md frontmatter YAML
+      - name: Validate VS Code agent frontmatter YAML
         run: |
           set -e
           FAILED=0
@@ -55,6 +55,39 @@ jobs:
           if [ "$FAILED" -ne 0 ]; then
             echo ""
             echo "One or more agent files have invalid frontmatter."
+            exit 1
+          fi
+
+      - name: Validate OpenCode agent frontmatter YAML
+        run: |
+          set -e
+          FAILED=0
+
+          for file in opencode/agents/*.md; do
+            frontmatter=$(awk '/^---/{if(found){exit}else{found=1;next}} found{print}' "$file")
+
+            if [ -z "$frontmatter" ]; then
+              echo "❌ No frontmatter found in $file"
+              FAILED=1
+              continue
+            fi
+
+            tmpfile=$(mktemp --suffix=.yml)
+            echo "$frontmatter" > "$tmpfile"
+
+            if yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$tmpfile"; then
+              echo "✅ $file — frontmatter OK"
+            else
+              echo "❌ $file — frontmatter has YAML errors"
+              FAILED=1
+            fi
+
+            rm "$tmpfile"
+          done
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo ""
+            echo "One or more OpenCode agent files have invalid frontmatter."
             exit 1
           fi
 
