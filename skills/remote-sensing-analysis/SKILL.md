@@ -1,3 +1,8 @@
+---
+name: remote-sensing-analysis
+description: "Complete remote sensing pipeline — optical/SAR processing, spectral indices, time series analysis, ML/DL classification, LULC inter-product agreement, statistical accuracy assessment (Olofsson 2014), cloud platform integration (GEE, STAC), and scientific literature search"
+---
+
 # Skill: Remote Sensing Analysis
 
 ## Purpose
@@ -510,5 +515,124 @@ stac_planetary:       "https://planetarycomputer.microsoft.com/catalog"
 stac_element84:       "https://earth-search.aws.element84.com/v1"
 usgs_earthexplorer:   "https://earthexplorer.usgs.gov"
 copernicus_hub:       "https://scihub.copernicus.eu"
+```
+
+---
+
+## STAC MCP Server Integration
+
+### Discover and Query Satellite Data via MCP
+
+The STAC (SpatioTemporal Asset Catalogs) protocol can be accessed through MCP servers, enabling programmatic satellite data discovery.
+
+```python
+# Query STAC catalog via MCP tools
+stac_query = {
+    "collections": ["sentinel-2-l2a", "landsat-c2-l2"],
+    "bbox": [-64.5, -12.5, -64.3, -12.3],  # Rondônia, Brazil
+    "datetime": "2025-01-01/2025-12-31",
+    "max_cloud_cover": 20
+}
+
+# Via MCP STAC server
+items = await stac_search(stac_query)
+
+# Returns list of items with: 
+# - scene_id, datetime, cloud_cover, geometry
+# - assets: B02, B03, B04, B08, B11, SCL, etc.
+# - eo:bands with common names, center wavelength
+```
+
+### Earth Engine Integration via MCP
+
+```python
+# Google Earth Engine computation via MCP
+gee_task = {
+    "collection": "LANDSAT/LC08/C02/T1_L2",
+    "region": {
+        "type": "Point",
+        "coordinates": [-64.4, -12.4]
+    },
+    "reducers": ["median"],
+    "bands": ["SR_B4", "SR_B5"],  # Red, NIR
+    "start_date": "2024-01-01",
+    "end_date": "2024-12-31",
+    "scale": 30
+}
+
+# Compute NDVI directly in Earth Engine
+ndvi_result = await ee_compute_ndvi(gee_task)
+# Returns computed raster data as GeoTIFF reference
+```
+
+### STAC Browser Pattern for Data Discovery
+
+```python
+# MCP-based STAC browser facade
+class STACBrowser:
+    """Discover satellite data across multiple catalogs via MCP."""
+    
+    CATALOGS = {
+        "earthsearch": "https://earth-search.aws.element84.com/v1",
+        "planetary_computer": "https://planetarycomputer.microsoft.com/api/stac/v1",
+        "copernicus": "https://catalogue.dataspace.copernicus.eu/stac",
+    }
+    
+    async def search_all(self, aoi: dict, date_range: tuple[str, str]) -> list[dict]:
+        """Search across all catalogs in parallel."""
+        results = await asyncio.gather(*[
+            self._search_catalog(catalog, aoi, date_range)
+            for catalog in self.CATALOGS
+        ], return_exceptions=True)
+        return self._merge_results(results)
+```
+
+## Automated Literature Review with LLM
+
+### Paper Discovery & Synthesis
+
+```python
+class LiteratureReviewAgent:
+    """Automated literature discovery and synthesis for remote sensing."""
+    
+    @staticmethod
+    async def search_papers(topic: str, max_results: int = 20) -> list[dict]:
+        """Search across academic sources for relevant papers."""
+        # Uses Semantic Scholar API
+        # Uses arXiv API  
+        # Uses CrossRef API
+        # All accessed via MCP search tools
+        pass
+    
+    @staticmethod
+    async def synthesize_findings(papers: list[dict], focus: str) -> str:
+        """Synthesize multiple papers into a coherent summary focused on a topic."""
+        # LLM reads abstracts and full text where available
+        # Produces structured synthesis: methods, results, limitations
+        # Cross-references findings with current codebase patterns
+        pass
+```
+
+### Methodology Recommendation Engine
+
+```python
+class MethodologyRecommender:
+    """Recommend remote sensing methodologies based on problem description."""
+    
+    PROBLEM_PROMPT = """Given this remote sensing problem:
+    
+Problem: {problem_description}
+Available data: {data_description}
+Study area: {study_area}
+    
+Research and recommend:
+1. Best classification/regression approach for this context
+2. Preprocessing steps required
+3. Accuracy assessment methodology (Olofsson 2014 stratified)
+4. Inter-product agreement strategy if using multiple LULC products
+5. Relevant papers and their key findings
+"""
+    # Uses LLM to search literature and synthesize recommendations
+    # Cross-validates against known best practices in the codebase
 ```
  

@@ -868,3 +868,106 @@ READY FOR PRODUCTION ✅
 **Status:** Mandatory for all implementation agents
 
 Remember: RED first, then GREEN, then REFACTOR. Coverage >80%. Always.
+
+---
+
+## Agent-Level Evaluation
+
+Beyond code-level tests, agents must pass behavioral evaluation:
+
+### Hallucination Testing
+
+```python
+class HallucinationEvaluator:
+    """Evaluates LLM outputs for factual consistency with source context."""
+    
+    @staticmethod
+    async def evaluate_faithfulness(
+        response: str,
+        context: list[str]
+    ) -> dict:
+        """Check if response is faithful to provided context."""
+        from langsmith import Client
+        
+        client = Client()
+        
+        # Create evaluation example
+        example = client.create_example(
+            inputs={"question": "What did the analysis conclude?"},
+            outputs={
+                "response": response,
+                "context": context
+            },
+            metadata={"evaluator": "faithfulness"}
+        )
+        
+        # Score = number of claims supported / total claims
+        # Returns score (0-1), unsupported_claims, verdict
+        ...
+    
+    @classmethod
+    def assert_faithfulness(
+        cls, response: str, context: list[str], threshold: float = 0.8
+    ):
+        """Assert that response is faithful to context above threshold."""
+        result = cls.evaluate_faithfulness(response, context)
+        assert result["score"] >= threshold, (
+            f"Faithfulness {result['score']:.2f} < {threshold:.2f}\n"
+            f"Unsupported claims: {result['unsupported_claims']}"
+        )
+```
+
+### Behavioral Regression Testing
+
+```python
+class AgentBehavioralTest:
+    """Define expected agent behaviors as test cases."""
+    
+    scenarios: list[dict] = [
+        {
+            "name": "user_registration_flow",
+            "steps": [
+                {"action": "call", "agent": "hermes", "input": "POST /users", "params": {...}},
+                {"expected": "status_201", "check": "response.status_code == 201"},
+                {"expected": "user_created", "check": "response.json()['id'] is not None"},
+            ],
+            "post_conditions": [
+                "user exists in database",
+                "welcome email scheduled",
+                "rate limit incremented",
+            ]
+        },
+        {
+            "name": "search_with_filters",
+            "steps": [...],
+            "expected_behavior": "results filtered by category",
+        }
+    ]
+```
+
+### LangSmith Evaluation Integration
+
+```python
+from langsmith import Client, evaluate
+
+def eval_agent_run(run: dict, example: dict) -> dict:
+    """Evaluation function for agent runs in LangSmith."""
+    response = run.outputs.get("response", "")
+    expected = example.outputs.get("expected_response", "")
+    
+    # Multiple evaluation dimensions
+    return {
+        "correctness": _check_correctness(response, expected),
+        "faithfulness": _check_faithfulness(response, run.inputs["context"]),
+        "conciseness": _check_conciseness(response),
+        "latency_ok": run.latency_ms < 5000,
+    }
+
+# Run evaluation on test dataset
+results = evaluate(
+    eval_agent_run,
+    data="agent-behavioral-tests",
+    experiment_prefix="agent-v2.1",
+    max_concurrency=5
+)
+```

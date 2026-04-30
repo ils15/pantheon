@@ -105,3 +105,106 @@ logger.error(f"SQL error encountered: {error_code}")
 - [ ] Errors don't leak info
 - [ ] HTTPS only
 - [ ] Security headers set
+
+## LLM-Specific Security (AI Security Top 10)
+
+### Prompt Injection Detection
+```python
+import re
+from typing import Optional
+
+class PromptInjectionDetector:
+    """Detect prompt injection attempts in user inputs."""
+    
+    # Common jailbreak patterns
+    JAILBREAK_PATTERNS = [
+        r"ignore all (previous|prior) instructions",
+        r"you are now (acting as|role.?play)",
+        r"forget (everything|all rules|all instructions)",
+        r"DAN|do.anything.now",
+        r"system.?prompt.?override",
+        r"output (raw|original|internal|system) (prompt|instructions|promt)",
+        r"bypass.?restrictions",
+        r"reveal.?prompt",
+    ]
+    
+    # Payload splitting patterns
+    SPLIT_PATTERNS = [
+        r"combine the (first|last) (part|half|letter)",
+        r"ignore the (first|last) (sentence|paragraph|part)",
+        r"decrypt|base64.?decode|rot13",
+    ]
+    
+    @classmethod
+    def scan(cls, text: str) -> list[dict]:
+        findings = []
+        for i, pattern in enumerate(cls.JAILBREAK_PATTERNS):
+            if match := re.search(pattern, text, re.IGNORECASE):
+                findings.append({
+                    "type": "jailbreak_attempt",
+                    "pattern": pattern,
+                    "match": match.group(),
+                    "severity": "HIGH",
+                    "score": 0.9
+                })
+        return findings
+```
+
+### Output Sanitization & PII Redaction
+```python
+import re
+
+class OutputSanitizer:
+    """Sanitize LLM outputs to prevent data leakage."""
+    
+    PII_PATTERNS = {
+        "email": r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b",
+        "api_key": r"(?:sk-[a-zA-Z0-9]{32,}|AIza[0-9A-Za-z\-_]{35})",
+        "phone": r"\b\d{3}[-.]?\d{3}[-.]?\d{4}\b",
+        "ssn": r"\b\d{3}-\d{2}-\d{4}\b",
+        "ip_address": r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b",
+    }
+    
+    @classmethod
+    def sanitize(cls, text: str, redact: bool = True) -> str:
+        if not redact:
+            return text
+        for name, pattern in cls.PII_PATTERNS.items():
+            text = re.sub(pattern, f"[REDACTED:{name}]", text)
+        return text
+```
+
+### AWS Bedrock Guardrails
+```python
+class BedrockGuardrailConfig:
+    """Configuration for AWS Bedrock Guardrails."""
+    
+    @staticmethod
+    def create_guardrail_config() -> dict:
+        return {
+            "contentPolicyConfig": {
+                "filtersConfig": {
+                    "filters": [
+                        {"type": "SEXUAL", "inputStrength": "HIGH", "outputStrength": "HIGH"},
+                        {"type": "HATE", "inputStrength": "HIGH", "outputStrength": "HIGH"},
+                        {"type": "VIOLENCE", "inputStrength": "HIGH", "outputStrength": "HIGH"},
+                        {"type": "INSULTS", "inputStrength": "MEDIUM", "outputStrength": "MEDIUM"},
+                    ]
+                }
+            },
+            "sensitiveInformationPolicyConfig": {
+                "piiEntitiesConfig": {
+                    "type": "PIN",
+                    "action": "BLOCK"  # or "ANONYMIZE"
+                }
+            },
+            "topicPolicyConfig": {
+                "topicsConfig": [{
+                    "name": "HarmfulTopics",
+                    "definition": "Topics related to harmful or illegal activities",
+                    "examples": ["how to hack", "phishing template"],
+                    "type": "DENY"
+                }]
+            }
+        }
+```

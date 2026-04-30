@@ -525,4 +525,65 @@ Result: EXPLAIN ANALYZE before/after, better performance
 **Status:** Production-Ready  
 **Last Updated:** Feb 2026
 
+## MCP Discovery Integration
+
+### Runtime MCP Tool Registration
+The agent-coordination system now supports dynamic MCP (Model Context Protocol) tool discovery:
+
+```python
+# Zeus can discover available MCP tools at runtime
+mcp_tools = await discover_mcp_tools(
+    servers=["file:///home/ils15/.config/opencode/mcp.json"]
+)
+
+# Each discovered tool has a name, description, and input schema
+# Zeus can route tasks to MCP tools alongside existing agents
+```
+
+### Agent-to-MCP Routing
+When Zeus delegates tasks, it can route to MCP tools as an alternative to subagents:
+
+| Task Type | Route To | Fallback |
+|-----------|----------|----------|
+| File search | MCP glob/grep tools | Apollo search |
+| Web fetch | MCP fetch tool | web/fetch skill |
+| External API | MCP REST connector | Hermes backend |
+
+## LangGraph Stateful Workflow Integration
+
+### Graph-Based Agent Routing
+For complex features, Zeus can coordinate agents as a LangGraph state machine:
+
+```python
+from langgraph.graph import StateGraph, END
+
+# Define agent workflow as a state machine
+workflow = StateGraph(AgentState)
+
+# Nodes are agent delegation points
+workflow.add_node("plan", athena_delegate)
+workflow.add_node("implement_backend", hermes_delegate)
+workflow.add_node("implement_frontend", aphrodite_delegate)
+workflow.add_node("review", temis_delegate)
+
+# Edges define routing with conditional logic
+workflow.add_edge("plan", "implement_backend")
+workflow.add_conditional_edges(
+    "implement_backend",
+    needs_database_schema,  # Conditional: route to maat if needed
+    {True: "maat_delegate", False: "implement_frontend"}
+)
+workflow.add_edge("implement_frontend", "review")
+workflow.add_edge("review", END)
+```
+
+### Benefits over Sequential Delegation
+- **State persistence**: Agent state survives across delegation chain
+- **Conditional branching**: Route based on intermediate results
+- **Parallel forks**: Fan-out to multiple agents simultaneously with join points
+- **Human-in-the-loop**: Pause at approval gates with agent/askQuestions
+- **Checkpointing**: Resume from any point on failure
+
+---
+
 Next: Read `AGENTS.md` for agent reference or run `@zeus: Implement [feature]`

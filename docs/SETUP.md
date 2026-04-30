@@ -1,6 +1,8 @@
-# Pantheon Setup Guide
+# mythic-agents Setup Guide
 
 > **From zero to orchestrating with AI agents** — step-by-step setup for every platform.
+
+> 📖 **Platform-specific guides:** [VS Code](platforms/vscode.md) · [OpenCode](platforms/opencode.md) · [Claude Code](platforms/claude.md) · [Cursor](platforms/cursor.md) · [Windsurf](platforms/windsurf.md)
 
 ---
 

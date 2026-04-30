@@ -472,4 +472,45 @@ headers: { "Authorization": "token {GITHUB_TOKEN}" }
 
 # Stack Exchange free app key (10k/day)
 "https://api.stackexchange.com/2.3/search/advanced?q={QUERY}&site=stackoverflow&key={APP_KEY}"
+
+## MCP Search Server Integration
+
+### Why MCP for Search
+MCP search servers provide AI-augmented, structured search results that are cleaner than raw web scraping. They understand the context of queries and return structured, relevant results.
+
+### Available MCP Search Servers
+
+| MCP Server | Source | Strengths | Use Case |
+|------------|--------|-----------|----------|
+| Brave Search | `@anthropic/brave-search` | Web + news + images, freshness | General web search, current events |
+| Tavily | `tavily-mcp` | AI-optimized, ad-free | Developer research, technical queries |
+| Exa | `exa-mcp` | Neural search, embeddings | Semantic search, academic papers |
+| Perplexity | `perplexity-mcp` | Answer generation + citations | Complex research questions |
+
+### Integration Pattern
+
+```python
+# MCP search tool registration
+search_tools = await discover_mcp_tools(servers=[
+    "brave-search",
+    "tavily-mcp",
+    "perplexity-mcp"
+])
+
+# Multi-provider search strategy
+async def parallel_search(query: str) -> SearchResults:
+    """Search across multiple MCP providers in parallel."""
+    results = await asyncio.gather(
+        brave_search(query),
+        tavily_search(query), 
+        perplexity_search(query),
+        return_exceptions=True
+    )
+    return aggregate_and_deduplicate(results)
+```
+
+### Query Construction for MCP
+- MCP search servers benefit from structured queries with context
+- Include domain filters, date ranges, and result counts
+- MCP tools return structured JSON (not raw HTML) — no parsing needed
 ```

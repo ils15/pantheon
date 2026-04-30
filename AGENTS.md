@@ -1,5 +1,11 @@
 # VSCode Copilot Agents - Central Orchestrator
 
+> **Quick links:**
+> - [Main Documentation](README.md) — overview, architecture, quick start
+> - [Agent Details](agents/README.md) — all 16 agents with commands and skills
+> - [Skills Reference](skills/README.md) — all 27 skills by domain
+> - [Platform Setup Guides](docs/platforms/) — VS Code, OpenCode, Claude Code, Cursor, Windsurf
+
 ## 🏛️ Agent Architecture
 
 Architecture based on **Conductor-Delegate pattern** (extensible — add new specialized agents as the project grows):
@@ -12,7 +18,7 @@ Central coordinator delegating work to specialized subagents.
 
 **When to use:** Complex feature implementation, multi-layer coordination, cross-functional tasks  
 **Role:** Feature orchestration, phase transition, context management  
-**Delegates to:** athena → apollo → {hermes, aphrodite, maat} → ra → temis → iris → mnemosyne → talos (hotfixes)
+**Delegates to:** athena → apollo → {hefesto, quiron, eco} → {hermes, aphrodite, maat} → nix → ra → temis → iris → mnemosyne → talos (hotfixes)
 
 **Example:**
 ```
@@ -21,13 +27,17 @@ Central coordinator delegating work to specialized subagents.
 Zeus orchestrates:
 1. Athena plans architecture
 2. Apollo explores codebase
-3. Hermes implements backend
-4. Aphrodite implements frontend
-5. Maat handles database migrations
-6. Ra updates Docker
-7. Temis reviews all changes
-8. Iris opens PR + handles GitHub flow
-9. Mnemosyne documents
+3. Hefesto builds AI pipelines (RAG, vector search)
+4. Quíron configures model routing + providers
+5. Eco designs conversational flows (if chatbot)
+6. Hermes implements backend
+7. Aphrodite implements frontend
+8. Maat handles database migrations
+9. Nix sets up observability + cost tracking
+10. Ra updates Docker
+11. Temis reviews all changes
+12. Iris opens PR + handles GitHub flow
+13. Mnemosyne documents
 ```
 
 #### 🔧 **Agent Lifecycle Hooks (March 2026)**
@@ -236,6 +246,83 @@ Infrastructure, Docker containerization, deployment orchestration.
 - Zero-downtime deployment strategy
 - Environment variable management
 - Secrets from vault (not hardcoded)
+
+---
+
+#### 🔨 **Hefesto** (agents/hefesto.agent.md)
+AI tooling & pipelines specialist — RAG, LangChain/LangGraph chains, vector databases, embedding strategies.
+
+**When to use:** Building RAG pipelines, vector search, LangChain chain composition, AI workflow orchestration  
+**Specialization:** LangChain, LangGraph, RAG architecture, vector stores (Pinecone, Weaviate, pgvector, Chroma), embeddings  
+**Depends on:** quiron (model providers), maat (database for vector sources), ra (containerization for inference)  
+**Can call:** apollo (for codebase discovery)  
+**Skills:** rag-pipelines, vector-search, mcp-server-development  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `web/fetch`  
+
+**AI Pipeline Standards Applied:**
+- Chain composition with proper error boundaries
+- Async/await for all LLM I/O
+- >80% test coverage
+- Hallucination and faithfulness evaluation
+- Embedding dimension optimization
+- Query retry with exponential backoff
+
+---
+
+#### 🧬 **Quíron** (agents/quiron.agent.md)
+Model provider hub specialist — multi-model routing, AWS Bedrock, cost optimization, provider abstraction.
+
+**When to use:** Configuring model providers, setting up fallback strategies, AWS Bedrock integration, cost tracking  
+**Specialization:** AWS Bedrock, multi-model routing, provider abstraction, local inference (Ollama/vLLM)  
+**Depends on:** ra (infrastructure for model serving), hefesto (pipeline integration)  
+**Can call:** apollo (for codebase discovery)  
+**Skills:** multi-model-routing  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `web/fetch`  
+
+**Model Provider Standards Applied:**
+- Never hardcode API keys (always from vault/secrets)
+- Exponential backoff on rate limits
+- Cost attribution per agent/feature
+- Model routing based on task complexity
+- Guardrails for content safety
+
+---
+
+#### 🗣️ **Eco** (agents/eco.agent.md)
+Conversational AI specialist — Rasa NLU pipelines, dialogue management, intent/entity design, multi-turn conversations.
+
+**When to use:** Designing chatbots, NLU pipelines, dialogue flows, multi-platform chat integration  
+**Specialization:** Rasa NLU, dialogue state management, intent/entity extraction, conversation testing  
+**Depends on:** hermes (backend actions), hefesto (RAG context retrieval for responses)  
+**Can call:** apollo (for codebase discovery)  
+**Skills:** conversational-ai-design  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `web/fetch`  
+
+**Conversational AI Standards Applied:**
+- Intent naming: `domain_action_object` format
+- Entity naming: snake_case, descriptive
+- Story coverage for happy + edge case paths
+- NLU evaluation: intent accuracy, entity F1
+- Fallback handling for out-of-scope inputs
+
+---
+
+#### 👁️ **Nix** (agents/nix.agent.md)
+Observability & monitoring specialist — OpenTelemetry tracing, token/cost tracking, LangSmith integration, agent performance analytics.
+
+**When to use:** Setting up monitoring, diagnosing performance issues, tracking token costs, configuring alerting  
+**Specialization:** OpenTelemetry, LangSmith, Prometheus/Grafana, cost attribution, distributed tracing  
+**Depends on:** All agents (instrumentation), ra (monitoring infrastructure)  
+**Can call:** apollo (for codebase discovery)  
+**Skills:** agent-observability  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `web/fetch`  
+
+**Observability Standards Applied:**
+- Structured JSON logging with correlation IDs
+- OpenTelemetry context propagation across all agents
+- Metric naming: `mythic.<agent>.<metric>.<unit>`
+- Sensitive data redaction from logs/traces
+- Cost reconciliation against provider billing
 
 ---
 
@@ -808,6 +895,10 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 | New API endpoint | hermes | Direct: @hermes |
 | New component | aphrodite | Direct: @aphrodite |
 | Database optimization | maat | `/optimize-database` |
+| Build AI pipelines (RAG, vector, chains) | hefesto | Direct: @hefesto |
+| Configure model providers / routing | quiron | Direct: @quiron |
+| Design conversational AI / chatbots | eco | Direct: @eco |
+| Set up observability / monitoring | nix | Direct: @nix |
 | Deploy changes | ra | Direct: @ra |
 | Code review | temis | `/review-code` |
 | Open PR / manage GitHub | iris | Direct: @iris |
@@ -912,6 +1003,26 @@ model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
 - **`handoffs.model`** (Feb 2026): Handoffs can now specify a target model: `handoffs[].model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)']`. Use to switch to a faster model for lighter follow-up phases (e.g., Hermes → Temis handoff uses Sonnet, not Opus).
 - **`handoffs.model` adoption in this repo**: Zeus/Apollo/Temis/Talos route orchestration handoffs with explicit models; Hermes/Aphrodite/Maat pin review handoffs to Opus; docs/release handoffs use Haiku where appropriate.
 - **Model governance**: Athena is the only planner agent that should consult supported-models docs and propose routing changes for the rest of the system.
+
+### New Agents (v3 expansion)
+
+```yaml
+# Hefesto (AI Pipelines)
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
+# GPT-5.4 for LangChain/LangGraph implementation, Opus fallback for complex RAG architecture
+
+# Quíron (Model Provider Hub)
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
+# GPT-5.4 default for provider configuration, Opus fallback for security-critical routing
+
+# Eco (Conversational AI)
+model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
+# GPT-5.4 for NLU pipeline design, Opus fallback for complex dialogue architecture
+
+# Nix (Observability)
+model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)', 'GPT-5.4 (copilot)']
+# Haiku for lightweight instrumentation, GPT-5.4 for complex tracing architecture
+```
 - **VS Code 1.111-1.114 agent features to leverage**:
    - Use the Chat Customizations editor for agent/instruction/skill management when reviewing or onboarding customization files.
    - Use `agent/askQuestions` for approval gates and `#debugEventsSnapshot`/`/troubleshoot #session` for diagnosing customization loading, tool choices, and latency.

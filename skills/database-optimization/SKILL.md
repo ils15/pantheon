@@ -154,3 +154,106 @@ async def bulk_insert(session: AsyncSession, items: list):
 @database Find N+1 problems in the user module
 @database Suggest indexes for the products table
 ```
+
+## LLM-Assisted Index Optimization
+
+### Automatic Index Discovery from EXPLAIN ANALYZE
+
+```python
+import re
+from dataclasses import dataclass, field
+
+@dataclass
+class IndexRecommendation:
+    table: str
+    columns: list[str]
+    reason: str
+    estimated_impact: str  # HIGH / MEDIUM / LOW
+    query_pattern: str
+
+class LLMIndexAdvisor:
+    """Uses LLM to analyze EXPLAIN ANALYZE output and recommend indexes."""
+    
+    INDEX_PROMPT = """Analyze this PostgreSQL EXPLAIN ANALYZE output and recommend indexes:
+    
+{explain_output}
+
+The query was:
+{query}
+
+Rules:
+1. Sequential scans on large tables -> recommend index
+2. Missing composite indexes for multi-column WHERE clauses
+3. Partial indexes for filtered queries (WHERE status = 'active')
+4. Covering indexes for SELECT * queries with many columns
+5. Consider existing indexes to avoid duplicates
+
+Return recommendations as JSON array with: table, columns, reason, estimated_impact
+"""
+    
+    @classmethod
+    async def analyze(cls, explain_output: str, query: str) -> list[IndexRecommendation]:
+        """Generate index recommendations from EXPLAIN ANALYZE output."""
+        # Uses LLM (via Quíron's routing) to analyze the plan
+        # Returns structured recommendations
+        pass
+    
+    @classmethod
+    async def validate_index_impact(cls, index_ddl: str) -> str:
+        """Validate an index by running EXPLAIN ANALYZE before and after."""
+        # Run EXPLAIN ANALYZE with the query
+        # Create the index
+        # Run EXPLAIN ANALYZE again
+        # Compare costs and return diff
+        pass
+```
+
+### Real-Time Query Pattern Detection
+
+```python
+@dataclass
+class QueryPattern:
+    fingerprint: str  # Normalized query form
+    frequency: int    # Times executed
+    avg_time_ms: float
+    table_scans: bool
+    missing_index_score: float  # 0-1
+
+class PatternAnalyzer:
+    """Detect query patterns and suggest optimizations using LLM."""
+    
+    @staticmethod
+    async def detect_patterns(pg_stat_statements: list[dict]) -> list[QueryPattern]:
+        """Analyze pg_stat_statements output for optimization opportunities."""
+        # Group by normalized query
+        # Sort by total_time descending
+        # Flag sequential scans on large result sets
+        # Use LLM to suggest index strategies
+        pass
+```
+
+### Migration Safety Review with LLM
+
+```python
+class MigrationSafetyReviewer:
+    """Review Alembic migrations for safety concerns using LLM."""
+    
+    REVIEW_PROMPT = """Review this Alembic migration for safety:
+    
+{migration_code}
+
+Check for:
+1. Long-running locks (ADD COLUMN DEFAULT, ALTER TYPE)
+2. Blocking operations (DROP COLUMN without expand-contract)
+3. Data loss potential (DROP TABLE, TRUNCATE)
+4. Missing indexes on new foreign key columns
+5. Nullability changes that could break existing code
+"""
+    
+    @classmethod
+    async def review(cls, migration_sql: str) -> list[dict]:
+        """Review migration for safety issues."""
+        # Pass migration to LLM for safety analysis
+        # Return structured findings with severity
+        pass
+```

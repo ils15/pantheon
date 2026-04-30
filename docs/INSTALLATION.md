@@ -1,6 +1,8 @@
-# Pantheon Installation Guide
+# mythic-agents Installation Guide
 
-> Choose your platform and install Pantheon in minutes.
+> Choose your platform and get started.
+
+> 📖 **Platform-specific guides:** [VS Code](platforms/vscode.md) · [OpenCode](platforms/opencode.md) · [Claude Code](platforms/claude.md) · [Cursor](platforms/cursor.md) · [Windsurf](platforms/windsurf.md)
 
 ---
 

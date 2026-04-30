@@ -348,3 +348,103 @@ class GeminiService:
 - FastAPI Async: https://fastapi.tiangolo.com/async-sql-databases/
 - SQLAlchemy 2.0 Async: https://docs.sqlalchemy.org/en/20/orm/extensions/asyncio.html
 - Dependency Injection: https://fastapi.tiangolo.com/tutorial/dependencies/
+
+## LangChain Model Interface Integration
+
+### Standardized LLM Client
+
+```python
+from langchain_openai import ChatOpenAI
+from langchain_anthropic import ChatAnthropic
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.language_models import BaseChatModel
+
+class LLMFactory:
+    """Unified LLM client factory with fallback support."""
+    
+    @staticmethod
+    def create(provider: str, model: str, **kwargs) -> BaseChatModel:
+        providers = {
+            "openai": lambda: ChatOpenAI(model=model, **kwargs),
+            "anthropic": lambda: ChatAnthropic(model=model, **kwargs),
+            "google": lambda: ChatGoogleGenerativeAI(model=model, **kwargs),
+        }
+        if provider not in providers:
+            raise ValueError(f"Unknown provider: {provider}")
+        return providers[provider]()
+    
+    @staticmethod
+    def create_with_fallback(primary: str, fallback: str, model: str, **kwargs) -> "FallbackLLM":
+        return FallbackLLM(
+            primary=LLMFactory.create(primary, model, **kwargs),
+            fallback=LLMFactory.create(fallback, model, **kwargs),
+        )
+```
+
+## AWS Bedrock Runtime Integration
+
+### Bedrock Async Client
+
+```python
+import boto3
+from mypy_boto3_bedrock_runtime import BedrockRuntimeClient
+
+class BedrockClient:
+    """Async-compatible Bedrock runtime client."""
+    
+    def __init__(self, region: str = "us-east-1"):
+        self.client: BedrockRuntimeClient = boto3.client(
+            "bedrock-runtime", region_name=region
+        )
+    
+    async def invoke_claude(self, prompt: str, max_tokens: int = 1024) -> str:
+        """Invoke Claude on Bedrock with streaming support."""
+        response = await asyncio.to_thread(
+            self.client.invoke_model_with_response_stream,
+            modelId="anthropic.claude-sonnet-4-20250514",
+            contentType="application/json",
+            accept="application/json",
+            body=json.dumps({
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": max_tokens,
+                "messages": [{"role": "user", "content": prompt}]
+            })
+        )
+        return self._process_stream(response["stream"])
+    
+    async def invoke_with_guardrails(self, prompt: str, guardrail_id: str) -> str:
+        """Invoke model with AWS Bedrock Guardrails for content safety."""
+        response = await asyncio.to_thread(
+            self.client.invoke_model,
+            modelId="anthropic.claude-sonnet-4-20250514",
+            guardrailIdentifier=guardrail_id,
+            guardrailVersion="DRAFT",
+            body=json.dumps({"messages": [{"role": "user", "content": prompt}]})
+        )
+        return json.loads(response["body"].read())
+```
+
+## MCP Tool Exposition Pattern
+
+### Expose FastAPI Endpoints as MCP Tools
+
+```python
+from mcp.server.fastmcp import FastMCP
+
+# Create MCP server wrapping FastAPI endpoints
+mcp = FastMCP("my-api-mcp")
+
+@mcp.tool()
+async def search_products(query: str, limit: int = 10) -> list[dict]:
+    """Search products by name or description."""
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(
+            "http://localhost:8000/api/products/search",
+            params={"q": query, "limit": limit}
+        )
+        resp.raise_for_status()
+        return resp.json()
+
+# Run MCP server alongside FastAPI
+# Use stdio transport for local agent integration
+```

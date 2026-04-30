@@ -1,6 +1,8 @@
-# Pantheon Platforms
+# mythic-agents Platforms
 
-> Which AI coding platform should you use Pantheon with? Here's how they compare.
+> Which AI coding platform should you use mythic-agents with? Here's how they compare.
+
+> 📖 **Setup guides:** [VS Code](platforms/vscode.md) · [OpenCode](platforms/opencode.md) · [Claude Code](platforms/claude.md) · [Cursor](platforms/cursor.md) · [Windsurf](platforms/windsurf.md)
 
 ---
 

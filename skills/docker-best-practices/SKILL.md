@@ -232,3 +232,106 @@ services:
 @docker Reduce image size of the current Dockerfile
 @docker Add health checks to all services
 ```
+
+## GPU Inference Container Patterns
+
+### LLM Serving Container (vLLM)
+
+```dockerfile
+FROM nvidia/cuda:12.4.0-base-ubuntu22.04
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.11 python3-pip curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install vLLM for GPU inference
+RUN pip install vllm==0.6.0
+
+# Create non-root user
+RUN useradd -m -u 1000 -s /bin/bash inference
+USER inference
+WORKDIR /app
+
+COPY --chown=inference:inference .
+
+# Expose inference API port
+EXPOSE 8000
+
+# Health check: verify model loaded and API responsive
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Start vLLM server with GPU
+ENTRYPOINT ["python3", "-m", "vllm.entrypoints.openai.api_server"]
+CMD ["--model", "mistralai/Mistral-7B-Instruct-v0.3", "--host", "0.0.0.0"]
+```
+
+### Ollama Development Container
+
+```yaml
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-dev
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - ollama_data:/root/.ollama
+      - ./models:/models  # Custom model mounts
+    ports:
+      - "11434:11434"
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_KEEP_ALIVE=5m
+
+volumes:
+  ollama_data:
+```
+
+## Agent Sandboxing Pattern
+
+### Isolated Agent Execution Container
+
+```dockerfile
+FROM python:3.12-slim
+
+# Security hardening
+RUN useradd -m -u 1000 agent
+RUN chmod 700 /home/agent
+
+# No root, no sudo, no unnecessary packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get remove -y --purge sudo
+
+# Read-only filesystem compatible
+WORKDIR /home/agent/app
+
+# Drop all capabilities
+RUN setcap -r /usr/bin/python3.12
+
+USER agent
+COPY --chmod=500 --chown=agent:agent .
+
+# Agent sandbox constraints
+ENV PYTHONPATH=/home/agent/app
+ENV PYTHONWRITEBYTECODE=1
+ENV MALLOC_CHECK_=2
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
+    CMD python3 -c "import sys; sys.exit(0)" || exit 1
+
+ENTRYPOINT ["python3"]
+CMD ["agent_entrypoint.py"]
+```
