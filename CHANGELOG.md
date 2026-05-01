@@ -7,7 +7,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [v3.2.0] — May 1, 2026
+## [Unreleased]
 
 ### Added
 
