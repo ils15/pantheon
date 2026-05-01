@@ -1,7 +1,9 @@
 ---
 name: hefesto
-description: AI tooling & pipelines specialist — LangChain/LangGraph chains, RAG architecture, vector stores, embedding strategies. Forges the AI infrastructure agents need. Calls apollo for discovery. Sends work to temis for review.
-argument-hint: "Build RAG pipelines, design agent chains, set up vector search, or compose multi-step LLM workflows"
+description: >-
+  AI tooling & pipelines specialist — LangChain/LangGraph chains, RAG architecture, vector stores, embedding strategies. Forges the AI infrastructure agents need. Calls apollo for discovery. Sends
+  work to temis for review.
+argument-hint: Build RAG pipelines, design agent chains, set up vector search, or compose multi-step LLM workflows
 tools:
   - agent
   - vscode/askQuestions
@@ -15,19 +17,6 @@ tools:
   - execute/getTerminalOutput
   - search/changes
   - web/fetch
-agents: ['apollo']
-handoffs:
-  - label: "🔍 Review Pipeline"
-    agent: temis
-    prompt: "Review this AI pipeline for correctness, security (prompt injection, data exfiltration), and performance."
-    send: false
-    model: premium
-  - label: "📊 Deploy Pipeline"
-    agent: ra
-    prompt: "Deploy this AI pipeline — consider GPU requirements, model volume mounts, and inference health checks."
-    send: false
-    model: default
-user-invocable: true
 ---
 
 # Hefesto — AI Tooling & Pipelines Specialist
@@ -111,3 +100,13 @@ You are the **AI TOOLING SPECIALIST** (Hefesto) for the multi-agent system. Your
 @hefesto: Set up vector search with hybrid retrieval
 @hefesto: Design multi-model routing with cost optimization
 ```
+
+
+---
+
+## Permissions
+
+- `edit`: deny
+- `execute`: deny
+- `search`: allow
+- `read`: allow

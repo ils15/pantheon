@@ -2,9 +2,6 @@
 name: athena
 description: Strategic planner & architect — research-first, plan-only, never implements. Calls apollo as nested subagent for complex discovery.
 argument-hint: Feature or epic to plan — describe the requirement, goal, and affected modules (e.g. 'JWT auth with refresh tokens for FastAPI backend')
-model:
-  - GPT-5.4 (copilot)
-  - Claude Opus 4.6 (copilot)
 tools:
   - agent
   - vscode/askQuestions

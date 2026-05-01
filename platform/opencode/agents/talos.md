@@ -2,10 +2,6 @@
 name: talos
 description: Hotfix express lane — direct fixes for small bugs, CSS, typos, minor logic. No TDD ceremony, no orchestration overhead. Standalone, no subagents. Escalates complex issues to zeus.
 argument-hint: "Exact bug or typo: file name, symptom, and expected fix (e.g. 'hover colour wrong on MobileMenu.tsx button — should be blue-600 not blue-400')"
-model:
-  - GPT-5.4 mini (copilot)
-  - Claude Haiku 4.5 (copilot)
-  - GPT-5.4 (copilot)
 tools:
   - search/codebase
   - search/usages

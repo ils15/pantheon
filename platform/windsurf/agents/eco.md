@@ -1,33 +1,21 @@
 ---
 name: eco
-description: Conversational AI specialist — Rasa NLU pipelines, dialogue management, intent classification, entity extraction, multi-turn conversation design. Bridges AI agents to human conversation. Calls apollo for discovery. Sends work to temis for review.
-argument-hint: "Design chatbot architecture, build NLU pipelines, configure dialogue flows, or implement conversational agents"
+description: >-
+  Conversational AI specialist — Rasa NLU pipelines, dialogue management, intent classification, entity extraction, multi-turn conversation design. Bridges AI agents to human conversation. Calls
+  apollo for discovery. Sends work to temis for review.
 tools:
   - agent
   - vscode/askQuestions
-  - search/codebase
-  - search/usages
-  - read/readFile
+  - search
+  - search
+  - read
   - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
+  - edit
+  - runInTerminal
   - execute/testFailure
   - execute/getTerminalOutput
   - search/changes
-  - web/fetch
-agents: ['apollo']
-handoffs:
-  - label: "🔍 Review Conversation Design"
-    agent: temis
-    prompt: "Review this conversational AI design for NLU accuracy, dialogue coherence, and security (intent hijacking, dialogue poisoning)."
-    send: false
-    model: premium
-  - label: "⚡ Hotfix Conversation"
-    agent: talos
-    prompt: "Quick fix for this conversational AI issue — intent misclassification, response formatting, or dialogue state bug."
-    send: false
-    model: fast
-user-invocable: true
+  - webFetch
 ---
 
 # Eco — Conversational AI Specialist

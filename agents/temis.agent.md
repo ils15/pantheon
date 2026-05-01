@@ -2,7 +2,6 @@
 name: temis
 description: "Quality & security gate — reviews only changed files, OWASP Top 10, coverage >80%, correctness. Called by: hermes, aphrodite, maat, zeus. Escalates blockers to zeus."
 argument-hint: "What to review — point at the phase or changed files (e.g. 'review Phase 1: auth endpoints and JWT middleware added by hermes')"
-model: ['GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools:
   - agent
   - vscode/askQuestions

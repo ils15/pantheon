@@ -4,10 +4,6 @@ description: >-
   GitHub operations specialist — branches, pull requests, issues, releases, tags. Called by zeus after Temis review or directly for any GitHub workflow task. Never pushes or merges without explicit
   human approval.
 argument-hint: "GitHub task: 'create branch feat/X' | 'open PR: title + base branch' | 'close issue #N with comment' | 'create release v1.2.3' — include repo and desired outcome"
-model:
-  - GPT-5.4 (copilot)
-  - GPT-5.3-Codex (copilot)
-  - Claude Sonnet 4.6 (copilot)
 tools:
   - agent
   - vscode/askQuestions

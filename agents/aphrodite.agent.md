@@ -2,7 +2,6 @@
 name: aphrodite
 description: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD. Calls apollo as nested subagent to discover components. Sends work to temis for review."
 argument-hint: "Frontend task: component, page, hook, or styling — include name, props, and UX behaviour (e.g. 'ProductCard with image, title, price and add-to-cart button')"
-model: ['Gemini 3.1 Pro (Preview) (copilot)', 'GPT-5.4 (copilot)']
 tools:
   - agent
   - vscode/askQuestions

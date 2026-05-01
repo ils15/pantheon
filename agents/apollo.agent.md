@@ -2,7 +2,6 @@
 name: apollo
 description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, maat. No edits, no commands."
 argument-hint: "What to find: files, patterns, existing implementations, or documentation references (e.g. 'all FastAPI routers in the auth module')"
-model: [GPT-5.4 mini (copilot), Claude Haiku 4.5 (copilot), Gemini 3 Flash (Preview) (copilot)]
 tools:
   - search/codebase
   - search/usages

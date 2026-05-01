@@ -2,10 +2,6 @@
 name: hermes
 description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR). Calls apollo as nested subagent to discover patterns. Sends work to temis for review.
 argument-hint: "Backend task: endpoint, service, router, schema, or test — include module name and expected behaviour (e.g. 'POST /users endpoint with email uniqueness validation')"
-model:
-  - GPT-5.4 (copilot)
-  - GPT-5.3-Codex (copilot)
-  - Claude Sonnet 4.6 (copilot)
 tools:
   - agent
   - search/codebase

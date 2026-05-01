@@ -141,6 +141,42 @@ show_models() {
     echo -e "  ${CYAN}fast:${NC}     Apollo, Iris, Mnemosyne, Talos, Nix"
 }
 
+# ── Generate opencode.json from OpenCode Go plan ─────
+# opencode.json is for OpenCode only — always use Go plan models
+generate_opencode_json() {
+    local opencode_plan="$PLANS_DIR/opencode-go.json"
+    local ROOT_DIR
+    ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+    local OUTPUT="$ROOT_DIR/opencode.json"
+
+    if [[ ! -f "$opencode_plan" ]]; then
+        echo -e "${YELLOW}⚠️  opencode-go.json not found. Skipping opencode.json generation.${NC}"
+        return
+    fi
+
+    local fast default premium
+    fast=$(grep -o '"fast": *"[^"]*"' "$opencode_plan" 2>/dev/null | cut -d'"' -f4 || echo "")
+    premium=$(grep -o '"premium": *"[^"]*"' "$opencode_plan" 2>/dev/null | cut -d'"' -f4 || echo "")
+
+    if [[ -z "$premium" || -z "$fast" ]]; then
+        echo -e "${YELLOW}⚠️  Could not parse models from opencode-go.json. Skipping.${NC}"
+        return
+    fi
+
+    cat > "$OUTPUT" << EOF
+{
+  "\$schema": "https://opencode.ai/config.json",
+  "model": "$premium",
+  "small_model": "$fast"
+}
+EOF
+
+    echo -e "${GREEN}✅ Generated opencode.json (Go plan):${NC}"
+    echo -e "   ${YELLOW}model:${NC}       $premium"
+    echo -e "   ${YELLOW}small_model:${NC}  $fast"
+    echo ""
+}
+
 # ── Select Plan ─────────────────────────────────────────
 select_plan() {
     local plan_name="$1"
@@ -161,6 +197,10 @@ select_plan() {
 
     echo -e "${GREEN}✅ Active plan set to: ${CYAN}$plan_name${NC}"
     echo ""
+
+    # Generate root opencode.json from plan
+    generate_opencode_json "$plan_file" "$plan_name"
+
     show_status
 }
 

@@ -6,10 +6,6 @@ description: >-
 argument-hint: >-
   Remote sensing task: e.g. 'compute NDVI time series for Sentinel-2', 'apply speckle filter to SAR backscatter', 'recommend change detection algorithm for deforestation mapping', 'review atmospheric
   correction pipeline', 'train U-Net for semantic segmentation'
-model:
-  - GPT-5.4 (copilot)
-  - GPT-5.3-Codex (copilot)
-  - Claude Sonnet 4.6 (copilot)
 tools:
   - search/codebase
   - search/usages

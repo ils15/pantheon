@@ -2,7 +2,6 @@
 name: ra
 description: "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management. Calls apollo as nested subagent for pattern discovery. Sends work to temis for validation."
 argument-hint: "Infrastructure task: Dockerfile, compose service, CI/CD workflow, or env setup — describe the service and deployment target (e.g. 'multi-stage Dockerfile for FastAPI with non-root user and health check')"
-model: ['GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools:
   - agent
   - vscode/askQuestions

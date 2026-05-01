@@ -2,7 +2,6 @@
 name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), iris (GitHub), mnemosyne (docs), talos (hotfix), hefesto (AI pipelines), quiron (model routing), eco (conversational AI), nix (observability)"
 argument-hint: "Describe the feature, bug, or epic to orchestrate (Zeus plans, delegates, and coordinates the full lifecycle)"
-model: ['GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)', 'Claude Sonnet 4.6 (copilot)']
 tools:
   - agent
   - vscode/askQuestions

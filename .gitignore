@@ -35,3 +35,4 @@ node_modules/
 
 # Platform template — reference only, not generated
 platforms/_template/agents/
+platform/plans/plan-active.json
