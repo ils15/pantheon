@@ -1,6 +1,6 @@
-# mythic-agents for Cursor
+# Pantheon for Cursor
 
-Complete setup and usage guide for running mythic-agents in [Cursor](https://cursor.com) — the AI-native code editor.
+Complete setup and usage guide for running Pantheon in [Cursor](https://cursor.com) — the AI-native code editor.
 
 ---
 
@@ -19,8 +19,8 @@ Complete setup and usage guide for running mythic-agents in [Cursor](https://cur
 
 ```bash
 # Clone the repo
-git clone https://github.com/ils15/mythic-agents.git
-cd mythic-agents
+git clone https://github.com/ils15/Pantheon.git
+cd Pantheon
 npm install
 
 # Auto-configure for Cursor
@@ -157,7 +157,7 @@ The conversion rules are defined in `platform/cursor/adapter.json`:
 
 ### Cursor Agent Mode
 
-Cursor's **Agent mode** (`Ctrl+Shift+I` or `Cmd+Shift+I`) is the primary interface for invoking mythic-agents. Use `@agent-name` followed by your task:
+Cursor's **Agent mode** (`Ctrl+Shift+I` or `Cmd+Shift+I`) is the primary interface for invoking Pantheon. Use `@agent-name` followed by your task:
 
 ```
 @zeus: Implement JWT authentication for the API

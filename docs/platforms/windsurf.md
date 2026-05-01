@@ -1,4 +1,4 @@
-# mythic-agents for Windsurf
+# Pantheon for Windsurf
 
 ## Prerequisites
 
@@ -8,8 +8,8 @@
 ## Installation
 
 ```bash
-git clone https://github.com/anomalyco/mythic-agents.git
-cd mythic-agents
+git clone https://github.com/anomalyco/Pantheon.git
+cd Pantheon
 npm install
 ```
 

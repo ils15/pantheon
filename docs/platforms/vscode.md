@@ -1,6 +1,6 @@
-# mythic-agents for VS Code (GitHub Copilot)
+# Pantheon for VS Code (GitHub Copilot)
 
-Complete setup and usage guide for running mythic-agents in VS Code with GitHub Copilot.
+Complete setup and usage guide for running Pantheon in VS Code with GitHub Copilot.
 
 ---
 
@@ -34,8 +34,8 @@ Complete setup and usage guide for running mythic-agents in VS Code with GitHub 
 
 ```bash
 # Clone the repo
-git clone https://github.com/ils15/mythic-agents.git
-cd mythic-agents
+git clone https://github.com/ils15/Pantheon.git
+cd Pantheon
 npm install
 
 # Regenerate platform configs (ensures latest format)
@@ -85,7 +85,7 @@ Create or edit `.vscode/settings.json` in your project root:
 
 | Setting | Purpose |
 |---|---|
-| `chat.plugins.marketplaces` | Enables the mythic-agents plugin from the marketplace |
+| `chat.plugins.marketplaces` | Enables the Pantheon plugin from the marketplace |
 | `chat.subagents.allowInvocationsFromSubagents` | **Required** for nested subagent delegation (e.g., Hermes calling Apollo) |
 | `codeGeneration.instructions` | Per-file-pattern rules wired to instruction files in the repo |
 | `github.copilot.chat.codeGeneration.instructions` | Repo-level team instructions loaded on every interaction |
@@ -117,7 +117,7 @@ This file is automatically loaded on every Copilot interaction in VS Code. It sh
 - Coding standards and conventions
 - Memory bank reading instructions
 
-The mythic-agents template provides a starting point at `.github/copilot-instructions.md`.
+The Pantheon template provides a starting point at `.github/copilot-instructions.md`.
 
 ---
 
@@ -287,7 +287,7 @@ Example security gate (`pre-tool-use.json`):
 }
 ```
 
-See `.github/hooks/` in the mythic-agents repo for complete examples.
+See `.github/hooks/` in the Pantheon repo for complete examples.
 
 ### Custom Instructions Loading
 

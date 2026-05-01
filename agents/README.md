@@ -1,12 +1,12 @@
-# Agent Reference — mythic-agents
+# Agent Reference — Pantheon
 
 ## Overview
 
-mythic-agents provides **16 specialized agents** organized into a conductor-delegate architecture. Zeus (the orchestrator) dispatches work to specialized sub-agents with isolated context windows, enforced quality gates, and human approval at every transition. Each agent has a single responsibility, a restricted tool set, and explicit context boundaries.
+Pantheon provides **16 specialized agents** organized into a conductor-delegate architecture. Zeus (the orchestrator) dispatches work to specialized sub-agents with isolated context windows, enforced quality gates, and human approval at every transition. Each agent has a single responsibility, a restricted tool set, and explicit context boundaries.
 
 ### 🎯 Plan-Based Model Configuration
 
-mythic-agents uses a **plan-based model configuration system**. Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concrete model names. The actual model resolution depends on which **service + plan** you're using.
+Pantheon uses a **plan-based model configuration system**. Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concrete model names. The actual model resolution depends on which **service + plan** you're using.
 
 ```bash
 # Select your plan (e.g., OpenCode Go, Copilot Pro, etc.)

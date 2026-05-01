@@ -108,5 +108,5 @@ You are the **OBSERVABILITY SPECIALIST** (Nix, the primordial goddess of night â
 @nix: Track token usage and cost per agent
 @nix: Configure LangSmith for LLM call monitoring
 @nix: Detect why parallel agents are deadlocking
-@nix: Set up cost alerts for GPT-5.4 usage spikes
+@nix: Set up cost alerts for premium model usage spikes
 ```

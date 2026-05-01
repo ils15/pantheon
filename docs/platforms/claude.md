@@ -1,4 +1,4 @@
-# mythic-agents for Claude Code
+# Pantheon for Claude Code
 
 ## Prerequisites
 
@@ -14,8 +14,8 @@
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/your-org/mythic-agents.git
-cd mythic-agents
+git clone https://github.com/your-org/Pantheon.git
+cd Pantheon
 npm install
 ```
 

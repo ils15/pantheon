@@ -1,4 +1,4 @@
-# mythic-agents Installation Guide
+# Pantheon Installation Guide
 
 > Choose your platform and get started.
 
@@ -33,8 +33,8 @@
 After installing the agents for your platform, **select the model plan** that matches your subscription. This determines which AI models each agent uses.
 
 ```bash
-# Go to the mythic-agents directory
-cd mythic-agents
+# Go to the Pantheon directory
+cd pantheon
 
 # List all available plans
 ./platform/select-plan.sh list

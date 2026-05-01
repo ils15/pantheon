@@ -1,4 +1,4 @@
-# mythic-agents
+# Pantheon
 
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Platforms](https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf-green)](docs/platforms/)
@@ -33,13 +33,13 @@ Traditional single-agent coding produces mediocre results because one agent atte
 plan, implement, test, review, and document simultaneously. The result is context
 fragmentation, skipped tests, and generic code.
 
-**mythic-agents** solves this with **specialization**: each agent is an expert at exactly
+**Pantheon** solves this with **specialization**: each agent is an expert at exactly
 one thing and is invoked only when that expertise is needed. Agents collaborate through a
 conductor-delegate architecture where Zeus (the orchestrator) dispatches work to
 specialized sub-agents with isolated context windows, enforced quality gates, and human
 approval at every transition.
 
-| Metric | Single Agent | mythic-agents |
+| Metric | Single Agent | Pantheon |
 |---|---|---|
 | Average test coverage | 65–75% | **92%** |
 | TDD enforcement | Optional | **Enforced (RED→GREEN→REFACTOR)** |
@@ -188,7 +188,7 @@ work; you make every architectural and commit decision.
 
 ## Agent Ecosystem
 
-mythic-agents provides **16 specialized agents** organized into tiers. Each agent has a
+Pantheon provides **16 specialized agents** organized into tiers. Each agent has a
 single responsibility, a dedicated model assignment, a restricted tool set, and explicit
 context boundaries.
 
@@ -301,7 +301,7 @@ graph TB
 
 ## Skill Ecosystem
 
-mythic-agents bundles **27 skills** — modular instruction sets that agents load on demand
+Pantheon bundles **27 skills** — modular instruction sets that agents load on demand
 to perform specialized tasks. Skills are organized into domains:
 
 | Domain | Skills |
@@ -324,7 +324,7 @@ to perform specialized tasks. Skills are organized into domains:
 
 ### 1. Choose your platform
 
-mythic-agents supports 5 platforms. Pick the one that matches your editor:
+Pantheon supports 5 platforms. Pick the one that matches your editor:
 
 - **VS Code Copilot** — native `.agent.md` files, full subagent orchestration
 - **OpenCode** — config-based agent loading, permission blocks
@@ -339,8 +339,8 @@ mythic-agents supports 5 platforms. Pick the one that matches your editor:
 Installation varies by platform, but generally involves:
 
 ```bash
-git clone https://github.com/ils15/mythic-agents.git
-cd mythic-agents
+git clone https://github.com/ils15/pantheon.git
+cd pantheon
 
 # Optional: install dependencies for sync/install tools
 npm install
@@ -367,7 +367,7 @@ Zeus will:
 ## Repository Structure
 
 ```
-mythic-agents/
+pantheon/
 ├── README.md                  — this file
 ├── AGENTS.md                  — full agent reference
 ├── CHANGELOG.md               — release history
@@ -536,7 +536,7 @@ For trivial fixes (CSS typos, simple logic bugs), bypass the full orchestration:
 
 ## Memory System
 
-mythic-agents uses a two-tier memory architecture to maintain context across sessions:
+Pantheon uses a two-tier memory architecture to maintain context across sessions:
 
 | Tier | Location | Content | Access Cost |
 |---|---|---|---|
@@ -595,7 +595,7 @@ permanently committed to the repository.
 
 **How much does this cost?**
 You need an existing subscription for your AI coding editor (Copilot, Claude Pro, Cursor
-Pro, or OpenCode). mythic-agents itself is free and open-source (MIT).
+Pro, or OpenCode). Pantheon itself is free and open-source (MIT).
 
 **Can I use this outside VS Code?**
 Yes — 5 platforms supported. See [Platform Setup Guides](docs/platforms/).
@@ -620,15 +620,15 @@ Open phases pause. The memory bank captures the last committed state. Resume by 
 
 ## Inspiration & Ecosystem
 
-mythic-agents draws from the broader multi-agent landscape while diverging in key ways:
+Pantheon draws from the broader multi-agent landscape while diverging in key ways:
 
 | Framework | Pattern | Key Difference |
 |---|---|---|
-| **AutoGen** (Microsoft) | Event-driven conversations | Research-grade, Python SDK; mythic-agents is config-only |
-| **CrewAI** | Role-based crews | Visual editor, self-hosted; mythic-agents lives inside your editor |
-| **LangGraph** | Stateful actor graphs | Code-first graph DSL; mythic-agents uses markdown + YAML config |
-| **MetaGPT** | Software company roles | Simulates a company; mythic-agents delegates to you at every gate |
-| **OpenAI Swarm** | Lightweight handoffs | Sequential only; mythic-agents supports parallel subagents |
+| **AutoGen** (Microsoft) | Event-driven conversations | Research-grade, Python SDK; Pantheon is config-only |
+| **CrewAI** | Role-based crews | Visual editor, self-hosted; Pantheon lives inside your editor |
+| **LangGraph** | Stateful actor graphs | Code-first graph DSL; Pantheon uses markdown + YAML config |
+| **MetaGPT** | Software company roles | Simulates a company; Pantheon delegates to you at every gate |
+| **OpenAI Swarm** | Lightweight handoffs | Sequential only; Pantheon supports parallel subagents |
 
 ### Key design decisions
 

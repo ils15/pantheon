@@ -1,4 +1,4 @@
-# Skills Reference — mythic-agents
+# Skills Reference — Pantheon
 
 ## Overview
 

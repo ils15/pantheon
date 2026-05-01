@@ -1,4 +1,4 @@
-# mythic-agents Setup Guide
+# Pantheon Setup Guide
 
 > **From zero to orchestrating with AI agents** — step-by-step setup for every platform.
 

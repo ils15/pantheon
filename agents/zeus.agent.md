@@ -181,83 +181,83 @@ Full debugging guide with 7-step process in documentation.
 ## Available Subagents
 
 ### 1. Athena - THE STRATEGIC PLANNER
-- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
+- **Model tier**: premium
 - **Role**: Strategic planning, TDD-driven plans, RCA analysis, deep research
 - **Use for**: Feature planning, architectural decisions, root cause analysis
 - **Returns**: Comprehensive implementation plans with risk analysis
 
 ### 2. Apollo (EXPLORER) - THE SCOUT
-- **Model**: Gemini 3 Flash (copilot)
+- **Model tier**: fast
 - **Role**: Rapid file discovery plus docs/GitHub evidence gathering
 - **Use for**: Finding related files, understanding dependencies, quick scans
 - **Returns**: File lists, patterns, structured results
 - **Special**: Launches 3-10 parallel searches simultaneously
 
 ### 3. Hermes (BACKEND) - THE BACKEND DEVELOPER
-- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
+- **Model tier**: default
 - **Role**: FastAPI endpoints, services, routers implementation
 - **Use for**: Backend code execution following TDD
 - **Returns**: Tested, production-ready code
 
 ### 4. Aphrodite (FRONTEND) - THE FRONTEND DEVELOPER
-- **Model**: Gemini 3.1 Pro (copilot)
+- **Model tier**: default
 - **Role**: React components, UI implementation, styling
 - **Use for**: Components, pages, responsive layouts
 - **Returns**: Complete React/TypeScript components with tests
 
 ### 5. Temis (REVIEWER) - THE QUALITY GATE
-- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
+- **Model tier**: premium
 - **Role**: Code correctness, quality, test coverage validation
 - **Use for**: Reviewing implementations before shipping
 - **Returns**: APPROVED / NEEDS_REVISION / FAILED with structured feedback
 
 ### 6. Maat (DATABASE) - THE DATABASE DEVELOPER
-- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
+- **Model tier**: default
 - **Role**: Alembic migrations, schema design, query optimization
 - **Use for**: Database changes, migrations, performance analysis
 - **Returns**: Migration files, schema changes, performance reports
 
 ### 7. Ra (INFRA) - THE INFRASTRUCTURE DEVELOPER
-- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
+- **Model tier**: default
 - **Role**: Docker, deployment, CI/CD, monitoring
 - **Use for**: Infrastructure changes, deployment strategy, scaling
 - **Returns**: Infrastructure code, deployment procedures
 
 ### 8. Talos (HOTFIX) - THE EXPRESS REPAIR
-- **Model**: GPT-5.4 mini (copilot) with Claude Haiku 4.5 (copilot) fallback
+- **Model tier**: fast
 - **Role**: Precise, fast bug fixes and minor adjustments (CSS, typos)
 - **Use for**: Bypassing the heavy orchestration phase for quick wins, executing fast repairs
 - **Returns**: Directly applied code changes and test verifications
 
 ### 9. Mnemosyne (MEMORY) - THE MEMORY KEEPER
-- **Model**: GPT-5.4 mini (copilot) with Claude Haiku 4.5 (copilot) fallback
+- **Model tier**: fast
 - **Role**: Memory bank management, artifact persistence, ADR writing, sprint close
 - **Use for**: Creating PLAN/IMPL/REVIEW/DISC artifacts, project initialization, sprint documentation
 - **Returns**: Confirmation of saved artifacts, updated `docs/memory-bank/` files
 
 ### 10. Hefesto (AI TOOLING) - THE FORGE
-- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
+- **Model tier**: default
 - **Role**: RAG pipelines, LangChain/LangGraph chains, vector databases, AI workflow composition
 - **Use for**: Building RAG systems, vector search, LLM pipeline orchestration, embedding strategies
 - **Returns**: Tested AI pipelines with >80% coverage, vector store integrations
 - **Skill**: `rag-pipelines`, `vector-search`, `mcp-server-development`
 
 ### 11. Quíron (MODEL PROVIDER) - THE HUB
-- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
+- **Model tier**: default
 - **Role**: Multi-model routing, provider abstraction, AWS Bedrock, local inference (Ollama/vLLM)
 - **Use for**: Configuring model providers, fallback strategies, cost optimization, Bedrock guardrails
 - **Returns**: Configured provider layer with cost tracking and failover
 - **Skill**: `multi-model-routing`
 
 ### 12. Eco (CONVERSATIONAL AI) - THE ECHO
-- **Model**: GPT-5.4 (copilot) with Claude Opus 4.6 (copilot) fallback
+- **Model tier**: default
 - **Role**: NLU pipelines, dialogue management, Rasa integration, multi-turn conversation design
 - **Use for**: Chatbot architecture, intent/entity design, conversational testing, multi-platform chat
 - **Returns**: Tested NLU pipelines and dialogue flows
 - **Skill**: `conversational-ai-design`
 
 ### 13. Nix (OBSERVABILITY) - THE NIGHT WATCH
-- **Model**: GPT-5.4 mini (copilot) with Claude Haiku 4.5 (copilot) fallback
+- **Model tier**: fast
 - **Role**: OpenTelemetry tracing, token/cost tracking, LangSmith integration, agent performance analytics
 - **Use for**: Setting up monitoring, diagnosing performance issues, cost attribution, alerting
 - **Returns**: Instrumentation code, dashboards, alert configurations

@@ -1,6 +1,6 @@
-# mythic-agents for OpenCode
+# Pantheon for OpenCode
 
-Complete setup and usage guide for running mythic-agents in [OpenCode](https://opencode.ai) — the open-source AI coding agent for the terminal.
+Complete setup and usage guide for running Pantheon in [OpenCode](https://opencode.ai) — the open-source AI coding agent for the terminal.
 
 ---
 
@@ -18,8 +18,8 @@ Complete setup and usage guide for running mythic-agents in [OpenCode](https://o
 
 ```bash
 # Clone the repo
-git clone https://github.com/ils15/mythic-agents.git
-cd mythic-agents
+git clone https://github.com/ils15/Pantheon.git
+cd Pantheon
 npm install
 
 # Option A: Use the installer script
@@ -109,7 +109,7 @@ Override these per-agent in `opencode.json`:
 
 ## Agent Format
 
-OpenCode agents are `.md` files with YAML frontmatter. They live in `.opencode/agents/` (project) or `~/.config/opencode/agents/` (global). The mythic-agents sync engine generates them from the canonical VS Code `.agent.md` sources into `platform/opencode/agents/`.
+OpenCode agents are `.md` files with YAML frontmatter. They live in `.opencode/agents/` (project) or `~/.config/opencode/agents/` (global). The Pantheon sync engine generates them from the canonical VS Code `.agent.md` sources into `platform/opencode/agents/`.
 
 ```yaml
 ---
