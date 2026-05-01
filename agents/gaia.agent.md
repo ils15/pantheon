@@ -10,6 +10,7 @@ tools:
   - search/listDirectory
   - read/readFile
   - web/fetch
+  - vscode/askQuestions
 user-invocable: true
 disable-model-invocation: true
 ---

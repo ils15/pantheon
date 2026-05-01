@@ -11,7 +11,6 @@ tools:
   - read/problems
   - edit/editFiles
   - execute/runInTerminal
-  - execute/createAndRunTask
   - execute/getTerminalOutput
 agents: ['apollo']
 handoffs:

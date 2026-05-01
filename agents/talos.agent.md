@@ -10,7 +10,6 @@ tools:
   - edit/editFiles
   - execute/runInTerminal
   - execute/testFailure
-  - vscode/runCommand
 handoffs:
   - label: "🚨 Escalate to Zeus"
     agent: zeus

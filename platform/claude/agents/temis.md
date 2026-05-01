@@ -1,9 +1,7 @@
 ---
 name: temis
 description: "Quality & security gate — reviews only changed files, OWASP Top 10, coverage >80%, correctness. Called by: hermes, aphrodite, maat, zeus. Escalates blockers to zeus."
-tools: >-
-  agent, vscode/askQuestions, search/codebase, search/usages, read/readFile, read/problems, search/changes, execute/runInTerminal, execute/testFailure, edit/editFiles, browser/openBrowserPage,
-  browser/navigatePage, browser/readPage, browser/clickElement, browser/screenshotPage
+tools: Task, askQuestions, search/codebase, search/usages, read/readFile, search/changes, execute/runInTerminal, execute/testFailure, edit/editFiles, openBrowserPage, navigatePage, readPage, clickElement, screenshotPage
 ---
 
 # Temis - Quality & Security Gate Specialist

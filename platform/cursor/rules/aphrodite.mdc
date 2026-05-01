@@ -2,6 +2,7 @@
 name: aphrodite
 description: Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD. Calls apollo as nested subagent to discover components. Sends work to temis for review.
 ---
+
 > This is an AI agent definition for Cursor. Use @<name> to invoke this agent.
 
 

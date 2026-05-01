@@ -2,6 +2,7 @@
 name: temis
 description: "Quality & security gate — reviews only changed files, OWASP Top 10, coverage >80%, correctness. Called by: hermes, aphrodite, maat, zeus. Escalates blockers to zeus."
 ---
+
 > This is an AI agent definition for Cursor. Use @<name> to invoke this agent.
 
 

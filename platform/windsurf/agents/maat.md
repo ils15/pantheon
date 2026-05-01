@@ -2,15 +2,10 @@
 name: maat
 description: Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention, TDD migrations. Calls apollo as nested subagent for optimization patterns. Sends work to temis for review.
 tools:
-  - agent
-  - search
   - search
   - read
-  - read/problems
   - edit
   - runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
 ---
 
 # Maat - Database Specialist

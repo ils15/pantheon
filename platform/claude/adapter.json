@@ -44,11 +44,32 @@
     "search/fileSearch": "search/fileSearch",
     "search/textSearch": "search/textSearch",
     "search/listDirectory": "search/listDirectory",
+    "agent": "Task",
     "vscode/askQuestions": "askQuestions",
-    "openBrowserPage": "openBrowserPage",
-    "navigatePage": "navigatePage",
-    "readPage": "readPage",
-    "screenshotPage": "screenshotPage"
+    "browser/openBrowserPage": "openBrowserPage",
+    "browser/navigatePage": "navigatePage",
+    "browser/readPage": "readPage",
+    "browser/clickElement": "clickElement",
+    "browser/typeInPage": "typeInPage",
+    "browser/hoverElement": "hoverElement",
+    "browser/dragElement": "dragElement",
+    "browser/handleDialog": "handleDialog",
+    "browser/screenshotPage": "screenshotPage"
+  },
+
+  "excludeTools": [
+    "read/problems",
+    "execute/createAndRunTask",
+    "vscode/runCommand"
+  ],
+
+  "capabilityFlags": {
+    "orchestration": true,
+    "approval": true,
+    "diagnostics": false,
+    "browser-ui": true,
+    "ide-local": false,
+    "github-service": false
   },
 
   "bodyFilters": [

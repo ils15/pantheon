@@ -2,6 +2,7 @@
 name: talos
 description: Hotfix express lane — direct fixes for small bugs, CSS, typos, minor logic. No TDD ceremony, no orchestration overhead. Standalone, no subagents. Escalates complex issues to zeus.
 ---
+
 > This is an AI agent definition for Cursor. Use @<name> to invoke this agent.
 
 

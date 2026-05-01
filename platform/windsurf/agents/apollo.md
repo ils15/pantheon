@@ -3,16 +3,8 @@ name: apollo
 description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, maat. No edits, no commands."
 tools:
   - search
-  - search
-  - search/fileSearch
-  - search/textSearch
-  - search/listDirectory
   - read
   - webFetch
-  - browser/openBrowserPage
-  - browser/navigatePage
-  - browser/readPage
-  - browser/screenshotPage
 ---
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check

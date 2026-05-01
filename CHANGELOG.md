@@ -7,6 +7,68 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [v3.2.0] — May 1, 2026
+
+### Added
+
+#### 🧠 **Capability Taxonomy** — deterministic cross-platform tool coverage
+
+`scripts/sync-platforms.mjs` now ships a built-in capability taxonomy that classifies all 30 canonical tools by portability tier:
+
+| Tier | Meaning | Examples |
+|---|---|---|
+| `portable` | Works on all platforms natively | `search/*`, `read/readFile`, `execute/runInTerminal` |
+| `mappable` | Works when adapter declares an explicit mapping | `agent`, `vscode/askQuestions`, `search/changes` |
+| `optional-accelerator` | Enhances UX; OK to exclude silently | `read/problems`, `browser/*` |
+| `local-only` | VS Code IDE only; must be excluded elsewhere | `vscode/runCommand`, `execute/createAndRunTask` |
+
+New validation gates:
+- `validateAdapterCoverage` — warns when portable/mappable tools are unclassified in a non-passthrough adapter
+- `validateBodyForExcludedTools` — warns when generated body text references a tool that was excluded for that platform
+
+#### 📋 **`capabilityFlags` in all platform adapters**
+
+Each `platform/*/adapter.json` now declares which capability classes are supported:
+
+```json
+"capabilityFlags": {
+  "orchestration": true,
+  "approval": false,
+  "diagnostics": false,
+  "browser-ui": false,
+  "ide-local": false,
+  "github-service": false
+}
+```
+
+Platforms: OpenCode, Claude Code, Cursor, Windsurf.
+
+### Fixed
+
+#### 🔧 **Canonical agent toolsets aligned to portable baseline**
+
+| Agent | Change |
+|---|---|
+| **Athena** | Added `search/fileSearch`, `search/textSearch`, `search/listDirectory`, `read/readFile` — planner was under-tooled for codebase discovery |
+| **Iris** | Added `search/changes` — needed for git-aware GitHub workflows |
+| **Ra** | Removed `execute/createAndRunTask` — VS Code-local task runner, not portable |
+| **Talos** | Removed `vscode/runCommand` — VS Code-local command, not portable |
+| **Gaia** | Added `vscode/askQuestions` — allows interactive clarification as domain expert |
+| **Mnemosyne** | Added `agent` — enables bounded delegation for documentation tasks |
+
+All 64 platform files (16 agents × 4 platforms) regenerated and validated — `npm run sync:check` passes with 0 drift.
+
+#### 📝 **AGENTS.md tool tables aligned to canonical reality**
+
+- Corrected Athena, Ra, Talos, Iris, Gaia tool lists
+- Fixed Iris: removed `mcp_github2_*` references (platform MCP, not canonical); replaced `agent/askQuestions` with `vscode/askQuestions`
+
+### Versioning
+
+- Aligned `package.json`, `plugin.json`, `.github/plugin/plugin.json` to `3.2.0` (was stuck at `3.0.0` while GitHub releases had reached `v3.1.1`)
+
+---
+
 ## [v3.0.0] — April 30, 2026
 
 ### ⚠️ Breaking Changes

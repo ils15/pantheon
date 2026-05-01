@@ -31,6 +31,32 @@
 
   "toolMap": {},
 
+  "excludeTools": [
+    "vscode/askQuestions",
+    "vscode/runCommand",
+    "execute/createAndRunTask",
+    "browser/openBrowserPage",
+    "browser/navigatePage",
+    "browser/readPage",
+    "browser/clickElement",
+    "browser/typeInPage",
+    "browser/hoverElement",
+    "browser/dragElement",
+    "browser/handleDialog",
+    "browser/screenshotPage"
+  ],
+
+  "ensureAgentTool": true,
+
+  "capabilityFlags": {
+    "orchestration": true,
+    "approval": false,
+    "diagnostics": false,
+    "browser-ui": false,
+    "ide-local": false,
+    "github-service": false
+  },
+
   "bodyFilters": [
     {
       "action": "append",

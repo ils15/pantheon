@@ -7,6 +7,10 @@ tools:
    - vscode/askQuestions
    - search/codebase
    - search/usages
+   - search/fileSearch
+   - search/textSearch
+   - search/listDirectory
+   - read/readFile
    - web/fetch
 agents: ['apollo']
 handoffs:

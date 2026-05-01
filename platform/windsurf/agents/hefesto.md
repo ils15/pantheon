@@ -1,20 +1,11 @@
 ---
 name: hefesto
-description: >-
-  AI tooling & pipelines specialist — LangChain/LangGraph chains, RAG architecture, vector stores, embedding strategies. Forges the AI infrastructure agents need. Calls apollo for discovery. Sends
-  work to temis for review.
+description: AI tooling & pipelines specialist — LangChain/LangGraph chains, RAG architecture, vector stores, embedding strategies. Forges the AI infrastructure agents need. Calls apollo for discovery. Sends work to temis for review.
 tools:
-  - agent
-  - vscode/askQuestions
-  - search
   - search
   - read
-  - read/problems
   - edit
   - runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
-  - search/changes
   - webFetch
 ---
 

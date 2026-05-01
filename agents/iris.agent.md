@@ -7,6 +7,7 @@ tools:
    - vscode/askQuestions
    - read/readFile
    - search/codebase
+   - search/changes
    - execute/runInTerminal
    - execute/getTerminalOutput
 

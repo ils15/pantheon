@@ -118,7 +118,7 @@ Result: Clean context for both agents, 60-70% token savings
 Strategic planner optimized for speed. Generates concise TDD-driven implementation roadmaps (3-5 phases max).
 
 **When to use:** Architecture decisions, technology research, detailed planning before implementation  
-**Tools:** `search/codebase`, `search/usages`, `web/fetch`  
+**Tools:** `search/codebase`, `search/usages`, `search/fileSearch`, `search/textSearch`, `search/listDirectory`, `read/readFile`, `web/fetch`  
 **Calls:** apollo (OPTIONAL for complex discovery), hands off to zeus for implementation  
 **Skills:** plan-architecture.prompt  
 **Performance:** ~30s average (70% faster than previous version)
@@ -237,7 +237,7 @@ Infrastructure, Docker containerization, deployment orchestration.
 **Specialization:** Docker, docker-compose, multi-stage builds, health checks, CI/CD workflows  
 **Depends on:** All agents (needs their deployment requirements)  
 **Skills:** docker-deployment, performance-optimization  
-**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `execute/createAndRunTask`, `execute/getTerminalOutput`, `read/problems`  
+**Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `execute/getTerminalOutput`, `read/problems`  
 
 **Infrastructure Standards Applied:**
 - Multi-stage Docker builds
@@ -333,7 +333,7 @@ Remote sensing domain expert — scientific literature research, LULC analysis, 
 
 **When to use:** Analysis of LULC products (MapBiomas, CGLS, ESRI, GLAD, ESA WorldCover), inter-product agreement metrics, scientific literature search in indexed journals (MDPI Remote Sensing, RSE, IEEE TGRS, ISPRS), technical-scientific review of raster processing pipelines, evidence-based methodological recommendations  
 **Specialization:** LULC agreement metrics, temporal frequency analysis, raster processing, spatial statistics, scientific literature search  
-**Tools:** `search/codebase`, `search/usages`, `read/readFile`, `web/fetch`, `search/fileSearch`, `search/textSearch`, `search/listDirectory`  
+**Tools:** `search/codebase`, `search/usages`, `read/readFile`, `web/fetch`, `search/fileSearch`, `search/textSearch`, `search/listDirectory`, `vscode/askQuestions`  
 **Skills:** remote-sensing-analysis  
 
 **Capabilities:**
@@ -355,7 +355,7 @@ GitHub operations specialist — branches, pull requests, issues, releases, and 
 **Called by:** Zeus (after Temis review gate), user (direct invocation)  
 **Depends on:** Temis (review approval), user (`git commit` gate)  
 **Handoffs to:** Mnemosyne (release documentation), Zeus (outcome status)  
-**Tools:** `agent/askQuestions`, `read/readFile`, `execute/runInTerminal`, all `mcp_github2_*` write tools  
+**Tools:** `agent`, `vscode/askQuestions`, `read/readFile`, `search/codebase`, `search/changes`, `execute/runInTerminal`, `execute/getTerminalOutput`  
 
 **GitHub Standards Applied:**
 - Conventional Commits for branch names and PR titles (`feat/`, `fix/`, `chore/`, `docs/`, `release/`)
@@ -363,9 +363,9 @@ GitHub operations specialist — branches, pull requests, issues, releases, and 
 - PR description always includes: what changed, why, how to test, breaking changes
 - Checks for `.github/pull_request_template.md` before drafting PR body
 - Semantic versioning: BREAKING → MAJOR, `feat:` → MINOR, `fix:`/others → PATCH
-- **Never** merges without explicit human confirmation via `agent/askQuestions`
+- **Never** merges without explicit human confirmation via `vscode/askQuestions`
 - **Never** uses `--force` push or bypasses branch protection
-- Confirms identity via `mcp_github2_get_me` before any write operation
+- Confirms identity before any write operation (e.g. via `mcp_github_get_me` on VS Code)
 
 ---
 
@@ -377,7 +377,7 @@ Hotfix and Rapid Repair specialist. Bypasses standard orchestration for small bu
 **When to use:** CSS fixes, typos, simple logic bugs that don't require architectural changes  
 **Specialization:** Speed, precision, bypassing standard orchestration  
 **Depends on:** None (works independently for small fixes)  
-**Tools:** `search/codebase`, `search/usages`, `read/readFile`, `edit/editFiles`, `execute/runInTerminal`, `vscode/runCommand`, `read/problems`, `execute/testFailure`  
+**Tools:** `search/codebase`, `search/usages`, `read/readFile`, `edit/editFiles`, `execute/runInTerminal`, `read/problems`, `execute/testFailure`  
 
 **Hotfix Standards Applied:**
 - No mandatory TDD for trivial fixes (like CSS classes)

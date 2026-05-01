@@ -36,6 +36,15 @@
 
   "toolMap": {},
 
+  "capabilityFlags": {
+    "orchestration": false,
+    "approval": false,
+    "diagnostics": false,
+    "browser-ui": false,
+    "ide-local": false,
+    "github-service": false
+  },
+
   "bodyFilters": [
     {
       "action": "prepend",

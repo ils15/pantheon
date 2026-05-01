@@ -1,9 +1,7 @@
 ---
 name: aphrodite
 description: Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD. Calls apollo as nested subagent to discover components. Sends work to temis for review.
-tools: >-
-  agent, vscode/askQuestions, search/codebase, search/usages, read/readFile, read/problems, edit/editFiles, execute/runInTerminal, execute/testFailure, execute/getTerminalOutput, search/changes,
-  browser/openBrowserPage, browser/navigatePage, browser/readPage, browser/clickElement, browser/typeInPage, browser/hoverElement, browser/dragElement, browser/handleDialog, browser/screenshotPage
+tools: Task, askQuestions, search/codebase, search/usages, read/readFile, edit/editFiles, execute/runInTerminal, execute/testFailure, execute/getTerminalOutput, search/changes, openBrowserPage, navigatePage, readPage, clickElement, typeInPage, hoverElement, dragElement, handleDialog, screenshotPage
 ---
 
 # Aphrodite - React Implementation Specialist

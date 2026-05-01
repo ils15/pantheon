@@ -1,8 +1,8 @@
 ---
 name: apollo
 description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, maat. No edits, no commands."
-argument-hint: "What to find: files, patterns, existing implementations, or documentation references (e.g. 'all FastAPI routers in the auth module')"
 tools:
+  - agent
   - search/codebase
   - search/usages
   - search/fileSearch
@@ -10,10 +10,7 @@ tools:
   - search/listDirectory
   - read/readFile
   - web/fetch
-  - browser/openBrowserPage
-  - browser/navigatePage
-  - browser/readPage
-  - browser/screenshotPage
+argument-hint: "What to find: files, patterns, existing implementations, or documentation references (e.g. 'all FastAPI routers in the auth module')"
 ---
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check
@@ -549,7 +546,6 @@ Apollo returns to user/parent agent in <2 minutes
 ---
 
 **Philosophy**: Find patterns fast. Be precise. Report clearly. Unblock others quickly. Suggest web research when external context is needed.
-
 
 ---
 

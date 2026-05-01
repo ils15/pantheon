@@ -1,15 +1,10 @@
 ---
 name: iris
-description: >-
-  GitHub operations specialist — branches, pull requests, issues, releases, tags. Called by zeus after Temis review or directly for any GitHub workflow task. Never pushes or merges without explicit
-  human approval.
+description: GitHub operations specialist — branches, pull requests, issues, releases, tags. Called by zeus after Temis review or directly for any GitHub workflow task. Never pushes or merges without explicit human approval.
 tools:
-  - agent
-  - vscode/askQuestions
   - read
   - search
   - runInTerminal
-  - execute/getTerminalOutput
 ---
 
 # Iris — GitHub Operations Specialist
