@@ -3,16 +3,12 @@ name: hefesto
 description: AI tooling & pipelines specialist — LangChain/LangGraph chains, RAG architecture, vector stores, embedding strategies. Forges the AI infrastructure agents need. Calls apollo for discovery. Sends work to temis for review.
 tools:
   - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
-  - search/changes
-  - web/fetch
+  - task
+  - codesearch
+  - read
+  - edit
+  - bash
+  - webfetch
 argument-hint: Build RAG pipelines, design agent chains, set up vector search, or compose multi-step LLM workflows
 ---
 
@@ -97,12 +93,3 @@ You are the **AI TOOLING SPECIALIST** (Hefesto) for the multi-agent system. Your
 @hefesto: Set up vector search with hybrid retrieval
 @hefesto: Design multi-model routing with cost optimization
 ```
-
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow

@@ -3,12 +3,11 @@ name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), iris (GitHub), mnemosyne (docs), talos (hotfix), hefesto (AI pipelines), quiron (model routing), eco (conversational AI), nix (observability)"
 tools:
   - agent
-  - execute/runInTerminal
-  - read/readFile
-  - search/codebase
-  - search/usages
-  - web/fetch
-  - search/changes
+  - task
+  - bash
+  - read
+  - codesearch
+  - webfetch
 argument-hint: Describe the feature, bug, or epic to orchestrate (Zeus plans, delegates, and coordinates the full lifecycle)
 ---
 
@@ -479,12 +478,3 @@ Switch models mid-orchestration:
 ---
 
 **Philosophy**: Orchestrate expertise. Conserve context. Deliver quality. Move fast.
-
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow

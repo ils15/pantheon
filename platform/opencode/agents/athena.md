@@ -3,13 +3,13 @@ name: athena
 description: Strategic planner & architect — research-first, plan-only, never implements. Calls apollo as nested subagent for complex discovery.
 tools:
   - agent
-  - search/codebase
-  - search/usages
-  - search/fileSearch
-  - search/textSearch
-  - search/listDirectory
-  - read/readFile
-  - web/fetch
+  - task
+  - codesearch
+  - glob
+  - grep
+  - list
+  - read
+  - webfetch
 argument-hint: Feature or epic to plan — describe the requirement, goal, and affected modules (e.g. 'JWT auth with refresh tokens for FastAPI backend')
 ---
 
@@ -142,11 +142,3 @@ For external docs/specs, use `web/fetch` (see `internet-search` skill for patter
 - RFCs, official documentation, GitHub issues/PRs
 - Synthesize findings into plan recommendations
 
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow

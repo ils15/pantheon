@@ -3,13 +3,12 @@ name: apollo
 description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, maat. No edits, no commands."
 tools:
   - agent
-  - search/codebase
-  - search/usages
-  - search/fileSearch
-  - search/textSearch
-  - search/listDirectory
-  - read/readFile
-  - web/fetch
+  - codesearch
+  - glob
+  - grep
+  - list
+  - read
+  - webfetch
 argument-hint: "What to find: files, patterns, existing implementations, or documentation references (e.g. 'all FastAPI routers in the auth module')"
 ---
 
@@ -546,12 +545,3 @@ Apollo returns to user/parent agent in <2 minutes
 ---
 
 **Philosophy**: Find patterns fast. Be precise. Report clearly. Unblock others quickly. Suggest web research when external context is needed.
-
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow

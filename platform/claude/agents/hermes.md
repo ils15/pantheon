@@ -1,7 +1,7 @@
 ---
 name: hermes
 description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR). Calls apollo as nested subagent to discover patterns. Sends work to temis for review.
-tools: Task, search/codebase, search/usages, read/readFile, edit/editFiles, execute/runInTerminal, execute/testFailure, execute/getTerminalOutput, search/changes
+tools: Agent, Grep, Read, Edit, Bash
 ---
 
 # Hermes - Backend Executor (FastAPI Specialist)

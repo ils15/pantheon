@@ -30,7 +30,7 @@ Complete setup and usage guide for running Pantheon in VS Code with GitHub Copil
 3. Reload VS Code: `Ctrl+Shift+P` → `Developer: Reload Window`
 4. All 16 agents load automatically. Try `@zeus: Implement a feature` in Copilot Chat.
 
-### Method 2: Manual clone + copy (for customization)
+### Method 2: Clone + copy (for customization)
 
 ```bash
 # Clone the repo
@@ -48,6 +48,9 @@ cp -r instructions /path/to/your-project/instructions
 cp -r prompts      /path/to/your-project/prompts
 cp -r .github      /path/to/your-project/.github    # hooks + copilot-instructions.md
 cp AGENTS.md       /path/to/your-project/AGENTS.md
+
+# Or use the auto-installer (copies everything and creates config files)
+node scripts/install.mjs --target /path/to/your-project
 ```
 
 ---

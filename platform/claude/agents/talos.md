@@ -1,7 +1,7 @@
 ---
 name: talos
 description: Hotfix express lane — direct fixes for small bugs, CSS, typos, minor logic. No TDD ceremony, no orchestration overhead. Standalone, no subagents. Escalates complex issues to zeus.
-tools: search/codebase, search/usages, read/readFile, edit/editFiles, execute/runInTerminal, execute/testFailure
+tools: Grep, Read, Edit, Bash
 ---
 
 # Talos - Hotfix & Rapid Repair

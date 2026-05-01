@@ -24,10 +24,10 @@ cd Pantheon
 npm install
 
 # Auto-configure for Cursor
-node scripts/install.mjs cursor
+node scripts/install.mjs --target /path/to/your-project
 ```
 
-The installer copies generated `.mdc` rule files from `platform/cursor/rules/` to `.cursor/rules/` in your project root.
+The installer (adapter v2.0.0) detects the platform and copies generated `.mdc` rule files from `platform/cursor/rules/` to `.cursor/rules/` in your project root.
 
 ### What Gets Installed
 
@@ -94,7 +94,7 @@ The `globs` field limits when the rule/agent is active to matching file patterns
 
 ## Agent Format
 
-Cursor uses `.mdc` (Markdown Cursor) files as agent definitions. The sync engine (`npm run sync`) converts canonical VS Code `.agent.md` files into Cursor's `.mdc` format automatically.
+Cursor uses `.mdc` (Markdown Cursor) files as agent definitions. The sync engine (`npm run sync`, adapter v2.0.0) converts canonical VS Code `.agent.md` files into Cursor's `.mdc` format, applying tool name mapping and platform-specific transformations automatically.
 
 ### Basic Structure
 
@@ -128,16 +128,23 @@ The Cursor adapter strips these VS Code frontmatter fields during conversion:
 - `argument-hint` — Not used by Cursor
 - `user-invocable` — Not used by Cursor
 
-### Adapter Configuration
+### Adapter Configuration (v2.0.0)
 
 The conversion rules are defined in `platform/cursor/adapter.json`:
 
 ```json
 {
   "name": "cursor",
+  "version": "2.0.0",
   "displayName": "Cursor",
   "outputDir": "rules",
   "fileExtension": ".mdc",
+  "toolMap": {
+    "read/readFile": "read",
+    "edit/editFiles": "edit",
+    "execute/runInTerminal": "runInTerminal",
+    "search/codebase": "searchCodebase"
+  },
   "frontmatter": {
     "include": ["name", "description"],
     "exclude": ["model", "tools", "skills", "handoffs", "agents", "disable-model-invocation"]
@@ -241,7 +248,7 @@ Cursor supports subagent-style delegation internally. Zeus orchestration works t
 ### Sync Issues
 
 - Run `npm run sync` to regenerate all platform files from canonical agents
-- The installer (`node scripts/install.mjs cursor`) copies from `platform/cursor/rules/`
+- The installer (`node scripts/install.mjs --target .`) copies from `platform/cursor/rules/`
 - Check `platform/cursor/adapter.json` for transformation rules
 
 ### Missing Features Compared to VS Code

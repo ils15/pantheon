@@ -3,13 +3,12 @@ name: gaia
 description: Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, statistical analysis, scientific literature (MDPI, IEEE TGRS, RSE, ISPRS). Covers full RS pipeline from raw image to product.
 tools:
   - agent
-  - search/codebase
-  - search/usages
-  - search/fileSearch
-  - search/textSearch
-  - search/listDirectory
-  - read/readFile
-  - web/fetch
+  - codesearch
+  - glob
+  - grep
+  - list
+  - read
+  - webfetch
 argument-hint: "Remote sensing task: e.g. 'compute NDVI time series for Sentinel-2', 'apply speckle filter to SAR backscatter', 'recommend change detection algorithm for deforestation mapping', 'review atmospheric correction pipeline', 'train U-Net for semantic segmentation'"
 ---
 
@@ -405,12 +404,3 @@ SEARCH_URL = "https://www.mdpi.com/search?q={query}&journal=remotesensing&articl
 @gaia Find papers on temporal consistency in global LULC products (2020–2025)
 ```
 ````
-
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow

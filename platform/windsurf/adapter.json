@@ -1,9 +1,9 @@
 {
   "name": "windsurf",
-  "displayName": "Windsurf (stub)",
-  "version": "1.0.0",
+  "displayName": "Windsurf (Cascade)",
+  "version": "2.0.0",
 
-  "description": "Windsurf platform stub — placeholder for future Windsurf Cascade integration.",
+  "description": "Windsurf Cascade agents using .windsurf/agents/ format with YAML tools arrays and Cascade tool naming.",
 
   "outputDir": "agents",
   "fileExtension": ".md",
@@ -12,12 +12,13 @@
     "include": [
       "name",
       "description",
-      "tools"
+      "mode",
+      "tools",
+      "skills",
+      "instructions"
     ],
     "exclude": [
       "model",
-      "skills",
-      "instructions",
       "handoffs",
       "agents",
       "disable-model-invocation",
@@ -26,7 +27,8 @@
     ],
     "transform": {
       "tools": { "strategy": "identity" },
-      "model": { "strategy": "omit" }
+      "model": { "strategy": "omit" },
+      "mode": { "strategy": "identity" }
     }
   },
 
@@ -70,6 +72,8 @@
     "ide-local": false,
     "github-service": false
   },
+
+  "ensureAgentTool": false,
 
   "bodyFilters": [
     {

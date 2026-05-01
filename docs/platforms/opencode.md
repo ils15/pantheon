@@ -16,6 +16,16 @@ Complete setup and usage guide for running Pantheon in [OpenCode](https://openco
 
 ## Installation
 
+The fastest way to set up Pantheon in any project is with the universal install script:
+
+```bash
+node scripts/install.mjs --target /path/to/your-project
+```
+
+This auto-detects the platform (OpenCode, VS Code, Cursor, etc.), installs agents to the correct directories, and creates platform config files.
+
+### Manual Setup
+
 ```bash
 # Clone the repo
 git clone https://github.com/ils15/pantheon.git
@@ -29,7 +39,9 @@ cp -r platform/opencode/agents/. /path/to/your-project/.opencode/agents/
 cp opencode.json /path/to/your-project/opencode.json
 ```
 
-The OpenCode agents live in `platform/opencode/agents/` (generated from canonical `agents/` by `npm run sync`).
+### How It Works
+
+The OpenCode agents live in `platform/opencode/agents/` (generated from canonical `agents/` by `npm run sync`). The adapter (v2.0.0) uses a tool map to convert canonical VS Code tool names to OpenCode-native names, moves permissions from body blocks to frontmatter, and excludes tools not available in OpenCode (`read/problems`, browser tools).
 
 ---
 
@@ -65,22 +77,24 @@ OpenCode uses `opencode.json` (or `opencode.jsonc`) in your project root. Create
 |---|---|
 | `agent` | Maps agent names to their `.md` definition files in `.opencode/agents/` |
 
-### Agent Permissions
+### Agent Permissions (adapter v2)
 
-Agents have a permissions block appended automatically by the sync engine:
+In OpenCode adapter v2, permissions are declared in **frontmatter** rather than appended as body blocks. The sync engine generates them automatically:
 
-```
+```yaml
 ---
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow
+name: hermes
+permission:
+  edit: allow
+  bash: allow
+  read: allow
+  search: allow
+---
 ```
 
-Override these per-agent in `opencode.json`:
+Body-level permission blocks are no longer used — removed in v2.0.0.
+
+Override generated permissions per-agent in `opencode.json`:
 
 ```json
 {
@@ -98,11 +112,10 @@ Override these per-agent in `opencode.json`:
 }
 ```
 
----
 
 ## Agent Format
 
-OpenCode agents are `.md` files with YAML frontmatter. They live in `.opencode/agents/` (project) or `~/.config/opencode/agents/` (global). The Pantheon sync engine generates them from the canonical VS Code `.agent.md` sources into `platform/opencode/agents/`.
+OpenCode agents are `.md` files with YAML frontmatter. They live in `.opencode/agents/` (project) or `~/.config/opencode/agents/` (global). The Pantheon sync engine (adapter v2.0.0) generates them from the canonical VS Code `.agent.md` sources into `platform/opencode/agents/`, applying tool name mapping and permissions conversion.
 
 ```yaml
 ---
@@ -125,15 +138,20 @@ tools:
 
 ### Differences from VS Code Format
 
+The OpenCode adapter v2 (2.0.0) maps canonical VS Code tool names to OpenCode-native names and manages differences:
+
 | Aspect | VS Code (.agent.md) | OpenCode (.md) |
 |---|---|---|
 | **File extension** | `.agent.md` | `.md` |
-| **Tools format** | YAML list | YAML list (identity) |
+| **Tools format** | YAML list | YAML list (with name mapping) |
 | **Model format** | YAML list | YAML list (identity) |
 | **Handoffs** | Full support with UI buttons | **Stripped** — not supported |
 | **`agents:` field** | Required for subagent delegation | **Stripped** — OpenCode uses Task tool |
 | **`disable-model-invocation`** | Supported | **Stripped** |
-| **Permissions** | Set via settings.json / hooks | Appended as permission block in body |
+| **Permissions** | Set via settings.json / hooks | **Frontmatter** (v2) — body blocks removed |
+| **`read/problems`** | Supported | **Excluded** — not available in OpenCode |
+| **Browser tools** | `openBrowserPage`, etc. | **Excluded** — no browser in terminal UI |
+| **`mode` field** | Not supported | **Added** — `plan`, `implement`, `review` |
 | **Skills** | Declared in settings.json | Declared in `opencode.json` skill registry |
 | **Instructions** | `.github/copilot-instructions.md` | `instructions` array in `opencode.json` |
 

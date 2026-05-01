@@ -3,16 +3,12 @@ name: quiron
 description: Model provider hub specialist — multi-model routing, AWS Bedrock, cost optimization, provider abstraction. The bridge between agents and AI models. Calls apollo for discovery. Sends work to temis for review.
 tools:
   - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
-  - search/changes
-  - web/fetch
+  - task
+  - codesearch
+  - read
+  - edit
+  - bash
+  - webfetch
 argument-hint: Configure model providers, optimize model routing, set up AWS Bedrock, or design model fallback strategies
 ---
 
@@ -97,12 +93,3 @@ You are the **MODEL PROVIDER SPECIALIST** (Quíron, the wise centaur who trained
 @quiron: Add Ollama fallback for offline development
 @quiron: Implement token usage tracking across all agents
 ```
-
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow

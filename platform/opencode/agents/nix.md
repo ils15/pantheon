@@ -3,16 +3,12 @@ name: nix
 description: Observability & monitoring specialist â€” OpenTelemetry tracing, token/cost tracking, agent performance analytics, LangSmith integration. Sees what others cannot in the dark. Calls apollo for discovery. Sends work to temis for review.
 tools:
   - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
-  - search/changes
-  - web/fetch
+  - task
+  - codesearch
+  - read
+  - edit
+  - bash
+  - webfetch
 argument-hint: Set up agent observability, trace LLM calls, monitor costs, debug agent performance, or configure LangSmith
 ---
 
@@ -101,12 +97,3 @@ You are the **OBSERVABILITY SPECIALIST** (Nix, the primordial goddess of night â
 @nix: Detect why parallel agents are deadlocking
 @nix: Set up cost alerts for premium model usage spikes
 ```
-
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow
