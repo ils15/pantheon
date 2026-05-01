@@ -96,14 +96,14 @@ cp -r pantheon/.github     /path/to/your-project/.github
 # Clone Pantheon
 git clone https://github.com/ils15/pantheon.git
 
-# Link config (from your project root)
-ln -s pantheon/opencode/opencode.json opencode.json
+# Copy the pre-generated agents into your project
+cp -r pantheon/platform/opencode/agents /path/to/your-project/.opencode/agents
 
-# Or copy agents
-cp -r pantheon/opencode/agents /path/to/your-project/.opencode/agents
+# Copy the root opencode.json to your project root and edit it
+cp pantheon/opencode.json /path/to/your-project/opencode.json
 ```
 
-OpenCode agents appear automatically. Run `skill-registry` to index the 18 shared skills.
+See [OpenCode setup guide](platforms/opencode.md) for full config options.
 
 ---
 
@@ -112,11 +112,10 @@ OpenCode agents appear automatically. Run `skill-registry` to index the 18 share
 ```bash
 # Clone Pantheon
 git clone https://github.com/ils15/pantheon.git
-cd pantheon
-npm install
 
-# Install Claude Code agents
-node scripts/install.mjs claude
+# Copy the pre-generated Claude Code agents into your project
+mkdir -p /path/to/your-project/.claude/agents
+cp -r pantheon/platform/claude/agents/. /path/to/your-project/.claude/agents/
 ```
 
 This copies agents to `.claude/agents/` in your project. Use `@agent-name` in Claude Code to invoke them.
@@ -128,11 +127,10 @@ This copies agents to `.claude/agents/` in your project. Use `@agent-name` in Cl
 ```bash
 # Clone Pantheon
 git clone https://github.com/ils15/pantheon.git
-cd pantheon
-npm install
 
-# Install Cursor rules
-node scripts/install.mjs cursor
+# Copy the pre-generated Cursor rules into your project
+mkdir -p /path/to/your-project/.cursor/rules
+cp -r pantheon/platform/cursor/rules/. /path/to/your-project/.cursor/rules/
 ```
 
 This copies `.mdc` files to `.cursor/rules/`. Use `@agent-name` in Cursor chat.

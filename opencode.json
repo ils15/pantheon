@@ -1,3 +1,21 @@
 {
-  "$schema": "https://opencode.ai/config.json"
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "zeus":      { "source": ".opencode/agents/zeus.md" },
+    "athena":    { "source": ".opencode/agents/athena.md" },
+    "apollo":    { "source": ".opencode/agents/apollo.md" },
+    "hermes":    { "source": ".opencode/agents/hermes.md" },
+    "aphrodite": { "source": ".opencode/agents/aphrodite.md" },
+    "maat":      { "source": ".opencode/agents/maat.md" },
+    "temis":     { "source": ".opencode/agents/temis.md" },
+    "ra":        { "source": ".opencode/agents/ra.md" },
+    "iris":      { "source": ".opencode/agents/iris.md" },
+    "mnemosyne": { "source": ".opencode/agents/mnemosyne.md" },
+    "talos":     { "source": ".opencode/agents/talos.md" },
+    "gaia":      { "source": ".opencode/agents/gaia.md" },
+    "hefesto":   { "source": ".opencode/agents/hefesto.md" },
+    "quiron":    { "source": ".opencode/agents/quiron.md" },
+    "eco":       { "source": ".opencode/agents/eco.md" },
+    "nix":       { "source": ".opencode/agents/nix.md" }
+  }
 }

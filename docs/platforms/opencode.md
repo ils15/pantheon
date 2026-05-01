@@ -18,15 +18,15 @@ Complete setup and usage guide for running Pantheon in [OpenCode](https://openco
 
 ```bash
 # Clone the repo
-git clone https://github.com/ils15/Pantheon.git
-cd Pantheon
-npm install
+git clone https://github.com/ils15/pantheon.git
+cd pantheon
 
-# Option A: Use the installer script
-node scripts/install.mjs opencode
+# Copy the pre-generated OpenCode agents into your project
+mkdir -p /path/to/your-project/.opencode/agents
+cp -r platform/opencode/agents/. /path/to/your-project/.opencode/agents/
 
-# Option B: Manual setup — link the opencode config in your project root
-ln -s platform/opencode/opencode.json opencode.json
+# Copy the root opencode.json as a starting point
+cp opencode.json /path/to/your-project/opencode.json
 ```
 
 The OpenCode agents live in `platform/opencode/agents/` (generated from canonical `agents/` by `npm run sync`).
@@ -41,40 +41,33 @@ OpenCode uses `opencode.json` (or `opencode.jsonc`) in your project root. Create
 {
   "$schema": "https://opencode.ai/config.json",
   "agent": {
-    "zeus":    { "source": "opencode/agents/zeus.md" },
-    "athena":  { "source": "opencode/agents/athena.md" },
-    "apollo":  { "source": "opencode/agents/apollo.md" },
-    "hermes":  { "source": "opencode/agents/hermes.md" },
-    "aphrodite": { "source": "opencode/agents/aphrodite.md" },
-    "maat":    { "source": "opencode/agents/maat.md" },
-    "temis":   { "source": "opencode/agents/temis.md" },
-    "ra":      { "source": "opencode/agents/ra.md" },
-    "iris":    { "source": "opencode/agents/iris.md" },
-    "mnemosyne": { "source": "opencode/agents/mnemosyne.md" },
-    "talos":   { "source": "opencode/agents/talos.md" },
-    "gaia":    { "source": "opencode/agents/gaia.md" }
-  },
-  "instructions": [
-    "./AGENTS.md",
-    "./instructions/backend-standards.instructions.md",
-    "./instructions/frontend-standards.instructions.md",
-    "./instructions/database-standards.instructions.md"
-  ],
-  "permission": {
-    "skill": { "*": "allow" }
+    "zeus":      { "source": ".opencode/agents/zeus.md" },
+    "athena":    { "source": ".opencode/agents/athena.md" },
+    "apollo":    { "source": ".opencode/agents/apollo.md" },
+    "hermes":    { "source": ".opencode/agents/hermes.md" },
+    "aphrodite": { "source": ".opencode/agents/aphrodite.md" },
+    "maat":      { "source": ".opencode/agents/maat.md" },
+    "temis":     { "source": ".opencode/agents/temis.md" },
+    "ra":        { "source": ".opencode/agents/ra.md" },
+    "iris":      { "source": ".opencode/agents/iris.md" },
+    "mnemosyne": { "source": ".opencode/agents/mnemosyne.md" },
+    "talos":     { "source": ".opencode/agents/talos.md" },
+    "gaia":      { "source": ".opencode/agents/gaia.md" },
+    "hefesto":   { "source": ".opencode/agents/hefesto.md" },
+    "quiron":    { "source": ".opencode/agents/quiron.md" },
+    "eco":       { "source": ".opencode/agents/eco.md" },
+    "nix":       { "source": ".opencode/agents/nix.md" }
   }
 }
 ```
 
 | Setting | Purpose |
 |---|---|
-| `agent` | Maps agent names to their `.md` definition files in `opencode/agents/` |
-| `instructions` | Instruction files loaded into agent context on every invocation |
-| `permission.skill` | Enables all registered skills for agent use |
+| `agent` | Maps agent names to their `.md` definition files in `.opencode/agents/` |
 
 ### Agent Permissions
 
-Agents have permissions appended to their body by the sync engine:
+Agents have a permissions block appended automatically by the sync engine:
 
 ```
 ---
@@ -116,19 +109,17 @@ OpenCode agents are `.md` files with YAML frontmatter. They live in `.opencode/a
 name: hermes
 description: "Backend specialist — FastAPI, Python, async, TDD"
 argument-hint: "Backend task: endpoint, service, router, schema, or test"
-model:
-  - GPT-5.4 (copilot)
-  - Claude Sonnet 4.6 (copilot)
 tools:
   - agent
-  - vscode/askQuestions
-  - vscode/runCommand
-  - execute/runInTerminal
-  - read/readFile
   - search/codebase
   - search/usages
-  - web/fetch
+  - read/readFile
+  - edit/editFiles
+  - execute/runInTerminal
+  - execute/testFailure
+  - execute/getTerminalOutput
   - search/changes
+  - web/fetch
 ---
 ```
 
