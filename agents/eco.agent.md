@@ -22,12 +22,12 @@ handoffs:
     agent: temis
     prompt: "Review this conversational AI design for NLU accuracy, dialogue coherence, and security (intent hijacking, dialogue poisoning)."
     send: false
-    model: 'Claude Opus 4.6 (copilot)'
+    model: premium
   - label: "⚡ Hotfix Conversation"
     agent: talos
     prompt: "Quick fix for this conversational AI issue — intent misclassification, response formatting, or dialogue state bug."
     send: false
-    model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)']
+    model: fast
 user-invocable: true
 ---
 

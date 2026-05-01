@@ -15,7 +15,7 @@ tools:
     - execute/getTerminalOutput
     - search/changes
 handoffs:
-    - { label: "Send to Temis", agent: temis, prompt: "Please perform a code review and security audit on these backend changes according to your instructions.", send: true, model: 'Claude Opus 4.6 (copilot)' }
+    - { label: "Send to Temis", agent: temis, prompt: "Please perform a code review and security audit on these backend changes according to your instructions.", send: true, model: premium }
 agents: ['apollo']
 user-invocable: true
 ---

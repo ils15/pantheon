@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pantheon Model Plan Configuration",
+  "description": "Defines which models each agent tier maps to for a given service+plan combination",
+  "type": "object",
+  "required": ["plan", "service", "tier", "models"],
+  "properties": {
+    "plan": {
+      "type": "string",
+      "description": "Unique plan identifier (e.g. 'opencode-go', 'copilot-pro')"
+    },
+    "service": {
+      "type": "string",
+      "description": "Platform/service name (e.g. 'opencode', 'vscode', 'cursor', 'claude', 'byok')",
+      "enum": ["opencode", "vscode", "cursor", "claude", "byok"]
+    },
+    "tier": {
+      "type": "string",
+      "description": "Plan tier name",
+      "enum": ["free", "go", "zen", "pro", "pro-plus", "enterprise", "hobby", "ultra", "max-5x", "max-20x", "cheap", "balanced", "best", "payg", "black", "student"]
+    },
+    "price": {
+      "type": "string",
+      "description": "Plan price (e.g. '$10/mo', '$0')"
+    },
+    "models": {
+      "type": "object",
+      "description": "Tier-to-model mapping",
+      "required": ["fast", "default", "premium"],
+      "properties": {
+        "fast": { "type": "string", "description": "Cheap/fast model for simple tasks" },
+        "default": { "type": "string", "description": "Balanced model for most coding tasks" },
+        "premium": { "type": "string", "description": "Powerful model for complex reasoning" }
+      }
+    },
+    "agent_overrides": {
+      "type": "object",
+      "description": "Per-agent model overrides (optional)",
+      "additionalProperties": { "type": "string" }
+    },
+    "handoff_models": {
+      "type": "object",
+      "description": "Handoff-specific model overrides (optional), keyed as 'source__target'",
+      "additionalProperties": { "type": "string" }
+    },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "monthlyRequests": { "type": ["integer", "null"] },
+        "premiumMultiplier": { "type": ["number", "null"] },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

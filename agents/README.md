@@ -2,7 +2,21 @@
 
 ## Overview
 
-mythic-agents provides **16 specialized agents** organized into a conductor-delegate architecture. Zeus (the orchestrator) dispatches work to specialized sub-agents with isolated context windows, enforced quality gates, and human approval at every transition. Each agent has a single responsibility, a dedicated model assignment, a restricted tool set, and explicit context boundaries.
+mythic-agents provides **16 specialized agents** organized into a conductor-delegate architecture. Zeus (the orchestrator) dispatches work to specialized sub-agents with isolated context windows, enforced quality gates, and human approval at every transition. Each agent has a single responsibility, a restricted tool set, and explicit context boundaries.
+
+### 🎯 Plan-Based Model Configuration
+
+mythic-agents uses a **plan-based model configuration system**. Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concrete model names. The actual model resolution depends on which **service + plan** you're using.
+
+```bash
+# Select your plan (e.g., OpenCode Go, Copilot Pro, etc.)
+./platform/select-plan.sh opencode-go
+
+# See which models each agent will use
+./platform/select-plan.sh models
+```
+
+> **TL;DR:** Same agent files, different models depending on what your subscription gives you. See [platform/plans/](../platform/plans/) for all available plans and [docs/INSTALLATION.md](../docs/INSTALLATION.md) for setup.
 
 **7 tiers:**
 1. **Orchestrator** — Zeus
@@ -43,7 +57,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Zeus (Orchestrator)
 
 - **Tier:** Orchestrator
-- **Model:** GPT-5.4 / GPT-5.3-Codex / Claude Sonnet 4.6
+- **Model:** premium (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Central coordinator of the entire development lifecycle. NEVER implements code, NEVER edits files. Delegates work to specialized sub-agents.
 - **Delegates to:** All 15 agents
 - **Key Responsibilities:** Phase-based orchestration, parallel dispatch, approval gates (3 pause points), context conservation, agent routing
@@ -54,7 +68,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Athena (Strategic Planner)
 
 - **Tier:** Planning & Discovery
-- **Model:** GPT-5.4 / Claude Opus 4.6
+- **Model:** premium (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Research-first architecture design and TDD roadmap generation. NEVER implements code or edits files. Creates concise 3-5 phase plans presented in chat.
 - **Delegates to:** Apollo (nested subagent for complex discovery), Temis (plan validation), Zeus (execution handoff)
 - **Key Responsibilities:** Codebase research, architecture decisions, risk analysis, phase planning, plan validation gate
@@ -64,7 +78,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Apollo (Codebase Scout)
 
 - **Tier:** Planning & Discovery
-- **Model:** GPT-5.4 mini / Claude Haiku 4.5 / Gemini 3 Flash
+- **Model:** fast (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Read-only rapid discovery agent. Launches 3-10 parallel searches simultaneously. Never edits files, never runs commands. Can be invoked as nested subagent from any other agent.
 - **Delegates to:** Zeus (findings handoff), Athena (plan refinement)
 - **Key Responsibilities:** Codebase exploration, pattern discovery, dependency mapping, external docs/GitHub research, structured reports
@@ -75,7 +89,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Hefesto (AI Pipelines) — NEW v3
 
 - **Tier:** AI Infrastructure
-- **Model:** GPT-5.4 / Claude Opus 4.6
+- **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** AI tooling & pipelines specialist. Forges RAG pipelines, LangChain/LangGraph chains, vector databases, embedding strategies, and AI workflow composition.
 - **Delegates to:** Apollo (discovery), Temis (review + prompt injection audit), Ra (GPU deployment)
 - **Skills:** rag-pipelines, vector-search, mcp-server-development
@@ -86,7 +100,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Quíron (Model Provider Hub) — NEW v3
 
 - **Tier:** AI Infrastructure
-- **Model:** GPT-5.4 / Claude Opus 4.6
+- **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Multi-model routing, provider abstraction, AWS Bedrock integration, cost optimization. The bridge between agents and AI models.
 - **Delegates to:** Apollo (discovery), Temis (review + security audit), Ra (inference deployment)
 - **Skills:** multi-model-routing
@@ -97,7 +111,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Eco (Conversational AI) — NEW v3
 
 - **Tier:** AI Infrastructure
-- **Model:** GPT-5.4 / Claude Opus 4.6
+- **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Conversational AI specialist — NLU pipelines, dialogue management, Rasa integration, intent/entity design, multi-turn conversation flows.
 - **Delegates to:** Apollo (discovery), Temis (review + injection security), Talos (hotfix for intent misclassification)
 - **Skills:** conversational-ai-design
@@ -108,7 +122,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Hermes (Backend Specialist)
 
 - **Tier:** Implementation
-- **Model:** GPT-5.4 / GPT-5.3-Codex / Claude Sonnet 4.6
+- **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Backend FastAPI implementation specialist. Async endpoints, Pydantic schemas, service layer, dependency injection, TDD enforced.
 - **Delegates to:** Apollo (nested for pattern discovery), Temis (code review + security audit)
 - **Skills:** fastapi-async-patterns, api-design-patterns, security-audit, tdd-with-agents
@@ -119,7 +133,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Aphrodite (Frontend Specialist)
 
 - **Tier:** Implementation
-- **Model:** Gemini 3.1 Pro / GPT-5.4
+- **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** React frontend implementation specialist. TypeScript strict mode, WCAG AA accessibility, responsive design (mobile-first), component tests with vitest.
 - **Delegates to:** Apollo (nested for component discovery), Temis (review + accessibility audit)
 - **Skills:** web-ui-analysis, frontend-analyzer, nextjs-seo-optimization, tdd-with-agents
@@ -130,7 +144,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Maat (Database Specialist)
 
 - **Tier:** Implementation
-- **Model:** GPT-5.4 / GPT-5.3-Codex / Claude Sonnet 4.6
+- **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Database implementation specialist. SQLAlchemy 2.0 async models, Alembic migrations, query optimization, N+1 prevention, zero-downtime strategy.
 - **Delegates to:** Apollo (nested for optimization patterns), Temis (review + security audit)
 - **Skills:** database-migration, database-optimization, performance-optimization, security-audit
@@ -141,7 +155,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Temis (Quality & Security Gate)
 
 - **Tier:** Quality & Observability
-- **Model:** GPT-5.4 / GPT-5.3-Codex / Claude Sonnet 4.6
+- **Model:** premium (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Quality & security gate enforcer. Reviews only changed files (lightweight). OWASP Top 10, >80% coverage, correctness validation. Returns APPROVED / NEEDS_REVISION / FAILED.
 - **Delegates to:** Mnemosyne (artifact persistence), Zeus (fix escalation)
 - **Skills:** code-review-checklist, security-audit, tdd-with-agents, prompt-injection-security
@@ -152,7 +166,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Nix (Observability) — NEW v3
 
 - **Tier:** Quality & Observability
-- **Model:** GPT-5.4 mini / Claude Haiku 4.5 / GPT-5.4
+- **Model:** fast (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Observability & monitoring specialist. OpenTelemetry tracing, token/cost tracking, LangSmith integration, agent performance analytics.
 - **Delegates to:** Apollo (discovery), Zeus (anomaly reporting)
 - **Skills:** agent-observability
@@ -163,7 +177,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Ra (Infrastructure Specialist)
 
 - **Tier:** Infrastructure & Release
-- **Model:** GPT-5.4 / GPT-5.3-Codex / Claude Sonnet 4.6
+- **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Infrastructure implementation specialist. Docker multi-stage builds, docker-compose orchestration, Traefik proxy, CI/CD workflows, health checks.
 - **Delegates to:** Apollo (nested for pattern discovery), Temis (infrastructure validation)
 - **Skills:** docker-best-practices, performance-optimization
@@ -174,7 +188,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Iris (GitHub Operations)
 
 - **Tier:** Infrastructure & Release
-- **Model:** GPT-5.4 / GPT-5.3-Codex / Claude Sonnet 4.6
+- **Model:** fast (see [active plan](../platform/plans/plan-active.json))
 - **Description:** GitHub workflow specialist — branches, pull requests, issues, releases, tags. Never merges without explicit human approval. Never force-pushes.
 - **Delegates to:** Mnemosyne (release documentation), Zeus (merge confirmation)
 - **Tools:** agent, askQuestions, readFile, search/codebase, runInTerminal, getTerminalOutput
@@ -184,7 +198,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Mnemosyne (Memory Keeper)
 
 - **Tier:** Infrastructure & Release
-- **Model:** GPT-5.4 mini / Claude Haiku 4.5
+- **Model:** fast (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Memory bank quality owner. Initializes `docs/memory-bank/`, writes ADRs and task records on explicit request, manages artifact persistence. Never invoked automatically after phases.
 - **Tools:** search/codebase, search/usages, readFile, edit/editFiles
 - **Usage:** `@mnemosyne: Initialize memory bank` | `@mnemosyne: Close sprint [summary]` | `@mnemosyne: Create artifact: REVIEW-[feature] [content]`
@@ -193,7 +207,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Talos (Hotfix Express)
 
 - **Tier:** Express Lane
-- **Model:** GPT-5.4 mini / Claude Haiku 4.5 / GPT-5.4
+- **Model:** fast (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Hotfix & rapid repair specialist. Direct fixes for small bugs, CSS, typos, minor logic errors. No TDD ceremony, no orchestration overhead, no review gates (unless tests break).
 - **Tools:** search/codebase, search/usages, readFile, problems, edit/editFiles, runInTerminal, testFailure, runCommand
 - **Usage:** `@talos: Fix [bug]` | `@talos: Fix color on [component]`
@@ -203,7 +217,7 @@ mythic-agents provides **16 specialized agents** organized into a conductor-dele
 ### Gaia (Remote Sensing)
 
 - **Tier:** Domain Specialist
-- **Model:** GPT-5.4 / GPT-5.3-Codex / Claude Sonnet 4.6
+- **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, LULC products, scientific literature research.
 - **Delegates to:** Athena (implementation planning), Apollo (rapid code search), Hermes (Python backend), Temis (quality review)
 - **Skills:** remote-sensing-analysis, internet-search

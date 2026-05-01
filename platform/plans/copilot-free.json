@@ -1,0 +1,19 @@
+{
+  "plan": "copilot-free",
+  "service": "vscode",
+  "tier": "free",
+  "price": "$0/mo",
+  "models": {
+    "fast": "GPT-5 mini (copilot)",
+    "default": "GPT-5 mini (copilot)",
+    "premium": "GPT-5 mini (copilot)"
+  },
+  "agent_overrides": {
+    "temis": "Claude Sonnet 4.6 (copilot)",
+    "zeus": "Claude Sonnet 4.6 (copilot)"
+  },
+  "limits": {
+    "monthlyRequests": 50,
+    "notes": "Only 50 premium requests total. GPT-5 mini and GPT-4.1 are free (0x multiplier). Premium models consume the 50-request pool."
+  }
+}

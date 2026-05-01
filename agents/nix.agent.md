@@ -22,7 +22,7 @@ handoffs:
     agent: zeus
     prompt: "Observability detected anomalies in agent execution. Review and decide on corrective action."
     send: false
-    model: 'GPT-5.4 (copilot)'
+    model: premium
 user-invocable: true
 ---
 

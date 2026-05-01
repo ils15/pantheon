@@ -325,6 +325,7 @@ VS Code loads instructions in this order:
 - Models must include the `(copilot)` suffix in the `model` field
 - First available model in the list is used; others are fallbacks
 - Use `/switch-model` during a session to change temporarily
+- Handoffs use **tier references** (`premium`/`default`/`fast`) — resolve to concrete models via the active [plan file](../../platform/plans/plan-active.json)
 
 ### Skills Not Loading
 

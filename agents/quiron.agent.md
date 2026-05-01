@@ -22,12 +22,12 @@ handoffs:
     agent: temis
     prompt: "Review this model provider configuration for security (API key handling), cost efficiency, and reliability."
     send: false
-    model: 'Claude Opus 4.6 (copilot)'
+    model: premium
   - label: "⚙️ Deploy Provider Infra"
     agent: ra
     prompt: "Deploy the model provider infrastructure — containerize inference services, configure GPU support, and set up health checks."
     send: false
-    model: 'GPT-5.4 (copilot)'
+    model: default
 user-invocable: true
 ---
 

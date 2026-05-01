@@ -1,0 +1,53 @@
+{
+  "plan": "opencode-go",
+  "service": "opencode",
+  "tier": "go",
+  "price": "$10/mo",
+  "models": {
+    "fast": "opencode/deepseek-v4-flash",
+    "default": "opencode/kimi-k2.5",
+    "premium": "opencode/kimi-k2.6"
+  },
+  "agent_overrides": {
+    "aphrodite": "opencode/qwen3.6-plus",
+    "gaia": "opencode/deepseek-v4-pro",
+    "apollo": "opencode/deepseek-v4-flash",
+    "iris": "opencode/deepseek-v4-flash",
+    "mnemosyne": "opencode/minimax-m2.5-free",
+    "nix": "opencode/minimax-m2.5",
+    "talos": "opencode/deepseek-v4-flash"
+  },
+  "handoff_models": {
+    "zeus__athena": "opencode/kimi-k2.6",
+    "zeus__temis": "opencode/kimi-k2.6",
+    "zeus__hefesto": "opencode/kimi-k2.5",
+    "zeus__quiron": "opencode/kimi-k2.5",
+    "zeus__eco": "opencode/kimi-k2.5",
+    "zeus__nix": "opencode/minimax-m2.5",
+    "zeus__mnemosyne": "opencode/minimax-m2.5",
+    "athena__temis": "opencode/kimi-k2.6",
+    "athena__zeus": "opencode/kimi-k2.6",
+    "hermes__temis": "opencode/kimi-k2.6",
+    "aphrodite__temis": "opencode/kimi-k2.6",
+    "maat__temis": "opencode/kimi-k2.6",
+    "ra__temis": "opencode/kimi-k2.6",
+    "hefesto__temis": "opencode/kimi-k2.6",
+    "hefesto__ra": "opencode/kimi-k2.5",
+    "quiron__temis": "opencode/kimi-k2.6",
+    "quiron__ra": "opencode/kimi-k2.5",
+    "eco__temis": "opencode/kimi-k2.6",
+    "eco__talos": "opencode/deepseek-v4-flash",
+    "nix__zeus": "opencode/kimi-k2.5",
+    "iris__zeus": "opencode/kimi-k2.6",
+    "iris__mnemosyne": "opencode/minimax-m2.5",
+    "apollo__zeus": "opencode/kimi-k2.5",
+    "apollo__athena": "opencode/kimi-k2.5",
+    "temis__zeus": "opencode/kimi-k2.5",
+    "temis__mnemosyne": "opencode/minimax-m2.5",
+    "talos__zeus": "opencode/kimi-k2.5"
+  },
+  "limits": {
+    "monthlyRequests": null,
+    "notes": "Usage cap across rolling windows"
+  }
+}

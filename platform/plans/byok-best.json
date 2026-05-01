@@ -1,0 +1,21 @@
+{
+  "plan": "byok-best",
+  "service": "byok",
+  "tier": "best",
+  "price": "API cost (highest)",
+  "models": {
+    "fast": "anthropic/claude-haiku-4-5",
+    "default": "anthropic/claude-sonnet-4-6",
+    "premium": "anthropic/claude-opus-4-7"
+  },
+  "agent_overrides": {
+    "apollo": "anthropic/claude-haiku-4-5",
+    "iris": "anthropic/claude-haiku-4-5",
+    "mnemosyne": "anthropic/claude-haiku-4-5",
+    "talos": "anthropic/claude-haiku-4-5"
+  },
+  "limits": {
+    "monthlyRequests": null,
+    "notes": "Best API models. All agents use Claude models — Haiku for fast, Sonnet for default, Opus for premium."
+  }
+}

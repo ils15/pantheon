@@ -1,0 +1,16 @@
+{
+  "plan": "byok-cheap",
+  "service": "byok",
+  "tier": "cheap",
+  "price": "API cost (lowest)",
+  "models": {
+    "fast": "google/gemini-3-flash",
+    "default": "google/gemini-3-flash",
+    "premium": "google/gemini-3-pro"
+  },
+  "agent_overrides": {},
+  "limits": {
+    "monthlyRequests": null,
+    "notes": "Cheapest API models. All agents use Gemini Flash by default, with Pro for premium tasks."
+  }
+}

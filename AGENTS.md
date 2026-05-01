@@ -934,118 +934,103 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 
 ## 🎯 MODEL STRATEGY
 
-Each agent uses optimized models for their role:
+Pantheon uses a **plan-based model configuration system**. Agents are model-agnostic at the canonical level — they declare abstract tiers (`fast`, `default`, `premium`) instead of concrete model names. The actual model resolution happens through platform-specific plan files.
 
-```yaml
-# Zeus (Orchestrator)
-model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
-# GPT-5.4 for complex orchestration, Opus fallback for deeper cross-agent reasoning
+### Tier System
 
-# Athena (Planning)
-model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
-# GPT-5.4 as default planner, Opus fallback for complex architecture and risk decomposition
+| Tier | Purpose | Cost Profile | Agents |
+|---|---|---|---|
+| `fast` | Quick, cheap operations | Low (0-0.33x) | Apollo, Iris, Mnemosyne, Talos, Nix |
+| `default` | Balanced quality/speed | Medium (1x) | Hermes, Aphrodite, Maat, Ra, Hefesto, Quíron, Eco, Gaia |
+| `premium` | Deep reasoning, critical | High (3-7.5x) | Zeus, Athena, Temis |
 
-# Apollo (Discovery)
-model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)', 'Gemini 3 Flash (Preview) (copilot)']
-# Flash for fast parallel searches
+### Plan Files
 
-# Hermes (Backend)
-model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
-# GPT-5.4 for implementation speed, Opus fallback for difficult refactors/security-sensitive execution
+Plan files in `platform/plans/` define which concrete models map to each tier for a given service+plan combination:
 
-# Aphrodite (Frontend)
-model: ['Gemini 3.1 Pro (Preview) (copilot)', 'GPT-5.4 (copilot)']
-# Gemini 3.1 Pro as primary for UI/UX layout and visual tasks, GPT-5.4 fallback
-
-# Maat (Database)
-model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
-# GPT-5.4 default for migration work, Opus fallback for complex schema/risk analysis
-
-# Temis (Review)
-model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
-# GPT-5.4 broad review, Opus fallback for deep security/architecture validation
-
-# Mnemosyne (Memory)
-model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)']  
-# Haiku is sufficient for documentation
-
-# Ra (Infrastructure)
-model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
-# GPT-5.4 default for infra orchestration, Opus fallback for complex CI/deployment reasoning
-
-# Talos (Hotfix)
-model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)', 'GPT-5.4 (copilot)']
-# Haiku first for simple low-risk fixes, GPT-5.4 fallback if complexity increases
-
-# Gaia (Domain Specialist — Remote Sensing)
-model: ['Claude Sonnet 4.6 (copilot)', 'GPT-5.4 (copilot)']
-# Sonnet for scientific analysis; GPT-5.4 fallback for complex methodology and literature synthesis
-
-# Iris (GitHub Operations)
-model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
-# GPT-5.4 default for workflow-heavy GitHub tasks, Opus fallback for complex release/changelog synthesis
+```
+platform/plans/
+├── schema.json                 ← JSON Schema for plan validation
+├── opencode-go.json            ← OpenCode Go ($10/mo) — DeepSeek, Kimi, Qwen
+├── opencode-zen-free.json      ← OpenCode Zen Free — GPT-5 Nano, MiniMax
+├── copilot-free.json           ← GitHub Copilot Free — GPT-5 mini (50 req/mo)
+├── copilot-pro.json            ← GitHub Copilot Pro ($10/mo) — Claude Sonnet/Opus
+├── copilot-pro-plus.json       ← GitHub Copilot Pro+ ($39/mo) — Opus 4.7
+├── copilot-student.json        ← GitHub Copilot Student (free) — 300 req/mo
+├── copilot-business.json       ← GitHub Copilot Business ($19/user/mo)
+├── copilot-enterprise.json     ← GitHub Copilot Enterprise ($39/user/mo)
+├── cursor-hobby.json           ← Cursor Hobby (free) — Composer 2
+├── cursor-pro.json             ← Cursor Pro ($20/mo) — Claude/GPT models
+├── cursor-ultra.json           ← Cursor Ultra ($200/mo) — $400 credit pool
+├── claude-pro.json             ← Claude Pro ($20/mo) — Sonnet/Opus
+├── claude-max-5x.json          ← Claude Max 5x ($100/mo) — Opus priority
+├── claude-max-20x.json         ← Claude Max 20x ($200/mo) — 1M ctx Opus
+├── byok-cheap.json             ← Bring Your Own Key (cheap) — Gemini Flash
+├── byok-balanced.json          ← BYOK (balanced) — Sonnet/Opus
+└── byok-best.json              ← BYOK (best) — Claude full suite
 ```
 
-**Changelog-aligned notes (VS Code 1.110):**
-- Keep `model` in each `.agent.md` frontmatter for per-agent routing.
-- Use subagent streaming/progress and prompt queuing for long workflows.
-- Compact context and prefer file-backed large outputs when sessions grow.
+### How to Select a Plan
 
-**Changelog-aligned notes (VS Code Feb 2026):**
-- **`agent/askQuestions` in subagents** (#294949): ALL agents now have this tool. Replace ⏸️ text-based pause patterns with actual interactive question calls that block until the user responds. Zeus and Athena use this at every approval gate.
-- **`~/.copilot/instructions/` auto-loaded globally** (#297179): This directory is for *user-level* personal preferences that apply across all repos. **Do not migrate `.github/copilot-instructions.md`** — it is repo-level, shared with the team, and should stay. Add personal cross-repo conventions to `~/.copilot/instructions/` instead.
-- **Integrated browser tools for agents**: prefer built-in VS Code browser tools (`openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `screenshotPage`) over external MCP browser dependencies when possible.
-- **Enablement flow**: set `workbench.browser.enableChatTools=true`, open the integrated browser, and use **Share with Agent** to grant page access.
-- **`/fork` command** (#291481): Creates a new chat session inheriting current context. Athena can suggest `/fork` when the user wants to explore an alternative architectural approach without losing the current plan thread.
-- **Slash commands in background agents** (#297117): `/implement-feature`, `/plan-architecture`, `/debug-issue`, etc. now work from background agent contexts — no need to return to foreground chat to invoke them.
-- **Local MCP sandbox** (#294029): MCP servers with `stdio` transport can run sandboxed (file/network isolation). Ra and security-sensitive agents benefit from recommending sandboxed MCP servers for infra tooling.
-- **`disable-model-invocation: true`** (Feb 2026): Add to domain specialist agents (Gaia, Talos) that should only be user-invoked. Prevents any orchestrator from treating them as generic subagents. An explicit `agents: ['gaia']` in a coordinator overrides this when intentional delegation is needed.
-- **`handoffs.model`** (Feb 2026): Handoffs can now specify a target model: `handoffs[].model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)']`. Use to switch to a faster model for lighter follow-up phases (e.g., Hermes → Temis handoff uses Sonnet, not Opus).
-- **`handoffs.model` adoption in this repo**: Zeus/Apollo/Temis/Talos route orchestration handoffs with explicit models; Hermes/Aphrodite/Maat pin review handoffs to Opus; docs/release handoffs use Haiku where appropriate.
-- **Model governance**: Athena is the only planner agent that should consult supported-models docs and propose routing changes for the rest of the system.
+```bash
+# List all available plans
+./platform/select-plan.sh list
 
-### New Agents (v3 expansion)
+# Select OpenCode Go plan
+./platform/select-plan.sh opencode-go
 
-```yaml
-# Hefesto (AI Pipelines)
-model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
-# GPT-5.4 for LangChain/LangGraph implementation, Opus fallback for complex RAG architecture
+# Select Copilot Pro plan
+./platform/select-plan.sh copilot-pro
 
-# Quíron (Model Provider Hub)
-model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
-# GPT-5.4 default for provider configuration, Opus fallback for security-critical routing
+# Show current active plan
+./platform/select-plan.sh status
 
-# Eco (Conversational AI)
-model: ['GPT-5.4 (copilot)', 'Claude Opus 4.6 (copilot)']
-# GPT-5.4 for NLU pipeline design, Opus fallback for complex dialogue architecture
-
-# Nix (Observability)
-model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)', 'GPT-5.4 (copilot)']
-# Haiku for lightweight instrumentation, GPT-5.4 for complex tracing architecture
+# Show model-to-agent mapping
+./platform/select-plan.sh models
 ```
-- **VS Code 1.111-1.114 agent features to leverage**:
-   - Use the Chat Customizations editor for agent/instruction/skill management when reviewing or onboarding customization files.
-   - Use `agent/askQuestions` for approval gates and `#debugEventsSnapshot`/`/troubleshoot #session` for diagnosing customization loading, tool choices, and latency.
-   - Use nested subagents only for bounded multi-step work; `chat.subagents.allowInvocationsFromSubagents` is available, but the workflow still needs clear recursion limits.
-   - Treat `#codebase` as semantic-first search and pair it with text/symbol search for exact matches.
-   - When consuming third-party customizations, prefer the Awesome Copilot marketplace and review the sourced agent docs before enabling them.
 
-### Plan Validation Lane (new)
+### How It Works
 
-Before implementation starts, Temis validates Athena's plan as a separate quality gate:
-1. Athena drafts plan
-2. Temis validates plan completeness/risk/test strategy
-3. User approves via askQuestions
-4. Zeus dispatches implementation
+1. **Canonical agents** declare handoff model requirements as abstract tiers (`handoffs: [{model: premium}]`)
+2. **Plan files** (`platform/plans/<plan>.json`) map tiers → concrete models per platform
+3. **`plan-active.json`** symlink points to the active plan
+4. **Platform adapters** read the active plan and resolve tiers to concrete model names
+5. **`opencode.json`** provides per-agent model overrides for OpenCode users
 
-This keeps execution (Hermes/Aphrodite/Maat) and validation (Temis) decoupled.
-- **Claude agent format** (Feb 2026): VS Code detects `.md` files in `.claude/agents/` folder using Claude-specific frontmatter (`tools` as comma-separated string). Same agent files can now run in both VS Code and Claude Code without modification.
-- **awesome-copilot MCP server**: Install community agents, skills and instructions directly via MCP: `copilot plugin marketplace add github/awesome-copilot`. Browse 22k+ starred collection without leaving VS Code.
+### Handoff Tier Assignments
 
-**Changelog-aligned note (GitHub Copilot 2026):**
-- If using Copilot Coding Agent on managed/self-hosted runners, validate network routing endpoints by plan (`api.business.githubcopilot.com` / `api.enterprise.githubcopilot.com`) before rollout.
+| Direction | Tier | Reason |
+|---|---|---|
+| Any → Temis | `premium` | Critical quality + security gate |
+| Any → Zeus | `premium` | Complex orchestration decisions |
+| Athena → Zeus | `premium` | Plan handoff needs careful execution |
+| Any → Mnemosyne | `fast` | Simple documentation writes |
+| Hefesto/Quíron → Ra | `default` | Infrastructure config generation |
+| Eco → Talos | `fast` | Quick hotfix dispatch |
 
-**Benefit:** Better role specialization with deterministic fallback when the primary model is unavailable.
+### OpenCode Configuration
+
+The root `opencode.json` provides per-agent model overrides using OpenCode's `agent.<name>.model` config format. Defaults to OpenCode Go plan models.
+
+```json
+{
+  "model": "opencode/kimi-k2.6",
+  "small_model": "opencode/deepseek-v4-flash",
+  "agent": {
+    "zeus":    { "model": "opencode/kimi-k2.6" },
+    "apollo":  { "model": "opencode/deepseek-v4-flash" },
+    "temis":   { "model": "opencode/kimi-k2.6" }
+  }
+}
+```
+
+### Full Model Availability by Platform
+
+See [platform/plans/](platform/plans/) for all 16+ plan configurations across OpenCode, GitHub Copilot, Cursor, Claude Code, and BYOK options.
+
+### Canonical Agent Models
+
+Each agent's `model:` frontmatter field (top-level) remains as a suggested model list for the platform. These are hints, not hard requirements. The actual model used depends on the active plan.
 
 ---
 

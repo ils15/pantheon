@@ -1,0 +1,23 @@
+{
+  "plan": "cursor-ultra",
+  "service": "cursor",
+  "tier": "ultra",
+  "price": "$200/mo",
+  "models": {
+    "fast": "gpt-5-mini",
+    "default": "claude-4.6-sonnet",
+    "premium": "claude-4.7-opus"
+  },
+  "agent_overrides": {
+    "apollo": "gpt-5-mini",
+    "aphrodite": "gemini-3-pro",
+    "nix": "gpt-5.4-nano",
+    "talos": "claude-4.5-haiku",
+    "iris": "gpt-5-mini",
+    "mnemosyne": "gpt-5-mini"
+  },
+  "limits": {
+    "monthlyRequests": null,
+    "notes": "$400 API credit pool. 20x capacity of Pro. Full access to all models including Claude 4.7 Opus and GPT-5.5."
+  }
+}

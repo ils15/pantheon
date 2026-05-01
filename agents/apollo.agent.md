@@ -20,12 +20,12 @@ handoffs:
     agent: zeus
     prompt: "Process these discovery findings and proceed with orchestration."
     send: false
-    model: 'GPT-5.4 (copilot)'
+    model: premium
   - label: "📊 Return Findings to Athena"
     agent: athena
     prompt: "Use these findings to refine or complete the plan."
     send: false
-    model: 'Claude Sonnet 4.6 (copilot)'
+    model: default
 user-invocable: false
 ---
 

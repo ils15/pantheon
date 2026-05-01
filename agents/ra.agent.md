@@ -20,7 +20,7 @@ handoffs:
     agent: temis
     prompt: "Validate these infrastructure changes for best practices, security, and correctness."
     send: false
-    model: 'Claude Opus 4.6 (copilot)'
+    model: premium
 user-invocable: true
 ---
 

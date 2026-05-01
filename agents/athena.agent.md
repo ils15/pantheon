@@ -11,8 +11,8 @@ tools:
    - web/fetch
 agents: ['apollo']
 handoffs:
-   - { label: "Validate Plan", agent: "temis", prompt: "Validate this implementation plan for completeness, risk coverage, and test strategy before execution.", send: false, model: "Claude Opus 4.6 (copilot)" }
-   - { label: "Implement Plan", agent: "zeus", prompt: "Implement the plan outlined above following TDD methodology.", send: false, model: "GPT-5.4 (copilot)" }
+   - { label: "Validate Plan", agent: "temis", prompt: "Validate this implementation plan for completeness, risk coverage, and test strategy before execution.", send: false, model: premium }
+   - { label: "Implement Plan", agent: "zeus", prompt: "Implement the plan outlined above following TDD methodology.", send: false, model: premium }
 user-invocable: true
 ---
 

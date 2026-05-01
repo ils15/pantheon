@@ -17,7 +17,7 @@ handoffs:
     agent: zeus
     prompt: "This fix is more complex than expected and requires multi-agent orchestration. Please take over."
     send: false
-    model: 'GPT-5.4 (copilot)'
+    model: premium
 user-invocable: true
 disable-model-invocation: true
 ---

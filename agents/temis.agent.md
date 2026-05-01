@@ -25,12 +25,12 @@ handoffs:
     agent: zeus
     prompt: "Fix the issues identified in the code review above."
     send: false
-    model: 'GPT-5.4 (copilot)'
+    model: premium
   - label: "📝 Document Findings"
     agent: mnemosyne
     prompt: "Document the review findings and decisions above in the Memory Bank."
     send: false
-    model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)']
+    model: fast
 user-invocable: true
 ---
 

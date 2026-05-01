@@ -1,0 +1,22 @@
+{
+  "plan": "claude-max-5x",
+  "service": "claude",
+  "tier": "max-5x",
+  "price": "$100/mo",
+  "models": {
+    "fast": "claude-haiku-4-5-20250514",
+    "default": "claude-sonnet-4-6-20250514",
+    "premium": "claude-opus-4-7-20250514"
+  },
+  "agent_overrides": {
+    "apollo": "claude-haiku-4-5-20250514",
+    "iris": "claude-haiku-4-5-20250514",
+    "mnemosyne": "claude-haiku-4-5-20250514",
+    "talos": "claude-haiku-4-5-20250514",
+    "nix": "claude-haiku-4-5-20250514"
+  },
+  "limits": {
+    "monthlyRequests": null,
+    "notes": "5x Pro capacity. Priority access to Opus 4.7. ~225 messages per 5h window."
+  }
+}

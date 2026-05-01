@@ -19,37 +19,37 @@ handoffs:
     agent: athena
     prompt: "Create an implementation plan for this feature."
     send: false
-    model: 'GPT-5.4 (copilot)'
+    model: premium
   - label: "🔍 Validate Plan"
     agent: temis
     prompt: "Validate the plan before execution: coverage, risks, test strategy, and rollout safety."
     send: false
-    model: 'Claude Opus 4.6 (copilot)'
+    model: premium
   - label: "📝 Document Progress"
     agent: mnemosyne
     prompt: "Document the completed work and decisions in the Memory Bank."
     send: false
-    model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)']
+    model: fast
   - label: "🔧 Build AI Pipelines"
     agent: hefesto
     prompt: "Build AI tooling pipelines (RAG, LangChain chains, vector search) for this feature."
     send: false
-    model: 'GPT-5.4 (copilot)'
+    model: default
   - label: "🤖 Configure Model Routing"
     agent: quiron
     prompt: "Configure multi-model routing and provider integration for this feature."
     send: false
-    model: 'GPT-5.4 (copilot)'
+    model: default
   - label: "💬 Design Conversational Flows"
     agent: eco
     prompt: "Design conversational AI flows (NLU pipelines, dialogue management) for this feature."
     send: false
-    model: 'GPT-5.4 (copilot)'
+    model: default
   - label: "👁️ Set Up Observability"
     agent: nix
     prompt: "Set up observability, tracing, and cost tracking for this feature."
     send: false
-    model: ['GPT-5.4 mini (copilot)', 'Claude Haiku 4.5 (copilot)']
+    model: fast
 user-invocable: true
 ---
 

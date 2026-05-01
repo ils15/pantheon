@@ -1,0 +1,38 @@
+{
+  "plan": "copilot-pro",
+  "service": "vscode",
+  "tier": "pro",
+  "price": "$10/mo",
+  "models": {
+    "fast": "Claude Haiku 4.5 (copilot)",
+    "default": "Claude Sonnet 4.6 (copilot)",
+    "premium": "Claude Opus 4.6 (copilot)"
+  },
+  "agent_overrides": {
+    "apollo": "GPT-5 mini (copilot)",
+    "aphrodite": "Gemini 3.1 Pro (copilot)",
+    "nix": "GPT-5.4 mini (copilot)",
+    "talos": "GPT-5.4 mini (copilot)",
+    "iris": "Claude Haiku 4.5 (copilot)",
+    "mnemosyne": "Claude Haiku 4.5 (copilot)"
+  },
+  "handoff_models": {
+    "zeus__temis": "Claude Opus 4.6 (copilot)",
+    "zeus__mnemosyne": "GPT-5.4 mini (copilot)",
+    "zeus__nix": "GPT-5.4 mini (copilot)",
+    "athena__temis": "Claude Opus 4.6 (copilot)",
+    "hermes__temis": "Claude Opus 4.6 (copilot)",
+    "aphrodite__temis": "Claude Opus 4.6 (copilot)",
+    "maat__temis": "Claude Opus 4.6 (copilot)",
+    "ra__temis": "Claude Opus 4.6 (copilot)",
+    "hefesto__temis": "Claude Opus 4.6 (copilot)",
+    "quiron__temis": "Claude Opus 4.6 (copilot)",
+    "eco__temis": "Claude Opus 4.6 (copilot)",
+    "iris__zeus": "GPT-5.3-Codex (copilot)",
+    "iris__mnemosyne": "Claude Haiku 4.5 (copilot)"
+  },
+  "limits": {
+    "monthlyRequests": 300,
+    "notes": "300 premium requests/mo. Models with 0x multiplier don't consume premium requests."
+  }
+}

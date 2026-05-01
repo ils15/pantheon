@@ -1,0 +1,23 @@
+{
+  "plan": "byok-balanced",
+  "service": "byok",
+  "tier": "balanced",
+  "price": "API cost",
+  "models": {
+    "fast": "google/gemini-3-flash",
+    "default": "anthropic/claude-sonnet-4-6",
+    "premium": "anthropic/claude-opus-4-7"
+  },
+  "agent_overrides": {
+    "apollo": "google/gemini-3-flash",
+    "iris": "google/gemini-3-flash",
+    "mnemosyne": "google/gemini-3-flash",
+    "talos": "google/gemini-3-flash",
+    "nix": "google/gemini-3-flash",
+    "gaia": "anthropic/claude-sonnet-4-6"
+  },
+  "limits": {
+    "monthlyRequests": null,
+    "notes": "Bring Your Own Key — pay per token at API rates."
+  }
+}

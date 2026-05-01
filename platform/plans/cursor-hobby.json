@@ -1,0 +1,16 @@
+{
+  "plan": "cursor-hobby",
+  "service": "cursor",
+  "tier": "hobby",
+  "price": "$0",
+  "models": {
+    "fast": "composer-2",
+    "default": "composer-2",
+    "premium": "gpt-5-mini"
+  },
+  "agent_overrides": {},
+  "limits": {
+    "monthlyRequests": null,
+    "notes": "Hobby/free plan. Limited to Auto model selection and cursor-small. Premium models very limited."
+  }
+}

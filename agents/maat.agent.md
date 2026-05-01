@@ -19,7 +19,7 @@ handoffs:
     agent: temis
     prompt: "Please perform a code review and security audit on these database/migration changes."
     send: true
-    model: 'Claude Opus 4.6 (copilot)'
+    model: premium
 user-invocable: true
 ---
 

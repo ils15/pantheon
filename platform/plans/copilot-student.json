@@ -1,0 +1,22 @@
+{
+  "plan": "copilot-student",
+  "service": "vscode",
+  "tier": "student",
+  "price": "$0 (verified students)",
+  "models": {
+    "fast": "GPT-5 mini (copilot)",
+    "default": "Claude Sonnet 4.6 (copilot)",
+    "premium": "Claude Opus 4.6 (copilot)"
+  },
+  "agent_overrides": {
+    "apollo": "GPT-5 mini (copilot)",
+    "nix": "GPT-5.4 mini (copilot)",
+    "talos": "GPT-5.4 mini (copilot)",
+    "iris": "Claude Haiku 4.5 (copilot)",
+    "mnemosyne": "Claude Haiku 4.5 (copilot)"
+  },
+  "limits": {
+    "monthlyRequests": 300,
+    "notes": "300 premium requests/mo for verified students. GPT-5.3-Codex available via auto-select only."
+  }
+}

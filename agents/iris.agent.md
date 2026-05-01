@@ -12,8 +12,8 @@ tools:
    - execute/getTerminalOutput
 
 handoffs:
-   - { label: "Merge PR", agent: zeus, prompt: "Iris has opened a PR and is awaiting your approval to merge. Review the PR link above, then reply 'merge' to proceed.", send: false, model: 'GPT-5.3-Codex (copilot)' }
-   - { label: "Document release", agent: mnemosyne, prompt: "Please update the memory bank with the release information provided above.", send: false, model: 'Claude Sonnet 4 (copilot)' }
+   - { label: "Merge PR", agent: zeus, prompt: "Iris has opened a PR and is awaiting your approval to merge. Review the PR link above, then reply 'merge' to proceed.", send: false, model: premium }
+   - { label: "Document release", agent: mnemosyne, prompt: "Please update the memory bank with the release information provided above.", send: false, model: fast }
 agents: ['mnemosyne']
 user-invocable: true
 ---

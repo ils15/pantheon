@@ -1,0 +1,23 @@
+{
+  "plan": "opencode-zen-free",
+  "service": "opencode",
+  "tier": "free",
+  "price": "$0",
+  "models": {
+    "fast": "opencode/gpt-5-nano",
+    "default": "opencode/minimax-m2.5-free",
+    "premium": "opencode/kimi-k2.5"
+  },
+  "agent_overrides": {
+    "apollo": "opencode/gpt-5-nano",
+    "iris": "opencode/gpt-5-nano",
+    "mnemosyne": "opencode/gpt-5-nano",
+    "talos": "opencode/gpt-5-nano",
+    "nix": "opencode/gpt-5-nano",
+    "gaia": "opencode/minimax-m2.5-free"
+  },
+  "limits": {
+    "monthlyRequests": null,
+    "notes": "Zen Free tier. Rate limited. GPT-5 Nano is permanent free model."
+  }
+}

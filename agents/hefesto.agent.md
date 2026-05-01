@@ -22,12 +22,12 @@ handoffs:
     agent: temis
     prompt: "Review this AI pipeline for correctness, security (prompt injection, data exfiltration), and performance."
     send: false
-    model: 'Claude Opus 4.6 (copilot)'
+    model: premium
   - label: "📊 Deploy Pipeline"
     agent: ra
     prompt: "Deploy this AI pipeline — consider GPU requirements, model volume mounts, and inference health checks."
     send: false
-    model: 'GPT-5.4 (copilot)'
+    model: default
 user-invocable: true
 ---
 

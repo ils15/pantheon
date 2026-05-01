@@ -30,7 +30,7 @@ handoffs:
     agent: temis
     prompt: "Please perform a code review and accessibility audit on these frontend changes according to your instructions."
     send: true
-    model: 'Claude Opus 4.6 (copilot)'
+    model: premium
 user-invocable: true
 ---
 

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/kimi-k2.6",
+  "small_model": "opencode/deepseek-v4-flash",
+  "agent": {
+    "zeus": {
+      "model": "opencode/kimi-k2.6"
+    },
+    "athena": {
+      "model": "opencode/kimi-k2.6"
+    },
+    "apollo": {
+      "model": "opencode/deepseek-v4-flash"
+    },
+    "hermes": {
+      "model": "opencode/kimi-k2.5"
+    },
+    "aphrodite": {
+      "model": "opencode/qwen3.6-plus"
+    },
+    "maat": {
+      "model": "opencode/kimi-k2.5"
+    },
+    "temis": {
+      "model": "opencode/kimi-k2.6"
+    },
+    "ra": {
+      "model": "opencode/deepseek-v4-pro"
+    },
+    "hefesto": {
+      "model": "opencode/kimi-k2.5"
+    },
+    "quiron": {
+      "model": "opencode/kimi-k2.5"
+    },
+    "eco": {
+      "model": "opencode/kimi-k2.5"
+    },
+    "nix": {
+      "model": "opencode/minimax-m2.5"
+    },
+    "gaia": {
+      "model": "opencode/deepseek-v4-pro"
+    },
+    "iris": {
+      "model": "opencode/deepseek-v4-flash"
+    },
+    "mnemosyne": {
+      "model": "opencode/minimax-m2.5-free"
+    },
+    "talos": {
+      "model": "opencode/deepseek-v4-flash"
+    }
+  }
+}

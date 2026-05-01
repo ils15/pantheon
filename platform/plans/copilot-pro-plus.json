@@ -1,0 +1,32 @@
+{
+  "plan": "copilot-pro-plus",
+  "service": "vscode",
+  "tier": "pro-plus",
+  "price": "$39/mo",
+  "models": {
+    "fast": "GPT-5 mini (copilot)",
+    "default": "Claude Sonnet 4.6 (copilot)",
+    "premium": "Claude Opus 4.7 (copilot)"
+  },
+  "agent_overrides": {
+    "apollo": "GPT-5 mini (copilot)",
+    "aphrodite": "Gemini 3.1 Pro (copilot)",
+    "nix": "GPT-5.4 mini (copilot)",
+    "talos": "GPT-5 mini (copilot)",
+    "iris": "GPT-5 mini (copilot)",
+    "mnemosyne": "GPT-5 mini (copilot)",
+    "gaia": "Claude Sonnet 4.6 (copilot)"
+  },
+  "handoff_models": {
+    "zeus__temis": "Claude Opus 4.6 (copilot)",
+    "zeus__mnemosyne": "GPT-5.4 mini (copilot)",
+    "zeus__nix": "GPT-5.4 mini (copilot)",
+    "athena__temis": "Claude Opus 4.6 (copilot)",
+    "iris__zeus": "GPT-5.3-Codex (copilot)",
+    "iris__mnemosyne": "GPT-5 mini (copilot)"
+  },
+  "limits": {
+    "monthlyRequests": 1500,
+    "notes": "1500 premium requests/mo. Full access to all models. Claude Opus 4.7 at 7.5x multiplier."
+  }
+}
