@@ -11,6 +11,14 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+*(no unreleased changes yet)*
+
+---
+
+## [3.2.0] - 2026-05-01
+
+### Added
+
 #### 🧠 **Capability Taxonomy** — deterministic cross-platform tool coverage
 
 `scripts/sync-platforms.mjs` now ships a built-in capability taxonomy that classifies all 30 canonical tools by portability tier:
@@ -43,7 +51,42 @@ Each `platform/*/adapter.json` now declares which capability classes are support
 
 Platforms: OpenCode, Claude Code, Cursor, Windsurf.
 
+#### 📦 **`scripts/install.mjs`** — multi-platform agent installer
+
+New one-command installer that auto-detects platforms and deploys all 16 agents:
+
+```
+node scripts/install.mjs --target /path/to/project --platforms all
+```
+
+Installs 86 files across 5 platforms:
+- OpenCode → `.opencode/agents/` + `opencode.json`
+- Claude Code → `.claude/agents/` + `CLAUDE.md` + `settings.json` + `AGENTS.md`
+- Cursor → `.cursor/rules/`
+- Windsurf → `.windsurf/agents/` + `.windsurfrules`
+- VS Code / Copilot → `.github/agents/`
+
+Supports `--target`, `--platforms`, `--dry-run`, auto-detection, and full idempotency.
+
+#### 🌉 **`template/CLAUDE.md`** — cross-platform bridge template
+
+Template referencing `AGENTS.md` as the shared source of truth, enabling Claude Code users to adopt Pantheon alongside other platforms.
+
 ### Fixed
+
+#### 🔧 **Platform adapter tool name mappings — critical cross-platform fix**
+
+**Problem:** OpenCode, Claude Code, and Windsurf adapters were generating agent files with VS Code canonical tool names (`search/codebase`, `read/readFile`, `execute/runInTerminal`) that target platforms do not recognize — resulting in silent tool misconfiguration across all generated agents.
+
+**Fix — All 3 adapters updated to v2.0:**
+
+| Platform | Before (broken) | After (fixed) |
+|---|---|---|
+| **OpenCode** | `toolMap: {}` — empty passthrough | 13 mappings: `codesearch`, `read`, `edit`, `bash`, `glob`, `grep`, `list`, `webfetch`, `task` |
+| **Claude Code** | `agent→Task`, `read/readFile` unmapped | `agent→Agent`, `AskUserQuestion`, `Read`, `Edit`, `Bash`, `Glob`, `Grep`, `WebFetch` |
+| **Windsurf** | Stub/preview status | v2.0 with Cascade naming, full frontmatter support |
+
+Body-level permission blocks removed from OpenCode agents (using frontmatter `permission:` instead). All 32 Claude/OpenCode agent files regenerated; Cursor and Windsurf (16 each) already aligned.
 
 #### 🔧 **Canonical agent toolsets aligned to portable baseline**
 
@@ -57,6 +100,16 @@ Platforms: OpenCode, Claude Code, Cursor, Windsurf.
 | **Mnemosyne** | Added `agent` — enables bounded delegation for documentation tasks |
 
 All 64 platform files (16 agents × 4 platforms) regenerated and validated — `npm run sync:check` passes with 0 drift.
+
+### Changed
+
+#### 📚 **Platform documentation updated for adapter v2**
+
+- `docs/platforms/opencode.md` — tool mapping table, install.mjs, adapter v2
+- `docs/platforms/claude.md` — native Claude tool names, install.mjs
+- `docs/platforms/windsurf.md` — Cascade 2.0, production status, install.mjs
+- `docs/platforms/cursor.md` — install.mjs reference
+- `docs/platforms/vscode.md` — install.mjs as alternative method
 
 #### 📝 **AGENTS.md tool tables aligned to canonical reality**
 
