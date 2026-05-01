@@ -1,7 +1,7 @@
 ---
 name: mnemosyne
 description: Memory bank quality owner — initializes docs/memory-bank/, writes ADRs and task records on explicit request. Called by zeus. Never invoked automatically after phases.
-tools: Task, search/codebase, search/usages, read/readFile, edit/editFiles
+tools: Agent, Grep, Read, Edit
 ---
 
 # Mnemosyne - Memory Agent

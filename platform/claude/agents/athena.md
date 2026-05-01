@@ -1,7 +1,7 @@
 ---
 name: athena
 description: Strategic planner & architect — research-first, plan-only, never implements. Calls apollo as nested subagent for complex discovery.
-tools: Task, askQuestions, search/codebase, search/usages, search/fileSearch, search/textSearch, search/listDirectory, read/readFile, web/fetch
+tools: Agent, AskUserQuestion, Grep, Glob, Read, WebFetch
 ---
 
 # Athena - Strategic Planner

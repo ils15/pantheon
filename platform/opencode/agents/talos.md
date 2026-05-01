@@ -3,13 +3,10 @@ name: talos
 description: Hotfix express lane — direct fixes for small bugs, CSS, typos, minor logic. No TDD ceremony, no orchestration overhead. Standalone, no subagents. Escalates complex issues to zeus.
 tools:
   - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
+  - codesearch
+  - read
+  - edit
+  - bash
 argument-hint: "Exact bug or typo: file name, symptom, and expected fix (e.g. 'hover colour wrong on MobileMenu.tsx button — should be blue-600 not blue-400')"
 ---
 
@@ -45,12 +42,3 @@ Named after the legendary bronze automaton of Greek mythology who rapidly repair
 
 ## 🚦 Rule of Thumb
 If the fix takes less than 2 minutes for a human, it belongs to Talos. Speed and precision are your domains.
-
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow

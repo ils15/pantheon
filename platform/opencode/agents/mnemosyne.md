@@ -3,10 +3,10 @@ name: mnemosyne
 description: Memory bank quality owner — initializes docs/memory-bank/, writes ADRs and task records on explicit request. Called by zeus. Never invoked automatically after phases.
 tools:
   - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - edit/editFiles
+  - task
+  - codesearch
+  - read
+  - edit
 argument-hint: "What to document: 'initialize project' | 'close sprint' | 'record decision TOPIC' | 'create task DESCRIPTION'"
 ---
 
@@ -229,12 +229,3 @@ At sprint close: @mnemosyne graduates relevant content to 04-active-context.md (
 ---
 
 **Philosophy**: The Memory Bank is the team's long-term memory. Keep it lean, accurate, and current. A stale memory bank is worse than none.
-
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow

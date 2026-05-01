@@ -1,7 +1,7 @@
 {
   "name": "claude",
   "displayName": "Claude Code",
-  "version": "1.0.0",
+  "version": "2.0.0",
 
   "description": "Claude Code uses .md files in .claude/agents/ with comma-separated tools string (not YAML arrays).",
 
@@ -12,6 +12,7 @@
     "include": [
       "name",
       "description",
+      "mode",
       "tools",
       "skills",
       "instructions"
@@ -27,47 +28,48 @@
     "transform": {
       "tools": { "strategy": "comma-separated" },
       "skills": { "strategy": "comma-separated" },
-      "instructions": { "strategy": "comma-separated" }
+      "instructions": { "strategy": "comma-separated" },
+      "mode": { "strategy": "identity" }
     }
   },
 
   "toolMap": {
-    "search/codebase": "search/codebase",
-    "search/usages": "search/usages",
-    "read/readFile": "read/readFile",
-    "edit/editFiles": "edit/editFiles",
-    "execute/runInTerminal": "execute/runInTerminal",
-    "execute/testFailure": "execute/testFailure",
-    "execute/getTerminalOutput": "execute/getTerminalOutput",
-    "search/changes": "search/changes",
-    "web/fetch": "web/fetch",
-    "search/fileSearch": "search/fileSearch",
-    "search/textSearch": "search/textSearch",
-    "search/listDirectory": "search/listDirectory",
-    "agent": "Task",
-    "vscode/askQuestions": "askQuestions",
-    "browser/openBrowserPage": "openBrowserPage",
-    "browser/navigatePage": "navigatePage",
-    "browser/readPage": "readPage",
-    "browser/clickElement": "clickElement",
-    "browser/typeInPage": "typeInPage",
-    "browser/hoverElement": "hoverElement",
-    "browser/dragElement": "dragElement",
-    "browser/handleDialog": "handleDialog",
-    "browser/screenshotPage": "screenshotPage"
+    "search/codebase": "Grep",
+    "search/usages": "Grep",
+    "search/fileSearch": "Glob",
+    "search/textSearch": "Grep",
+    "search/listDirectory": "Glob",
+    "search/changes": "Bash",
+    "read/readFile": "Read",
+    "edit/editFiles": "Edit",
+    "execute/runInTerminal": "Bash",
+    "execute/testFailure": "Bash",
+    "execute/getTerminalOutput": "Bash",
+    "web/fetch": "WebFetch",
+    "agent": "Agent",
+    "vscode/askQuestions": "AskUserQuestion"
   },
 
   "excludeTools": [
     "read/problems",
     "execute/createAndRunTask",
-    "vscode/runCommand"
+    "vscode/runCommand",
+    "browser/openBrowserPage",
+    "browser/navigatePage",
+    "browser/readPage",
+    "browser/clickElement",
+    "browser/typeInPage",
+    "browser/hoverElement",
+    "browser/dragElement",
+    "browser/handleDialog",
+    "browser/screenshotPage"
   ],
 
   "capabilityFlags": {
     "orchestration": true,
     "approval": true,
     "diagnostics": false,
-    "browser-ui": true,
+    "browser-ui": false,
     "ide-local": false,
     "github-service": false
   },

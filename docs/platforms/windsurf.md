@@ -7,13 +7,21 @@
 
 ## Installation
 
+Use the universal install script (auto-detects platform):
+
+```bash
+node scripts/install.mjs --target /path/to/your-project
+```
+
+### Manual Setup
+
 ```bash
 git clone https://github.com/anomalyco/Pantheon.git
 cd Pantheon
 npm install
 ```
 
-Windsurf uses the `.windsurf/` directory for agent configurations. Since Windsurf agent support is currently in preview, manual configuration is recommended:
+Windsurf uses the `.windsurf/` directory for agent configurations (adapter v2.0.0, now production-ready):
 
 1. Create the `.windsurf/` directory in your project root
 2. Copy agent files from `agents/` into `.windsurf/agents/`
@@ -43,22 +51,24 @@ Windsurf supports two types of rules:
 
 Rules can reference instruction files from this repository's `instructions/` directory, though some reformatting may be needed due to format differences.
 
-## Agent Format
+## Agent Format (adapter v2.0.0)
 
-Windsurf supports `.agent.md` format similar to VS Code Custom Agents, with some differences:
+Windsurf supports `.agent.md` format similar to VS Code Custom Agents, now production-ready:
 
 | Feature | VS Code | Windsurf |
 |---------|---------|----------|
 | Agent discovery | `.github/agents/` or custom path | `.windsurf/agents/` |
-| Frontmatter | YAML with `name`, `description`, `model`, `tools` | YAML with `name`, `description`, `tools` (model config differs) |
-| Tool naming | `search/codebase`, `edit/editFiles` | Similar tool categories, different naming conventions |
+| Frontmatter | YAML with `name`, `description`, `model`, `tools` | YAML with `name`, `description`, `tools`, `mode`, `skills`, `instructions` |
+| Tool naming | `search/codebase`, `edit/editFiles` | Mapped via toolMap to Windsurf-native names |
 | Instructions | `.github/copilot-instructions.md` | `.windsurf/rules/` files |
+| ensureAgentTool | Default true | Set to `false` |
 
 ### Format Differences
 
 - Windsurf uses `Codeium` model identifiers instead of Copilot model names
-- Tool names may differ — verify against Windsurf's tool reference
-- Some advanced frontmatter fields (e.g., `user-invocable`) may not be supported in preview
+- Tool names are automatically mapped via the adapter's `toolMap` — no manual translation needed
+- Frontmatter supports `mode` (`plan`, `implement`, `review`), `skills`, and `instructions` fields
+- `ensureAgentTool` is set to `false` to prevent automatic agent tool injection
 
 ## Windsurf-Specific Features
 
@@ -90,13 +100,11 @@ Refer to [MCP documentation](../mcp/README.md) for server configuration details 
 
 ## Troubleshooting
 
-### Known Limitations (Preview State)
+### Known Limitations
 
-- **Agent format parity**: Not all VS Code agent frontmatter fields are supported — test thoroughly when porting agents
-- **Tool compatibility**: Some VS Code agent tools may not have direct Windsurf equivalents; check Windsurf documentation for mapping
+- **Agent format parity**: Some VS Code agent frontmatter fields (`handoffs`, `agents`, `user-invocable`) may not be supported — test thoroughly when porting agents
 - **Rule application**: `.windsurf/rules/` may process rules differently than VS Code's `copilot-instructions.md` — verify behavior with complex instructions
-- **Performance**: Agent execution in preview may have higher latency or different context limits compared to VS Code
-- **Nested subagents**: May not be supported in Windsurf's current preview
+- **Nested subagents**: Delegation follows a different model than VS Code's `runSubagent` — use direct `@agent` mentions
 
 ### Common Issues
 

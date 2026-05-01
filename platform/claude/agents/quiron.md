@@ -1,7 +1,7 @@
 ---
 name: quiron
 description: Model provider hub specialist — multi-model routing, AWS Bedrock, cost optimization, provider abstraction. The bridge between agents and AI models. Calls apollo for discovery. Sends work to temis for review.
-tools: Task, askQuestions, search/codebase, search/usages, read/readFile, edit/editFiles, execute/runInTerminal, execute/testFailure, execute/getTerminalOutput, search/changes, web/fetch
+tools: Agent, AskUserQuestion, Grep, Read, Edit, Bash, WebFetch
 ---
 
 # Quíron — Model Provider Hub Specialist

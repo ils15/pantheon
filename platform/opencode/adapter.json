@@ -1,7 +1,7 @@
 {
   "name": "opencode",
   "displayName": "OpenCode",
-  "version": "1.0.0",
+  "version": "2.0.0",
 
   "description": "OpenCode uses .md files with YAML frontmatter. Strips VS Code-specific frontmatter fields and appends permission blocks.",
 
@@ -12,7 +12,7 @@
     "include": [
       "name",
       "description",
-      "model",
+      "mode",
       "tools",
       "skills",
       "instructions",
@@ -25,16 +25,31 @@
     ],
     "transform": {
       "tools": { "strategy": "identity" },
-      "model": { "strategy": "omit" }
+      "mode": { "strategy": "identity" }
     }
   },
 
-  "toolMap": {},
+  "toolMap": {
+    "search/codebase": "codesearch",
+    "search/usages": "codesearch",
+    "search/fileSearch": "glob",
+    "search/textSearch": "grep",
+    "search/listDirectory": "list",
+    "search/changes": "bash",
+    "read/readFile": "read",
+    "edit/editFiles": "edit",
+    "execute/runInTerminal": "bash",
+    "execute/testFailure": "bash",
+    "execute/getTerminalOutput": "bash",
+    "web/fetch": "webfetch",
+    "agent": "task"
+  },
 
   "excludeTools": [
+    "read/problems",
+    "execute/createAndRunTask",
     "vscode/askQuestions",
     "vscode/runCommand",
-    "execute/createAndRunTask",
     "browser/openBrowserPage",
     "browser/navigatePage",
     "browser/readPage",
@@ -59,8 +74,16 @@
 
   "bodyFilters": [
     {
-      "action": "append",
-      "content": "---\n\n## Permissions\n\n- `edit`: deny\n- `execute`: deny\n- `search`: allow\n- `read`: allow"
+      "pattern": "## Copilot Workflow Updates",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "## Agent Lifecycle Hooks",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "## VS Code Integration",
+      "action": "omit-section"
     }
   ]
 }

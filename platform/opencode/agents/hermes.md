@@ -3,15 +3,11 @@ name: hermes
 description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR). Calls apollo as nested subagent to discover patterns. Sends work to temis for review.
 tools:
   - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
-  - search/changes
+  - task
+  - codesearch
+  - read
+  - edit
+  - bash
 argument-hint: "Backend task: endpoint, service, router, schema, or test — include module name and expected behaviour (e.g. 'POST /users endpoint with email uniqueness validation')"
 ---
 
@@ -216,11 +212,3 @@ When completing a task, provide:
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
 
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow

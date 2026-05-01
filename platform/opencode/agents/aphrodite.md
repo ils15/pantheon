@@ -3,15 +3,11 @@ name: aphrodite
 description: Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD. Calls apollo as nested subagent to discover components. Sends work to temis for review.
 tools:
   - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
-  - search/changes
+  - task
+  - codesearch
+  - read
+  - edit
+  - bash
 argument-hint: "Frontend task: component, page, hook, or styling — include name, props, and UX behaviour (e.g. 'ProductCard with image, title, price and add-to-cart button')"
 ---
 
@@ -250,11 +246,3 @@ When completing a task, provide:
 
 **Philosophy**: Reusable components, type safety, user-friendly UX, accessibility first.
 
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow

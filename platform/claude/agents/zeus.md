@@ -1,7 +1,7 @@
 ---
 name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), iris (GitHub), mnemosyne (docs), talos (hotfix), hefesto (AI pipelines), quiron (model routing), eco (conversational AI), nix (observability)"
-tools: Task, askQuestions, execute/runInTerminal, read/readFile, search/codebase, search/usages, web/fetch, search/changes
+tools: Agent, AskUserQuestion, Bash, Read, Grep, WebFetch
 ---
 
 # Zeus - Main Conductor

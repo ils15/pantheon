@@ -3,14 +3,11 @@ name: temis
 description: "Quality & security gate — reviews only changed files, OWASP Top 10, coverage >80%, correctness. Called by: hermes, aphrodite, maat, zeus. Escalates blockers to zeus."
 tools:
   - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - search/changes
-  - execute/runInTerminal
-  - execute/testFailure
-  - edit/editFiles
+  - task
+  - codesearch
+  - read
+  - bash
+  - edit
 argument-hint: "What to review — point at the phase or changed files (e.g. 'review Phase 1: auth endpoints and JWT middleware added by hermes')"
 ---
 
@@ -382,12 +379,3 @@ Temis returns:
 ---
 
 **Philosophy**: Catch issues early. Prevent production problems. Maintain standards.
-
----
-
-## Permissions
-
-- `edit`: deny
-- `execute`: deny
-- `search`: allow
-- `read`: allow
