@@ -1,9 +1,9 @@
 {
   "name": "pantheon",
   "publisher": "ils15",
-  "version": "3.1.1",
-  "displayName": "Pantheon/Mythic-Agents - Multi-Agent Orchestration v3",
-  "description": "Conductor-Delegate orchestration platform with 12 specialized agents across VS Code, OpenCode, Claude Code, Cursor, and Windsurf",
+  "version": "3.2.0",
+  "displayName": "Pantheon/Mythic-Agents - Multi-Agent Orchestration v3.2",
+  "description": "Conductor-Delegate orchestration platform with 16 specialized agents, 27 skills, and multi-platform support (VS Code, OpenCode, Claude Code, Cursor, Windsurf)",
   "agents": "./agents",
   "skills": "./skills",
   "instructions": "./instructions",
@@ -12,6 +12,7 @@
   "platforms": {
     "opencode": "./platform/opencode",
     "claude": "./platform/claude",
-    "cursor": "./platform/cursor"
+    "cursor": "./platform/cursor",
+    "windsurf": "./platform/windsurf"
   }
 }
