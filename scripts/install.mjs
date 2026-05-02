@@ -344,11 +344,17 @@ function installOpenCode(target, dryRun) {
     }
   }
 
-  // Strip per-agent model overrides — users configure models via their plan
+  // Strip ALL model configurations — users configure models via their plan
+  // Models vary by user plan and hardcoded models cause "not valid" errors.
+  // Remove root model/small_model defaults AND per-agent overrides.
+  delete config.model;
+  delete config.small_model;
+
   if (config.agent) {
     for (const [agentName, agentConfig] of Object.entries(config.agent)) {
       if (agentConfig && typeof agentConfig === 'object') {
         delete agentConfig.model;
+        delete agentConfig.small_model;
         // Remove empty agent entries (no source, no model, no permission)
         if (Object.keys(agentConfig).length === 0) {
           delete config.agent[agentName];

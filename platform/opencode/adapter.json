@@ -20,6 +20,7 @@
       "argument-hint"
     ],
     "exclude": [
+      "model",
       "handoffs",
       "agents",
       "disable-model-invocation"
