@@ -1,0 +1,73 @@
+name: Auto Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: auto-release-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts 2>/dev/null || npm install
+
+      - name: Check for new commits since last tag
+        id: check
+        run: |
+          latest_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$latest_tag" ]; then
+            echo "has_commits=true" >> $GITHUB_OUTPUT
+            echo "latest_tag=v0.0.0" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          count=$(git rev-list "$latest_tag"..HEAD --count 2>/dev/null || echo 0)
+          if [ "$count" -eq 0 ]; then
+            echo "has_commits=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_commits=true" >> $GITHUB_OUTPUT
+          fi
+          echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
+
+      - name: Determine and apply version bump
+        if: steps.check.outputs.has_commits == 'true'
+        id: version
+        run: |
+          current=$(node -p "require('./package.json').version")
+          echo "current=$current"
+
+          node scripts/versioning.mjs apply auto
+
+          new_version=$(node -p "require('./package.json').version")
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+
+      - name: Regenerate platform configs
+        if: steps.check.outputs.has_commits == 'true'
+        run: npm run sync
+
+      - name: Commit version bump and tag
+        if: steps.check.outputs.has_commits == 'true'
+        run: |
+          git config user.name "pantheon-bot"
+          git config user.email "bot@pantheon.ai"
+
+          git add -A
+          git commit -m "chore(release): bump to v${{ steps.version.outputs.new_version }}" || echo "Nothing to commit"
+
+          git tag "v${{ steps.version.outputs.new_version }}"
+          git push origin "v${{ steps.version.outputs.new_version }}"

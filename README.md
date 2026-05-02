@@ -1,12 +1,17 @@
-# Pantheon
+<p align="center">
+  <img src="images/logo.png" alt="Pantheon Logo" width="180"/>
+</p>
 
-[![Version](https://img.shields.io/badge/version-3.4.0-blue)](CHANGELOG.md)
-[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![Platforms](https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf-green)](docs/platforms/)
-[![Agents](https://img.shields.io/badge/agents-16-purple)](agents/README.md)
-[![Skills](https://img.shields.io/badge/skills-27-orange)](skills/README.md)
+<h1 align="center">Pantheon</h1>
 
-[![Built with](https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf-8250DF)](docs/platforms/)
+<p align="center">
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-3.4.0-blue" alt="Version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
+  <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf-green" alt="Platforms"></a>
+  <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-16-purple" alt="Agents"></a>
+  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-27-orange" alt="Skills"></a>
+  <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf-8250DF" alt="Built with"></a>
+</p>
 
 **16 specialized AI agents** that plan, build, review, and deploy features through enforced TDD, persistent project memory, and human approval at every gate.
 
@@ -361,6 +366,10 @@ graph TB
     style T4 fill:#1a1a1a,stroke:#2d3748,stroke-width:1px
     style T5 fill:#1a1a1a,stroke:#2d3748,stroke-width:1px
 ```
+
+<p align="center">
+  <img src="images/Schema.png" alt="Pantheon System Architecture" width="100%"/>
+</p>
 
 ---
 
