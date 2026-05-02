@@ -15,9 +15,10 @@
  *   node scripts/install.mjs --help                              # show help
  */
 
-import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync, readdirSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync, readdirSync, statSync } from 'fs';
 import { join, dirname, basename, relative } from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 
 // ---------------------------------------------------------------------------
 // Paths
@@ -226,59 +227,149 @@ function writeIfChanged(filePath, content, dryRun) {
 // ---------------------------------------------------------------------------
 
 /**
+ * Collect skill names from the skills directory.
+ */
+function collectSkillNames() {
+  const skillsDir = join(ROOT, 'skills');
+  if (!existsSync(skillsDir)) return [];
+  return readdirSync(skillsDir)
+    .filter(entry => {
+      const entryPath = join(skillsDir, entry);
+      return statSync(entryPath).isDirectory() && existsSync(join(entryPath, 'SKILL.md'));
+    })
+    .sort();
+}
+
+/**
+ * Install skills to target project's .opencode/skills/ directory.
+ */
+function installSkills(skills, target, dryRun) {
+  const srcSkillsDir = join(ROOT, 'skills');
+  const dstSkillsDir = join(target, '.opencode', 'skills');
+
+  let created = 0;
+  let skipped = 0;
+
+  for (const skill of skills) {
+    const src = join(srcSkillsDir, skill);
+    const dst = join(dstSkillsDir, skill);
+
+    // Recursively copy skill directory
+    if (!dryRun) mkdirSync(dst, { recursive: true });
+
+    function copyDirRecursive(from, to) {
+      const entries = readdirSync(from);
+      for (const entry of entries) {
+        const srcPath = join(from, entry);
+        const dstPath = join(to, entry);
+        if (statSync(srcPath).isDirectory()) {
+          if (!dryRun) mkdirSync(dstPath, { recursive: true });
+          copyDirRecursive(srcPath, dstPath);
+        } else {
+          const content = readFileSync(srcPath, 'utf8');
+          const existing = existsSync(dstPath) ? readFileSync(dstPath, 'utf8') : null;
+          if (existing === content) {
+            skipped++;
+          } else {
+            if (!dryRun) writeFileSync(dstPath, content, 'utf8');
+            created++;
+          }
+        }
+      }
+    }
+
+    copyDirRecursive(src, dst);
+  }
+
+  return { created, skipped };
+}
+
+/**
  * Install OpenCode platform.
+ * - Runs sync to generate agents from canonical sources
  * - Copies platform/opencode/agents/ → .opencode/agents/
- * - Creates/updates opencode.json in target root
- * - Optionally suggests copying skills
+ * - Copies skills/ → .opencode/skills/
+ * - Creates/updates opencode.json with skill permissions (strips per-agent model configs)
  */
 function installOpenCode(target, dryRun) {
   const label = 'OpenCode';
   const stats = summary.opencode;
 
-  // Source: platform/opencode/agents/
+  // -----------------------------------------------------------------------
+  // 1. Install agents
+  // -----------------------------------------------------------------------
   const srcDir = join(PLATFORM_DIR, 'opencode', 'agents');
   if (!sourceDirValid(srcDir)) {
-    console.warn(`  ⚠️  Source directory not found: ${srcDir}`);
+    console.warn(`  ⚠️  Agent source directory not found: ${srcDir}`);
     stats.errors++;
-    return;
+  } else {
+    const dstDir = join(target, '.opencode', 'agents');
+    if (!dryRun) mkdirSync(dstDir, { recursive: true });
+
+    const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
+    stats.created += created;
+    stats.skipped += skipped;
   }
 
-  // Target: .opencode/agents/
-  const dstDir = join(target, '.opencode', 'agents');
-  if (!dryRun) mkdirSync(dstDir, { recursive: true });
+  // -----------------------------------------------------------------------
+  // 2. Install skills
+  // -----------------------------------------------------------------------
+  const skillNames = collectSkillNames();
+  if (skillNames.length > 0) {
+    console.log(`  📚 Installing ${skillNames.length} skills...`);
+    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun);
+    stats.created += sCreated;
+    stats.skipped += sSkipped;
+  } else {
+    console.log('  ℹ️  No skills found to install');
+  }
 
-  const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
-  stats.created += created;
-  stats.skipped += skipped;
-
-  // Create/update opencode.json
+  // -----------------------------------------------------------------------
+  // 3. Create/update opencode.json
+  //    IMPORTANT: Strips per-agent model configs — models vary by user plan
+  //    and hardcoded models cause "not valid" errors. Model suggestions
+  //    belong in documentation (see platform/plans/), not in config.
+  // -----------------------------------------------------------------------
   const opencodeConfigPath = join(ROOT, 'opencode.json');
   const targetConfigPath = join(target, 'opencode.json');
 
+  let config = {};
   if (existsSync(opencodeConfigPath)) {
-    let configContent;
     try {
-      configContent = readFileSync(opencodeConfigPath, 'utf8');
-      // Parse and re-stringify to normalize whitespace
-      const config = JSON.parse(configContent);
-      configContent = JSON.stringify(config, null, 2) + '\n';
+      config = JSON.parse(readFileSync(opencodeConfigPath, 'utf8'));
     } catch {
-      configContent = readFileSync(opencodeConfigPath, 'utf8');
-    }
-
-    const status = writeIfChanged(targetConfigPath, configContent, dryRun);
-    if (status === 'created') stats.created++;
-    else stats.skipped++;
-  }
-
-  // Check if skills directory exists, suggest copying
-  const skillsDir = join(target, '.opencode', 'skills');
-  if (!existsSync(skillsDir)) {
-    const pantheonSkills = join(ROOT, 'skills');
-    if (existsSync(pantheonSkills)) {
-      console.log(`  💡 Tip: Copy skills with: cp -r ${pantheonSkills} ${join(target, '.opencode/skills')}`);
+      config = {};
     }
   }
+
+  // Strip per-agent model overrides — users configure models via their plan
+  if (config.agent) {
+    for (const [agentName, agentConfig] of Object.entries(config.agent)) {
+      if (agentConfig && typeof agentConfig === 'object') {
+        delete agentConfig.model;
+        // Remove empty agent entries (no source, no model, no permission)
+        if (Object.keys(agentConfig).length === 0) {
+          delete config.agent[agentName];
+        }
+      }
+    }
+    // Remove agent section entirely if empty
+    if (Object.keys(config.agent).length === 0) {
+      delete config.agent;
+    }
+  }
+
+  // Add skill permissions
+  if (!config.permission) config.permission = {};
+  // Always set skill permission when skills are installed
+  if (skillNames.length > 0) {
+    config.permission.skill = { '*': 'allow' };
+  }
+
+  const configContent = JSON.stringify(config, null, 2) + '\n';
+  const status = writeIfChanged(targetConfigPath, configContent, dryRun);
+  if (status === 'created') stats.created++;
+  else stats.skipped++;
 }
 
 /**
@@ -571,6 +662,7 @@ function printSummary(target, platforms) {
     console.log(`    - Run \`opencode\` in ${target}`);
     console.log('    - Invoke agents with @agent-name in chat');
     console.log('    - To customize models: edit opencode.json');
+    console.log('    - Skills are in .opencode/skills/ (auto-loaded)');
     console.log('');
   }
 
@@ -644,6 +736,22 @@ function main() {
       console.log(`🔍 Detected platforms in ${target}: ${detected.join(', ')}\n`);
       platforms = detected;
     }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Step 0: Sync agents from canonical sources to platform directories
+  // ---------------------------------------------------------------------------
+  if (!args.dryRun) {
+    console.log('🔄 Syncing agents from canonical sources...\n');
+    try {
+      execSync('npm run sync', { cwd: ROOT, stdio: 'inherit' });
+      console.log('');
+    } catch (err) {
+      console.error('❌ Sync failed — aborting install');
+      process.exit(1);
+    }
+  } else {
+    console.log('🔄 Would sync agents from canonical sources (skipped in dry-run)\n');
   }
 
   console.log(args.dryRun ? '🔍 Dry-run mode — no files will be written\n' : '');
