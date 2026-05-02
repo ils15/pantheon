@@ -1,9 +1,9 @@
 {
   "name": "cursor",
   "displayName": "Cursor",
-  "version": "1.0.0",
+  "version": "2.0.0",
 
-  "description": "Cursor uses .mdc rule files in .cursor/rules/. Each agent becomes a reusable rule with globs and description.",
+  "description": "Cursor uses .mdc rule files in .cursor/rules/. Each agent becomes a reusable rule with alwaysApply and description for Agent mode compatibility.",
 
   "outputDir": "rules",
   "fileExtension": ".mdc",
@@ -22,7 +22,8 @@
       "agents",
       "disable-model-invocation",
       "argument-hint",
-      "user-invocable"
+      "user-invocable",
+      "mode"
     ],
     "omitNameSuffix": true,
     "transform": {
@@ -31,6 +32,10 @@
       "handoffs": { "strategy": "omit" },
       "skills": { "strategy": "omit" },
       "instructions": { "strategy": "omit" }
+    },
+    "addFields": {
+      "alwaysApply": false,
+      "globs": []
     }
   },
 
@@ -48,7 +53,7 @@
   "bodyFilters": [
     {
       "action": "prepend",
-      "content": "> This is an AI agent definition for Cursor. Use @<name> to invoke this agent."
+      "content": "> Pantheon agent for Cursor. Invoke with @<name> in Agent mode."
     },
     {
       "pattern": "## Copilot Workflow Updates",

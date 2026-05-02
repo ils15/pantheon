@@ -2,13 +2,13 @@
 name: quiron
 description: Model provider hub specialist — multi-model routing, AWS Bedrock, cost optimization, provider abstraction. The bridge between agents and AI models. Calls apollo for discovery. Sends work to temis for review.
 tools:
-  - agent
-  - task
-  - codesearch
-  - read
-  - edit
-  - bash
-  - webfetch
+  task: allow
+  question: allow
+  grep: allow
+  read: allow
+  edit: allow
+  bash: allow
+  webfetch: allow
 argument-hint: Configure model providers, optimize model routing, set up AWS Bedrock, or design model fallback strategies
 ---
 

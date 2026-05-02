@@ -234,6 +234,24 @@ function transformFrontmatter(fm, adapter) {
 
       // Drop empty tools arrays
       if (value.length === 0) continue;
+
+      // Convert tools array to permission object (OpenCode format)
+      if (adapter.toolsFormat === 'permission') {
+        const perm = {};
+        for (const tool of value) {
+          perm[tool] = 'allow';
+        }
+        value = perm;
+      }
+
+      // Convert tools array to object with booleans (legacy format)
+      if (adapter.toolsFormat === 'object') {
+        const obj = {};
+        for (const tool of value) {
+          obj[tool] = true;
+        }
+        value = obj;
+      }
     }
 
     // Comma-separated serialization (e.g. Claude Code tools field)
@@ -243,6 +261,16 @@ function transformFrontmatter(fm, adapter) {
     }
 
     result[key] = value;
+  }
+
+  // Add static fields defined in adapter frontmatter config
+  // (e.g. alwaysApply, globs, trigger for platforms that need them)
+  if (adapter.frontmatter.addFields) {
+    for (const [key, value] of Object.entries(adapter.frontmatter.addFields)) {
+      if (!(key in result)) {
+        result[key] = JSON.parse(JSON.stringify(value));
+      }
+    }
   }
 
   return result;

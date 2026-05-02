@@ -366,6 +366,11 @@ function installOpenCode(target, dryRun) {
     config.permission.skill = { '*': 'allow' };
   }
 
+  // Add instructions to load Pantheon rules (AGENTS.md + instructions/)
+  if (!config.instructions) {
+    config.instructions = ['AGENTS.md', 'instructions/*.instructions.md'];
+  }
+
   const configContent = JSON.stringify(config, null, 2) + '\n';
   const status = writeIfChanged(targetConfigPath, configContent, dryRun);
   if (status === 'created') stats.created++;
@@ -472,26 +477,84 @@ See \`.claude/agents/\` for agent definitions.
 /**
  * Install Cursor platform.
  * - Copies platform/cursor/rules/ → .cursor/rules/
- * - Notes: .mdc files may need description format adaptation
+ * - Copies skills/ → .cursor/skills/
+ * - Creates AGENTS.md for global rules
  */
 function installCursor(target, dryRun) {
   const stats = summary.cursor;
 
-  // Source: platform/cursor/rules/
+  // -----------------------------------------------------------------------
+  // 1. Install .mdc rules
+  // -----------------------------------------------------------------------
   const srcDir = join(PLATFORM_DIR, 'cursor', 'rules');
   if (!sourceDirValid(srcDir)) {
     console.warn(`  ⚠️  Source directory not found: ${srcDir}`);
     stats.errors++;
-    return;
+  } else {
+    const dstDir = join(target, '.cursor', 'rules');
+    if (!dryRun) mkdirSync(dstDir, { recursive: true });
+
+    const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
+    stats.created += created;
+    stats.skipped += skipped;
   }
 
-  // Target: .cursor/rules/
-  const dstDir = join(target, '.cursor', 'rules');
-  if (!dryRun) mkdirSync(dstDir, { recursive: true });
+  // -----------------------------------------------------------------------
+  // 2. Install skills
+  // -----------------------------------------------------------------------
+  const skillNames = collectSkillNames();
+  if (skillNames.length > 0) {
+    console.log(`  📚 Installing ${skillNames.length} skills...`);
+    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun);
+    stats.created += sCreated;
+    stats.skipped += sSkipped;
+  }
 
-  const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
-  stats.created += created;
-  stats.skipped += skipped;
+  // -----------------------------------------------------------------------
+  // 3. Create/sync AGENTS.md
+  // -----------------------------------------------------------------------
+  const agentsMdPath = join(target, 'AGENTS.md');
+  const agentsMdContent = `# Pantheon Agent System
+
+This project uses the Pantheon multi-agent framework with 16 specialized agents.
+
+## Available Agents
+
+| Agent | Role | Invocation |
+|-------|------|------------|
+| @zeus | Central orchestrator | Coordinates all agents |
+| @athena | Strategic planner | Creates TDD-driven plans |
+| @apollo | Codebase discovery | Parallel research |
+| @hermes | Backend (FastAPI) | API implementation |
+| @aphrodite | Frontend (React) | UI components |
+| @maat | Database | Schema & optimization |
+| @temis | Quality & security | Code review |
+| @ra | Infrastructure | Docker & deployment |
+| @hefesto | AI pipelines | RAG & LangChain |
+| @quiron | Model routing | Provider hub |
+| @eco | Conversational AI | NLU & dialogue |
+| @nix | Observability | Tracing & monitoring |
+| @gaia | Remote sensing | LULC analysis |
+| @iris | GitHub operations | PRs & releases |
+| @mnemosyne | Documentation | Memory bank |
+| @talos | Hotfixes | Rapid repairs |
+
+## Commands
+
+- Build: \`npm run build\`
+- Test: \`npm test\`
+- Lint: \`npm run lint\`
+
+## Conventions
+
+- TDD: Write failing test first, then implement
+- Coverage minimum: 80%
+- Async/await on all I/O
+- Type hints on all functions
+`;
+  const agentsStatus = writeIfChanged(agentsMdPath, agentsMdContent, dryRun);
+  if (agentsStatus === 'created') stats.created++;
+  else stats.skipped++;
 }
 
 /**

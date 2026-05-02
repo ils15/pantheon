@@ -2,11 +2,10 @@
 name: talos
 description: Hotfix express lane — direct fixes for small bugs, CSS, typos, minor logic. No TDD ceremony, no orchestration overhead. Standalone, no subagents. Escalates complex issues to zeus.
 tools:
-  - agent
-  - codesearch
-  - read
-  - edit
-  - bash
+  grep: allow
+  read: allow
+  edit: allow
+  bash: allow
 argument-hint: "Exact bug or typo: file name, symptom, and expected fix (e.g. 'hover colour wrong on MobileMenu.tsx button — should be blue-600 not blue-400')"
 ---
 

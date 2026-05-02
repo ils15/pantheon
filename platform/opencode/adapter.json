@@ -1,12 +1,13 @@
 {
   "name": "opencode",
   "displayName": "OpenCode",
-  "version": "2.0.0",
+  "version": "2.1.0",
 
-  "description": "OpenCode uses .md files with YAML frontmatter. Strips VS Code-specific frontmatter fields and appends permission blocks.",
+  "description": "OpenCode uses .md files with YAML frontmatter. Tools are emitted as permission objects (toolsFormat: permission).",
 
   "outputDir": "agents",
   "fileExtension": ".md",
+  "toolsFormat": "permission",
 
   "frontmatter": {
     "include": [
@@ -30,8 +31,8 @@
   },
 
   "toolMap": {
-    "search/codebase": "codesearch",
-    "search/usages": "codesearch",
+    "search/codebase": "grep",
+    "search/usages": "grep",
     "search/fileSearch": "glob",
     "search/textSearch": "grep",
     "search/listDirectory": "list",
@@ -42,13 +43,13 @@
     "execute/testFailure": "bash",
     "execute/getTerminalOutput": "bash",
     "web/fetch": "webfetch",
-    "agent": "task"
+    "agent": "task",
+    "vscode/askQuestions": "question"
   },
 
   "excludeTools": [
     "read/problems",
     "execute/createAndRunTask",
-    "vscode/askQuestions",
     "vscode/runCommand",
     "browser/openBrowserPage",
     "browser/navigatePage",
@@ -60,8 +61,6 @@
     "browser/handleDialog",
     "browser/screenshotPage"
   ],
-
-  "ensureAgentTool": true,
 
   "capabilityFlags": {
     "orchestration": true,

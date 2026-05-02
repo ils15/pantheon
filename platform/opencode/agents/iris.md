@@ -2,11 +2,11 @@
 name: iris
 description: GitHub operations specialist — branches, pull requests, issues, releases, tags. Called by zeus after Temis review or directly for any GitHub workflow task. Never pushes or merges without explicit human approval.
 tools:
-  - agent
-  - task
-  - read
-  - codesearch
-  - bash
+  task: allow
+  question: allow
+  read: allow
+  grep: allow
+  bash: allow
 argument-hint: "GitHub task: 'create branch feat/X' | 'open PR: title + base branch' | 'close issue #N with comment' | 'create release v1.2.3' — include repo and desired outcome"
 ---
 

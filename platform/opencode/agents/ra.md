@@ -2,12 +2,12 @@
 name: ra
 description: Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management. Calls apollo as nested subagent for pattern discovery. Sends work to temis for validation.
 tools:
-  - agent
-  - task
-  - codesearch
-  - read
-  - edit
-  - bash
+  task: allow
+  question: allow
+  grep: allow
+  read: allow
+  edit: allow
+  bash: allow
 argument-hint: "Infrastructure task: Dockerfile, compose service, CI/CD workflow, or env setup — describe the service and deployment target (e.g. 'multi-stage Dockerfile for FastAPI with non-root user and health check')"
 ---
 

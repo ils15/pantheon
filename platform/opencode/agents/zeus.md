@@ -2,12 +2,12 @@
 name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), iris (GitHub), mnemosyne (docs), talos (hotfix), hefesto (AI pipelines), quiron (model routing), eco (conversational AI), nix (observability)"
 tools:
-  - agent
-  - task
-  - bash
-  - read
-  - codesearch
-  - webfetch
+  task: allow
+  question: allow
+  bash: allow
+  read: allow
+  grep: allow
+  webfetch: allow
 argument-hint: Describe the feature, bug, or epic to orchestrate (Zeus plans, delegates, and coordinates the full lifecycle)
 ---
 
