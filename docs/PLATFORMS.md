@@ -2,28 +2,28 @@
 
 > Which AI coding platform should you use Pantheon with? Here's how they compare.
 
-> 📖 **Setup guides:** [VS Code](platforms/vscode.md) · [OpenCode](platforms/opencode.md) · [Claude Code](platforms/claude.md) · [Cursor](platforms/cursor.md) · [Windsurf](platforms/windsurf.md)
+> 📖 **Setup guides:** [VS Code](platforms/vscode.md) · [OpenCode](platforms/opencode.md) · [Claude Code](platforms/claude.md) · [Cursor](platforms/cursor.md) · [Windsurf](platforms/windsurf.md) · [Cline](platforms/cline.md) · [Continue.dev](platforms/continue.md)
 
 ---
 
 ## Overview
 
-Pantheon's 12 agents are authored once in `agents/` (VS Code `.agent.md` format) and **automatically transformed** into each platform's native format via the [sync engine](../scripts/sync-platforms.mjs). You get the same agents, skills, and workflow regardless of platform.
+Pantheon's 16 agents are authored once in `agents/` (VS Code `.agent.md` format) and **automatically transformed** into each platform's native format via the [sync engine](../scripts/sync-platforms.mjs). You get the same agents, skills, and workflow regardless of platform.
 
 ---
 
 ## Comparison Table
 
-| Feature | VS Code | OpenCode | Claude Code | Cursor | Windsurf |
-|---|---|---|---|---|---|
-| **Agent format** | `.agent.md` | `.md` + frontmatter | `.md` + comma-separated tools | `.mdc` rules | `.md` (stub) |
-| **Agent loading** | Built-in agent system | `opencode/agents/` | `.claude/agents/` | `.cursor/rules/` | TBD |
-| **Skill support** | `skill` tool in frontmatter | Skill registry config | Comma-separated skills in frontmatter | Limited (body prepend) | TBD |
-| **Hook/automation** | ✅ Full (.github/hooks/) | ⚠️ Partial (opencode.json) | ❌ Not supported | ❌ Not supported | ❌ Not supported |
-| **Subagent delegation** | `runSubagent` | Task tool | Task tool | Native subagents | Cascade |
-| **Parallel execution** | ✅ Yes | ✅ Yes | ⚠️ Sequential | ✅ Yes | ❌ |
-| **Model routing** | Per-agent model field | Per-agent model field + profiles | Per-agent model field | Per-rule model | TBD |
-| **Status** | ✅ Active | ✅ Active | ✅ Active | ✅ Active | 🧪 Preview |
+| Feature | VS Code | OpenCode | Claude Code | Cursor | Windsurf | Cline | Continue.dev |
+|---|---|---|---|---|---|---|---|---|---|
+| **Agent format** | `.agent.md` | `.md` + frontmatter | `.md` + comma-separated tools | `.mdc` rules | `.md` (stub) | `.clinerules` plain md | **`.md` rule files** |
+| **Agent loading** | Built-in agent system | `opencode/agents/` | `.claude/agents/` | `.cursor/rules/` | TBD | `.clinerules/` directory | **`.continue/rules/`** |
+| **Skill support** | `skill` tool in frontmatter | Skill registry config | Comma-separated skills in frontmatter | Limited (body prepend) | TBD | ❌ Not supported | **❌ Rules only** |
+| **Hook/automation** | ✅ Full (.github/hooks/) | ⚠️ Partial (opencode.json) | ❌ Not supported | ❌ Not supported | ❌ Not supported | ❌ Not supported | **❌ Not supported** |
+| **Subagent delegation** | `runSubagent` | Task tool | Task tool | Native subagents | Cascade | ❌ Single agent | **❌ Not supported** |
+| **Parallel execution** | ✅ Yes | ✅ Yes | ⚠️ Sequential | ✅ Yes | ❌ | ❌ Single agent | **❌ Single-threaded** |
+| **Model routing** | Per-agent model field | Per-agent model field + profiles | Per-agent model field | Per-rule model | TBD | ❌ Settings only | **❌ Single model per session** |
+| **Status** | ✅ Active | ✅ Active | ✅ Active | ✅ Active | 🧪 Preview | 🧪 Preview | **🧪 Preview** |
 
 ---
 
@@ -55,6 +55,19 @@ Pantheon's 12 agents are authored once in `agents/` (VS Code `.agent.md` format)
 - Template adapter exists, full platform support planned
 - **Pick this if:** you want to help shape Windsurf support
 
+### Cline — Best for open-source agent users
+- Open-source VS Code extension with autonomous agent mode
+- Rules are plain markdown — no frontmatter, no tool declarations
+- Lightweight: just copy `.clinerules/` and go
+- **Pick this if:** you use Cline and want Pantheon's agent knowledge as system prompts
+
+### Continue.dev — Best for flexible model configuration
+- Open-source, works with any LLM provider (OpenAI, Anthropic, Google, local)
+- Rules are injected into system prompts — no agent system, just knowledge
+- Continue Hub for sharing rules, models, and MCP tools across teams
+- MCP server support for extended capabilities
+- **Pick this if:** you use Continue and want Pantheon's agent knowledge as system-prompt rules
+
 ---
 
 ## Format Reference
@@ -65,6 +78,7 @@ Pantheon's 12 agents are authored once in `agents/` (VS Code `.agent.md` format)
 | `.md` (array tools) | `platform/opencode/agents/zeus.md` | OpenCode |
 | `.md` (comma tools) | `platform/claude/agents/zeus.md` | Claude Code |
 | `.mdc` | `platform/cursor/rules/zeus.mdc` | Cursor |
+| `.clinerules` | `platform/cline/.clinerules/zeus` (no extension) | Cline |
 
 ---
 

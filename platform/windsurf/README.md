@@ -1,35 +1,44 @@
 # Windsurf Platform
 
-> **Status**: 🧪 Preview — platform adapter exists, full support planned
+## Status
+✅ **Production Ready** — Modern rule format (Wave 8+).
 
----
+The Windsurf adapter (v3.0.0) generates `.windsurf/rules/` markdown files with YAML frontmatter, supporting all 4 activation modes.
 
-## Current State
+## How It Works
 
-A Windsurf adapter has been created at `platform/windsurf/adapter.json` with:
+The sync engine converts canonical Pantheon agents into Windsurf `.windsurf/rules/` files. Each rule has:
 
-- Tool name mapping (e.g., `search/codebase` → `search`)
-- Body filter stripping VS Code-specific sections
-- Canonical frontmatter filtered to `name`, `description`, `tools`
+- `trigger: model_decision` — Cascade decides when to use based on description
+- `trigger: always_on` — Applied to every conversation
+- `trigger: glob` — Auto-activates when file matches pattern
+- `trigger: manual (@rule-name)` — Only when mentioned
 
-However, **Windsurf Cascade agent format is not yet finalized**. The generated agents in `platform/windsurf/agents/` are a best-effort conversion and may require format adjustments once Windsurf publishes its official agent schema.
+## Installation
 
----
+```bash
+node scripts/install.mjs --target /path/to/your-project
+```
 
-## What's Blocking Full Support
+This creates `.windsurf/rules/` with all 16 agent rules.
 
-| Issue | Status |
-|---|---|
-| Adapter with tool mapping | ✅ Done |
-| Windsurf Cascade agent docs reviewed | 🔄 In progress |
-| CI validation for Windsurf agents | ✅ Done (in verify.yml) |
-| Plugin manifest inclusion | ✅ Done (platforms field) |
-| End-to-end testing with Windsurf | ⏳ Waiting on platform spec |
-| Installer support | ⏳ Blocked on spec |
+## Adapter Configuration
 
----
+Located at `platform/windsurf/adapter.json` (v3.0.0):
+- Maps Windsurf-specific tool names
+- Sets proper trigger mode
+- Generates YAML frontmatter with `trigger`, `description`, `globs`
 
-## Timeline
+## Key Differences from VS Code
 
-- **Full support target**: v2.11.0 (next major after adapter feedback)
-- **Want to help?** Open an issue or PR updating `platform/windsurf/adapter.json`
+| Feature | VS Code | Windsurf |
+|---------|---------|----------|
+| Format | `.agent.md` | `.md` in `.windsurf/rules/` |
+| Activation | Agent selector | `@name` mention or auto-trigger |
+| Frontmatter | 10+ fields | Minimal: trigger, description, globs |
+| Skills | Full support | Via AGENTS.md or rules |
+| Handoffs | Native UI buttons | Not supported |
+
+## Generated Files
+
+Rules are generated at `platform/windsurf/rules/*.md` via `npm run sync`.

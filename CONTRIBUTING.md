@@ -1,4 +1,4 @@
-# Contributing to VSCode Copilot Agents
+# Contributing to VSCode Agent Frameworks
 
 Welcome to the Multi-Agent Orchestration System! This system is designed to be highly modular and extensible. Since this architecture leverages specialized VS Code Copilot agents, contributing means extending its cognitive capabilities rather than just adding code.
 

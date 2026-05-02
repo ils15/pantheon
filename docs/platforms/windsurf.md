@@ -1,5 +1,7 @@
 # Pantheon for Windsurf
 
+**Status:** ✅ **Production Ready** — Modern rule format (Wave 8+).
+
 ## Prerequisites
 
 - [Windsurf IDE](https://codeium.com/windsurf) installed
@@ -21,11 +23,11 @@ cd Pantheon
 npm install
 ```
 
-Windsurf uses the `.windsurf/` directory for agent configurations (adapter v2.0.0, now production-ready):
+Windsurf uses `.windsurf/` for project-level configuration (adapter v3.0.0):
 
-1. Create the `.windsurf/` directory in your project root
-2. Copy agent files from `agents/` into `.windsurf/agents/`
-3. Copy instruction files from `instructions/` into `.windsurf/instructions/`
+1. Create `.windsurf/` in your project root
+2. Copy Pantheon instruction files into `.windsurf/rules/` as rule `.md` files with frontmatter
+3. Place workspace-level `AGENTS.md` files in project directories as needed
 
 ## Configuration
 
@@ -33,42 +35,85 @@ Windsurf uses the `.windsurf/` directory for agent configurations (adapter v2.0.
 
 ```
 .windsurf/
-├── agents/          # Agent definitions (.agent.md)
-├── rules/           # Custom rules and instructions
-└── global_rules/    # Global rules applied across all agents
+├── rules/              # Project rules (.md with frontmatter)
+└── mcp_config.json     # MCP server configuration
 ```
 
-### Agent File Placement
+> **Note:** The legacy `.windsurf/agents/` format is **deprecated**. All agent configuration now uses `.windsurf/rules/` with Wave 8+ frontmatter format.
 
-Place `.agent.md` files in `.windsurf/agents/`. Windsurf automatically discovers agents placed in this directory.
+## Rule Format (Wave 8+)
 
-### Rules Configuration
+Windsurf rules use markdown files with YAML frontmatter in `.windsurf/rules/`:
 
-Windsurf supports two types of rules:
+```markdown
+---
+trigger: model_decision
+description: "Description of when Cascade should load this rule"
+globs: "**/*.py"
+---
+Rule content in markdown...
+```
 
-- **Global rules** (`.windsurf/global_rules/`) — applied to all conversations
-- **Agent-specific rules** (`.windsurf/rules/`) — applied to specific agents
+### Frontmatter Fields
 
-Rules can reference instruction files from this repository's `instructions/` directory, though some reformatting may be needed due to format differences.
+| Field | Required | Description |
+|-------|----------|-------------|
+| `trigger` | Yes | Activation mode (see below) |
+| `description` | Yes | Human-readable description of when to apply |
+| `globs` | No | File glob pattern for `glob` trigger mode |
+| `name` | No | Rule name; required for `manual` trigger (`@rule-name`) |
 
-## Agent Format (adapter v2.0.0)
+### Trigger Modes
 
-Windsurf supports `.agent.md` format similar to VS Code Custom Agents, now production-ready:
+| Mode | Description |
+|------|-------------|
+| `always_on` | Applied to every conversation unconditionally |
+| `manual` | Only activates when explicitly @-mentioned (e.g., `@rule-name`) |
+| `model_decision` | Cascade decides based on the `description` field whether to load the rule |
+| `glob` | Auto-activates when the user opens or edits files matching the `globs` pattern |
 
-| Feature | VS Code | Windsurf |
-|---------|---------|----------|
-| Agent discovery | `.github/agents/` or custom path | `.windsurf/agents/` |
-| Frontmatter | YAML with `name`, `description`, `model`, `tools` | YAML with `name`, `description`, `tools`, `mode`, `skills`, `instructions` |
-| Tool naming | `search/codebase`, `edit/editFiles` | Mapped via toolMap to Windsurf-native names |
-| Instructions | `.github/copilot-instructions.md` | `.windsurf/rules/` files |
-| ensureAgentTool | Default true | Set to `false` |
+## AGENTS.md Support
 
-### Format Differences
+Windsurf auto-discovers `AGENTS.md` files throughout the workspace:
 
-- Windsurf uses `Codeium` model identifiers instead of Copilot model names
-- Tool names are automatically mapped via the adapter's `toolMap` — no manual translation needed
-- Frontmatter supports `mode` (`plan`, `implement`, `review`), `skills`, and `instructions` fields
-- `ensureAgentTool` is set to `false` to prevent automatic agent tool injection
+- **Root `AGENTS.md`** — Treated as `always_on`; applied to every conversation
+- **Subdirectory `AGENTS.md`** — Auto-scoped to that directory; only active when Cascade context is within that subtree
+- **No frontmatter required** — Plain markdown; no YAML headers needed
+
+This provides a lightweight alternative to rules for directory-specific conventions:
+
+```
+project/
+├── AGENTS.md            # Always-on, workspace-wide
+├── src/
+│   ├── AGENTS.md        # Auto-scoped to src/ and its children
+│   └── api/
+│       └── AGENTS.md    # Auto-scoped to src/api/
+└── tests/
+    └── AGENTS.md        # Auto-scoped to tests/
+```
+
+## Rule Scopes
+
+| Scope | Location | Purpose | Character Limit |
+|-------|----------|---------|-----------------|
+| **Global** | Windsurf Settings UI → Cascade → Custom Instructions | Personal preferences, cross-project standards | 6,000 per rule, 12,000 total |
+| **Workspace** | `.windsurf/rules/` | Project-level conventions, team standards | 6,000 per rule, 12,000 total |
+
+- Global rules are set via the Windsurf Settings UI (not files)
+- Workspace rules live in `.windsurf/rules/` and use frontmatter
+- Total combined character limit across all active rules is 12,000
+
+## AGENTS.md vs Rules
+
+| Feature | AGENTS.md | Rules |
+|---------|-----------|-------|
+| Location | In project directories | `.windsurf/rules/` or global settings |
+| Scoping | Auto based on file location | Manual (glob, always_on, etc.) |
+| Format | Plain markdown | Markdown with YAML frontmatter |
+| Frontmatter | Not needed | Required (trigger, description) |
+| Trigger control | Always-on or auto-scoped | 4 activation modes |
+| Best for | Directory-specific conventions | Cross-cutting concerns, complex activation |
 
 ## Windsurf-Specific Features
 
@@ -98,22 +143,42 @@ Windsurf supports MCP (Model Context Protocol) servers. Configure MCP servers in
 
 Refer to [MCP documentation](../mcp/README.md) for server configuration details compatible with Windsurf.
 
+## Adapter Compatibility
+
+The Pantheon Windsurf adapter (v3.0.0) handles the following automatically:
+
+- **Rule file generation** — Converts Pantheon instruction files into `.windsurf/rules/` format with proper frontmatter
+- **Trigger mapping** — Maps instruction types to appropriate trigger modes
+- **AGENTS.md placement** — Optionally generates `AGENTS.md` files for directory scoping
+- **Tool name mapping** — Translates VS Code tool names to Windsurf-compatible equivalents
+
 ## Troubleshooting
-
-### Known Limitations
-
-- **Agent format parity**: Some VS Code agent frontmatter fields (`handoffs`, `agents`, `user-invocable`) may not be supported — test thoroughly when porting agents
-- **Rule application**: `.windsurf/rules/` may process rules differently than VS Code's `copilot-instructions.md` — verify behavior with complex instructions
-- **Nested subagents**: Delegation follows a different model than VS Code's `runSubagent` — use direct `@agent` mentions
 
 ### Common Issues
 
 | Issue | Solution |
 |-------|----------|
-| Agent not discovered | Verify `.agent.md` is in `.windsurf/agents/` |
-| Frontmatter parsing error | Check YAML syntax; remove unsupported fields |
-| Tool not found | Refer to Windsurf's tool reference for correct naming |
-| Rules not applying | Ensure rules are in `.windsurf/rules/` with `.md` extension |
+| Rules not applying | Verify `.windsurf/rules/` exists with `.md` files containing valid frontmatter |
+| AGENTS.md not discovered | Confirm file is directly in the workspace root or a subdirectory; check file permissions |
+| Character limit hit | Consolidate related rules; split content across multiple files if under 6,000 each |
+| Rule not triggering | Check `trigger` and `globs` frontmatter — `model_decision` requires a clear `description`; `glob` requires a matching `globs` pattern |
+| Frontmatter parsing error | Ensure YAML is valid (no tabs, correct indentation) between `---` delimiters |
+| Legacy `.windsurfrules` not working | Migrate to `.windsurf/rules/` format — `.windsurfrules` is being deprecated |
+
+### Known Limitations
+
+- **Cascade naming**: Cascade uses Codeium model identifiers rather than OpenAI/Anthropic model names. Rule `description` fields should reference Cascade-native capabilities.
+- **VS Code parity**: Some Pantheon features (handoffs, subagent orchestration) depend on VS Code's agent infrastructure and may not have direct Windsurf equivalents.
+- **Tool availability**: Windsurf's tool set differs from VS Code — the adapter's `toolMap` handles common mappings, but verify custom tool references.
+
+### Verification Checklist
+
+- [ ] `.windsurf/rules/` directory exists in project root
+- [ ] All rule `.md` files have valid YAML frontmatter with `trigger` and `description`
+- [ ] `globs` patterns are correct for `glob`-triggered rules
+- [ ] Root `AGENTS.md` exists for workspace-wide conventions
+- [ ] Subdirectory `AGENTS.md` files placed for auto-scoped conventions
+- [ ] Total rule content under 12,000 character limit
 
 ---
 

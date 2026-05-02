@@ -36,6 +36,8 @@ For shared project conventions, architecture decisions, and coding standards, **
 - This `CLAUDE.md` supplements with Claude Code-specific instructions
 - Skills in `.claude/skills/` are auto-discovered by Claude Code
 - MCP servers configured in `.mcp.json` are automatically available
+- Agent frontmatter supports `model:` for per-agent model assignment and `mcpServers:` for per-agent MCP server configuration
+- Non-user-invocable agents use `mode: subagent`
 
 ### Compaction Instructions
 When context compaction occurs, preserve:

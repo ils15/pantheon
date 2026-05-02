@@ -1,0 +1,90 @@
+{
+  "name": "continue",
+  "version": "1.0.0",
+  "displayName": "Continue.dev",
+  "description": "Continue.dev VS Code extension — agents become rules in .continue/rules/ with config.yaml. No frontmatter needed; body content is the rule text injected into system prompts.",
+  "outputDir": "rules",
+  "fileExtension": ".md",
+  "platformType": "config-rules",
+  "frontmatter": {
+    "include": [],
+    "exclude": ["name", "description", "tools", "skills", "instructions", "handoffs", "agents", "model", "argument-hint", "user-invocable", "mode", "hooks", "mcpServers"],
+    "transform": {
+      "tools": { "strategy": "omit" },
+      "model": { "strategy": "omit" },
+      "handoffs": { "strategy": "omit" },
+      "skills": { "strategy": "omit" },
+      "instructions": { "strategy": "omit" }
+    }
+  },
+  "toolMap": {},
+  "excludeTools": [
+    "agent",
+    "search/codebase",
+    "search/usages",
+    "search/fileSearch",
+    "search/textSearch",
+    "search/listDirectory",
+    "search/changes",
+    "read/readFile",
+    "read/problems",
+    "edit/editFiles",
+    "execute/runInTerminal",
+    "execute/testFailure",
+    "execute/getTerminalOutput",
+    "web/fetch",
+    "vscode/askQuestions",
+    "vscode/runCommand",
+    "browser/openBrowserPage",
+    "browser/navigatePage",
+    "browser/readPage",
+    "browser/clickElement",
+    "browser/typeInPage",
+    "browser/hoverElement",
+    "browser/dragElement",
+    "browser/handleDialog",
+    "browser/screenshotPage"
+  ],
+  "capabilityFlags": {
+    "orchestration": false,
+    "approval": false,
+    "diagnostics": false,
+    "browser-ui": false,
+    "ide-local": false,
+    "github-service": false
+  },
+  "bodyFilters": [
+    {
+      "action": "prepend",
+      "content": "> Pantheon agent rule for Continue.dev. This rule is injected into the system prompt as context. Reference: https://github.com/ils15/pantheon"
+    },
+    {
+      "pattern": "Copilot Workflow",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "Agent Lifecycle Hooks",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "VS Code Integration",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "VS Code Copilot Workflow",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "VS Code 1.111-1.114",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "Changelog-aligned notes",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "Handoff Strategy",
+      "action": "omit-section"
+    }
+  ]
+}

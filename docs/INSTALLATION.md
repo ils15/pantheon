@@ -72,7 +72,7 @@ Add to your VS Code `settings.json`:
 }
 ```
 
-All 12 agents load automatically. Try `@zeus: Implement a feature` in Copilot Chat.
+All 16 agents load automatically. Try `@zeus: Implement a feature` in Copilot Chat.
 
 ### Option B: Manual copy (2 minutes)
 
@@ -156,7 +156,7 @@ After installing, open your editor and type:
 @zeus: What agents are available?
 ```
 
-You should see a response listing all 12 Pantheon agents. If agents don't appear:
+You should see a response listing all 16 Pantheon agents. If agents don't appear:
 
 - **VS Code**: Restart Copilot (`Developer: Reload Window`)
 - **OpenCode**: Verify `opencode.json` is in project root

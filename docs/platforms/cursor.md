@@ -113,7 +113,7 @@ description: "Central orchestrator — delegates to specialized agents"
 | Field | Required | Description |
 |---|---|---|
 | `name` | Yes | Agent identifier — use `@name` to invoke |
-| `description` | Yes | Shown in agent autocomplete |
+| `description` | Yes | Shown in agent autocomplete dropdown when typing `@` |
 | `globs` | No | File globs that activate this rule automatically |
 
 ### What Gets Stripped
@@ -122,7 +122,7 @@ The Cursor adapter strips these VS Code frontmatter fields during conversion:
 - `model` — Cursor handles models in its own settings
 - `tools` — Not supported in `.mdc` frontmatter
 - `handoffs` — Cursor uses native subagent delegation instead
-- `skills` — Not supported
+- `skills` — Not supported in `.mdc` frontmatter
 - `instructions` — Not supported
 - `agents` — Not supported
 - `argument-hint` — Not used by Cursor
@@ -174,7 +174,7 @@ Cursor's **Agent mode** (`Ctrl+Shift+I` or `Cmd+Shift+I`) is the primary interfa
 
 ### Agent Autocomplete
 
-Type `@` in the chat input to see all available agents. The `description` field from each `.mdc` file is shown in the autocomplete dropdown.
+Type `@` in the chat input to see all available agents. The `description` field from each `.mdc` file is shown in the autocomplete dropdown — choose a clear, concise description so developers can quickly identify the right agent.
 
 ### Cursor Tab Autocomplete
 
@@ -185,6 +185,111 @@ Cursor's Tab autocomplete works independently from the agent system. The agents 
 Each `.mdc` rule becomes an agent with its own system prompt (the body of the `.mdc` file). When you invoke `@agent-name`, Cursor loads that rule's content as context for the conversation.
 
 Rules with `globs` are automatically activated when editing matching files — their instructions are prepended to the context.
+
+### Skills System
+
+Cursor now supports **Skills** — dynamic, on-demand instructions defined in `.cursor/skills/` directory. Skills are **not always in context** like rules; they are loaded only when relevant, conserving token budget.
+
+**Where to define skills:**
+
+```
+your-project/
+└── .cursor/
+    └── skills/
+        ├── agent-coordination.skill.md
+        ├── rag-pipelines.skill.md
+        └── security-audit.skill.md
+```
+
+Skills use `SKILL.md` files (equivalent to the OpenCode skill format) with frontmatter:
+
+```yaml
+---
+name: rag-pipelines
+description: "Build RAG pipelines with chunking, embeddings, and vector stores"
+---
+[skill instructions...]
+```
+
+**How skills are loaded:**
+- Manually: Type `/skill-name` in chat to invoke a skill
+- Automatically: Cursor detects when a skill is relevant to your task and loads it
+
+**Difference between Rules and Skills:**
+
+| | Rules | Skills |
+|---|---|---|
+| When loaded | Every conversation | Only when relevant |
+| Purpose | Always-on conventions | Specialized workflows |
+| Context cost | Always uses context | Only when invoked |
+| Best for | What agent should know | What agent can do |
+
+### AGENTS.md Support
+
+Cursor supports `AGENTS.md` files for project-level instructions:
+
+- **Root `AGENTS.md`** — Always-on instructions for the entire project (equivalent to `.cursorrules` or always-active rules)
+- **Nested `AGENTS.md`** — Auto-scoped to their directory; instructions only apply when working in that subtree
+
+This provides a simpler alternative to `.mdc` rules for teams that prefer plain markdown conventions:
+
+```
+your-project/
+├── AGENTS.md                    # Always-on project instructions
+├── src/
+│   ├── AGENTS.md                # Instructions scoped to src/
+│   ├── api/
+│   │   └── AGENTS.md            # Instructions scoped to src/api/
+│   └── components/
+│       └── AGENTS.md            # Instructions scoped to src/components/
+└── tests/
+    └── AGENTS.md                # Instructions scoped to tests/
+```
+
+### Plugin System
+
+Cursor supports **Plugins** that package rules, skills, agents, commands, MCP servers, and hooks into a single distributable unit.
+
+**Structure:**
+
+```
+your-project/
+└── .cursor-plugin/
+    ├── plugin.json              # Manifest (required)
+    ├── rules/                   # .mdc rule files
+    ├── skills/                  # Skill definitions
+    ├── agents/                  # Agent definitions
+    ├── commands/                # Custom commands
+    ├── mcp.json                 # MCP server configs
+    └── hooks/                   # Lifecycle hooks
+```
+
+**Manifest (`plugin.json`):**
+
+```json
+{
+  "name": "pantheon",
+  "version": "2.0.0",
+  "description": "Pantheon multi-agent system for Cursor",
+  "components": {
+    "rules": ["rules/*.mdc"],
+    "skills": ["skills/*.skill.md"],
+    "mcp": "mcp.json"
+  }
+}
+```
+
+**Discovery:** Cursor auto-detects plugin components in the standard directories. The plugin marketplace enables sharing and installing community plugins.
+
+### Remote Rule Import
+
+Cursor supports importing rules directly from GitHub repositories via **Cursor Settings → Rules, Commands → Add Remote Rule**.
+
+```
+https://raw.githubusercontent.com/ils15/Pantheon/main/platform/cursor/rules/zeus.mdc
+```
+
+Remote rules are fetched and cached locally. They update when the source repository changes, making it easy to distribute Pantheon agent definitions without a local install step.
 
 ### MCP Server Support in Cursor
 
@@ -225,10 +330,31 @@ Cursor supports subagent-style delegation internally. Zeus orchestration works t
 - Restart Cursor to reload rules
 - Check that files end with `.mdc` extension (not `.md`)
 
+### Skills Not Loading
+
+- Verify `.cursor/skills/` directory exists in your project root
+- Confirm each `.skill.md` file has valid frontmatter with `name` and `description`
+- Skills are dynamic — try invoking directly with `/skill-name` in chat
+- Check file extension: must be `.skill.md` or `.md` depending on Cursor version
+
+### Plugin Not Working
+
+- Validate `plugin.json` manifest syntax (must be valid JSON)
+- Verify referenced paths in `plugin.json` exist (e.g. `rules/*.mdc`)
+- Restart Cursor after adding/modifying plugin
+- Check `.cursor-plugin/` is in the project root (not a subdirectory)
+
+### Remote Rule Import Fails
+
+- Verify the URL points to a raw `.mdc` file (use `raw.githubusercontent.com` for GitHub repos)
+- Ensure the URL is publicly accessible (private repos may not work)
+- Check Cursor's network connectivity
+- Remote rules are cached locally — try removing and re-adding
+
 ### Agent Doesn't Follow Instructions
 
 - Ensure the `.mdc` file body contains the full instruction set
-- Cursor uses the rule body as the agent's system prompt — omit-sections from the adapter may remove critical content
+- Cursor uses the rule body as the agent's system prompt — omitted sections from the adapter may remove critical content
 - Run `npm run sync` to regenerate `.mdc` files if you modified the source `.agent.md`
 
 ### Model Performance Issues
@@ -259,7 +385,7 @@ Cursor supports subagent-style delegation internally. Zeus orchestration works t
 | Agent lifecycle hooks | ✅ | ❌ |
 | Per-agent model routing | ✅ (frontmatter) | ⚠️ (settings) |
 | Tool declarations | ✅ (frontmatter) | ❌ |
-| Skills system | ✅ | ❌ |
+| Skills system | ✅ (runSubagent) | ✅ (.cursor/skills/) |
 | Nested subagents | ✅ (runSubagent) | ⚠️ (native, different model) |
 
 ---

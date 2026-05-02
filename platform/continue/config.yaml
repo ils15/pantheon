@@ -1,0 +1,52 @@
+# Pantheon Agent Configuration for Continue.dev
+#
+# Copy this file to .continue/config.yaml and customize.
+# Each rule corresponds to a Pantheon agent loaded from .continue/rules/.
+
+models:
+  - title: Gemini 2.5 Pro
+    provider: google
+    model: gemini-2.5-pro
+  - title: GPT-4o
+    provider: openai
+    model: gpt-4o
+  - title: Claude Sonnet 4.6
+    provider: anthropic
+    model: claude-sonnet-4-6
+
+rules:
+  - ./rules/zeus.md
+  - ./rules/athena.md
+  - ./rules/apollo.md
+  - ./rules/hermes.md
+  - ./rules/aphrodite.md
+  - ./rules/maat.md
+  - ./rules/temis.md
+  - ./rules/ra.md
+  - ./rules/hefesto.md
+  - ./rules/quiron.md
+  - ./rules/eco.md
+  - ./rules/nix.md
+  - ./rules/gaia.md
+  - ./rules/iris.md
+  - ./rules/mnemosyne.md
+  - ./rules/talos.md
+
+# Custom system message overrides (optional)
+# baseSystemMessage: "You are an expert software engineer..."
+# baseAgentSystemMessage: "You are an expert software engineer..."
+# basePlanSystemMessage: "You are an expert software architect..."
+
+# MCP Servers (optional)
+# mcpServers:
+#   fetch:
+#     url: https://mcp.run/...
+#   filesystem:
+#     command: npx
+#     args: ["-y", "@modelcontextprotocol/server-filesystem", "."]
+
+# Tab autocomplete (optional)
+# tabAutocompleteModel:
+#   title: Tab Autocomplete
+#   provider: anthropic
+#   model: claude-sonnet-4-6

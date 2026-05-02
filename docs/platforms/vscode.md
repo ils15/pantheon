@@ -1,6 +1,6 @@
 # Pantheon for VS Code (GitHub Copilot)
 
-Complete setup and usage guide for running Pantheon in VS Code with GitHub Copilot.
+Complete setup and usage guide for running Pantheon in VS Code with GitHub Copilot. Pantheon is available as a plugin via the VS Code marketplace.
 
 ---
 
@@ -68,6 +68,8 @@ Create or edit `.vscode/settings.json` in your project root:
 
   "chat.subagents.allowInvocationsFromSubagents": true,
 
+  "chat.agentFilesLocations": [".github/agents"],
+
   "codeGeneration.instructions": [
     { "file": "instructions/backend-standards.instructions.md" },
     { "file": "instructions/frontend-standards.instructions.md" },
@@ -90,6 +92,7 @@ Create or edit `.vscode/settings.json` in your project root:
 |---|---|
 | `chat.plugins.marketplaces` | Enables the Pantheon plugin from the marketplace |
 | `chat.subagents.allowInvocationsFromSubagents` | **Required** for nested subagent delegation (e.g., Hermes calling Apollo) |
+| `chat.agentFilesLocations` | Custom paths to load `.agent.md` files from (array of glob patterns) |
 | `codeGeneration.instructions` | Per-file-pattern rules wired to instruction files in the repo |
 | `github.copilot.chat.codeGeneration.instructions` | Repo-level team instructions loaded on every interaction |
 | `github.copilot.chat.agent.skills` | Skills available to agents during implementation |
@@ -134,6 +137,7 @@ name: hermes
 description: "Backend specialist — FastAPI, Python, async, TDD"
 argument-hint: "Backend task: endpoint, service, router, schema, or test"
 model: ['GPT-5.4 (copilot)', 'Claude Sonnet 4.6 (copilot)']
+target: vscode
 tools:
   - agent
   - search/codebase
@@ -149,6 +153,10 @@ handoffs:
   - { label: "Send to Temis", agent: temis, prompt: "Please perform a code review and security audit on these changes.", send: true, model: 'Claude Opus 4.6 (copilot)' }
 agents: ['apollo']
 user-invocable: true
+hooks:
+  PostToolUse:
+    - type: command
+      command: "./scripts/format-changed-files.sh"
 ---
 ```
 
@@ -159,10 +167,12 @@ user-invocable: true
 | `name` | Yes | Agent identifier used for `@name` invocation |
 | `description` | Yes | Shown in agent picker and handoff UI |
 | `argument-hint` | No | Example usage shown when invoking |
-| `model` | No | Ordered list of preferred models. First available is used. Supports: `GPT-5.4 (copilot)`, `GPT-5.3-Codex (copilot)`, `Claude Sonnet 4.6 (copilot)`, `Claude Opus 4.6 (copilot)`, `Claude Haiku 4.5 (copilot)`, `Gemini 3 Flash (Preview) (copilot)`, `Gemini 3.1 Pro (Preview) (copilot)` |
-| `tools` | No | Tools the agent may use (list format). See tool reference below. |
-| `handoffs` | No | Handoff buttons shown in chat UI. Each: `label`, `agent`, `prompt`, `send` (bool), `model` (optional). |
-| `agents` | No | Sub-agents this agent may invoke via `runSubagent` |
+| `model` | No | Preferred model(s). Can be a string (single model) or array (prioritized list). First available is used. Supports: `GPT-5.4 (copilot)`, `GPT-5.3-Codex (copilot)`, `Claude Sonnet 4.6 (copilot)`, `Claude Opus 4.6 (copilot)`, `Claude Haiku 4.5 (copilot)`, `Gemini 3 Flash (Preview) (copilot)`, `Gemini 3.1 Pro (Preview) (copilot)` |
+| `target` | No | Target environment: `vscode` or `github-copilot`. Omit for cross-environment agents. |
+| `tools` | No | Tools the agent may use (list format). Supports individual tools and tool aliases (see Tool Aliases section). |
+| `handoffs` | No | Handoff buttons shown in chat UI. Each: `label`, `agent`, `prompt`, `send` (bool). Optional `model` field for per-handoff model routing. |
+| `hooks` | No | (Preview) Agent-scoped hooks definition. Requires `chat.useCustomAgentHooks` setting. Hooks only fire when this agent is active. |
+| `agents` | No | Sub-agents this agent may invoke via `runSubagent`. Use `*` to allow all, or `[]` to prevent any. |
 | `user-invocable` | No | If `false`, agent is hidden from the picker and only invoked by other agents |
 
 ### Available Tools
@@ -185,53 +195,102 @@ user-invocable: true
 
 ---
 
+## Tool Aliases
+
+VS Code supports short-form aliases that expand to full tool groups. Use these in the `tools:` field for cleaner agent definitions:
+
+| Alias | Expands To | Purpose |
+|---|---|---|
+| `agent` | `agent` | Invoke custom subagents |
+| `execute` | `execute/*` | Run shell commands and inspect results |
+| `read` | `read/*` | Read file contents and diagnostics |
+| `edit` | `edit/*` | Edit and create files |
+| `search` | `search/*` | Search codebase, symbols, and git changes |
+| `web` | `web/*` | Fetch URLs and perform web searches |
+| `todo` | `todo/*` | Manage task lists |
+
+Example:
+```yaml
+tools:
+  - execute
+  - read
+  - edit
+  - search
+  - agent
+  - web
+```
+
+This is equivalent to listing all individual `execute/*`, `read/*`, etc. tools. Mix and match aliases with individual tools as needed.
+
+---
+
 ## File Locations
+
+VS Code loads `.agent.md` files from the following locations:
+
+| Location | Scope | Description |
+|---|---|---|
+| `.github/agents/` | Workspace | Default path for team-shared agents |
+| `.claude/agents/` | Workspace | Claude Code format compatibility path |
+| `chat.agentFilesLocations` | Workspace | Custom paths via `settings.json` (array of glob patterns) |
+| `~/.copilot/agents/` | User | Personal agents available across all repositories |
+| Plugin marketplace | Workspace | Agents bundled in installed plugins (e.g., `ils15/pantheon`) |
 
 ### Per-Project (recommended for teams)
 
 ```
 your-project/
-├── agents/                          # *.agent.md files — all 16 agents
-│   ├── zeus.agent.md
-│   ├── athena.agent.md
-│   ├── apollo.agent.md
-│   ├── hermes.agent.md
-│   ├── aphrodite.agent.md
-│   ├── maat.agent.md
-│   ├── temis.agent.md
-│   ├── ra.agent.md
-│   ├── iris.agent.md
-│   ├── mnemosyne.agent.md
-│   ├── talos.agent.md
-│   ├── hefesto.agent.md
-│   ├── quiron.agent.md
-│   ├── eco.agent.md
-│   ├── nix.agent.md
-│   └── gaia.agent.md
-├── skills/                          # *.md files loaded per agent
+├── .github/
+│   ├── agents/                       # *.agent.md files — all 16 agents (default path)
+│   │   ├── zeus.agent.md
+│   │   ├── athena.agent.md
+│   │   ├── apollo.agent.md
+│   │   ├── hermes.agent.md
+│   │   ├── aphrodite.agent.md
+│   │   ├── maat.agent.md
+│   │   ├── temis.agent.md
+│   │   ├── ra.agent.md
+│   │   ├── iris.agent.md
+│   │   ├── mnemosyne.agent.md
+│   │   ├── talos.agent.md
+│   │   ├── hefesto.agent.md
+│   │   ├── quiron.agent.md
+│   │   ├── eco.agent.md
+│   │   ├── nix.agent.md
+│   │   └── gaia.agent.md
+│   └── copilot-instructions.md       # Auto-loaded on every interaction
+├── skills/                           # *.md files loaded per agent
 │   ├── tdd-with-agents/SKILL.md
 │   ├── api-design-patterns/SKILL.md
 │   ├── fastapi-async-patterns/SKILL.md
 │   └── ...
-├── instructions/                    # *.instructions.md files
+├── instructions/                     # *.instructions.md files
 │   ├── backend-standards.instructions.md
 │   ├── frontend-standards.instructions.md
 │   ├── database-standards.instructions.md
 │   └── ...
-├── prompts/                         # *.prompt.md files
+├── prompts/                          # *.prompt.md files
 │   └── ...
-├── .github/
-│   └── copilot-instructions.md      # Auto-loaded on every interaction
 ├── .vscode/
-│   └── settings.json                # Agent config + nested subagents
-└── AGENTS.md                        # Central orchestrator instructions
+│   └── settings.json                 # Agent config + nested subagents
+└── AGENTS.md                         # Central orchestrator instructions
+```
+
+To use an alternative agent location, add to `.vscode/settings.json`:
+```json
+{
+  "chat.agentFilesLocations": ["agents"]
+}
 ```
 
 ### Global (personal preferences)
 
 ```
-~/.copilot/instructions/             # Cross-repo personal preferences
-├── my-preferences.md
+~/.copilot/
+├── agents/                           # Personal agents (*.agent.md)
+├── instructions/                     # Cross-repo personal preferences
+│   ├── my-preferences.md
+│   └── ...
 └── ...
 ```
 
@@ -239,7 +298,32 @@ your-project/
 1. `~/.copilot/instructions/` — personal, cross-repo (you only)
 2. `.github/copilot-instructions.md` — team-shared, repo-level
 3. `.vscode/settings.json` → `codeGeneration.instructions` — per-file-pattern
-4. Agent `.agent.md` frontmatter — per-agent tools + model + skills
+4. Plugin-supplied agents — agents bundled in marketplace plugins
+5. `.github/agents/` — team-shared agents (default workspace path)
+6. `.claude/agents/` — workspace agents (Claude format compatibility)
+7. `chat.agentFilesLocations` — custom agent paths in `settings.json`
+8. `~/.copilot/agents/` — personal agents across all repos
+9. Agent `.agent.md` frontmatter — per-agent tools + model + skills
+
+---
+
+## /create-agent
+
+VS Code's `/create-agent` command interactively generates `.agent.md` files from a natural language description:
+
+```
+/create-agent A backend API specialist that writes FastAPI endpoints with TDD
+```
+
+The command prompts for:
+- Agent name and description
+- Tools to grant
+- Subagents and handoffs
+- Model preferences
+
+It creates the file in `.github/agents/<name>.agent.md` (or the first path in `chat.agentFilesLocations`). Edit the generated file to fine-tune behavior.
+
+You can also extract a custom agent from an ongoing conversation. For example, after a multi-turn debugging session, ask "make an agent for this kind of task" to capture the workflow as a reusable custom agent.
 
 ---
 
@@ -290,7 +374,20 @@ Example security gate (`pre-tool-use.json`):
 }
 ```
 
+Hooks can also be **agent-scoped** via the `hooks` frontmatter field (Preview). When `chat.useCustomAgentHooks` is enabled, hooks defined in an agent's frontmatter only fire when that agent is active:
+
+```yaml
+hooks:
+  PostToolUse:
+    - type: command
+      command: "./scripts/format-changed-files.sh"
+```
+
 See `.github/hooks/` in the Pantheon repo for complete examples.
+
+### Claude Agent Compatibility
+
+VS Code detects `.md` files in the `.claude/agents/` folder, following the Claude sub-agents format. This enables you to use the same agent definitions across VS Code and Claude Code. Claude-specific frontmatter properties (`name`, `description`, `tools` as comma-separated string, `disallowedTools`) are automatically mapped to VS Code equivalents.
 
 ### Custom Instructions Loading
 
@@ -326,7 +423,7 @@ VS Code loads instructions in this order:
 ### Model Routing Issues
 
 - Models must include the `(copilot)` suffix in the `model` field
-- First available model in the list is used; others are fallbacks
+- Can be a single string or prioritized array; first available is used
 - Use `/switch-model` during a session to change temporarily
 - Handoffs use **tier references** (`premium`/`default`/`fast`) — resolve to concrete models via the active [plan file](../../platform/plans/plan-active.json)
 
@@ -356,6 +453,7 @@ VS Code loads instructions in this order:
 | Switch model in session | `/switch-model` |
 | Fork conversation | `/fork` |
 | Debug agent session | `/troubleshoot #session` |
+| Generate a custom agent | `/create-agent A backend API specialist` |
 | Search code semantically | Use `#codebase` in any prompt |
 | Enable nested subagents | `"chat.subagents.allowInvocationsFromSubagents": true` |
 | Enable plugin marketplace | `"chat.plugins.marketplaces": ["ils15/pantheon"]` |

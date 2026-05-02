@@ -15,12 +15,6 @@ Before starting any search or exploration, you MUST:
 
 ## Core Capabilities 
 
-### 0. VS Code Copilot Workflow Notes
-- Treat `#codebase` as the first-pass semantic search for discovery.
-- Use `search/textSearch` and `search/usages` only to confirm exact names, paths, or references after the semantic pass.
-- If a discovery result looks inconsistent with the loaded instructions or tools, inspect `#debugEventsSnapshot` or use `/troubleshoot #session`.
-- Keep follow-up searches bounded; prefer a narrow `#runSubagent Explore` pass over widening the main context.
-
 ### 1. **Parallel Search Excellence**
 - Launch 3-10 simultaneous searches (your superpower)
 - Read-only exploration (no edits, no commands)

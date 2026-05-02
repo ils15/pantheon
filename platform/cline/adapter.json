@@ -1,0 +1,91 @@
+{
+  "name": "cline",
+  "version": "1.0.0",
+  "displayName": "Cline",
+
+  "description": "Cline (open-source VS Code AI coding agent) — rules via .clinerules files. Strips frontmatter entirely; output is plain markdown body only.",
+
+  "notes": "Cline has NO frontmatter support. The outputDir is .clinerules/ with no file extension. Frontmatter is fully excluded; include list is empty so no YAML headers appear in generated files. The buildOutputFile wrapper still produces --- delimiters — users should remove them or the sync engine should be extended with a skipFrontmatter option. File extension is empty string so generated files are named <agent> (no .md suffix), matching Cline's convention.",
+
+  "outputDir": ".clinerules",
+  "fileExtension": "",
+
+  "frontmatter": {
+    "include": [],
+    "exclude": ["*"],
+    "transform": {},
+    "addFields": {}
+  },
+
+  "toolMap": {
+    "read/readFile": "Read",
+    "edit/editFiles": "Edit",
+    "execute/runInTerminal": "Bash",
+    "execute/testFailure": "Bash",
+    "execute/getTerminalOutput": "Bash",
+    "search/codebase": "Grep",
+    "search/fileSearch": "Glob",
+    "search/textSearch": "Grep",
+    "search/usages": "Grep",
+    "search/listDirectory": "Glob",
+    "search/changes": "Bash",
+    "web/fetch": "WebFetch",
+    "agent": "Task"
+  },
+
+  "excludeTools": [
+    "read/problems",
+    "execute/createAndRunTask",
+    "vscode/runCommand",
+    "vscode/askQuestions",
+    "browser/openBrowserPage",
+    "browser/navigatePage",
+    "browser/readPage",
+    "browser/clickElement",
+    "browser/typeInPage",
+    "browser/hoverElement",
+    "browser/dragElement",
+    "browser/handleDialog",
+    "browser/screenshotPage"
+  ],
+
+  "capabilityFlags": {
+    "orchestration": false,
+    "approval": false,
+    "diagnostics": false,
+    "browser-ui": false,
+    "ide-local": false,
+    "github-service": false
+  },
+
+  "bodyFilters": [
+    {
+      "action": "prepend",
+      "content": "> Pantheon rule for Cline. This content is loaded as system prompt context."
+    },
+    {
+      "pattern": "## Copilot Workflow Updates",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "## Agent Lifecycle Hooks",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "## VS Code Integration",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "### Changelog-aligned notes",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "### VS Code 1.111-1.114",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "## Handoffs",
+      "action": "omit-section"
+    }
+  ]
+}
