@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/logo.png" alt="Pantheon Logo" width="180"/>
+  <img src="images/logo.png" alt="Pantheon Logo" width="500"/>
 </p>
 
 <h1 align="center">Pantheon</h1>
