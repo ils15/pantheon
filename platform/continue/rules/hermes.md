@@ -144,5 +144,20 @@ When completing a task, provide:
 
 ---
 
+## 🚫 Anti-Rationalization Table
+
+If your internal monologue suggests ANY of these, STOP and correct:
+
+| Rationalization | Truth |
+|---|---|
+| "This is too simple for TDD" | **No. TDD is for ALL code.** Write the test. |
+| "I'll add tests later" | **No. Tests FIRST, code second.** |
+| "The existing code doesn't have tests" | **Irrelevant. Your code will have tests.** |
+| "This refactor is safe to skip testing" | **No. Refactoring without tests = guessing.** |
+| "Coverage is good enough already" | **Target is >80%. No exceptions.** |
+| "I know this works, no need to run tests" | **Run them. Confidence = verification, not intuition.** |
+
+---
+
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
 

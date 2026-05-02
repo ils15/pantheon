@@ -93,6 +93,35 @@ Full debugging guide with 7-step process in documentation.
 
 ## Core Capability: Orchestration 
 
+# Create isolated worktree for each agent
+git worktree add ../pantheon-hermes HEAD
+git worktree add ../pantheon-aphrodite HEAD
+
+# Agent works in its own directory
+# No cross-agent file conflicts
+# Easy to discard if something goes wrong
+
+# Clean up after
+git worktree remove ../pantheon-hermes
+git worktree remove ../pantheon-aphrodite
+```
+
+**When to use:**
+- Multiple agents editing the same files
+- Experimental changes you might discard
+- High-risk refactoring
+
+**When NOT to use:**
+- Simple additive changes (new files, new endpoints)
+- Code review only
+
+### 4. **Structured Handoffs**
+- Receive plans from Planner
+- Delegate with clear scope and requirements
+- Coordinate between specialist agents
+- Report phase completion and approval status
+- Use subagents for focused, context-isolated discovery or audits, then summarize findings back into the main thread
+
 ## Available Subagents
 
 ### 1. Athena - THE STRATEGIC PLANNER
@@ -203,6 +232,25 @@ Phase 4: Deployment (optional)
 
 ⏸️ GATE 3: User executes git commit
 ```
+
+### DAG Wave Execution (NEW)
+
+Instead of flat sequential phases, use a **DAG Wave approach**:
+
+1. **Analyze dependency graph** of all tasks in the feature
+2. **Group independent tasks** into parallel waves
+3. **Announce each wave** with clear parallel declaration
+4. **Wait for all tasks in a wave** to complete before starting next
+5. **Temis reviews at the end** of the final implementation wave
+
+**DAG Wave identification rules:**
+- `maat` schema changes + `apollo` research = Wave 1 (no dependencies)
+- `hermes` backend + `aphrodite` frontend (with mocks) = Wave 2 (depend on schema from Wave 1)
+- `hermes` + `aphrodite` real integration = Wave 3 (depend on mocks validated)
+- `temis` review = Wave N (depends on all implementation)
+- `ra` deploy = Final wave (depends on review approval)
+
+**Never** put tasks with dependencies in the same wave. If task B needs task A's output, they must be in different waves.
 
 ### Parallel Execution Declaration
 

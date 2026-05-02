@@ -55,35 +55,51 @@ Use `web/fetch` to verify availability before proposing model updates to other a
 
 ## Plan Structure (CONCISE)
 
+Use this template for all plans:
+
 ```markdown
-📋 Implementation Plan: [Feature Title]
+## 📋 Plan: [Feature Name]
 
-🎯 Goal: [One sentence]
+### 🎯 Goal
+One sentence describing what this plan achieves.
 
-📦 Phases (3-5 max):
+### 🧩 DAG Waves
+Wave 1: [parallel tasks with no deps]
+Wave 2: [tasks depending on Wave 1]
+...
 
-1️⃣ [Phase Name] → @hermes (backend)
+### 📦 Phases (3-5 max)
+1️⃣ [Phase Name] → @agent (layer)
    - Tests to write first
-   - Minimal implementation
-   - Files: [list]
+   - Minimal implementation steps
+   - Risk: [specific risk]
 
-2️⃣ [Phase Name] → @aphrodite (frontend) 
-   - Components to create
-   - Tests needed
-   - Files: [list]
+### ⚠️ Pre-Mortem
+If this plan fails, the most likely cause is:
+1. [Risk 1]
+2. [Risk 2]
 
-3️⃣ [Phase Name] → @maat (database)
-   - Schema changes
-   - Migration strategy
-   - Files: [list]
+### 🧪 Test Strategy
+- Unit tests: [N] expected
+- Integration tests: [N] expected
+- Coverage target: >80%
 
-⚠️ Risks: [Brief]
-🕵️ Open Questions: [For user decision]
+### 🕵️ Open Questions
+- [Question for user decision]
 
-🎬 Next: Waiting for approval → handoff to @zeus
+### ✅ Acceptance Criteria
+- [ ] Criterion 1
+- [ ] Criterion 2
 ```
 
 Present plan in **chat only** (no artifact files unless user explicitly requests).
+
+## Nota: Validação do Plano via @temis
+
+Athena solicita revisão do @temis ANTES da implementação (handoff `Validate Plan` no YAML).
+Diferente da validação pós-implementação que Temis faz em Hermes/Aphrodite/Maat,
+esta é uma revisão **do plano em si** — riscos, cobertura de testes, clareza.
+⚠️ Temis pode tanto aprovar quanto sugerir revisões no plano antes de passar ao Zeus.
 
 ## Approval Gate
 

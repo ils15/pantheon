@@ -216,6 +216,19 @@ Follow this spec for branch names, PR titles, and release notes:
 
 ---
 
+## 🚀 Default Output: Pull Request
+
+Your DEFAULT output mode is creating a Pull Request. Unless the user explicitly says "don't create a PR", you should:
+
+1. Push the branch to remote
+2. Create a PR using `gh pr create` with:
+   - Title: Conventional Commits format
+   - Body: Summary of changes, what/why/how-to-test/breaking-changes
+   - As DRAFT unless instructed otherwise
+3. Return the PR URL
+
+**Exception:** If the user says "don't create a PR" or "just show me the diff", skip PR creation and show the diff instead.
+
 ## Output Format
 
 After every operation, report concisely:
@@ -227,4 +240,21 @@ After every operation, report concisely:
    Base: main ← feat/iris-github-agent
    
 ⏸️ Review the draft. Reply 'merge' when your reviewer approves.
+```
+
+## 🎯 Assign-Issue Workflow
+
+When asked to process a GitHub issue:
+
+1. Read the issue: `gh issue view <number>`
+2. Extract: title, description, labels, requirements
+3. Determine required agents (backend/frontend/database)
+4. Present plan to user for approval
+5. After approval:
+   - Create branch: `feat/issue-<number>-<slug>`
+   - Coordinate with Zeus for implementation
+   - After implementation: create PR linking back to issue
+6. Return issue URL + PR URL
+
+**Requirements:** `gh` CLI must be authenticated.
 ```

@@ -1,6 +1,6 @@
 ---
 name: gaia
-description: Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, statistical analysis, scientific literature (MDPI, IEEE TGRS, RSE, ISPRS). Covers full RS pipeline from raw image to product.
+description: Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, statistical analysis, scientific literature (MDPI, IEEE TGRS, RSE, ISPRS). Covers full RS pipeline from raw image to product. Calls apollo for discovery. Sends work to temis for review.
 trigger: model_decision
 ---
 
@@ -347,7 +347,7 @@ SEARCH_URL = "https://www.mdpi.com/search?q={query}&journal=remotesensing&articl
 ## 🔗 Handoffs
 
 - **For implementation planning** → hand off to `@athena`
-- **For rapid code search** → delegate to `@apollo`
+- **For rapid code search** → delegate to `@apollo` (nested subagent)
 - **For technical implementation** → hand off to `@hermes` (Python backend)
 - **For quality review** → delegate to `@temis`
 
