@@ -23,6 +23,24 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts || npm install
 
+      - name: Validate version matches tag
+        run: |
+          set -e
+          TAG="${GITHUB_REF_NAME}"
+          EXPECTED="${TAG#v}"
+          pkg=$(node -p "require('./package.json').version")
+          root_plugin=$(node -p "require('./plugin.json').version")
+          gh_plugin=$(node -p "require('./.github/plugin/plugin.json').version")
+          echo "Tag: $TAG"
+          echo "Expected: $EXPECTED"
+          echo "package.json: $pkg"
+          echo "plugin.json: $root_plugin"
+          echo ".github/plugin/plugin.json: $gh_plugin"
+          [ "$pkg" = "$root_plugin" ] || { echo "❌ package.json and plugin.json out of sync"; exit 1; }
+          [ "$pkg" = "$gh_plugin" ] || { echo "❌ package.json and .github/plugin/plugin.json out of sync"; exit 1; }
+          [ "$pkg" = "$EXPECTED" ] || { echo "❌ Version ($pkg) != tag ($TAG)"; exit 1; }
+          echo "✅ Versions synchronized and match tag"
+
       - name: Regenerate platform configs before release
         run: npm run sync
 
