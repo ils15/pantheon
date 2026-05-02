@@ -68,3 +68,41 @@ skill-registry
 ## Model Assignment
 
 OpenCode supports per-agent model routing via the `model` frontmatter field and [per-phase profiles](https://opencode.ai/docs/profiles) for assigning different models to different SDD phases.
+
+---
+
+## Plugin Installation
+
+OpenCode supports plugins. To install Pantheon as a plugin:
+
+```bash
+# Method 1: Clone + Link
+git clone https://github.com/ils15/pantheon.git ~/.opencode/plugins/pantheon
+opencode plugin link ~/.opencode/plugins/pantheon
+
+# Method 2: Manual copy  
+cp -r agents ~/.config/opencode/agents/
+cp opencode.json ~/.config/opencode/
+```
+
+### Plugin Structure
+```
+pantheon/
+├── platform/
+│   └── opencode/
+│       ├── adapter.json     # Tool mappings and format config
+│       └── agents/          # OpenCode-adapted agent definitions
+├── agents/                   # Canonical VS Code agent definitions  
+├── skills/                   # Agent Skills (27 skills)
+├── instructions/             # Standards and instructions
+├── prompts/                  # Prompt files
+└── opencode.json             # Configuration
+```
+
+### Compatibility
+| Platform | Status |
+|---|---|
+| VS Code (Copilot) | ✅ Full support |
+| OpenCode | ✅ Full support (via platform/opencode) |
+| Claude Code | 🟡 Manual setup required |
+| Cursor | 🟡 Rule conversion needed |

@@ -1,6 +1,10 @@
 ---
 name: remote-sensing-analysis
 description: "Complete remote sensing pipeline — optical/SAR processing, spectral indices, time series analysis, ML/DL classification, LULC inter-product agreement, statistical accuracy assessment (Olofsson 2014), cloud platform integration (GEE, STAC), and scientific literature search"
+context: fork
+argument-hint: "Remote sensing task — describe satellite sensor, study area, analysis type (classification/change detection/time series), and desired outputs"
+globs: ["**/*.tif", "**/*.tiff", "**/*.nc", "**/scripts/rs_*.py"]
+alwaysApply: false
 ---
 
 # Skill: Remote Sensing Analysis

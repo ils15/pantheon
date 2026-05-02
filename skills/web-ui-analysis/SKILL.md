@@ -1,6 +1,9 @@
 ---
 name: web-ui-analysis
 description: Analyze web interfaces for UX issues, accessibility compliance (WCAG 2.1), color contrast, typography hierarchy, responsive design, and Core Web Vitals. Returns actionable improvements with code examples.
+argument-hint: "UI/UX analysis task — describe page/component URL or file path, device/viewport to test, and WCAG compliance level target"
+globs: ["**/*.tsx", "**/*.jsx", "**/*.html"]
+alwaysApply: false
 ---
 
 # Web UI Analysis Skill

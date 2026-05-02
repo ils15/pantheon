@@ -1,7 +1,7 @@
 {
   "name": "pantheon",
-  "description": "Multi-agent orchestration platform. Zeus coordinates 12 specialized agents: Athena (planning), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Iris (GitHub), Temis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). Supports VS Code, OpenCode, Claude Code, Cursor, and Windsurf. Includes 18 on-demand skills.",
-  "version": "3.3.0",
+  "description": "Multi-agent orchestration platform. Zeus coordinates 16 specialized agents: Athena (planning), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Hefesto (AI pipelines), Quíron (model routing), Eco (conversational AI), Nix (observability), Iris (GitHub), Temis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). Supports VS Code, OpenCode, Claude Code, Cursor, and Windsurf. Includes 27 on-demand skills.",
+  "version": "3.4.0",
   "keywords": [
     "multi-agent",
     "orchestration",
@@ -49,6 +49,15 @@
     "./skills/remote-sensing-analysis",
     "./skills/security-audit",
     "./skills/tdd-with-agents",
-    "./skills/web-ui-analysis"
+    "./skills/web-ui-analysis",
+    "./skills/agent-evaluation",
+    "./skills/agent-observability",
+    "./skills/conversational-ai-design",
+    "./skills/mcp-server-development",
+    "./skills/multi-model-routing",
+    "./skills/prompt-injection-security",
+    "./skills/rag-pipelines",
+    "./skills/streaming-patterns",
+    "./skills/vector-search"
   ]
 }

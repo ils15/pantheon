@@ -7,6 +7,69 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [3.4.0] - 2026-05-02
+
+### Added
+
+#### 🔒 Per-Agent Security Model
+- **Per-agent `temperature` + `steps`** configurados no `opencode.json` para todos os 16 agentes — Athena 0.1 (precisão), Aphrodite 0.5 (criatividade), Talos 3 steps (hotfix rápido), Zeus 25 steps (orquestração completa).
+- **Per-agent bash permissions** — 7 agentes com permissões restritas: Zeus (task only), Athena/Apollo/Gaia (read-only), Temis (pytest/ruff/grep apenas), Iris (git/gh apenas), Talos (git add/prettier apenas), Mnemosyne (sem bash), Nix (pip/pytest apenas).
+- **Global bash permissions** com 3 tiers: `allow` (git, npm, pytest, ruff, docker, gh), `ask` (rm, mv, cp, chmod, sudo), `deny` (rm -rf, dd, mkfs, fdisk).
+- **Anti-Rationalization Tables** — Hermes, Aphrodite e Maat agora rejeitam 6 racionalizações comuns (pular TDD, "vou testar depois", "cobertura já está boa").
+
+#### 🧩 DAG Wave Execution
+- **Zeus** documenta orquestração por DAG (Directed Acyclic Graph) — tasks independentes rodam em waves paralelas.
+- Wave 1: maat-schema + apollo-research; Wave 2: hermes-backend + aphrodite-frontend; Wave 3: integração real; Wave 4: temis-review; Wave 5: ra-deploy.
+- Redução de ~50% no tempo total vs execução sequencial.
+
+#### 🧠 Learning Routing Triple
+- Framework de organização de memória em 3 categorias: **Facts** → `/memories/repo/` (auto-carregado), **Patterns** → `skills/` (on-demand), **Conventions** → `.github/copilot-instructions.md` (sempre em contexto).
+- Regra: "Se encontrar conteúdo na categoria errada, mova. Não duplique."
+
+#### 🪞 Self-Reflection Quality Gate (Temis)
+- Temis se autoavalia em 6 categorias (1-10): Correctness, Coverage, Security, Performance, Completeness, Clarity.
+- Nota <7 em qualquer categoria → NEEDS_REVISION automático.
+- **Review Scope Levels** adicionados: Plan (~2min), Wave (~5min), Task (~3min), Final (~10min).
+
+#### 🤖 PR-Native Output (Iris)
+- Iris agora cria Pull Request como **output padrão** — `gh pr create` com Conventional Commits, corpo estruturado, DRAFT.
+- Exceção: se usuário disser "don't create a PR", mostra diff.
+- **Assign-Issue Workflow** — lê issue do GitHub, extrai requisitos, coordena implementação, cria PR.
+
+#### 📋 Plan Format Guide (Athena)
+- Template padronizado: Goal → DAG Waves → Phases → **Pre-Mortem** → Test Strategy → Acceptance Criteria.
+- Pre-Mortem força Athena a considerar riscos antes da aprovação.
+
+#### ☁️ Cloud Delegation + Worktree Isolation (Zeus)
+- **Cloud Delegation** — tarefas longas delegadas para background (`npx copilot-cli`) ou script local.
+- **Worktree Isolation** — git worktrees para agentes paralelos sem conflito de arquivos.
+
+#### 📦 Plugin Marketplace
+- Estrutura de plugin documentada em `platform/opencode/README.md`.
+- Compatibilidade: VS Code (full), OpenCode (full), Claude Code (manual), Cursor (conversão).
+
+#### 🛡️ Agent-Scoped Hooks (Temis)
+- Temis ganhou `hooks: PostToolUse` no frontmatter YAML — formatação automática pós-edição.
+
+#### 📚 Model Selection Priority Chain
+- Documentada no AGENTS.md: 1) Modelo explícito → 2) Modelo configurado no agente → 3) Modelo da conversa.
+- Regra: modelo requisitado não pode exceder cost tier do modelo principal.
+
+### Changed
+
+- **Skills** — Todos os 27 skills agora têm `context: fork` (skills >200 linhas rodam em subagente isolado) + `argument-hint` (dica no slash command) + `globs` + `alwaysApply: false` (carregamento inteligente por contexto).
+- **Agentes** — Hermes, Aphrodite, Maat, Ra e Temis ganharam `#tool:` references no body text para clareza de ferramentas.
+- **Gaia** — Adicionado `agents: ['apollo']` + handoffs YAML (temis + athena) + "Calls apollo... Sends work to temis" na description.
+- **opencode.json** — Config removido `model` hardcoded (não fixa modelo), adicionado `temperature` + `steps` por agente.
+- **Global skill corrigido** — 8 ocorrências do bug Athena→Aphrodite no `~/.config/opencode/skills/orchestration-workflow/SKILL.md`.
+- **plugin.json** — Descrição atualizada de "12 agents, 18 skills" para "16 agents, 27 skills"; lista de skills expandida com 9 novos skills.
+- **README.md** — Badge de versão atualizado para 3.4.0.
+
+### Fixed
+
+- **Skill orchestration-workflow** — 7 referências incorretas Athena→Aphrodite (tarefas de frontend) corrigidas no repositório.
+- **AGENTS.md** — Duplicação de conteúdo consolidada; seção DAG Wave Execution já existia e foi mantida.
+
 ## [3.3.0] - 2026-05-02
 
 ### Added

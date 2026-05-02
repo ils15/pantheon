@@ -1,6 +1,9 @@
 ---
 name: frontend-analyzer
 description: Analyze React/Next.js components to extract typography, colors, layout, fonts, spacing systems, and design tokens. Identifies accessibility issues, responsive breakpoints, and component hierarchies.
+argument-hint: "Component or page to analyze — provide file path, component name, and aspects to extract (tokens, accessibility, breakpoints)"
+globs: ["**/*.tsx", "**/*.jsx", "**/components/**"]
+alwaysApply: false
 ---
 
 # Frontend Analyzer

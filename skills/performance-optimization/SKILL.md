@@ -1,6 +1,9 @@
 ---
 name: performance-optimization
 description: "Performance optimization - query analysis, N+1 detection, caching, indexing strategies"
+argument-hint: "Performance tuning task — describe the slow operation, current metrics, expected targets, and affected stack layer (DB/cache/API/frontend)"
+globs: ["**/*.py", "**/*.ts"]
+alwaysApply: false
 ---
 
 # Performance Optimization Skill

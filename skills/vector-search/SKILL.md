@@ -1,6 +1,10 @@
 ---
 name: vector-search
 description: "Vector search & semantic retrieval - embedding generation, vector database integration, similarity search, hybrid search, metadata filtering, reranking, index tuning, and batch indexing"
+context: fork
+argument-hint: "Vector search setup — describe data type, embedding model preference, vector store, search patterns (similarity/hybrid), and scale requirements"
+globs: ["**/vector/**", "**/embeddings/**"]
+alwaysApply: false
 ---
 
 # Vector Search & Semantic Retrieval Skill

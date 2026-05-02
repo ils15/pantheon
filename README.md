@@ -1,6 +1,6 @@
 # Pantheon
 
-[![Version](https://img.shields.io/badge/version-3.2.1-blue)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-3.4.0-blue)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Platforms](https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf-green)](docs/platforms/)
 [![Agents](https://img.shields.io/badge/agents-16-purple)](agents/README.md)

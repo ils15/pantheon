@@ -112,6 +112,76 @@ Result: Clean context for both agents, 60-70% token savings
 
 ---
 
+## 🧩 DAG Wave Execution
+
+**What is DAG Wave Execution?** Instead of organizing work as a flat sequential list of phases, Zeus identifies tasks that have **no interdependencies** and groups them into **parallel waves**. The result is a Directed Acyclic Graph (DAG) where each wave is a set of parallel tasks, and waves flow sequentially only where dependencies exist.
+
+### The DAG Pattern
+
+```
+Wave 1: [maat-schema, apollo-research] (parallel — schema + research have no dependencies)
+  ↓
+Wave 2: [hermes-backend, aphrodite-frontend] (parallel — both use schema from Wave 1, work independently with mocks)
+  ↓
+Wave 3: [hermes-integration, aphrodite-integration] (parallel — real integration testing)
+  ↓
+Wave 4: [temis-review] (sequential — depends on all implementation waves)
+  ↓
+Wave 5: [ra-deploy] (sequential)
+```
+
+### How Zeus Identifies Waves
+
+When Zeus receives a feature plan, it analyzes the dependency graph:
+
+1. **No dependencies?** → Same wave, parallel execution 🚀
+2. **One depends on another?** → Sequential waves, ordered by dependency
+3. **Multiple depend on same task?** → That task must be in an earlier wave
+4. **Independent sub-systems** → Can be parallelized even without mocks
+
+### Example: E-commerce Feature DAG
+
+```
+Feature: "Add Product Reviews"
+
+Wave 1: [maat: reviews-schema] ───────────────────────┐
+         [apollo: find existing review patterns] ──────┤
+                                                       ↓
+Wave 2: [hermes: POST/GET/DELETE /reviews] ───────────┤
+         [aphrodite: ReviewCard + ReviewForm (mocks)] ─┤
+                                                       ↓
+Wave 3: [hermes: connect real DB] ────────────────────┤
+         [aphrodite: connect real API] ────────────────┤
+                                                       ↓
+Wave 4: [temis: full review] ← depends on all above ──┘
+                                                       ↓
+Wave 5: [ra: deploy] ← depends on approval
+```
+
+### Benefits Over Sequential Execution
+
+| Aspect | Sequential | DAG Wave |
+|--------|-----------|----------|
+| Total time | Sum of all phases | Longest path only |
+| Idle agents | Waiting for previous to finish | Always busy |
+| Context reuse | One agent at a time | Parallel specialized agents |
+| Risk detection | Late (at integration) | Early (per wave) |
+| Feedback loop | End of each phase | End of each wave |
+
+### Wave Declaration Format
+
+When dispatching a wave, Zeus announces:
+
+```
+🔀 WAVE 2 — Parallel Execution
+Tasks in this wave (no interdependencies):
+  ├─ @hermes   → POST /reviews endpoint + tests
+  └─ @aphrodite → ReviewCard component with mocked data
+Both execute simultaneously. Wave 3 starts after both complete.
+```
+
+---
+
 ### Planning Tier
 
 #### 🧠 **Athena** (agents/athena.agent.md)
@@ -464,6 +534,23 @@ Memory bank management, decision documentation, progress tracking.
 > Mnemosyne is **not** invoked automatically after phases. Sprint state lives in `/memories/session/` (ephemeral) or git commits (permanent).
 
 ---
+
+### 🧠 Learning Routing Triple (Memory Organization)
+
+Instead of mixing all project knowledge into a single bucket, separate into **3 categories**:
+
+| Category | Where | What goes there | Auto-loaded? |
+|---|---|---|---|
+| **Facts** | `/memories/repo/` | Stack, test commands, dir structure, immutable truths | ✅ Yes — zero token cost |
+| **Patterns** | `skills/` | Reusable procedures: how to create a migration, endpoint, component | ❌ No — loaded on-demand by skill name |
+| **Conventions** | `.github/copilot-instructions.md` | Coding style, commit format, naming rules, project policies | ✅ Yes — always in context |
+
+**Rules:**
+- **Facts** are permanent and never change (e.g., "project uses FastAPI + SQLAlchemy"). Written by any agent.
+- **Patterns** are reusable multi-step procedures (e.g., "how to add a new API endpoint with TDD"). Defined as skills.
+- **Conventions** are project rules (e.g., "use snake_case for Python, camelCase for JS"). Stored in copilot-instructions.md.
+
+**If you find content that belongs in a different category, move it.** Do not duplicate.
 
 ---
 
@@ -1031,6 +1118,24 @@ See [platform/plans/](platform/plans/) for all 16+ plan configurations across Op
 ### Canonical Agent Models
 
 Each agent's `model:` frontmatter field (top-level) remains as a suggested model list for the platform. These are hints, not hard requirements. The actual model used depends on the active plan.
+
+### Model Selection Priority Chain
+
+When VS Code Copilot selects a model for a subagent or handoff, it follows this priority chain (highest to lowest):
+
+1. **Explicit model parameter** — Model specified in the handoff/`runSubagent` call (e.g. `model: premium`)
+2. **Agent-configured model** — `model:` property in the agent's YAML frontmatter (`.agent.md`)
+3. **Plan-resolved tier** — Abstract tier (`fast`/`default`/`premium`) resolved through `platform/plans/<plan>.json`
+4. **Main conversation model** — The model of the parent chat session (default fallback)
+
+**Cost Cap Rule:** The requested model tier cannot exceed the cost tier of the main conversation model. For example, a `fast` main model cannot delegate to a `premium` subagent — the subagent will fall back to the main model's tier.
+
+**Fallback Behavior:**
+- If a handoff specifies `model: premium` but the active plan has no premium model → falls back to `default`
+- If an agent has no `model:` in frontmatter → uses the plan's mapping for its role
+- If no plan is active → uses the main conversation model
+
+This chain ensures predictable model selection while maintaining flexibility across different VS Code Copilot subscription tiers.
 
 ---
 

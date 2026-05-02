@@ -171,6 +171,32 @@ Full debugging guide with 7-step process in documentation.
 - Coordinate interdependent phases
 - Report status and readiness gates
 
+### 5. **Worktree Isolation (Experimental)**
+For maximum safety when running parallel agents, use git worktrees:
+
+```bash
+# Create isolated worktree for each agent
+git worktree add ../pantheon-hermes HEAD
+git worktree add ../pantheon-aphrodite HEAD
+
+# Agent works in its own directory
+# No cross-agent file conflicts
+# Easy to discard if something goes wrong
+
+# Clean up after
+git worktree remove ../pantheon-hermes
+git worktree remove ../pantheon-aphrodite
+```
+
+**When to use:**
+- Multiple agents editing the same files
+- Experimental changes you might discard
+- High-risk refactoring
+
+**When NOT to use:**
+- Simple additive changes (new files, new endpoints)
+- Code review only
+
 ### 4. **Structured Handoffs**
 - Receive plans from Planner
 - Delegate with clear scope and requirements
@@ -288,6 +314,25 @@ Phase 4: Deployment (optional)
 
 ⏸️ GATE 3: User executes git commit
 ```
+
+### DAG Wave Execution (NEW)
+
+Instead of flat sequential phases, use a **DAG Wave approach**:
+
+1. **Analyze dependency graph** of all tasks in the feature
+2. **Group independent tasks** into parallel waves
+3. **Announce each wave** with clear parallel declaration
+4. **Wait for all tasks in a wave** to complete before starting next
+5. **Temis reviews at the end** of the final implementation wave
+
+**DAG Wave identification rules:**
+- `maat` schema changes + `apollo` research = Wave 1 (no dependencies)
+- `hermes` backend + `aphrodite` frontend (with mocks) = Wave 2 (depend on schema from Wave 1)
+- `hermes` + `aphrodite` real integration = Wave 3 (depend on mocks validated)
+- `temis` review = Wave N (depends on all implementation)
+- `ra` deploy = Final wave (depends on review approval)
+
+**Never** put tasks with dependencies in the same wave. If task B needs task A's output, they must be in different waves.
 
 ### Parallel Execution Declaration
 
@@ -469,6 +514,20 @@ If development needs adjustment:
 - Switch to research mode with @apollo
 - Revise plan with @athena if scope changes
 - Re-delegate to implementers with updated requirements
+
+### 5. **Cloud Delegation**
+
+When a task is suitable for background execution (long-running, no interactivity needed):
+
+1. Determine if task can run autonomously
+2. If yes, delegate via:
+   - **Terminal handoff:** `npx copilot-cli task "..."` (if Copilot CLI available)
+   - **Local script handoff:** Create a script file, run it, report results
+3. Monitor completion via terminal output
+4. Report results to user
+
+**Suitable for:** Batch migrations, bulk data processing, CI/CD debugging, long test suites.
+**NOT suitable for:** Tasks needing user decisions, architectural decisions, security reviews.
 
 ### Handoff CTA Examples
 

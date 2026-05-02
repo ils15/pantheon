@@ -1,6 +1,10 @@
 ---
 name: orchestration-workflow
 description: "Practical step-by-step walkthrough for orchestrating features end-to-end using the multi-agent system, from planning through deployment"
+context: fork
+argument-hint: "Feature to orchestrate end-to-end — describe the requirement, affected layers, and deployment target"
+globs: ["**/AGENTS.md", "**/agents/*.agent.md"]
+alwaysApply: false
 ---
 
 # Orchestration Workflow: Step-by-Step Guide
@@ -54,7 +58,7 @@ plans/jwt-authentication/plan.md
 │  ├─ Tasks: JWT service + endpoints
 │  ├─ Test requirements: 8 test cases
 │  └─ Risk: Token expiry edge cases
-├─ Phase 3: Frontend Integration (Athena)
+├─ Phase 3: Frontend Integration (Aphrodite)
 │  ├─ Tasks: LoginForm + useAuth hook
 │  ├─ Test requirements: 6 test cases
 │  └─ Risk: Token refresh race condition
@@ -285,7 +289,7 @@ You: "continue"
 
 ### Phase 3: Frontend Integration (2-3 hours)
 
-**Zeus delegates to Athena:**
+**Zeus delegates to Aphrodite:**
 ```
 @aphrodite: Implement frontend for JWT auth
 
@@ -312,7 +316,7 @@ TDD: RED → GREEN → REFACTOR
 Coverage target: >80%
 ```
 
-**Athena does (TDD):**
+**Aphrodite does (TDD):**
 
 Test: RED
 ```javascript
@@ -400,7 +404,7 @@ export function LoginForm({onSubmitSuccess}) {
 
 ...repeats for all 8 test cases + useAuth hook + token storage...
 
-**Athena delivers:** Components + 13 component tests, 94% coverage
+**Aphrodite delivers:** Components + 13 component tests, 94% coverage
 
 **Temis reviews:**
 ```
@@ -564,7 +568,7 @@ git push origin main
 
 ```bash
 # Step 1: Plan
-@aphrodite: Plan [feature description]
+@athena: Plan [feature description]
 
 # Step 2: Orchestrate
 @zeus: Implement feature using plan
@@ -622,7 +626,7 @@ Action:
 Temis: "Accessibility 82/100, need 95+ (BLOCKED)"
 
 Action:
-1. Athena improves accessibility
+1. Aphrodite improves accessibility
 2. Runs accessibility audit again
 3. Adds missing ARIA labels
 4. Improves keyboard navigation
@@ -645,7 +649,7 @@ Timeline:    30 minutes
 
 ### Pattern 2: Complex Feature (Use Full System)
 ```
-Plan:        @aphrodite: Plan architecture
+Plan:        @athena: Plan architecture
 Review:      User approves 5-phase plan ⏸️
 Orchestrate: @zeus: Implement using plan
 Result:      Complete 5-phase feature, 95% coverage

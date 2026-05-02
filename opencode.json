@@ -1,3 +1,49 @@
 {
-  "$schema": "https://opencode.ai/config.json"
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "zeus":      { "temperature": 0.2, "steps": 25, "permission": { "edit": "deny", "bash": "deny", "task": { "*": "allow" } } },
+    "athena":    { "temperature": 0.1, "steps": 15, "permission": { "edit": "deny", "bash": "deny" } },
+    "apollo":    { "temperature": 0.1, "steps": 10, "permission": { "edit": "deny", "bash": "deny" } },
+    "hermes":    { "temperature": 0.3, "steps": 20 },
+    "aphrodite": { "temperature": 0.5, "steps": 20 },
+    "maat":      { "temperature": 0.2, "steps": 15 },
+    "temis":     { "temperature": 0.1, "steps": 10, "permission": { "edit": "ask", "bash": { "pytest *": "allow", "ruff *": "allow", "grep *": "allow", "npx vitest *": "allow" } } },
+    "ra":        { "temperature": 0.2, "steps": 10 },
+    "iris":      { "temperature": 0.2, "steps": 8,  "permission": { "edit": "deny", "bash": { "git *": "allow", "gh *": "allow" } } },
+    "mnemosyne": { "temperature": 0.1, "steps": 5,  "permission": { "bash": "deny" } },
+    "talos":     { "temperature": 0.3, "steps": 3,  "permission": { "bash": { "git add *": "allow", "npx prettier *": "allow" } } },
+    "hefesto":   { "temperature": 0.3, "steps": 20 },
+    "quiron":    { "temperature": 0.2, "steps": 15 },
+    "eco":       { "temperature": 0.4, "steps": 15 },
+    "nix":       { "temperature": 0.1, "steps": 10, "permission": { "edit": "ask", "bash": { "pip *": "allow", "pytest *": "allow" } } },
+    "gaia":      { "temperature": 0.2, "steps": 15, "permission": { "edit": "deny", "bash": "deny" } }
+  },
+  "permission": {
+    "bash": {
+      "rm -rf /": "deny",
+      "sudo rm *": "deny",
+      "dd *": "deny",
+      "> /dev/*": "deny",
+      "mkfs*": "deny",
+      "fdisk*": "deny",
+      "rm *": "ask",
+      "mv *": "ask",
+      "cp *": "ask",
+      "chmod *": "ask",
+      "sudo *": "ask",
+      "docker rm *": "ask",
+      "docker rmi *": "ask",
+      "git *": "allow",
+      "npm *": "allow",
+      "npx *": "allow",
+      "pytest *": "allow",
+      "ruff *": "allow",
+      "black *": "allow",
+      "pip *": "allow",
+      "docker *": "allow",
+      "curl *": "allow",
+      "gh *": "allow",
+      "make *": "allow"
+    }
+  }
 }

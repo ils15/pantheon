@@ -1,6 +1,10 @@
 ---
 name: rag-pipelines
 description: "RAG (Retrieval-Augmented Generation) pipeline design — chunking strategies, embedding model selection, document loaders, vector store configuration (Pinecone, Weaviate, pgvector, Chroma), retrieval strategies (similarity search, MMR, hybrid BM25, self-querying), evaluation with RAGAS/LangSmith, and Gradio/Streamlit demo patterns. Covers LangChain and LlamaIndex integration for production-grade RAG systems."
+context: fork
+argument-hint: "RAG pipeline design — describe document sources, retrieval use cases, chunking strategy, vector store preference, and evaluation criteria"
+globs: ["**/rag/**", "**/retrieval/**", "**/embeddings/**"]
+alwaysApply: false
 ---
 
 # RAG Pipelines Skill
