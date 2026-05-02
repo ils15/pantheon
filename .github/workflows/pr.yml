@@ -1,0 +1,118 @@
+name: PR Checks
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  label-by-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply labels from PR title
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const title = (pr?.title || '').trim();
+            const m = title.match(/^([a-zA-Z]+)(\([^\)]+\))?(!)?:\s+/);
+            if (!m) {
+              core.info(`No conventional prefix in title: "${title}"`);
+              return;
+            }
+            const type = m[1].toLowerCase();
+            const breaking = Boolean(m[3]);
+            const map = {
+              feat: ['feature', 'minor'],
+              fix: ['fix', 'patch'],
+              docs: ['docs', 'patch'],
+              chore: ['chore', 'patch'],
+              refactor: ['refactor', 'patch'],
+              ci: ['ci', 'patch'],
+              perf: ['patch'],
+              test: ['patch'],
+              build: ['patch'],
+              style: ['patch'],
+            };
+            let desired = [...(map[type] || [])];
+            if (breaking) {
+              desired = desired.filter(l => l !== 'patch' && l !== 'minor');
+              desired.push('breaking-change', 'major');
+            }
+            if (desired.length === 0) {
+              core.info(`No label mapping for type: ${type}`);
+              return;
+            }
+            const { owner, repo } = context.repo;
+            const issue_number = pr.number;
+            const repoLabels = await github.paginate(github.rest.issues.listLabelsForRepo, { owner, repo, per_page: 100 });
+            const available = new Set(repoLabels.map(l => l.name));
+            const labelsToAdd = desired.filter(l => available.has(l));
+            if (labelsToAdd.length === 0) {
+              core.info(`Mapped labels not found: ${desired.join(', ')}`);
+              return;
+            }
+            await github.rest.issues.addLabels({ owner, repo, issue_number, labels: labelsToAdd });
+            core.info(`Applied: ${labelsToAdd.join(', ')}`);
+
+  recommend-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm ci --ignore-scripts || npm install
+      - name: Compute version recommendation
+        id: rec
+        run: |
+          set -e
+          if ! out=$(npm run -s version:recommend 2>&1); then
+            echo "⚠️  Version recommendation script failed"
+            echo "current=" >> "$GITHUB_OUTPUT"
+            echo "bump=patch" >> "$GITHUB_OUTPUT"
+            echo "next=" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "$out"
+          current=$(echo "$out" | awk -F': ' '/^Current:/{print $2}')
+          bump=$(echo "$out" | awk -F': ' '/^Recommended bump:/{print $2}')
+          next=$(echo "$out" | awk -F': ' '/^Next:/{print $2}')
+          {
+            echo "current=${current:-unknown}"
+            echo "bump=${bump:-patch}"
+            echo "next=${next:-unknown}"
+          } >> "$GITHUB_OUTPUT"
+      - name: Upsert PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const marker = '<!-- pantheon-version-recommendation -->';
+            const current = '${{ steps.rec.outputs.current }}';
+            const bump = '${{ steps.rec.outputs.bump }}';
+            const next = '${{ steps.rec.outputs.next }}';
+            const body = `${marker}
+            ## Version Recommendation
+            - Current: **${current || 'unknown'}**
+            - Recommended bump: **${bump || 'patch'}**
+            - Next version: **${next || 'unknown'}**
+            Policy:
+            - \`BREAKING CHANGE\` or \`!\` → **major**
+            - \`feat:\` → **minor**
+            - Others → **patch**`;
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number, per_page: 100 });
+            const botComment = comments.find(c => c.user?.type === 'Bot' && c.body?.includes(marker));
+            if (botComment) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: botComment.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }

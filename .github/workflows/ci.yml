@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+
+      - name: Install dependencies
+        run: |
+          pip install yamllint
+          npm ci --ignore-scripts || npm install
+
+      - name: Validate agent frontmatter
+        run: |
+          set -e
+          FAILED=0
+          for glob in "agents/*.agent.md" "opencode/agents/*.md" "platform/claude/agents/*.md" "platform/opencode/agents/*.md" "platform/windsurf/agents/*.md"; do
+            dir="${glob%/\*}"
+            [ -d "$dir" ] || { echo "⏭️  $dir not found"; continue; }
+            for file in $glob; do
+              [ -f "$file" ] || continue
+              fm=$(awk '/^---/{if(f){exit}else{f=1;next}} f{print}' "$file")
+              [ -z "$fm" ] && { echo "❌ No frontmatter in $file"; FAILED=1; continue; }
+              tmp=$(mktemp --suffix=.yml)
+              echo "$fm" > "$tmp"
+              yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$tmp" && echo "✅ $file" || { echo "❌ $file"; FAILED=1; }
+              rm "$tmp"
+            done
+          done
+          [ "$FAILED" -eq 0 ] || exit 1
+
+      - name: Validate Cursor .mdc rules
+        run: |
+          set -e; FAILED=0
+          for file in platform/cursor/rules/*.mdc; do
+            [ -f "$file" ] || continue
+            fm=$(awk '/^---/{if(f){exit}else{f=1;next}} f{print}' "$file")
+            [ -z "$fm" ] && { echo "❌ No frontmatter in $file"; FAILED=1; continue; }
+            tmp=$(mktemp --suffix=.yml)
+            echo "$fm" > "$tmp"
+            yamllint -d "{extends: relaxed}" "$tmp" && echo "✅ $file" || { echo "❌ $file"; FAILED=1; }
+            rm "$tmp"
+          done
+          [ "$FAILED" -eq 0 ] || exit 1
+
+      - name: Check AGENTS.md consistency
+        run: |
+          set -e; FAILED=0
+          for f in agents/*.agent.md; do
+            name=$(basename "$f" .agent.md)
+            grep -q "(agents/${name}.agent.md)" AGENTS.md && echo "✅ $name" || { echo "⚠️  $name not in AGENTS.md"; FAILED=1; }
+          done
+          for dir in opencode/agents platform/claude/agents platform/opencode/agents platform/windsurf/agents; do
+            [ -d "$dir" ] || continue
+            for f in "$dir"/*.md; do
+              [ -f "$f" ] || continue
+              name=$(basename "$f" .md)
+              grep -qF "$name" AGENTS.md 2>/dev/null && echo "✅ $dir/$name" || echo "ℹ️  $dir/$name not referenced in AGENTS.md (auto-generated)"
+            done
+          done
+          [ "$FAILED" -eq 0 ] || exit 1
+
+      - name: Validate platform manifests
+        run: |
+          set -e; FAILED=0
+          for dir in platform/*/; do
+            basename "$dir" | grep -q '^_template' && continue
+            adapter="${dir}adapter.json"
+            [ -f "$adapter" ] || continue
+            node -e "const a=require('./${adapter}'); ['name','displayName','outputDir'].forEach(k=>{if(!a[k])throw new Error('Missing '+k+' in '+a.name)})" && echo "✅ $(basename $dir)/adapter.json" || { echo "❌ $(basename $dir)/adapter.json"; FAILED=1; }
+          done
+          npm run plugin:validate 2>&1 || FAILED=1
+          [ "$FAILED" -eq 0 ] || exit 1
+
+      - name: Validate platform sync freshness
+        run: npm run sync:check
