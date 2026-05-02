@@ -54,15 +54,19 @@
       "content": "> Pantheon agent for Windsurf Cascade. Invoke with @<name>."
     },
     {
-      "pattern": "## Copilot Workflow Updates",
+      "pattern": "Copilot Workflow",
       "action": "omit-section"
     },
     {
-      "pattern": "## Agent Lifecycle Hooks",
+      "pattern": "0. VS Code Copilot Workflow",
       "action": "omit-section"
     },
     {
-      "pattern": "## VS Code Integration",
+      "pattern": "Agent Lifecycle Hooks",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "VS Code Integration",
       "action": "omit-section"
     }
   ]

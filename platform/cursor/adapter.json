@@ -1,9 +1,11 @@
 {
   "name": "cursor",
   "displayName": "Cursor",
-  "version": "2.0.0",
+  "version": "2.1.0",
 
   "description": "Cursor uses .mdc rule files in .cursor/rules/. Each agent becomes a reusable rule with alwaysApply and description for Agent mode compatibility.",
+
+  "notes": "Skills are loaded from .cursor/skills/ directories containing SKILL.md files. Our install.mjs copies skills there automatically. Skills do not apply to .mdc rule files — they are a separate system.",
 
   "outputDir": "rules",
   "fileExtension": ".mdc",
@@ -11,7 +13,8 @@
   "frontmatter": {
     "include": [
       "name",
-      "description"
+      "description",
+      "globs"
     ],
     "exclude": [
       "model",
@@ -39,7 +42,13 @@
     }
   },
 
-  "toolMap": {},
+  "toolMap": {
+    "read/readFile": "read",
+    "edit/editFiles": "edit",
+    "execute/runInTerminal": "runInTerminal",
+    "search/codebase": "searchCodebase",
+    "vscode/askQuestions": "askUser"
+  },
 
   "capabilityFlags": {
     "orchestration": false,

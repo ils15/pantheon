@@ -7,11 +7,29 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [Unreleased]
+## [3.3.0] - 2026-05-02
 
 ### Added
 
-*(no unreleased changes yet)*
+- **2 new platforms**: Cline (`platform/cline/`) and Continue.dev (`platform/continue/`) — adapters, setup guides, sync engine integration.
+- **New platform guides**: `docs/platforms/cline.md` and `docs/platforms/continue.md` with full installation and configuration docs.
+- **VS Code doc update**: `target`, `hooks` frontmatter fields, tool aliases section (`execute`, `read`, `edit`, `search`, `agent`, `web`, `todo`), `/create-agent` command, `.github/agents/` discovery path, `chat.agentFilesLocations` setting.
+- **OpenCode doc update**: Desktop app, `/init` command, ACP server, `default_agent` config, task permissions, `mode: primary/subagent`, Claude Code compatibility mode.
+- **Claude Code doc update**: 16 frontmatter fields (`disallowedTools`, `model`, `permissionMode`, `maxTurns`, `skills`, `mcpServers`, `hooks`, `memory`, `background`, `effort`, `isolation`, `initialPrompt`, `color`), agent priority system, `/agents` command, skills with `context: fork`, Claude Agent SDK section.
+- **Cursor doc update**: Skills system (`SKILL.md`, dynamic loading), `AGENTS.md` nested support, plugin system (`.cursor-plugin/plugin.json`), remote rule import from GitHub.
+- **Windsurf doc update**: Modern `.windsurf/rules/` format with 4 trigger modes, `AGENTS.md` auto-scoping, global vs workspace rules, character limits.
+- **README.md**: Comprehensive rewrite — new badges (version, built-with), platform comparison table, model plans section (`fast`/`default`/`premium` tiers), 662→827 lines.
+- **Platform READMEs**: `platform/claude/README.md` expanded 30→90 lines; `platform/windsurf/README.md` updated from "Preview" to "Production Ready".
+- **`mode: subagent`** added to Apollo's canonical frontmatter.
+
+### Changed
+
+- **Claude adapter v2.1.0**: Added `model` and `mcpServers` to frontmatter include (Claude Code now supports per-agent model + MCP config).
+- **Cursor adapter v2.1.0**: Added `globs` to frontmatter include, populated toolMap with Cursor-native tool names.
+- **Windsurf adapter v3.0.0**: Fixed body filter patterns — VS Code Copilot Workflow and VS Code Integration sections now properly stripped from all generated rules.
+- **All doc fixes**: "12 agents" → "16 agents" across 5 files; CONTRIBUTING.md title generalized.
+- **Install script**: Added `installContinue()` function for Continue.dev platform support.
+- **CLAUDE.md template**: Added notes on `model`, `mcpServers`, and `mode: subagent` frontmatter support.
 
 ---
 

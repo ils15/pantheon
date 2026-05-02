@@ -25,6 +25,7 @@ handoffs:
     prompt: "Use these findings to refine or complete the plan."
     send: false
     model: default
+mode: subagent
 user-invocable: false
 ---
 

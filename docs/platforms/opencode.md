@@ -1,6 +1,6 @@
 # Pantheon for OpenCode
 
-Complete setup and usage guide for running Pantheon in [OpenCode](https://opencode.ai) — the open-source AI coding agent for the terminal.
+Complete setup and usage guide for running Pantheon in [OpenCode](https://opencode.ai) — the open-source AI coding agent for the terminal, desktop, and IDE.
 
 ---
 
@@ -16,13 +16,25 @@ Complete setup and usage guide for running Pantheon in [OpenCode](https://openco
 
 ## Installation
 
+OpenCode is available in three form factors:
+
+| Form Factor | How to Get It |
+|---|---|
+| **Terminal TUI** | Install script, npm, Homebrew, pacman, scoop, choco, Docker — see [opencode.ai](https://opencode.ai) |
+| **Desktop app** | Download from [opencode.ai/download](https://opencode.ai/download) — macOS, Linux, Windows |
+| **IDE extension** | Available for VS Code, JetBrains, and Zed |
+
 The fastest way to set up Pantheon in any project is with the universal install script:
 
 ```bash
 node scripts/install.mjs --target /path/to/your-project
 ```
 
-This auto-detects the platform (OpenCode, VS Code, Cursor, etc.), installs agents to the correct directories, and creates platform config files.
+This auto-detects the platform (OpenCode, VS Code, Cursor, etc.), installs agents to the correct directories, and creates platform config files. The generated `opencode.json` includes only `$schema`, `permission`, and `instructions` — model overrides are stripped and resolved at runtime via plan files.
+
+### Desktop App
+
+Pantheon works seamlessly with the OpenCode Desktop app. Agents, skills, and instructions are discovered from the project directory the same way as in the terminal TUI. Use the Desktop app for a richer UI experience with integrated diffs, file tree browsing, and system notifications.
 
 ### Manual Setup
 
@@ -42,6 +54,16 @@ cp opencode.json /path/to/your-project/opencode.json
 ### How It Works
 
 The OpenCode agents live in `platform/opencode/agents/` (generated from canonical `agents/` by `npm run sync`). The adapter (v2.0.0) uses a tool map to convert canonical VS Code tool names to OpenCode-native names, moves permissions from body blocks to frontmatter, and excludes tools not available in OpenCode (`read/problems`, browser tools).
+
+### `/init` Command
+
+OpenCode's built-in `/init` command auto-generates an `AGENTS.md` file by scanning your project. It analyzes build commands, test commands, architecture, and conventions, then produces concise project-specific guidance for future agent sessions.
+
+```
+/init
+```
+
+If an `AGENTS.md` already exists, `/init` improves it in-place rather than replacing it. This is complementary to Pantheon — `/init` captures project-level context while Pantheon agents provide role-specific behavior.
 
 ---
 
@@ -76,6 +98,19 @@ OpenCode uses `opencode.json` (or `opencode.jsonc`) in your project root. Create
 | Setting | Purpose |
 |---|---|
 | `agent` | Maps agent names to their `.md` definition files in `.opencode/agents/` |
+| `default_agent` | Sets which primary agent is used by default (e.g., `"build"`, `"zeus"`) |
+
+### Default Agent
+
+The `default_agent` option in `opencode.json` controls which primary agent OpenCode uses when starting a session:
+
+```json
+{
+  "default_agent": "zeus"
+}
+```
+
+If not set, OpenCode defaults to the built-in `build` agent. This is useful when Pantheon's Zeus orchestrator should be the primary interaction point.
 
 ### Agent Permissions (adapter v2)
 
@@ -112,6 +147,44 @@ Override generated permissions per-agent in `opencode.json`:
 }
 ```
 
+### Task Permissions (Subagent Control)
+
+Control which subagents can be invoked using `permission.task` with glob patterns:
+
+```json
+{
+  "permission": {
+    "task": {
+      "*": "allow",
+      "apollo": "allow",
+      "zeus": "allow",
+      "internal-*": "deny"
+    }
+  }
+}
+```
+
+This can also be set per-agent to restrict which subagents each Pantheon agent can delegate to:
+
+```json
+{
+  "agent": {
+    "zeus": {
+      "source": ".opencode/agents/zeus.md",
+      "permission": {
+        "task": {
+          "hermes": "allow",
+          "aphrodite": "allow",
+          "temis": "allow",
+          "internal-*": "deny"
+        }
+      }
+    }
+  }
+}
+```
+
+---
 
 ## Agent Format
 
@@ -122,6 +195,7 @@ OpenCode agents are `.md` files with YAML frontmatter. They live in `.opencode/a
 name: hermes
 description: "Backend specialist — FastAPI, Python, async, TDD"
 argument-hint: "Backend task: endpoint, service, router, schema, or test"
+mode: subagent
 tools:
   - agent
   - search/codebase
@@ -136,12 +210,34 @@ tools:
 ---
 ```
 
+### Agent Modes
+
+OpenCode supports two agent modes declared in frontmatter:
+
+| Mode | Description |
+|---|---|
+| `primary` | Main assistant you interact with directly. Can cycle via Tab key. Has full tool access based on permissions. |
+| `subagent` | Specialized assistant invoked by primary agents or via `@mention`. Used for delegated tasks. |
+
+Pantheon agents are configured as `mode: subagent` by default, with Zeus as the primary orchestrator. You can also configure mode via `opencode.json`:
+
+```json
+{
+  "agent": {
+    "zeus": {
+      "source": ".opencode/agents/zeus.md",
+      "mode": "primary"
+    }
+  }
+}
+```
+
 ### Differences from VS Code Format
 
 The OpenCode adapter v2 (2.0.0) maps canonical VS Code tool names to OpenCode-native names and manages differences:
 
 | Aspect | VS Code (.agent.md) | OpenCode (.md) |
-|---|---|---|
+|---|---|---|---|
 | **File extension** | `.agent.md` | `.md` |
 | **Tools format** | YAML list | YAML list (with name mapping) |
 | **Model format** | YAML list | YAML list (identity) |
@@ -151,7 +247,7 @@ The OpenCode adapter v2 (2.0.0) maps canonical VS Code tool names to OpenCode-na
 | **Permissions** | Set via settings.json / hooks | **Frontmatter** (v2) — body blocks removed |
 | **`read/problems`** | Supported | **Excluded** — not available in OpenCode |
 | **Browser tools** | `openBrowserPage`, etc. | **Excluded** — no browser in terminal UI |
-| **`mode` field** | Not supported | **Added** — `plan`, `implement`, `review` |
+| **`mode` field** | Not supported | **Added** — `primary` or `subagent` |
 | **Skills** | Declared in settings.json | Declared in `opencode.json` skill registry |
 | **Instructions** | `.github/copilot-instructions.md` | `instructions` array in `opencode.json` |
 
@@ -162,6 +258,7 @@ The OpenCode adapter v2 (2.0.0) maps canonical VS Code tool names to OpenCode-na
 | `name` | Yes | Agent identifier used for `@name` invocation |
 | `description` | Yes | Shown in agent picker |
 | `argument-hint` | No | Example usage shown when invoking |
+| `mode` | No | `primary` or `subagent` |
 | `model` | No | Ordered list of preferred model IDs |
 | `tools` | No | Tools the agent may use (YAML list) |
 | `temperature` | No | Response randomness (0.0–1.0) |
@@ -209,7 +306,50 @@ The file `platform/plans/` contains **16 model plans** across 5 services. Agents
 | `default` | `opencode/kimi-k2.5` | `opencode/minimax-m2.5-free` |
 | `premium` | `opencode/kimi-k2.6` | `opencode/kimi-k2.5` |
 
-> 🔄 Switch plans anytime with `./platform/select-plan.sh <plan-name>`
+> Switch plans anytime with `./platform/select-plan.sh <plan-name>`
+
+### ACP (Agent Client Protocol)
+
+OpenCode supports the Agent Client Protocol (ACP), allowing it to be used as an AI coding agent from any ACP-compatible editor or IDE (Zed, JetBrains, Neovim with Avante.nvim or CodeCompanion.nvim, etc.).
+
+Start the ACP server:
+
+```bash
+opencode acp
+```
+
+This starts OpenCode as an ACP-compatible subprocess communicating via JSON-RPC over stdio. All Pantheon features work through ACP: built-in tools, MCP servers, AGENTS.md rules, custom commands, and the agent/permissions system.
+
+For Zed, configure in `~/.config/zed/settings.json`:
+
+```json
+{
+  "agent_servers": {
+    "OpenCode": {
+      "command": "opencode",
+      "args": ["acp"]
+    }
+  }
+}
+```
+
+### Claude Code Compatibility
+
+OpenCode reads Claude Code's file conventions as fallbacks when Pantheon's AGENTS.md doesn't exist:
+
+| Fallback | Path |
+|---|---|
+| Project rules | `CLAUDE.md` in project root (used if no `AGENTS.md` exists) |
+| Global rules | `~/.claude/CLAUDE.md` (used if no `~/.config/opencode/AGENTS.md` exists) |
+| Skills | `.claude/skills/` directory |
+
+To disable Claude Code compatibility:
+
+```bash
+export OPENCODE_DISABLE_CLAUDE_CODE=1    # Disable all .claude support
+export OPENCODE_DISABLE_CLAUDE_CODE_PROMPT=1   # Disable only ~/.claude/CLAUDE.md
+export OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1   # Disable only .claude/skills
+```
 
 ### Config Sync with GitHub
 
@@ -252,7 +392,6 @@ OpenCode offers a customizable TUI with built-in themes (tokyonight, catppuccin,
   "$schema": "https://opencode.ai/tui.json",
   "theme": "catppuccin-macchiato"
 }
-
 ```
 
 Create custom themes in `~/.config/opencode/themes/` or `.opencode/themes/`.
@@ -266,6 +405,7 @@ Quick theme switching in-session: `/themes`
 ```
 your-project/
 ├── opencode.json                     # Project config (model, agents, instructions)
+├── AGENTS.md                         # Project rules (auto-generated by /init)
 ├── opencode/agents/                  # Generated agent .md files
 │   ├── zeus.md
 │   ├── athena.md
@@ -283,7 +423,7 @@ your-project/
 ├── skills/                           # Skill definitions
 ├── instructions/                     # *.instructions.md files
 ├── prompts/                          # *.prompt.md files
-└── AGENTS.md                         # Central orchestrator instructions
+└── .claude/                          # Fallback Claude Code files (optional)
 ```
 
 ### Global Location
@@ -291,6 +431,7 @@ your-project/
 ```
 ~/.config/opencode/
 ├── opencode.json                     # Global user preferences
+├── AGENTS.md                         # Global project rules
 ├── agents/                           # Global custom agents
 ├── themes/                           # Custom theme files
 └── tui.json                          # TUI settings (theme, keybinds)
@@ -305,6 +446,12 @@ your-project/
 - Ensure agents are placed in `.opencode/agents/` or referenced via the `agent` key in `opencode.json`
 - Run `opencode agent list` to verify agents are registered
 - Check that agent `.md` files have valid YAML frontmatter
+
+### Default Agent Not Working
+
+- Check the `default_agent` value in `opencode.json` — it must match an agent name exactly
+- Verify the referenced agent exists and has `mode: primary`
+- Fall back to OpenCode's built-in `build` agent by removing the `default_agent` key
 
 ### Model Not Available
 
@@ -325,10 +472,24 @@ your-project/
 - Check network connectivity for remote MCP servers
 - Increase `timeout` in the MCP config for slow servers
 
+### ACP Server Not Starting
+
+- Check that port is available (default uses stdio for JSON-RPC)
+- For TCP mode, verify `--port` is not already in use
+- Ensure the calling editor/IDE supports ACP protocol
+
 ### Skills Not Discovered
 
 - Ensure `"permission": { "skill": { "*": "allow" } }` is set in `opencode.json`
 - Skills must be registered via skill-registry or placed in `.opencode/skills/`
+
+### Desktop App Issues
+
+- Fully quit and relaunch the app
+- Try disabling plugins via `~/.config/opencode/opencode.json`
+- Clear the cache: `rm -rf ~/.cache/opencode`
+- On Linux with Wayland, try `OC_ALLOW_WAYLAND=1`; on Windows, ensure WebView2 runtime is installed
+- Check system requirements: modern GPU, 4GB+ RAM, latest OS updates
 
 ### Slow Responses
 
@@ -349,11 +510,15 @@ your-project/
 
 | Action | Command / Config |
 |---|---|
-| Start OpenCode | `opencode` |
+| Start OpenCode (TUI) | `opencode` |
+| Start OpenCode (Desktop) | Desktop app from [opencode.ai/download](https://opencode.ai/download) |
 | Run non-interactive | `opencode run "prompt"` |
+| Initialize project rules | `/init` (in-session) |
 | Invoke an agent | `@zeus: Implement email verification` |
 | List agents | `opencode agent list` |
+| Create agent interactively | `opencode agent create` |
 | List models | `opencode models` |
+| Start ACP server | `opencode acp` |
 | Add MCP server | `opencode mcp add` |
 | Add provider key | `opencode auth login` |
 | Switch theme | `/themes` in-session |

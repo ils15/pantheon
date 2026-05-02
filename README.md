@@ -1,12 +1,16 @@
 # Pantheon
 
+[![Version](https://img.shields.io/badge/version-3.2.1-blue)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Platforms](https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf-green)](docs/platforms/)
 [![Agents](https://img.shields.io/badge/agents-16-purple)](agents/README.md)
 [![Skills](https://img.shields.io/badge/skills-27-orange)](skills/README.md)
 
-A multi-agent orchestration framework with specialized AI agents for planning, building,
-reviewing, and deploying features using enforced TDD and persistent project memory.
+[![Built with](https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf-8250DF)](docs/platforms/)
+
+**16 specialized AI agents** that plan, build, review, and deploy features through enforced TDD, persistent project memory, and human approval at every gate.
+
+Stop settling for generalist single-agent coding. Pantheon's conductor-delegate architecture dispatches expert agents with isolated context windows — parallel execution, zero context bleed, and quality gates that block anything below 80% coverage.
 
 Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, and **Windsurf**.
 
@@ -40,7 +44,7 @@ specialized sub-agents with isolated context windows, enforced quality gates, an
 approval at every transition.
 
 | Metric | Single Agent | Pantheon |
-|---|---|---|
+|--------|-------------|----------|
 | Average test coverage | 65–75% | **92%** |
 | TDD enforcement | Optional | **Enforced (RED→GREEN→REFACTOR)** |
 | Code review cadence | End of feature | **After every phase** |
@@ -49,6 +53,9 @@ approval at every transition.
 | Parallel execution | Sequential only | **Multi-agent parallel** |
 | Documentation | Manual | **Auto-committed in git** |
 | Architecture pattern | Monolithic | **Specialized conductor-delegate** |
+
+> Metrics based on internal benchmarks across 50+ feature implementations in the Pantheon
+> test suite. Your results may vary based on codebase complexity and model selection.
 
 ---
 
@@ -147,6 +154,32 @@ flowchart TD
     User -.->|"/plan-architecture"| Domain
 ```
 
+---
+
+## Platform Support
+
+Pantheon runs on 5 platforms. Here is how each supports the framework's key features:
+
+| Feature | VS Code | OpenCode | Claude Code | Cursor | Windsurf |
+|---------|:-------:|:--------:|:-----------:|:-----:|:--------:|
+| Custom Agents | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Skills System | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Parallel Execution | ✅ | ✅ | ⚠️ | ✅ | ❌ |
+| Handoff UI | ✅ | ❌ | ❌ | ❌ | ❌ |
+| MCP Servers | ✅ | ✅ | ✅ | ✅ | ❌ |
+| Agent Hooks | ✅ | ⚠️ | ❌ | ❌ | ❌ |
+| Status | ✅ Active | ✅ Active | ✅ Active | ✅ Active | ✅ Active |
+
+- **VS Code**: Best-in-class. Full subagent orchestration, handoff UI, lifecycle hooks.
+- **OpenCode**: Near-complete. Permission blocks via `opencode.json`, tool mapping adapter.
+- **Claude Code**: CLI-native. Agent handoff workflow, skills via markdown rules.
+- **Cursor**: `.mdc` rules with `alwaysApply` and `globs` for Agent mode.
+- **Windsurf**: Preview. Markdown-based agent definitions, basic workflow support.
+
+> See [docs/platforms/](docs/platforms/) for setup guides and limitations.
+
+---
+
 ### Approval Gates
 
 | Gate | Phase | What happens |
@@ -171,10 +204,42 @@ generalist at every layer.
 No phase proceeds without minimum 80% test coverage. The RED → GREEN → REFACTOR cycle is
 not optional:
 
-```
-RED      Write a failing test. The requirement is now defined in code.
-GREEN    Write the minimum implementation to make it pass.
-REFACTOR Improve the code without breaking the test.
+```python
+# RED — Write a failing test first
+def test_user_password_hashing():
+    user = User(email="test@example.com", password="secret123")
+    assert user.password != "secret123"   # Should be hashed
+    assert user.verify_password("secret123")  # Verify works
+
+# Run → FAILS ❌ (password is stored in plaintext)
+
+# GREEN — Write the minimum implementation to make it pass
+class User:
+    def __init__(self, email, password):
+        self.email = email
+        self.password = hash_password(password)  # Minimal: just hash
+
+    def verify_password(self, plaintext):
+        return verify_hash(plaintext, self.password)
+
+# Run → PASSES ✅
+
+# REFACTOR — Improve without breaking the test
+class User:
+    def __init__(self, email: str, password: str):
+        if not email or not password:
+            raise ValueError("Email and password required")
+        self.email = email
+        self.password = self._hash_password(password)
+
+    @staticmethod
+    def _hash_password(plaintext: str) -> str:
+        return bcrypt.hashpw(plaintext.encode(), bcrypt.gensalt())
+
+    def verify_password(self, plaintext: str) -> bool:
+        return bcrypt.checkpw(plaintext.encode(), self.password)
+
+# Run → STILL PASSES ✅
 ```
 
 ### 3. You stay in control
@@ -202,7 +267,7 @@ Planning & Discovery
   ├── Athena — strategic planner, TDD roadmap generation
   └── Apollo — parallel codebase & web research (read-only)
 
-AI Infrastructure (NEW v3)
+AI Infrastructure (v3)
   ├── Hefesto — AI pipelines: RAG, LangChain/LangGraph, vector stores
   ├── Quíron — model routing: providers, fallback, cost optimization
   └── Eco — conversational AI: Rasa NLU, dialogue management
@@ -320,17 +385,67 @@ to perform specialized tasks. Skills are organized into domains:
 
 ---
 
+## Model Plans
+
+Pantheon uses a **plan-based model configuration** system. Agents declare abstract tiers
+(`fast`/`default`/`premium`) instead of hardcoded model names. The actual model depends on
+your subscription plan:
+
+```bash
+./platform/select-plan.sh list         # See all available plans
+./platform/select-plan.sh models       # See agent-to-model assignments
+./platform/select-plan.sh status       # Show current active plan
+```
+
+| Tier | Purpose | Example Agents | Typical Models |
+|------|---------|---------------|----------------|
+| `fast` | Quick, cheap ops | Apollo, Iris, Mnemosyne, Talos, Nix | DeepSeek V4 Flash, Gemini Flash |
+| `default` | Balanced quality/speed | Hermes, Aphrodite, Maat, Ra, Eco | Claude Sonnet, GPT-5, Kimi K2 |
+| `premium` | Deep reasoning, critical | Zeus, Athena, Temis | Claude Opus, Kimi K2.6, GPT-5.4 |
+
+Plan configurations live in `platform/plans/` with 16+ pre-configured options:
+
+```
+platform/plans/
+├── opencode-go.json          # OpenCode Go ($10/mo)
+├── opencode-zen-free.json    # OpenCode Zen Free
+├── copilot-free.json         # GitHub Copilot Free
+├── copilot-pro.json          # GitHub Copilot Pro ($10/mo)
+├── copilot-pro-plus.json     # GitHub Copilot Pro+ ($39/mo)
+├── copilot-student.json      # GitHub Copilot Student (free)
+├── copilot-business.json     # GitHub Copilot Business
+├── copilot-enterprise.json   # GitHub Copilot Enterprise
+├── cursor-hobby.json         # Cursor Hobby (free)
+├── cursor-pro.json           # Cursor Pro ($20/mo)
+├── cursor-ultra.json         # Cursor Ultra ($200/mo)
+├── claude-pro.json           # Claude Pro ($20/mo)
+├── claude-max-5x.json        # Claude Max 5x ($100/mo)
+├── claude-max-20x.json       # Claude Max 20x ($200/mo)
+├── byok-cheap.json           # BYOK (cheap) — Gemini Flash
+├── byok-balanced.json        # BYOK (balanced) — Sonnet/Opus
+├── byok-best.json            # BYOK (best) — Claude full suite
+└── schema.json               # Plan validation schema
+```
+
+To select a plan:
+```bash
+./platform/select-plan.sh copilot-pro    # Activate Copilot Pro plan
+./platform/select-plan.sh opencode-go    # Activate OpenCode Go plan
+```
+
+---
+
 ## Quick Start
 
 ### 1. Choose your platform
 
 Pantheon supports 5 platforms. Pick the one that matches your editor:
 
-- **VS Code Copilot** — native `.agent.md` files, full subagent orchestration
-- **OpenCode** — config-based agent loading, permission blocks
-- **Claude Code** — CLI-based, agent handoff workflow
-- **Cursor** — `.mdc` rules with agent definitions
-- **Windsurf** — markdown agent definitions (preview)
+- **VS Code Copilot** — native `.agent.md` files, full subagent orchestration, lifecycle hooks
+- **OpenCode** — config-based agent loading, permission blocks, tool mapping adapter
+- **Claude Code** — CLI-based, agent handoff workflow, skills via markdown rules
+- **Cursor** — `.mdc` rules with `alwaysApply` and `globs` for Agent mode
+- **Windsurf** — markdown agent definitions with workflow support (preview)
 
 > Follow the [Platform Setup Guides](docs/platforms/) for your chosen platform.
 
@@ -358,8 +473,8 @@ Once agents are loaded in your editor, invoke the orchestrator:
 
 Zeus will:
 1. Ask Athena to plan the architecture (approval gate)
-2. Deploy parallel implementation (Hermes + Aphrodite + Maat)
-3. Have Temis review all code (approval gate)
+2. Deploy parallel AI infrastructure + implementation (Hefesto + Hermes + Aphrodite + Maat)
+3. Have Nix instrument + Temis review all code (approval gate)
 4. Prepare deployment and commit (approval gate)
 
 ---
@@ -374,6 +489,9 @@ pantheon/
 ├── CONTRIBUTING.md            — how to extend
 ├── LICENSE                    — MIT
 ├── package.json               — sync & install tooling
+├── opencode.json              — OpenCode platform config
+├── sync-opencode.sh           — OpenCode sync script
+├── plugin.json                — marketplace plugin manifest
 │
 ├── agents/                    — 16 agent definitions (.agent.md)
 │   ├── zeus.agent.md          — orchestrator
@@ -388,10 +506,10 @@ pantheon/
 │   ├── mnemosyne.agent.md     — memory & documentation
 │   ├── talos.agent.md         — hotfixes
 │   ├── gaia.agent.md          — remote sensing
-│   ├── hefesto.agent.md       — AI pipelines (NEW)
-│   ├── quiron.agent.md        — model routing (NEW)
-│   ├── eco.agent.md           — conversational AI (NEW)
-│   ├── nix.agent.md           — observability (NEW)
+│   ├── hefesto.agent.md       — AI pipelines
+│   ├── quiron.agent.md        — model routing
+│   ├── eco.agent.md           — conversational AI
+│   ├── nix.agent.md           — observability
 │   └── README.md
 │
 ├── skills/                    — 27 skill modules
@@ -448,6 +566,15 @@ pantheon/
 │   └── README.md
 │
 ├── platform/                  — platform-specific configurations
+│   ├── plans/                 * model plan configs (16+ plans)
+│   │   ├── opencode-go.json
+│   │   ├── copilot-pro.json
+│   │   ├── claude-pro.json
+│   │   ├── cursor-pro.json
+│   │   ├── byok-cheap.json
+│   │   ├── plan-active.json
+│   │   └── schema.json
+│   ├── select-plan.sh         * plan selection tool
 │   ├── opencode/              * OpenCode configs
 │   ├── claude/                * Claude Code configs
 │   ├── cursor/                * Cursor rules
@@ -457,12 +584,7 @@ pantheon/
 ├── scripts/                   — tooling & automation
 │   ├── install.mjs            * multi-platform installer
 │   ├── sync-platforms.mjs     * agent format sync engine
-│   ├── validate-agents.py     * agent file validation
-│   ├── validate-sync.mjs      * sync integrity check
-│   ├── versioning.mjs         * semver bump tool
-│   ├── release-bundle.mjs     * release packaging
-│   ├── lib/                   * shared libraries
-│   └── hooks/                 * pre/post tool hooks
+│   └── validate-sync.mjs      * sync integrity check
 │
 ├── docs/
 │   ├── INSTALLATION.md        — generic installation guide
@@ -470,7 +592,7 @@ pantheon/
 │   ├── PLATFORMS.md           — platform comparison
 │   ├── RELEASING.md           — versioning & release process
 │   ├── INDEX.md               — documentation index
-│   ├── platforms/             — platform-specific setup guides (pick your IDE)
+│   ├── platforms/             — platform-specific setup guides
 │   │   ├── vscode.md
 │   │   ├── opencode.md
 │   │   ├── claude.md
@@ -485,12 +607,31 @@ pantheon/
 │       ├── 05-progress-log.md
 │       └── _notes/
 │
+├── template/                  — project templates
+│   ├── CLAUDE.md
+│   └── README.md
+│
+├── logs/                      — agent session audit logs
+│
 ├── .github/
 │   ├── copilot-instructions.md
-│   └── workflows/
+│   ├── hooks/                 * lifecycle hooks (security, format, logging)
+│   │   ├── security.json      * PreToolUse: blocks destructive ops
+│   │   ├── format.json        * PostToolUse: auto-format
+│   │   ├── logging.json       * SessionStart: audit trail
+│   │   └── README.md
+│   └── workflows/             * CI/CD workflows
+│       ├── verify.yml
+│       ├── release-drafter.yml
+│       ├── release.yml
+│       ├── validate-agents.yml
+│       ├── sync-check.yml
+│       ├── tag-version-sync.yml
+│       ├── version-recommendation.yml
+│       └── pr-conventional-labels.yml
 │
 ├── .vscode/                   — VS Code workspace settings
-└── plugin.json                — marketplace plugin manifest
+└── node_modules/              — npm dependencies
 ```
 
 ---
@@ -502,12 +643,13 @@ pantheon/
 ```
 User → Zeus: "Implement email verification"
 
-1. PLAN:       Zeus → Athena → Apollo → Athena → USER (approve gate)
+1. PLAN:       Zeus → Athena → Apollo → Athena → USER (approve gate 1)
 2. AI INFRA:   Zeus → Hefesto/Quíron/Eco (if AI components needed)
-3. BUILD:      Zeus → Hermes + Aphrodite + Maat (parallel)
-4. REVIEW:     Temis audits all code → USER (approve gate)
-5. DEPLOY:     Ra (infra) + Iris (release) + Mnemosyne (docs)
-6. COMMIT:     USER (git commit gate)
+3. BUILD:      Zeus → Hermes + Aphrodite + Maat (parallel execution)
+4. OBSERVE:    Nix instruments tracing, cost, and metrics
+5. REVIEW:     Temis audits all code → USER (approve gate 2)
+6. DEPLOY:     Ra (infra) + Iris (release) + Mnemosyne (docs)
+7. COMMIT:     USER (git commit gate 3)
 ```
 
 ### Direct Invocation
@@ -519,6 +661,10 @@ Agents can also be invoked directly for focused tasks:
 @hermes: Create POST /products endpoint with cursor pagination
 @aphrodite: Refactor ProductCard for WCAG AA compliance
 @maat: Analyze and fix N+1 queries on orders table
+@hefesto: Build a RAG pipeline with pgvector for product docs
+@quiron: Configure AWS Bedrock with Claude fallback
+@eco: Design an NLU pipeline for customer support chatbot
+@nix: Set up OpenTelemetry tracing for the payment service
 @temis: Review this PR for security vulnerabilities
 @iris: Create branch feat/search and open a draft PR
 @gaia: Analyze agreement metrics between MapBiomas and ESA WorldCover
@@ -574,6 +720,12 @@ permanently committed to the repository.
 2. Add a setup guide to `docs/platforms/<name>.md`
 3. Extend `scripts/install.mjs` and `scripts/sync-platforms.mjs`
 
+### Adding a new model plan
+
+1. Add `<name>.json` to `platform/plans/` following `schema.json`
+2. Map tiers (`fast`/`default`/`premium`) to concrete models
+3. Activate via `./platform/select-plan.sh <name>`
+
 ---
 
 ## Security & Privacy
@@ -589,6 +741,11 @@ permanently committed to the repository.
 - Hardcoded secret detection
 - Minimum 80% test coverage (hard block)
 
+**Agent hooks enforce at runtime (.github/hooks/):**
+- `security.json` — blocks destructive operations (rm -rf, DROP TABLE, TRUNCATE)
+- `format.json` — auto-formats modified files (Biome)
+- `logging.json` — audit trail of all agent sessions
+
 ---
 
 ## FAQ
@@ -598,7 +755,8 @@ You need an existing subscription for your AI coding editor (Copilot, Claude Pro
 Pro, or OpenCode). Pantheon itself is free and open-source (MIT).
 
 **Can I use this outside VS Code?**
-Yes — 5 platforms supported. See [Platform Setup Guides](docs/platforms/).
+Yes — 5 platforms supported (VS Code, OpenCode, Claude Code, Cursor, Windsurf). See
+[Platform Setup Guides](docs/platforms/).
 
 **How are platform configs synced?**
 Edit `agents/*.agent.md` (the canonical format), then run `npm run sync-platforms.mjs`.
@@ -648,9 +806,16 @@ Pantheon draws from the broader multi-agent landscape while diverging in key way
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to extend the framework |
 | [CHANGELOG.md](CHANGELOG.md) | Release history |
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Generic installation guide |
-| [docs/platforms/](docs/platforms/) | Platform-specific setup guides |
+| [docs/platforms/](docs/platforms/) | Platform-specific setup guides (5 platforms) |
+| [docs/platforms/vscode.md](docs/platforms/vscode.md) | VS Code setup |
+| [docs/platforms/opencode.md](docs/platforms/opencode.md) | OpenCode setup |
+| [docs/platforms/claude.md](docs/platforms/claude.md) | Claude Code setup |
+| [docs/platforms/cursor.md](docs/platforms/cursor.md) | Cursor setup |
+| [docs/platforms/windsurf.md](docs/platforms/windsurf.md) | Windsurf setup |
 | [agents/README.md](agents/README.md) | Agent directory |
 | [skills/README.md](skills/README.md) | Skill directory |
+| [platform/plans/](platform/plans/) | Model plan configurations |
+| [.github/hooks/](.github/hooks/) | Agent lifecycle hooks |
 | [skills/agent-coordination/SKILL.md](skills/agent-coordination/SKILL.md) | When to use which agent |
 | [skills/orchestration-workflow/SKILL.md](skills/orchestration-workflow/SKILL.md) | Step-by-step walkthrough |
 | [skills/tdd-with-agents/SKILL.md](skills/tdd-with-agents/SKILL.md) | TDD standards and rules |

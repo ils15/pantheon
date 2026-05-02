@@ -65,6 +65,7 @@ Platforms:
   cursor       → .cursor/rules/ (renamed .mdc files)
   windsurf     → .windsurf/agents/ + .windsurfrules
   copilot      → .github/agents/ symlinks + .vscode/settings.json check
+  continue     → .continue/rules/ + .continue/config.yaml
   all          → install every platform
 
 When --platforms is omitted, the script auto-detects which platforms
@@ -132,6 +133,7 @@ const PLATFORM_DETECTORS = {
   cursor:   (target) => existsSync(join(target, '.cursor')) || existsSync(join(target, '.cursorrules')),
   windsurf: (target) => existsSync(join(target, '.windsurf')) || existsSync(join(target, '.windsurfrules')),
   copilot:  (target) => existsSync(join(target, '.github', 'copilot-instructions.md')) || existsSync(join(target, '.vscode')),
+  continue: (target) => existsSync(join(target, '.continue', 'config.yaml')) || existsSync(join(target, '.continue')),
 };
 
 function detectPlatforms(target) {
@@ -154,6 +156,7 @@ const summary = {
   cursor:    { created: 0, skipped: 0, errors: 0 },
   windsurf:  { created: 0, skipped: 0, errors: 0 },
   copilot:   { created: 0, skipped: 0, errors: 0 },
+  continue:  { created: 0, skipped: 0, errors: 0 },
 };
 
 // ---------------------------------------------------------------------------
@@ -725,6 +728,43 @@ This project uses the Pantheon multi-agent framework with 16 specialized agents.
 }
 
 /**
+ * Install Continue.dev platform.
+ * - Copies platform/continue/rules/ → .continue/rules/
+ * - Copies platform/continue/config.yaml → .continue/config.yaml
+ */
+function installContinue(target, dryRun) {
+  const stats = summary.continue;
+
+  // -----------------------------------------------------------------------
+  // 1. Install rule files
+  // -----------------------------------------------------------------------
+  const srcDir = join(PLATFORM_DIR, 'continue', 'rules');
+  if (!sourceDirValid(srcDir)) {
+    console.warn(`  ⚠️  Rules source directory not found: ${srcDir}`);
+    stats.errors++;
+  } else {
+    const dstDir = join(target, '.continue', 'rules');
+    if (!dryRun) mkdirSync(dstDir, { recursive: true });
+
+    const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
+    stats.created += created;
+    stats.skipped += skipped;
+  }
+
+  // -----------------------------------------------------------------------
+  // 2. Install config.yaml (only if it doesn't exist)
+  // -----------------------------------------------------------------------
+  const configSrc = join(PLATFORM_DIR, 'continue', 'config.yaml');
+  const configDst = join(target, '.continue', 'config.yaml');
+  if (existsSync(configSrc)) {
+    const content = readFileSync(configSrc, 'utf8');
+    const status = writeIfChanged(configDst, content, dryRun);
+    if (status === 'created') stats.created++;
+    else stats.skipped++;
+  }
+}
+
+/**
  * Install VS Code / Copilot platform.
  * - Copies canonical agents to .github/agents/
  * - Copies skills/ to .github/skills/
@@ -821,6 +861,7 @@ function printSummary(target, platforms) {
     cursor:   'Cursor',
     windsurf: 'Windsurf',
     copilot:  'VS Code / Copilot',
+    continue: 'Continue.dev',
   };
 
   console.log('');
@@ -900,6 +941,16 @@ function printSummary(target, platforms) {
     console.log('');
   }
 
+  if (platforms.includes('continue')) {
+    console.log('  Continue.dev:');
+    console.log(`    - Rules in .continue/rules/`);
+    console.log('    - Config in .continue/config.yaml');
+    console.log('    - Rules are injected into system prompts (no @name invocation)');
+    console.log('    - Edit config.yaml to set API keys and models');
+    console.log('    - Use /reload to apply config changes');
+    console.log('');
+  }
+
   console.log('  📚 Full documentation: https://github.com/ils15/pantheon');
   console.log('  🐛 Report issues: https://github.com/ils15/pantheon/issues');
 }
@@ -928,14 +979,14 @@ function main() {
   let platforms = args.platforms;
 
   if (platforms && platforms.includes('all')) {
-    platforms = ['opencode', 'claude', 'cursor', 'windsurf', 'copilot'];
+    platforms = ['opencode', 'claude', 'cursor', 'windsurf', 'copilot', 'continue'];
   } else if (!platforms) {
     // Auto-detect
     const detected = detectPlatforms(target);
     if (detected.length === 0) {
       console.log(`🔍 No Pantheon platform config detected in ${target}`);
       console.log('   Installing all platforms.\n');
-      platforms = ['opencode', 'claude', 'cursor', 'windsurf', 'copilot'];
+      platforms = ['opencode', 'claude', 'cursor', 'windsurf', 'copilot', 'continue'];
     } else {
       console.log(`🔍 Detected platforms in ${target}: ${detected.join(', ')}\n`);
       platforms = detected;
@@ -990,6 +1041,10 @@ function main() {
       case 'copilot':
         console.log(`🔧 VS Code / Copilot`);
         installCopilot(target, args.dryRun);
+        break;
+      case 'continue':
+        console.log(`🔧 Continue.dev`);
+        installContinue(target, args.dryRun);
         break;
       default:
         console.warn(`  ⚠️  Unknown platform: ${platform} — skipping`);

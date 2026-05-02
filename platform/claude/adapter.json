@@ -15,13 +15,14 @@
       "mode",
       "tools",
       "skills",
-      "instructions"
+      "instructions",
+      "model",
+      "mcpServers"
     ],
     "exclude": [
       "handoffs",
       "agents",
       "disable-model-invocation",
-      "model",
       "argument-hint",
       "user-invocable"
     ],
