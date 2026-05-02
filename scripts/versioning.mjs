@@ -60,6 +60,18 @@ function bumpVersion(version, type) {
   }
 }
 
+function getNextAvailableVersion(baseVersion, bumpType) {
+  let candidate = bumpVersion(baseVersion, bumpType);
+  while (true) {
+    const tag = `v${candidate}`;
+    const result = execSync(`git tag -l "${tag}"`, { encoding: 'utf-8' }).trim();
+    if (!result) return candidate; // tag doesn't exist — use it
+    // Tag exists — bump patch
+    const [major, minor, patch] = candidate.split('.').map(Number);
+    candidate = `${major}.${minor}.${patch + 1}`;
+  }
+}
+
 function updateManifests(newVersion) {
   for (const file of manifestFiles) {
     const path = join(ROOT, file);
@@ -100,7 +112,7 @@ switch (command) {
       bumpType = analyzeConventionalCommits(latestTag);
     }
 
-    const nextVersion = bumpVersion(current, bumpType);
+    const nextVersion = getNextAvailableVersion(current, bumpType);
     updateManifests(nextVersion);
     console.log(`\nBumped ${current} → ${nextVersion} (${bumpType})`);
     break;

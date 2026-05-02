@@ -48,6 +48,10 @@ jobs:
       - name: Validate OpenCode frontmatter
         run: |
           set -e
+          if [ ! -d opencode/agents ]; then
+            echo "⏭️  opencode/agents/ not found — skipping"
+            exit 0
+          fi
           FAILED=0
 
           for file in opencode/agents/*.md; do
