@@ -3,11 +3,11 @@
   "displayName": "OpenCode",
   "version": "2.1.0",
 
-  "description": "OpenCode uses .md files with YAML frontmatter. Tools are emitted as permission objects (toolsFormat: permission).",
+  "description": "OpenCode uses .md files with YAML frontmatter. Agent tools use boolean format (tools: { name: true }). Permission config in opencode.json uses allow/ask/deny.",
 
   "outputDir": "agents",
   "fileExtension": ".md",
-  "toolsFormat": "permission",
+  "toolsFormat": "object",
 
   "frontmatter": {
     "include": [

@@ -1,9 +1,11 @@
 ---
 name: mnemosyne
 description: Memory bank quality owner — initializes docs/memory-bank/, writes ADRs and task records on explicit request. Called by zeus. Never invoked automatically after phases.
+alwaysApply: false
+globs: []
 ---
 
-> This is an AI agent definition for Cursor. Use @<name> to invoke this agent.
+> Pantheon agent for Cursor. Invoke with @<name> in Agent mode.
 
 
 # Mnemosyne - Memory Agent

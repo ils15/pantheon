@@ -2,11 +2,11 @@
 name: maat
 description: Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention, TDD migrations. Calls apollo as nested subagent for optimization patterns. Sends work to temis for review.
 tools:
-  task: allow
-  grep: allow
-  read: allow
-  edit: allow
-  bash: allow
+  task: true
+  grep: true
+  read: true
+  edit: true
+  bash: true
 argument-hint: "Database task: migration, schema change, query optimization, or index strategy — include table names and constraints (e.g. 'add index on products.created_at for cursor pagination')"
 ---
 

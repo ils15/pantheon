@@ -1,11 +1,10 @@
 ---
 name: ra
 description: Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management. Calls apollo as nested subagent for pattern discovery. Sends work to temis for validation.
-alwaysApply: false
-globs: []
+trigger: model_decision
 ---
 
-> Pantheon agent for Cursor. Invoke with @<name> in Agent mode.
+> Pantheon agent for Windsurf Cascade. Invoke with @<name>.
 
 
 # Ra - Infrastructure Implementation Specialist

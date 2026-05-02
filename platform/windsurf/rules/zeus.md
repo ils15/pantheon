@@ -1,15 +1,11 @@
 ---
 name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend), aphrodite (frontend), maat (database), ra (infra), temis (review), iris (GitHub), mnemosyne (docs), talos (hotfix), hefesto (AI pipelines), quiron (model routing), eco (conversational AI), nix (observability)"
-tools:
-  task: true
-  question: true
-  bash: true
-  read: true
-  grep: true
-  webfetch: true
-argument-hint: Describe the feature, bug, or epic to orchestrate (Zeus plans, delegates, and coordinates the full lifecycle)
+trigger: model_decision
 ---
+
+> Pantheon agent for Windsurf Cascade. Invoke with @<name>.
+
 
 # Zeus - Main Conductor
 

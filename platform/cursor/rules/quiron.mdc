@@ -1,9 +1,11 @@
 ---
 name: quiron
 description: Model provider hub specialist — multi-model routing, AWS Bedrock, cost optimization, provider abstraction. The bridge between agents and AI models. Calls apollo for discovery. Sends work to temis for review.
+alwaysApply: false
+globs: []
 ---
 
-> This is an AI agent definition for Cursor. Use @<name> to invoke this agent.
+> Pantheon agent for Cursor. Invoke with @<name> in Agent mode.
 
 
 # Quíron — Model Provider Hub Specialist

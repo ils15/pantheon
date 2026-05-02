@@ -1,11 +1,10 @@
 ---
 name: aphrodite
 description: Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD. Calls apollo as nested subagent to discover components. Sends work to temis for review.
-alwaysApply: false
-globs: []
+trigger: model_decision
 ---
 
-> Pantheon agent for Cursor. Invoke with @<name> in Agent mode.
+> Pantheon agent for Windsurf Cascade. Invoke with @<name>.
 
 
 # Aphrodite - React Implementation Specialist

@@ -1,13 +1,11 @@
 ---
 name: mnemosyne
 description: Memory bank quality owner — initializes docs/memory-bank/, writes ADRs and task records on explicit request. Called by zeus. Never invoked automatically after phases.
-tools:
-  task: true
-  grep: true
-  read: true
-  edit: true
-argument-hint: "What to document: 'initialize project' | 'close sprint' | 'record decision TOPIC' | 'create task DESCRIPTION'"
+trigger: model_decision
 ---
+
+> Pantheon agent for Windsurf Cascade. Invoke with @<name>.
+
 
 # Mnemosyne - Memory Agent
 

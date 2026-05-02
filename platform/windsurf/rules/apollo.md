@@ -1,11 +1,10 @@
 ---
 name: apollo
 description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, maat. No edits, no commands."
-alwaysApply: false
-globs: []
+trigger: model_decision
 ---
 
-> Pantheon agent for Cursor. Invoke with @<name> in Agent mode.
+> Pantheon agent for Windsurf Cascade. Invoke with @<name>.
 
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check

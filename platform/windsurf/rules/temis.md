@@ -1,15 +1,11 @@
 ---
 name: temis
 description: "Quality & security gate — reviews only changed files, OWASP Top 10, coverage >80%, correctness. Called by: hermes, aphrodite, maat, zeus. Escalates blockers to zeus."
-tools:
-  task: true
-  question: true
-  grep: true
-  read: true
-  bash: true
-  edit: true
-argument-hint: "What to review — point at the phase or changed files (e.g. 'review Phase 1: auth endpoints and JWT middleware added by hermes')"
+trigger: model_decision
 ---
+
+> Pantheon agent for Windsurf Cascade. Invoke with @<name>.
+
 
 # Temis - Quality & Security Gate Specialist
 

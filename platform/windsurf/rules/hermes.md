@@ -1,14 +1,11 @@
 ---
 name: hermes
 description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR). Calls apollo as nested subagent to discover patterns. Sends work to temis for review.
-tools:
-  task: true
-  grep: true
-  read: true
-  edit: true
-  bash: true
-argument-hint: "Backend task: endpoint, service, router, schema, or test — include module name and expected behaviour (e.g. 'POST /users endpoint with email uniqueness validation')"
+trigger: model_decision
 ---
+
+> Pantheon agent for Windsurf Cascade. Invoke with @<name>.
+
 
 # Hermes - Backend Executor (FastAPI Specialist)
 

@@ -2,13 +2,13 @@
 name: eco
 description: Conversational AI specialist — Rasa NLU pipelines, dialogue management, intent classification, entity extraction, multi-turn conversation design. Bridges AI agents to human conversation. Calls apollo for discovery. Sends work to temis for review.
 tools:
-  task: allow
-  question: allow
-  grep: allow
-  read: allow
-  edit: allow
-  bash: allow
-  webfetch: allow
+  task: true
+  question: true
+  grep: true
+  read: true
+  edit: true
+  bash: true
+  webfetch: true
 argument-hint: Design chatbot architecture, build NLU pipelines, configure dialogue flows, or implement conversational agents
 ---
 
