@@ -17,7 +17,7 @@ Complete guide to the artifact trail system that documents every feature impleme
 
 **What:** Repository of all feature planning, phase results, and completion artifacts  
 **Where:** `/plans/` directory (excluded from git by default)  
-**Who:** Athena (creates plans), Temis (reviews phases), Mnemosyne (documents completion)  
+**Who:** Athena (creates plans), Themis (reviews phases), Mnemosyne (documents completion)  
 **Why:** Audit trail, knowledge transfer, resumable work, accountability
 
 ---
@@ -103,7 +103,7 @@ plans/
 
 ### Phase 1: Database Schema
 **Duration:** ~1-2 hours  
-**Owner:** Maat  
+**Owner:** Demeter  
 **Files to create/modify:**
 - `migrations/001_create_jwt_tokens.py` (new)
 - `models/JWTToken.py` (new)
@@ -243,7 +243,7 @@ After each phase completes:
 
 Phase Complete
     ↓
-Temis Review:
+Themis Review:
   ✓ Coverage >80%?
   ✓ Security pass?
   ✓ Tests all green?
@@ -258,7 +258,7 @@ Temis Review:
 
 | Phase | Start | Duration | Owner | Status |
 |-------|-------|----------|-------|--------|
-| 1. Schema | [date] | 1-2h | Maat | ⏳ Pending |
+| 1. Schema | [date] | 1-2h | Demeter | ⏳ Pending |
 | 2. Backend | [date] | 2-3h | Hermes | ⏳ Pending |
 | 3. Frontend | [date] | 2-3h | Athena | ⏳ Pending |
 | **Total** | | **5-8h** | All | ⏳ Pending |
@@ -304,7 +304,7 @@ A: Document decision in phase-N-complete.md. Discuss with team. Proceed if minor
 
 **Purpose:** Document single phase results, metrics, and approval status  
 **Created by:** @mnemosyne after each phase completes  
-**Created after:** Temis approves phase (coverage >80%, security pass, all tests pass)  
+**Created after:** Themis approves phase (coverage >80%, security pass, all tests pass)  
 **Stored at:** `plans/[feature-name]/phase-N-complete.md`
 
 **Template:**
@@ -313,8 +313,8 @@ A: Document decision in phase-N-complete.md. Discuss with team. Proceed if minor
 # Phase N Complete: [Phase Description]
 
 **Completion Date:** [YYYY-MM-DD]  
-**Completed by:** [Agent names: Hermes + Athena + Maat]  
-**Reviewed by:** Temis  
+**Completed by:** [Agent names: Hermes + Athena + Demeter]  
+**Reviewed by:** Themis  
 **Status:** ✅ APPROVED
 
 ---
@@ -380,7 +380,7 @@ Total: 13 tests, 100% passing
 Coverage: src/components/LoginForm.tsx = 94% (32/34 lines)
 ```
 
-### Database (Maat)
+### Database (Demeter)
 ```
 File: tests/test_migrations.py
   ✅ test_migration_001_applies_forward → PASSED
@@ -406,7 +406,7 @@ Coverage: migrations/001_create_jwt_tokens.py = 100%
 
 ---
 
-## Security Audit (Temis Review)
+## Security Audit (Themis Review)
 
 **OWASP Top 10 Check:**
 - ✅ A01 Broken Access Control: Token validation implemented
@@ -551,8 +551,8 @@ Lines NOT covered (5%):
 |------|------|--------|------|
 | Developer | Hermes | ✅ Ready | [date] |
 | Developer | Athena | ✅ Ready | [date] |
-| Developer | Maat | ✅ Ready | [date] |
-| Code Reviewer | Temis | ✅ Approved | [date] |
+| Developer | Demeter | ✅ Ready | [date] |
+| Code Reviewer | Themis | ✅ Approved | [date] |
 | QA/Product | [User] | ⏳ Pending | [date] |
 
 ---
@@ -588,7 +588,7 @@ Lines NOT covered (5%):
 
 **Project Duration:** [Start date] to [End date]  
 **Total Time:** [X hours/days]  
-**Team:** Athena (planning) + Hermes (backend) + Athena (frontend) + Maat (database) + Temis (review) + Mnemosyne (docs)  
+**Team:** Athena (planning) + Hermes (backend) + Athena (frontend) + Demeter (database) + Themis (review) + Mnemosyne (docs)  
 **Status:** ✅ READY FOR PRODUCTION
 
 ---
@@ -603,7 +603,7 @@ Lines NOT covered (5%):
 
 | Phase | Owner | Status | Coverage | Duration |
 |-------|-------|--------|----------|----------|
-| 1. Database Schema | Maat | ✅ Complete | 100% | 1.5h |
+| 1. Database Schema | Demeter | ✅ Complete | 100% | 1.5h |
 | 2. Backend Services | Hermes | ✅ Complete | 96% | 2.5h |
 | 3. Frontend Integration | Athena | ✅ Complete | 94% | 2.5h |
 | **TOTAL** | **All** | **✅ Complete** | **95% avg** | **6.5h** |
@@ -884,8 +884,8 @@ git checkout feature/jwt-auth
 | Athena | Planning (plan.md) | 0.5h | - |
 | Hermes | Backend (2 files, 24 tests) | 2.5h | 96% |
 | Athena | Frontend (3 files, 13 tests) | 2.5h | 94% |
-| Maat | Database (1 migration, 4 tests) | 0.5h | 100% |
-| Temis | Reviews (all phases) | 1h | - |
+| Demeter | Database (1 migration, 4 tests) | 0.5h | 100% |
+| Themis | Reviews (all phases) | 1h | - |
 | Mnemosyne | Docs (3 artifacts) | 0.5h | - |
 | **Total** | | **7.5h** | **95%** |
 
@@ -947,7 +947,7 @@ Archive forever for: Future team reference, audits, similar features
 | Role | Name | Status | Date |
 |------|------|--------|------|
 | Implementer | @zeus | ✅ Complete | [date] |
-| Code Reviewer | @temis | ✅ Approved | [date] |
+| Code Reviewer |  | ✅ Approved | [date] |
 | Product | [User] | ⏳ Pending merge | [date] |
 | Ops/Deployment | [DevOps] | ⏳ Scheduling | [date] |
 
@@ -1000,7 +1000,7 @@ Next: Merge to main, deploy to prod, or start Phase 4.
 - Communicates design early
 - Gets user buy-in before effort
 
-✅ **Complete phase-N-complete.md AFTER Temis approves**
+✅ **Complete phase-N-complete.md AFTER Themis approves**
 - Documents what actually happened (vs what was planned)
 - Shows metrics & decisions made
 - Creates audit trail
@@ -1042,7 +1042,7 @@ Coverage: 96%, Security: ✅, Tests: 24/24 passing"
 - Coverage looks good but isn't
 - Bugs escape to production
 
-❌ **DON'T skip code review (Temis)**
+❌ **DON'T skip code review (Themis)**
 - Security issues not caught
 - Performance problems not fixed
 - Technical debt accumulates
@@ -1072,14 +1072,14 @@ Morning:
   10:00 - Hermes starts Phase 1 (Email service)
   
 Afternoon:
-  12:00 - Hermes Phase 1 done, Temis reviews (coverage 92%)
+  12:00 - Hermes Phase 1 done, Themis reviews (coverage 92%)
   12:30 - Mnemosyne creates phase-1-complete.md
   12:45 - User commits Phase 1
-  13:00 - Athena Phase 2 (Verification form) + Maat (migration) parallel
+  13:00 - Athena Phase 2 (Verification form) + Demeter (migration) parallel
   
 Next morning:
-  09:00 - Athena + Maat phases done
-  09:30 - Temis reviews both (coverage 94%) 
+  09:00 - Athena + Demeter phases done
+  09:30 - Themis reviews both (coverage 94%) 
   10:00 - Mnemosyne creates phase-2 & phase-3-complete.md
   10:30 - Mnemosyne creates complete.md (final summary)
   11:00 - User merges to main
@@ -1096,7 +1096,7 @@ Knowledge: Everything documented for future reference
 
 **Version:** 1.0  
 **Status:** Production-Ready  
-**Used by:** Athena, Temis, Mnemosyne, All Agents  
+**Used by:** Athena, Themis, Mnemosyne, All Agents  
 **Location:** `/plans/[feature-name]/`
 
 Remember: Artifacts are your institutional memory. Good documentation means your team can understand, learn, and repeat success.

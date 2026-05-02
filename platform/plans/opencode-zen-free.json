@@ -13,7 +13,7 @@
     "iris": "opencode/gpt-5-nano",
     "mnemosyne": "opencode/gpt-5-nano",
     "talos": "opencode/gpt-5-nano",
-    "nix": "opencode/gpt-5-nano",
+    "nyx": "opencode/gpt-5-nano",
     "gaia": "opencode/minimax-m2.5-free"
   },
   "limits": {

@@ -20,13 +20,13 @@ rules:
   - ./rules/apollo.md
   - ./rules/hermes.md
   - ./rules/aphrodite.md
-  - ./rules/maat.md
-  - ./rules/temis.md
-  - ./rules/ra.md
-  - ./rules/hefesto.md
-  - ./rules/quiron.md
-  - ./rules/eco.md
-  - ./rules/nix.md
+  - ./rules/demeter.md
+  - ./rules/themis.md
+  - ./rules/prometheus.md
+  - ./rules/hephaestus.md
+  - ./rules/chiron.md
+  - ./rules/echo.md
+  - ./rules/nyx.md
   - ./rules/gaia.md
   - ./rules/iris.md
   - ./rules/mnemosyne.md

@@ -53,7 +53,7 @@ You must **stop and wait for explicit user approval** at each gate. Use `agent/a
 
 1. **Planning Gate:** Athena generates plan → call `agent/askQuestions` asking:  
    `"Athena's plan is ready. Do you approve it? (yes / request changes)"`  
-2. **Phase Review Gate:** After Temis review → call `agent/askQuestions` asking:  
+2. **Phase Review Gate:** After Themis review → call `agent/askQuestions` asking:  
    `"Phase N review complete. Issues found: [summary]. Approve to continue? (yes / fix first)"`  
 3. **Git Commit Gate:** Before finalization → call `agent/askQuestions` asking:  
    `"Suggested commit: '<message>'. Ready to commit? I'll wait — run git commit manually."`
@@ -149,19 +149,19 @@ git worktree remove ../pantheon-aphrodite
 - **Use for**: Components, pages, responsive layouts
 - **Returns**: Complete React/TypeScript components with tests
 
-### 5. Temis (REVIEWER) - THE QUALITY GATE
+### 5. Themis (REVIEWER) - THE QUALITY GATE
 - **Model tier**: premium
 - **Role**: Code correctness, quality, test coverage validation
 - **Use for**: Reviewing implementations before shipping
 - **Returns**: APPROVED / NEEDS_REVISION / FAILED with structured feedback
 
-### 6. Maat (DATABASE) - THE DATABASE DEVELOPER
+### 6. Demeter (DATABASE) - THE DATABASE DEVELOPER
 - **Model tier**: default
 - **Role**: Alembic migrations, schema design, query optimization
 - **Use for**: Database changes, migrations, performance analysis
 - **Returns**: Migration files, schema changes, performance reports
 
-### 7. Ra (INFRA) - THE INFRASTRUCTURE DEVELOPER
+### 7. Prometheus (INFRA) - THE INFRASTRUCTURE DEVELOPER
 - **Model tier**: default
 - **Role**: Docker, deployment, CI/CD, monitoring
 - **Use for**: Infrastructure changes, deployment strategy, scaling
@@ -179,28 +179,28 @@ git worktree remove ../pantheon-aphrodite
 - **Use for**: Creating PLAN/IMPL/REVIEW/DISC artifacts, project initialization, sprint documentation
 - **Returns**: Confirmation of saved artifacts, updated `docs/memory-bank/` files
 
-### 10. Hefesto (AI TOOLING) - THE FORGE
+### 10. Hephaestus (AI TOOLING) - THE FORGE
 - **Model tier**: default
 - **Role**: RAG pipelines, LangChain/LangGraph chains, vector databases, AI workflow composition
 - **Use for**: Building RAG systems, vector search, LLM pipeline orchestration, embedding strategies
 - **Returns**: Tested AI pipelines with >80% coverage, vector store integrations
 - **Skill**: `rag-pipelines`, `vector-search`, `mcp-server-development`
 
-### 11. Quíron (MODEL PROVIDER) - THE HUB
+### 11. Chiron (MODEL PROVIDER) - THE HUB
 - **Model tier**: default
 - **Role**: Multi-model routing, provider abstraction, AWS Bedrock, local inference (Ollama/vLLM)
 - **Use for**: Configuring model providers, fallback strategies, cost optimization, Bedrock guardrails
 - **Returns**: Configured provider layer with cost tracking and failover
 - **Skill**: `multi-model-routing`
 
-### 12. Eco (CONVERSATIONAL AI) - THE ECHO
+### 12. Echo (CONVERSATIONAL AI) - THE ECHO
 - **Model tier**: default
 - **Role**: NLU pipelines, dialogue management, Rasa integration, multi-turn conversation design
 - **Use for**: Chatbot architecture, intent/entity design, conversational testing, multi-platform chat
 - **Returns**: Tested NLU pipelines and dialogue flows
 - **Skill**: `conversational-ai-design`
 
-### 13. Nix (OBSERVABILITY) - THE NIGHT WATCH
+### 13. Nyx (OBSERVABILITY) - THE NIGHT WATCH
 - **Model tier**: fast
 - **Role**: OpenTelemetry tracing, token/cost tracking, LangSmith integration, agent performance analytics
 - **Use for**: Setting up monitoring, diagnosing performance issues, cost attribution, alerting
@@ -220,15 +220,15 @@ Phase 1: Planning & Research
 Phase 2: Implementation (PARALLEL — declare explicitly)
   ╭─ @hermes  → backend + tests  → IMPL-phase2-hermes.md
   ├─ @aphrodite → frontend       → IMPL-phase2-aphrodite.md
-  ╰─ @maat    → schema/migrations → IMPL-phase2-maat.md
+  ╰─ @demeter    → schema/migrations → IMPL-phase2-demeter.md
   (all three run simultaneously when scopes don’t overlap)
 
 Phase 3: Quality Gate
-  └─ @temis → reviews all IMPL artifacts → REVIEW-<feature>.md
+  └─  → reviews all IMPL artifacts → REVIEW-<feature>.md
       └─ ⏸️ GATE 2: User reviews REVIEW artifact + Human Review Focus items
 
 Phase 4: Deployment (optional)
-  └─ @ra → deploy to staging/prod
+  └─  → deploy to staging/prod
 
 ⏸️ GATE 3: User executes git commit
 ```
@@ -241,14 +241,14 @@ Instead of flat sequential phases, use a **DAG Wave approach**:
 2. **Group independent tasks** into parallel waves
 3. **Announce each wave** with clear parallel declaration
 4. **Wait for all tasks in a wave** to complete before starting next
-5. **Temis reviews at the end** of the final implementation wave
+5. **Themis reviews at the end** of the final implementation wave
 
 **DAG Wave identification rules:**
-- `maat` schema changes + `apollo` research = Wave 1 (no dependencies)
+- `demeter` schema changes + `apollo` research = Wave 1 (no dependencies)
 - `hermes` backend + `aphrodite` frontend (with mocks) = Wave 2 (depend on schema from Wave 1)
 - `hermes` + `aphrodite` real integration = Wave 3 (depend on mocks validated)
-- `temis` review = Wave N (depends on all implementation)
-- `ra` deploy = Final wave (depends on review approval)
+- `themis` review = Wave N (depends on all implementation)
+- `prometheus` deploy = Final wave (depends on review approval)
 
 **Never** put tasks with dependencies in the same wave. If task B needs task A's output, they must be in different waves.
 
@@ -261,10 +261,10 @@ When dispatching multiple workers, **always announce**:
 Running simultaneously (independent scopes):
 - @hermes   → backend endpoints + tests
 - @aphrodite → frontend components
-- @maat     → database migration
+- @demeter     → database migration
 
 All three will produce IMPL artifacts.
-Temis reviews after all three complete.
+Themis reviews after all three complete.
 ```
 
 ### Context Conservation
@@ -282,31 +282,31 @@ Temis reviews after all three complete.
 @athena Plan the user dashboard feature with TDD approach
 @apollo Find all files related to authentication
 @hermes Implement the new media upload endpoint
-@temis Review this FastAPI router for correctness + security
+ Review this FastAPI router for correctness + security
 ```
 
 ### Orchestrated Workflow
 ```
 Orchestrate a feature for adding user dashboard:
 - Planning phase: Delegate to Athena + Apollo
-- AI pipeline phase: Delegate to Hefesto (RAG, vector search)
-- Model phase: Delegate to Quíron (providers, routing)
-- Implement phase: Delegate to Hermes + Aphrodite + Maat
-- Conversational phase: Delegate to Eco (if chatbot)
-- Review phase: Delegate to Temis (includes OWASP audit)
-- Observability phase: Delegate to Nix (tracing, costs)
-- Deploy phase: Delegate to Ra
+- AI pipeline phase: Delegate to Hephaestus (RAG, vector search)
+- Model phase: Delegate to Chiron (providers, routing)
+- Implement phase: Delegate to Hermes + Aphrodite + Demeter
+- Conversational phase: Delegate to Echo (if chatbot)
+- Review phase: Delegate to Themis (includes OWASP audit)
+- Observability phase: Delegate to Nyx (tracing, costs)
+- Deploy phase: Delegate to Prometheus
 ```
 
 Orchestrate an AI chatbot feature:
 ```
 - Planning: Athena + Apollo
-- Conversational AI: Eco (NLU, dialogue design)
-- AI pipelines: Hefesto (RAG context retrieval)
+- Conversational AI: Echo (NLU, dialogue design)
+- AI pipelines: Hephaestus (RAG context retrieval)
 - Backend: Hermes (chat API endpoints)
-- Review: Temis (security + conversation audit)
-- Observability: Nix (token tracking, costs)
-- Deploy: Ra
+- Review: Themis (security + conversation audit)
+- Observability: Nyx (token tracking, costs)
+- Deploy: Prometheus
 ```
 
 ## When to Use Each Agent
@@ -315,14 +315,14 @@ Orchestrate an AI chatbot feature:
 - **Use Apollo** for finding files across codebase (parallel searches 3-10 simultaneous)
 - **Use Hermes** for FastAPI endpoints and services
 - **Use Aphrodite** for React components and UI/UX
-- **Use Temis** before merging any code (includes security checklist)
-- **Use Maat** for migrations and query optimization
-- **Use Ra** for deployment or infrastructure changes
+- **Use Themis** before merging any code (includes security checklist)
+- **Use Demeter** for migrations and query optimization
+- **Use Prometheus** for deployment or infrastructure changes
 - **Use Talos** for quick hotfixes, CSS corrections, or minor bugs bypassing full orchestration
-- **Use Hefesto** for RAG pipelines, LangChain chains, vector database setup, and AI workflow composition
-- **Use Quíron** for multi-model provider configuration, fallback strategies, and cost optimization
-- **Use Eco** for conversational AI design, NLU pipelines, Rasa integration, and chatbot architecture
-- **Use Nix** for observability, OpenTelemetry tracing, token/cost tracking, and performance monitoring
+- **Use Hephaestus** for RAG pipelines, LangChain chains, vector database setup, and AI workflow composition
+- **Use Chiron** for multi-model provider configuration, fallback strategies, and cost optimization
+- **Use Echo** for conversational AI design, NLU pipelines, Rasa integration, and chatbot architecture
+- **Use Nyx** for observability, OpenTelemetry tracing, token/cost tracking, and performance monitoring
 
 ## 🏛️ Artifact Gates
 
@@ -332,8 +332,8 @@ For every feature, Zeus enforces the artifact lifecycle:
 |---|---|---|---|
 | Planning | Athena (+ Mnemosyne if requested) | Chat plan (optional `PLAN-<feature>.md`) | Human approval |
 | Discovery | Explore (`#runSubagent`) or Apollo direct | Optional `DISC-<topic>.md` | Informational |
-| Implementation | Workers + Mnemosyne | `IMPL-<phase>-<agent>.md` | Temis review |
-| Quality | Temis + Mnemosyne | `REVIEW-<feature>.md` | Human approval |
+| Implementation | Workers + Mnemosyne | `IMPL-<phase>-<agent>.md` | Themis review |
+| Quality | Themis + Mnemosyne | `REVIEW-<feature>.md` | Human approval |
 | Decisions | Any + Mnemosyne | `ADR-<topic>.md` | Archive |
 
 **Artifact Protocol Reference:** `instructions/artifact-protocol.instructions.md`

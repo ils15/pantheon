@@ -3,8 +3,8 @@
 > Managed by `@mnemosyne`. Add entries with: `@mnemosyne Document decision: [topic]`
 
 | ID | Title | Date | Status |
-|---|---|---|---|
-| — | — | — | — |
+|---|---|---|---|---|
+| ADR-001 | Rename Agents to English Names | 2026-05-02 | Accepted |
 
 ---
 

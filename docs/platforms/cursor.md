@@ -40,9 +40,9 @@ your-project/
         ├── apollo.mdc
         ├── hermes.mdc
         ├── aphrodite.mdc
-        ├── maat.mdc
-        ├── temis.mdc
-        ├── ra.mdc
+        ├── demeter.mdc
+        ├── themis.mdc
+        ├── prometheus.mdc
         ├── iris.mdc
         ├── mnemosyne.mdc
         ├── talos.mdc
@@ -169,7 +169,7 @@ Cursor's **Agent mode** (`Ctrl+Shift+I` or `Cmd+Shift+I`) is the primary interfa
 ```
 @zeus: Implement JWT authentication for the API
 @hermes: Create a FastAPI endpoint for user registration
-@temis: Review the auth router for security issues
+: Review the auth router for security issues
 ```
 
 ### Agent Autocomplete
@@ -315,8 +315,8 @@ Cursor supports subagent-style delegation internally. Zeus orchestration works t
 
 ```
 1. @athena Plan the user dashboard with TDD approach
-2. @hermes + @aphrodite + @maat Implement in parallel
-3. @temis Review all changes
+2. @hermes + @aphrodite + @demeter Implement in parallel
+3.  Review all changes
 ```
 
 ---

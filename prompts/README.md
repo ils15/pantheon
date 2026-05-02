@@ -10,8 +10,8 @@ Reusable prompt templates for common development workflows. Each prompt specifie
 | **implement-feature** | Zeus | End-to-end feature implementation with TDD and quality gates |
 | **plan-architecture** | Athena | Strategic architecture planning with research and TDD-driven plan |
 | **debug-issue** | Apollo | Rapid debugging with parallel file discovery and analysis |
-| **review-code** | Temis | Comprehensive code review with security audit and coverage analysis |
-| **optimize-database** | Maat | Database schema, query, and performance optimization |
+| **review-code** | Themis | Comprehensive code review with security audit and coverage analysis |
+| **optimize-database** | Demeter | Database schema, query, and performance optimization |
 
 ## Usage
 

@@ -1,6 +1,6 @@
 ---
 name: gaia
-description: "Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, statistical analysis, scientific literature (MDPI, IEEE TGRS, RSE, ISPRS). Covers full RS pipeline from raw image to product. Calls apollo for discovery. Sends work to temis for review."
+description: "Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, statistical analysis, scientific literature (MDPI, IEEE TGRS, RSE, ISPRS). Covers full RS pipeline from raw image to product. Calls apollo for discovery. Sends work to themis for review."
 argument-hint: "Remote sensing task: e.g. 'compute NDVI time series for Sentinel-2', 'apply speckle filter to SAR backscatter', 'recommend change detection algorithm for deforestation mapping', 'review atmospheric correction pipeline', 'train U-Net for semantic segmentation'"
 tools:
   - search/codebase
@@ -14,7 +14,7 @@ tools:
 agents: ['apollo']
 handoffs:
   - label: "🔍 Review Analysis"
-    agent: temis
+    agent: themis
     prompt: "Review this remote sensing analysis for methodological correctness, data pipeline integrity, and scientific validity."
     send: false
     model: premium
@@ -369,7 +369,7 @@ SEARCH_URL = "https://www.mdpi.com/search?q={query}&journal=remotesensing&articl
 - **For implementation planning** → hand off to `@athena`
 - **For rapid code search** → delegate to `@apollo` (nested subagent)
 - **For technical implementation** → hand off to `@hermes` (Python backend)
-- **For quality review** → delegate to `@temis`
+- **For quality review** → delegate to ``
 
 ---
 

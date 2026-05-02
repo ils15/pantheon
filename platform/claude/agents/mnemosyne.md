@@ -215,9 +215,9 @@ At sprint close: @mnemosyne graduates relevant content to 04-active-context.md (
 ## Integration with Other Agents
 
 - **@athena**: Provides plans at sprint start → you graduate them to `04-active-context.md` at sprint close
-- **@hermes / @aphrodite / @maat**: Implement features → they may append to `04-active-context.md` directly; you are invoked for task records
-- **@temis**: Provides security findings → you create `_notes/` entries for significant findings
-- **@ra**: Documents deployment → you create `_notes/` entries for infrastructure decisions
+- **@hermes / @aphrodite / @demeter**: Implement features → they may append to `04-active-context.md` directly; you are invoked for task records
+- ****: Provides security findings → you create `_notes/` entries for significant findings
+- ****: Documents deployment → you create `_notes/` entries for infrastructure decisions
 - **@apollo**: Investigation findings → you create `_notes/` entries when findings are architectural
 
 ---

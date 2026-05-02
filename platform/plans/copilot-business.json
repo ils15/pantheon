@@ -11,13 +11,13 @@
   "agent_overrides": {
     "apollo": "GPT-5 mini (copilot)",
     "aphrodite": "Gemini 3.1 Pro (copilot)",
-    "nix": "GPT-5.4 mini (copilot)",
+    "nyx": "GPT-5.4 mini (copilot)",
     "talos": "GPT-5.4 mini (copilot)",
     "iris": "Claude Haiku 4.5 (copilot)",
     "mnemosyne": "Claude Haiku 4.5 (copilot)"
   },
   "handoff_models": {
-    "zeus__temis": "Claude Opus 4.6 (copilot)",
+    "zeus__themis": "Claude Opus 4.6 (copilot)",
     "iris__zeus": "GPT-5.3-Codex (copilot)"
   },
   "limits": {

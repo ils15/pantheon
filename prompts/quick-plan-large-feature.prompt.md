@@ -123,7 +123,7 @@ Time: 2:00 - Understanding: 85% coverage
 Time: 2:00-4:00 - Plan:
   Phase 1: Backend analytics API (@hermes)
   Phase 2: Dashboard component (@aphrodite)
-  Phase 3: Data aggregation query (@maat)
+  Phase 3: Data aggregation query (@demeter)
   
   Open Question: Real-time vs. daily snapshots?
 

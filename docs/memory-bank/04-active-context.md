@@ -42,7 +42,7 @@ Adopt the new agent routing mix in custom agent frontmatter and docs: \`GPT-5.4 
 - [agents/apollo.agent.md](../../agents/apollo.agent.md) — model list updated and formatting normalized
 - [agents/mnemosyne.agent.md](../../agents/mnemosyne.agent.md) — model list updated
 - [agents/talos.agent.md](../../agents/talos.agent.md) — model list updated
-- [agents/temis.agent.md](../../agents/temis.agent.md) — handoff model updated
+- [agents/themis.agent.md](../../agents/themis.agent.md) — handoff model updated
 - [agents/zeus.agent.md](../../agents/zeus.agent.md) — handoff model and docs updated
 - [AGENTS.md](../../AGENTS.md) — added feature adoption notes
 - [README.md](../../README.md) — updated model table and usage guidance
@@ -74,7 +74,7 @@ Implement VS Code Copilot agent lifecycle hooks (March 2026 API) across 5 config
 
 **Date:** 2026-03-15
 
-**Rationale**: Addresses Zeus coordination requirements from `.github/copilot-instructions.md` mandate: "Every implementing agent IMMEDIATELY calls @temis after completing code" — hooks automate this workflow with audit trail and interactive approval gates.
+**Rationale**: Addresses Zeus coordination requirements from `.github/copilot-instructions.md` mandate: "Every implementing agent IMMEDIATELY calls  after completing code" — hooks automate this workflow with audit trail and interactive approval gates.
 
 ---
 

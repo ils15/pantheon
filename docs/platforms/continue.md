@@ -67,8 +67,8 @@ Continue loads all rules referenced in `config.yaml`. To reduce context usage, c
 rules:
   - ./rules/hermes.md
   - ./rules/aphrodite.md
-  - ./rules/maat.md
-  - ./rules/temis.md
+  - ./rules/demeter.md
+  - ./rules/themis.md
   # - ./rules/zeus.md     # comment out unused rules
   # - ./rules/athena.md
 ```
@@ -85,13 +85,13 @@ your-project/
 │   │   ├── apollo.md
 │   │   ├── hermes.md
 │   │   ├── aphrodite.md
-│   │   ├── maat.md
-│   │   ├── temis.md
-│   │   ├── ra.md
-│   │   ├── hefesto.md
-│   │   ├── quiron.md
-│   │   ├── eco.md
-│   │   ├── nix.md
+│   │   ├── demeter.md
+│   │   ├── themis.md
+│   │   ├── prometheus.md
+│   │   ├── hephaestus.md
+│   │   ├── chiron.md
+│   │   ├── echo.md
+│   │   ├── nyx.md
 │   │   ├── gaia.md
 │   │   ├── iris.md
 │   │   ├── mnemosyne.md
@@ -119,15 +119,15 @@ Each rule teaches Continue about a specific agent role:
 | `zeus.md` | Orchestration workflow, phase transitions, delegation patterns |
 | `hermes.md` | Backend TDD, FastAPI patterns, async/service architecture |
 | `aphrodite.md` | Frontend React patterns, accessibility, responsive design |
-| `maat.md` | Database schema design, migration strategy, N+1 prevention |
-| `temis.md` | Code review checklist, OWASP security, coverage enforcement |
+| `demeter.md` | Database schema design, migration strategy, N+1 prevention |
+| `themis.md` | Code review checklist, OWASP security, coverage enforcement |
 | `athena.md` | Architecture planning, phased roadmaps, technology decisions |
 | `apollo.md` | Codebase discovery, parallel search, evidence gathering |
-| `ra.md` | Docker multi-stage builds, deployment, health checks |
-| `hefesto.md` | RAG pipelines, vector search, LangChain chain composition |
-| `quiron.md` | Multi-model routing, cost optimization, provider abstraction |
-| `eco.md` | Conversational AI, intent/entity design, dialogue management |
-| `nix.md` | Observability, OpenTelemetry, cost tracking, structured logging |
+| `prometheus.md` | Docker multi-stage builds, deployment, health checks |
+| `hephaestus.md` | RAG pipelines, vector search, LangChain chain composition |
+| `chiron.md` | Multi-model routing, cost optimization, provider abstraction |
+| `echo.md` | Conversational AI, intent/entity design, dialogue management |
+| `nyx.md` | Observability, OpenTelemetry, cost tracking, structured logging |
 | `gaia.md` | Remote sensing, LULC analysis, inter-product agreement |
 | `iris.md` | GitHub operations, conventional commits, PR workflows |
 | `mnemosyne.md` | Memory bank management, ADR documentation, decision logging |
@@ -198,8 +198,8 @@ baseSystemMessage: |
 
   - For backend work: reference the Hermes rule (hermes.md)
   - For frontend: reference the Aphrodite rule (aphrodite.md)
-  - For database: reference the Maat rule (maat.md)
-  - For code review: reference the Temis rule (temis.md)
+  - For database: reference the Demeter rule (demeter.md)
+  - For code review: reference the Themis rule (themis.md)
 
   Always consult the relevant rule file before responding.
 ```

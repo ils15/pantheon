@@ -1,6 +1,6 @@
 ---
 name: hermes
-description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR). Calls apollo as nested subagent to discover patterns. Sends work to temis for review.
+description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR). Calls apollo as nested subagent to discover patterns. Sends work to themis for review.
 trigger: model_decision
 ---
 
@@ -104,8 +104,8 @@ When creating a new feature:
 
 - **@apollo** (via `agent` tool): For codebase discovery — find existing patterns, related files, async examples
 - **@mnemosyne** (via `agent` tool): For ALL artifact creation — `@mnemosyne Create artifact: IMPL-phase<N>-hermes` (MANDATORY after each phase)
-- **@temis** (via handoff button): For code review and security audit when phase is complete
-- **@aphrodite / @maat / @ra**: Route through **Zeus** — Hermes cannot directly invoke these agents
+- **** (via handoff button): For code review and security audit when phase is complete
+- **@aphrodite / @demeter / **: Route through **Zeus** — Hermes cannot directly invoke these agents
 
 ## Handoff Strategy (VS Code 1.108+)
 
@@ -143,13 +143,13 @@ When implementation is complete, produce a structured **IMPL artifact** and requ
 - ✅ All X unit tests passing
 - ✅ Coverage: Y%
 
-## Notes for Temis (Reviewer):
+## Notes for Themis (Reviewer):
 - [Any area that deserves extra scrutiny]
 
 @mnemosyne Create artifact: IMPL-phase<N>-hermes with the above summary
 ```
 
-After Mnemosyne persists the artifact, signal Zeus: `Ready for Temis review.`
+After Mnemosyne persists the artifact, signal Zeus: `Ready for Themis review.`
 
 ### Using #runSubagent for Parallel Discovery
 

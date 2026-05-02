@@ -150,7 +150,7 @@ tools:
   - execute/getTerminalOutput
   - search/changes
 handoffs:
-  - { label: "Send to Temis", agent: temis, prompt: "Please perform a code review and security audit on these changes.", send: true, model: 'Claude Opus 4.6 (copilot)' }
+  - { label: "Send to Themis", agent: themis, prompt: "Please perform a code review and security audit on these changes.", send: true, model: 'Claude Opus 4.6 (copilot)' }
 agents: ['apollo']
 user-invocable: true
 hooks:
@@ -247,16 +247,16 @@ your-project/
 │   │   ├── apollo.agent.md
 │   │   ├── hermes.agent.md
 │   │   ├── aphrodite.agent.md
-│   │   ├── maat.agent.md
-│   │   ├── temis.agent.md
-│   │   ├── ra.agent.md
+│   │   ├── demeter.agent.md
+│   │   ├── themis.agent.md
+│   │   ├── prometheus.agent.md
 │   │   ├── iris.agent.md
 │   │   ├── mnemosyne.agent.md
 │   │   ├── talos.agent.md
-│   │   ├── hefesto.agent.md
-│   │   ├── quiron.agent.md
-│   │   ├── eco.agent.md
-│   │   ├── nix.agent.md
+│   │   ├── hephaestus.agent.md
+│   │   ├── chiron.agent.md
+│   │   ├── echo.agent.md
+│   │   ├── nyx.agent.md
 │   │   └── gaia.agent.md
 │   └── copilot-instructions.md       # Auto-loaded on every interaction
 ├── skills/                           # *.md files loaded per agent

@@ -2649,7 +2649,7 @@ print(f"P50: {median(latencies)}ms, P95: {p95(latencies)}ms")
 ---
 
 **Version:** 1.0  
-**Standard:** Enforced by automated CI/CD gates and Temis review  
+**Standard:** Enforced by automated CI/CD gates and Themis review  
 **Checkpoints:** LangSmith regression tracking, threshold enforcement, human-in-the-loop for borderline cases  
 **Status:** Mandatory for all agent deployments
 

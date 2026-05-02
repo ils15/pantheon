@@ -4,7 +4,7 @@ name: "Infrastructure Standards"
 applyTo: "**/{Dockerfile,docker-compose.yml,*.yml,*.yaml}"
 ---
 
-# Infrastructure Standards (Ra)
+# Infrastructure Standards (Prometheus)
 
 ## Docker Images
 - Use multi-stage builds

@@ -16,7 +16,7 @@ Or manually:
 ```markdown
 ## [YYYY-MM-DD] — [Milestone Title]
 
-**Agents involved:** @hermes, @aphrodite, @maat  
+**Agents involved:** @hermes, @aphrodite, @demeter  
 **Status:** ✅ Delivered
 
 ### What was done
@@ -36,7 +36,7 @@ Or manually:
 
 ## [2026-05-02] — Ciclo de Adaptações Cross-Platform Completo
 
-**Agentes envolvidos:** @athena, @apollo, @hermes, @aphrodite, @maat, @temis, @ra, @iris, @mnemosyne, @talos, @hefesto, @quiron, @eco, @nix, @gaia  
+**Agentes envolvidos:** @athena, @apollo, @hermes, @aphrodite, @demeter, , , @iris, @mnemosyne, @talos, , , , , @gaia  
 **Status:** ✅ Ciclo completo (14 adaptações)
 
 ### O que foi feito
@@ -92,7 +92,7 @@ Or manually:
 - `agents/apollo.agent.md` — model list formatting and ordering
 - `agents/mnemosyne.agent.md` — model list ordering
 - `agents/talos.agent.md` — model list ordering
-- `agents/temis.agent.md` — handoff model updated
+- `agents/themis.agent.md` — handoff model updated
 - `agents/zeus.agent.md` — handoff model and reference notes updated
 - `AGENTS.md` — added VS Code 1.111-1.114 feature adoption guidance
 - `README.md` — updated model table and usage guidance
@@ -106,7 +106,7 @@ Or manually:
 - Implemented SubagentStart hook (`delegation-start.json`) for delegation initiation logging and interactive approval handlers
 - Implemented SubagentStop hook (`delegation-stop.json`) for delegation completion tracking with success/failure logging
 - Created 4 handler scripts for hook execution (validate salety, delegation tracking, logging)
-- Created real-world handoff examples (6 patterns: Hermes→Temis, Aphrodite→Temis, Maat→Temis, Ra→Temis, Athena→Apollo, Iris→PR actions)
+- Created real-world handoff examples (6 patterns: Hermes→Themis, Aphrodite→Themis, Demeter→Themis, Prometheus→Themis, Athena→Apollo, Iris→PR actions)
 - Integrated hooks into `.github/copilot-instructions.md` Agent Coordination section
 - Integrated hooks context into `AGENTS.md` Zeus orchestrator documentation
 

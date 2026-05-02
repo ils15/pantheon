@@ -9,7 +9,7 @@
     "premium": "GPT-5 mini (copilot)"
   },
   "agent_overrides": {
-    "temis": "Claude Sonnet 4.6 (copilot)",
+    "themis": "Claude Sonnet 4.6 (copilot)",
     "zeus": "Claude Sonnet 4.6 (copilot)"
   },
   "limits": {

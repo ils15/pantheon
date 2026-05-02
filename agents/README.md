@@ -21,10 +21,10 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 **7 tiers:**
 1. **Orchestrator** — Zeus
 2. **Planning & Discovery** — Athena, Apollo
-3. **AI Infrastructure** (v3) — Hefesto, Quíron, Eco
-4. **Implementation** — Hermes, Aphrodite, Maat
-5. **Quality & Observability** — Temis, Nix
-6. **Infrastructure & Release** — Ra, Iris, Mnemosyne
+3. **AI Infrastructure** (v3) — Hephaestus, Chiron, Echo
+4. **Implementation** — Hermes, Aphrodite, Demeter
+5. **Quality & Observability** — Themis, Nyx
+6. **Infrastructure & Release** — Prometheus, Iris, Mnemosyne
 7. **Express & Specialist** — Talos, Gaia
 
 ---
@@ -34,21 +34,21 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 | Agent | Tier | Role | Delegates to | Skills Used |
 |---|---|---|---|---|
 | Zeus | Orchestrator | Central coordinator | All 15 agents | agent-coordination, orchestration-workflow, artifact-management |
-| Athena | Planning | Strategic planner | Apollo, Temis | (none — plan-only) |
+| Athena | Planning | Strategic planner | Apollo, Themis | (none — plan-only) |
 | Apollo | Discovery | Read-only codebase scout | Zeus, Athena | (none — read-only) |
-| Hefesto | AI Infrastructure | AI pipelines (RAG, LangChain) | Apollo, Temis, Ra | rag-pipelines, vector-search, mcp-server-development |
-| Quíron | AI Infrastructure | Model provider hub | Apollo, Temis, Ra | multi-model-routing |
-| Eco | AI Infrastructure | Conversational AI | Apollo, Temis, Talos | conversational-ai-design |
-| Hermes | Implementation | Backend (FastAPI) | Apollo, Temis | fastapi-async-patterns, api-design-patterns, security-audit, tdd-with-agents |
-| Aphrodite | Implementation | Frontend (React) | Apollo, Temis | web-ui-analysis, frontend-analyzer, nextjs-seo-optimization, tdd-with-agents |
-| Maat | Implementation | Database | Apollo, Temis | database-migration, database-optimization, performance-optimization, security-audit |
-| Temis | Quality | Security & review gate | Mnemosyne, Zeus | code-review-checklist, security-audit, tdd-with-agents, prompt-injection-security |
-| Nix | Observability | Tracing & cost tracking | Apollo, Zeus | agent-observability |
-| Ra | Infrastructure | Docker & CI/CD | Apollo, Temis | docker-best-practices, performance-optimization |
+| Hephaestus | AI Infrastructure | AI pipelines (RAG, LangChain) | Apollo, Themis, Prometheus | rag-pipelines, vector-search, mcp-server-development |
+| Chiron | AI Infrastructure | Model provider hub | Apollo, Themis, Prometheus | multi-model-routing |
+| Echo | AI Infrastructure | Conversational AI | Apollo, Themis, Talos | conversational-ai-design |
+| Hermes | Implementation | Backend (FastAPI) | Apollo, Themis | fastapi-async-patterns, api-design-patterns, security-audit, tdd-with-agents |
+| Aphrodite | Implementation | Frontend (React) | Apollo, Themis | web-ui-analysis, frontend-analyzer, nextjs-seo-optimization, tdd-with-agents |
+| Demeter | Implementation | Database | Apollo, Themis | database-migration, database-optimization, performance-optimization, security-audit |
+| Themis | Quality | Security & review gate | Mnemosyne, Zeus | code-review-checklist, security-audit, tdd-with-agents, prompt-injection-security |
+| Nyx | Observability | Tracing & cost tracking | Apollo, Zeus | agent-observability |
+| Prometheus | Infrastructure | Docker & CI/CD | Apollo, Themis | docker-best-practices, performance-optimization |
 | Iris | GitHub Ops | PRs, issues, releases | Mnemosyne, Zeus | (none — workflow ops) |
 | Mnemosyne | Memory | Memory bank & ADRs | (none) | (none — documentation) |
 | Talos | Hotfix | Rapid direct fixes | Zeus | (none — direct edits) |
-| Gaia | Specialist | Remote sensing | Athena, Apollo, Hermes, Temis | remote-sensing-analysis, internet-search |
+| Gaia | Specialist | Remote sensing | Athena, Apollo, Hermes, Themis | remote-sensing-analysis, internet-search |
 
 ---
 
@@ -63,14 +63,14 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 - **Key Responsibilities:** Phase-based orchestration, parallel dispatch, approval gates (3 pause points), context conservation, agent routing
 - **Usage:** `@zeus: Implement [feature description]`
 - **Tools:** agent (delegation), askQuestions, runInTerminal, readFile, search/codebase, search/usages, web/fetch, search/changes
-- **Handoffs:** athena (plan) → temis (validate plan) → hefesto (pipelines) → quiron (models) → eco (conversation) → hermes/aphrodite/maat (implement) → temis (review) → nix (observe) → ra (deploy) → mnemosyne (document)
+- **Handoffs:** athena (plan) → themis (validate plan) → hephaestus (pipelines) → chiron (models) → echo (conversation) → hermes/aphrodite/demeter (implement) → themis (review) → nyx (observe) → prometheus (deploy) → mnemosyne (document)
 
 ### Athena (Strategic Planner)
 
 - **Tier:** Planning & Discovery
 - **Model:** premium (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Research-first architecture design and TDD roadmap generation. NEVER implements code or edits files. Creates concise 3-5 phase plans presented in chat.
-- **Delegates to:** Apollo (nested subagent for complex discovery), Temis (plan validation), Zeus (execution handoff)
+- **Delegates to:** Apollo (nested subagent for complex discovery), Themis (plan validation), Zeus (execution handoff)
 - **Key Responsibilities:** Codebase research, architecture decisions, risk analysis, phase planning, plan validation gate
 - **Usage:** `@athena: Plan [feature]`
 - **Tools:** agent, askQuestions, search/codebase, search/usages, web/fetch
@@ -86,37 +86,37 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 - **Tools:** search/codebase, search/usages, search/fileSearch, search/textSearch, search/listDirectory, readFile, web/fetch, browser (openPage, navigate, read, screenshot)
 - **Note:** `user-invocable: false` — primarily called by other agents
 
-### Hefesto (AI Pipelines) — NEW v3
+### Hephaestus (AI Pipelines) — NEW v3
 
 - **Tier:** AI Infrastructure
 - **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** AI tooling & pipelines specialist. Forges RAG pipelines, LangChain/LangGraph chains, vector databases, embedding strategies, and AI workflow composition.
-- **Delegates to:** Apollo (discovery), Temis (review + prompt injection audit), Ra (GPU deployment)
+- **Delegates to:** Apollo (discovery), Themis (review + prompt injection audit), Prometheus (GPU deployment)
 - **Skills:** rag-pipelines, vector-search, mcp-server-development
 - **Tools:** agent, askQuestions, search, read, edit, runInTerminal, web/fetch
-- **Usage:** `@hefesto: Build RAG pipeline for [use case]`
+- **Usage:** `: Build RAG pipeline for [use case]`
 - **Key Responsibilities:** Vector store selection (Pinecone, Weaviate, pgvector, Chroma), chunking strategies, hybrid search (BM25 + vector), LangGraph stateful agents, hallucination detection, RAG evaluation (faithfulness, relevancy)
 
-### Quíron (Model Provider Hub) — NEW v3
+### Chiron (Model Provider Hub) — NEW v3
 
 - **Tier:** AI Infrastructure
 - **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Multi-model routing, provider abstraction, AWS Bedrock integration, cost optimization. The bridge between agents and AI models.
-- **Delegates to:** Apollo (discovery), Temis (review + security audit), Ra (inference deployment)
+- **Delegates to:** Apollo (discovery), Themis (review + security audit), Prometheus (inference deployment)
 - **Skills:** multi-model-routing
 - **Tools:** agent, askQuestions, search, read, edit, runInTerminal, web/fetch
-- **Usage:** `@quiron: Configure model routing with [provider]`
+- **Usage:** `: Configure model routing with [provider]`
 - **Key Responsibilities:** Cost-vs-quality routing, fallback chains, Bedrock Guardrails + Knowledge Bases, local inference (Ollama/vLLM), token usage tracking, API key management (vault-based, no hardcoding)
 
-### Eco (Conversational AI) — NEW v3
+### Echo (Conversational AI) — NEW v3
 
 - **Tier:** AI Infrastructure
 - **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Conversational AI specialist — NLU pipelines, dialogue management, Rasa integration, intent/entity design, multi-turn conversation flows.
-- **Delegates to:** Apollo (discovery), Temis (review + injection security), Talos (hotfix for intent misclassification)
+- **Delegates to:** Apollo (discovery), Themis (review + injection security), Talos (hotfix for intent misclassification)
 - **Skills:** conversational-ai-design
 - **Tools:** agent, askQuestions, search, read, edit, runInTerminal, web/fetch
-- **Usage:** `@eco: Design chatbot for [flow]`
+- **Usage:** `: Design chatbot for [flow]`
 - **Key Responsibilities:** Intent classification, entity extraction (Regex, CRF), story design, form-based slot filling, multi-platform chat (Telegram, WhatsApp, Slack), NLU evaluation (accuracy, F1)
 
 ### Hermes (Backend Specialist)
@@ -124,7 +124,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 - **Tier:** Implementation
 - **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Backend FastAPI implementation specialist. Async endpoints, Pydantic schemas, service layer, dependency injection, TDD enforced.
-- **Delegates to:** Apollo (nested for pattern discovery), Temis (code review + security audit)
+- **Delegates to:** Apollo (nested for pattern discovery), Themis (code review + security audit)
 - **Skills:** fastapi-async-patterns, api-design-patterns, security-audit, tdd-with-agents
 - **Tools:** agent, search, read, problems, edit, runInTerminal, testFailure, getTerminalOutput, changes
 - **Usage:** `@hermes: Create [endpoint]`
@@ -135,24 +135,24 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 - **Tier:** Implementation
 - **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** React frontend implementation specialist. TypeScript strict mode, WCAG AA accessibility, responsive design (mobile-first), component tests with vitest.
-- **Delegates to:** Apollo (nested for component discovery), Temis (review + accessibility audit)
+- **Delegates to:** Apollo (nested for component discovery), Themis (review + accessibility audit)
 - **Skills:** web-ui-analysis, frontend-analyzer, nextjs-seo-optimization, tdd-with-agents
 - **Tools:** agent, askQuestions, search, read, problems, edit, runInTerminal, testFailure, getTerminalOutput, changes, browser (open, navigate, read, click, type, hover, drag, dialog, screenshot)
 - **Usage:** `@aphrodite: Build [component]`
 - **Key Responsibilities:** Reusable components, admin CRUD interfaces, drag-and-drop upload, data tables with pagination, form validation, modal dialogs, toast notifications, ARIA labels, skeleton loaders, visual verification via integrated browser tools
 
-### Maat (Database Specialist)
+### Demeter (Database Specialist)
 
 - **Tier:** Implementation
 - **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Database implementation specialist. SQLAlchemy 2.0 async models, Alembic migrations, query optimization, N+1 prevention, zero-downtime strategy.
-- **Delegates to:** Apollo (nested for optimization patterns), Temis (review + security audit)
+- **Delegates to:** Apollo (nested for optimization patterns), Themis (review + security audit)
 - **Skills:** database-migration, database-optimization, performance-optimization, security-audit
 - **Tools:** agent, search, read, problems, edit, runInTerminal, testFailure, getTerminalOutput
-- **Usage:** `@maat: Optimize [query]`
+- **Usage:** `@demeter: Optimize [query]`
 - **Key Responsibilities:** Model design (relationships, constraints, indexes), migration generation (upgrade + downgrade), eager loading (selectinload/joinedload), composite indexes, EXPLAIN ANALYZE, rollback testing, data migration safety
 
-### Temis (Quality & Security Gate)
+### Themis (Quality & Security Gate)
 
 - **Tier:** Quality & Observability
 - **Model:** premium (see [active plan](../platform/plans/plan-active.json))
@@ -160,10 +160,10 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 - **Delegates to:** Mnemosyne (artifact persistence), Zeus (fix escalation)
 - **Skills:** code-review-checklist, security-audit, tdd-with-agents, prompt-injection-security
 - **Tools:** agent, askQuestions, search, read, problems, changes, runInTerminal, testFailure, edit, browser
-- **Usage:** `@temis: Review this code`
+- **Usage:** `: Review this code`
 - **Key Responsibilities:** Trailing whitespace/hard tab/wild import detection (BLOCKER), OWASP Top 10 audit, test coverage gate (>80% hard block), AI review contract (What/Why, Proof, Risk tier, Review focus), integrated browser validation for UI, severity levels (CRITICAL/HIGH/MEDIUM/LOW)
 
-### Nix (Observability) — NEW v3
+### Nyx (Observability) — NEW v3
 
 - **Tier:** Quality & Observability
 - **Model:** fast (see [active plan](../platform/plans/plan-active.json))
@@ -171,18 +171,18 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 - **Delegates to:** Apollo (discovery), Zeus (anomaly reporting)
 - **Skills:** agent-observability
 - **Tools:** agent, askQuestions, search, read, problems, edit, runInTerminal, testFailure, getTerminalOutput, changes, web/fetch
-- **Usage:** `@nix: Set up monitoring for [service]`
+- **Usage:** `: Set up monitoring for [service]`
 - **Key Responsibilities:** Span hierarchy (orchestration → agent → tool → model), per-agent token/cost attribution, P50/P95/P99 latency metrics, LangSmith traces, structured JSON logging, metric naming (`mythic.<agent>.<metric>.<unit>`), sensitive data redaction from traces, anomaly detection (latency spikes, cost anomalies, deadlocks)
 
-### Ra (Infrastructure Specialist)
+### Prometheus (Infrastructure Specialist)
 
 - **Tier:** Infrastructure & Release
 - **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Infrastructure implementation specialist. Docker multi-stage builds, docker-compose orchestration, Traefik proxy, CI/CD workflows, health checks.
-- **Delegates to:** Apollo (nested for pattern discovery), Temis (infrastructure validation)
+- **Delegates to:** Apollo (nested for pattern discovery), Themis (infrastructure validation)
 - **Skills:** docker-best-practices, performance-optimization
 - **Tools:** agent, askQuestions, search, read, problems, edit, runInTerminal, createAndRunTask, getTerminalOutput
-- **Usage:** `@ra: Set up [infrastructure]`
+- **Usage:** `: Set up [infrastructure]`
 - **Key Responsibilities:** Multi-stage Dockerfiles, non-root user execution, HEALTHCHECK directives, named volumes, restart policies, resource limits, Traefik routing + SSL, zero-downtime deployment, .env.example templates, startup order with `depends_on` conditions
 
 ### Iris (GitHub Operations)
@@ -219,7 +219,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 - **Tier:** Domain Specialist
 - **Model:** default (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, LULC products, scientific literature research.
-- **Delegates to:** Athena (implementation planning), Apollo (rapid code search), Hermes (Python backend), Temis (quality review)
+- **Delegates to:** Athena (implementation planning), Apollo (rapid code search), Hermes (Python backend), Themis (quality review)
 - **Skills:** remote-sensing-analysis, internet-search
 - **Tools:** search/codebase, search/usages, search/fileSearch, search/textSearch, search/listDirectory, readFile, web/fetch
 - **Usage:** `@gaia: Analyze [dataset]` | `@gaia: Review atmospheric correction pipeline`
@@ -255,24 +255,24 @@ graph TB
     end
 
     subgraph AI["AI Infrastructure"]
-        H["Hefesto<br/>AI Pipelines"]:::tier1b
-        Q["Quíron<br/>Model Routing"]:::tier1b
-        E["Eco<br/>Conversational AI"]:::tier1b
+        H["Hephaestus<br/>AI Pipelines"]:::tier1b
+        Q["Chiron<br/>Model Routing"]:::tier1b
+        E["Echo<br/>Conversational AI"]:::tier1b
     end
 
     subgraph T2["Implementation"]
         I1["Hermes<br/>Backend"]:::tier2
         I2["Aphrodite<br/>Frontend"]:::tier2
-        I3["Maat<br/>Database"]:::tier2
+        I3["Demeter<br/>Database"]:::tier2
     end
 
     subgraph T3["Quality & Observability"]
-        T1a["Temis<br/>Security & Review"]:::tier3
-        N["Nix<br/>Observability"]:::tier3
+        T1a["Themis<br/>Security & Review"]:::tier3
+        N["Nyx<br/>Observability"]:::tier3
     end
 
     subgraph T4["Infrastructure & Release"]
-        R["Ra<br/>Infrastructure"]:::tier4
+        R["Prometheus<br/>Infrastructure"]:::tier4
         I["Iris<br/>GitHub Ops"]:::tier4
         M["Mnemosyne<br/>Memory"]:::tier4
     end
@@ -303,15 +303,15 @@ graph TB
 | Orchestrate a full feature | Zeus | `@zeus: Implement [feature]` |
 | Plan architecture with TDD phases | Athena | `@athena: Plan [feature]` |
 | Discover codebase patterns | Apollo | `@apollo: Find all [pattern]` |
-| Build RAG / LangChain pipelines | Hefesto | `@hefesto: Build RAG pipeline for [use case]` |
-| Configure model routing / providers | Quíron | `@quiron: Configure [provider] routing` |
-| Design chatbot / conversational flows | Eco | `@eco: Design chatbot for [flow]` |
+| Build RAG / LangChain pipelines | Hephaestus | `: Build RAG pipeline for [use case]` |
+| Configure model routing / providers | Chiron | `: Configure [provider] routing` |
+| Design chatbot / conversational flows | Echo | `: Design chatbot for [flow]` |
 | Create backend API endpoints | Hermes | `@hermes: Create POST /[endpoint]` |
 | Build frontend React components | Aphrodite | `@aphrodite: Build [component]` |
-| Design or optimize database schema | Maat | `@maat: Optimize [query]` |
-| Review code for quality & security | Temis | `@temis: Review this code` |
-| Set up OpenTelemetry / cost tracking | Nix | `@nix: Set up monitoring for [service]` |
-| Configure Docker / CI/CD / deploy | Ra | `@ra: Set up [infrastructure]` |
+| Design or optimize database schema | Demeter | `@demeter: Optimize [query]` |
+| Review code for quality & security | Themis | `: Review this code` |
+| Set up OpenTelemetry / cost tracking | Nyx | `: Set up monitoring for [service]` |
+| Configure Docker / CI/CD / deploy | Prometheus | `: Set up [infrastructure]` |
 | Open PR / manage releases / issues | Iris | `@iris: Create release v[version]` |
 | Close sprint or document decisions | Mnemosyne | `@mnemosyne: Close sprint [summary]` |
 | Fix small bugs / CSS / typos fast | Talos | `@talos: Fix [bug]` |

@@ -11,7 +11,7 @@
   "agent_overrides": {
     "apollo": "gpt-5-mini",
     "aphrodite": "gemini-3-pro",
-    "nix": "gpt-5.4-nano",
+    "nyx": "gpt-5.4-nano",
     "talos": "claude-4.5-haiku",
     "iris": "gpt-5-mini",
     "mnemosyne": "gpt-5-mini"

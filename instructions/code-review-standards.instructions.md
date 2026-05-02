@@ -4,7 +4,7 @@ name: "Code Review & Security Standards"
 applyTo: "**"
 ---
 
-# Code Review Standards (Temis)
+# Code Review Standards (Themis)
 
 ## Review Scope
 - Review ONLY changed files

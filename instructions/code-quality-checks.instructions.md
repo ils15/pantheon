@@ -8,12 +8,12 @@ applyTo: "**/*.{py,ts,tsx,js,jsx}"
 
 ## Overview
 
-Before @temis performs manual code review, **ALL code must pass automated quality checks**:
+Before  performs manual code review, **ALL code must pass automated quality checks**:
 
 1. **Python**: ruff (lint) → black (format) → isort (imports)
 2. **TypeScript/JavaScript**: eslint (lint) → prettier (format)
 
-These checks are MANDATORY and run first in @temis review.
+These checks are MANDATORY and run first in  review.
 
 ---
 
@@ -209,9 +209,9 @@ function process(x) {
 
 ---
 
-## Full Quality Check Workflow (Temis Implementation)
+## Full Quality Check Workflow (Themis Implementation)
 
-When @temis receives code for review:
+When  receives code for review:
 
 ```bash
 # 1. Python files detected
@@ -265,20 +265,20 @@ echo "✅ All quality checks passed!"
 
 ### Hermes (Backend)
 - Runs ruff, black, isort on all `.py` files
-- Reports violations to @temis
+- Reports violations to 
 - Commits auto-fixed files before resubmit
 
 ### Aphrodite (Frontend)
 - Runs eslint, prettier on all `.ts/.tsx/.js/.jsx` files
-- Reports violations to @temis
+- Reports violations to 
 - Commits auto-fixed files before resubmit
 
-### Maat (Database)
+### Demeter (Database)
 - Runs ruff, black, isort on all migration `.py` files
-- Reports violations to @temis
+- Reports violations to 
 - Commits auto-fixed files before resubmit
 
-### Temis (QA Gate)
+### Themis (QA Gate)
 - MUST run all quality checks FIRST
 - Block review if checks fail
 - Return NEEDS_REVISION with specific violations
@@ -297,7 +297,7 @@ echo "✅ All quality checks passed!"
 
 **Total time for typical phase:** 1-3 seconds
 
-This is FAST compared to manual code review, so @temis runs this FIRST before any manual review.
+This is FAST compared to manual code review, so  runs this FIRST before any manual review.
 
 ---
 

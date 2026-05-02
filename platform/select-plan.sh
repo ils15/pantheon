@@ -160,9 +160,9 @@ show_models() {
 
     echo ""
     echo -e "${YELLOW}Tier assignments (built-in):${NC}"
-    echo -e "  ${CYAN}premium:${NC}  zeus, athena, temis"
-    echo -e "  ${CYAN}default:${NC}  hermes, aphrodite, maat, ra, hefesto, quiron, eco, gaia, iris"
-    echo -e "  ${CYAN}fast:${NC}     apollo, nix, mnemosyne, talos"
+    echo -e "  ${CYAN}premium:${NC}  zeus, athena, themis"
+    echo -e "  ${CYAN}default:${NC}  hermes, aphrodite, demeter, prometheus, hephaestus, chiron, echo, gaia, iris"
+    echo -e "  ${CYAN}fast:${NC}     apollo, nyx, mnemosyne, talos"
 }
 
 # ── Generate opencode.json ────────────────────────────────────────────────────
@@ -172,9 +172,9 @@ show_models() {
 #   2. Tier defaults (fast/default/premium) for all other agents
 #
 # Agent tier assignments (canonical):
-#   premium → zeus, athena, temis
-#   default → hermes, aphrodite, maat, ra, hefesto, quiron, eco, gaia, iris
-#   fast    → apollo, nix, mnemosyne, talos
+#   premium → zeus, athena, themis
+#   default → hermes, aphrodite, demeter, prometheus, hephaestus, chiron, echo, gaia, iris
+#   fast    → apollo, nyx, mnemosyne, talos
 #
 # Usage:
 #   generate_opencode_json <plan_file> <output_file>
@@ -206,18 +206,18 @@ overrides     = plan.get("agent_overrides", {})
 TIER_MAP = {
     "zeus":      "premium",
     "athena":    "premium",
-    "temis":     "premium",
+    "themis":     "premium",
     "hermes":    "default",
     "aphrodite": "default",
-    "maat":      "default",
-    "ra":        "default",
-    "hefesto":   "default",
-    "quiron":    "default",
-    "eco":       "default",
+     "demeter":  "default",
+     "prometheus": "default",
+    "hephaestus":   "default",
+    "chiron":    "default",
+    "echo":       "default",
     "gaia":      "default",
     "iris":      "default",
     "apollo":    "fast",
-    "nix":       "fast",
+    "nyx":       "fast",
     "mnemosyne": "fast",
     "talos":     "fast",
 }
