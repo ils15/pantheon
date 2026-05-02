@@ -1,11 +1,10 @@
 ---
 name: athena
 description: Strategic planner & architect — research-first, plan-only, never implements. Calls apollo as nested subagent for complex discovery.
-alwaysApply: false
-globs: []
+trigger: model_decision
 ---
 
-> Pantheon agent for Cursor. Invoke with @<name> in Agent mode.
+> Pantheon agent for Windsurf Cascade. Invoke with @<name>.
 
 
 # Athena - Strategic Planner

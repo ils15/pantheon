@@ -15,6 +15,29 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [3.2.1] - 2026-05-02
+
+### Changed
+
+- **OpenCode adapter**: toolMap corrigido (`codesearch` → `grep`), `vscode/askQuestions` mapeado para `question`, formato de tools convertido para permission object (`tool: allow`).
+- **Cursor adapter**: formato `.mdc` corrigido com `alwaysApply` e `globs` para compatibilidade com Agent mode.
+- **Windsurf adapter**: migrado de `.windsurf/agents/` para `.windsurf/rules/` com trigger `model_decision`.
+
+### Added
+
+- **Skills**: instalados automaticamente em TODAS as plataformas (OpenCode, Claude, Cursor, Windsurf, VS Code).
+- **Windsurf Workflows**: workflows `/orchestrate` e `/code-review` em `.windsurf/workflows/`.
+- **AGENTS.md**: criado/atualizado para Cursor e Windsurf com regras do projeto.
+- **Sync engine**: suporte a `toolsFormat` (permission/object) e `addFields` para plataformas que precisam de campos estáticos no frontmatter.
+
+### Fixed
+
+- `ensureAgentTool` removido do adapter OpenCode (não é uma tool válida).
+- Permissão `skill: *: allow` adicionada no `opencode.json` instalado.
+- Instruções `AGENTS.md` e `instructions/*.instructions.md` registradas no `opencode.json`.
+
+---
+
 ## [3.2.0] - 2026-05-01
 
 ### Added

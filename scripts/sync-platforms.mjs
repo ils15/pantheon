@@ -235,16 +235,18 @@ function transformFrontmatter(fm, adapter) {
       // Drop empty tools arrays
       if (value.length === 0) continue;
 
-      // Convert tools array to permission object (OpenCode format)
+      // Convert tools array to permission object (for opencode.json config)
       if (adapter.toolsFormat === 'permission') {
         const perm = {};
         for (const tool of value) {
           perm[tool] = 'allow';
         }
-        value = perm;
+        result.permission = perm;
+        continue;  // replaces 'tools' key with 'permission'
       }
 
-      // Convert tools array to object with booleans (legacy format)
+      // Convert tools array to object with booleans (Markdown agent format)
+      // OpenCode agent .md files use tools: { name: true/false }
       if (adapter.toolsFormat === 'object') {
         const obj = {};
         for (const tool of value) {

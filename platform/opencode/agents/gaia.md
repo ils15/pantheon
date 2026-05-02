@@ -2,12 +2,12 @@
 name: gaia
 description: Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, statistical analysis, scientific literature (MDPI, IEEE TGRS, RSE, ISPRS). Covers full RS pipeline from raw image to product.
 tools:
-  grep: allow
-  glob: allow
-  list: allow
-  read: allow
-  webfetch: allow
-  question: allow
+  grep: true
+  glob: true
+  list: true
+  read: true
+  webfetch: true
+  question: true
 argument-hint: "Remote sensing task: e.g. 'compute NDVI time series for Sentinel-2', 'apply speckle filter to SAR backscatter', 'recommend change detection algorithm for deforestation mapping', 'review atmospheric correction pipeline', 'train U-Net for semantic segmentation'"
 ---
 

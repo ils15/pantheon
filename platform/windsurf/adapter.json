@@ -1,68 +1,43 @@
 {
   "name": "windsurf",
   "displayName": "Windsurf (Cascade)",
-  "version": "2.0.0",
+  "version": "3.0.0",
 
-  "description": "Windsurf Cascade agents using .windsurf/agents/ format with YAML tools arrays and Cascade tool naming.",
+  "description": "Windsurf Cascade uses .windsurf/rules/*.md with trigger modes (always_on, model_decision, glob, manual). Skills in .windsurf/skills/. Workflows in .windsurf/workflows/.",
 
-  "outputDir": "agents",
+  "outputDir": "rules",
   "fileExtension": ".md",
 
   "frontmatter": {
     "include": [
       "name",
-      "description",
-      "mode",
-      "tools",
-      "skills",
-      "instructions"
+      "description"
     ],
     "exclude": [
       "model",
+      "tools",
+      "skills",
+      "instructions",
       "handoffs",
       "agents",
       "disable-model-invocation",
       "argument-hint",
-      "user-invocable"
+      "user-invocable",
+      "mode"
     ],
     "transform": {
-      "tools": { "strategy": "identity" },
+      "tools": { "strategy": "omit" },
       "model": { "strategy": "omit" },
-      "mode": { "strategy": "identity" }
+      "handoffs": { "strategy": "omit" },
+      "skills": { "strategy": "omit" },
+      "instructions": { "strategy": "omit" }
+    },
+    "addFields": {
+      "trigger": "model_decision"
     }
   },
 
-  "toolMap": {
-    "search/codebase": "search",
-    "search/usages": "search",
-    "search/fileSearch": "search",
-    "search/textSearch": "search",
-    "search/listDirectory": "search",
-    "search/changes": "search",
-    "read/readFile": "read",
-    "edit/editFiles": "edit",
-    "execute/runInTerminal": "runInTerminal",
-    "execute/testFailure": "runInTerminal",
-    "execute/getTerminalOutput": "runInTerminal",
-    "web/fetch": "webFetch"
-  },
-
-  "excludeTools": [
-    "agent",
-    "read/problems",
-    "execute/createAndRunTask",
-    "vscode/askQuestions",
-    "vscode/runCommand",
-    "browser/openBrowserPage",
-    "browser/navigatePage",
-    "browser/readPage",
-    "browser/clickElement",
-    "browser/typeInPage",
-    "browser/hoverElement",
-    "browser/dragElement",
-    "browser/handleDialog",
-    "browser/screenshotPage"
-  ],
+  "toolMap": {},
 
   "capabilityFlags": {
     "orchestration": false,
@@ -73,11 +48,21 @@
     "github-service": false
   },
 
-  "ensureAgentTool": false,
-
   "bodyFilters": [
     {
+      "action": "prepend",
+      "content": "> Pantheon agent for Windsurf Cascade. Invoke with @<name>."
+    },
+    {
       "pattern": "## Copilot Workflow Updates",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "## Agent Lifecycle Hooks",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "## VS Code Integration",
       "action": "omit-section"
     }
   ]

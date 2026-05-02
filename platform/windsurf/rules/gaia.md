@@ -1,11 +1,10 @@
 ---
 name: gaia
 description: Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, statistical analysis, scientific literature (MDPI, IEEE TGRS, RSE, ISPRS). Covers full RS pipeline from raw image to product.
-alwaysApply: false
-globs: []
+trigger: model_decision
 ---
 
-> Pantheon agent for Cursor. Invoke with @<name> in Agent mode.
+> Pantheon agent for Windsurf Cascade. Invoke with @<name>.
 
 
 # 🌍 Gaia — Remote Sensing Domain Specialist

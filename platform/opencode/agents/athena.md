@@ -2,13 +2,13 @@
 name: athena
 description: Strategic planner & architect — research-first, plan-only, never implements. Calls apollo as nested subagent for complex discovery.
 tools:
-  task: allow
-  question: allow
-  grep: allow
-  glob: allow
-  list: allow
-  read: allow
-  webfetch: allow
+  task: true
+  question: true
+  grep: true
+  glob: true
+  list: true
+  read: true
+  webfetch: true
 argument-hint: Feature or epic to plan — describe the requirement, goal, and affected modules (e.g. 'JWT auth with refresh tokens for FastAPI backend')
 ---
 

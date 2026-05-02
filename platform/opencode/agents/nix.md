@@ -2,13 +2,13 @@
 name: nix
 description: Observability & monitoring specialist — OpenTelemetry tracing, token/cost tracking, agent performance analytics, LangSmith integration. Sees what others cannot in the dark. Calls apollo for discovery. Sends work to temis for review.
 tools:
-  task: allow
-  question: allow
-  grep: allow
-  read: allow
-  edit: allow
-  bash: allow
-  webfetch: allow
+  task: true
+  question: true
+  grep: true
+  read: true
+  edit: true
+  bash: true
+  webfetch: true
 argument-hint: Set up agent observability, trace LLM calls, monitor costs, debug agent performance, or configure LangSmith
 ---
 

@@ -2,11 +2,11 @@
 name: apollo
 description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, maat. No edits, no commands."
 tools:
-  grep: allow
-  glob: allow
-  list: allow
-  read: allow
-  webfetch: allow
+  grep: true
+  glob: true
+  list: true
+  read: true
+  webfetch: true
 argument-hint: "What to find: files, patterns, existing implementations, or documentation references (e.g. 'all FastAPI routers in the auth module')"
 ---
 

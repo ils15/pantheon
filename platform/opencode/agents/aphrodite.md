@@ -2,12 +2,12 @@
 name: aphrodite
 description: Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD. Calls apollo as nested subagent to discover components. Sends work to temis for review.
 tools:
-  task: allow
-  question: allow
-  grep: allow
-  read: allow
-  edit: allow
-  bash: allow
+  task: true
+  question: true
+  grep: true
+  read: true
+  edit: true
+  bash: true
 argument-hint: "Frontend task: component, page, hook, or styling — include name, props, and UX behaviour (e.g. 'ProductCard with image, title, price and add-to-cart button')"
 ---
 

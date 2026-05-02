@@ -15,7 +15,7 @@
  *   node scripts/install.mjs --help                              # show help
  */
 
-import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync, readdirSync, statSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync, readdirSync, statSync, unlinkSync } from 'fs';
 import { join, dirname, basename, relative } from 'path';
 import { fileURLToPath } from 'url';
 import { execSync } from 'child_process';
@@ -241,11 +241,15 @@ function collectSkillNames() {
 }
 
 /**
- * Install skills to target project's .opencode/skills/ directory.
+ * Install skills to target project's skills directory.
+ * @param {string[]} skills - list of skill names
+ * @param {string} target - target project root
+ * @param {boolean} dryRun - dry-run mode
+ * @param {string} subDir - subdirectory for skills (e.g. '.opencode', '.claude', '.cursor')
  */
-function installSkills(skills, target, dryRun) {
+function installSkills(skills, target, dryRun, subDir = '.opencode') {
   const srcSkillsDir = join(ROOT, 'skills');
-  const dstSkillsDir = join(target, '.opencode', 'skills');
+  const dstSkillsDir = join(target, subDir, 'skills');
 
   let created = 0;
   let skipped = 0;
@@ -317,11 +321,9 @@ function installOpenCode(target, dryRun) {
   const skillNames = collectSkillNames();
   if (skillNames.length > 0) {
     console.log(`  📚 Installing ${skillNames.length} skills...`);
-    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun);
+    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.opencode');
     stats.created += sCreated;
     stats.skipped += sSkipped;
-  } else {
-    console.log('  ℹ️  No skills found to install');
   }
 
   // -----------------------------------------------------------------------
@@ -403,11 +405,29 @@ function installClaude(target, dryRun) {
   stats.created += created;
   stats.skipped += skipped;
 
-  // Create .claude/settings.json
+  // Install skills to .claude/skills/
+  const skillNames = collectSkillNames();
+  if (skillNames.length > 0) {
+    console.log(`  📚 Installing ${skillNames.length} skills...`);
+    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.claude');
+    stats.created += sCreated;
+    stats.skipped += sSkipped;
+  }
+
+  // Create .claude/settings.json with safe defaults
   const settingsPath = join(target, '.claude', 'settings.json');
   const settings = {
     permissions: {
-      allow: ['Bash(npm test *)', 'Bash(git *)'],
+      allow: [
+        'Bash(git *)',
+        'Bash(npm *)',
+        'Bash(npx *)',
+        'Bash(python *)',
+        'Bash(pip *)',
+        'Read',
+        'Grep',
+        'Glob',
+      ],
     },
   };
   const settingsContent = JSON.stringify(settings, null, 2) + '\n';
@@ -415,63 +435,75 @@ function installClaude(target, dryRun) {
   if (settingsStatus === 'created') stats.created++;
   else stats.skipped++;
 
-  // Create CLAUDE.md bridge file
+  // Create CLAUDE.md bridge with rich instructions
   const claudeMdPath = join(target, 'CLAUDE.md');
   const claudeMdContent = `# Pantheon Agent System
 
-This project uses the Pantheon multi-agent framework.
+This project uses the Pantheon multi-agent framework for AI-assisted development.
 
 ## Instructions
-Always read AGENTS.md for shared project conventions, architecture decisions, and coding standards.
 
-## Agents
-Custom agents are configured in \`.claude/agents/\`. Use @agent-name to invoke them.
+Always check AGENTS.md for shared project conventions and architecture decisions.
+
+## Available Agents
+
+| Agent | Role | When to use |
+|-------|------|-------------|
+| @zeus | Central orchestrator | Full feature orchestration, multi-agent coordination |
+| @athena | Strategic planner | Architecture decisions, implementation plans |
+| @apollo | Codebase discovery | Research, finding files, exploring patterns |
+| @hermes | Backend (FastAPI) | API endpoints, services, business logic |
+| @aphrodite | Frontend (React) | UI components, responsive design |
+| @maat | Database | Schema design, migrations, query optimization |
+| @temis | Quality & security | Code review, OWASP audit, coverage check |
+| @ra | Infrastructure | Docker, CI/CD, deployment |
+| @hefesto | AI pipelines | RAG, LangChain, vector search |
+| @quiron | Model routing | Provider configuration, cost optimization |
+| @eco | Conversational AI | NLU, dialogue flows, chatbots |
+| @nix | Observability | Monitoring, tracing, cost tracking |
+| @gaia | Remote sensing | LULC analysis, satellite imagery |
+| @iris | GitHub operations | Branches, PRs, issues, releases |
+| @mnemosyne | Documentation | Memory bank, ADRs, progress logging |
+| @talos | Hotfixes | Rapid bug fixes, CSS corrections |
+
+## Workflow
+
+Plan → Implement → Review → Commit (each phase requires approval)
+See .claude/agents/ for full agent definitions.
+Skills are in .claude/skills/.
 `;
   const claudeMdStatus = writeIfChanged(claudeMdPath, claudeMdContent, dryRun);
   if (claudeMdStatus === 'created') stats.created++;
   else stats.skipped++;
 
-  // Create AGENTS.md if it doesn't exist
+  // Create/sync AGENTS.md
   const agentsMdPath = join(target, 'AGENTS.md');
-  if (!existsSync(agentsMdPath)) {
-    const agentsMdContent = `# Agent System
+  const agentsMdContent = `# Pantheon Agent System
 
-This project uses the Pantheon multi-agent framework for AI-assisted development.
+This project uses the Pantheon multi-agent framework.
+
+## Commands
+
+- Build: \`npm run build\`
+- Test: \`npm test\`
+- Lint: \`npm run lint\`
+
+## Conventions
+
+- TDD: Write failing test first, then implement
+- Minimum 80% test coverage
+- Async/await on all I/O operations
+- Type hints on all functions
+- OWASP Top 10 compliance required
 
 ## Architecture
 
-The system includes 16 specialized agents:
-- **Zeus** — Central orchestrator
-- **Athena** — Strategic planner
-- **Apollo** — Codebase discovery & research
-- **Hermes** — Backend implementation (FastAPI)
-- **Aphrodite** — Frontend implementation (React)
-- **Maat** — Database design & optimization
-- **Temis** — Code review & quality assurance
-- **Ra** — Infrastructure & deployment
-- **Hefesto** — AI pipelines & RAG
-- **Quíron** — Model provider routing
-- **Eco** — Conversational AI
-- **Nix** — Observability & monitoring
-- **Gaia** — Remote sensing domain expert
-- **Iris** — GitHub operations
-- **Mnemosyne** — Documentation & memory
-- **Talos** — Hotfixes & rapid repairs
-
-## Invocation
-
-Use @agent-name to invoke any agent in supported editors.
-
-## Learn More
-
-See \`.claude/agents/\` for agent definitions.
+16 specialized agents coordinated by Zeus (orchestrator).
+See .claude/agents/ for definitions and CLAUDE.md for agent descriptions.
 `;
-    const agentsMdStatus = writeIfChanged(agentsMdPath, agentsMdContent, dryRun);
-    if (agentsMdStatus === 'created') stats.created++;
-    else stats.skipped++;
-  } else {
-    stats.skipped++;
-  }
+  const agentsStatus = writeIfChanged(agentsMdPath, agentsMdContent, dryRun);
+  if (agentsStatus === 'created') stats.created++;
+  else stats.skipped++;
 }
 
 /**
@@ -505,7 +537,7 @@ function installCursor(target, dryRun) {
   const skillNames = collectSkillNames();
   if (skillNames.length > 0) {
     console.log(`  📚 Installing ${skillNames.length} skills...`);
-    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun);
+    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.cursor');
     stats.created += sCreated;
     stats.skipped += sSkipped;
   }
@@ -558,75 +590,156 @@ This project uses the Pantheon multi-agent framework with 16 specialized agents.
 }
 
 /**
- * Install Windsurf platform.
- * - Copies platform/windsurf/agents/ → .windsurf/agents/
- * - Creates .windsurfrules convenience reference
+ * Install Windsurf (Cascade) platform.
+ * - Copies platform/windsurf/rules/ → .windsurf/rules/
+ * - Copies skills/ → .windsurf/skills/
+ * - Creates workflows/ → .windsurf/workflows/
+ * - Creates AGENTS.md with project rules
  */
 function installWindsurf(target, dryRun) {
   const stats = summary.windsurf;
 
-  // Source: platform/windsurf/agents/
-  const srcDir = join(PLATFORM_DIR, 'windsurf', 'agents');
+  // -----------------------------------------------------------------------
+  // 1. Install Cascade rules (replaces old agents/)
+  // -----------------------------------------------------------------------
+  const srcDir = join(PLATFORM_DIR, 'windsurf', 'rules');
   if (!sourceDirValid(srcDir)) {
-    console.warn(`  ⚠️  Source directory not found: ${srcDir}`);
+    console.warn(`  ⚠️  Rules source directory not found: ${srcDir}`);
     stats.errors++;
-    return;
+  } else {
+    const dstDir = join(target, '.windsurf', 'rules');
+    if (!dryRun) mkdirSync(dstDir, { recursive: true });
+
+    const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
+    stats.created += created;
+    stats.skipped += skipped;
   }
 
-  // Target: .windsurf/agents/
-  const dstDir = join(target, '.windsurf', 'agents');
-  if (!dryRun) mkdirSync(dstDir, { recursive: true });
+  // -----------------------------------------------------------------------
+  // 2. Install skills
+  // -----------------------------------------------------------------------
+  const skillNames = collectSkillNames();
+  if (skillNames.length > 0) {
+    console.log(`  📚 Installing ${skillNames.length} skills...`);
+    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.windsurf');
+    stats.created += sCreated;
+    stats.skipped += sSkipped;
+  }
 
-  const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
-  stats.created += created;
-  stats.skipped += skipped;
+  // -----------------------------------------------------------------------
+  // 3. Create workflows
+  // -----------------------------------------------------------------------
+  const workflowsDir = join(target, '.windsurf', 'workflows');
+  if (!dryRun) mkdirSync(workflowsDir, { recursive: true });
 
-  // Create .windsurfrules convenience reference
-  const rulesPath = join(target, '.windsurfrules');
-  const rulesContent = `# Pantheon Agent System — Windsurf (Cascade) Configuration
+  const orchestrateWorkflow = `# Orchestrate a feature with Pantheon agents
 
-This project uses the Pantheon multi-agent framework.
+Use this workflow to orchestrate a full feature implementation.
 
-## Getting Started
+1. Start by understanding the feature requirements
+2. Delegate to @zeus for full orchestration, or invoke specific agents:
+   - @athena for planning
+   - @apollo for codebase research
+   - @hermes for backend implementation
+   - @aphrodite for frontend implementation
+   - @maat for database changes
+   - @temis for code review and security audit
+   - @ra for infrastructure changes
+3. Review results and iterate as needed
+4. Run tests to verify: \`npm test\`
+`;
+  const orchestratePath = join(workflowsDir, 'orchestrate.md');
+  const orchStatus = writeIfChanged(orchestratePath, orchestrateWorkflow, dryRun);
+  if (orchStatus === 'created') stats.created++;
+  else stats.skipped++;
 
-Custom agents are configured in \`.windsurf/agents/\`. Cascade will automatically
-discover and make these agents available for invocation.
+  const reviewWorkflow = `# Code review with Temis
+
+Use this workflow to run a code review and security audit.
+
+1. Examine the recent changes (use \`git diff\` or @apollo)
+2. Invoke @temis for security audit and code quality review
+3. Apply any fixes identified
+4. Verify tests pass
+`;
+  const reviewPath = join(workflowsDir, 'code-review.md');
+  const reviewStatus = writeIfChanged(reviewPath, reviewWorkflow, dryRun);
+  if (reviewStatus === 'created') stats.created++;
+  else stats.skipped++;
+
+  // -----------------------------------------------------------------------
+  // 4. Create/update AGENTS.md
+  // -----------------------------------------------------------------------
+  const agentsMdPath = join(target, 'AGENTS.md');
+  const agentsMdContent = `# Pantheon Agent System — Windsurf (Cascade)
+
+This project uses the Pantheon multi-agent framework with 16 specialized agents.
 
 ## Available Agents
 
-${AGENT_NAMES.map(name => `- **${name.charAt(0).toUpperCase() + name.slice(1)}**`).join('\n')}
+| Agent | Role | How to invoke |
+|-------|------|---------------|
+| @zeus | Central orchestrator | Full feature orchestration |
+| @athena | Strategic planner | Architecture & planning |
+| @apollo | Codebase discovery | Research & exploration |
+| @hermes | Backend (FastAPI) | API implementation |
+| @aphrodite | Frontend (React) | UI components |
+| @maat | Database | Schema & optimization |
+| @temis | Quality & security | Code review |
+| @ra | Infrastructure | Docker & deployment |
+| @hefesto | AI pipelines | RAG & LangChain |
+| @quiron | Model routing | Provider configuration |
+| @eco | Conversational AI | NLU & dialogue |
+| @nix | Observability | Monitoring & tracing |
+| @gaia | Remote sensing | LULC analysis |
+| @iris | GitHub operations | PRs & releases |
+| @mnemosyne | Documentation | Memory bank |
+| @talos | Hotfixes | Rapid repairs |
+
+## Workflows
+
+- \`/orchestrate\` — Full feature orchestration
+- \`/code-review\` — Code review with Temis
 
 ## Commands
 
-Use @agent-name to invoke any agent in Cascade chat.
-
-For full documentation, see AGENTS.md in the project root.
+- Build: \`npm run build\`
+- Test: \`npm test\`
+- Lint: \`npm run lint\`
 `;
-  const rulesStatus = writeIfChanged(rulesPath, rulesContent, dryRun);
-  if (rulesStatus === 'created') stats.created++;
+  const agentsStatus = writeIfChanged(agentsMdPath, agentsMdContent, dryRun);
+  if (agentsStatus === 'created') stats.created++;
   else stats.skipped++;
+
+  // Remove legacy .windsurfrules if it exists
+  const legacyRulesPath = join(target, '.windsurfrules');
+  if (existsSync(legacyRulesPath) && !dryRun) {
+    try { unlinkSync(legacyRulesPath); } catch {}
+  }
 }
 
 /**
  * Install VS Code / Copilot platform.
- * - Creates symlinks or copies agents to .github/agents/
- * - Checks .vscode/settings.json for plugin configuration
+ * - Copies canonical agents to .github/agents/
+ * - Copies skills/ to .github/skills/
+ * - Configures .vscode/settings.json for plugin + subagents
  */
 function installCopilot(target, dryRun) {
   const stats = summary.copilot;
 
-  // Create .github/agents/ directory
-  const dstDir = join(target, '.github', 'agents');
-  if (!dryRun) mkdirSync(dstDir, { recursive: true });
+  // -----------------------------------------------------------------------
+  // 1. Copy canonical .agent.md files to .github/agents/
+  // -----------------------------------------------------------------------
+  const agentsDstDir = join(target, '.github', 'agents');
+  if (!dryRun) mkdirSync(agentsDstDir, { recursive: true });
 
-  // Copy canonical .agent.md files to .github/agents/
   const agentFiles = readdirSync(AGENTS_DIR)
     .filter(f => f.endsWith('.agent.md'))
     .sort();
 
   for (const agentFile of agentFiles) {
     const srcFile = join(AGENTS_DIR, agentFile);
-    const dstFile = join(dstDir, agentFile);
+    const dstFile = join(agentsDstDir, agentFile);
 
     if (!existsSync(srcFile)) continue;
 
@@ -644,35 +757,51 @@ function installCopilot(target, dryRun) {
     stats.created++;
   }
 
-  // Check .vscode/settings.json for plugin config
-  const vscodeSettingsPath = join(target, '.vscode', 'settings.json');
-  if (!existsSync(vscodeSettingsPath)) {
-    if (!dryRun) {
-      mkdirSync(join(target, '.vscode'), { recursive: true });
-    }
-    const settings = {
-      'chat.plugins.enabled': true,
-      'chat.subagents.allowInvocationsFromSubagents': true,
-    };
-    const settingsContent = JSON.stringify(settings, null, 2) + '\n';
-    const status = writeIfChanged(vscodeSettingsPath, settingsContent, dryRun);
-    if (status === 'created') stats.created++;
-    else stats.skipped++;
-  } else {
-    // Check if plugin config exists; warn if not
-    try {
-      const existingSettings = JSON.parse(readFileSync(vscodeSettingsPath, 'utf8'));
-      if (!existingSettings['chat.plugins.enabled']) {
-        console.log('  💡 Tip: Add "chat.plugins.enabled": true to .vscode/settings.json');
-      }
-      if (!existingSettings['chat.subagents.allowInvocationsFromSubagents']) {
-        console.log('  💡 Tip: Add "chat.subagents.allowInvocationsFromSubagents": true to .vscode/settings.json');
-      }
-    } catch {
-      console.log('  ⚠️  .vscode/settings.json exists but is not valid JSON');
-    }
-    stats.skipped++;
+  // -----------------------------------------------------------------------
+  // 2. Install skills to .github/skills/
+  // -----------------------------------------------------------------------
+  const skillNames = collectSkillNames();
+  if (skillNames.length > 0) {
+    console.log(`  📚 Installing ${skillNames.length} skills...`);
+    // For VS Code, skills need the .github/skills/ directory with SKILL.md
+    // Also reference them in plugin.json
+    const skillsDir = join(target, '.github', 'skills');
+    if (!dryRun) mkdirSync(skillsDir, { recursive: true });
+    // Copy skills using existing installSkills function
+    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.github');
+    stats.created += sCreated;
+    stats.skipped += sSkipped;
   }
+
+  // -----------------------------------------------------------------------
+  // 3. Configure .vscode/settings.json
+  // -----------------------------------------------------------------------
+  const vscodeSettingsPath = join(target, '.vscode', 'settings.json');
+  const vscodeDir = join(target, '.vscode');
+  if (!dryRun) mkdirSync(vscodeDir, { recursive: true });
+
+  let settings = {};
+  if (existsSync(vscodeSettingsPath)) {
+    try {
+      settings = JSON.parse(readFileSync(vscodeSettingsPath, 'utf8'));
+    } catch {
+      settings = {};
+    }
+  }
+
+  // Ensure plugin and subagent settings
+  settings['chat.plugins.enabled'] = true;
+  settings['chat.subagents.allowInvocationsFromSubagents'] = true;
+
+  // Add skill tool references if skills exist
+  if (skillNames.length > 0) {
+    settings['github.copilot.chat.skills'] = skillNames;
+  }
+
+  const settingsContent = JSON.stringify(settings, null, 2) + '\n';
+  const status = writeIfChanged(vscodeSettingsPath, settingsContent, dryRun);
+  if (status === 'created') stats.created++;
+  else stats.skipped++;
 }
 
 // ---------------------------------------------------------------------------
@@ -732,30 +861,36 @@ function printSummary(target, platforms) {
   if (platforms.includes('claude')) {
     console.log('  Claude Code:');
     console.log(`    - Run \`claude\` in ${target}`);
-    console.log('    - Agents are in .claude/agents/');
+    console.log('    - Agents in .claude/agents/');
+    console.log('    - Skills in .claude/skills/');
     console.log('    - Settings in .claude/settings.json');
     console.log('');
   }
 
   if (platforms.includes('cursor')) {
     console.log('  Cursor:');
-    console.log(`    - Rules are in .cursor/rules/`);
-    console.log('    - Use @agent-name in Cursor Composer');
+    console.log(`    - Rules in .cursor/rules/ (.mdc format)`);
+    console.log('    - Skills in .cursor/skills/');
+    console.log('    - AGENTS.md in project root');
+    console.log('    - Use @agent-name in Agent mode');
     console.log('');
   }
 
   if (platforms.includes('windsurf')) {
-    console.log('  Windsurf:');
-    console.log(`    - Agents are in .windsurf/agents/`);
-    console.log('    - Cascade auto-discovers agents');
+    console.log('  Windsurf (Cascade):');
+    console.log(`    - Rules in .windsurf/rules/`);
+    console.log('    - Skills in .windsurf/skills/');
+    console.log('    - Workflows in .windsurf/workflows/ (/orchestrate, /code-review)');
+    console.log('    - AGENTS.md in project root');
     console.log('');
   }
 
   if (platforms.includes('copilot')) {
     console.log('  VS Code / Copilot:');
-    console.log(`    - Agents are in .github/agents/`);
+    console.log(`    - Agents in .github/agents/`);
     console.log('    - Ensure .vscode/settings.json has plugin config');
     console.log('    - Use @agent-name in VS Code Copilot Chat');
+    console.log('    - Plugin manifest in plugin.json');
     console.log('');
   }
 
