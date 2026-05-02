@@ -14,7 +14,7 @@ Pantheon follows **Semantic Versioning** based on [Conventional Commits](https:/
 | `feat:` | **MINOR** (x.y.0) |
 | `fix:`, `chore:`, `docs:`, `refactor:`, etc. | **PATCH** (x.y.z) |
 
-Current version: **v2.9.0**
+Current version: **v3.4.0**
 
 ---
 
@@ -39,12 +39,22 @@ These update all 3 manifest files: `package.json`, `plugin.json`, `.github/plugi
 
 ## Release Workflow
 
-### Step-by-step
+### 🚀 Automatic (recommended)
+
+**No manual steps needed.** Just merge your PR to `main`:
+
+1. [auto-release.yml](../.github/workflows/auto-release.yml) detects the merge
+2. Analyzes conventional commits since the last tag → determines bump (`major`/`minor`/`patch`)
+3. Updates version in `package.json`, `plugin.json`, `.github/plugin/plugin.json`
+4. Regenerates all platform configs (`npm run sync`)
+5. Commits the bump with `[skip ci]` and creates a git tag `vX.Y.Z`
+6. Tag push triggers [release.yml](../.github/workflows/release.yml) which creates the **GitHub Release**
+
+### 🖐️ Manual (if needed)
 
 ```bash
 # 1. Ensure platforms are in sync
-npm run sync
-npm run sync:check
+npm run sync && npm run sync:check
 
 # 2. Check recommended version
 npm run version:recommend
@@ -65,10 +75,12 @@ git push && git push --tags
 
 ### What CI does
 
-The [release.yml](../.github/workflows/release.yml) workflow:
-1. Runs `npm run sync` to regenerate platform configs
-2. Extracts release notes from `CHANGELOG.md` for the tagged version
-3. Creates a **GitHub Release** with notes and source code
+| Workflow | Trigger | Action |
+|---|---|---|
+| [auto-release.yml](../.github/workflows/auto-release.yml) | Push to `main` | Bumps version, regenerates platforms, creates tag |
+| [release.yml](../.github/workflows/release.yml) | Tag push (`v*`) | Syncs platforms, extracts CHANGELOG notes, builds bundle, creates GitHub Release |
+| [tag-version-sync.yml](../.github/workflows/tag-version-sync.yml) | Tag push (`v*`) | Validates that manifests match the tag |
+| [release-drafter.yml](../.github/workflows/release-drafter.yml) | Push to `main` | Drafts release notes from PR labels |
 
 ---
 
@@ -88,7 +100,7 @@ Users can consume Pantheon in several ways:
 
 ## Release Assets
 
-Starting from v2.10.0, each release includes:
+Each release includes:
 
 | Asset | Description |
 |---|---|
