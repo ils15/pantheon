@@ -13,21 +13,21 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 #### 🔒 Per-Agent Security Model
 - **Per-agent `temperature` + `steps`** configurados no `opencode.json` para todos os 16 agentes — Athena 0.1 (precisão), Aphrodite 0.5 (criatividade), Talos 3 steps (hotfix rápido), Zeus 25 steps (orquestração completa).
-- **Per-agent bash permissions** — 7 agentes com permissões restritas: Zeus (task only), Athena/Apollo/Gaia (read-only), Temis (pytest/ruff/grep apenas), Iris (git/gh apenas), Talos (git add/prettier apenas), Mnemosyne (sem bash), Nix (pip/pytest apenas).
+- **Per-agent bash permissions** — 7 agentes com permissões restritas: Zeus (task only), Athena/Apollo/Gaia (read-only), Themis (pytest/ruff/grep apenas), Iris (git/gh apenas), Talos (git add/prettier apenas), Mnemosyne (sem bash), Nyx (pip/pytest apenas).
 - **Global bash permissions** com 3 tiers: `allow` (git, npm, pytest, ruff, docker, gh), `ask` (rm, mv, cp, chmod, sudo), `deny` (rm -rf, dd, mkfs, fdisk).
-- **Anti-Rationalization Tables** — Hermes, Aphrodite e Maat agora rejeitam 6 racionalizações comuns (pular TDD, "vou testar depois", "cobertura já está boa").
+- **Anti-Rationalization Tables** — Hermes, Aphrodite e Demeter agora rejeitam 6 racionalizações comuns (pular TDD, "vou testar depois", "cobertura já está boa").
 
 #### 🧩 DAG Wave Execution
 - **Zeus** documenta orquestração por DAG (Directed Acyclic Graph) — tasks independentes rodam em waves paralelas.
-- Wave 1: maat-schema + apollo-research; Wave 2: hermes-backend + aphrodite-frontend; Wave 3: integração real; Wave 4: temis-review; Wave 5: ra-deploy.
+- Wave 1: demeter-schema + apollo-research; Wave 2: hermes-backend + aphrodite-frontend; Wave 3: integração real; Wave 4: themis-review; Wave 5: prometheus-deploy.
 - Redução de ~50% no tempo total vs execução sequencial.
 
 #### 🧠 Learning Routing Triple
 - Framework de organização de memória em 3 categorias: **Facts** → `/memories/repo/` (auto-carregado), **Patterns** → `skills/` (on-demand), **Conventions** → `.github/copilot-instructions.md` (sempre em contexto).
 - Regra: "Se encontrar conteúdo na categoria errada, mova. Não duplique."
 
-#### 🪞 Self-Reflection Quality Gate (Temis)
-- Temis se autoavalia em 6 categorias (1-10): Correctness, Coverage, Security, Performance, Completeness, Clarity.
+#### 🪞 Self-Reflection Quality Gate (Themis)
+- Themis se autoavalia em 6 categorias (1-10): Correctness, Coverage, Security, Performance, Completeness, Clarity.
 - Nota <7 em qualquer categoria → NEEDS_REVISION automático.
 - **Review Scope Levels** adicionados: Plan (~2min), Wave (~5min), Task (~3min), Final (~10min).
 
@@ -48,8 +48,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 - Estrutura de plugin documentada em `platform/opencode/README.md`.
 - Compatibilidade: VS Code (full), OpenCode (full), Claude Code (manual), Cursor (conversão).
 
-#### 🛡️ Agent-Scoped Hooks (Temis)
-- Temis ganhou `hooks: PostToolUse` no frontmatter YAML — formatação automática pós-edição.
+#### 🛡️ Agent-Scoped Hooks (Themis)
+- Themis ganhou `hooks: PostToolUse` no frontmatter YAML — formatação automática pós-edição.
 
 #### 📚 Model Selection Priority Chain
 - Documentada no AGENTS.md: 1) Modelo explícito → 2) Modelo configurado no agente → 3) Modelo da conversa.
@@ -58,8 +58,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - **Skills** — Todos os 27 skills agora têm `context: fork` (skills >200 linhas rodam em subagente isolado) + `argument-hint` (dica no slash command) + `globs` + `alwaysApply: false` (carregamento inteligente por contexto).
-- **Agentes** — Hermes, Aphrodite, Maat, Ra e Temis ganharam `#tool:` references no body text para clareza de ferramentas.
-- **Gaia** — Adicionado `agents: ['apollo']` + handoffs YAML (temis + athena) + "Calls apollo... Sends work to temis" na description.
+- **Agentes** — Hermes, Aphrodite, Demeter, Prometheus e Themis ganharam `#tool:` references no body text para clareza de ferramentas.
+- **Gaia** — Adicionado `agents: ['apollo']` + handoffs YAML (themis + athena) + "Calls apollo... Sends work to themis" na description.
 - **opencode.json** — Config removido `model` hardcoded (não fixa modelo), adicionado `temperature` + `steps` por agente.
 - **Global skill corrigido** — 8 ocorrências do bug Athena→Aphrodite no `~/.config/opencode/skills/orchestration-workflow/SKILL.md`.
 - **plugin.json** — Descrição atualizada de "12 agents, 18 skills" para "16 agents, 27 skills"; lista de skills expandida com 9 novos skills.
@@ -198,7 +198,7 @@ Body-level permission blocks removed from OpenCode agents (using frontmatter `pe
 |---|---|
 | **Athena** | Added `search/fileSearch`, `search/textSearch`, `search/listDirectory`, `read/readFile` — planner was under-tooled for codebase discovery |
 | **Iris** | Added `search/changes` — needed for git-aware GitHub workflows |
-| **Ra** | Removed `execute/createAndRunTask` — VS Code-local task runner, not portable |
+| **Prometheus** | Removed `execute/createAndRunTask` — VS Code-local task runner, not portable |
 | **Talos** | Removed `vscode/runCommand` — VS Code-local command, not portable |
 | **Gaia** | Added `vscode/askQuestions` — allows interactive clarification as domain expert |
 | **Mnemosyne** | Added `agent` — enables bounded delegation for documentation tasks |
@@ -217,7 +217,7 @@ All 64 platform files (16 agents × 4 platforms) regenerated and validated — `
 
 #### 📝 **AGENTS.md tool tables aligned to canonical reality**
 
-- Corrected Athena, Ra, Talos, Iris, Gaia tool lists
+- Corrected Athena, Prometheus, Talos, Iris, Gaia tool lists
 - Fixed Iris: removed `mcp_github2_*` references (platform MCP, not canonical); replaced `agent/askQuestions` with `vscode/askQuestions`
 
 ### Versioning
@@ -302,10 +302,10 @@ Pantheon now supports **5 AI coding platforms** from a single canonical agent so
 
 | Agent | Domain | Specialty |
 |-------|--------|-----------|
-| **Hefesto** | AI tooling & pipelines | RAG, LangChain/LangGraph chains, vector stores, embeddings |
-| **Quíron** | Model provider hub | Multi-model routing, AWS Bedrock, cost optimization, local inference |
-| **Eco** | Conversational AI | Rasa NLU pipelines, dialogue management, intent/entity design |
-| **Nix** | Observability & monitoring | OpenTelemetry tracing, token/cost tracking, LangSmith, analytics |
+| **Hephaestus** | AI tooling & pipelines | RAG, LangChain/LangGraph chains, vector stores, embeddings |
+| **Chiron** | Model provider hub | Multi-model routing, AWS Bedrock, cost optimization, local inference |
+| **Echo** | Conversational AI | Rasa NLU pipelines, dialogue management, intent/entity design |
+| **Nyx** | Observability & monitoring | OpenTelemetry tracing, token/cost tracking, LangSmith, analytics |
 
 Total agents: **12 → 16**
 
@@ -313,15 +313,15 @@ Total agents: **12 → 16**
 
 | Skill | Domain | Agents |
 |-------|--------|--------|
-| `rag-pipelines` | AI — RAG architecture, chunking, embedding strategies | Hefesto |
-| `vector-search` | AI — Vector databases, similarity search, hybrid retrieval | Hefesto |
-| `mcp-server-development` | AI — MCP protocol, tool/resource definition | Hefesto, Quíron, Nix |
-| `multi-model-routing` | AI — Provider abstraction, cost routing, fallback | Quíron, Hefesto |
-| `agent-observability` | Ops — OpenTelemetry, Prometheus, cost tracking | Nix, Quíron |
-| `streaming-patterns` | Ops — SSE, WebSocket, LLM token streaming | Nix |
-| `conversational-ai-design` | AI — Rasa NLU, dialogue management, stories | Eco |
-| `prompt-injection-security` | Security — Jailbreak detection, guardrails, red-teaming | Temis, Eco |
-| `agent-evaluation` | QA — Hallucination detection, behavioral testing | Hefesto, Temis |
+| `rag-pipelines` | AI — RAG architecture, chunking, embedding strategies | Hephaestus |
+| `vector-search` | AI — Vector databases, similarity search, hybrid retrieval | Hephaestus |
+| `mcp-server-development` | AI — MCP protocol, tool/resource definition | Hephaestus, Chiron, Nyx |
+| `multi-model-routing` | AI — Provider abstraction, cost routing, fallback | Chiron, Hephaestus |
+| `agent-observability` | Ops — OpenTelemetry, Prometheus, cost tracking | Nyx, Chiron |
+| `streaming-patterns` | Ops — SSE, WebSocket, LLM token streaming | Nyx |
+| `conversational-ai-design` | AI — Rasa NLU, dialogue management, stories | Echo |
+| `prompt-injection-security` | Security — Jailbreak detection, guardrails, red-teaming | Themis, Echo |
+| `agent-evaluation` | QA — Hallucination detection, behavioral testing | Hephaestus, Themis |
 
 Total skills: **18 → 27**
 
@@ -350,7 +350,7 @@ New documentation architecture with platform separation:
 
 #### ⚡ Agent Enhancements
 
-- **Zeus** — New handoffs for Hefesto, Quíron, Eco, Nix; updated parallel execution patterns
+- **Zeus** — New handoffs for Hephaestus, Chiron, Echo, Nyx; updated parallel execution patterns
 - **Gaia** — Fixed missing YAML frontmatter in remote-sensing-analysis skill
 
 ---
@@ -412,8 +412,8 @@ Pantheon now ships agents for both **GitHub Copilot (VS Code)** and **[opencode]
   - **Athena** → calls `apollo` for complex architectural research (isolation of discovery context)
   - **Hermes** → calls `apollo` to discover existing backend patterns and implementations
   - **Aphrodite** → calls `apollo` to locate existing components and design patterns
-  - **Maat** → calls `apollo` to find optimization opportunities and query patterns
-  - **Ra** → calls `apollo` to discover infrastructure patterns and deployment strategies
+  - **Demeter** → calls `apollo` to find optimization opportunities and query patterns
+  - **Prometheus** → calls `apollo` to discover infrastructure patterns and deployment strategies
 
 **Benefits:**
 - **Context isolation**: Each nested agent works in a clean context window without inheriting parent's state
@@ -438,8 +438,8 @@ Hermes (implementing backend):
 - **Athena**: "research-first, plan-only → research-first, plan-only, **Calls apollo as nested subagent for complex discovery**"
 - **Hermes**: Added "**Calls apollo as nested subagent to discover patterns**"
 - **Aphrodite**: Added "**Calls apollo as nested subagent to discover components**"
-- **Maat**: Added "**Calls apollo as nested subagent for optimization patterns**"
-- **Ra**: Added "**Calls apollo as nested subagent for pattern discovery**"
+- **Demeter**: Added "**Calls apollo as nested subagent for optimization patterns**"
+- **Prometheus**: Added "**Calls apollo as nested subagent for pattern discovery**"
 
 #### Settings Configuration
 - `.vscode/settings.json` — Added `chat.subagents.allowInvocationsFromSubagents: true` to enable recursive agent delegation
@@ -453,15 +453,15 @@ Hermes (implementing backend):
 ### Technical Details
 
 #### Files Modified
-- `agents/athena.agent.md` — Frontmatter: `agents: ['apollo']` (removed mnemosyne, temis handoffs)
+- `agents/athena.agent.md` — Frontmatter: `agents: ['apollo']` (removed mnemosyne, themis handoffs)
 - `agents/hermes.agent.md` — Frontmatter: `agents: ['apollo']` (removed mnemosyne from nested agents list)
 - `agents/aphrodite.agent.md` — Frontmatter: `agents: ['apollo']` (changed from `['apollo', 'mnemosyne']`)
-- `agents/maat.agent.md` — Frontmatter: `agents: ['apollo']` (changed from `['apollo', 'mnemosyne']`)
-- `agents/ra.agent.md` — Frontmatter: `agents: ['apollo']` (changed from `['mnemosyne']`)
+- `agents/demeter.agent.md` — Frontmatter: `agents: ['apollo']` (changed from `['apollo', 'mnemosyne']`)
+- `agents/prometheus.agent.md` — Frontmatter: `agents: ['apollo']` (changed from `['mnemosyne']`)
 - `.vscode/settings.json` — New setting: `chat.subagents.allowInvocationsFromSubagents: true`
 - `package.json` — Version 2.8.1 → 2.8.2, description updated
 
-**Rationale**: Handoffs (temis, mnemosyne) are explicitly called via `handoffs` property and should NOT appear in `agents` list. Only async helper agents (apollo) that agents can autonomously invoke belong in `agents`.
+**Rationale**: Handoffs (themis, mnemosyne) are explicitly called via `handoffs` property and should NOT appear in `agents` list. Only async helper agents (apollo) that agents can autonomously invoke belong in `agents`.
 
 ---
 
@@ -473,7 +473,7 @@ Hermes (implementing backend):
 - **Agent Tool References** — Updated all agent YAML frontmatter to use correct VS Code Copilot tool names:
   - Replaced deprecated `agent/askQuestions` with `vscode/askQuestions` (19 total occurrences across 7 agents)
   - Refactored browser operations to use `browser/*` namespace (`browser/openBrowserPage`, `browser/navigatePage`, `browser/readPage`, `browser/screenshotPage`)
-  - Cleaned up tool declarations in: Zeus, Iris, Athena, Temis, Ra, Aphrodite, Maat, Apollo
+  - Cleaned up tool declarations in: Zeus, Iris, Athena, Themis, Prometheus, Aphrodite, Demeter, Apollo
 
 - **Model Priority Update** — Optimized Claude Haiku 4.5 as primary model (first fallback):
   - `agents/apollo.agent.md` — `['Claude Haiku 4.5 (copilot)', 'Gemini 3 Flash (Preview) (copilot)']`
@@ -483,7 +483,7 @@ Hermes (implementing backend):
   **Rationale:** Fast models (Haiku, Gemini Flash) optimized for shallow discovery and rapid iteration; maintains fallback to GPT-5.4/Sonnet for complex reasoning.
 
 **Files changed:** 9
-- agents/aphrodite.agent.md, apollo.agent.md, athena.agent.md, iris.agent.md, ra.agent.md, temis.agent.md, zeus.agent.md
+- agents/aphrodite.agent.md, apollo.agent.md, athena.agent.md, iris.agent.md, prometheus.agent.md, themis.agent.md, zeus.agent.md
 - docs/memory-bank/04-active-context.md
 - prompts/quick-plan-large-feature.prompt.md
 
@@ -532,7 +532,7 @@ Hermes (implementing backend):
 #### Agent-Hook Integration Documentation
 - Updated `AGENTS.md` with "Agent Collaboration with Hooks" section:
   - Table showing which hooks each agent inherits
-  - Use cases per agent (Hermes, Aphrodite, Maat, Ra, Temis, Iris)
+  - Use cases per agent (Hermes, Aphrodite, Demeter, Prometheus, Themis, Iris)
   - Explanation that hook execution is automatic when agent is active
 - Updated `.github/copilot-instructions.md` with:
   - Multi-language formatter descriptions
@@ -569,16 +569,16 @@ Hermes (implementing backend):
 
 ### Changed
 
-#### Quality Gate Optimization (@temis)
-- Redesigned `@temis` (Quality & Security Gate) to run **lightweight quality checks on changed files only**:
+#### Quality Gate Optimization ()
+- Redesigned `` (Quality & Security Gate) to run **lightweight quality checks on changed files only**:
   - Trailing whitespace detection (grep-based, BLOCKER)
   - Hard tabs in Python detection (grep-based, BLOCKER)
   - Wild imports detection (`from X import *`, MEDIUM severity)
   - Optional tool-based checks (ruff, black, isort, eslint, prettier) when installed
 - Removed dependency on `git diff` — implementation agents now provide changed files list directly
 - Maintains OWASP Top 10, >80% coverage, and security validation in manual review
-- Updated documentation across `agents/temis.agent.md`, `AGENTS.md`, `README.md`, and `.github/copilot-instructions.md`
-- Reduced @temis execution time to ~30 seconds for typical phases
+- Updated documentation across `agents/themis.agent.md`, `AGENTS.md`, `README.md`, and `.github/copilot-instructions.md`
+- Reduced  execution time to ~30 seconds for typical phases
 
 ---
 
@@ -614,19 +614,19 @@ Hermes (implementing backend):
 
 #### Hardening Final (Model + Browser + Consistency)
 - Standardized model routing across all core agents to the modern baseline:
-  - Zeus, Athena, Hermes, Maat, Temis, Ra, Iris: `GPT-5.4` primary + `Claude Opus 4.6` fallback
+  - Zeus, Athena, Hermes, Demeter, Themis, Prometheus, Iris: `GPT-5.4` primary + `Claude Opus 4.6` fallback
   - Aphrodite: `Gemini 3.1 Pro` primary + `GPT-5.4` fallback
   - Talos: `Claude Haiku 4.5` primary + `GPT-5.4` fallback
   - Gaia: `Claude Sonnet 4.6` primary + `GPT-5.4` fallback
   - Apollo and Mnemosyne unchanged by role design (fast discovery/docs focus)
-- Added explicit plan-validation lane in orchestration: Athena drafts, Temis validates plan quality/risk/test strategy, Zeus executes only after approval.
+- Added explicit plan-validation lane in orchestration: Athena drafts, Themis validates plan quality/risk/test strategy, Zeus executes only after approval.
 - Completed browser modernization to VS Code native integrated browser tools for UI discovery/validation workflows.
 
 #### Agent and Tooling Updates
 - **`agents/aphrodite.agent.md`** — Expanded integrated browser toolkit with:
   - `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `typeInPage`, `hoverElement`, `dragElement`, `handleDialog`, `screenshotPage`
   - clear enablement steps (`workbench.browser.enableChatTools=true` + Share with Agent)
-- **`agents/temis.agent.md`** — Added integrated browser validation flow for critical UI/user-journey review evidence.
+- **`agents/themis.agent.md`** — Added integrated browser validation flow for critical UI/user-journey review evidence.
 - **`agents/apollo.agent.md`** — Added integrated browser reconnaissance support for live-page evidence during discovery.
 
 #### Documentation Synchronization

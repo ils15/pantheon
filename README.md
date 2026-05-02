@@ -97,24 +97,24 @@ flowchart TD
     end
 
     subgraph AI["AI Infrastructure"]
-        Hefesto["Hefesto<br/>AI Pipelines<br/>RAG / LangChain"]:::ai
-        Quiron["Quíron<br/>Model Routing<br/>Provider Hub"]:::ai
-        Eco["Eco<br/>Conversational AI<br/>Rasa NLU"]:::ai
+        Hephaestus["Hephaestus<br/>AI Pipelines<br/>RAG / LangChain"]:::ai
+        Chiron["Chiron<br/>Model Routing<br/>Provider Hub"]:::ai
+        Echo["Echo<br/>Conversational AI<br/>Rasa NLU"]:::ai
     end
 
     subgraph Impl["Implementation<br/>Parallel Execution"]
         Hermes["Hermes<br/>Backend APIs"]:::executor
         Aphrodite["Aphrodite<br/>Frontend UI"]:::executor
-        Maat["Maat<br/>Database"]:::executor
+        Demeter["Demeter<br/>Database"]:::executor
     end
 
     subgraph Quality["Quality & Observability"]
-        Temis["Temis<br/>Security & Coverage Audit"]:::qa
-        Nix["Nix<br/>Observability<br/>Tracing & Cost"]:::qa
+        Themis["Themis<br/>Security & Coverage Audit"]:::qa
+        Nyx["Nyx<br/>Observability<br/>Tracing & Cost"]:::qa
     end
 
     subgraph Deploy["Deployment & Release"]
-        Ra["Ra<br/>Infrastructure<br/>Docker / CI/CD"]:::infra
+        Prometheus["Prometheus<br/>Infrastructure<br/>Docker / CI/CD"]:::infra
         Iris["Iris<br/>GitHub Operations<br/>PR / Release"]:::ops
         Mnemosyne["Mnemosyne<br/>Documentation<br/>Memory Bank"]:::ops
     end
@@ -135,19 +135,19 @@ flowchart TD
     Gate1 -->|Approved| Zeus
 
     Zeus -->|"Phase 2 (AI Infrastructure)"| AI
-    Hefesto & Quiron & Eco --> Zeus
+    Hephaestus & Chiron & Echo --> Zeus
 
     Zeus -->|"Phase 3 (Implementation)"| Impl
-    Hermes & Aphrodite & Maat --> Quality
+    Hermes & Aphrodite & Demeter --> Quality
 
     Impl -.->|Nested Apollo| Apollo
 
-    Nix --> Temis
-    Temis --> Gate2
+    Nyx --> Themis
+    Themis --> Gate2
     Gate2 -->|Approved| Zeus
 
     Zeus -->|"Phase 4 (Deploy & Release)"| Deploy
-    Ra & Iris & Mnemosyne --> Gate3
+    Prometheus & Iris & Mnemosyne --> Gate3
     Gate3 -->|"git commit"| User
 
     User -.->|"/fix"| Express
@@ -185,7 +185,7 @@ Pantheon runs on 5 platforms. Here is how each supports the framework's key feat
 | Gate | Phase | What happens |
 |---|---|---|
 | **Gate 1** | After planning | Athena presents a phased TDD plan. You review and approve (or request changes) before any code is written. |
-| **Gate 2** | After implementation & review | Temis audits all changed files for OWASP compliance, coverage >80%, and quality. You validate items only you can judge. |
+| **Gate 2** | After implementation & review | Themis audits all changed files for OWASP compliance, coverage >80%, and quality. You validate items only you can judge. |
 | **Gate 3** | After deployment prep | Agent suggests a commit message. You execute `git commit` manually and decide when to merge. |
 
 ---
@@ -268,21 +268,21 @@ Planning & Discovery
   └── Apollo — parallel codebase & web research (read-only)
 
 AI Infrastructure (v3)
-  ├── Hefesto — AI pipelines: RAG, LangChain/LangGraph, vector stores
-  ├── Quíron — model routing: providers, fallback, cost optimization
-  └── Eco — conversational AI: Rasa NLU, dialogue management
+  ├── Hephaestus — AI pipelines: RAG, LangChain/LangGraph, vector stores
+  ├── Chiron — model routing: providers, fallback, cost optimization
+  └── Echo — conversational AI: Rasa NLU, dialogue management
 
 Implementation (Parallel Executors)
   ├── Hermes — backend: FastAPI, async, type-safe APIs
   ├── Aphrodite — frontend: React, TypeScript, WCAG accessibility
-  └── Maat — database: SQLAlchemy, Alembic, query optimization
+  └── Demeter — database: SQLAlchemy, Alembic, query optimization
 
 Quality & Observability
-  ├── Temis — code review, OWASP security audit, coverage gate
-  └── Nix — observability: OpenTelemetry, token/cost tracking
+  ├── Themis — code review, OWASP security audit, coverage gate
+  └── Nyx — observability: OpenTelemetry, token/cost tracking
 
 Infrastructure, Deployment & Release
-  ├── Ra — infrastructure: Docker, CI/CD, deployment
+  ├── Prometheus — infrastructure: Docker, CI/CD, deployment
   ├── Iris — GitHub: branches, PRs, releases, issues
   └── Mnemosyne — memory: project docs, ADRs, sprint close
 
@@ -323,24 +323,24 @@ graph TB
     end
 
     subgraph AI["AI Infrastructure"]
-        H["Hefesto<br/>AI Pipelines"]:::tier1b
-        Q["Quíron<br/>Model Routing"]:::tier1b
-        E["Eco<br/>Conversational AI"]:::tier1b
+        H["Hephaestus<br/>AI Pipelines"]:::tier1b
+        Q["Chiron<br/>Model Routing"]:::tier1b
+        E["Echo<br/>Conversational AI"]:::tier1b
     end
 
     subgraph T2["Implementation"]
         I1["Hermes<br/>Backend"]:::tier2
         I2["Aphrodite<br/>Frontend"]:::tier2
-        I3["Maat<br/>Database"]:::tier2
+        I3["Demeter<br/>Database"]:::tier2
     end
 
     subgraph T3["Quality"]
-        T1a["Temis<br/>Security & Review"]:::tier3
-        N["Nix<br/>Observability"]:::tier3
+        T1a["Themis<br/>Security & Review"]:::tier3
+        N["Nyx<br/>Observability"]:::tier3
     end
 
     subgraph T4["Infrastructure & Release"]
-        R["Ra<br/>Infrastructure"]:::tier4
+        R["Prometheus<br/>Infrastructure"]:::tier4
         I["Iris<br/>GitHub Ops"]:::tier4
         M["Mnemosyne<br/>Memory"]:::tier4
     end
@@ -399,9 +399,9 @@ your subscription plan:
 
 | Tier | Purpose | Example Agents | Typical Models |
 |------|---------|---------------|----------------|
-| `fast` | Quick, cheap ops | Apollo, Iris, Mnemosyne, Talos, Nix | DeepSeek V4 Flash, Gemini Flash |
-| `default` | Balanced quality/speed | Hermes, Aphrodite, Maat, Ra, Eco | Claude Sonnet, GPT-5, Kimi K2 |
-| `premium` | Deep reasoning, critical | Zeus, Athena, Temis | Claude Opus, Kimi K2.6, GPT-5.4 |
+| `fast` | Quick, cheap ops | Apollo, Iris, Mnemosyne, Talos, Nyx | DeepSeek V4 Flash, Gemini Flash |
+| `default` | Balanced quality/speed | Hermes, Aphrodite, Demeter, Prometheus, Echo | Claude Sonnet, GPT-5, Kimi K2 |
+| `premium` | Deep reasoning, critical | Zeus, Athena, Themis | Claude Opus, Kimi K2.6, GPT-5.4 |
 
 Plan configurations live in `platform/plans/` with 16+ pre-configured options:
 
@@ -473,8 +473,8 @@ Once agents are loaded in your editor, invoke the orchestrator:
 
 Zeus will:
 1. Ask Athena to plan the architecture (approval gate)
-2. Deploy parallel AI infrastructure + implementation (Hefesto + Hermes + Aphrodite + Maat)
-3. Have Nix instrument + Temis review all code (approval gate)
+2. Deploy parallel AI infrastructure + implementation (Hephaestus + Hermes + Aphrodite + Demeter)
+3. Have Nyx instrument + Themis review all code (approval gate)
 4. Prepare deployment and commit (approval gate)
 
 ---
@@ -499,17 +499,17 @@ pantheon/
 │   ├── apollo.agent.md        — codebase & web discovery
 │   ├── hermes.agent.md        — backend APIs
 │   ├── aphrodite.agent.md     — frontend UI
-│   ├── maat.agent.md          — database
-│   ├── temis.agent.md         — quality & security review
-│   ├── ra.agent.md            — infrastructure
+│   ├── demeter.agent.md          — database
+│   ├── themis.agent.md         — quality & security review
+│   ├── prometheus.agent.md            — infrastructure
 │   ├── iris.agent.md          — GitHub operations
 │   ├── mnemosyne.agent.md     — memory & documentation
 │   ├── talos.agent.md         — hotfixes
 │   ├── gaia.agent.md          — remote sensing
-│   ├── hefesto.agent.md       — AI pipelines
-│   ├── quiron.agent.md        — model routing
-│   ├── eco.agent.md           — conversational AI
-│   ├── nix.agent.md           — observability
+│   ├── hephaestus.agent.md       — AI pipelines
+│   ├── chiron.agent.md        — model routing
+│   ├── echo.agent.md           — conversational AI
+│   ├── nyx.agent.md           — observability
 │   └── README.md
 │
 ├── skills/                    — 27 skill modules
@@ -644,11 +644,11 @@ pantheon/
 User → Zeus: "Implement email verification"
 
 1. PLAN:       Zeus → Athena → Apollo → Athena → USER (approve gate 1)
-2. AI INFRA:   Zeus → Hefesto/Quíron/Eco (if AI components needed)
-3. BUILD:      Zeus → Hermes + Aphrodite + Maat (parallel execution)
-4. OBSERVE:    Nix instruments tracing, cost, and metrics
-5. REVIEW:     Temis audits all code → USER (approve gate 2)
-6. DEPLOY:     Ra (infra) + Iris (release) + Mnemosyne (docs)
+2. AI INFRA:   Zeus → Hephaestus/Chiron/Echo (if AI components needed)
+3. BUILD:      Zeus → Hermes + Aphrodite + Demeter (parallel execution)
+4. OBSERVE:    Nyx instruments tracing, cost, and metrics
+5. REVIEW:     Themis audits all code → USER (approve gate 2)
+6. DEPLOY:     Prometheus (infra) + Iris (release) + Mnemosyne (docs)
 7. COMMIT:     USER (git commit gate 3)
 ```
 
@@ -660,12 +660,12 @@ Agents can also be invoked directly for focused tasks:
 @apollo: Find all authentication-related files and usages
 @hermes: Create POST /products endpoint with cursor pagination
 @aphrodite: Refactor ProductCard for WCAG AA compliance
-@maat: Analyze and fix N+1 queries on orders table
-@hefesto: Build a RAG pipeline with pgvector for product docs
-@quiron: Configure AWS Bedrock with Claude fallback
-@eco: Design an NLU pipeline for customer support chatbot
-@nix: Set up OpenTelemetry tracing for the payment service
-@temis: Review this PR for security vulnerabilities
+@demeter: Analyze and fix N+1 queries on orders table
+: Build a RAG pipeline with pgvector for product docs
+: Configure AWS Bedrock with Claude fallback
+: Design an NLU pipeline for customer support chatbot
+: Set up OpenTelemetry tracing for the payment service
+: Review this PR for security vulnerabilities
 @iris: Create branch feat/search and open a draft PR
 @gaia: Analyze agreement metrics between MapBiomas and ESA WorldCover
 ```
@@ -735,7 +735,7 @@ permanently committed to the repository.
 - **No automatic commits** — you control every git operation
 - **No model training** on your code (per your editor's terms of service)
 
-**Temis enforces on every phase:**
+**Themis enforces on every phase:**
 - OWASP Top 10 compliance
 - SQL injection, XSS, CSRF prevention
 - Hardcoded secret detection
@@ -762,8 +762,8 @@ Yes — 5 platforms supported (VS Code, OpenCode, Claude Code, Cursor, Windsurf)
 Edit `agents/*.agent.md` (the canonical format), then run `npm run sync-platforms.mjs`.
 The sync engine transforms agents into every platform's native format.
 
-**Can I override Temis's code review?**
-You can proceed past the review gate even if Temis flags issues — except test coverage.
+**Can I override Themis's code review?**
+You can proceed past the review gate even if Themis flags issues — except test coverage.
 Below 80% coverage is a hard block by design.
 
 **How long does a typical feature take?**
@@ -824,4 +824,4 @@ Pantheon draws from the broader multi-agent landscape while diverging in key way
 
 **License:** MIT  
 **Architecture Pattern:** Conductor-Delegate  
-**Mythology:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Temis, Mnemosyne, Gaia, Hefesto, Quíron, Eco, Nix) · Egyptian (Ra, Maat) · Roman (Iris)
+**Mythology:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Themis, Mnemosyne, Gaia, Hephaestus, Chiron, Echo, Nyx) · Egyptian (Prometheus, Demeter) · Roman (Iris)

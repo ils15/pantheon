@@ -50,7 +50,7 @@ Athena researches patterns, calls Apollo for existing auth code, and creates:
 ```
 plans/jwt-authentication/plan.md
 ├─ Overview & objectives
-├─ Phase 1: Database Schema (Maat)
+├─ Phase 1: Database Schema (Demeter)
 │  ├─ Tasks: Create user + token tables
 │  ├─ Test requirements: 5 test cases
 │  └─ Risk: Zero-downtime migration
@@ -99,9 +99,9 @@ Next: Starting Phase 1 - Database Schema
 @zeus: Orchestrate Phase 1 of JWT plan - Database Schema
 ```
 
-**Zeus delegates to Maat:**
+**Zeus delegates to Demeter:**
 ```
-@maat: Implement database schema for JWT auth
+@demeter: Implement database schema for JWT auth
 
 Phase 1 from: plans/jwt-authentication/plan.md
 
@@ -121,7 +121,7 @@ Red → Green → Refactor TDD cycle required.
 Coverage target: >80%
 ```
 
-**Maat does:**
+**Demeter does:**
 1. Write FAILING migration test (RED)
    ```python
    def test_jwt_token_table_exists():
@@ -143,9 +143,9 @@ Coverage target: >80%
    - Add constraints
    - Add timestamps
 
-**Maat delivers:** Schema files + 4 test cases, 100% coverage
+**Demeter delivers:** Schema files + 4 test cases, 100% coverage
 
-**Temis reviews:**
+**Themis reviews:**
 ```
 ✅ Coverage: 100% 
 ✅ Security: No SQL injection
@@ -252,7 +252,7 @@ class JWTService:
 
 **Hermes delivers:** Services + 24 unit tests, 96% coverage
 
-**Temis reviews:**
+**Themis reviews:**
 ```
 ✅ Coverage: 96%
 ✅ Security: Proper hashing, no secrets in logs
@@ -406,7 +406,7 @@ export function LoginForm({onSubmitSuccess}) {
 
 **Aphrodite delivers:** Components + 13 component tests, 94% coverage
 
-**Temis reviews:**
+**Themis reviews:**
 ```
 ✅ Coverage: 94%
 ✅ Security: Tokens in httpOnly cookies
@@ -601,7 +601,7 @@ Action:
 1. Hermes adds missing test cases
 2. Re-runs coverage: pytest --cov
 3. Verify 80%+ coverage
-4. Temis reviews again
+4. Themis reviews again
 5. Mnemosyne updates phase-N-complete.md
 ```
 
@@ -609,13 +609,13 @@ Action:
 
 **Solution:**
 ```
-Temis: "SQL injection in query (BLOCKED)"
+Themis: "SQL injection in query (BLOCKED)"
 
 Action:
-1. Maat fixes query (parameterized)
+1. Demeter fixes query (parameterized)
 2. Re-runs security audit
 3. Verify fix
-4. Temis reviews again
+4. Themis reviews again
 5. Phase proceeds
 ```
 
@@ -623,7 +623,7 @@ Action:
 
 **Solution:**
 ```
-Temis: "Accessibility 82/100, need 95+ (BLOCKED)"
+Themis: "Accessibility 82/100, need 95+ (BLOCKED)"
 
 Action:
 1. Aphrodite improves accessibility
@@ -631,7 +631,7 @@ Action:
 3. Adds missing ARIA labels
 4. Improves keyboard navigation
 5. Re-checks: 97/100 ✅
-6. Temis approves
+6. Themis approves
 ```
 
 ---
@@ -656,11 +656,11 @@ Result:      Complete 5-phase feature, 95% coverage
 Timeline:    1-2 days
 ```
 
-### Pattern 3: Database Optimization (Skip Athena, Use Apollo + Maat)
+### Pattern 3: Database Optimization (Skip Athena, Use Apollo + Demeter)
 ```
 Discovery:   @apollo: Find N+1 queries
-Optimize:    @maat: Add indexes + optimize queries
-Review:      Auto-invoked by Maat
+Optimize:    @demeter: Add indexes + optimize queries
+Review:      Auto-invoked by Demeter
 Result:      10x faster queries, <80 lines changed
 Timeline:    2 hours
 ```
@@ -689,12 +689,12 @@ Artifacts:       4 documents (plan + 3 phases + complete)
 
 🎯 **Plan First** - Saves 2-3x rework time  
 🎯 **Use Pause Points** - You control when to proceed  
-🎯 **Trust Temis** - Code review catches issues early  
+🎯 **Trust Themis** - Code review catches issues early  
 🎯 **Read Artifacts** - Plans contain everything you need  
 🎯 **Commit Atomically** - One phase = one commit  
 🎯 **Test First** - RED tests before code  
 🎯 **Coverage Matters** - <80% = blocked, no exceptions  
-🎯 **Security First** - Temis enforces OWASP compliance  
+🎯 **Security First** - Themis enforces OWASP compliance  
 
 ---
 

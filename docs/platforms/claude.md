@@ -263,7 +263,7 @@ model: haiku
 ```bash
 claude --mode architect   # Athena-style planning
 claude --mode implement   # Hermes-style implementation
-claude --mode review      # Temis-style code review
+claude --mode review      # Themis-style code review
 ```
 
 Define custom modes in `.claude/modes.json`.

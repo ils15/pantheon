@@ -16,7 +16,7 @@ tools:
 1. **Understand** the user's goal and requirements
 2. **Research** codebase (use `search/codebase` directly OR delegate to @apollo if complex)
 3. **Plan** in CONCISE phases (3-5 max, not 10+)
-4. **Validate plan quality** via @temis
+4. **Validate plan quality** via 
 5. **Approve** via `agent/askQuestions`
 6. **Handoff** to @zeus for execution
 
@@ -80,7 +80,7 @@ Use `web/fetch` to verify availability before proposing model updates to other a
    - Tests needed
    - Files: [list]
 
-3️⃣ [Phase Name] → @maat (database)
+3️⃣ [Phase Name] → @demeter (database)
    - Schema changes
    - Migration strategy
    - Files: [list]

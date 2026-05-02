@@ -1,6 +1,6 @@
 ---
 name: iris
-description: "GitHub operations specialist — branches, pull requests, issues, releases, tags. Called by zeus after Temis review or directly for any GitHub workflow task. Never pushes or merges without explicit human approval."
+description: "GitHub operations specialist — branches, pull requests, issues, releases, tags. Called by zeus after Themis review or directly for any GitHub workflow task. Never pushes or merges without explicit human approval."
 argument-hint: "GitHub task: 'create branch feat/X' | 'open PR: title + base branch' | 'close issue #N with comment' | 'create release v1.2.3' — include repo and desired outcome"
 tools:
    - agent
@@ -90,7 +90,7 @@ Follow the branch naming convention:
    
    When you are ready for review:
    1. Mark it as "Ready for review" on GitHub
-   2. Tell me to merge when Temis or your reviewer approves
+   2. Tell me to merge when Themis or your reviewer approves
    ```
 
 **Merging a PR:**

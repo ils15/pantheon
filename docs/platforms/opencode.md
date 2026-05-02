@@ -80,17 +80,17 @@ OpenCode uses `opencode.json` (or `opencode.jsonc`) in your project root. Create
     "apollo":    { "source": ".opencode/agents/apollo.md" },
     "hermes":    { "source": ".opencode/agents/hermes.md" },
     "aphrodite": { "source": ".opencode/agents/aphrodite.md" },
-    "maat":      { "source": ".opencode/agents/maat.md" },
-    "temis":     { "source": ".opencode/agents/temis.md" },
-    "ra":        { "source": ".opencode/agents/ra.md" },
+    "demeter":      { "source": ".opencode/agents/demeter.md" },
+    "themis":     { "source": ".opencode/agents/themis.md" },
+    "prometheus":        { "source": ".opencode/agents/prometheus.md" },
     "iris":      { "source": ".opencode/agents/iris.md" },
     "mnemosyne": { "source": ".opencode/agents/mnemosyne.md" },
     "talos":     { "source": ".opencode/agents/talos.md" },
     "gaia":      { "source": ".opencode/agents/gaia.md" },
-    "hefesto":   { "source": ".opencode/agents/hefesto.md" },
-    "quiron":    { "source": ".opencode/agents/quiron.md" },
-    "eco":       { "source": ".opencode/agents/eco.md" },
-    "nix":       { "source": ".opencode/agents/nix.md" }
+    "hephaestus":   { "source": ".opencode/agents/hephaestus.md" },
+    "chiron":    { "source": ".opencode/agents/chiron.md" },
+    "echo":       { "source": ".opencode/agents/echo.md" },
+    "nyx":       { "source": ".opencode/agents/nyx.md" }
   }
 }
 ```
@@ -175,7 +175,7 @@ This can also be set per-agent to restrict which subagents each Pantheon agent c
         "task": {
           "hermes": "allow",
           "aphrodite": "allow",
-          "temis": "allow",
+          "themis": "allow",
           "internal-*": "deny"
         }
       }
@@ -280,7 +280,7 @@ OpenCode uses `provider/model` format for model IDs (e.g., `opencode/kimi-k2.6`)
     "athena":  { "model": "opencode/kimi-k2.6" },
     "apollo":  { "model": "opencode/deepseek-v4-flash" },
     "hermes":  { "model": "opencode/kimi-k2.5" },
-    "temis":   { "model": "opencode/kimi-k2.6" }
+    "themis":   { "model": "opencode/kimi-k2.6" }
   }
 }
 ```
@@ -412,9 +412,9 @@ your-project/
 │   ├── apollo.md
 │   ├── hermes.md
 │   ├── aphrodite.md
-│   ├── maat.md
-│   ├── temis.md
-│   ├── ra.md
+│   ├── demeter.md
+│   ├── themis.md
+│   ├── prometheus.md
 │   ├── iris.md
 │   ├── mnemosyne.md
 │   ├── talos.md

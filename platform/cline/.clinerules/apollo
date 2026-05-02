@@ -219,7 +219,7 @@ Found 47 auth-related files across backend, frontend, tests
 - **Athena**: Research SSO patterns and create implementation plan
 - **Hermes**: Implement backend SSO endpoints
 - **Aphrodite**: Build SSO UI components
-- **Maat**: Design SSO session storage schema
+- **Demeter**: Design SSO session storage schema
 ```
 
 ## Output Format
@@ -250,7 +250,7 @@ Every response from Apollo MUST follow this structure — no exceptions:
 
 ## Next Steps — Suggested Agent Delegation
 - **Athena**: <what to plan>
-- **Hermes/Aphrodite/Maat**: <what to implement>
+- **Hermes/Aphrodite/Demeter**: <what to implement>
 ```
 
 **Rules:**
@@ -530,7 +530,7 @@ Apollo synthesizes:
   - Athena: Research and plan search improvements
   - Hermes: Implement backend search improvements
   - Aphrodite: Build autocomplete UI
-  - Maat: Optimize search indexes
+  - Demeter: Optimize search indexes
 
 Apollo returns to user/parent agent in <2 minutes
 ```

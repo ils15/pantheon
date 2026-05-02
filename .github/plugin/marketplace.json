@@ -12,7 +12,7 @@
     {
       "name": "pantheon",
       "source": "./",
-      "description": "Complete multi-agent orchestration system featuring Zeus (orchestrator), Athena (planner), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Maat (database), Ra (infra), Iris (GitHub), Temis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). 18 on-demand skills for TDD, security, API design, database migration, Docker, and more.",
+      "description": "Complete multi-agent orchestration system featuring Zeus (orchestrator), Athena (planner), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Demeter (database), Prometheus (infra), Iris (GitHub), Themis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). 18 on-demand skills for TDD, security, API design, database migration, Docker, and more.",
       "version": "2.8.1",
       "agents": [
         "./agents"

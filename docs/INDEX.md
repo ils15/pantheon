@@ -22,8 +22,8 @@
 
 **Pantheon** replaces the single-agent coding trap with **specialized agents**:
 - **Zeus** orchestrates the workflow (plan → implement → review → deploy)
-- **Athena** plans architecture; **Apollo** discovers code; **Hermes/Aphrodite/Maat/Ra** implement
-- **Temis** reviews every phase (mandatory quality gate); **Mnemosyne** documents decisions
+- **Athena** plans architecture; **Apollo** discovers code; **Hermes/Aphrodite/Demeter/Prometheus** implement
+- **Themis** reviews every phase (mandatory quality gate); **Mnemosyne** documents decisions
 - **Iris** manages GitHub; **Talos** handles hotfixes; **Gaia** analyzes remote sensing
 
 All agents live as **canonical `.agent.md` files** in `agents/` and are auto-generated into platform-specific formats via the [sync engine](../scripts/sync-platforms.mjs).

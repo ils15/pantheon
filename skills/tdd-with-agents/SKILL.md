@@ -9,7 +9,7 @@ alwaysApply: false
 
 # TDD Enforcement Across All Implementation Agents
 
-Comprehensive guide to Test-Driven Development (TDD) workflow as implemented by Hermes (backend), Aphrodite (frontend), and Maat (database) agents. This ensures consistent RED → GREEN → REFACTOR cycle across all implementation agents.
+Comprehensive guide to Test-Driven Development (TDD) workflow as implemented by Hermes (backend), Aphrodite (frontend), and Demeter (database) agents. This ensures consistent RED → GREEN → REFACTOR cycle across all implementation agents.
 
 ---
 
@@ -103,7 +103,7 @@ test("submits form with email and password", async () => {
 // Result: ❌ FAILED - LoginForm doesn't exist yet
 ```
 
-**Example - Database (Maat):**
+**Example - Database (Demeter):**
 ```python
 # tests/test_user_migration.py
 import pytest
@@ -198,7 +198,7 @@ export function LoginForm({ onSubmit }) {
 // Result: ✅ PASSED - Test is green!
 ```
 
-**Example - Database (Maat):**
+**Example - Database (Demeter):**
 ```python
 # migrations/001_create_user_table.py - MINIMAL schema
 from alembic import op
@@ -458,7 +458,7 @@ export const LoginForm: FC<LoginFormProps> = ({
 // Result: ✅ ALL TESTS PASS (including accessibility checks)
 ```
 
-**Example - Database (Maat):**
+**Example - Database (Demeter):**
 ```python
 # migrations/001_create_user_table.py - REFACTORED
 from alembic import op
@@ -511,7 +511,7 @@ def downgrade():
 
 ## Coverage Requirements
 
-**Minimum Coverage:** >80% (non-negotiable, Temis enforces)
+**Minimum Coverage:** >80% (non-negotiable, Themis enforces)
 **Target Coverage:** 92-95% (stretch goal)
 **Coverage Includes:**
 - Line coverage (every line executed?)
@@ -556,7 +556,7 @@ export default defineConfig({
 npx vitest run --coverage
 ```
 
-**Measurement (Database - Maat):**
+**Measurement (Database - Demeter):**
 ```bash
 # Migrations are covered by:
 # 1. Upgrade tests (can you apply migration?)
@@ -674,7 +674,7 @@ def test_user_creation_sql_injection():
 
 | Metric | Target | Minimum | Notes |
 |--------|--------|---------|-------|
-| Code Coverage | 95% | 80% | Temis enforces minimum |
+| Code Coverage | 95% | 80% | Themis enforces minimum |
 | Tests per 100 LOC | 15-20 | 10 | Indicates test density |
 | Red→Green→Refactor Cycle Time | 5-10 min | - | Per feature |
 | Bug Escape Rate | 0-1% | <5% | Bugs caught in QA? |
@@ -783,12 +783,12 @@ test("resets counter when reset button clicked", async () => {
 
 ---
 
-## When Temis Blocks Coverage
+## When Themis Blocks Coverage
 
 ```
 Scenario: Your code has 76% coverage, minimum is 80%
 
-Output from Temis ❌:
+Output from Themis ❌:
 "Coverage 76% below minimum 80%
 Missing coverage in:
   - app/services.py lines 45-52 (error handling)
@@ -859,7 +859,7 @@ COVERAGE ✅
 READY FOR PRODUCTION ✅
   [ ] Zero test failures
   [ ] Coverage >80%
-  [ ] Temis review passed
+  [ ] Themis review passed
   [ ] Commit message clear
   [ ] Ready to merge
 ```
@@ -867,8 +867,8 @@ READY FOR PRODUCTION ✅
 ---
 
 **Version:** 1.0  
-**Standard:** Enforced by Hermes, Athena, Maat  
-**Checkpoints:** Temis enforces coverage >80%  
+**Standard:** Enforced by Hermes, Athena, Demeter  
+**Checkpoints:** Themis enforces coverage >80%  
 **Status:** Mandatory for all implementation agents
 
 Remember: RED first, then GREEN, then REFACTOR. Coverage >80%. Always.

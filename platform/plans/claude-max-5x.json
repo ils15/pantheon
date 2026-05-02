@@ -13,7 +13,7 @@
     "iris": "claude-haiku-4-5-20250514",
     "mnemosyne": "claude-haiku-4-5-20250514",
     "talos": "claude-haiku-4-5-20250514",
-    "nix": "claude-haiku-4-5-20250514"
+    "nyx": "claude-haiku-4-5-20250514"
   },
   "limits": {
     "monthlyRequests": null,

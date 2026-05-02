@@ -26,7 +26,7 @@ docs/memory-bank/
 │   ├── PLAN-<feature>.md
 │   ├── IMPL-phase1-hermes.md
 │   ├── IMPL-phase1-aphrodite.md
-│   ├── IMPL-phase1-maat.md
+│   ├── IMPL-phase1-demeter.md
 │   └── REVIEW-<feature>.md
 ├── _notes/                ← COMMITTED — permanent ADRs only
 │   └── ADR-<topic>.md
@@ -43,8 +43,8 @@ docs/memory-bank/
 | Situation | Generating agent | Artifact |
 |---|---|---|
 | `@athena` plans (with or without Zeus) | **Athena** | `PLAN-<feature>.md` |
-| `@hermes` / `@aphrodite` / `@maat` implement | **The worker** | `IMPL-phase<N>-<agent>.md` |
-| `@temis` reviews | **Temis** | `REVIEW-<feature>.md` |
+| `@hermes` / `@aphrodite` / `@demeter` implement | **The worker** | `IMPL-phase<N>-<agent>.md` |
+| `` reviews | **Themis** | `REVIEW-<feature>.md` |
 | `#runSubagent Explore` (isolated mode only) | **Explore** | `DISC-<topic>.md` |
 | Architectural decision (any agent) | **Any → Mnemosyne** | `ADR-<topic>.md` (permanent) |
 
@@ -59,8 +59,8 @@ docs/memory-bank/
 | Prefix | Location | Ephemeral? | Produced by |
 |---|---|---|---|
 | `PLAN-` | `.tmp/` | ✅ Deleted on sprint close | Athena |
-| `IMPL-` | `.tmp/` | ✅ Deleted on sprint close | Hermes / Aphrodite / Maat |
-| `REVIEW-` | `.tmp/` | ✅ Deleted on sprint close | Temis |
+| `IMPL-` | `.tmp/` | ✅ Deleted on sprint close | Hermes / Aphrodite / Demeter |
+| `REVIEW-` | `.tmp/` | ✅ Deleted on sprint close | Themis |
 | `DISC-` | `.tmp/` | ✅ Deleted on sprint close | Apollo (`#runSubagent`) |
 | `ADR-` | `_notes/` | ❌ Permanent, never deleted | Any agent |
 
@@ -110,7 +110,7 @@ Agent produces phase output
 ## Phases
 1. Phase 1 — @hermes
 2. Phase 2 — @aphrodite (parallel)
-3. Phase 3 — @maat
+3. Phase 3 — @demeter
 
 ## Risks
 - [Risk]
@@ -123,7 +123,7 @@ Agent produces phase output
 
 ```markdown
 # IMPL-<phase>-<agent>
-**Date:** YYYY-MM-DD  **Status:** Awaiting Temis Review
+**Date:** YYYY-MM-DD  **Status:** Awaiting Themis Review
 
 ## What Was Implemented
 - [file] — [what changed]
@@ -131,11 +131,11 @@ Agent produces phase output
 ## Tests
 - ✅ X tests / Coverage: Y%
 
-## Notes for Temis
+## Notes for Themis
 [Area needing extra scrutiny]
 ```
 
-### REVIEW (Temis → `.tmp/`)
+### REVIEW (Themis → `.tmp/`)
 
 ```markdown
 # REVIEW-<feature>
@@ -169,8 +169,8 @@ Agent produces phase output
 Running simultaneously:
 - @hermes   → backend tests   → .tmp/IMPL-phase2-hermes.md
 - @aphrodite → frontend       → .tmp/IMPL-phase2-aphrodite.md
-- @maat     → migrations      → .tmp/IMPL-phase2-maat.md
-Temis reviews all three after completion.
+- @demeter     → migrations      → .tmp/IMPL-phase2-demeter.md
+Themis reviews all three after completion.
 ```
 
 ---

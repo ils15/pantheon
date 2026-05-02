@@ -27,7 +27,7 @@ Master guide to orchestrating the complete agent system for rapid, TDD-driven fe
                            |
   ┌────────────┬───────────┼───────────┬────────────┐
   |            |           |           |            |
-🔥 HERMES   💎 APHRODITE 🌊 MAAT   ⚖️ TEMIS    ⚙️ RA
+🔥 HERMES   💎 APHRODITE 🌊 DEMETER   ⚖️ THEMIS    ⚙️ PROMETHEUS
 Backend     Frontend   Database   Review   Infrastructure
   |            |           |           |            |
   └────────────┴───────────┼───────────┴────────────┘
@@ -44,7 +44,7 @@ Backend     Frontend   Database   Review   Infrastructure
 **When:** Complex features spanning backend + frontend + database  
 **Invocation:** `@zeus: Implement [feature description]`  
 **Output:** Full feature with all phases, TDD + artifacts  
-**Delegates to:** Athena → Apollo → {Hermes, Aphrodite, Maat} → Temis → Ra → Mnemosyne
+**Delegates to:** Athena → Apollo → {Hermes, Aphrodite, Demeter} → Themis → Prometheus → Mnemosyne
 
 **Example:**
 ```
@@ -54,9 +54,9 @@ Backend     Frontend   Database   Review   Infrastructure
 - Apollo finds related code
 - Hermes: backend endpoints (TDD)
 - Aphrodite: verification form (TDD)
-- Maat: migration schema (TDD)
-- Temis: reviews each phase (coverage >80%)
-- Ra: Docker updates
+- Demeter: migration schema (TDD)
+- Themis: reviews each phase (coverage >80%)
+- Prometheus: Docker updates
 - Mnemosyne: artifacts + docs
 ```
 
@@ -221,10 +221,10 @@ Coverage requirement: >80%
 
 ---
 
-### 🌊 Maat (Database)
+### 🌊 Demeter (Database)
 **Role:** Schema design, query optimization, migrations  
 **When:** Creating/modifying database structure, fixing N+1 queries  
-**Invocation:** `@maat: [Design/Optimize] [table/query]`  
+**Invocation:** `@demeter: [Design/Optimize] [table/query]`  
 **Specialization:**
 - SQLAlchemy ORM + query patterns
 - Alembic migrations (zero-downtime strategy)
@@ -251,10 +251,10 @@ Coverage requirement: >80%
 
 ---
 
-### ⚖️ Temis (Code Reviewer)
+### ⚖️ Themis (Code Reviewer)
 **Role:** Code review, security audit, coverage enforcement  
 **When:** Auto-invoked after each phase by Zeus  
-**Manual Invocation:** `@temis: Review [PR/code] for security`  
+**Manual Invocation:** `: Review [PR/code] for security`  
 **Authority:** Can block phase if:
 - Coverage <80% (minimum)
 - OWASP Top 10 violations
@@ -278,10 +278,10 @@ Coverage requirement: >80%
 
 ---
 
-### ⚙️ Ra (Infrastructure)
+### ⚙️ Prometheus (Infrastructure)
 **Role:** Docker, deployment, CI/CD  
 **When:** Containerizing services, deployment strategy, env config  
-**Invocation:** `@ra: Create/Update [dockerfile/compose]`  
+**Invocation:** `: Create/Update [dockerfile/compose]`  
 **Specialization:**
 - Multi-stage Docker builds
 - Non-root user execution
@@ -320,16 +320,16 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0"]
 ```
 plans/jwt-auth/
 ├── plan.md                 # Initial plan (Athena)
-├── phase-1-complete.md     # Schema done (Temis approved)
-├── phase-2-complete.md     # Backend done (Temis approved)
-├── phase-3-complete.md     # Frontend done (Temis approved)
+├── phase-1-complete.md     # Schema done (Themis approved)
+├── phase-2-complete.md     # Backend done (Themis approved)
+├── phase-3-complete.md     # Frontend done (Themis approved)
 └── complete.md             # Final summary (all phases)
 
 Each file contains:
 - Phase objective
 - Files modified/created
 - Tests added + coverage %
-- Temis approval status
+- Themis approval status
 - Git commit message
 - Decisions + rationale
 ```
@@ -363,7 +363,7 @@ Athena creates: plans/[feature]/plan.md
 ```
 Phase 1-X implementation complete
                       ↓
-    Temis reviews + runs coverage check
+    Themis reviews + runs coverage check
                       ↓
  Mnemosyne creates: phase-N-complete.md
                       ↓
@@ -383,7 +383,7 @@ Phase 1-X implementation complete
 
 ### ⏸️ Pause Point 3: Git Commit
 ```
-Phase approved by Temis
+Phase approved by Themis
                       ↓
           YOU RUN: git commit
                       ↓
@@ -412,9 +412,9 @@ Phase approved by Temis
 @zeus: Implement JWT auth using the plan I approved
 ```
 
-Zeus orchestrates Hermes + Aphrodite + Maat (in parallel when possible)
+Zeus orchestrates Hermes + Aphrodite + Demeter (in parallel when possible)
 
-Each phase: Zeus → implementation → Temis review → ⏸️ PAUSE POINT 2 → you see results
+Each phase: Zeus → implementation → Themis review → ⏸️ PAUSE POINT 2 → you see results
 
 ### 4. Commit Each Phase (3 min each)
 ```bash
@@ -453,13 +453,13 @@ START: What do you need?
 │  └─ USE: @aphrodite (frontend + TDD)
 │
 ├─ "Database schema / query optimization"
-│  └─ USE: @maat (schema + TDD)
+│  └─ USE: @demeter (schema + TDD)
 │
 ├─ "Code review / security check"
-│  └─ USE: @temis (audit + coverage check)
+│  └─ USE:  (audit + coverage check)
 │
 ├─ "Docker / deployment"
-│  └─ USE: @ra (infrastructure)
+│  └─ USE:  (infrastructure)
 │
 └─ "Document decision / update artifact"
    └─ USE: @mnemosyne (memory bank)
@@ -490,7 +490,7 @@ START: What do you need?
 🎯 **Use pause points** - Review at critical junctures  
 🎯 **Check artifacts** - `plans/[feature]/` is your audit trail  
 🎯 **Direct agents for quick tasks** - Don't always orchestrate  
-🎯 **Coverage matters** - Temis enforces >80%, you get confidence  
+🎯 **Coverage matters** - Themis enforces >80%, you get confidence  
 🎯 **Git is yours** - You decide commits, no auto-commits  
 🎯 **Errors caught early** - RED tests first, not at merge  
 
@@ -498,7 +498,7 @@ START: What do you need?
 
 ## Examples
 
-### Example 1: Simple Bug Fix (Apollo → Hermes → Temis)
+### Example 1: Simple Bug Fix (Apollo → Hermes → Themis)
 ```
 Discovery: @apollo: Find all 500 errors in auth service
 Fix: @hermes: Fix the validation error in POST /auth
@@ -514,11 +514,11 @@ Implement: @zeus: Implement 2FA using approved plan
 Result: 3 phases, each reviewed, all TDD, all documented
 ```
 
-### Example 3: Optimization (Apollo → Maat → Temis)
+### Example 3: Optimization (Apollo → Demeter → Themis)
 ```
 Discovery: @apollo: Find N+1 queries in user list
-Optimize: @maat: Optimize users table queries
-Review: Auto-invoked by Maat
+Optimize: @demeter: Optimize users table queries
+Review: Auto-invoked by Demeter
 Result: EXPLAIN ANALYZE before/after, better performance
 ```
 
@@ -574,8 +574,8 @@ workflow.add_node("review", temis_delegate)
 workflow.add_edge("plan", "implement_backend")
 workflow.add_conditional_edges(
     "implement_backend",
-    needs_database_schema,  # Conditional: route to maat if needed
-    {True: "maat_delegate", False: "implement_frontend"}
+    needs_database_schema,  # Conditional: route to demeter if needed
+    {True: "demeter_delegate", False: "implement_frontend"}
 )
 workflow.add_edge("implement_frontend", "review")
 workflow.add_edge("review", END)

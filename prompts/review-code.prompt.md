@@ -2,11 +2,11 @@
 name: review-code
 description: "Comprehensive code review with security audit, test coverage analysis, and quality gates"
 argument-hint: "[Files to review or PR description]"
-agent: temis
+agent: themis
 tools: ['search', 'usages']
 ---
 
-# Review Code with Security (Temis)
+# Review Code with Security (Themis)
 
 ## Review Checklist
 

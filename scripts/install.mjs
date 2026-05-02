@@ -35,10 +35,10 @@ const PLATFORM_DIR = join(ROOT, 'platform');                 // platform-specifi
 
 const AGENT_NAMES = [
   'zeus', 'athena', 'apollo',
-  'hermes', 'aphrodite', 'maat', 'ra', 'hefesto', 'quiron', 'eco', 'nix',
+  'hermes', 'aphrodite', 'demeter', 'prometheus', 'hephaestus', 'chiron', 'echo', 'nyx',
   'gaia',
   'iris',
-  'temis',
+  'themis',
   'mnemosyne',
   'talos',
 ];
@@ -463,13 +463,13 @@ Always check AGENTS.md for shared project conventions and architecture decisions
 | @apollo | Codebase discovery | Research, finding files, exploring patterns |
 | @hermes | Backend (FastAPI) | API endpoints, services, business logic |
 | @aphrodite | Frontend (React) | UI components, responsive design |
-| @maat | Database | Schema design, migrations, query optimization |
-| @temis | Quality & security | Code review, OWASP audit, coverage check |
-| @ra | Infrastructure | Docker, CI/CD, deployment |
-| @hefesto | AI pipelines | RAG, LangChain, vector search |
-| @quiron | Model routing | Provider configuration, cost optimization |
-| @eco | Conversational AI | NLU, dialogue flows, chatbots |
-| @nix | Observability | Monitoring, tracing, cost tracking |
+| @demeter | Database | Schema design, migrations, query optimization |
+|  | Quality & security | Code review, OWASP audit, coverage check |
+|  | Infrastructure | Docker, CI/CD, deployment |
+|  | AI pipelines | RAG, LangChain, vector search |
+|  | Model routing | Provider configuration, cost optimization |
+|  | Conversational AI | NLU, dialogue flows, chatbots |
+|  | Observability | Monitoring, tracing, cost tracking |
 | @gaia | Remote sensing | LULC analysis, satellite imagery |
 | @iris | GitHub operations | Branches, PRs, issues, releases |
 | @mnemosyne | Documentation | Memory bank, ADRs, progress logging |
@@ -568,13 +568,13 @@ This project uses the Pantheon multi-agent framework with 16 specialized agents.
 | @apollo | Codebase discovery | Parallel research |
 | @hermes | Backend (FastAPI) | API implementation |
 | @aphrodite | Frontend (React) | UI components |
-| @maat | Database | Schema & optimization |
-| @temis | Quality & security | Code review |
-| @ra | Infrastructure | Docker & deployment |
-| @hefesto | AI pipelines | RAG & LangChain |
-| @quiron | Model routing | Provider hub |
-| @eco | Conversational AI | NLU & dialogue |
-| @nix | Observability | Tracing & monitoring |
+| @demeter | Database | Schema & optimization |
+|  | Quality & security | Code review |
+|  | Infrastructure | Docker & deployment |
+|  | AI pipelines | RAG & LangChain |
+|  | Model routing | Provider hub |
+|  | Conversational AI | NLU & dialogue |
+|  | Observability | Tracing & monitoring |
 | @gaia | Remote sensing | LULC analysis |
 | @iris | GitHub operations | PRs & releases |
 | @mnemosyne | Documentation | Memory bank |
@@ -651,9 +651,9 @@ Use this workflow to orchestrate a full feature implementation.
    - @apollo for codebase research
    - @hermes for backend implementation
    - @aphrodite for frontend implementation
-   - @maat for database changes
-   - @temis for code review and security audit
-   - @ra for infrastructure changes
+   - @demeter for database changes
+   -  for code review and security audit
+   -  for infrastructure changes
 3. Review results and iterate as needed
 4. Run tests to verify: \`npm test\`
 `;
@@ -662,12 +662,12 @@ Use this workflow to orchestrate a full feature implementation.
   if (orchStatus === 'created') stats.created++;
   else stats.skipped++;
 
-  const reviewWorkflow = `# Code review with Temis
+  const reviewWorkflow = `# Code review with Themis
 
 Use this workflow to run a code review and security audit.
 
 1. Examine the recent changes (use \`git diff\` or @apollo)
-2. Invoke @temis for security audit and code quality review
+2. Invoke  for security audit and code quality review
 3. Apply any fixes identified
 4. Verify tests pass
 `;
@@ -693,13 +693,13 @@ This project uses the Pantheon multi-agent framework with 16 specialized agents.
 | @apollo | Codebase discovery | Research & exploration |
 | @hermes | Backend (FastAPI) | API implementation |
 | @aphrodite | Frontend (React) | UI components |
-| @maat | Database | Schema & optimization |
-| @temis | Quality & security | Code review |
-| @ra | Infrastructure | Docker & deployment |
-| @hefesto | AI pipelines | RAG & LangChain |
-| @quiron | Model routing | Provider configuration |
-| @eco | Conversational AI | NLU & dialogue |
-| @nix | Observability | Monitoring & tracing |
+| @demeter | Database | Schema & optimization |
+|  | Quality & security | Code review |
+|  | Infrastructure | Docker & deployment |
+|  | AI pipelines | RAG & LangChain |
+|  | Model routing | Provider configuration |
+|  | Conversational AI | NLU & dialogue |
+|  | Observability | Monitoring & tracing |
 | @gaia | Remote sensing | LULC analysis |
 | @iris | GitHub operations | PRs & releases |
 | @mnemosyne | Documentation | Memory bank |
@@ -708,7 +708,7 @@ This project uses the Pantheon multi-agent framework with 16 specialized agents.
 ## Workflows
 
 - \`/orchestrate\` — Full feature orchestration
-- \`/code-review\` — Code review with Temis
+- \`/code-review\` — Code review with Themis
 
 ## Commands
 

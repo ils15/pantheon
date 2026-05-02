@@ -136,7 +136,7 @@ Create STATUS.md with progress
 ### ❌ Mandatory automatic handoff after every phase
 ```
 # Wrong (creates overhead, Mnemosyne becomes a bottleneck)
-After every Hermes/Aphrodite/Maat phase → always handoff to @mnemosyne
+After every Hermes/Aphrodite/Demeter phase → always handoff to @mnemosyne
 
 # Right
 After every phase → agent appends to 04-active-context.md directly

@@ -48,10 +48,10 @@ FOR each phase in plan.md:
    Parallel delegation:
    · HERMES  → Backend if needed
    · ATHENA  → Frontend if needed
-   · MAAT  → Database if needed
+   · DEMETER  → Database if needed
    ↓
    Sequential review:
-   · TEMIS     → Code review + coverage check
+   · THEMIS     → Code review + coverage check
    · REQUIRE: Coverage >80% + security pass
    ↓
    Documentation:
@@ -118,7 +118,7 @@ Invoke: @hermes: Implement [endpoint/service] following TDD
 Provide context:
 - Test requirements from plan.md
 - API contract (input/output)
-- Database schema (from Maat)
+- Database schema (from Demeter)
 - Error handling requirements
 - Performance constraints
 
@@ -148,9 +148,9 @@ Wait for: Component + tests with:
 - Accessibility report
 ```
 
-#### When to Delegate to Maat (Database)
+#### When to Delegate to Demeter (Database)
 ```
-Invoke: @maat: Design/Optimize [table/query] following TDD
+Invoke: @demeter: Design/Optimize [table/query] following TDD
 
 Provide context:
 - Schema requirements
@@ -167,12 +167,12 @@ Wait for: Schema + migration with:
 - Performance analysis (EXPLAIN ANALYZE)
 ```
 
-#### When to Delegate to Temis (Code Review) - AUTO INVOKED
+#### When to Delegate to Themis (Code Review) - AUTO INVOKED
 ```
-After Hermes/Athena/Maat complete:
-YOU automatically invoke: @temis: Review code from [phase/file]
+After Hermes/Athena/Demeter complete:
+YOU automatically invoke: : Review code from [phase/file]
 
-Temis checks:
+Themis checks:
 ✓ Coverage >80% (minimum)
 ✓ Security (OWASP Top 10, SQL injection, etc)
 ✓ Type hints (backend + frontend)
@@ -180,15 +180,15 @@ Temis checks:
 ✓ Performance (N+1 queries, etc)
 ✓ Accessibility (frontend)
 
-Temis either:
+Themis either:
 APPROVE: "✅ Phase approved for Mnemosyne"
 BLOCK: "❌ Coverage 76%, needs 4 more tests"
 ```
 
-#### When to Delegate to Ra (Infrastructure)
+#### When to Delegate to Prometheus (Infrastructure)
 ```
 After all phases complete:
-YOU invoke: @ra: Update deployment for [feature]
+YOU invoke: : Update deployment for [feature]
 
 Provide context:
 - New environment variables needed
@@ -248,7 +248,7 @@ WAIT: Do not proceed until explicit user approval
 
 #### ⏸️ Pause Point 2: Phase-by-Phase Completion
 ```
-After each phase completes (Temis approved):
+After each phase completes (Themis approved):
 
 🛑 STOP AND REPORT TO USER:
 "Phase N Complete! ✅ See: plans/[feature]/phase-N-complete.md
@@ -311,7 +311,7 @@ WAIT: Do not proceed until user confirms git commit
 
 ### 4. Error Handling & Recovery
 
-#### If Phase Fails Temis Review (Coverage <80%)
+#### If Phase Fails Themis Review (Coverage <80%)
 ```
 Scenario: Hermes delivers code with 76% coverage
 
@@ -319,19 +319,19 @@ Action:
 1. DO NOT PROCEED to production
 2. REPORT to user: "Phase N blocked by coverage"
 3. DELEGATE: @hermes: Add 4 missing tests for [failing areas]
-4. RECHECK with Temis
+4. RECHECK with Themis
 5. Report results to user (Pause Point 2)
 ```
 
 #### If Phase Fails Security Audit
 ```
-Scenario: Temis finds SQL injection vulnerability
+Scenario: Themis finds SQL injection vulnerability
 
 Action:
 1. DO NOT PROCEED
 2. REPORT: "Security issue found"
-3. DELEGATE: @maat: Fix SQL injection in [query]
-4. RECHECK with Temis
+3. DELEGATE: @demeter: Fix SQL injection in [query]
+4. RECHECK with Themis
 5. Only proceed when ✅ APPROVED
 ```
 
@@ -354,14 +354,14 @@ Action:
 ```
 ✅ Delegate discovery to Apollo (parallel searches)
 ✅ Delegate planning to Athena (architecture thinking)
-✅ Delegate implementation to specialists (Hermes/Athena/Maat)
-✅ Auto-invoke Temis after each phase
+✅ Delegate implementation to specialists (Hermes/Athena/Demeter)
+✅ Auto-invoke Themis after each phase
 ✅ Use Pause Points for user visibility
 ✅ Respect all 3 pause points (don't skip)
 
 ❌ Don't read entire codebase yourself
 ❌ Don't do planning without Athena
-❌ Don't skip code review (Temis is mandatory)
+❌ Don't skip code review (Themis is mandatory)
 ❌ Don't auto-commit (Pause Point 3)
 ❌ Don't skip phases (follow plan.md exactly)
 ```
@@ -437,12 +437,12 @@ See complete artifact: plans/[feature]/complete.md
 
 1. **Respect Pause Points** - User always has control at critical junctures
 2. **Delegate Effectively** - Use specialized agents, leverage parallelism
-3. **Enforce Quality** - Temis review is mandatory, no exceptions
+3. **Enforce Quality** - Themis review is mandatory, no exceptions
 4. **Document Everything** - Mnemosyne creates artifact trail
 5. **Learn & Adapt** - Use Apollo findings to brief implementation agents
 6. **Error First** - RED tests before GREEN implementation before REFACTOR
-7. **Security First** - Temis blocks insecure code
-8. **Coverage First** - <80% coverage = blocked by Temis
+7. **Security First** - Themis blocks insecure code
+8. **Coverage First** - <80% coverage = blocked by Themis
 
 ---
 
@@ -454,9 +454,9 @@ See complete artifact: plans/[feature]/complete.md
 | Apollo | Need to understand patterns | Topic + search scope | Structured findings |
 | Hermes | Backend endpoint needed | Test requirements + AP spec | Code + tests >80% coverage |
 | Athena | Frontend component needed | Test requirements + UI spec | Component + tests >80% coverage |
-| Maat | Database schema needed | Schema spec + queries | Schema + migrations >80% tested |
-| Temis | Auto (after each phase) | Code to review | APPROVED ✅ or BLOCKED ❌ |
-| Ra | Deployment changes needed | Architecture changes | Docker + compose files |
+| Demeter | Database schema needed | Schema spec + queries | Schema + migrations >80% tested |
+| Themis | Auto (after each phase) | Code to review | APPROVED ✅ or BLOCKED ❌ |
+| Prometheus | Deployment changes needed | Architecture changes | Docker + compose files |
 | Mnemosyne | Auto (after each phase) | Phase results | phase-N-complete.md artifact |
 
 ---

@@ -18,7 +18,7 @@ Central coordinator delegating work to specialized subagents.
 
 **When to use:** Complex feature implementation, multi-layer coordination, cross-functional tasks  
 **Role:** Feature orchestration, phase transition, context management  
-**Delegates to:** athena → apollo → {hefesto, quiron, eco} → {hermes, aphrodite, maat} → nix → ra → temis → iris → mnemosyne → talos (hotfixes)
+**Delegates to:** athena → apollo → {hephaestus, chiron, echo} → {hermes, aphrodite, demeter} → nyx → prometheus → themis → iris → mnemosyne → talos (hotfixes)
 
 **Example:**
 ```
@@ -27,15 +27,15 @@ Central coordinator delegating work to specialized subagents.
 Zeus orchestrates:
 1. Athena plans architecture
 2. Apollo explores codebase
-3. Hefesto builds AI pipelines (RAG, vector search)
-4. Quíron configures model routing + providers
-5. Eco designs conversational flows (if chatbot)
+3. Hephaestus builds AI pipelines (RAG, vector search)
+4. Chiron configures model routing + providers
+5. Echo designs conversational flows (if chatbot)
 6. Hermes implements backend
 7. Aphrodite implements frontend
-8. Maat handles database migrations
-9. Nix sets up observability + cost tracking
-10. Ra updates Docker
-11. Temis reviews all changes
+8. Demeter handles database migrations
+9. Nyx sets up observability + cost tracking
+10. Prometheus updates Docker
+11. Themis reviews all changes
 12. Iris opens PR + handles GitHub flow
 13. Mnemosyne documents
 ```
@@ -45,7 +45,7 @@ Zeus orchestrates:
 When Zeus delegates work to implementation agents and receives results, VS Code Copilot hooks fire automatically:
 
 **Delegation Handoff (SubagentStart Hook)**:
-- Fires when Zeus delegates to Hermes/Aphrodite/Maat
+- Fires when Zeus delegates to Hermes/Aphrodite/Demeter
 - **Interactive approval**: Shows handler script result in VS Code inline
 - **Audit trail**: Logs to `logs/agent-sessions/delegations.log`
 - Example: User sees "[Hermes: Backend API Implementation]" with ✅/❌ status inline
@@ -54,7 +54,7 @@ When Zeus delegates work to implementation agents and receives results, VS Code 
 - Fires when implementing agent returns result to Zeus
 - **Auto-logging**: Captures success (PR link, commit hash) or failure
 - **Audit trail**: Logs to `logs/agent-sessions/delegation-failures.log` (failures only)
-- **QA escalation**: If failure, automates handoff to Temis review
+- **QA escalation**: If failure, automates handoff to Themis review
 
 **Security Gates (PreToolUse Hook)**:
 - Blocks destructive tool calls: `rm -rf`, `DROP TABLE`, `TRUNCATE`
@@ -83,8 +83,8 @@ See `.github/copilot-instructions.md` → "Agent Lifecycle Hooks" section for co
 | **Athena** | Complex architecture (>5 modules) | "Plan caching — call Apollo to explore existing cache patterns" |
 | **Hermes** | Discovering backend patterns | "Implement endpoint — call Apollo to find similar endpoints" |
 | **Aphrodite** | Locating existing components | "Build component — call Apollo to find design system components" |
-| **Maat** | Database optimization patterns | "Optimize queries — call Apollo to find existing indexes" |
-| **Ra** | Infrastructure patterns | "Deploy service — call Apollo to find Docker/compose patterns" |
+| **Demeter** | Database optimization patterns | "Optimize queries — call Apollo to find existing indexes" |
+| **Prometheus** | Infrastructure patterns | "Deploy service — call Apollo to find Docker/compose patterns" |
 
 **How it works (example):**
 ```
@@ -119,15 +119,15 @@ Result: Clean context for both agents, 60-70% token savings
 ### The DAG Pattern
 
 ```
-Wave 1: [maat-schema, apollo-research] (parallel — schema + research have no dependencies)
+Wave 1: [demeter-schema, apollo-research] (parallel — schema + research have no dependencies)
   ↓
 Wave 2: [hermes-backend, aphrodite-frontend] (parallel — both use schema from Wave 1, work independently with mocks)
   ↓
 Wave 3: [hermes-integration, aphrodite-integration] (parallel — real integration testing)
   ↓
-Wave 4: [temis-review] (sequential — depends on all implementation waves)
+Wave 4: [themis-review] (sequential — depends on all implementation waves)
   ↓
-Wave 5: [ra-deploy] (sequential)
+Wave 5: [prometheus-deploy] (sequential)
 ```
 
 ### How Zeus Identifies Waves
@@ -144,7 +144,7 @@ When Zeus receives a feature plan, it analyzes the dependency graph:
 ```
 Feature: "Add Product Reviews"
 
-Wave 1: [maat: reviews-schema] ───────────────────────┐
+Wave 1: [demeter: reviews-schema] ───────────────────────┐
          [apollo: find existing review patterns] ──────┤
                                                        ↓
 Wave 2: [hermes: POST/GET/DELETE /reviews] ───────────┤
@@ -153,9 +153,9 @@ Wave 2: [hermes: POST/GET/DELETE /reviews] ───────────┤
 Wave 3: [hermes: connect real DB] ────────────────────┤
          [aphrodite: connect real API] ────────────────┤
                                                        ↓
-Wave 4: [temis: full review] ← depends on all above ──┘
+Wave 4: [themis: full review] ← depends on all above ──┘
                                                        ↓
-Wave 5: [ra: deploy] ← depends on approval
+Wave 5: [prometheus: deploy] ← depends on approval
 ```
 
 ### Benefits Over Sequential Execution
@@ -214,7 +214,7 @@ Athena:
 Investigation agent for rapid codebase discovery plus external docs and GitHub research. Supports planner, debugger, and other agents with fast file location and evidence gathering.
 
 **When to use:** Rapid codebase exploration, bug root cause discovery, finding files before implementation, helping any agent locate code  
-**Called by:** Athena (planning), Zeus (debugging), Hermes/Aphrodite/Maat (locating existing patterns)  
+**Called by:** Athena (planning), Zeus (debugging), Hermes/Aphrodite/Demeter (locating existing patterns)  
 **Tools:** `search/codebase`, `search/usages`, `web/fetch`, `read/readFile`, `search/fileSearch`, `search/textSearch`, `search/listDirectory`, `openBrowserPage`, `navigatePage`, `readPage`, `screenshotPage` (read-only parallel searches + public docs/GitHub pages + optional browser recon)  
 **Parallelism:** Up to 10 simultaneous search queries  
 **Web/GitHub Research:** Pulls docs and GitHub references; escalates deep research to Athena  
@@ -245,7 +245,7 @@ Backend APIs, FastAPI services, async business logic.
 
 **When to use:** API endpoint implementation, service layer creation, async I/O handling  
 **Specialization:** FastAPI, Python, async/await, TDD backend  
-**Depends on:** maat (database), ra (deployment)  
+**Depends on:** demeter (database), prometheus (deployment)  
 **Can call:** apollo (for codebase discovery)  
 **Skills:** backend-standards.instructions, tdd-testing, api-design, security-audit  
 **Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`  
@@ -281,7 +281,7 @@ Frontend UI/UX, React components, responsive design.
 
 ---
 
-#### 🌊 **Maat** (agents/maat.agent.md)
+#### 🌊 **Demeter** (agents/demeter.agent.md)
 Database design, SQL optimization, migration management.
 
 **When to use:** Schema design, query optimization, N+1 prevention, migration strategy  
@@ -300,7 +300,7 @@ Database design, SQL optimization, migration management.
 
 ---
 
-#### ⚙️ **Ra** (agents/ra.agent.md)
+#### ⚙️ **Prometheus** (agents/prometheus.agent.md)
 Infrastructure, Docker containerization, deployment orchestration.
 
 **When to use:** Container optimization, deployment strategy, infrastructure as code, CI/CD  
@@ -319,12 +319,12 @@ Infrastructure, Docker containerization, deployment orchestration.
 
 ---
 
-#### 🔨 **Hefesto** (agents/hefesto.agent.md)
+#### 🔨 **Hephaestus** (agents/hephaestus.agent.md)
 AI tooling & pipelines specialist — RAG, LangChain/LangGraph chains, vector databases, embedding strategies.
 
 **When to use:** Building RAG pipelines, vector search, LangChain chain composition, AI workflow orchestration  
 **Specialization:** LangChain, LangGraph, RAG architecture, vector stores (Pinecone, Weaviate, pgvector, Chroma), embeddings  
-**Depends on:** quiron (model providers), maat (database for vector sources), ra (containerization for inference)  
+**Depends on:** chiron (model providers), demeter (database for vector sources), prometheus (containerization for inference)  
 **Can call:** apollo (for codebase discovery)  
 **Skills:** rag-pipelines, vector-search, mcp-server-development  
 **Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `web/fetch`  
@@ -339,12 +339,12 @@ AI tooling & pipelines specialist — RAG, LangChain/LangGraph chains, vector da
 
 ---
 
-#### 🧬 **Quíron** (agents/quiron.agent.md)
+#### 🧬 **Chiron** (agents/chiron.agent.md)
 Model provider hub specialist — multi-model routing, AWS Bedrock, cost optimization, provider abstraction.
 
 **When to use:** Configuring model providers, setting up fallback strategies, AWS Bedrock integration, cost tracking  
 **Specialization:** AWS Bedrock, multi-model routing, provider abstraction, local inference (Ollama/vLLM)  
-**Depends on:** ra (infrastructure for model serving), hefesto (pipeline integration)  
+**Depends on:** prometheus (infrastructure for model serving), hephaestus (pipeline integration)  
 **Can call:** apollo (for codebase discovery)  
 **Skills:** multi-model-routing  
 **Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `web/fetch`  
@@ -358,12 +358,12 @@ Model provider hub specialist — multi-model routing, AWS Bedrock, cost optimiz
 
 ---
 
-#### 🗣️ **Eco** (agents/eco.agent.md)
+#### 🗣️ **Echo** (agents/echo.agent.md)
 Conversational AI specialist — Rasa NLU pipelines, dialogue management, intent/entity design, multi-turn conversations.
 
 **When to use:** Designing chatbots, NLU pipelines, dialogue flows, multi-platform chat integration  
 **Specialization:** Rasa NLU, dialogue state management, intent/entity extraction, conversation testing  
-**Depends on:** hermes (backend actions), hefesto (RAG context retrieval for responses)  
+**Depends on:** hermes (backend actions), hephaestus (RAG context retrieval for responses)  
 **Can call:** apollo (for codebase discovery)  
 **Skills:** conversational-ai-design  
 **Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `web/fetch`  
@@ -377,12 +377,12 @@ Conversational AI specialist — Rasa NLU pipelines, dialogue management, intent
 
 ---
 
-#### 👁️ **Nix** (agents/nix.agent.md)
+#### 👁️ **Nyx** (agents/nyx.agent.md)
 Observability & monitoring specialist — OpenTelemetry tracing, token/cost tracking, LangSmith integration, agent performance analytics.
 
 **When to use:** Setting up monitoring, diagnosing performance issues, tracking token costs, configuring alerting  
 **Specialization:** OpenTelemetry, LangSmith, Prometheus/Grafana, cost attribution, distributed tracing  
-**Depends on:** All agents (instrumentation), ra (monitoring infrastructure)  
+**Depends on:** All agents (instrumentation), prometheus (monitoring infrastructure)  
 **Can call:** apollo (for codebase discovery)  
 **Skills:** agent-observability  
 **Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/readFile`, `read/problems`, `execute/testFailure`, `execute/getTerminalOutput`, `search/changes`, `web/fetch`  
@@ -420,10 +420,10 @@ Remote sensing domain expert — scientific literature research, LULC analysis, 
 #### 🌈 **Iris** (agents/iris.agent.md)
 GitHub operations specialist — branches, pull requests, issues, releases, and tags.
 
-**When to use:** After Temis approves a phase and the user has committed locally; creating and managing PRs; opening/closing GitHub Issues; creating release tags and changelogs; any GitHub repository operation  
+**When to use:** After Themis approves a phase and the user has committed locally; creating and managing PRs; opening/closing GitHub Issues; creating release tags and changelogs; any GitHub repository operation  
 **Specialization:** Branch naming conventions, Conventional Commits, PR templating, semantic versioning, GitHub release notes  
-**Called by:** Zeus (after Temis review gate), user (direct invocation)  
-**Depends on:** Temis (review approval), user (`git commit` gate)  
+**Called by:** Zeus (after Themis review gate), user (direct invocation)  
+**Depends on:** Themis (review approval), user (`git commit` gate)  
 **Handoffs to:** Mnemosyne (release documentation), Zeus (outcome status)  
 **Tools:** `agent`, `vscode/askQuestions`, `read/readFile`, `search/codebase`, `search/changes`, `execute/runInTerminal`, `execute/getTerminalOutput`  
 
@@ -460,12 +460,12 @@ Hotfix and Rapid Repair specialist. Bypasses standard orchestration for small bu
 
 ### Quality Assurance Tier
 
-#### ⚖️ **Temis** (agents/temis.agent.md)
+#### ⚖️ **Themis** (agents/themis.agent.md)
 Code review, security audit, quality gates, and lightweight code quality checks.
 
-**When to use:** MANDATORY after every implementation phase (Hermes/Aphrodite/Maat/Ra). Called automatically before merge.  
+**When to use:** MANDATORY after every implementation phase (Hermes/Aphrodite/Demeter/Prometheus). Called automatically before merge.  
 **Specialization:** Lightweight quality checks, OWASP security audit, >80% coverage validation  
-**Reviews:** All outputs from hermes, aphrodite, maat, ra  
+**Reviews:** All outputs from hermes, aphrodite, demeter, prometheus  
 **Skills:** code-review-standards.instructions, security-audit, tdd-testing  
 **Tools:** `search/codebase`, `search/usages`, `edit/editFiles`, `execute/runInTerminal`, `read/problems`, `search/changes`, `execute/testFailure`, `openBrowserPage`, `navigatePage`, `readPage`, `clickElement`, `screenshotPage`  
 
@@ -499,9 +499,9 @@ Every agent inherits workspace-level hooks when active. This enables automated v
 |-------|-----------------|----------|
 | **Hermes** (Backend) | `format.json`, `type-check.json`, `import-audit.json`, `secret-scan.json` | Auto-formats Python code; validates types; blocks wildcard imports; prevents API key commits |
 | **Aphrodite** (Frontend) | `format.json`, `type-check.json`, `secret-scan.json` | Auto-formats JS/TS; validates TypeScript strict; prevents secret leaks |
-| **Maat** (Database) | `format.json`, `secret-scan.json` | Formats SQL migrations; blocks hardcoded DB passwords |
-| **Ra** (Infrastructure) | `format.json`, `secret-scan.json` | Auto-formats YAML/docker-compose; prevents API key leaks in configs |
-| **Temis** (Review) | All hooks (reads-only for validation) | Leverages hooks to auto-verify code quality before approval |
+| **Demeter** (Database) | `format.json`, `secret-scan.json` | Formats SQL migrations; blocks hardcoded DB passwords |
+| **Prometheus** (Infrastructure) | `format.json`, `secret-scan.json` | Auto-formats YAML/docker-compose; prevents API key leaks in configs |
+| **Themis** (Review) | All hooks (reads-only for validation) | Leverages hooks to auto-verify code quality before approval |
 | **Iris** (GitHub) | `security.json` (PreToolUse) | Blocked from destructive git operations (rm -rf, force push); ensures safe workflows |
 
 **Hook execution is automatic** — agents don't invoke hooks explicitly. Hooks fire on tool use events (PreToolUse, PostToolUse) when the agent is active.
@@ -556,10 +556,10 @@ Instead of mixing all project knowledge into a single bucket, separate into **3 
 
 ## 🔒 MANDATORY QUALITY GATE WORKFLOW
 
-**CRITICAL RULE**: @temis is NOT optional. Every implementation phase MUST pass @temis review:
+**CRITICAL RULE**:  is NOT optional. Every implementation phase MUST pass  review:
 
 ```
-Implementation Agents Code → @temis IMMEDIATELY
+Implementation Agents Code →  IMMEDIATELY
                                     ↓
                     Automated Quality Checks (ruff, black, isort, eslint, prettier)
                                     ↓
@@ -572,7 +572,7 @@ Implementation Agents Code → @temis IMMEDIATELY
                     ✅ APPROVED → Next Phase or ⏸️ User commits
 ```
 
-**Implementers DO NOT skip @temis.** Without approval, code is not ready for merge.
+**Implementers DO NOT skip .** Without approval, code is not ready for merge.
 
 ---
 
@@ -591,9 +591,9 @@ Plan presented in chat (no files created unless requested)
 
 ### Pause Point 2: Phase Implementation Review
 ```
-Hermes/Aphrodite/Maat implements phase
+Hermes/Aphrodite/Demeter implements phase
      ↓
-Temis reviews code
+Themis reviews code
      ↓
 ⏸️  STOP: Show result summary in chat
      ↓
@@ -615,7 +615,7 @@ Next phase starts
 
 ## 📋 Task Dispatch Patterns
 
-### Pattern 1: Simple Bug Fix (Apollo → Hermes → Temis)
+### Pattern 1: Simple Bug Fix (Apollo → Hermes → Themis)
 ```
 User: /debug-issue API returns 500 on POST /users
 
@@ -632,13 +632,13 @@ User: /debug-issue API returns 500 on POST /users
    ├─ Run test → expects PASS/GREEN
    └─ Refactor and document
 
-3. Temis reviews
+3. Themis reviews
    └─ Approve if coverage >80% + no OWASP issues
    
 ⏸️  MANDATORY STOP: User commits to git
 ```
 
-### Pattern 2: Feature Implementation (Athena → Hermes/Aphrodite/Maat → Temis → Ra)
+### Pattern 2: Feature Implementation (Athena → Hermes/Aphrodite/Demeter → Themis → Prometheus)
 ```
 User: /implement-feature Add email verification flow
 
@@ -655,10 +655,10 @@ User: /implement-feature Add email verification flow
    Phase N Implementation:
    ├─ Hermes: Write FAILING tests → minimal code → PASSING tests
    ├─ Aphrodite: Write FAILING tests → minimal code → PASSING tests  
-   └─ Maat: Write migration tests → minimal schema → passing tests
+   └─ Demeter: Write migration tests → minimal schema → passing tests
    
    Phase N Review:
-   ├─ Temis validates >80% coverage + OWASP compliance
+   ├─ Themis validates >80% coverage + OWASP compliance
    └─ Summary presented IN CHAT (no phase-N-complete.md)
    
 ⏸️  MANDATORY STOP: User commits phase (git commit)
@@ -666,11 +666,11 @@ User: /implement-feature Add email verification flow
 3. After all phases:
    └─ Summary presented IN CHAT (no complete.md)
 
-4. Ra updates deployment (if needed)
+4. Prometheus updates deployment (if needed)
    └─ Docker changes, env variables, health checks
 ```
 
-### Pattern 3: Performance Optimization (Apollo → Maat → Temis)
+### Pattern 3: Performance Optimization (Apollo → Demeter → Themis)
 ```
 User: /optimize-database GET /products endpoint slow
 
@@ -683,14 +683,14 @@ User: /optimize-database GET /products endpoint slow
    
    ⏸️  Apollo returns structured findings IN CHAT, not raw code
 
-2. Maat analyzes (CONTEXT EFFICIENT)
+2. Demeter analyzes (CONTEXT EFFICIENT)
    ├─ Runs EXPLAIN ANALYZE
    ├─ Identifies N+1 queries
    ├─ Proposes index strategy
    ├─ Writes migration test FIRST (TDD)
    └─ Implements minimal migration code
 
-3. Temis validates
+3. Themis validates
    ├─ Benchmarks before/after
    ├─ Validates >80% test coverage
    └─ Summary presented IN CHAT (no artifact files)
@@ -713,20 +713,20 @@ User: /fix CSS bug MobileMenuButton missing hidden class
 ⏸️  MANDATORY STOP: User commits to git
 ```
 
-### Pattern 5: Infrastructure Change (Ra)
+### Pattern 5: Infrastructure Change (Prometheus)
 ```
 User: /deploy Add Redis container to docker-compose
 
 1. Apollo discovers (optional, if codebase unfamiliar)
    └─ Find existing compose files and service configs
 
-2. Ra implements
+2. Prometheus implements
    ├─ Adds Redis service to docker-compose.yml
    ├─ Configures healthchecks and restart policies
    ├─ Updates env template (.env.example)
    └─ Documents startup order
 
-3. Ra validates
+3. Prometheus validates
    ├─ Dry-run: docker-compose config (no errors)
    └─ Startup test: all services healthy
 
@@ -745,13 +745,13 @@ Each specialized agent **conserves tokens** through strategies:
 - **Strategy:** Parallel search (3-10 simultaneous) returns only high-signal findings
 - **Savings:** 60-70% fewer tokens than raw code dump
 
-### Hermes/Aphrodite/Maat (Implementation)
+### Hermes/Aphrodite/Demeter (Implementation)
 - **Input:** Specific phase scope + tests to pass
 - **Output:** ONLY files it modifies in this phase
 - **Strategy:** Doesn't re-read complete architecture, only its files
 - **Savings:** 50% fewer tokens vs monolithic agent
 
-### Temis (Review)
+### Themis (Review)
 - **Input:** Git diff (changed files only)
 - **Output:** Structured comments with status (APPROVED/NEEDS_REVISION/FAILED)
 - **Strategy:** Reviews only changed lines, not entire repository
@@ -765,7 +765,7 @@ Each specialized agent **conserves tokens** through strategies:
 
 ## 🎯 TDD ENFORCEMENT WORKFLOW
 
-All implementation agents (Hermes, Aphrodite, Maat) follow **RIGOROUSLY**:
+All implementation agents (Hermes, Aphrodite, Demeter) follow **RIGOROUSLY**:
 
 ### Phase 1: RED (Test Fails)
 ```python
@@ -866,7 +866,7 @@ class User:
 
 2. Hermes implements Phase 1
    → Creates code + tests
-   → Temis reviews
+   → Themis reviews
    → Suggests commit: "feat: add verification schema"
    → User commits
    
@@ -893,8 +893,8 @@ The system operates with **structured artifacts** — persisted outputs that cre
 | Prefix | Produced by | Persisted by | Location |
 |---|---|---|---|
 | `PLAN-` | Athena | Mnemosyne | `docs/memory-bank/.tmp/PLAN-<feature>.md` ⚠️ gitignored (optional - only if requested) |
-| `IMPL-` | Hermes / Aphrodite / Maat | Mnemosyne | `docs/memory-bank/.tmp/IMPL-<phase>-<agent>.md` ⚠️ gitignored |
-| `REVIEW-` | Temis | Mnemosyne | `docs/memory-bank/.tmp/REVIEW-<feature>.md` ⚠️ gitignored |
+| `IMPL-` | Hermes / Aphrodite / Demeter | Mnemosyne | `docs/memory-bank/.tmp/IMPL-<phase>-<agent>.md` ⚠️ gitignored |
+| `REVIEW-` | Themis | Mnemosyne | `docs/memory-bank/.tmp/REVIEW-<feature>.md` ⚠️ gitignored |
 | `DISC-` | Explore (`#runSubagent`) | Mnemosyne | `docs/memory-bank/.tmp/DISC-<topic>.md` ⚠️ gitignored |
 | `ADR-` | Any agent | Mnemosyne | `docs/memory-bank/_notes/ADR-<topic>.md` ✅ committed |
 
@@ -914,14 +914,14 @@ You (Architect)
             ├─► [PARALLEL 🔀]
             │       ├─► Hermes ───── IMPL-phase2-hermes.md
             │       ├─► Aphrodite ── IMPL-phase2-aphrodite.md
-            │       └─► Maat ──────── IMPL-phase2-maat.md
+            │       └─► Demeter ──────── IMPL-phase2-demeter.md
             │
-            ├─► Temis ───────────────── REVIEW-<feature>.md
+            ├─► Themis ───────────────── REVIEW-<feature>.md
             │       └─► "Human Review Focus" (you must validate)
             │
             │   ⏸️ GATE 2: You approve REVIEW artifact
             │
-            └─► [optional] Ra → deploy
+            └─► [optional] Prometheus → deploy
                     ⏸️ GATE 3: You execute git commit
 ```
 
@@ -933,8 +933,8 @@ When Zeus dispatches multiple workers, it always announces:
 Running simultaneously (independent scopes):
 - @hermes   → backend endpoints + tests
 - @aphrodite → frontend components
-- @maat     → database migration
-All three produce IMPL artifacts. Temis reviews after all complete.
+- @demeter     → database migration
+All three produce IMPL artifacts. Themis reviews after all complete.
 ```
 
 ---
@@ -955,11 +955,11 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 
 @aphrodite: Build ProductCard component with Storybook
 
-@maat: Optimize users table queries
+@demeter: Optimize users table queries
 
-@ra: Create multi-stage Docker build for new service
+: Create multi-stage Docker build for new service
 
-@temis: Review this PR for security issues
+: Review this PR for security issues
 
 @mnemosyne: Update memory bank with completed features
 
@@ -981,13 +981,13 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 | Find files/code | apollo | Direct: @apollo |
 | New API endpoint | hermes | Direct: @hermes |
 | New component | aphrodite | Direct: @aphrodite |
-| Database optimization | maat | `/optimize-database` |
-| Build AI pipelines (RAG, vector, chains) | hefesto | Direct: @hefesto |
-| Configure model providers / routing | quiron | Direct: @quiron |
-| Design conversational AI / chatbots | eco | Direct: @eco |
-| Set up observability / monitoring | nix | Direct: @nix |
-| Deploy changes | ra | Direct: @ra |
-| Code review | temis | `/review-code` |
+| Database optimization | demeter | `/optimize-database` |
+| Build AI pipelines (RAG, vector, chains) | hephaestus | Direct:  |
+| Configure model providers / routing | chiron | Direct:  |
+| Design conversational AI / chatbots | echo | Direct:  |
+| Set up observability / monitoring | nyx | Direct:  |
+| Deploy changes | prometheus | Direct:  |
+| Code review | themis | `/review-code` |
 | Open PR / manage GitHub | iris | Direct: @iris |
 | Create release / tag | iris | Direct: @iris |
 | Open or triage issues | iris | Direct: @iris |
@@ -1015,7 +1015,7 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 
 **Examples inspired by groupzer0/vs-code-agents:**
 - Separation of concerns: Planner plans, Implementer implements, Reviewer reviews.
-- Quality gates: Require review (Temis) before declaring a phase complete.
+- Quality gates: Require review (Themis) before declaring a phase complete.
 - Memory discipline: Capture decisions in Mnemosyne, avoid extra docs in the repo.
 - Skills-driven reuse: Prefer skills for repeated standards instead of duplicating rules.
 
@@ -1027,9 +1027,9 @@ Pantheon uses a **plan-based model configuration system**. Agents are model-agno
 
 | Tier | Purpose | Cost Profile | Agents |
 |---|---|---|---|
-| `fast` | Quick, cheap operations | Low (0-0.33x) | Apollo, Iris, Mnemosyne, Talos, Nix |
-| `default` | Balanced quality/speed | Medium (1x) | Hermes, Aphrodite, Maat, Ra, Hefesto, Quíron, Eco, Gaia |
-| `premium` | Deep reasoning, critical | High (3-7.5x) | Zeus, Athena, Temis |
+| `fast` | Quick, cheap operations | Low (0-0.33x) | Apollo, Iris, Mnemosyne, Talos, Nyx |
+| `default` | Balanced quality/speed | Medium (1x) | Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Chiron, Echo, Gaia |
+| `premium` | Deep reasoning, critical | High (3-7.5x) | Zeus, Athena, Themis |
 
 ### Plan Files
 
@@ -1088,12 +1088,12 @@ platform/plans/
 
 | Direction | Tier | Reason |
 |---|---|---|
-| Any → Temis | `premium` | Critical quality + security gate |
+| Any → Themis | `premium` | Critical quality + security gate |
 | Any → Zeus | `premium` | Complex orchestration decisions |
 | Athena → Zeus | `premium` | Plan handoff needs careful execution |
 | Any → Mnemosyne | `fast` | Simple documentation writes |
-| Hefesto/Quíron → Ra | `default` | Infrastructure config generation |
-| Eco → Talos | `fast` | Quick hotfix dispatch |
+| Hephaestus/Chiron → Prometheus | `default` | Infrastructure config generation |
+| Echo → Talos | `fast` | Quick hotfix dispatch |
 
 ### OpenCode Configuration
 
@@ -1106,7 +1106,7 @@ The root `opencode.json` provides per-agent model overrides using OpenCode's `ag
   "agent": {
     "zeus":    { "model": "opencode/kimi-k2.6" },
     "apollo":  { "model": "opencode/deepseek-v4-flash" },
-    "temis":   { "model": "opencode/kimi-k2.6" }
+    "themis":   { "model": "opencode/kimi-k2.6" }
   }
 }
 ```
@@ -1286,7 +1286,7 @@ Based on industry best practices across all frameworks above:
 | Technique | Where applied in Pantheon |
 |---|---|
 | **Context isolation via subagents** | Apollo runs in isolated context window; only its summary returns to Zeus/Athena |
-| **Parallel execution** | Zeus dispatches Hermes + Aphrodite + Maat simultaneously when scopes don't overlap |
+| **Parallel execution** | Zeus dispatches Hermes + Aphrodite + Demeter simultaneously when scopes don't overlap |
 | **Scoped `agents:` property** | Each orchestrator declares exactly which subagents it may invoke — prevents drift |
 | **Tool minimization per agent** | Apollo has no `edit/` tools; Talos has no `agent` tool — smallest possible surface |
 | **Progressive context loading** | Zeus reads `04-active-context.md` only when a sprint is active (Tier 2 on demand) |
@@ -1308,6 +1308,6 @@ Based on industry best practices across all frameworks above:
 
 ---
 
-**Last Updated:** February 25, 2026  
+**Last Updated:** May 2, 2026  
 **Architecture Pattern:** Conductor-Delegate (extensible — add new domain agents as needed)  
-**Mythology Reference:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Temis/Thêmis, Mnemosyne, **Gaia**), Egyptian (Ra, Maat)
+**Mythology Reference:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Themis/Thêmis, Mnemosyne, **Gaia**, **Prometheus**, **Demeter**)

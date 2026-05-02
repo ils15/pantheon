@@ -283,7 +283,7 @@ After installing, verify these work:
 - [ ] `@athena` can create plans
 - [ ] `@hermes` or `@aphrodite` can implement code
 - [ ] Tab cycles between agents (VS Code/OpenCode)
-- [ ] Skills load: `@temis` can review code
+- [ ] Skills load: `` can review code
 - [ ] Sync works: `npm run sync && npm run sync:check` passes
 
 ---

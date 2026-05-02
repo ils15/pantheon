@@ -52,16 +52,16 @@ your-project/
     ├── apollo
     ├── hermes
     ├── aphrodite
-    ├── maat
-    ├── temis
-    ├── ra
+    ├── demeter
+    ├── themis
+    ├── prometheus
     ├── iris
     ├── mnemosyne
     ├── talos
-    ├── hefesto
-    ├── quiron
-    ├── eco
-    ├── nix
+    ├── hephaestus
+    ├── chiron
+    ├── echo
+    ├── nyx
     └── gaia
 ```
 
@@ -160,7 +160,7 @@ tools:
   - web/fetch
 handoffs:
   - label: "Database Schema"
-    agent: maat
+    agent: demeter
 ---
 # Hermes — Backend Implementation
 

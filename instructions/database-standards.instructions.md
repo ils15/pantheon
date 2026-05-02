@@ -4,7 +4,7 @@ name: "Database Development Standards"
 applyTo: "**/{*migration*.py,models/*.py}"
 ---
 
-# Database Development Standards (Maat)
+# Database Development Standards (Demeter)
 
 ## Migrations
 - Create forward migration script

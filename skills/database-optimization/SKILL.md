@@ -198,7 +198,7 @@ Return recommendations as JSON array with: table, columns, reason, estimated_imp
     @classmethod
     async def analyze(cls, explain_output: str, query: str) -> list[IndexRecommendation]:
         """Generate index recommendations from EXPLAIN ANALYZE output."""
-        # Uses LLM (via Quíron's routing) to analyze the plan
+        # Uses LLM (via Chiron's routing) to analyze the plan
         # Returns structured recommendations
         pass
     

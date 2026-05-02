@@ -13,7 +13,7 @@
     "iris": "google/gemini-3-flash",
     "mnemosyne": "google/gemini-3-flash",
     "talos": "google/gemini-3-flash",
-    "nix": "google/gemini-3-flash",
+    "nyx": "google/gemini-3-flash",
     "gaia": "anthropic/claude-sonnet-4-6"
   },
   "limits": {

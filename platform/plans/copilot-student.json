@@ -10,7 +10,7 @@
   },
   "agent_overrides": {
     "apollo": "GPT-5 mini (copilot)",
-    "nix": "GPT-5.4 mini (copilot)",
+    "nyx": "GPT-5.4 mini (copilot)",
     "talos": "GPT-5.4 mini (copilot)",
     "iris": "Claude Haiku 4.5 (copilot)",
     "mnemosyne": "Claude Haiku 4.5 (copilot)"

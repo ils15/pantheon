@@ -21,11 +21,11 @@ Use @aphrodite-subagent to:
 Check which to combine (backend, frontend, database):
 - @hermes-subagent → Backend APIs & services (FastAPI)
 - @aphrodite-subagent → Frontend components (React/TypeScript)
-- @maat-subagent → Database migrations (SQLAlchemy)
+- @demeter-subagent → Database migrations (SQLAlchemy)
 
 **Execute in parallel!** This reduces time by 60%.
 
-### Phase 3 - Quality Gate (@Temis)
+### Phase 3 - Quality Gate (@Themis)
 - Review ONLY changed files
 - Check: OWASP Top 10, coverage >80%, TDD followed
 - Return: APPROVED | NEEDS_REVISION | FAILED
@@ -35,7 +35,7 @@ Check which to combine (backend, frontend, database):
 - Verify data consistency
 - Performance testing
 
-### Phase 5 - Deployment (@Ra)
+### Phase 5 - Deployment (@Prometheus)
 - Deploy to staging
 - Health checks
 - Smoke tests
