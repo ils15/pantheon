@@ -1,6 +1,6 @@
 ---
 name: aphrodite
-description: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD. Calls apollo as nested subagent to discover components. Sends work to themis for review."
+description: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD, modern API patterns, deprecated npm detection via npm-deprecated-check/Biome. Calls apollo as nested subagent to discover components. Sends work to themis for review."
 argument-hint: "Frontend task: component, page, hook, or styling — include name, props, and UX behaviour (e.g. 'ProductCard with image, title, price and add-to-cart button')"
 tools:
   - agent
@@ -191,6 +191,44 @@ After implementing a UI component or page, use VS Code Integrated Browser tools 
 - **Error handling**: User-friendly error messages
 - **Loading states**: Skeleton loaders or spinners
 - **File size**: Maximum 300 lines per component
+
+## Modern TypeScript/React & Dependency Hygiene
+
+### Deprecated npm Package Detection
+Before adding or modifying dependencies, check for deprecations:
+
+```bash
+# Scan current project for deprecated packages
+npx npm-deprecated-check current --failfast --verbose
+
+# Check specific package
+npx npm-deprecated-check package <pkg-name>
+```
+
+### Standard Library & Modern Patterns
+Prefer modern browser/Node.js APIs over third-party packages:
+
+| Obsolete/Third-party | Modern alternative | Why |
+|---------------------|-------------------|-----|
+| `lodash` (most) | native `Array.map`, `filter`, `reduce`, `Object.groupBy` | ES6+ builtins |
+| `moment.js` | `Intl.DateTimeFormat`, `Temporal` (proposal) or `date-fns` (lightweight) | Moment = legacy, bloated |
+| `axios` (for new code) | native `fetch()` | Node 18+ has stable `fetch` |
+| `request` (npm) | `fetch()` or `undici` | Fully deprecated |
+| `left-pad`, `is-odd` | inline expressions | Micro-utilities not worth deps |
+| `jQuery` | `document.querySelector`, framework abstractions | Modern frameworks obsolete it |
+| `prop-types` | TypeScript interfaces | TS provides static checking |
+
+### LTS & Modern Version Policy
+- Use **Node.js LTS** (currently v22.x, avoid odd-numbered releases)
+- Pin React to the **latest stable** (React 19+)
+- Always run `npx npm-deprecated-check current` before committing dep changes
+- Use **Biome** instead of ESLint + Prettier (faster, unified, type-aware):
+  ```bash
+  biome check --write --unsafe <files>
+  ```
+- Prefer ESM (`"type": "module"` in package.json) over CJS
+- Use `package.json` `engines.node` to enforce minimum Node.js version
+- Never use `@typescript-eslint` rules that Biome already covers (noUnusedVariables, useConst, etc.)
 
 ## Handoff Strategy (VS Code 1.108+)
 
