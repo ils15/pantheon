@@ -1,6 +1,6 @@
 ---
 name: prometheus
-description: "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management. Calls apollo as nested subagent for pattern discovery. Sends work to themis for validation."
+description: "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management, container deprecation scans. Calls apollo as nested subagent for pattern discovery. Sends work to themis for validation."
 argument-hint: "Infrastructure task: Dockerfile, compose service, CI/CD workflow, or env setup — describe the service and deployment target (e.g. 'multi-stage Dockerfile for FastAPI with non-root user and health check')"
 tools:
   - agent

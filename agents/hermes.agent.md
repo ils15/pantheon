@@ -1,6 +1,6 @@
 ---
 name: hermes
-description: "Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR). Calls apollo as nested subagent to discover patterns. Sends work to themis for review."
+description: "Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection via dep-audit/pip-audit. Calls apollo as nested subagent to discover patterns. Sends work to themis for review."
 argument-hint: "Backend task: endpoint, service, router, schema, or test — include module name and expected behaviour (e.g. 'POST /users endpoint with email uniqueness validation')"
 tools:
     - agent
@@ -135,6 +135,39 @@ When creating a new feature:
 - **Error messages**: Clear, user-friendly
 - **File size**: Maximum 300 lines (split if larger)
 - **DRY principle**: Reuse existing services/utilities
+
+## Modern Python & Dependency Hygiene
+
+### Obsolete Library Detection
+Before writing new code or modifying existing code, check for obsolete/deprecated libraries. Run these tools and replace findings:
+
+```bash
+# Detect stdlib backports, zombie shims, deprecated packages
+pip install dep-audit && dep-audit . --exit-code
+
+# Scan for known CVEs in dependencies
+pip-audit -r requirements.txt
+```
+
+**Common Python stdlib replacements (use these instead of third-party):**
+| Obsolete | Modern stdlib | Since |
+|----------|--------------|-------|
+| `pytz` | `zoneinfo.ZoneInfo` | Python 3.9 |
+| `tomli` | `tomllib` | Python 3.11 |
+| `six`, `future` | native Python 3 syntax | Python 3.0+ |
+| `dataclasses` backport | `dataclasses` stdlib | Python 3.7+ |
+| `typing_extensions` (most) | `typing` stdlib | Python 3.9-3.11+ |
+| `importlib_metadata` | `importlib.metadata` | Python 3.8+ |
+| `contextlib2` | `contextlib` stdlib | Python 3.7+ |
+| `mock` (PyPI) | `unittest.mock` | Python 3.3+ |
+
+### LTS & Modern Version Policy
+- Always pin dependencies to **LTS-compatible versions**
+- Prefer latest **stable major version**: FastAPI ≥0.110, Pydantic ≥2.7, SQLAlchemy ≥2.0
+- Never use EOL Python versions (3.8 and below are unsupported)
+- Check `pip-audit` output to ensure no vulnerable deps
+- Use `ruff check --select UP` to auto-migrate to modern Python syntax
+- Prefer `pyproject.toml` over `setup.py` for project metadata
 
 ## 🚨 Documentation Policy
 
