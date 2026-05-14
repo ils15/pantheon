@@ -1,6 +1,6 @@
 ---
 name: themis
-description: "Quality & security gate — reviews only changed files, OWASP Top 10, coverage >80%, correctness. Called by: hermes, aphrodite, demeter, zeus. Escalates blockers to zeus."
+description: "Quality & security gate — ruff/Biome linting, dead/legacy code detection, OWASP Top 10, coverage >80%, correctness, deprecation audit. Called by: hermes, aphrodite, demeter, zeus. Escalates blockers to zeus."
 tools:
   task: true
   question: true
@@ -45,40 +45,92 @@ Themis includes `edit/editFiles` **exclusively for trivial auto-corrections duri
 - Require extra scrutiny for high-risk changes (auth, encryption, data access)
 - Ensure edge cases and error paths are tested, not just happy paths
 
-### 3. **Code Quality Checks (LIGHTWEIGHT - CHANGED FILES ONLY)** ⚡
-Only check files that were ACTUALLY MODIFIED in this phase. 
+### 3. **Code Quality Checks — Ruff & Biome** 🔍
+Only check files that were ACTUALLY MODIFIED in this phase. Use **ruff** for Python (900+ rules) and **Biome** for JS/TS (502 rules). These detect dead code, legacy patterns, formatting issues, and deprecated APIs.
 
-1. **Trailing whitespace** (Python + JS)
-   ```bash
-   grep -n ' $' <changed_files>  # Find trailing spaces
-   ```
+#### Python — Ruff (changed `.py` files)
+```bash
+ruff check --select F,E,W,I,N,UP,B,SIM,PL,RUF --output-format concise <files>
+ruff format --check <files>        # formatting compliance
+```
 
-2. **Tab vs space consistency** (Python critical)
-   ```bash
-   grep -P '\t' <changed_files_python>  # Find hard tabs in Python
-   ```
+**Key ruff rules for dead/legacy code:**
+| Rule | Code | What it catches |
+|------|------|----------------|
+| Unused imports | F401 | Imports never used |
+| Unused local variable | F841 | Variables assigned but never read |
+| Unreachable code | PLW0101 | Code after return/raise that never runs |
+| Unnecessary comprehension | C416 | `[x for x in iterable]` → `list(iterable)` |
+| Unnecessary `None` default | SIM910 | `dict.get(key, None)` → `dict.get(key)` |
+| Deprecated Python API | UP | `pytz`→`zoneinfo`, `collections.X`→`collections.abc.X` |
+| Unnecessary `pass` | PIE790 | Empty body with `pass` |
+| Wildcard imports | F403,F405 | `from X import *` (pollutes namespace) |
+| Hard tabs | W191 | Tab characters in indentation |
+| Trailing whitespace | W291 | Spaces at end of lines |
 
-3. **Wild imports** (Python)
-   ```bash
-   grep -n 'from .* import \*' <changed_files_python>  # Should avoid
-   ```
+**Auto-fix what's possible:**
+```bash
+ruff check --fix --select F,E,W,UP,B,SIM <files>
+```
 
-4. **Unused imports** (Look for imports but quick visual scan only)
-   ```bash
-   # Quick check - no tool needed, just look for obvious unused ones
-   ```
+**Fallback (ruff not installed):**
+```bash
+grep -n ' $' <files>              # trailing whitespace (BLOCKER)
+grep -P '\t' <files_python>       # hard tabs in Python (BLOCKER)
+grep -n 'import \*' <files>       # wild imports (MEDIUM)
+grep -n '^[[:space:]]*pass' <files>  # unnecessary pass (LOW)
+```
 
-5. **Double blank lines in wrong places** (Python)
-   ```bash
-   grep -c '^$' <file> | check for > 2 consecutive
-   ```
+#### JavaScript/TypeScript — Biome (changed `.js/.ts/.tsx` files)
+```bash
+biome check --write --unsafe <files>   # auto-fix all fixable issues
+biome ci <files>                        # CI mode (exit code on violations)
+```
+
+**Key Biome rules for dead/legacy code:**
+| Rule | Group | What it catches |
+|------|-------|----------------|
+| noUnusedVariables | correctness | Variables declared but never read |
+| noUnusedImports | correctness | Imports never used |
+| noUnreachable | correctness | Code after return/throw |
+| noEmptyBlockStatements | suspicious | Empty `{}` from incomplete refactoring |
+| noExtraBooleanCast | correctness | `!!x` or `Boolean(x)` where unnecessary |
+| noGlobalIsNan | correctness | `isNaN()` → `Number.isNaN()` |
+| useConst | style | `let` never reassigned → `const` |
+| useTemplate | style | String concat → template literals |
+| useExhaustiveDependencies | correctness | Missing React hook deps |
+| noFloatingPromises | correctness | Unhandled promises (type-aware) |
+| noImportCycles | project | Circular imports |
+| noDeprecatedImport | correctness | Deprecated module import |
+
+#### Dead/Legacy Code — Project-Wide Scan
+Run these when dependencies changed or to detect code rot:
+
+**Python — dep-audit** (obsolete libs):
+```bash
+pip install dep-audit && dep-audit . --exit-code
+```
+Detects: stdlib backports (`pytz`→`zoneinfo`, `tomli`→`tomllib`), zombie shims (`six`, `future`), deprecated packages (`pycrypto`→`pycryptodome`), unused deps.
+
+**Python — pip-audit** (security vulns):
+```bash
+pip-audit -r requirements.txt
+```
+Scans against Python Packaging Advisory Database (CVE lookup).
+
+**JS/TS — npm-deprecated-check** (deprecated packages):
+```bash
+npx npm-deprecated-check current --failfast
+```
+Detects: deprecated npm packages, suggests alternatives, checks Node.js EOL.
 
 **Process:**
 - [ ] Identify changed files (provided by implementation agent)
-- [ ] If tools installed: run ruff/black/eslint with `--fix`
-- [ ] If tools NOT installed: run manual checks above
-- [ ] Block review ONLY if: trailing spaces, hard tabs (Python), or wild imports found
-- [ ] Everything else is LOW severity (nice-to-have, not blocker)
+- [ ] Run **ruff** on Python files (`ruff check --select F,E,W,UP,B,SIM,PL`)
+- [ ] Run **Biome** on JS/TS files (`biome check --write --unsafe`)
+- [ ] Run **dep-audit** if Python deps changed
+- [ ] Run **npm-deprecated-check** if JS deps changed
+- [ ] **BLOCKER if:** trailing spaces, hard tabs in Python, wild imports, unresolved merge conflicts, **or any error-level linter violation from ruff/Biome**
 - [ ] Report violations with EXACT file:line location
 
 ### 4. **Structured Feedback**
@@ -146,24 +198,39 @@ Only check files that were ACTUALLY MODIFIED in this phase.
 
 ## Code Review Checklist
 
-### Code Quality Checks (LIGHTWEIGHT - CHANGED FILES ONLY) ⚡
+### Ruff & Biome — Quality & Dead Code ⚡
 **CRITICAL: Only check files modified in this phase (implementation agent provides the list).**
 
-- [ ] **Trailing whitespace** — `grep -n ' $' <files>` (BLOCKER if found)
-- [ ] **Hard tabs in Python** — `grep -P '\t' <files>` (BLOCKER if found)
-- [ ] **Wild imports** (`from X import *`) — `grep -n 'import \*' <files>` (MEDIUM severity)
-- [ ] **Obvious unused imports** — Quick visual scan (LOW severity)
-- [ ] **Optional: If tools installed:**
-  - [ ] ruff check (auto-fix: `ruff check --fix`)
-  - [ ] black check (auto-fix: `black`)
-  - [ ] isort check (auto-fix: `isort`)
-  - [ ] eslint (auto-fix: `eslint --fix`)
-  - [ ] prettier (auto-fix: `prettier --write`)
+**Python (ruff):**
+- [ ] **Unused imports** — `ruff check --select F401 <files>` (BLOCKER)
+- [ ] **Unused variables** — `ruff check --select F841 <files>` (BLOCKER)
+- [ ] **Unreachable code** — `ruff check --select PLW0101 <files>` (BLOCKER)
+- [ ] **Deprecated APIs** — `ruff check --select UP <files>` (MEDIUM)
+- [ ] **Trailing whitespace** — `ruff check --select W291 <files>` (BLOCKER)
+- [ ] **Hard tabs** — `ruff check --select W191 <files>` (BLOCKER)
+- [ ] **Wild imports** — `ruff check --select F403 <files>` (MEDIUM)
+- [ ] **Formatting** — `ruff format --check <files>` (MEDIUM)
+
+**JavaScript/TypeScript (Biome):**
+- [ ] **Unused variables** — `noUnusedVariables` rule (BLOCKER)
+- [ ] **Unused imports** — `noUnusedImports` rule (BLOCKER)
+- [ ] **Unreachable code** — `noUnreachable` rule (BLOCKER)
+- [ ] **Empty blocks** — `noEmptyBlockStatements` rule (LOW)
+- [ ] **Floating promises** — `noFloatingPromises` rule (HIGH)
+- [ ] **Import cycles** — `noImportCycles` rule (MEDIUM)
+- [ ] **Deprecated imports** — `noDeprecatedImport` rule (MEDIUM)
+- [ ] **Formatting** — `biome check --write --unsafe <files>` (MEDIUM)
+
+**Dependency Health (if deps changed):**
+- [ ] **Python obsolote libs** — `dep-audit .` (detects backports, shims, unused)
+- [ ] **Python vulns** — `pip-audit -r requirements.txt` (CVE scan)
+- [ ] **npm deprecated** — `npx npm-deprecated-check current --failfast`
 
 **Severity:**
-- **BLOCKER (return NEEDS_REVISION):** Trailing spaces, hard tabs in Python, unresolved merge conflicts
-- **MEDIUM (nice-to-have, not blocker):** Import organization, line length, formatting if tools not installed
-- **LOW:** Style improvements
+- **BLOCKER (return NEEDS_REVISION):** Trailing spaces, hard tabs in Python, wild imports, **any error-level ruff/Biome rule violation**, unresolved merge conflicts
+- **HIGH:** Floating promises, import cycles, unreachable code
+- **MEDIUM:** Deprecated API usage, formatting style, dependency issues
+- **LOW:** Empty blocks, style improvements
 
 ### Correctness (CRITICAL)
 - [ ] Logic is correct and complete

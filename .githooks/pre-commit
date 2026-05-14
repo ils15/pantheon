@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Pantheon pre-commit hook
+# Auto-syncs platform-specific agent files when canonical agents change.
+# 
+# Install: git config core.hooksPath .githooks
+
+set -euo pipefail
+
+CHANGED_AGENTS=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '^agents/[a-z-]+\.agent\.md$' || true)
+
+if [ -z "$CHANGED_AGENTS" ]; then
+  exit 0
+fi
+
+echo "🔧 Canonical agents modified — syncing platform files..."
+node scripts/sync-platforms.mjs
+
+# Stage all generated platform files
+# Patterns for each platform's output directory
+git add platform/claude/agents/*.md
+git add platform/cline/.clinerules/*
+git add platform/continue/rules/*.md
+git add platform/cursor/rules/*.mdc
+git add platform/opencode/agents/*.md
+git add platform/windsurf/rules/*.md
+
+echo "✅ Platform files synced and staged"
