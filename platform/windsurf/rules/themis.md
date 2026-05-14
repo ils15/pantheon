@@ -1,6 +1,6 @@
 ---
 name: themis
-description: "Quality & security gate — reviews only changed files, OWASP Top 10, coverage >80%, correctness. Called by: hermes, aphrodite, demeter, zeus. Escalates blockers to zeus."
+description: "Quality & security gate — ruff/Biome linting, dead/legacy code detection, OWASP Top 10, coverage >80%, correctness, deprecation audit. Called by: hermes, aphrodite, demeter, zeus. Escalates blockers to zeus."
 trigger: model_decision
 ---
 
@@ -55,24 +55,39 @@ Themis includes `edit/editFiles` **exclusively for trivial auto-corrections duri
 
 ## Code Review Checklist
 
-### Code Quality Checks (LIGHTWEIGHT - CHANGED FILES ONLY) ⚡
+### Ruff & Biome — Quality & Dead Code ⚡
 **CRITICAL: Only check files modified in this phase (implementation agent provides the list).**
 
-- [ ] **Trailing whitespace** — `grep -n ' $' <files>` (BLOCKER if found)
-- [ ] **Hard tabs in Python** — `grep -P '\t' <files>` (BLOCKER if found)
-- [ ] **Wild imports** (`from X import *`) — `grep -n 'import \*' <files>` (MEDIUM severity)
-- [ ] **Obvious unused imports** — Quick visual scan (LOW severity)
-- [ ] **Optional: If tools installed:**
-  - [ ] ruff check (auto-fix: `ruff check --fix`)
-  - [ ] black check (auto-fix: `black`)
-  - [ ] isort check (auto-fix: `isort`)
-  - [ ] eslint (auto-fix: `eslint --fix`)
-  - [ ] prettier (auto-fix: `prettier --write`)
+**Python (ruff):**
+- [ ] **Unused imports** — `ruff check --select F401 <files>` (BLOCKER)
+- [ ] **Unused variables** — `ruff check --select F841 <files>` (BLOCKER)
+- [ ] **Unreachable code** — `ruff check --select PLW0101 <files>` (BLOCKER)
+- [ ] **Deprecated APIs** — `ruff check --select UP <files>` (MEDIUM)
+- [ ] **Trailing whitespace** — `ruff check --select W291 <files>` (BLOCKER)
+- [ ] **Hard tabs** — `ruff check --select W191 <files>` (BLOCKER)
+- [ ] **Wild imports** — `ruff check --select F403 <files>` (MEDIUM)
+- [ ] **Formatting** — `ruff format --check <files>` (MEDIUM)
+
+**JavaScript/TypeScript (Biome):**
+- [ ] **Unused variables** — `noUnusedVariables` rule (BLOCKER)
+- [ ] **Unused imports** — `noUnusedImports` rule (BLOCKER)
+- [ ] **Unreachable code** — `noUnreachable` rule (BLOCKER)
+- [ ] **Empty blocks** — `noEmptyBlockStatements` rule (LOW)
+- [ ] **Floating promises** — `noFloatingPromises` rule (HIGH)
+- [ ] **Import cycles** — `noImportCycles` rule (MEDIUM)
+- [ ] **Deprecated imports** — `noDeprecatedImport` rule (MEDIUM)
+- [ ] **Formatting** — `biome check --write --unsafe <files>` (MEDIUM)
+
+**Dependency Health (if deps changed):**
+- [ ] **Python obsolote libs** — `dep-audit .` (detects backports, shims, unused)
+- [ ] **Python vulns** — `pip-audit -r requirements.txt` (CVE scan)
+- [ ] **npm deprecated** — `npx npm-deprecated-check current --failfast`
 
 **Severity:**
-- **BLOCKER (return NEEDS_REVISION):** Trailing spaces, hard tabs in Python, unresolved merge conflicts
-- **MEDIUM (nice-to-have, not blocker):** Import organization, line length, formatting if tools not installed
-- **LOW:** Style improvements
+- **BLOCKER (return NEEDS_REVISION):** Trailing spaces, hard tabs in Python, wild imports, **any error-level ruff/Biome rule violation**, unresolved merge conflicts
+- **HIGH:** Floating promises, import cycles, unreachable code
+- **MEDIUM:** Deprecated API usage, formatting style, dependency issues
+- **LOW:** Empty blocks, style improvements
 
 ### Correctness (CRITICAL)
 - [ ] Logic is correct and complete
