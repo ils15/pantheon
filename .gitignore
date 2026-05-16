@@ -33,6 +33,9 @@ docs/memory-bank/.tmp/
 # Dependencies
 node_modules/
 
+# Build output
+dist/
+
 # Platform template — reference only, not generated
 platforms/_template/agents/
 platform/plans/plan-active.json
