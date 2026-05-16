@@ -1,6 +1,6 @@
 # Pantheon Documentation Index
 
-> **A multi-agent orchestration framework** — 12 specialized agents, 5 platforms, 18 skills.
+> **A multi-agent orchestration framework** — 16 specialized agents, 7 platforms, 31 skills.
 
 ---
 
@@ -62,7 +62,6 @@ All agents live as **canonical `.agent.md` files** in `agents/` and are auto-gen
 
 Each platform has its own README with installation notes and format details:
 
-- [VS Code](../platform/vscode/README.md)
 - [OpenCode](../platform/opencode/README.md)
 - [Claude Code](../platform/claude/README.md)
 - [Cursor](../platform/cursor/README.md)

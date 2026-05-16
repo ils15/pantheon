@@ -285,6 +285,89 @@ OpenCode uses `provider/model` format for model IDs (e.g., `opencode/kimi-k2.6`)
 }
 ```
 
+#### Model Value Types
+
+Model fields support **three value types** for flexible configuration:
+
+| Value Type | Example | Behavior |
+|------------|---------|----------|
+| **Explicit String** | `"opencode/kimi-k2.6"` | Uses exactly this model ID |
+| **`"auto"`** | `"auto"` | Inherits from chat's active model (set via `/model` command) |
+| **`null`** | `null` | Falls back to top-level `model` in `opencode.json`, then platform default |
+
+**Explicit String (Default):**
+```json
+{
+  "agent": {
+    "zeus": { "model": "opencode/kimi-k2.6" }
+  }
+}
+```
+Use when you want deterministic, predictable model assignment.
+
+**`"auto"` — Dynamic Inheritance:**
+```json
+{
+  "agent": {
+    "apollo": { "model": "auto" },
+    "talos": { "model": "auto" }
+  }
+}
+```
+The agent follows the user's chat model selection. When you run `/model opencode/deepseek-v4-pro`, these agents automatically switch. Useful for:
+- Experimenting with different models without editing configs
+- Cost control (switch to cheaper models mid-session)
+- Testing agent behavior across multiple providers
+
+**`null` — Fallback Chain:**
+```json
+{
+  "model": "opencode/kimi-k2.5",
+  "agent": {
+    "hermes": { "model": null },
+    "aphrodite": { "model": null }
+  }
+}
+```
+Omits the model field, triggering the fallback chain: agent → top-level `model` → platform default. Use when you want most agents to share a common default.
+
+#### Switching from Hardcoded to Auto
+
+To convert an agent from hardcoded to dynamic:
+
+```json
+// Before: Hardcoded model
+{
+  "agent": {
+    "apollo": { "model": "opencode/deepseek-v4-flash" }
+  }
+}
+
+// After: Dynamic inheritance
+{
+  "agent": {
+    "apollo": { "model": "auto" }
+  }
+}
+```
+
+Now Apollo follows your `/model` command changes in real-time.
+
+#### Model Priority Chain
+
+When resolving which model an agent uses:
+
+```
+1. Agent-specific model (string/auto/null)
+2. If null: top-level model in opencode.json
+3. If auto: chat-selected model via /model
+4. If missing: platform default
+```
+
+This chain ensures predictable behavior while allowing flexibility.
+
+> **Note:** The `/model` command in OpenCode sets the chat's active model. Agents configured with `"auto"` immediately follow this selection. Use `/models` to see available models and `/model <id>` to switch.
+
 ### Plan-Based Model Selection
 
 The file `platform/plans/` contains **16 model plans** across 5 services. Agents declare abstract **tiers** (`fast`/`default`/`premium`) and the active plan resolves them to concrete model IDs.

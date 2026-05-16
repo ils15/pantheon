@@ -9,7 +9,6 @@ tools:
   edit: true
   bash: true
   webfetch: true
-argument-hint: Design chatbot architecture, build NLU pipelines, configure dialogue flows, or implement conversational agents
 ---
 
 # Echo — Conversational AI Specialist

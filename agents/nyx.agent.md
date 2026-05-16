@@ -1,7 +1,6 @@
 ---
 name: nyx
 description: Observability & monitoring specialist — OpenTelemetry tracing, token/cost tracking, agent performance analytics, LangSmith integration. Sees what others cannot in the dark. Calls apollo for discovery. Sends work to themis for review.
-argument-hint: "Set up agent observability, trace LLM calls, monitor costs, debug agent performance, or configure LangSmith"
 tools:
   - agent
   - vscode/askQuestions

@@ -16,8 +16,7 @@
       "mode",
       "tools",
       "skills",
-      "instructions",
-      "argument-hint"
+      "instructions"
     ],
     "exclude": [
       "model",

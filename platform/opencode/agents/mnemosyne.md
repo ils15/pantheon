@@ -6,7 +6,6 @@ tools:
   grep: true
   read: true
   edit: true
-argument-hint: "What to document: 'initialize project' | 'close sprint' | 'record decision TOPIC' | 'create task DESCRIPTION'"
 ---
 
 # Mnemosyne - Memory Agent

@@ -1,18 +1,25 @@
 # Agent Hooks Implementation
 
-**Status**: Phase 1 Implementation Complete  
-**Date**: March 20, 2026  
-**Framework**: VS Code Copilot Agents (March 2026 API)
+**Status**: All Phases Complete (8 hooks across 5 lifecycle events)  
+**Date**: May 2026  
+**Framework**: Pantheon Multi-Agent System
 
 ---
 
 ## Overview
 
-Agent hooks provide lifecycle automation for the Pantheon framework. Three critical hooks have been implemented:
+Agent hooks provide lifecycle automation for the Pantheon framework. Eight critical hooks have been implemented across 5 lifecycle events:
 
-1. **Security Gate (PreToolUse)** - Blocks dangerous operations before execution
-2. **Auto-Format (PostToolUse)** - Runs Biome formatter on all file modifications
-3. **Session Logging (SessionStart)** - Logs session metadata for audit trails
+| Event | Hook | Script | Purpose |
+|---|---|---|---|
+| **PreToolUse** | Security Gate | `validate-tool-safety.sh` | Blocks dangerous operations |
+| **PreToolUse** | Secret Scan | `scan-secrets.sh` | Detects hardcoded credentials |
+| **PostToolUse** | Format | `format-multi-language.sh` | Auto-formats modified files |
+| **PostToolUse** | Import Audit | `audit-imports.sh` | Blocks wildcard imports |
+| **PostToolUse** | Type Check | `run-type-check.sh` | Runs mypy/tsc validation |
+| **SessionStart** | Session Log | `log-session-start.sh` | Logs session metadata |
+| **SubagentStart** | Delegation Start | `on-subagent-delegation-start.sh` | Tracks subagent dispatch |
+| **SubagentStop** | Delegation Stop | `on-subagent-delegation-stop.sh` | Tracks subagent completion |
 
 ---
 
@@ -22,142 +29,189 @@ Agent hooks provide lifecycle automation for the Pantheon framework. Three criti
 Pantheon/
 ├── .github/
 │   └── hooks/
-│       ├── security.json          # PreToolUse hook configuration
-│       ├── format.json            # PostToolUse hook configuration
-│       └── logging.json           # SessionStart hook configuration
+│       ├── security.json          # PreToolUse: security gate
+│       ├── secret-scan.json       # PreToolUse: secret scanning
+│       ├── format.json            # PostToolUse: formatting
+│       ├── import-audit.json      # PostToolUse: import validation
+│       ├── type-check.json        # PostToolUse: type checking
+│       ├── logging.json           # SessionStart: session logging
+│       ├── delegation-start.json  # SubagentStart: delegation tracking
+│       └── delegation-stop.json   # SubagentStop: completion tracking
 │
 └── scripts/
     └── hooks/
-        ├── validate-tool-safety.sh  # Security validation script (executable)
-        └── log-session-start.sh     # Session logging script (executable)
+        ├── validate-tool-safety.sh           # Blocks rm -rf, DROP TABLE, etc.
+        ├── scan-secrets.sh                   # Detects API keys, tokens, passwords
+        ├── format-multi-language.sh          # Formats Python/JS/TS/JSON/YAML/Shell
+        ├── audit-imports.sh                  # Blocks wildcard imports
+        ├── run-type-check.sh                 # Runs mypy/tsc
+        ├── log-session-start.sh              # Logs session start
+        ├── on-subagent-delegation-start.sh   # Logs delegation start
+        └── on-subagent-delegation-stop.sh    # Logs delegation stop/failure
 ```
 
 ---
 
 ## Hook Specifications
 
-### 1. Security Gate Hook (PreToolUse)
+### 1. Security Gate (PreToolUse)
 
-**File**: `.github/hooks/security.json`  
+**Config**: `.github/hooks/security.json`  
 **Script**: `scripts/hooks/validate-tool-safety.sh`
 
-**Purpose**: Block destructive operations (rm -rf, DROP TABLE, TRUNCATE) before execution.
+Blocks destructive operations before execution:
+- `rm -rf /path`
+- `DROP TABLE`
+- `TRUNCATE TABLE`
+- `DELETE FROM` without WHERE
+- `:(){ :|:& };:` (fork bomb)
+- `dd if=/dev/zero of=/dev/sda`
 
-**Input**: JSON via stdin containing:
-- `tool_name`: Name of the tool being executed
-- `tool_input`: Parameters passed to the tool
-
-**Output**: JSON response with:
-- `continue: true` → Allow execution
-- `continue: false` → Block with stopReason
-- `hookSpecificOutput` → Ask for user approval
-
-**Example Blocks**:
+**Example**:
 ```bash
-# Blocks:
-rm -rf /path/to/data
-DROP TABLE public.users
-TRUNCATE sensitive_data
-
-# Requires approval:
-DELETE FROM users WHERE id > 1000
+echo "rm -rf /important/data" | bash scripts/hooks/validate-tool-safety.sh
+# Exit: 1 (BLOCKED)
 ```
 
 ---
 
-### 2. Auto-Format Hook (PostToolUse)
+### 2. Secret Scan (PreToolUse)
 
-**File**: `.github/hooks/format.json`
+**Config**: `.github/hooks/secret-scan.json`  
+**Script**: `scripts/hooks/scan-secrets.sh`
 
-**Purpose**: Automatically format TypeScript/JavaScript/Python files after modification.
+Detects hardcoded secrets in tool input:
+- AWS Access Keys (`AKIA...`)
+- GitHub Tokens (`ghp_...`, `gho_...`)
+- OpenAI Keys (`sk-...`)
+- JWT Tokens (`eyJ...`)
+- Generic API keys and passwords
 
-**Behavior**:
-- Runs `npx biome format --write` on modified files
-- Non-blocking (failures are suppressed with `|| true`)
-- 30-second timeout
-
-**Benefits**:
-- Enforces consistent code style across all agent modifications
-- Eliminates formatting drift
-- Reduces code review friction
+**Example**:
+```bash
+echo "sk-live-1234567890abcdef" | bash scripts/hooks/scan-secrets.sh
+# Exit: 1 (SECRET DETECTED)
+```
 
 ---
 
-### 3. Session Logging Hook (SessionStart)
+### 3. Format (PostToolUse)
 
-**File**: `.github/hooks/logging.json`  
+**Config**: `.github/hooks/format.json`  
+**Script**: `scripts/hooks/format-multi-language.sh`
+
+Auto-formats modified files:
+- **Python**: `ruff format` or `black`
+- **JS/TS/JSON/YAML/CSS/HTML**: `prettier`
+- **Shell**: `shfmt`
+
+Non-blocking — failures are suppressed.
+
+---
+
+### 4. Import Audit (PostToolUse)
+
+**Config**: `.github/hooks/import-audit.json`  
+**Script**: `scripts/hooks/audit-imports.sh`
+
+Validates imports in modified files:
+- Blocks Python wildcard imports (`from X import *`)
+- Flags CommonJS `require()` in JS/TS files
+
+**Example**:
+```bash
+./scripts/hooks/audit-imports.sh src/app.py
+# Exit: 1 if wildcard import found
+```
+
+---
+
+### 5. Type Check (PostToolUse)
+
+**Config**: `.github/hooks/type-check.json`  
+**Script**: `scripts/hooks/run-type-check.sh`
+
+Runs type checkers on the project:
+- `mypy` (if `pyproject.toml` or `.mypy.ini` exists)
+- `tsc --noEmit` (if `tsconfig.json` exists)
+
+Non-blocking — runs opportunistically.
+
+---
+
+### 6. Session Logging (SessionStart)
+
+**Config**: `.github/hooks/logging.json`  
 **Script**: `scripts/hooks/log-session-start.sh`
 
-**Purpose**: Audit trail of agent activities by session.
-
-**Output**: Logs stored in `logs/agent-sessions/`
-
-**Format**:
-```
-SESSION_START: 2026-03-20T07:26:00Z
-AGENT: hermes
-USER: ils15
-WORKSPACE: Pantheon
+Logs structured JSON to `logs/agent-sessions/sessions.log`:
+```json
+{"event":"SessionStart","timestamp":"2026-05-16T10:00:00Z","session_id":"1715853600","platform":"opencode"}
 ```
 
 ---
 
-## Phase 2: Next Steps
+### 7. Delegation Start (SubagentStart)
 
-### To Enable Hooks in VS Code
+**Config**: `.github/hooks/delegation-start.json`  
+**Script**: `scripts/hooks/on-subagent-delegation-start.sh`
 
-1. Update `copilot-instructions.md` with hook activation:
-```yaml
-hooks:
-  enabled: true
-  policy: "MANDATORY"
-  hooks_directory: ".github/hooks"
+Logs when Zeus delegates to a subagent:
+```json
+{"event":"SubagentStart","timestamp":"2026-05-16T10:05:00Z","agent":"hermes","task":"Implement POST /users endpoint"}
 ```
 
-2. Commit hooks configuration to git:
-```bash
-cd /home/ils15/Pantheon
-git add .github/hooks/ scripts/hooks/
-git commit -m "feat: implement agent lifecycle hooks (security, format, logging)"
+---
+
+### 8. Delegation Stop (SubagentStop)
+
+**Config**: `.github/hooks/delegation-stop.json`  
+**Script**: `scripts/hooks/on-subagent-delegation-stop.sh`
+
+Logs when subagent completes or fails:
+- Success → `logs/agent-sessions/delegations.log`
+- Failure → `logs/agent-sessions/delegation-failures.log`
+
+```json
+{"event":"SubagentStop","timestamp":"2026-05-16T10:15:00Z","agent":"hermes","status":"success","reason":"5 tests passing"}
 ```
 
-3. Push to repository:
-```bash
-git push origin main
-```
+---
 
-### Verify Implementation
+## Verification
 
 ```bash
-# Check hook files exist and are executable
+# Check all hook files exist and are executable
 ls -la .github/hooks/
 ls -la scripts/hooks/
 
 # Validate JSON syntax
-jq empty .github/hooks/security.json
-jq empty .github/hooks/format.json
-jq empty .github/hooks/logging.json
+for f in .github/hooks/*.json; do jq empty "$f" && echo "✅ $f"; done
 
-# Test security script directly
-echo '{"tool_name":"run_in_terminal","tool_input":{"command":"rm -rf /"}}' | \
-  bash scripts/hooks/validate-tool-safety.sh
-# Expected: {"continue": false, "stopReason": "Destructive rm -rf command blocked by security policy"}
+# Test security hook
+echo "rm -rf /" | bash scripts/hooks/validate-tool-safety.sh
+# Expected: exit 1
+
+echo "echo hello" | bash scripts/hooks/validate-tool-safety.sh
+# Expected: exit 0
+
+# Test secret scan
+echo "AKIAIOSFODNN7EXAMPLE" | bash scripts/hooks/scan-secrets.sh
+# Expected: exit 1
 ```
 
 ---
 
-## Future Enhancements (Phase 2)
+## Future Enhancements
 
-- **Interactive Handoff Buttons** (SubagentStart/Stop hooks)
-- **Code Quality Gates** (Linting before commit)
-- **Performance Monitoring** (Hook execution timing)
-- **Agent-Scoped Hook Overrides** (Per-agent policies)
+- **Agent-Scoped Hook Overrides** — Per-agent policies
+- **Performance Monitoring** — Hook execution timing
+- **Interactive Handoff Buttons** — UI integration for VS Code
 
 ---
 
 ## References
 
-- **Implementation Guide**: [VSCODE-AGENTS-IMPLEMENTATION-GUIDE.md](VSCODE-AGENTS-IMPLEMENTATION-GUIDE.md)
-- **Optimization Analysis**: [VSCODE-AGENTS-OPTIMIZATION.md](VSCODE-AGENTS-OPTIMIZATION.md)
-- **Executive Summary**: [VSCODE-AGENTS-EXECUTIVE-SUMMARY.md](VSCODE-AGENTS-EXECUTIVE-SUMMARY.md)
-- **Quick Reference**: [VSCODE-AGENTS-QUICK-REFERENCE.md](VSCODE-AGENTS-QUICK-REFERENCE.md)
+- **Agent Definitions**: See `agents/` directory
+- **Framework Docs**: See `AGENTS.md`
+- **Security Policies**: See `.github/copilot-instructions.md`

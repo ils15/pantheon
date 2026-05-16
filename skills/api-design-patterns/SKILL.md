@@ -2,7 +2,6 @@
 name: api-design-patterns
 description: Design RESTful APIs with proper HTTP methods, status codes, pagination, filtering, error responses, and OpenAPI documentation. Follows FastAPI best practices with Pydantic validation.
 context: fork
-argument-hint: "API endpoint design task — describe resource, methods, query parameters, request/response shapes, and error cases"
 globs: ["**/routes/**", "**/schemas/**", "**/openapi.*"]
 alwaysApply: false
 ---

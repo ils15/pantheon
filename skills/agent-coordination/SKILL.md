@@ -2,7 +2,6 @@
 name: agent-coordination
 description: "Master guide to orchestrating the multi-agent system for rapid, TDD-driven feature development with guaranteed code quality and audit trails"
 context: fork
-argument-hint: "Feature or epic to coordinate across multiple agents — describe scope, affected modules, and success criteria"
 globs: ["**/.github/agents/**", "**/agents/*.agent.md"]
 alwaysApply: false
 ---

@@ -8,7 +8,6 @@ tools:
   list: true
   read: true
   webfetch: true
-argument-hint: "What to find: files, patterns, existing implementations, or documentation references (e.g. 'all FastAPI routers in the auth module')"
 ---
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check

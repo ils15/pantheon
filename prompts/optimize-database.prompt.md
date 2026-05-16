@@ -1,7 +1,6 @@
 ---
 name: optimize-database
 description: "Analyze and optimize database schema, queries, and performance"
-argument-hint: "[Query or table name to analyze]"
 agent: demeter
 tools: ['search', 'usages']
 ---
