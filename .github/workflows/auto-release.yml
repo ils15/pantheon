@@ -44,62 +44,78 @@ jobs:
           fi
           echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
 
-      - name: Determine and apply version bump
+      - name: Bump version
         if: steps.check.outputs.has_commits == 'true'
         id: version
         run: |
-          current=$(node -p "require('./package.json').version")
-          echo "current=$current"
-
           node scripts/versioning.mjs apply auto
-          echo "Tag check: verified v$(node -p "require('./package.json').version") is unused"
-
           new_version=$(node -p "require('./package.json').version")
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          echo "tag=v${new_version}" >> $GITHUB_OUTPUT
 
       - name: Generate changelog
         if: steps.check.outputs.has_commits == 'true'
         run: node scripts/versioning.mjs changelog "${{ steps.version.outputs.new_version }}"
 
-      - name: Regenerate platform configs
+      - name: Sync platforms
         if: steps.check.outputs.has_commits == 'true'
         run: npm run sync
 
-      - name: Create release PR
+      - name: Build release bundle
+        if: steps.check.outputs.has_commits == 'true'
+        run: npm run bundle
+
+      - name: Extract release notes
+        if: steps.check.outputs.has_commits == 'true'
+        id: notes
+        run: |
+          VERSION="v${{ steps.version.outputs.new_version }}"
+          notes=$(awk -v ver="$VERSION" '
+            /^\#\# \[/ {
+              if (found) exit
+              if (index($0, ver)) found=1
+              next
+            }
+            found { print }
+          ' CHANGELOG.md)
+          if [ -z "$notes" ]; then
+            notes="See [CHANGELOG.md](CHANGELOG.md) for details."
+          fi
+          echo "$notes" > release_notes.md
+
+      - name: Commit, tag, and publish release
         if: steps.check.outputs.has_commits == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           VERSION="${{ steps.version.outputs.new_version }}"
-          BRANCH="release/v${VERSION}"
+          TAG="v${VERSION}"
+          BRANCH="release/${TAG}"
 
           git config user.name "pantheon-bot"
           git config user.email "bot@pantheon.ai"
 
-          # Safety net: verify tag doesn't exist
-          if git tag -l "v${VERSION}" | grep -q .; then
-            echo "❌ Tag v${VERSION} still exists!"
-            exit 1
+          # Safety net: abort if tag already exists
+          if git tag -l "${TAG}" | grep -q .; then
+            echo "❌ Tag ${TAG} already exists — skipping release"
+            exit 0
           fi
 
+          # Commit version bump + changelog on a release branch
           git checkout -b "${BRANCH}"
           git add -A
-          git commit -m "chore(release): bump to v${VERSION} [skip ci]"
+          git commit -m "chore(release): v${VERSION} [skip ci]"
 
-          git tag "v${VERSION}"
-          git push origin "v${VERSION}"
+          # Tag and push (tag triggers nothing — GITHUB_TOKEN limitation — that's fine,
+          # we create the release directly below)
+          git tag "${TAG}"
+          git push origin "${TAG}"
           git push origin "${BRANCH}"
 
-          # Create PR with auto-merge
-          gh pr create \
-            --base main \
-            --head "${BRANCH}" \
-            --title "Release v${VERSION}" \
-            --body "Automated version bump to **v${VERSION}**." \
-            --label release \
-            --label automated \
-            || echo "⚠️  PR creation failed (may already exist)"
+          # Create GitHub release with the bundle as a downloadable asset
+          gh release create "${TAG}" \
+            --title "Pantheon ${TAG}" \
+            --notes-file release_notes.md \
+            "dist/pantheon-${TAG}.tar.gz"
 
-          # Enable auto-merge (squash)
-          gh pr merge "${BRANCH}" --auto --squash \
-            || echo "⚠️  Auto-merge could not be enabled (may need manual approval)"
+          echo "✅ Released Pantheon ${TAG}"

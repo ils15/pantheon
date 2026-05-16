@@ -1,22 +1,33 @@
-name: Create GitHub Release
+name: Create GitHub Release (Manual)
+
+# Manual-only trigger for re-releasing an existing tag or releasing a tag that
+# was created outside of the auto-release pipeline.
+#
+# Usage: Actions → "Create GitHub Release (Manual)" → Run workflow → enter tag
+# The tag must already exist in the repo.
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g. v3.5.0)'
+        required: true
+        type: string
 
 permissions:
   contents: write
 
 jobs:
-  sync-and-release:
-    name: Sync platforms then create release from CHANGELOG.md
+  release:
+    name: Build bundle and publish release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag }}
+          fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
 
@@ -26,32 +37,27 @@ jobs:
       - name: Validate version matches tag
         run: |
           set -e
-          TAG="${GITHUB_REF_NAME}"
+          TAG="${{ inputs.tag }}"
           EXPECTED="${TAG#v}"
           pkg=$(node -p "require('./package.json').version")
           root_plugin=$(node -p "require('./plugin.json').version")
           gh_plugin=$(node -p "require('./.github/plugin/plugin.json').version")
-          echo "Tag: $TAG"
-          echo "Expected: $EXPECTED"
-          echo "package.json: $pkg"
-          echo "plugin.json: $root_plugin"
-          echo ".github/plugin/plugin.json: $gh_plugin"
-          [ "$pkg" = "$root_plugin" ] || { echo "❌ package.json and plugin.json out of sync"; exit 1; }
-          [ "$pkg" = "$gh_plugin" ] || { echo "❌ package.json and .github/plugin/plugin.json out of sync"; exit 1; }
-          [ "$pkg" = "$EXPECTED" ] || { echo "❌ Version ($pkg) != tag ($TAG)"; exit 1; }
-          echo "✅ Versions synchronized and match tag"
+          [ "$pkg" = "$root_plugin" ] || { echo "❌ package.json ($pkg) ≠ plugin.json ($root_plugin)"; exit 1; }
+          [ "$pkg" = "$gh_plugin" ]    || { echo "❌ package.json ($pkg) ≠ .github/plugin/plugin.json ($gh_plugin)"; exit 1; }
+          [ "$pkg" = "$EXPECTED" ]     || { echo "❌ package.json ($pkg) ≠ tag ($EXPECTED)"; exit 1; }
+          echo "✅ All versions match: $pkg"
 
-      - name: Regenerate platform configs before release
+      - name: Sync platforms
         run: npm run sync
 
-      - name: Extract release notes for this version
+      - name: Build release bundle
+        run: npm run bundle
+
+      - name: Extract release notes
         id: notes
         run: |
-          VERSION="${GITHUB_REF_NAME}"   # e.g. v2.5.0
-
-          # Find the block in CHANGELOG.md for this version.
-          # Sections start with "## [vX.Y.Z]" and end before the next "## [" or EOF.
-          notes=$(awk -v ver="$VERSION" '
+          TAG="${{ inputs.tag }}"
+          notes=$(awk -v ver="$TAG" '
             /^\#\# \[/ {
               if (found) exit
               if (index($0, ver)) found=1
@@ -59,27 +65,22 @@ jobs:
             }
             found { print }
           ' CHANGELOG.md)
-
           if [ -z "$notes" ]; then
-            echo "⚠️  No entry found for $VERSION in CHANGELOG.md — using generic message."
             notes="See [CHANGELOG.md](CHANGELOG.md) for details."
           fi
-
-          # Write to a file to avoid shell escaping issues with multiline strings
           echo "$notes" > release_notes.md
-          echo "notes_file=release_notes.md" >> "$GITHUB_OUTPUT"
-
-      - name: Build release bundle
-        run: |
-          mkdir -p dist
-          node scripts/release-bundle.mjs --output ./dist
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: "Pantheon ${{ github.ref_name }}"
-          body_path: "${{ steps.notes.outputs.notes_file }}"
-          files: |
-            dist/pantheon-${{ github.ref_name }}.tar.gz
-          draft: false
-          prerelease: ${{ contains(github.ref_name, '-') }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${{ inputs.tag }}"
+          # Delete existing release if present (re-run scenario)
+          gh release delete "${TAG}" --yes 2>/dev/null || true
+
+          gh release create "${TAG}" \
+            --title "Pantheon ${TAG}" \
+            --notes-file release_notes.md \
+            "dist/pantheon-${TAG}.tar.gz"
+
+          echo "✅ Published Pantheon ${TAG}"
