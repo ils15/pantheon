@@ -7,7 +7,6 @@ tools:
   read: true
   edit: true
   bash: true
-argument-hint: "Backend task: endpoint, service, router, schema, or test — include module name and expected behaviour (e.g. 'POST /users endpoint with email uniqueness validation')"
 ---
 
 # Hermes - Backend Executor (FastAPI Specialist)

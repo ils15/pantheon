@@ -2,7 +2,6 @@
 name: tdd-with-agents
 description: "Comprehensive TDD enforcement guide — RED→GREEN→REFACTOR cycle across backend, frontend, and database agents"
 context: fork
-argument-hint: "TDD cycle to execute — describe the test to write, the feature being implemented, and the current phase (RED/GREEN/REFACTOR)"
 globs: ["**/test_*.py", "**/*.test.ts", "**/*.spec.ts"]
 alwaysApply: false
 ---

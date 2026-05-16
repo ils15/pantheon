@@ -2,7 +2,6 @@
 name: artifact-management
 description: "Complete guide to the artifact trail system - plans directory structure, templates, and best practices for documenting feature implementations"
 context: fork
-argument-hint: "Artifact to create or manage — e.g. 'PLAN', 'IMPL', 'REVIEW', 'DISC', 'ADR' with topic and scope"
 globs: ["**/docs/memory-bank/**", "**/instructions/**"]
 alwaysApply: false
 ---

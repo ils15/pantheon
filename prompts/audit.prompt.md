@@ -1,7 +1,6 @@
 ---
 name: audit
 description: "Comprehensive code review with security audit, test coverage analysis, and quality gates"
-argument-hint: "[Files to review or PR description]"
 agent: themis
 tools: ['search', 'usages']
 ---

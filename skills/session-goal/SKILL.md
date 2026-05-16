@@ -2,7 +2,6 @@
 name: session-goal
 description: "Pin a session objective so all todos, delegation decisions, and verification steps stay aligned with a single stated goal. Prevents scope creep and drift across long multi-agent sessions."
 context: fork
-argument-hint: "The session goal to pin (e.g. 'Implement email verification end-to-end with TDD')"
 globs: []
 alwaysApply: false
 ---

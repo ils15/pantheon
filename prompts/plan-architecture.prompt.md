@@ -1,7 +1,6 @@
 ---
 name: plan-architecture
 description: "Plan system architecture with strategic research and TDD-driven implementation plan"
-argument-hint: "[Architecture topic or feature area]"
 agent: athena
 tools: ['search', 'usages']
 ---

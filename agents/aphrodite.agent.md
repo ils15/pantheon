@@ -1,7 +1,6 @@
 ---
 name: aphrodite
 description: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD, modern API patterns, deprecated npm detection via npm-deprecated-check/Biome. Calls apollo as nested subagent to discover components. Sends work to themis for review."
-argument-hint: "Frontend task: component, page, hook, or styling — include name, props, and UX behaviour (e.g. 'ProductCard with image, title, price and add-to-cart button')"
 tools:
   - agent
   - vscode/askQuestions

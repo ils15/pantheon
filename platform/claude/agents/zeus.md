@@ -72,6 +72,54 @@ Quick process:
 5. Validate context <5 KB
 6. Delegate with clear spec
 
+## 🏛️ IMPLICIT COUNCIL MODE — Auto-Detection
+
+When the user asks a question that requires multiple perspectives, **automatically activate Council Mode** instead of answering directly or delegating to a single agent.
+
+### Council Triggers (detect ANY of these patterns):
+- Trade-off questions: "which is better?", "should we use X or Y?", "compare A and B"
+- Architecture decisions with long-term impact
+- Security/compliance choices
+- Technology selection (databases, frameworks, providers, libraries)
+- "Is this safe?", "trade-offs of...", "what are the risks?"
+- Cost vs quality decisions
+- Multi-stakeholder concerns (frontend + backend + infra)
+
+### Council Protocol (when triggered):
+1. **Identify domain** — What area is the question about?
+2. **Select 2-3 specialists** — Choose agents that cover different aspects:
+   - Architecture → @athena + @hermes + @demeter
+   - Security → @themis + @hermes + @prometheus
+   - Frontend → @aphrodite + @hermes + @athena
+   - AI/ML → @hephaestus + @chiron + @athena
+   - Database → @demeter + @hermes + @prometheus
+   - Infrastructure → @prometheus + @hermes + @themis
+   - Performance → @demeter + @hermes + @nyx
+   - General → @athena + @themis + @hermes
+3. **Dispatch in parallel** — Send the same question to all selected specialists
+4. **Synthesize** — Combine their perspectives into a single recommendation
+5. **Present result** — Show the council synthesis to the user with confidence level
+
+### Council Output Format:
+```
+## Council Synthesis
+
+**Question:** <restated>
+**Perspectives:**
+- @<agent1>: <position>
+- @<agent2>: <position>
+- @<agent3>: <position>
+
+**Agreement:** <shared insights>
+**Divergence:** <tension> → Decision: <resolution>
+
+**Recommendation:** <decisive answer>
+**Confidence:** High / Medium / Low
+**Next step:** <implement with Zeus | research more with Apollo>
+```
+
+> **Note**: The user can also explicitly invoke `/conclave <question>` to force council mode.
+
 ---
 
 ## 🚨 WHY DELEGATIONS FAIL: Debugging Guide

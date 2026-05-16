@@ -2,7 +2,6 @@
 name: mcp-server-development
 description: Build MCP (Model Context Protocol) servers with Python FastMCP and TypeScript SDK. Covers tool registration, resource exposure, prompt templates, transport configuration (stdio/HTTP/sse), input validation, error handling, and security best practices for production-grade MCP server implementations.
 context: fork
-argument-hint: "MCP server to build — describe server purpose, tools to expose, resources to serve, and transport type (stdio/HTTP/sse)"
 globs: ["**/mcp/**", "**/*.mcp.*"]
 alwaysApply: false
 ---
@@ -45,6 +44,7 @@ pip install "mcp[cli]"
 
 ```python
 from mcp.server.fastmcp import FastMCP
+import ast
 
 # Create server — stdio transport by default
 mcp = FastMCP("my-server")
@@ -53,7 +53,7 @@ mcp = FastMCP("my-server")
 def calculate(expression: str) -> str:
     """Evaluate a mathematical expression."""
     try:
-        result = eval(expression, {"__builtins__": {}}, {})
+        result = ast.literal_eval(expression)
         return str(result)
     except Exception as e:
         return f"Error: {e}"
@@ -964,7 +964,7 @@ def get_redacted_config() -> str:
 ### Tool Review
 - ✅ Input validation present on all tools
 - ✅ Error handling returns descriptive messages
-- ⚠️ calculate uses eval() — consider a safer expression parser
+- ✅ calculate uses ast.literal_eval() (safe)
 - ❌ write_file has no rate limiting
 
 ### Security Findings

@@ -1,7 +1,6 @@
 ---
 name: hephaestus
 description: AI tooling & pipelines specialist — LangChain/LangGraph chains, RAG architecture, vector stores, embedding strategies. Forges the AI infrastructure agents need. Calls apollo for discovery. Sends work to themis for review.
-argument-hint: "Build RAG pipelines, design agent chains, set up vector search, or compose multi-step LLM workflows"
 tools:
   - agent
   - vscode/askQuestions

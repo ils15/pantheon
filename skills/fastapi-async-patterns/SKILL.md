@@ -2,7 +2,6 @@
 name: fastapi-async-patterns
 description: Create async FastAPI endpoints with proper error handling, dependency injection, service/repository patterns, and type safety. Includes async database queries, pagination, filtering, and Gemini integration.
 context: fork
-argument-hint: "FastAPI endpoint design task — describe HTTP method, path, request/response models, database queries, and error handling"
 globs: ["**/*.py", "**/routes/**", "**/services/**"]
 alwaysApply: false
 ---

@@ -1,7 +1,6 @@
 ---
 name: database-migration
 description: "Database migrations with Alembic - forward scripts, rollbacks, testing, zero-downtime deployment"
-argument-hint: "Database migration task — describe schema change, tables affected, data migration needs, and rollback strategy"
 globs: ["**/alembic/**", "**/migrations/**"]
 alwaysApply: false
 ---

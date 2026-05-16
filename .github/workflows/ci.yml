@@ -28,7 +28,7 @@ jobs:
         run: |
           set -e
           FAILED=0
-          for glob in "agents/*.agent.md" "opencode/agents/*.md" "platform/claude/agents/*.md" "platform/opencode/agents/*.md" "platform/windsurf/agents/*.md"; do
+          for glob in "agents/*.agent.md" "platform/claude/agents/*.md" "platform/opencode/agents/*.md" "platform/windsurf/agents/*.md"; do
             dir="${glob%/\*}"
             [ -d "$dir" ] || { echo "⏭️  $dir not found"; continue; }
             for file in $glob; do
@@ -64,7 +64,7 @@ jobs:
             name=$(basename "$f" .agent.md)
             grep -q "(agents/${name}.agent.md)" AGENTS.md && echo "✅ $name" || { echo "⚠️  $name not in AGENTS.md"; FAILED=1; }
           done
-          for dir in opencode/agents platform/claude/agents platform/opencode/agents platform/windsurf/agents; do
+          for dir in platform/claude/agents platform/opencode/agents platform/windsurf/agents; do
             [ -d "$dir" ] || continue
             for f in "$dir"/*.md; do
               [ -f "$f" ] || continue

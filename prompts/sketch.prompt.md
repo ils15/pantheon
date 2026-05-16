@@ -1,7 +1,6 @@
 ---
 name: sketch
 description: "Turn a rough idea into a structured spec through a short Q&A interview — ask 3–5 targeted questions, then produce a complete feature spec"
-argument-hint: "<rough idea or feature request>"
 agent: athena
 tools: ['search', 'agent/askQuestions']
 ---

@@ -4,7 +4,7 @@
 
 Skills are reference modules loaded on demand by agents. Each skill provides domain-specific knowledge — architecture patterns, security checklists, optimization strategies, and implementation guides. Agents load skills when their task matches the skill's description, keeping context focused and token-efficient.
 
-There are **27 skills** divided into **8 domains**.
+There are **31 skills** divided into **8 domains**.
 
 ## Skills by Domain
 
@@ -132,6 +132,26 @@ There are **27 skills** divided into **8 domains**.
     - Prompt analysis and optimization: clarity and specificity evaluation, context window management, output format specification, NLU optimization for intent/entity extraction, chain-of-thought prompting, token efficiency, few-shot example selection, and systematic prompt testing.
     - Used by: All agents
 
+28. **interview** — `skills/interview/SKILL.md`
+    - Turn a rough idea into a structured spec through a short Q&A interview. Ask 3–5 targeted questions one at a time, then produce a complete markdown spec with goals, requirements, constraints, and open questions.
+    - Used by: Athena, Zeus
+    - Domain: Planning
+
+29. **session-goal** — `skills/session-goal/SKILL.md`
+    - Pin a session objective so all todos, delegation decisions, and verification steps stay aligned with a single stated goal. Prevents scope creep and drift across long multi-agent sessions.
+    - Used by: Zeus, Athena
+    - Domain: Orchestration
+
+30. **simplify** — `skills/simplify/SKILL.md`
+    - Reduce complexity of prompts, code, or specs through targeted simplification: eliminate redundancy, flatten nested logic, replace jargon, shorten chains, and enforce single-responsibility in agent instructions.
+    - Used by: All agents
+    - Domain: Quality
+
+31. **todo-continuation** — `skills/todo-continuation/SKILL.md`
+    - Safe auto-continue pattern for multi-step orchestration — how to automatically work through todo lists without unnecessary interruptions while always stopping at mandatory safety gates (plan approval, phase review, git commit).
+    - Used by: Zeus, Hermes, Aphrodite, Demeter
+    - Domain: Orchestration
+
 ## Skills File Structure
 
 Each skill follows a consistent layout:
@@ -184,6 +204,10 @@ The `SKILL.md` file contains YAML frontmatter with `name`, `description`, and pl
 | 25 | remote-sensing-analysis | Domain Specialists | Gaia |
 | 26 | internet-search | Domain Specialists | Athena, Apollo, Gaia, Zeus |
 | 27 | prompt-improver | Domain Specialists | All agents |
+| 28 | interview | Planning | Athena, Zeus |
+| 29 | session-goal | Orchestration | Zeus, Athena |
+| 30 | simplify | Quality | All agents |
+| 31 | todo-continuation | Orchestration | Zeus, Hermes, Aphrodite, Demeter |
 
 ---
 

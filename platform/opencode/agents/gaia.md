@@ -8,7 +8,6 @@ tools:
   read: true
   webfetch: true
   question: true
-argument-hint: "Remote sensing task: e.g. 'compute NDVI time series for Sentinel-2', 'apply speckle filter to SAR backscatter', 'recommend change detection algorithm for deforestation mapping', 'review atmospheric correction pipeline', 'train U-Net for semantic segmentation'"
 ---
 
 # 🌍 Gaia — Remote Sensing Domain Specialist

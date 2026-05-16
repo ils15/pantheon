@@ -1,7 +1,6 @@
 ---
 name: mirrordeps
 description: "Clone a dependency's source locally so agents can read its implementation directly instead of relying on docs or stale knowledge"
-argument-hint: "<package name or repo URL>"
 agent: apollo
 tools: ['search', 'execute/runInTerminal', 'read/readFile']
 ---

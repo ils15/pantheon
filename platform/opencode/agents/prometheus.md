@@ -8,7 +8,6 @@ tools:
   read: true
   edit: true
   bash: true
-argument-hint: "Infrastructure task: Dockerfile, compose service, CI/CD workflow, or env setup — describe the service and deployment target (e.g. 'multi-stage Dockerfile for FastAPI with non-root user and health check')"
 ---
 
 # Prometheus - Infrastructure Implementation Specialist

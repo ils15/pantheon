@@ -9,7 +9,6 @@ tools:
   edit: true
   bash: true
   webfetch: true
-argument-hint: Set up agent observability, trace LLM calls, monitor costs, debug agent performance, or configure LangSmith
 ---
 
 # Nyx — Observability & Monitoring Specialist

@@ -9,7 +9,6 @@ tools:
   edit: true
   bash: true
   webfetch: true
-argument-hint: Configure model providers, optimize model routing, set up AWS Bedrock, or design model fallback strategies
 ---
 
 # Chiron — Model Provider Hub Specialist

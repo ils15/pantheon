@@ -2,7 +2,6 @@
 name: security-audit
 description: "Security audit and vulnerability detection - OWASP Top 10, input validation, injection attacks"
 context: fork
-argument-hint: "Security audit scope — describe codebase area, threat model, compliance requirements (OWASP/SOC2/PCI), and severity thresholds"
 globs: ["**/*.py", "**/*.ts", "**/*.tsx"]
 alwaysApply: false
 ---

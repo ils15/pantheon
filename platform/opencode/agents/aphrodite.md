@@ -8,7 +8,6 @@ tools:
   read: true
   edit: true
   bash: true
-argument-hint: "Frontend task: component, page, hook, or styling — include name, props, and UX behaviour (e.g. 'ProductCard with image, title, price and add-to-cart button')"
 ---
 
 # Aphrodite - React Implementation Specialist

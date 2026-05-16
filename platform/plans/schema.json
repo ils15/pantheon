@@ -2,8 +2,19 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Pantheon Model Plan Configuration",
   "description": "Defines which models each agent tier maps to for a given service+plan combination",
+  "$comment": "Model Resolution Behavior:\n\n1. EXPLICIT STRING (e.g., 'opencode-go/kimi-k2.6') → Uses exactly this model\n2. 'auto' → Inherits from the chat's active model (set via /model command). When the user switches models mid-session, the agent automatically follows. Useful for experimentation and cost control.\n3. null → Omits the model field from the agent config. Falls back to: (a) top-level 'model' in opencode.json root, (b) platform default, (c) error if none defined.\n\nPriority Chain:\n  Agent-specific model (string/auto/null)\n    → if null: top-level model in opencode.json\n    → if auto: chat-selected model\n    → if missing: platform default",
   "type": "object",
   "required": ["plan", "service", "tier", "models"],
+  "definitions": {
+    "modelValue": {
+      "description": "Model identifier or inheritance directive",
+      "anyOf": [
+        { "type": "string", "minLength": 1, "description": "Explicit model ID (e.g., 'opencode-go/kimi-k2.6')" },
+        { "enum": ["auto"], "description": "Inherit from chat's currently selected model (/model command)" },
+        { "type": "null", "description": "Omit field - fallback to top-level model or platform default" }
+      ]
+    }
+  },
   "properties": {
     "plan": {
       "type": "string",
@@ -25,23 +36,24 @@
     },
     "models": {
       "type": "object",
-      "description": "Tier-to-model mapping",
+      "description": "Tier-to-model mapping. Each tier can be an explicit model string, 'auto' to inherit from chat selection, or null to fallback to top-level config",
       "required": ["fast", "default", "premium"],
       "properties": {
-        "fast": { "type": "string", "description": "Cheap/fast model for simple tasks" },
-        "default": { "type": "string", "description": "Balanced model for most coding tasks" },
-        "premium": { "type": "string", "description": "Powerful model for complex reasoning" }
+        "free": { "$ref": "#/definitions/modelValue", "description": "Free tier model (optional) - used as fallback for fast tier when available" },
+        "fast": { "$ref": "#/definitions/modelValue", "description": "Cheap/fast model for simple tasks" },
+        "default": { "$ref": "#/definitions/modelValue", "description": "Balanced model for most coding tasks" },
+        "premium": { "$ref": "#/definitions/modelValue", "description": "Powerful model for complex reasoning" }
       }
     },
     "agent_overrides": {
       "type": "object",
-      "description": "Per-agent model overrides (optional)",
-      "additionalProperties": { "type": "string" }
+      "description": "Per-agent model overrides (optional). Values can be explicit model string, 'auto', or null",
+      "additionalProperties": { "$ref": "#/definitions/modelValue" }
     },
     "handoff_models": {
       "type": "object",
-      "description": "Handoff-specific model overrides (optional), keyed as 'source__target'",
-      "additionalProperties": { "type": "string" }
+      "description": "Handoff-specific model overrides (optional), keyed as 'source__target'. Values can be explicit model string, 'auto', or null",
+      "additionalProperties": { "$ref": "#/definitions/modelValue" }
     },
     "limits": {
       "type": "object",

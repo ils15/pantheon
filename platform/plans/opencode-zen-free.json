@@ -4,6 +4,7 @@
   "tier": "free",
   "price": "$0",
   "models": {
+    "free": "opencode/gpt-5-nano",
     "fast": "opencode/gpt-5-nano",
     "default": "opencode/minimax-m2.5-free",
     "premium": "opencode/kimi-k2.5"

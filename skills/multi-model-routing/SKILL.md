@@ -2,7 +2,6 @@
 name: multi-model-routing
 description: "Multi-model routing patterns for AI gateways - provider abstraction, cost-based and quality-based routing, fallback chains, retry logic, rate limiting, cost tracking, and observability across OpenAI, Anthropic, Google, AWS Bedrock, and local model providers"
 context: fork
-argument-hint: "Model routing setup — describe providers to integrate, routing strategy (cost/quality/fallback), and budget constraints"
 globs: ["**/providers/**", "**/models/**"]
 alwaysApply: false
 ---

@@ -1,7 +1,6 @@
 ---
 name: focus
 description: "Pin a session goal to keep all todos, delegation decisions, and verification steps aligned with a single stated objective"
-argument-hint: "<goal description>"
 agent: zeus
 tools: ['search']
 ---

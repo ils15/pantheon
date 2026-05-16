@@ -66,10 +66,11 @@ except Exception:
 usage() {
     echo "Usage:"
     echo "  $(basename "$0") list                        List all available plans"
-    echo "  $(basename "$0") <plan-name>                 Activate plan + inject models into opencode.json"
+    echo "  $(basename "$0") <plan-name> [--force]       Activate plan + inject models into opencode.json"
+    echo "                                                 Use --force to overwrite user-set models"
     echo "  $(basename "$0") status                      Show active plan + current model config"
     echo "  $(basename "$0") models                      Show model-to-agent mapping"
-    echo "  $(basename "$0") generate                    Re-inject models from active plan"
+    echo "  $(basename "$0") generate [--force]          Re-inject models from active plan"
     echo "  $(basename "$0") generate --target <path>    Write to a custom file path"
     echo "  $(basename "$0") reset                       Remove per-agent model overrides (back to global)"
     echo ""
@@ -117,42 +118,110 @@ show_status() {
         plan_name=$(basename "$resolved" .json)
         echo -e "${GREEN}✅ Active plan: ${CYAN}$plan_name${NC}"
         echo ""
-        if [[ -f "$resolved" ]]; then
-            echo -e "${BLUE}Plan tiers:${NC}"
-            echo -e "  ${YELLOW}fast:${NC}    $(_json_get "$resolved" "models.fast")"
-            echo -e "  ${YELLOW}default:${NC} $(_json_get "$resolved" "models.default")"
-            echo -e "  ${YELLOW}premium:${NC} $(_json_get "$resolved" "models.premium")"
-        fi
     else
         echo -e "${YELLOW}⚠️  No active plan — no model configured (OpenCode account default).${NC}"
+        echo ""
     fi
 
-    echo ""
     if [[ -f "$config_file" ]]; then
-        local global_model global_small
-        global_model=$(_json_get "$config_file" "model")
-        global_small=$(_json_get "$config_file" "small_model")
-        echo -e "${BLUE}opencode.json:${NC}"
-        echo -e "  ${YELLOW}model:${NC}       ${global_model:-"(not set — account default)"}"
-        echo -e "  ${YELLOW}small_model:${NC} ${global_small:-"(not set — account default)"}"
-
-        # Check if any agent has an explicit model override
-        local overrides
-        overrides=$(python3 -c "
+        # Display detailed per-agent model status with sources
+        python3 - "$config_file" "$resolved" 2>/dev/null << 'PYEOF'
 import json
+import sys
+import os
+
+config_file = sys.argv[1]
+plan_file = sys.argv[2] if len(sys.argv) > 2 else None
+
+# Load config
 try:
-    d = json.load(open('$config_file'))
-    agents = d.get('agent', {})
-    count = sum(1 for v in agents.values() if isinstance(v, dict) and 'model' in v)
-    print(count)
+    with open(config_file) as f:
+        config = json.load(f)
 except Exception:
-    print(0)
-" 2>/dev/null || echo "0")
-        if [[ "$overrides" -gt 0 ]]; then
-            echo -e "  ${YELLOW}per-agent models:${NC} $overrides agents with model override"
-        else
-            echo -e "  ${YELLOW}per-agent models:${NC} none"
-        fi
+    print("  (error reading opencode.json)")
+    sys.exit(0)
+
+# Load plan to determine what models would be assigned
+plan_models = {}
+if plan_file and os.path.exists(plan_file):
+    try:
+        with open(plan_file) as f:
+            plan = json.load(f)
+        
+        models = plan.get("models", {})
+        free_model = models.get("free", "")
+        fast_model = models.get("fast", "")
+        default_model = models.get("default", "")
+        premium_model = models.get("premium", "")
+        overrides = plan.get("agent_overrides", {})
+        
+        TIER_MAP = {
+            "zeus": "premium", "athena": "premium", "themis": "premium",
+            "hermes": "default", "aphrodite": "default", "demeter": "default",
+            "prometheus": "default", "hephaestus": "default", "chiron": "default",
+             "echo": "default", "gaia": "default", "iris": "fast",
+            "apollo": "fast", "nyx": "fast", "mnemosyne": "fast", "talos": "fast",
+        }
+        
+        tier_to_model = {
+            "free": free_model or fast_model or default_model or premium_model,
+            "fast": fast_model or default_model or premium_model,
+            "default": default_model or premium_model,
+            "premium": premium_model,
+        }
+        
+        for agent in TIER_MAP:
+            if agent in overrides:
+                plan_models[agent] = overrides[agent]
+            else:
+                tier = TIER_MAP.get(agent)
+                plan_models[agent] = tier_to_model.get(tier, "")
+    except Exception:
+        pass
+
+# Header
+print("\033[1;34mPantheon Model Status\033[0m")
+print("=" * 55)
+if plan_file and os.path.exists(plan_file):
+    plan_name = os.path.basename(plan_file).replace('.json', '')
+    print(f"Active plan: {plan_name}")
+    print("")
+
+# Per-agent status
+agents = config.get("agent", {})
+plan_count = 0
+user_count = 0
+
+# Sort agents for consistent output
+for agent in sorted(agents.keys()):
+    agent_config = agents[agent]
+    if isinstance(agent_config, dict) and "model" in agent_config:
+        current_model = agent_config["model"]
+        plan_model = plan_models.get(agent, "")
+        
+        if plan_model and current_model != plan_model:
+            source = "\033[1;33m[USER-LOCKED]\033[0m"
+            user_count += 1
+        else:
+            source = "\033[0;36m[PLAN]\033[0m"
+            plan_count += 1
+        
+        print(f"  {agent:12s} {current_model:35s} {source}")
+
+print("")
+print(f"\033[0;36m{plan_count} from plan\033[0m | \033[1;33m{user_count} user-overridden\033[0m")
+
+# Also show global models
+global_model = config.get("model", "")
+global_small = config.get("small_model", "")
+if global_model or global_small:
+    print("")
+    print("\033[1;34mGlobal settings:\033[0m")
+    if global_model:
+        print(f"  model:       {global_model}")
+    if global_small:
+        print(f"  small_model: {global_small}")
+PYEOF
     fi
 }
 
@@ -222,9 +291,15 @@ show_models() {
     echo -e "${BLUE}📊 Model mapping — plan: ${CYAN}$plan_name${NC}"
     echo ""
     echo -e "${YELLOW}Tier defaults:${NC}"
-    echo -e "  fast:    $(_json_get "$resolved" "models.fast")"
-    echo -e "  default: $(_json_get "$resolved" "models.default")"
-    echo -e "  premium: $(_json_get "$resolved" "models.premium")"
+    local free_val fast_val default_val premium_val
+    free_val=$(_json_get "$resolved" "models.free")
+    fast_val=$(_json_get "$resolved" "models.fast")
+    default_val=$(_json_get "$resolved" "models.default")
+    premium_val=$(_json_get "$resolved" "models.premium")
+    [[ -n "$free_val" ]] && echo -e "  free:    $free_val"
+    echo -e "  fast:    $fast_val"
+    echo -e "  default: $default_val"
+    echo -e "  premium: $premium_val"
     echo ""
 
     echo -e "${YELLOW}Per-agent overrides:${NC}"
@@ -235,8 +310,9 @@ show_models() {
     echo ""
     echo -e "${YELLOW}Tier assignments (built-in):${NC}"
     echo -e "  ${CYAN}premium:${NC}  zeus, athena, themis"
-    echo -e "  ${CYAN}default:${NC}  hermes, aphrodite, demeter, prometheus, hephaestus, chiron, echo, gaia, iris"
-    echo -e "  ${CYAN}fast:${NC}     apollo, nyx, mnemosyne, talos"
+    echo -e "  ${CYAN}default:${NC}  hermes, aphrodite, demeter, prometheus, hephaestus, chiron, echo, gaia"
+    echo -e "  ${CYAN}fast:${NC}     apollo, nyx"
+    echo -e "  ${CYAN}free:${NC}     iris, mnemosyne, talos (fallback on free plans)"
 }
 
 # ── Generate opencode.json ────────────────────────────────────────────────────
@@ -250,26 +326,30 @@ show_models() {
 #   fast    → apollo, nyx, mnemosyne, talos
 #
 # Usage:
-#   generate_opencode_json <plan_file> <output_file>
+#   generate_opencode_json <plan_file> <output_file> [force_mode]
+#   force_mode: "true" to overwrite user models, "false" to preserve them
 generate_opencode_json() {
     local plan_file="$1"
     local output_file="$2"
+    local force_mode="${3:-false}"
 
     if [[ ! -f "$plan_file" ]]; then
         echo -e "${RED}❌ Plan file not found: $plan_file${NC}"
         exit 1
     fi
 
-    python3 - "$plan_file" "$output_file" << 'PYEOF'
+    python3 - "$plan_file" "$output_file" "$force_mode" << 'PYEOF'
 import json, sys, os
 
 plan_file = sys.argv[1]
 output_file = sys.argv[2]
+force_mode = sys.argv[3].lower() == "true" if len(sys.argv) > 3 else False
 
 with open(plan_file) as f:
     plan = json.load(f)
 
 models = plan.get("models", {})
+free_model    = models.get("free", "")
 fast_model    = models.get("fast", "")
 default_model = models.get("default", "")
 premium_model = models.get("premium", "")
@@ -288,7 +368,7 @@ TIER_MAP = {
     "chiron":     "default",
     "echo":       "default",
     "gaia":       "default",
-    "iris":       "default",
+    "iris":       "fast",
     "apollo":     "fast",
     "nyx":        "fast",
     "mnemosyne":  "fast",
@@ -296,8 +376,9 @@ TIER_MAP = {
 }
 
 tier_to_model = {
-    "fast":    fast_model,
-    "default": default_model,
+    "free":    free_model or fast_model or default_model or premium_model,
+    "fast":    fast_model or default_model or premium_model,
+    "default": default_model or premium_model,
     "premium": premium_model,
 }
 
@@ -328,12 +409,24 @@ if fast_model:
 # Agents not present in the config are skipped (plan drives model, not structure).
 agent_section = existing.get("agent", {})
 updated = 0
+preserved = 0
+preserved_agents = []
+
 for agent in TIER_MAP:
     model = resolve_model(agent)
     if not model:
         continue
     if agent in agent_section:
-        # Preserve all existing keys, only set/update "model"
+        # Check if user has already set a model
+        existing_model = agent_section[agent].get("model")
+        
+        if existing_model and not force_mode:
+            # Preserve user model
+            preserved += 1
+            preserved_agents.append(f"{agent}={existing_model}")
+            continue
+        
+        # Apply plan model
         agent_section[agent]["model"] = model
         updated += 1
     # If agent doesn't exist in config yet, skip — plan doesn't create agents
@@ -351,16 +444,21 @@ print(f"plan={plan_name}")
 print(f"model={premium_model or default_model}")
 print(f"small_model={fast_model}")
 print(f"agents={updated}")
+print(f"preserved={preserved}")
+if preserved_agents:
+    print(f"preserved_agents={','.join(preserved_agents)}")
 PYEOF
 }
 
 # ── Sub-command: generate ─────────────────────────────────────────────────────
 cmd_generate() {
-    # Parse optional --target flag
+    # Parse optional --target and --force flags
     local target_file="$ROOT_DIR/opencode.json"
+    local force_mode="false"
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --target) target_file="$2"; shift 2 ;;
+            --force) force_mode="true"; shift ;;
             *) shift ;;
         esac
     done
@@ -379,25 +477,44 @@ cmd_generate() {
     fi
 
     echo -e "${BLUE}Generating opencode.json from active plan...${NC}"
+    if [[ "$force_mode" == "true" ]]; then
+        echo -e "   ${YELLOW}(Force mode: user models will be overwritten)${NC}"
+    fi
+    
     local result
-    result=$(generate_opencode_json "$resolved" "$target_file")
+    result=$(generate_opencode_json "$resolved" "$target_file" "$force_mode")
 
-    local plan_name model small_model agents
+    local plan_name model small_model agents preserved
     plan_name=$(echo "$result" | grep "^plan=" | cut -d= -f2)
     model=$(echo "$result" | grep "^model=" | cut -d= -f2)
     small_model=$(echo "$result" | grep "^small_model=" | cut -d= -f2)
     agents=$(echo "$result" | grep "^agents=" | cut -d= -f2)
+    preserved=$(echo "$result" | grep "^preserved=" | cut -d= -f2)
 
     echo -e "${GREEN}✅ Written: $target_file${NC}"
     echo -e "   ${YELLOW}plan:${NC}        $plan_name"
     echo -e "   ${YELLOW}model:${NC}       $model"
     echo -e "   ${YELLOW}small_model:${NC} $small_model"
-    echo -e "   ${YELLOW}agents:${NC}      $agents agent overrides"
+    echo -e "   ${YELLOW}agents:${NC}      $agents from plan"
+    if [[ "$preserved" -gt 0 ]]; then
+        echo -e "   ${YELLOW}preserved:${NC}   $preserved user-overridden"
+    fi
 }
 
 # ── Sub-command: select plan ──────────────────────────────────────────────────
 cmd_select_plan() {
     local plan_name="$1"
+    shift || true
+    
+    local force_mode="false"
+    # Parse optional --force flag
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --force) force_mode="true"; shift ;;
+            *) shift ;;
+        esac
+    done
+    
     local plan_file="$PLANS_DIR/${plan_name}.json"
 
     if [[ ! -f "$plan_file" ]]; then
@@ -412,23 +529,30 @@ cmd_select_plan() {
     ln -s "${plan_name}.json" "$ACTIVE_LINK"
 
     echo -e "${GREEN}✅ Active plan set to: ${CYAN}$plan_name${NC}"
+    if [[ "$force_mode" == "true" ]]; then
+        echo -e "   ${YELLOW}(Force mode: user models will be overwritten)${NC}"
+    fi
     echo ""
 
     # Generate opencode.json in repo root
     local output_file="$ROOT_DIR/opencode.json"
     echo -e "${BLUE}Generating opencode.json...${NC}"
     local result
-    result=$(generate_opencode_json "$plan_file" "$output_file")
+    result=$(generate_opencode_json "$plan_file" "$output_file" "$force_mode")
 
-    local model small_model agents
+    local model small_model agents preserved
     model=$(echo "$result" | grep "^model=" | cut -d= -f2)
     small_model=$(echo "$result" | grep "^small_model=" | cut -d= -f2)
     agents=$(echo "$result" | grep "^agents=" | cut -d= -f2)
+    preserved=$(echo "$result" | grep "^preserved=" | cut -d= -f2)
 
     echo -e "${GREEN}✅ Written: $output_file${NC}"
     echo -e "   ${YELLOW}model:${NC}       $model"
     echo -e "   ${YELLOW}small_model:${NC} $small_model"
-    echo -e "   ${YELLOW}agents:${NC}      $agents agent overrides"
+    echo -e "   ${YELLOW}agents:${NC}      $agents from plan"
+    if [[ "$preserved" -gt 0 ]]; then
+        echo -e "   ${YELLOW}preserved:${NC}   $preserved user-overridden"
+    fi
     echo ""
     show_status
 }

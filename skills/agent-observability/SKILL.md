@@ -2,7 +2,6 @@
 name: agent-observability
 description: "Agent observability and monitoring - OpenTelemetry tracing, LLM call tracing, token/cost tracking, Prometheus metrics, structured logging, alerting, Grafana dashboards, and incident response"
 context: fork
-argument-hint: "Observability setup task — describe service to instrument, metrics to track, and alerting requirements"
 globs: ["**/*.py", "**/docker-compose*", "**/Dockerfile"]
 alwaysApply: false
 ---
