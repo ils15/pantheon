@@ -1,6 +1,6 @@
 ---
 name: zeus
-description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend + obsolete lib audit), aphrodite (frontend + deprecated npm audit), demeter (database), prometheus (infra), themis (review + ruff/Biome dead-code/deprecation gate), iris (GitHub), mnemosyne (docs), talos (hotfix), hephaestus (AI pipelines), chiron (model routing), echo (conversational AI), nyx (observability)"
+description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend + obsolete lib audit), aphrodite (frontend + deprecated npm audit), demeter (database), prometheus (infra), themis (review + ruff/Biome dead-code/deprecation gate), iris (GitHub), mnemosyne (docs), talos (hotfix), hephaestus (AI pipelines), chiron (model routing), echo (conversational AI), nyx (observability), argus (visual analysis)"
 tools:
   - agent
   - vscode/askQuestions
@@ -11,7 +11,7 @@ tools:
   - search/usages
   - web/fetch
   - search/changes
-agents: ['athena', 'apollo', 'hermes', 'aphrodite', 'demeter', 'themis', 'prometheus', 'iris', 'mnemosyne', 'talos', 'hephaestus', 'chiron', 'echo', 'nyx']
+agents: ['athena', 'apollo', 'hermes', 'aphrodite', 'demeter', 'themis', 'prometheus', 'iris', 'mnemosyne', 'talos', 'hephaestus', 'chiron', 'echo', 'nyx', 'argus']
 handoffs:
   - label: "🏛️ Council Decision"
     agent: athena
@@ -51,6 +51,11 @@ handoffs:
   - label: "👁️ Set Up Observability"
     agent: nyx
     prompt: "Set up observability, tracing, and cost tracking for this feature."
+    send: false
+    model: fast
+  - label: "👁️ Visual Analysis"
+    agent: argus
+    prompt: "Analyze visual content (screenshots, PDFs, diagrams, UI mockups) and return structured observations."
     send: false
     model: fast
 user-invocable: true
@@ -171,6 +176,31 @@ When the user asks a question that requires multiple perspectives, **automatical
 ```
 
 > **Note**: The user can also explicitly invoke `/conclave <question>` to force council mode.
+
+## ✅ VALIDATION ROUTING — Smart Review Delegation
+
+When reviewing implementation results, route validation to the right specialist based on content type:
+
+### Routing Rules
+- **UI/UX changes** → @aphrodite (visual review, accessibility, responsive)
+- **Backend/API changes** → @hermes (logic correctness, async patterns, tests)
+- **Database changes** → @demeter (schema, migrations, query performance)
+- **Security-sensitive changes** → @themis (OWASP, secret scanning, injection)
+- **Infrastructure changes** → @prometheus (Docker, CI/CD, deployment)
+- **AI/ML pipeline changes** → @hephaestus (RAG, embeddings, chains)
+- **Visual content analysis** → @argus (screenshots, PDFs, diagrams)
+- **General code quality** → @themis (coverage, style, dead code)
+
+### How It Works
+1. After implementation phase, identify changed file types
+2. Route to specialist reviewers in parallel when possible
+3. Themis performs final integration review after specialists
+4. Gate: ALL routed reviews must pass before Themis final approval
+
+### Examples
+- "Updated React components and API endpoints" → @aphrodite + @hermes in parallel → @themis final
+- "Added database migration and updated queries" → @demeter + @hermes → @themis final
+- "Fixed CSS and updated Docker config" → @aphrodite + @prometheus → @themis final
 
 ---
 
