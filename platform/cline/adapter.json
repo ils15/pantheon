@@ -5,7 +5,7 @@
 
   "description": "Cline (open-source VS Code AI coding agent) — rules via .clinerules files. Strips frontmatter entirely; output is plain markdown body only.",
 
-  "notes": "Cline has NO frontmatter support. The outputDir is .clinerules/ with no file extension. Frontmatter is fully excluded; include list is empty so no YAML headers appear in generated files. The buildOutputFile wrapper still produces --- delimiters — users should remove them or the sync engine should be extended with a skipFrontmatter option. File extension is empty string so generated files are named <agent> (no .md suffix), matching Cline's convention.",
+  "notes": "Cline has NO frontmatter support — skipFrontmatter: true prevents --- wrappers. File extension is empty string so generated files are named <agent> (no .md suffix), matching Cline's convention.",
 
   "outputDir": ".clinerules",
   "fileExtension": "",
@@ -14,7 +14,8 @@
     "include": [],
     "exclude": ["*"],
     "transform": {},
-    "addFields": {}
+    "addFields": {},
+    "skipFrontmatter": true
   },
 
   "toolMap": {

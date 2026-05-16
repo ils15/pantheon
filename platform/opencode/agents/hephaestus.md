@@ -9,6 +9,20 @@ tools:
   edit: true
   bash: true
   webfetch: true
+agents:
+  - apollo
+user-invocable: true
+handoffs:
+  - label: 🔍 Review Pipeline
+    agent: themis
+    prompt: Review this AI pipeline for correctness, security (prompt injection, data exfiltration), and performance.
+    send: false
+    model: premium
+  - label: 📊 Deploy Pipeline
+    agent: prometheus
+    prompt: Deploy this AI pipeline — consider GPU requirements, model volume mounts, and inference health checks.
+    send: false
+    model: default
 ---
 
 # Hephaestus — AI Tooling & Pipelines Specialist

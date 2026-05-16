@@ -50,6 +50,31 @@
     "vscode/askQuestions": "askUser"
   },
 
+  "excludeTools": [
+    "agent",
+    "search/usages",
+    "search/fileSearch",
+    "search/textSearch",
+    "search/listDirectory",
+    "search/changes",
+    "execute/testFailure",
+    "execute/getTerminalOutput",
+    "execute/createAndRunTask",
+    "web/fetch",
+    "read/problems",
+    "vscode/runCommand",
+    "vscode/askQuestions",
+    "browser/openBrowserPage",
+    "browser/navigatePage",
+    "browser/readPage",
+    "browser/screenshotPage",
+    "browser/clickElement",
+    "browser/typeInPage",
+    "browser/hoverElement",
+    "browser/dragElement",
+    "browser/handleDialog"
+  ],
+
   "capabilityFlags": {
     "orchestration": false,
     "approval": false,

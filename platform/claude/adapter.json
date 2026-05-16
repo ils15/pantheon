@@ -17,11 +17,11 @@
       "skills",
       "instructions",
       "model",
-      "mcpServers"
+      "mcpServers",
+      "agents"
     ],
     "exclude": [
       "handoffs",
-      "agents",
       "disable-model-invocation",
       "argument-hint",
       "user-invocable"

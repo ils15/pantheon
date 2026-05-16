@@ -6,6 +6,7 @@ tools:
   grep: true
   read: true
   edit: true
+user-invocable: true
 ---
 
 # Mnemosyne - Memory Agent

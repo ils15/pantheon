@@ -138,32 +138,6 @@ pip-audit -r requirements.txt
 - **** (via handoff button): For code review and security audit when phase is complete
 - **@aphrodite / @demeter / **: Route through **Zeus** — Hermes cannot directly invoke these agents
 
-## What was built:
-- [endpoint/service path] — [what it does]
-
-## Tests:
-- ✅ All X unit tests passing
-- ✅ Coverage: Y%
-
-## Notes for Themis (Reviewer):
-- [Any area that deserves extra scrutiny]
-
-@mnemosyne Create artifact: IMPL-phase<N>-hermes with the above summary
-```
-
-After Mnemosyne persists the artifact, signal Zeus: `Ready for Themis review.`
-
-### Using #runSubagent for Parallel Discovery
-
-If you need to research something independently:
-```
-#runSubagent Explore "Find all async patterns in media_service.py (thorough)"
-```
-
-Returns isolated result without contaminating main context.
-
----
-
 ## Output Format
 
 When completing a task, provide:

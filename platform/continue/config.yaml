@@ -18,6 +18,7 @@ rules:
   - ./rules/zeus.md
   - ./rules/athena.md
   - ./rules/apollo.md
+  - ./rules/argus.md
   - ./rules/hermes.md
   - ./rules/aphrodite.md
   - ./rules/demeter.md

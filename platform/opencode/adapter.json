@@ -16,12 +16,13 @@
       "mode",
       "tools",
       "skills",
-      "instructions"
+      "instructions",
+      "agents",
+      "user-invocable",
+      "handoffs"
     ],
     "exclude": [
       "model",
-      "handoffs",
-      "agents",
       "disable-model-invocation"
     ],
     "transform": {

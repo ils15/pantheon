@@ -2,6 +2,16 @@
 name: athena
 description: "Strategic planner & architect — research-first, plan-only, never implements. Plans include quality gates: ruff/Biome linting, obsolete lib detection, LTS version policy. Calls apollo as nested subagent for complex discovery."
 tools: Agent, AskUserQuestion, Grep, Glob, Read, WebFetch
+agents:
+  - apollo
+  - hermes
+  - aphrodite
+  - demeter
+  - themis
+  - prometheus
+  - hephaestus
+  - chiron
+  - nyx
 ---
 
 # Athena - Strategic Planner

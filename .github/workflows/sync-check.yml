@@ -1,0 +1,33 @@
+name: Sync Check
+
+on:
+  pull_request:
+    paths:
+      - 'agents/**'
+      - 'platform/**/adapter.json'
+      - 'scripts/sync-platforms.mjs'
+      - 'scripts/validate-sync.mjs'
+  push:
+    branches: [main]
+    paths:
+      - 'agents/**'
+      - 'platform/**/adapter.json'
+      - 'scripts/sync-platforms.mjs'
+      - 'scripts/validate-sync.mjs'
+
+jobs:
+  validate:
+    name: Validate Platform Sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Check platform sync
+        run: node scripts/validate-sync.mjs
