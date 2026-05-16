@@ -6,7 +6,6 @@ tools:
   read: true
   edit: true
   bash: true
-argument-hint: "Exact bug or typo: file name, symptom, and expected fix (e.g. 'hover colour wrong on MobileMenu.tsx button — should be blue-600 not blue-400')"
 ---
 
 # Talos - Hotfix & Rapid Repair

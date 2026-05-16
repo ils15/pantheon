@@ -7,7 +7,6 @@ tools:
   read: true
   grep: true
   bash: true
-argument-hint: "GitHub task: 'create branch feat/X' | 'open PR: title + base branch' | 'close issue #N with comment' | 'create release v1.2.3' — include repo and desired outcome"
 ---
 
 # Iris — GitHub Operations Specialist

@@ -2,7 +2,6 @@
 name: database-optimization
 description: Optimize SQL queries, analyze indexes, review Alembic migrations, and identify N+1 problems. Provides query execution plans, index recommendations, and migration best practices for SQLAlchemy async.
 context: fork
-argument-hint: "Database optimization task — describe slow query, table schema, current indexes, and expected performance target"
 globs: ["**/models/**", "**/queries/**"]
 alwaysApply: false
 ---

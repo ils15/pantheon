@@ -2,7 +2,6 @@
 name: docker-best-practices
 description: Create optimized Dockerfiles with multi-stage builds, security hardening, layer caching, and health checks. Includes docker-compose patterns for development and production environments.
 context: fork
-argument-hint: "Containerization task — describe service, language runtime, dependencies, and deployment environment"
 globs: ["**/Dockerfile", "**/docker-compose*"]
 alwaysApply: false
 ---

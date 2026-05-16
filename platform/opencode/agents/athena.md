@@ -9,7 +9,6 @@ tools:
   list: true
   read: true
   webfetch: true
-argument-hint: Feature or epic to plan — describe the requirement, goal, and affected modules (e.g. 'JWT auth with refresh tokens for FastAPI backend')
 ---
 
 # Athena - Strategic Planner

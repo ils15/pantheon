@@ -1,7 +1,6 @@
 ---
 name: conclave
 description: "Multi-perspective trade-off analysis — Athena convenes specialist agents and synthesizes a decisive recommendation"
-argument-hint: "<decision or trade-off question>"
 agent: athena
 tools: ['search', 'usages', 'agent']
 ---

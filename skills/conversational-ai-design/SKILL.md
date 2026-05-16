@@ -2,7 +2,6 @@
 name: conversational-ai-design
 description: Design conversational AI systems with Rasa 3.x NLU pipelines, intent/entity models, dialogue policies, custom actions, and LLM-based chatbot patterns using LangChain conversational memory and retrieval-augmented generation.
 context: fork
-argument-hint: "Conversational AI task — describe chatbot domain, intents, entities, dialogue flows, and channels to support"
 globs: ["**/domain/**", "**/chatbot/**", "**/nlu/**"]
 alwaysApply: false
 ---

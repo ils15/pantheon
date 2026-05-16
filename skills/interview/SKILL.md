@@ -2,7 +2,6 @@
 name: interview
 description: "Turn a rough idea into a structured spec through a short Q&A interview. Ask 3–5 targeted questions one at a time, then produce a complete markdown spec with goals, requirements, constraints, and open questions. Use before starting any non-trivial feature."
 context: fork
-argument-hint: "Rough idea or feature request to turn into a structured spec"
 globs: []
 alwaysApply: false
 ---

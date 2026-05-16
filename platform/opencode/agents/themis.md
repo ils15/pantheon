@@ -8,7 +8,6 @@ tools:
   read: true
   bash: true
   edit: true
-argument-hint: "What to review — point at the phase or changed files (e.g. 'review Phase 1: auth endpoints and JWT middleware added by hermes')"
 ---
 
 # Themis - Quality & Security Gate Specialist

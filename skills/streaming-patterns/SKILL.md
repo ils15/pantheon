@@ -2,7 +2,6 @@
 name: streaming-patterns
 description: Implement server-sent events, WebSocket connections, LLM token streaming, real-time broadcasting, chunked transfer encoding, and streaming error handling in FastAPI. Covers Redis Pub/Sub, backpressure management, throughput monitoring, and frontend SSE/WebSocket clients.
 context: fork
-argument-hint: "Streaming implementation task — describe real-time data source, protocol (SSE/WebSocket), client types, and throughput requirements"
 globs: ["**/*.py", "**/stream/**"]
 alwaysApply: false
 ---

@@ -1,7 +1,6 @@
 ---
 name: code-review-checklist
 description: Systematic code review using quality gates, SOLID principles, error handling patterns, and test coverage analysis. Provides structured feedback with severity levels and actionable improvements.
-argument-hint: "Code review scope — describe files changed, programming language, architecture layer, and review focus (security/performance/correctness)"
 globs: ["**/*.py", "**/*.ts", "**/*.tsx"]
 alwaysApply: false
 ---

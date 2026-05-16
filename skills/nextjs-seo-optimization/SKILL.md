@@ -2,7 +2,6 @@
 name: nextjs-seo-optimization
 description: Implement SEO best practices in Next.js applications. Includes metadata, Open Graph tags, canonical URLs, sitemap generation, schema markup, and performance optimization for search ranking.
 context: fork
-argument-hint: "SEO optimization task — describe page type, target keywords, current ranking issues, and metadata requirements"
 globs: ["**/next.config*", "**/layout.*", "**/metadata.*"]
 alwaysApply: false
 ---

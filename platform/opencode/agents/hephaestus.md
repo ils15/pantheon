@@ -9,7 +9,6 @@ tools:
   edit: true
   bash: true
   webfetch: true
-argument-hint: Build RAG pipelines, design agent chains, set up vector search, or compose multi-step LLM workflows
 ---
 
 # Hephaestus — AI Tooling & Pipelines Specialist

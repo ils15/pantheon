@@ -1,7 +1,6 @@
 ---
 name: subtask
 description: "Delegate a bounded child task to a specialist agent and get a structured result back — use for isolated, well-scoped work within a larger session"
-argument-hint: "<agent> <task description>"
 agent: zeus
 tools: ['agent', 'search']
 ---

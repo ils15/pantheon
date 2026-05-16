@@ -2,7 +2,6 @@
 name: todo-continuation
 description: "Safe auto-continue pattern for multi-step orchestration — how to automatically work through todo lists without unnecessary interruptions while always stopping at mandatory safety gates (plan approval, phase review, git commit). Prevents both premature stopping and runaway execution."
 context: fork
-argument-hint: "Multi-step task or epic where automatic continuation through todos is needed"
 globs: []
 alwaysApply: false
 ---

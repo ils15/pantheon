@@ -2,7 +2,6 @@
 name: orchestration-workflow
 description: "Practical step-by-step walkthrough for orchestrating features end-to-end using the multi-agent system, from planning through deployment"
 context: fork
-argument-hint: "Feature to orchestrate end-to-end — describe the requirement, affected layers, and deployment target"
 globs: ["**/AGENTS.md", "**/agents/*.agent.md"]
 alwaysApply: false
 ---

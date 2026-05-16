@@ -1,7 +1,6 @@
 ---
 name: implement-feature
 description: "Implement a complete feature end-to-end with TDD, parallel execution, and quality gates"
-argument-hint: "[Brief feature description]"
 agent: zeus
 tools: ['search', 'usages', 'edit', 'runCommands', 'runTasks']
 ---

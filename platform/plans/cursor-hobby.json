@@ -4,6 +4,7 @@
   "tier": "hobby",
   "price": "$0",
   "models": {
+    "free": "openai/gpt-5-nano",
     "fast": "openai/gpt-5-mini",
     "default": "openai/gpt-5-mini",
     "premium": "openai/gpt-5-mini"
