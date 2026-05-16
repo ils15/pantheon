@@ -66,11 +66,12 @@ except Exception:
 usage() {
     echo "Usage:"
     echo "  $(basename "$0") list                        List all available plans"
-    echo "  $(basename "$0") <plan-name>                 Activate plan + write opencode.json"
-    echo "  $(basename "$0") status                      Show current active plan"
+    echo "  $(basename "$0") <plan-name>                 Activate plan + inject models into opencode.json"
+    echo "  $(basename "$0") status                      Show active plan + current model config"
     echo "  $(basename "$0") models                      Show model-to-agent mapping"
-    echo "  $(basename "$0") generate                    Write opencode.json from active plan"
+    echo "  $(basename "$0") generate                    Re-inject models from active plan"
     echo "  $(basename "$0") generate --target <path>    Write to a custom file path"
+    echo "  $(basename "$0") reset                       Remove per-agent model overrides (back to global)"
     echo ""
     echo "Available plans:"
     list_plans
@@ -100,11 +101,12 @@ list_plans() {
 
 # ── Show Active Plan ──────────────────────────────────────────────────────────
 show_status() {
+    local config_file="$ROOT_DIR/opencode.json"
+
     if [[ -L "$ACTIVE_LINK" ]] || [[ -f "$ACTIVE_LINK" ]]; then
         local resolved
         if [[ -L "$ACTIVE_LINK" ]]; then
             resolved=$(readlink -f "$ACTIVE_LINK" 2>/dev/null || readlink "$ACTIVE_LINK")
-            # If relative, resolve from PLANS_DIR
             if [[ ! "$resolved" = /* ]]; then
                 resolved="$PLANS_DIR/$resolved"
             fi
@@ -116,14 +118,86 @@ show_status() {
         echo -e "${GREEN}✅ Active plan: ${CYAN}$plan_name${NC}"
         echo ""
         if [[ -f "$resolved" ]]; then
-            echo -e "${BLUE}Tier models:${NC}"
+            echo -e "${BLUE}Plan tiers:${NC}"
             echo -e "  ${YELLOW}fast:${NC}    $(_json_get "$resolved" "models.fast")"
             echo -e "  ${YELLOW}default:${NC} $(_json_get "$resolved" "models.default")"
             echo -e "  ${YELLOW}premium:${NC} $(_json_get "$resolved" "models.premium")"
         fi
     else
-        echo -e "${RED}❌ No active plan selected.${NC}"
-        echo "Run: ./platform/select-plan.sh <plan-name>"
+        echo -e "${YELLOW}⚠️  No active plan — no model configured (OpenCode account default).${NC}"
+    fi
+
+    echo ""
+    if [[ -f "$config_file" ]]; then
+        local global_model global_small
+        global_model=$(_json_get "$config_file" "model")
+        global_small=$(_json_get "$config_file" "small_model")
+        echo -e "${BLUE}opencode.json:${NC}"
+        echo -e "  ${YELLOW}model:${NC}       ${global_model:-"(not set — account default)"}"
+        echo -e "  ${YELLOW}small_model:${NC} ${global_small:-"(not set — account default)"}"
+
+        # Check if any agent has an explicit model override
+        local overrides
+        overrides=$(python3 -c "
+import json
+try:
+    d = json.load(open('$config_file'))
+    agents = d.get('agent', {})
+    count = sum(1 for v in agents.values() if isinstance(v, dict) and 'model' in v)
+    print(count)
+except Exception:
+    print(0)
+" 2>/dev/null || echo "0")
+        if [[ "$overrides" -gt 0 ]]; then
+            echo -e "  ${YELLOW}per-agent models:${NC} $overrides agents with model override"
+        else
+            echo -e "  ${YELLOW}per-agent models:${NC} none"
+        fi
+    fi
+}
+
+# ── Reset all model config (global + per-agent) ───────────────────────────────
+cmd_reset() {
+    local config_file="$ROOT_DIR/opencode.json"
+    if [[ ! -f "$config_file" ]]; then
+        echo -e "${RED}❌ opencode.json not found at $config_file${NC}"
+        exit 1
+    fi
+
+    local result
+    result=$(python3 - "$config_file" << 'PYEOF'
+import json, sys
+config_file = sys.argv[1]
+with open(config_file) as f:
+    config = json.load(f)
+removed = 0
+# Remove global model keys
+for key in ("model", "small_model"):
+    if key in config:
+        del config[key]
+        removed += 1
+# Remove per-agent model overrides
+for agent, val in config.get("agent", {}).items():
+    if isinstance(val, dict) and "model" in val:
+        del val["model"]
+        removed += 1
+with open(config_file, "w") as f:
+    json.dump(config, f, indent=2)
+    f.write("\n")
+print(f"removed={removed}")
+PYEOF
+)
+
+    local removed
+    removed=$(echo "$result" | grep "^removed=" | cut -d= -f2)
+
+    echo -e "${GREEN}✅ Reset complete — ${removed} model key(s) removed (global + per-agent).${NC}"
+    echo -e "   OpenCode will use the account default model."
+
+    # Clear active plan symlink
+    if [[ -L "$ACTIVE_LINK" ]]; then
+        rm -f "$ACTIVE_LINK"
+        echo -e "   Active plan symlink cleared."
     fi
 }
 
@@ -166,10 +240,9 @@ show_models() {
 }
 
 # ── Generate opencode.json ────────────────────────────────────────────────────
-# Reads the active plan (or the plan passed explicitly) and writes a full
-# opencode.json with per-agent model overrides derived from:
-#   1. agent_overrides in the plan file (explicit per-agent model)
-#   2. Tier defaults (fast/default/premium) for all other agents
+# Surgically updates only the "model" key inside each existing agent entry.
+# All other per-agent config (description, color, temperature, steps, permission)
+# is left untouched. Global model/small_model are also updated.
 #
 # Agent tier assignments (canonical):
 #   premium → zeus, athena, themis
@@ -204,22 +277,22 @@ overrides     = plan.get("agent_overrides", {})
 
 # Canonical tier assignments
 TIER_MAP = {
-    "zeus":      "premium",
-    "athena":    "premium",
+    "zeus":       "premium",
+    "athena":     "premium",
     "themis":     "premium",
-    "hermes":    "default",
-    "aphrodite": "default",
-     "demeter":  "default",
-     "prometheus": "default",
-    "hephaestus":   "default",
-    "chiron":    "default",
+    "hermes":     "default",
+    "aphrodite":  "default",
+    "demeter":    "default",
+    "prometheus": "default",
+    "hephaestus": "default",
+    "chiron":     "default",
     "echo":       "default",
-    "gaia":      "default",
-    "iris":      "default",
-    "apollo":    "fast",
-    "nyx":       "fast",
-    "mnemosyne": "fast",
-    "talos":     "fast",
+    "gaia":       "default",
+    "iris":       "default",
+    "apollo":     "fast",
+    "nyx":        "fast",
+    "mnemosyne":  "fast",
+    "talos":      "fast",
 }
 
 tier_to_model = {
@@ -228,15 +301,14 @@ tier_to_model = {
     "premium": premium_model,
 }
 
-# Build agent model map: overrides take priority over tier defaults
-agent_section = {}
-for agent, tier in TIER_MAP.items():
+def resolve_model(agent):
+    """Return the model for this agent: override > tier default."""
     if agent in overrides:
-        agent_section[agent] = {"model": overrides[agent]}
-    elif tier_to_model.get(tier):
-        agent_section[agent] = {"model": tier_to_model[tier]}
+        return overrides[agent]
+    tier = TIER_MAP.get(agent)
+    return tier_to_model.get(tier, "") if tier else ""
 
-# Preserve existing non-agent keys in the output file (e.g. mcp, permission, plugin)
+# Load existing config — we do a SURGICAL update, not a full rewrite
 existing = {}
 if os.path.exists(output_file):
     try:
@@ -245,29 +317,40 @@ if os.path.exists(output_file):
     except Exception:
         existing = {}
 
-# Keys we manage — always overwrite these
-managed_keys = {"$schema", "model", "small_model", "agent"}
-preserved = {k: v for k, v in existing.items() if k not in managed_keys}
+# Update global model keys
+existing["$schema"] = "https://opencode.ai/config.json"
+if premium_model or default_model:
+    existing["model"] = premium_model or default_model
+if fast_model:
+    existing["small_model"] = fast_model
 
-config = {
-    "$schema": "https://opencode.ai/config.json",
-    "model": premium_model or default_model,
-    "small_model": fast_model,
-    **preserved,
-    "agent": agent_section,
-}
+# Surgically inject/update only the "model" key in each agent entry.
+# Agents not present in the config are skipped (plan drives model, not structure).
+agent_section = existing.get("agent", {})
+updated = 0
+for agent in TIER_MAP:
+    model = resolve_model(agent)
+    if not model:
+        continue
+    if agent in agent_section:
+        # Preserve all existing keys, only set/update "model"
+        agent_section[agent]["model"] = model
+        updated += 1
+    # If agent doesn't exist in config yet, skip — plan doesn't create agents
+
+existing["agent"] = agent_section
 
 os.makedirs(os.path.dirname(os.path.abspath(output_file)), exist_ok=True)
 
 with open(output_file, "w") as f:
-    json.dump(config, f, indent=2)
+    json.dump(existing, f, indent=2)
     f.write("\n")
 
 plan_name = plan.get("plan", os.path.basename(plan_file).replace(".json",""))
 print(f"plan={plan_name}")
 print(f"model={premium_model or default_model}")
 print(f"small_model={fast_model}")
-print(f"agents={len(agent_section)}")
+print(f"agents={updated}")
 PYEOF
 }
 
@@ -369,6 +452,9 @@ case "$CMD" in
         ;;
     generate)
         cmd_generate "$@"
+        ;;
+    reset|clean)
+        cmd_reset
         ;;
     help|--help|-h)
         usage

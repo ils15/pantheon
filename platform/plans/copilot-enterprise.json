@@ -4,21 +4,21 @@
   "tier": "enterprise",
   "price": "$39/user/mo",
   "models": {
-    "fast": "Claude Haiku 4.5 (copilot)",
-    "default": "Claude Sonnet 4.6 (copilot)",
-    "premium": "Claude Opus 4.7 (copilot)"
+    "fast": "anthropic/claude-haiku-4-5",
+    "default": "anthropic/claude-sonnet-4-6",
+    "premium": "anthropic/claude-opus-4-7"
   },
   "agent_overrides": {
-    "apollo": "GPT-5 mini (copilot)",
-    "aphrodite": "Gemini 3.1 Pro (copilot)",
-    "nyx": "GPT-5.4 mini (copilot)",
-    "talos": "GPT-5.4 mini (copilot)",
-    "iris": "Claude Haiku 4.5 (copilot)",
-    "mnemosyne": "Claude Haiku 4.5 (copilot)"
+    "apollo": "openai/gpt-5-mini",
+    "aphrodite": "google/gemini-3.1-pro",
+    "nyx": "openai/gpt-5.4-mini",
+    "talos": "openai/gpt-5.4-mini",
+    "iris": "anthropic/claude-haiku-4-5",
+    "mnemosyne": "anthropic/claude-haiku-4-5"
   },
   "handoff_models": {
-    "zeus__themis": "Claude Opus 4.6 (copilot)",
-    "iris__zeus": "GPT-5.3-Codex (copilot)"
+    "zeus__themis": "anthropic/claude-opus-4-6",
+    "iris__zeus": "openai/gpt-5.3-codex"
   },
   "limits": {
     "monthlyRequests": 1000,

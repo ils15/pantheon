@@ -4,13 +4,13 @@
   "tier": "hobby",
   "price": "$0",
   "models": {
-    "fast": "composer-2",
-    "default": "composer-2",
-    "premium": "gpt-5-mini"
+    "fast": "openai/gpt-5-mini",
+    "default": "openai/gpt-5-mini",
+    "premium": "openai/gpt-5-mini"
   },
   "agent_overrides": {},
   "limits": {
     "monthlyRequests": null,
-    "notes": "Hobby/free plan. Limited to Auto model selection and cursor-small. Premium models very limited."
+    "notes": "Hobby/free plan. Limited to Auto model selection and cursor-small. Premium models very limited. composer-2 is Cursor-internal — mapped to openai/gpt-5-mini as OpenCode equivalent."
   }
 }

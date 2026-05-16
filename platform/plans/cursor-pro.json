@@ -4,17 +4,17 @@
   "tier": "pro",
   "price": "$20/mo",
   "models": {
-    "fast": "gpt-5-mini",
-    "default": "claude-4.6-sonnet",
-    "premium": "claude-4.7-opus"
+    "fast": "openai/gpt-5-mini",
+    "default": "anthropic/claude-sonnet-4-6",
+    "premium": "anthropic/claude-opus-4-7"
   },
   "agent_overrides": {
-    "apollo": "gpt-5-mini",
-    "aphrodite": "gemini-3-pro",
-    "nyx": "gpt-5.4-nano",
-    "talos": "claude-4.5-haiku",
-    "iris": "gpt-5-mini",
-    "mnemosyne": "gpt-5-mini"
+    "apollo": "openai/gpt-5-mini",
+    "aphrodite": "google/gemini-3-pro",
+    "nyx": "openai/gpt-5.4-nano",
+    "talos": "anthropic/claude-haiku-4-5",
+    "iris": "openai/gpt-5-mini",
+    "mnemosyne": "openai/gpt-5-mini"
   },
   "limits": {
     "monthlyRequests": null,

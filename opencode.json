@@ -1,29 +1,33 @@
 {
   "$schema": "https://opencode.ai/config.json",
-
-  "model": "opencode/kimi-k2.5",
-  "small_model": "opencode/deepseek-v4-flash",
-
   "agent": {
     "zeus": {
-      "model": "opencode/kimi-k2.6",
-      "description": "Central orchestrator — delegates to specialized agents, never implements directly",
+      "description": "Central orchestrator \u2014 delegates to specialized agents, never implements directly",
       "color": "#FFD700",
       "temperature": 0.2,
       "steps": 25,
-      "permission": { "edit": "deny", "bash": "deny", "task": { "*": "allow" } }
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "task": {
+          "*": "allow"
+        }
+      },
+      "model": "opencode-go/kimi-k2.6"
     },
     "athena": {
-      "model": "opencode/kimi-k2.6",
-      "description": "Strategic planner & council — creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
+      "description": "Strategic planner & council \u2014 creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 15,
-      "permission": { "edit": "deny", "bash": "deny" }
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      },
+      "model": "opencode-go/kimi-k2.6"
     },
     "themis": {
-      "model": "opencode/kimi-k2.6",
-      "description": "Quality & security gate — MANDATORY review after every implementation phase",
+      "description": "Quality & security gate \u2014 MANDATORY review after every implementation phase",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 10,
@@ -35,114 +39,132 @@
           "grep *": "allow",
           "npx vitest *": "allow"
         }
-      }
+      },
+      "model": "opencode-go/kimi-k2.6"
     },
-
     "hermes": {
-      "model": "opencode/kimi-k2.5",
-      "description": "Backend specialist — FastAPI, Python, async/await, TDD red-green-refactor",
+      "description": "Backend specialist \u2014 FastAPI, Python, async/await, TDD red-green-refactor",
       "color": "#4A90D9",
       "temperature": 0.3,
-      "steps": 20
+      "steps": 20,
+      "model": "opencode-go/kimi-k2.5"
     },
     "aphrodite": {
-      "model": "opencode/qwen3.6-plus",
-      "description": "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, TDD",
+      "description": "Frontend specialist \u2014 React 19, TypeScript strict, WCAG accessibility, TDD",
       "color": "#4A90D9",
       "temperature": 0.5,
-      "steps": 20
+      "steps": 20,
+      "model": "opencode-go/qwen3.6-plus"
     },
     "demeter": {
-      "model": "opencode/kimi-k2.5",
-      "description": "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention",
-      "color": "#4A90D9",
-      "temperature": 0.2,
-      "steps": 15
-    },
-    "prometheus": {
-      "model": "opencode/kimi-k2.5",
-      "description": "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD",
-      "color": "#4A90D9",
-      "temperature": 0.2,
-      "steps": 10
-    },
-    "hephaestus": {
-      "model": "opencode/kimi-k2.5",
-      "description": "AI pipelines specialist — RAG, LangChain/LangGraph, vector stores, embeddings",
-      "color": "#4A90D9",
-      "temperature": 0.3,
-      "steps": 20
-    },
-    "chiron": {
-      "model": "opencode/kimi-k2.5",
-      "description": "Model provider hub — multi-model routing, AWS Bedrock, cost optimization",
-      "color": "#4A90D9",
-      "temperature": 0.2,
-      "steps": 15
-    },
-    "echo": {
-      "model": "opencode/kimi-k2.5",
-      "description": "Conversational AI specialist — Rasa NLU, dialogue management, intent/entity design",
-      "color": "#4A90D9",
-      "temperature": 0.4,
-      "steps": 15
-    },
-    "gaia": {
-      "model": "opencode/deepseek-v4-pro",
-      "description": "Remote sensing specialist — LULC analysis, satellite imagery, geospatial pipelines",
+      "description": "Database specialist \u2014 SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 15,
-      "permission": { "edit": "deny", "bash": "deny" }
+      "model": "opencode-go/kimi-k2.5"
     },
-
+    "prometheus": {
+      "description": "Infrastructure specialist \u2014 Docker multi-stage builds, docker-compose, CI/CD",
+      "color": "#4A90D9",
+      "temperature": 0.2,
+      "steps": 10,
+      "model": "opencode-go/kimi-k2.5"
+    },
+    "hephaestus": {
+      "description": "AI pipelines specialist \u2014 RAG, LangChain/LangGraph, vector stores, embeddings",
+      "color": "#4A90D9",
+      "temperature": 0.3,
+      "steps": 20,
+      "model": "opencode-go/kimi-k2.5"
+    },
+    "chiron": {
+      "description": "Model provider hub \u2014 multi-model routing, AWS Bedrock, cost optimization",
+      "color": "#4A90D9",
+      "temperature": 0.2,
+      "steps": 15,
+      "model": "opencode-go/kimi-k2.5"
+    },
+    "echo": {
+      "description": "Conversational AI specialist \u2014 Rasa NLU, dialogue management, intent/entity design",
+      "color": "#4A90D9",
+      "temperature": 0.4,
+      "steps": 15,
+      "model": "opencode-go/kimi-k2.5"
+    },
+    "gaia": {
+      "description": "Remote sensing specialist \u2014 LULC analysis, satellite imagery, geospatial pipelines",
+      "color": "#4A90D9",
+      "temperature": 0.2,
+      "steps": 15,
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      },
+      "model": "opencode-go/deepseek-v4-pro"
+    },
     "apollo": {
-      "model": "opencode/deepseek-v4-flash",
-      "description": "Investigation scout — 3-10 parallel codebase searches, read-only, no edits",
+      "description": "Investigation scout \u2014 3-10 parallel codebase searches, read-only, no edits",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 10,
-      "permission": { "edit": "deny", "bash": "deny" }
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      },
+      "model": "opencode-go/deepseek-v4-flash"
     },
     "iris": {
-      "model": "opencode/deepseek-v4-flash",
-      "description": "GitHub operations — branches, pull requests, issues, releases, tags",
+      "description": "GitHub operations \u2014 branches, pull requests, issues, releases, tags",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 8,
-      "permission": { "edit": "deny", "bash": { "git *": "allow", "gh *": "allow" } }
+      "permission": {
+        "edit": "deny",
+        "bash": {
+          "git *": "allow",
+          "gh *": "allow"
+        }
+      },
+      "model": "opencode-go/deepseek-v4-flash"
     },
     "mnemosyne": {
-      "model": "opencode/minimax-m2.5-free",
-      "description": "Memory bank management — ADRs, project.md, atomic facts to /memories/repo/",
+      "description": "Memory bank management \u2014 ADRs, project.md, atomic facts to /memories/repo/",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 5,
-      "permission": { "bash": "deny" }
+      "permission": {
+        "bash": "deny"
+      },
+      "model": "opencode-go/deepseek-v4-flash"
     },
     "talos": {
-      "model": "opencode/deepseek-v4-flash",
-      "description": "Hotfix express lane — small bugs, CSS, typos, direct fixes, no TDD ceremony",
+      "description": "Hotfix express lane \u2014 small bugs, CSS, typos, direct fixes, no TDD ceremony",
       "color": "#50C878",
       "temperature": 0.3,
       "steps": 3,
       "permission": {
-        "bash": { "git add *": "allow", "npx prettier *": "allow" }
-      }
+        "bash": {
+          "git add *": "allow",
+          "npx prettier *": "allow"
+        }
+      },
+      "model": "opencode-go/deepseek-v4-flash"
     },
     "nyx": {
-      "model": "opencode/minimax-m2.5",
-      "description": "Observability specialist — OpenTelemetry, LangSmith, token/cost tracking, alerting",
+      "description": "Observability specialist \u2014 OpenTelemetry, LangSmith, token/cost tracking, alerting",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 10,
       "permission": {
         "edit": "ask",
-        "bash": { "pip *": "allow", "pytest *": "allow" }
-      }
+        "bash": {
+          "pip *": "allow",
+          "pytest *": "allow"
+        }
+      },
+      "model": "opencode-go/minimax-m2.5"
     }
   },
-
   "command": {
     "conclave": {
       "description": "Gather 2-3 expert perspectives in parallel and synthesize a single recommendation",
@@ -150,13 +172,13 @@
       "agent": "athena"
     },
     "focus": {
-      "description": "Pin a session goal — all todos, delegation, and verification stay aligned with it",
+      "description": "Pin a session goal \u2014 all todos, delegation, and verification stay aligned with it",
       "template": "SESSION GOAL (pinned): {{input}}\n\nAll subsequent tasks, todos, and delegations must stay aligned with this goal. Verify alignment before each major decision. If a task drifts from this goal, flag it and ask for clarification before proceeding.",
       "agent": "zeus"
     },
     "forge": {
       "description": "Switch model tier at runtime: fast | default | premium",
-      "template": "Switch all agents to the '{{input}}' model tier as defined in platform/plans/plan-active.json.\n\n- fast: opencode/deepseek-v4-flash\n- default: opencode/kimi-k2.5\n- premium: opencode/kimi-k2.6\n\nReport which agents were reassigned and confirm the active tier.",
+      "template": "Switch all agents to the '{{input}}' model tier as defined in platform/plans/plan-active.json.\n\nRead platform/plans/plan-active.json to get the current tier models, then update the opencode.json agent section accordingly.\n\nReport which agents were reassigned and confirm the active tier.",
       "agent": "zeus"
     },
     "subtask": {
@@ -180,14 +202,12 @@
       "agent": "themis"
     }
   },
-
   "compaction": {
     "auto": true,
     "prune": true,
     "tail_turns": 3,
     "reserved": 8000
   },
-
   "provider": {
     "opencode": {
       "options": {
@@ -205,7 +225,6 @@
       }
     }
   },
-
   "permission": {
     "bash": {
       "rm -rf /": "deny",
@@ -233,5 +252,7 @@
       "gh *": "allow",
       "make *": "allow"
     }
-  }
+  },
+  "model": "opencode-go/kimi-k2.6",
+  "small_model": "opencode-go/deepseek-v4-flash"
 }
