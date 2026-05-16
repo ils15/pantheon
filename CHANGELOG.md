@@ -7,6 +7,25 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [3.5.1] - 2026-05-16
+
+### Added
+
+- Add release-bundle.mjs and fix release pipeline
+  - scripts/release-bundle.mjs: packages agents, skills, prompts, platform,
+- Cross-platform commands — VS Code prompts + Claude Code commands
+  - Rename review-code.prompt.md → audit.prompt.md (matches /audit command)
+- Multi-platform modernization, new commands, skills, and agent improvements
+  - Add /goal, /preset, /council, /interview, /subtask, /clonedeps, /review commands to opencode.json
+- Add CodeQL workflow for advanced code analysis
+
+### Changed
+
+- Remove CodeQL workflow file
+- Enhance documentation and tooling descriptions across multiple agents
+  - Updated descriptions for Prometheus, Themis, Aphrodite, Demeter, Hermes, Athena, and Zeus to include modern practices, tooling, and quality gates.
+
+
 ## [3.4.0] - 2026-05-02
 
 ### Added
