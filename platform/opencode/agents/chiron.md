@@ -9,6 +9,20 @@ tools:
   edit: true
   bash: true
   webfetch: true
+agents:
+  - apollo
+user-invocable: true
+handoffs:
+  - label: 🔍 Review Provider Config
+    agent: themis
+    prompt: Review this model provider configuration for security (API key handling), cost efficiency, and reliability.
+    send: false
+    model: premium
+  - label: ⚙️ Deploy Provider Infra
+    agent: prometheus
+    prompt: Deploy the model provider infrastructure — containerize inference services, configure GPU support, and set up health checks.
+    send: false
+    model: default
 ---
 
 # Chiron — Model Provider Hub Specialist

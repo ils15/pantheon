@@ -7,6 +7,15 @@ tools:
   read: true
   edit: true
   bash: true
+agents:
+  - apollo
+user-invocable: true
+handoffs:
+  - label: ➡️ Send to Themis
+    agent: themis
+    prompt: Please perform a code review and security audit on these database/migration changes.
+    send: true
+    model: premium
 ---
 
 # Demeter - Database Specialist

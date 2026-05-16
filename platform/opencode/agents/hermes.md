@@ -7,6 +7,15 @@ tools:
   read: true
   edit: true
   bash: true
+agents:
+  - apollo
+user-invocable: true
+handoffs:
+  - label: Send to Themis
+    agent: themis
+    prompt: Please perform a code review and security audit on these backend changes according to your instructions.
+    send: true
+    model: premium
 ---
 
 # Hermes - Backend Executor (FastAPI Specialist)

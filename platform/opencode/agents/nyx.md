@@ -9,6 +9,15 @@ tools:
   edit: true
   bash: true
   webfetch: true
+agents:
+  - apollo
+user-invocable: true
+handoffs:
+  - label: 🌀 Report Anomaly
+    agent: zeus
+    prompt: Observability detected anomalies in agent execution. Review and decide on corrective action.
+    send: false
+    model: premium
 ---
 
 # Nyx — Observability & Monitoring Specialist

@@ -8,6 +8,20 @@ tools:
   read: true
   bash: true
   edit: true
+agents:
+  - mnemosyne
+user-invocable: true
+handoffs:
+  - label: 🔧 Fix Review Issues
+    agent: zeus
+    prompt: Fix the issues identified in the code review above.
+    send: false
+    model: premium
+  - label: 📝 Document Findings
+    agent: mnemosyne
+    prompt: Document the review findings and decisions above in the Memory Bank.
+    send: false
+    model: fast
 ---
 
 # Themis - Quality & Security Gate Specialist

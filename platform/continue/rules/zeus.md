@@ -166,35 +166,6 @@ Full debugging guide with 7-step process in documentation.
 
 ## Core Capability: Orchestration 
 
-# Create isolated worktree for each agent
-git worktree add ../pantheon-hermes HEAD
-git worktree add ../pantheon-aphrodite HEAD
-
-# Agent works in its own directory
-# No cross-agent file conflicts
-# Easy to discard if something goes wrong
-
-# Clean up after
-git worktree remove ../pantheon-hermes
-git worktree remove ../pantheon-aphrodite
-```
-
-**When to use:**
-- Multiple agents editing the same files
-- Experimental changes you might discard
-- High-risk refactoring
-
-**When NOT to use:**
-- Simple additive changes (new files, new endpoints)
-- Code review only
-
-### 4. **Structured Handoffs**
-- Receive plans from Planner
-- Delegate with clear scope and requirements
-- Coordinate between specialist agents
-- Report phase completion and approval status
-- Use subagents for focused, context-isolated discovery or audits, then summarize findings back into the main thread
-
 ## Available Subagents
 
 ### 1. Athena - THE STRATEGIC PLANNER

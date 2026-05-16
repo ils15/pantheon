@@ -34,7 +34,7 @@ const PLATFORM_DIR = join(ROOT, 'platform');                 // platform-specifi
 // ---------------------------------------------------------------------------
 
 const AGENT_NAMES = [
-  'zeus', 'athena', 'apollo',
+  'zeus', 'athena', 'apollo', 'argus',
   'hermes', 'aphrodite', 'demeter', 'prometheus', 'hephaestus', 'chiron', 'echo', 'nyx',
   'gaia',
   'iris',

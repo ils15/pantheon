@@ -9,6 +9,20 @@ tools:
   edit: true
   bash: true
   webfetch: true
+agents:
+  - apollo
+user-invocable: true
+handoffs:
+  - label: 🔍 Review Conversation Design
+    agent: themis
+    prompt: Review this conversational AI design for NLU accuracy, dialogue coherence, and security (intent hijacking, dialogue poisoning).
+    send: false
+    model: premium
+  - label: ⚡ Hotfix Conversation
+    agent: talos
+    prompt: Quick fix for this conversational AI issue — intent misclassification, response formatting, or dialogue state bug.
+    send: false
+    model: fast
 ---
 
 # Echo — Conversational AI Specialist

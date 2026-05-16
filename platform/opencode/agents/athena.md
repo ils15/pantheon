@@ -9,6 +9,33 @@ tools:
   list: true
   read: true
   webfetch: true
+agents:
+  - apollo
+  - hermes
+  - aphrodite
+  - demeter
+  - themis
+  - prometheus
+  - hephaestus
+  - chiron
+  - nyx
+user-invocable: true
+handoffs:
+  - label: Validate Plan
+    agent: themis
+    prompt: Validate this implementation plan for completeness, risk coverage, and test strategy before execution.
+    send: false
+    model: premium
+  - label: Implement Plan
+    agent: zeus
+    prompt: Implement the plan outlined above following TDD methodology.
+    send: false
+    model: premium
+  - label: Council Synthesis → Zeus
+    agent: zeus
+    prompt: Council synthesis complete. Use the recommendation to proceed with orchestration.
+    send: false
+    model: premium
 ---
 
 # Athena - Strategic Planner

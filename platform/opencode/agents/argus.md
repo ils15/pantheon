@@ -4,6 +4,7 @@ description: "Visual analysis specialist — interprets screenshots, images, PDF
 tools:
   read: true
   webfetch: true
+user-invocable: true
 ---
 
 # Argus - Visual Analysis Specialist

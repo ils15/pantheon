@@ -171,27 +171,6 @@ def upgrade():
 - ✅ Use joinedload for N:1 relationships
 - ✅ Avoid loading unnecessary columns (use defer())
 
-## Changes:
-- [Table/index description] — [purpose]
-
-## Migration File:
-[migration file path]
-
-## Test Results:
-- ✅ Upgrade migration: [time]
-- ✅ Downgrade migration: [time]
-- ✅ Query performance: [delta]
-
-## Notes for Themis (Reviewer):
-- [Any data migration risk or schema concern to flag]
-
-@mnemosyne Create artifact: IMPL-phase<N>-demeter with the above summary
-```
-
-After Mnemosyne persists the artifact, signal Zeus: `Ready for Themis review.`
-
----
-
 ## 🚨 Documentation Policy
 
 **Artifact via Mnemosyne (MANDATORY for phase outputs):**

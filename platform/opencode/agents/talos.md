@@ -6,6 +6,13 @@ tools:
   read: true
   edit: true
   bash: true
+user-invocable: true
+handoffs:
+  - label: 🚨 Escalate to Zeus
+    agent: zeus
+    prompt: This fix is more complex than expected and requires multi-agent orchestration. Please take over.
+    send: false
+    model: premium
 ---
 
 # Talos - Hotfix & Rapid Repair

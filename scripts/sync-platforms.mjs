@@ -292,10 +292,16 @@ function omitSection(text, pattern) {
   const result = [];
   let inSection = false;
   let sectionDepth = 0;
+  let inCodeBlock = false;
 
   for (const line of lines) {
+    // Track fenced code blocks (```)
+    if (line.trimStart().startsWith('```')) {
+      inCodeBlock = !inCodeBlock;
+    }
+
     const headingMatch = line.match(/^(#{1,6})\s+(.*)/);
-    if (headingMatch) {
+    if (headingMatch && !inCodeBlock) {
       const depth = headingMatch[1].length;
       const title = headingMatch[2].trim();
       if (title.startsWith(pattern)) {
@@ -346,7 +352,8 @@ function applyBodyFilters(body, filters) {
 // File assembly
 // ---------------------------------------------------------------------------
 
-function buildOutputFile(fm, body) {
+function buildOutputFile(fm, body, skipFrontmatter = false) {
+  if (skipFrontmatter) return body;
   const fmStr = serializeFm(fm);
   // Ensure body starts with a single newline after the closing ---
   const normalizedBody = body.startsWith('\n') ? body : '\n' + body;
@@ -380,7 +387,8 @@ function syncPlatform(platformName, adapter, agentFiles) {
     const newFm = transformFrontmatter(fm, adapter);
     const newBody = applyBodyFilters(body, adapter.bodyFilters);
     validateBodyForExcludedTools(newBody, name, platformName, adapter.excludeTools);
-    const output = buildOutputFile(newFm, newBody);
+    const skipFrontmatter = adapter.frontmatter?.skipFrontmatter ?? false;
+    const output = buildOutputFile(newFm, newBody, skipFrontmatter);
 
     const outFile = join(outDir, `${name}${ext}`);
     const existing = existsSync(outFile) ? readFileSync(outFile, 'utf8') : null;

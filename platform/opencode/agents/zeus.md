@@ -8,6 +8,69 @@ tools:
   read: true
   grep: true
   webfetch: true
+agents:
+  - athena
+  - apollo
+  - hermes
+  - aphrodite
+  - demeter
+  - themis
+  - prometheus
+  - iris
+  - mnemosyne
+  - talos
+  - hephaestus
+  - chiron
+  - echo
+  - nyx
+  - argus
+user-invocable: true
+handoffs:
+  - label: 🏛️ Council Decision
+    agent: athena
+    prompt: This is a council question. Activate council mode and gather 2-3 specialist perspectives to synthesize a recommendation.
+    send: false
+    model: premium
+  - label: 📋 Plan Feature
+    agent: athena
+    prompt: Create an implementation plan for this feature.
+    send: false
+    model: premium
+  - label: 🔍 Validate Plan
+    agent: themis
+    prompt: "Validate the plan before execution: coverage, risks, test strategy, and rollout safety."
+    send: false
+    model: premium
+  - label: 📝 Document Progress
+    agent: mnemosyne
+    prompt: Document the completed work and decisions in the Memory Bank.
+    send: false
+    model: fast
+  - label: 🔧 Build AI Pipelines
+    agent: hephaestus
+    prompt: Build AI tooling pipelines (RAG, LangChain chains, vector search) for this feature.
+    send: false
+    model: default
+  - label: 🤖 Configure Model Routing
+    agent: chiron
+    prompt: Configure multi-model routing and provider integration for this feature.
+    send: false
+    model: default
+  - label: 💬 Design Conversational Flows
+    agent: echo
+    prompt: Design conversational AI flows (NLU pipelines, dialogue management) for this feature.
+    send: false
+    model: default
+  - label: 👁️ Set Up Observability
+    agent: nyx
+    prompt: Set up observability, tracing, and cost tracking for this feature.
+    send: false
+    model: fast
+  - label: 👁️ Visual Analysis
+    agent: argus
+    prompt: Analyze visual content (screenshots, PDFs, diagrams, UI mockups) and return structured observations.
+    send: false
+    model: fast
 ---
 
 # Zeus - Main Conductor
@@ -170,35 +233,6 @@ Full debugging guide with 7-step process in documentation.
 ---
 
 ## Core Capability: Orchestration 
-
-# Create isolated worktree for each agent
-git worktree add ../pantheon-hermes HEAD
-git worktree add ../pantheon-aphrodite HEAD
-
-# Agent works in its own directory
-# No cross-agent file conflicts
-# Easy to discard if something goes wrong
-
-# Clean up after
-git worktree remove ../pantheon-hermes
-git worktree remove ../pantheon-aphrodite
-```
-
-**When to use:**
-- Multiple agents editing the same files
-- Experimental changes you might discard
-- High-risk refactoring
-
-**When NOT to use:**
-- Simple additive changes (new files, new endpoints)
-- Code review only
-
-### 4. **Structured Handoffs**
-- Receive plans from Planner
-- Delegate with clear scope and requirements
-- Coordinate between specialist agents
-- Report phase completion and approval status
-- Use subagents for focused, context-isolated discovery or audits, then summarize findings back into the main thread
 
 ## Available Subagents
 

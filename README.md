@@ -5,19 +5,19 @@
 <h1 align="center">Pantheon</h1>
 
 <p align="center">
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-3.4.0-blue" alt="Version"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-3.3.0-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
-  <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf-green" alt="Platforms"></a>
+  <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-17-purple" alt="Agents"></a>
   <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-31-orange" alt="Skills"></a>
-  <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf-8250DF" alt="Built with"></a>
+  <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf|cline|continue-8250DF" alt="Built with"></a>
 </p>
 
 **17 specialized AI agents** that plan, build, review, and deploy features through enforced TDD, persistent project memory, and human approval at every gate.
 
 Stop settling for generalist single-agent coding. Pantheon's conductor-delegate architecture dispatches expert agents with isolated context windows — parallel execution, zero context bleed, and quality gates that block anything below 80% coverage.
 
-Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, and **Windsurf**.
+Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Windsurf**, **Cline**, and **Continue.dev**.
 
 ---
 
@@ -34,6 +34,8 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, and **W
 | 🤖 **Claude Code** | [docs/platforms/claude.md](docs/platforms/claude.md) |
 | 🔧 **Cursor** | [docs/platforms/cursor.md](docs/platforms/cursor.md) |
 | 🌊 **Windsurf** | [docs/platforms/windsurf.md](docs/platforms/windsurf.md) |
+| 🤖 **Cline** | [docs/platforms/cline.md](docs/platforms/cline.md) |
+| 🔄 **Continue.dev** | [docs/platforms/continue.md](docs/platforms/continue.md) |
 
 ---
 
@@ -164,23 +166,25 @@ flowchart TD
 
 ## Platform Support
 
-Pantheon runs on 5 platforms. Here is how each supports the framework's key features:
+Pantheon runs on 7 platforms. Here is how each supports the framework's key features:
 
-| Feature | VS Code | OpenCode | Claude Code | Cursor | Windsurf |
-|---------|:-------:|:--------:|:-----------:|:-----:|:--------:|
-| Custom Agents | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Skills System | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Parallel Execution | ✅ | ✅ | ⚠️ | ✅ | ❌ |
-| Handoff UI | ✅ | ❌ | ❌ | ❌ | ❌ |
-| MCP Servers | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Agent Hooks | ✅ | ⚠️ | ❌ | ❌ | ❌ |
-| Status | ✅ Active | ✅ Active | ✅ Active | ✅ Active | ✅ Active |
+| Feature | VS Code | OpenCode | Claude Code | Cursor | Windsurf | Cline | Continue.dev |
+|---------|:-------:|:--------:|:-----------:|:-----:|:--------:|:-----:|:------------:|
+| Custom Agents | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Skills System | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Parallel Execution | ✅ | ✅ | ⚠️ | ✅ | ❌ | ⚠️ | ⚠️ |
+| Handoff UI | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| MCP Servers | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
+| Agent Hooks | ✅ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| Status | ✅ Active | ✅ Active | ✅ Active | ✅ Active | ✅ Active | ✅ Active | ✅ Active |
 
 - **VS Code**: Best-in-class. Full subagent orchestration, handoff UI, lifecycle hooks.
 - **OpenCode**: Near-complete. Permission blocks via `opencode.json`, tool mapping adapter.
 - **Claude Code**: CLI-native. Agent handoff workflow, skills via markdown rules.
 - **Cursor**: `.mdc` rules with `alwaysApply` and `globs` for Agent mode.
 - **Windsurf**: Preview. Markdown-based agent definitions, basic workflow support.
+- **Cline**: Agent-mode focused. Custom agent definitions, skills via instruction files.
+- **Continue.dev**: IDE-agnostic. Rule-based agent configuration, skills via markdown.
 
 > See [docs/platforms/](docs/platforms/) for setup guides and limitations.
 
@@ -451,13 +455,15 @@ To select a plan:
 
 ### 1. Choose your platform
 
-Pantheon supports 5 platforms. Pick the one that matches your editor:
+Pantheon supports 7 platforms. Pick the one that matches your editor:
 
 - **VS Code Copilot** — native `.agent.md` files, full subagent orchestration, lifecycle hooks
 - **OpenCode** — config-based agent loading, permission blocks, tool mapping adapter
 - **Claude Code** — CLI-based, agent handoff workflow, skills via markdown rules
 - **Cursor** — `.mdc` rules with `alwaysApply` and `globs` for Agent mode
 - **Windsurf** — markdown agent definitions with workflow support (preview)
+- **Cline** — custom agent definitions with skills via instruction files
+- **Continue.dev** — IDE-agnostic rule-based agent configuration with markdown skills
 
 > Follow the [Platform Setup Guides](docs/platforms/) for your chosen platform.
 
@@ -767,7 +773,7 @@ You need an existing subscription for your AI coding editor (Copilot, Claude Pro
 Pro, or OpenCode). Pantheon itself is free and open-source (MIT).
 
 **Can I use this outside VS Code?**
-Yes — 5 platforms supported (VS Code, OpenCode, Claude Code, Cursor, Windsurf). See
+Yes — 7 platforms supported (VS Code, OpenCode, Claude Code, Cursor, Windsurf, Cline, Continue.dev). See
 [Platform Setup Guides](docs/platforms/).
 
 **How are platform configs synced?**
@@ -818,12 +824,14 @@ Pantheon draws from the broader multi-agent landscape while diverging in key way
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to extend the framework |
 | [CHANGELOG.md](CHANGELOG.md) | Release history |
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Generic installation guide |
-| [docs/platforms/](docs/platforms/) | Platform-specific setup guides (5 platforms) |
+| [docs/platforms/](docs/platforms/) | Platform-specific setup guides (7 platforms) |
 | [docs/platforms/vscode.md](docs/platforms/vscode.md) | VS Code setup |
 | [docs/platforms/opencode.md](docs/platforms/opencode.md) | OpenCode setup |
 | [docs/platforms/claude.md](docs/platforms/claude.md) | Claude Code setup |
 | [docs/platforms/cursor.md](docs/platforms/cursor.md) | Cursor setup |
 | [docs/platforms/windsurf.md](docs/platforms/windsurf.md) | Windsurf setup |
+| [docs/platforms/cline.md](docs/platforms/cline.md) | Cline setup |
+| [docs/platforms/continue.md](docs/platforms/continue.md) | Continue.dev setup |
 | [agents/README.md](agents/README.md) | Agent directory |
 | [skills/README.md](skills/README.md) | Skill directory |
 | [platform/plans/](platform/plans/) | Model plan configurations |

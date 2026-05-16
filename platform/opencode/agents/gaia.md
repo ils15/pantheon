@@ -8,6 +8,20 @@ tools:
   read: true
   webfetch: true
   question: true
+agents:
+  - apollo
+user-invocable: true
+handoffs:
+  - label: 🔍 Review Analysis
+    agent: themis
+    prompt: Review this remote sensing analysis for methodological correctness, data pipeline integrity, and scientific validity.
+    send: false
+    model: premium
+  - label: 📋 Plan Implementation
+    agent: athena
+    prompt: Create an implementation plan based on this remote sensing analysis.
+    send: false
+    model: premium
 ---
 
 # 🌍 Gaia — Remote Sensing Domain Specialist

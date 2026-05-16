@@ -196,24 +196,6 @@ Prefer modern browser/Node.js APIs over third-party packages:
 - Use `package.json` `engines.node` to enforce minimum Node.js version
 - Never use `@typescript-eslint` rules that Biome already covers (noUnusedVariables, useConst, etc.)
 
-## Components Built:
-- ✅ [ComponentName].tsx ([N] lines, [N] tests passing)
-
-## Test Results:
-- ✅ [N] unit tests passing
-- ✅ Coverage: [Y]%
-- ✅ Zero TypeScript errors
-
-## Notes for Themis (Reviewer):
-- [Any accessibility concern or complex pattern to review]
-
-@mnemosyne Create artifact: IMPL-phase<N>-aphrodite with the above summary
-```
-
-After Mnemosyne persists the artifact, signal Zeus: `Ready for Themis review.`
-
----
-
 ## 🚨 Documentation Policy
 
 **Artifact via Mnemosyne (MANDATORY for phase outputs):**
