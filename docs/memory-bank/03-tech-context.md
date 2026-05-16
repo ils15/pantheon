@@ -1,78 +1,84 @@
-# 🛠️ Tech Context
+# 🛠️ Tech Context — Pantheon
 
-> **Template** — fill when setting up the environment. Keep updated when the stack changes.
+> **Framework multi-agente baseado em configuração, não em código runtime.**
 
 ---
 
 ## Full Stack
 
-| Layer | Technology | Version |
+| Layer | Technology | Notes |
 |---|---|---|
-| Backend | Python + FastAPI | _Ex: 3.12 + 0.115_ |
-| Frontend | React + TypeScript | _Ex: 18 + 5.x strict_ |
-| ORM | SQLAlchemy + Alembic | _Ex: 2.0 + 1.x_ |
-| Database | PostgreSQL | _Ex: 16_ |
-| Cache | Redis | _Ex: 7_ |
-| Proxy | Traefik | _Ex: 3.x_ |
-| Container | Docker + Compose | _Ex: 27.x_ |
+| **Agent Definitions** | Markdown + YAML frontmatter (.agent.md / .md) | 17 agentes |
+| **Configuration** | JSON (opencode.json) + JSONC | OpenCode/Copilot/Cursor |
+| **Skills** | Markdown (SKILL.md) | 31 skills on-demand |
+| **Instructions** | Markdown (.instructions.md) | 9 arquivos de padrões |
+| **Prompts** | Markdown (.prompt.md) | 13 templates |
+| **Platform Scripts** | Shell + npm | select-plan.sh, npm run sync |
+| **Memory** | `/memories/repo/` (fatos) + `docs/memory-bank/` (narrativa) | Two-tier strategy |
+| **CI/CD** | GitHub Actions | Lint, test, build |
 
 ---
 
 ## Local Setup
 
+Nenhum runtime instalável necessário. Pantheon é um framework de configuração:
+
 ```bash
-# 1. Clone and enter the repo
-git clone <repo-url> && cd <repo-name>
+# 1. Clone
+git clone <repo-url> && cd pantheon
 
-# 2. Copy environment variables
-cp .env.example .env
-# Edit .env with your local credentials
+# 2. Agentes já estão em agents/ e ~/.config/opencode/agents/
+# (nenhuma instalação de dependência necessária)
 
-# 3. Start containers
-docker compose up -d
+# 3. Verificar planos de modelo disponíveis
+./platform/select-plan.sh list
 
-# 4. Run migrations
-docker compose exec backend alembic upgrade head
+# 4. Selecionar um plano
+./platform/select-plan.sh opencode-go
 
-# 5. Verify
-curl http://localhost:8000/health
+# 5. Verificar status
+./platform/select-plan.sh status
 ```
 
 ---
 
-## Required Environment Variables
+## Required Configuration
 
-| Variable | Description | Required |
+| Item | Localização | Descrição |
 |---|---|---|
-| `DATABASE_URL` | PostgreSQL connection string | ✅ |
-| `SECRET_KEY` | JWT secret key (min. 32 chars) | ✅ |
-| `REDIS_URL` | Redis connection string | ✅ |
-| `SMTP_HOST` | Mail server host | ⚠️ Optional |
+| `opencode.json` | `/pantheon/` e `~/.config/opencode/` | Config principal OpenCode |
+| Agent `.md` files | `~/.config/opencode/agents/` | Definições dos 17 agentes |
+| Agent `.agent.md` files | `agents/` | VS Code Copilot format (mesmos agentes) |
+| Platform plans | `platform/plans/` | Modelo por serviço + tier |
+| Memory bank | `docs/memory-bank/` | Contexto narrativo do projeto |
 
 ---
 
 ## Common Commands
 
 ```bash
-# Run tests
-docker compose exec backend pytest --cov=app --cov-report=term-missing
+# Listar planos de modelo
+./platform/select-plan.sh list
 
-# Create a new migration
-docker compose exec backend alembic revision --autogenerate -m "describe change"
+# Selecionar plano
+./platform/select-plan.sh opencode-go
 
-# Access database
-docker compose exec postgres psql -U postgres <db-name>
+# Ver plano ativo
+./platform/select-plan.sh status
 
-# Tail logs
-docker compose logs -f backend
+# Ver modelos por agente
+./platform/select-plan.sh models
+
+# Sincronizar config OpenCode (se configurado com repo)
+opencode sync status
 ```
 
 ---
 
 ## CI/CD Requirements
 
-_Ex: GitHub Actions with steps: lint → test (80% coverage minimum) → build → deploy._
+GitHub Actions com stages: lint (ruff/Biome) → test (pytest/vitest, >80% coverage) → security audit (pip-audit/npm-deprecated-check) → build (se aplicável).
 
 ---
 
-> **Note:** For agent framework prerequisites, refer to the `copilot-agents` README.
+> **Note:** Para pré-requisitos de agentes, veja o `README.md`.

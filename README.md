@@ -8,12 +8,12 @@
   <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-3.4.0-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf-green" alt="Platforms"></a>
-  <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-16-purple" alt="Agents"></a>
-  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-27-orange" alt="Skills"></a>
+  <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-17-purple" alt="Agents"></a>
+  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-31-orange" alt="Skills"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf-8250DF" alt="Built with"></a>
 </p>
 
-**16 specialized AI agents** that plan, build, review, and deploy features through enforced TDD, persistent project memory, and human approval at every gate.
+**17 specialized AI agents** that plan, build, review, and deploy features through enforced TDD, persistent project memory, and human approval at every gate.
 
 Stop settling for generalist single-agent coding. Pantheon's conductor-delegate architecture dispatches expert agents with isolated context windows — parallel execution, zero context bleed, and quality gates that block anything below 80% coverage.
 
@@ -25,9 +25,10 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, and **W
 
 | Resource | Link |
 |----------|------|
-| 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 16 agents |
-| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 27 skills |
+| 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 17 agents |
+| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 31 skills |
 | 🚀 **Installation Guide** | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
+| ⚡ **Quick Start** | [docs/QUICKSTART.md](docs/QUICKSTART.md) |
 | 🖥️ **VS Code** | [docs/platforms/vscode.md](docs/platforms/vscode.md) |
 | ⚡ **OpenCode** | [docs/platforms/opencode.md](docs/platforms/opencode.md) |
 | 🤖 **Claude Code** | [docs/platforms/claude.md](docs/platforms/claude.md) |
@@ -258,7 +259,7 @@ work; you make every architectural and commit decision.
 
 ## Agent Ecosystem
 
-Pantheon provides **16 specialized agents** organized into tiers. Each agent has a
+Pantheon provides **17 specialized agents** organized into tiers. Each agent has a
 single responsibility, a dedicated model assignment, a restricted tool set, and explicit
 context boundaries.
 
@@ -270,7 +271,8 @@ Orchestrator
 
 Planning & Discovery
   ├── Athena — strategic planner, TDD roadmap generation
-  └── Apollo — parallel codebase & web research (read-only)
+  ├── Apollo — parallel codebase & web research (read-only)
+  └── Argus — visual analysis: screenshots, images, PDFs, UI mockups
 
 AI Infrastructure (v3)
   ├── Hephaestus — AI pipelines: RAG, LangChain/LangGraph, vector stores
@@ -325,6 +327,7 @@ graph TB
     subgraph T1["Planning & Discovery"]
         A1["Athena<br/>Strategic Planner"]:::tier1
         A2["Apollo<br/>Codebase Scout"]:::tier1
+        A3["Argus<br/>Visual Analysis"]:::tier1
     end
 
     subgraph AI["AI Infrastructure"]
@@ -355,7 +358,7 @@ graph TB
         G["Gaia<br/>Remote Sensing"]:::tier6
     end
 
-    O --> A1 & A2 & H & Q & E & I1 & I2 & I3 & T1a & N & R & I & M
+    O --> A1 & A2 & A3 & H & Q & E & I1 & I2 & I3 & T1a & N & R & I & M
     O -.-> T & G
     A1 --> A2
 
@@ -375,7 +378,7 @@ graph TB
 
 ## Skill Ecosystem
 
-Pantheon bundles **27 skills** — modular instruction sets that agents load on demand
+Pantheon bundles **31 skills** — modular instruction sets that agents load on demand
 to perform specialized tasks. Skills are organized into domains:
 
 | Domain | Skills |

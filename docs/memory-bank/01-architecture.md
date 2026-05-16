@@ -1,26 +1,40 @@
 # 🏛️ Architecture
 
-> **Template** — fill when starting the project. Update only when the architecture changes.
+> **Pantheon** — Conductor-Delegate pattern com DAG Wave Execution.
 
 ---
 
 ## System Design
 
-<!-- Diagram or description of the main flow. -->
-
 ```
-Client (React)
+User Request
      │
      ▼
-  Traefik (reverse proxy)
+┌─────────┐
+│  ZEUS   │  Orchestrator (premium model, no edits)
+└────┬────┘
      │
-     ├── /api → FastAPI (backend)
-     │              │
-     │              ├── Services (business logic)
-     │              ├── Repositories (DB access)
-     │              └── Schemas (Pydantic v2)
+     ├──► Athena (planning + council) ──► Apollo (discovery)
      │
-     └── / → React (frontend)
+     ├──► Hermes (backend)     ◄──┐
+     ├──► Aphrodite (frontend)     │  Parallel DAG Waves
+     ├──► Demeter (database)    ──┘
+     │
+     ├──► Hephaestus (AI pipelines)
+     ├──► Chiron (model routing)
+     ├──► Echo (conversational AI)
+     │
+     ├──► Themis (quality + security gate) ── MANDATORY review
+     │
+     ├──► Prometheus (infra/Docker)
+     ├──► Iris (GitHub PRs/issues)
+     │
+     ├──► Nyx (observability)
+     ├──► Argus (visual analysis)
+     ├──► Gaia (remote sensing)
+     │
+     ├──► Talos (hotfix express)
+     └──► Mnemosyne (memory/docs)
 ```
 
 ---
@@ -29,38 +43,51 @@ Client (React)
 
 | Pattern | Description |
 |---|---|
-| **Repository Pattern** | All DB access via repositories — no raw queries in route handlers |
-| **Async first** | All FastAPI routes are `async def` — no blocking I/O |
-| **TDD** | Failing test first (RED → GREEN → REFACTOR) |
-| **Migrations** | Alembic for every schema change — never alter tables manually |
+| **Conductor-Delegate** | Zeus coordena, nunca implementa. Agentes especializados executam tarefas específicas |
+| **DAG Wave Execution** | Tarefas independentes rodam em paralelo (waves), ondas fluem sequencialmente conforme dependências |
+| **TDD (RED → GREEN → REFACTOR)** | Todo código começa com teste falhando. Implementação mínima para passar. Refatoração segura |
+| **3 Approval Gates** | Planejamento → Revisão → Commit. Nenhuma fase avança sem aprovação humana |
+| **Nested Subagents** | Implementadores podem chamar Apollo para descoberta isolada (2.8+) |
+| **Learning Routing Triple** | Facts → `/memories/repo/`, Patterns → `skills/`, Conventions → `.github/copilot-instructions.md` |
+| **Agent Lifecycle Hooks** | PreToolUse (segurança), PostToolUse (formatação), SubagentStart/Stop (delegação) |
 
 ---
 
-## Layer Hierarchy
+## Model Tiers
+
+| Tier | Purpose | Cost | Agents |
+|---|---|---|---|
+| **fast** | Operações rápidas e baratas | Baixo | Apollo, Iris, Mnemosyne, Talos, Nyx |
+| **default** | Qualidade/velocidade balanceada | Médio | Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Chiron, Echo, Gaia |
+| **premium** | Raciocínio profundo, crítico | Alto | Zeus, Athena, Themis |
+
+---
+
+## Layer Hierarchy (Agent Stack)
 
 ```
-Router (HTTP entry point)
-  └── Service (business logic, validations, rules)
-        └── Repository (pure CRUD, optimized queries)
-              └── Model (SQLAlchemy ORM)
+Planning Tier (Athena)
+  └── Discovery Tier (Apollo)
+        └── Implementation Tier (Hermes, Aphrodite, Demeter, Hephaestus, Chiron, Echo)
+              └── Quality Tier (Themis)
+                    └── Infrastructure Tier (Prometheus)
+                          └── Release Tier (Iris)
+                                └── Memory Tier (Mnemosyne)
 ```
-
-**Rules:**
-- Routers do not access the database directly
-- Services do not run SQL queries
-- Repositories do not execute business logic
 
 ---
 
 ## Key Architectural Decisions
 
-<!-- List major decisions that shaped the design. For detailed decisions, see _notes/. -->
-
 | Decision | Rationale |
 |---|---|
-| _Ex: JWT in httpOnly cookies_ | _Ex: XSS protection; refresh token with 7-day TTL_ |
-| _Ex: PostgreSQL_ | _Ex: ACID compliance, JSONB support, geospatial extensions_ |
+| **Conductor-Delegate over flat agents** | Separa responsabilidades, conserva contexto, permite paralelismo |
+| **DAG Waves over sequential phases** | Reduz tempo total ao caminho crítico (não soma de todas as fases) |
+| **3-tier memory** | Facts (zero-cust), Patterns (on-demand), Conventions (sempre em contexto) |
+| **TDD compulsório** | Garante >80% cobertura, evita regressão, documenta comportamento |
+| **Model tiers (fast/default/premium)** | Otimiza custo sem sacrificar qualidade nas decisões críticas |
+| **Plan files em platform/plans/** | Abstraindo modelos concretos dos agentes canônicos |
 
 ---
 
-> **See also:** `_notes/` for detailed architectural decision records (ADRs) with context and alternatives.
+> **See also:** `_notes/` and `decisions/` for detailed ADRs.
