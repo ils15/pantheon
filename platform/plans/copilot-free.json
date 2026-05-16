@@ -4,13 +4,13 @@
   "tier": "free",
   "price": "$0/mo",
   "models": {
-    "fast": "GPT-5 mini (copilot)",
-    "default": "GPT-5 mini (copilot)",
-    "premium": "GPT-5 mini (copilot)"
+    "fast": "openai/gpt-5-mini",
+    "default": "openai/gpt-5-mini",
+    "premium": "openai/gpt-5-mini"
   },
   "agent_overrides": {
-    "themis": "Claude Sonnet 4.6 (copilot)",
-    "zeus": "Claude Sonnet 4.6 (copilot)"
+    "themis": "anthropic/claude-sonnet-4-6",
+    "zeus": "anthropic/claude-sonnet-4-6"
   },
   "limits": {
     "monthlyRequests": 50,
