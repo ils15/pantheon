@@ -251,6 +251,23 @@ Apollo searches (parallel):
 
 ---
 
+#### 👁️ **Argus** (agents/argus.agent.md)
+Visual analysis specialist — interprets screenshots, images, PDFs, diagrams, and UI mockups. Read-only with no edit capabilities.
+
+**When to use:** Analyzing UI screenshots for bugs, extracting data from PDFs/diagrams, comparing before/after screenshots, validating UI against design mockups  
+**Called by:** Athena (planning), Aphrodite (UI validation), Themis (visual review)  
+**Tools:** `browser/openBrowserPage`, `browser/screenshotPage`, `browser/readPage`, `read/readFile`, `web/fetch` (read-only visual analysis)  
+**Tier:** fast  
+
+**Example:**
+```
+@argus Analyze this UI screenshot for alignment issues
+@argus Extract the data from this PDF chart
+@argus Compare these two screenshots for visual differences
+```
+
+---
+
 ### Implementation Tier (Parallel Executors)
 
 #### 🔥 **Hermes** (agents/hermes.agent.md)
@@ -994,6 +1011,7 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 | Turn rough idea into spec | athena | `/sketch` |
 | Debug issue | apollo | `/debug-issue` |
 | Find files/code | apollo | Direct: @apollo |
+| Analyze screenshots/images/PDFs | argus | Direct: @argus |
 | New API endpoint | hermes | Direct: @hermes |
 | New component | aphrodite | Direct: @aphrodite |
 | Database optimization | demeter | `/optimize-database` |
@@ -1383,7 +1401,7 @@ After configuring Pantheon in a new project, verify all agents are reachable and
 
 ```
 Ping all agents and confirm they are online:
-@zeus, @athena, @apollo, @hermes, @aphrodite, @demeter, @themis, @prometheus, @iris, @talos, @mnemosyne, @hephaestus, @chiron, @echo, @nyx, @gaia
+@zeus, @athena, @apollo, @argus, @hermes, @aphrodite, @demeter, @themis, @prometheus, @iris, @talos, @mnemosyne, @hephaestus, @chiron, @echo, @nyx, @gaia
 Each agent should respond with its name and role. Report any that fail to respond.
 ```
 
