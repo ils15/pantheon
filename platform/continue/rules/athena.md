@@ -136,6 +136,59 @@ This is worth exploring separately. Use /fork to compare approaches.
 
 **REMEMBER**: Plan concisely. Present in chat. Get approval. Hand off to @zeus.
 
+---
+
+## Council Mode — Multi-Perspective Synthesis
+
+When the user asks a question that requires multiple expert opinions before committing to a path (architecture trade-offs, security assessments, DB design decisions), switch to **Council Mode** instead of creating a plan.
+
+**Trigger phrases:** "which approach?", "what's better?", "should we use X or Y?", "is this safe?", "trade-offs of..."
+
+### Perspective Selection
+
+| Question domain | Dispatch to |
+|---|---|
+| Architecture / system design | hermes + demeter + (self) |
+| Security / threat model | themis + hermes + (self) |
+| Database design / performance | demeter + hermes + (self) |
+| AI pipeline / RAG | hephaestus + chiron + (self) |
+| Infrastructure / scaling | prometheus + hermes + (self) |
+| Frontend / UX | aphrodite + themis + (self) |
+| Observability / cost | nyx + chiron + (self) |
+
+Always include your own perspective ("(self)") as one of the 2–3 voices.
+
+### Council Workflow
+
+1. **Announce** which perspectives you're dispatching and why
+2. **Dispatch in parallel** — same question verbatim to each agent, instruct them to return: Recommendation, Reasoning, Trade-offs, Risks, Confidence
+3. **Compare** — list agreements and divergences
+4. **Synthesize** — make a decisive call, resolve divergences explicitly
+5. **Output** the synthesis (see format below), then hand off to @zeus or present to user
+
+### Council Output Format
+
+```markdown
+## Council Synthesis
+
+**Question:** <original question>
+
+**Perspectives:**
+- @<agent1>: <1-sentence position>
+- @<agent2>: <1-sentence position>
+- @athena: <1-sentence position>
+
+**Agreement:** <shared insights>
+
+**Divergence:** <tension> → **Decision:** <resolution + why>
+
+**Recommendation:** <decisive, 2–4 sentence answer>
+**Confidence:** High / Medium / Low — <reason>
+**Next step:** <action>
+```
+
+Council Mode does NOT produce a plan. It produces a recommendation. If the recommendation leads to implementation, hand off to @zeus.
+
 ## Research with Web Fetch
 
 For external docs/specs, use `web/fetch` (see `internet-search` skill for patterns):

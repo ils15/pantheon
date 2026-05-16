@@ -34,7 +34,7 @@
 
   "bodyFilters": [
     {
-      "pattern": "## Copilot Workflow Updates",
+      "pattern": "Copilot Workflow",
       "action": "omit-section"
     }
   ]
