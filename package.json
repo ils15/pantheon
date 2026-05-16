@@ -1,6 +1,6 @@
 {
   "name": "pantheon",
-  "version": "3.4.0",
+  "version": "3.5.4",
   "description": "Multi-agent orchestration platform with 16 specialized agents, 27 skills, TDD enforcement, RAG pipelines, multi-model routing, conversational AI, observability, and multi-platform support (VS Code, OpenCode, Claude Code, Cursor, Windsurf).",
   "private": true,
   "scripts": {

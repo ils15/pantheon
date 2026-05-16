@@ -7,6 +7,43 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [3.5.4] - 2026-05-16
+
+### Added
+
+- Rename observer → argus + add validation routing to zeus
+  - Rename Observer agent to Argus (Greek mythology, guardian with 100 eyes)
+- Complete Pantheon overhaul — tier system, council mode, security hooks, observer, codemap
+  BREAKING CHANGES:
+- Add release-bundle.mjs and fix release pipeline
+  - scripts/release-bundle.mjs: packages agents, skills, prompts, platform,
+- Cross-platform commands — VS Code prompts + Claude Code commands
+  - Rename review-code.prompt.md → audit.prompt.md (matches /audit command)
+- Multi-platform modernization, new commands, skills, and agent improvements
+  - Add /goal, /preset, /council, /interview, /subtask, /clonedeps, /review commands to opencode.json
+- Add CodeQL workflow for advanced code analysis
+
+### Fixed
+
+- Standardize model IDs to provider/model-id format across all plan files
+  - Add anthropic/ prefix to claude-pro, claude-max-5x, claude-max-20x
+- Use git add -A instead of bare negation pathspec in release workflow
+  ':!dist/' alone is not a valid pathspec — git requires a positive pattern
+
+### Changed
+
+- Exclude dist/ from git and release branch commits
+  - Add dist/ to .gitignore (tar.gz should not live in git history)
+- Remove CodeQL workflow file
+- Enhance documentation and tooling descriptions across multiple agents
+  - Updated descriptions for Prometheus, Themis, Aphrodite, Demeter, Hermes, Athena, and Zeus to include modern practices, tooling, and quality gates.
+
+### Documentation
+
+- Add background orchestration and dynamic prompts documentation
+  - Document opencode-pty plugin for background task execution
+
+
 ## [3.4.0] - 2026-05-02
 
 ### Added
