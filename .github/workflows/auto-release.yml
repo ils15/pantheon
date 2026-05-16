@@ -103,7 +103,7 @@ jobs:
 
           # Commit version bump + changelog on a release branch (excluding build output)
           git checkout -b "${BRANCH}"
-          git add -- ':!dist/'
+          git add -A
           git commit -m "chore(release): v${VERSION} [skip ci]"
 
           # Tag and push (tag triggers nothing — GITHUB_TOKEN limitation — that's fine,
