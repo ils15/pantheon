@@ -48,6 +48,47 @@ Before starting any search or exploration, you MUST:
 - Navigate through key routes to gather UI flow evidence
 - Capture screenshots for structured discovery reports
 
+### 5. **Codemap Generation (Orientation Mode)**
+
+When asked to generate a codemap, produce a hierarchical map of the project's structure. This helps Zeus, Athena, and other agents orient to a large or unfamiliar codebase without reading every file.
+
+**Codemap output format:**
+```markdown
+# Codemap: <Project Name>
+
+## Entry Points
+- `src/main.py` — FastAPI app factory
+- `src/cli/index.ts` — CLI entry point
+
+## Directory Map
+| Directory | Purpose | Key Files |
+|-----------|---------|-----------|
+| `src/api/` | HTTP endpoints and routers | `auth.py`, `products.py` |
+| `src/services/` | Business logic layer | `user_service.py` |
+| `src/models/` | SQLAlchemy ORM models | `user.py`, `product.py` |
+| `frontend/src/components/` | React UI components | `ProductCard.tsx` |
+
+## Module Relationships
+- `api/` → depends on `services/` (never direct DB access)
+- `services/` → depends on `models/` via SQLAlchemy sessions
+- `frontend/` → communicates with `api/` via REST
+
+## Tech Debt Signals
+- `src/legacy/` — deprecated, not imported anywhere
+- `utils_old.py` — duplicate of `utils.py`, safe to remove
+
+## Unusual Patterns
+- No dependency injection framework; manual DI via function params
+- Mixed sync/async in `src/jobs/` — may cause blocking
+```
+
+**Trigger when:** Zeus requests orientation • "Generate a codemap" • New project onboarding • Athena needs architecture overview before planning
+
+**Rules:**
+- Read directory structure first (`listDirectory`), then sample key files
+- Do NOT read every file — sample representative ones from each directory
+- Flag tech debt and unusual patterns as signals, not blockers
+
 ### 5. **Handoff to Planner & Orchestrator**
 - Return findings to parent agent
 - Suggest which specialized agents are needed

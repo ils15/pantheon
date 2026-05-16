@@ -1,23 +1,211 @@
 {
   "$schema": "https://opencode.ai/config.json",
+
+  "model": "opencode/kimi-k2.5",
+  "small_model": "opencode/deepseek-v4-flash",
+
   "agent": {
-    "zeus":      { "temperature": 0.2, "steps": 25, "permission": { "edit": "deny", "bash": "deny", "task": { "*": "allow" } } },
-    "athena":    { "temperature": 0.1, "steps": 15, "permission": { "edit": "deny", "bash": "deny" } },
-    "apollo":    { "temperature": 0.1, "steps": 10, "permission": { "edit": "deny", "bash": "deny" } },
-    "hermes":    { "temperature": 0.3, "steps": 20 },
-    "aphrodite": { "temperature": 0.5, "steps": 20 },
-    "demeter":   { "temperature": 0.2, "steps": 15 },
-    "themis":     { "temperature": 0.1, "steps": 10, "permission": { "edit": "ask", "bash": { "pytest *": "allow", "ruff *": "allow", "grep *": "allow", "npx vitest *": "allow" } } },
-    "prometheus":  { "temperature": 0.2, "steps": 10 },
-    "iris":      { "temperature": 0.2, "steps": 8,  "permission": { "edit": "deny", "bash": { "git *": "allow", "gh *": "allow" } } },
-    "mnemosyne": { "temperature": 0.1, "steps": 5,  "permission": { "bash": "deny" } },
-    "talos":     { "temperature": 0.3, "steps": 3,  "permission": { "bash": { "git add *": "allow", "npx prettier *": "allow" } } },
-    "hephaestus":   { "temperature": 0.3, "steps": 20 },
-    "chiron":    { "temperature": 0.2, "steps": 15 },
-    "echo":       { "temperature": 0.4, "steps": 15 },
-    "nyx":       { "temperature": 0.1, "steps": 10, "permission": { "edit": "ask", "bash": { "pip *": "allow", "pytest *": "allow" } } },
-    "gaia":      { "temperature": 0.2, "steps": 15, "permission": { "edit": "deny", "bash": "deny" } }
+    "zeus": {
+      "model": "opencode/kimi-k2.6",
+      "description": "Central orchestrator — delegates to specialized agents, never implements directly",
+      "color": "#FFD700",
+      "temperature": 0.2,
+      "steps": 25,
+      "permission": { "edit": "deny", "bash": "deny", "task": { "*": "allow" } }
+    },
+    "athena": {
+      "model": "opencode/kimi-k2.6",
+      "description": "Strategic planner & council — creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
+      "color": "#FFD700",
+      "temperature": 0.1,
+      "steps": 15,
+      "permission": { "edit": "deny", "bash": "deny" }
+    },
+    "themis": {
+      "model": "opencode/kimi-k2.6",
+      "description": "Quality & security gate — MANDATORY review after every implementation phase",
+      "color": "#FFD700",
+      "temperature": 0.1,
+      "steps": 10,
+      "permission": {
+        "edit": "ask",
+        "bash": {
+          "pytest *": "allow",
+          "ruff *": "allow",
+          "grep *": "allow",
+          "npx vitest *": "allow"
+        }
+      }
+    },
+
+    "hermes": {
+      "model": "opencode/kimi-k2.5",
+      "description": "Backend specialist — FastAPI, Python, async/await, TDD red-green-refactor",
+      "color": "#4A90D9",
+      "temperature": 0.3,
+      "steps": 20
+    },
+    "aphrodite": {
+      "model": "opencode/qwen3.6-plus",
+      "description": "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, TDD",
+      "color": "#4A90D9",
+      "temperature": 0.5,
+      "steps": 20
+    },
+    "demeter": {
+      "model": "opencode/kimi-k2.5",
+      "description": "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention",
+      "color": "#4A90D9",
+      "temperature": 0.2,
+      "steps": 15
+    },
+    "prometheus": {
+      "model": "opencode/kimi-k2.5",
+      "description": "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD",
+      "color": "#4A90D9",
+      "temperature": 0.2,
+      "steps": 10
+    },
+    "hephaestus": {
+      "model": "opencode/kimi-k2.5",
+      "description": "AI pipelines specialist — RAG, LangChain/LangGraph, vector stores, embeddings",
+      "color": "#4A90D9",
+      "temperature": 0.3,
+      "steps": 20
+    },
+    "chiron": {
+      "model": "opencode/kimi-k2.5",
+      "description": "Model provider hub — multi-model routing, AWS Bedrock, cost optimization",
+      "color": "#4A90D9",
+      "temperature": 0.2,
+      "steps": 15
+    },
+    "echo": {
+      "model": "opencode/kimi-k2.5",
+      "description": "Conversational AI specialist — Rasa NLU, dialogue management, intent/entity design",
+      "color": "#4A90D9",
+      "temperature": 0.4,
+      "steps": 15
+    },
+    "gaia": {
+      "model": "opencode/deepseek-v4-pro",
+      "description": "Remote sensing specialist — LULC analysis, satellite imagery, geospatial pipelines",
+      "color": "#4A90D9",
+      "temperature": 0.2,
+      "steps": 15,
+      "permission": { "edit": "deny", "bash": "deny" }
+    },
+
+    "apollo": {
+      "model": "opencode/deepseek-v4-flash",
+      "description": "Investigation scout — 3-10 parallel codebase searches, read-only, no edits",
+      "color": "#50C878",
+      "temperature": 0.1,
+      "steps": 10,
+      "permission": { "edit": "deny", "bash": "deny" }
+    },
+    "iris": {
+      "model": "opencode/deepseek-v4-flash",
+      "description": "GitHub operations — branches, pull requests, issues, releases, tags",
+      "color": "#50C878",
+      "temperature": 0.2,
+      "steps": 8,
+      "permission": { "edit": "deny", "bash": { "git *": "allow", "gh *": "allow" } }
+    },
+    "mnemosyne": {
+      "model": "opencode/minimax-m2.5-free",
+      "description": "Memory bank management — ADRs, project.md, atomic facts to /memories/repo/",
+      "color": "#50C878",
+      "temperature": 0.1,
+      "steps": 5,
+      "permission": { "bash": "deny" }
+    },
+    "talos": {
+      "model": "opencode/deepseek-v4-flash",
+      "description": "Hotfix express lane — small bugs, CSS, typos, direct fixes, no TDD ceremony",
+      "color": "#50C878",
+      "temperature": 0.3,
+      "steps": 3,
+      "permission": {
+        "bash": { "git add *": "allow", "npx prettier *": "allow" }
+      }
+    },
+    "nyx": {
+      "model": "opencode/minimax-m2.5",
+      "description": "Observability specialist — OpenTelemetry, LangSmith, token/cost tracking, alerting",
+      "color": "#50C878",
+      "temperature": 0.1,
+      "steps": 10,
+      "permission": {
+        "edit": "ask",
+        "bash": { "pip *": "allow", "pytest *": "allow" }
+      }
+    }
   },
+
+  "command": {
+    "council": {
+      "description": "Ask Athena to gather 2-3 expert perspectives in parallel and synthesize a single recommendation",
+      "template": "Run a Council synthesis on this question. Identify the 2-3 most relevant specialist perspectives, dispatch them in parallel with the same question, then synthesize a single authoritative recommendation.\n\nQuestion: {{input}}",
+      "agent": "athena"
+    },
+    "goal": {
+      "description": "Pin a session goal — all todos, delegation, and verification stay aligned with it",
+      "template": "SESSION GOAL (pinned): {{input}}\n\nAll subsequent tasks, todos, and delegations must stay aligned with this goal. Verify alignment before each major decision. If a task drifts from this goal, flag it and ask for clarification before proceeding.",
+      "agent": "zeus"
+    },
+    "preset": {
+      "description": "Switch model tier at runtime: fast | default | premium",
+      "template": "Switch all agents to the '{{input}}' model tier as defined in platform/plans/plan-active.json.\n\n- fast: opencode/deepseek-v4-flash\n- default: opencode/kimi-k2.5\n- premium: opencode/kimi-k2.6\n\nReport which agents were reassigned and confirm the active tier.",
+      "agent": "zeus"
+    },
+    "subtask": {
+      "description": "Run a bounded child worker and return a structured summary",
+      "template": "Run this as a bounded subtask and return a structured summary when complete.\n\nTask: {{input}}\n\nReturn format:\n- Status: DONE | BLOCKED | PARTIAL\n- Summary: 2-3 sentence result\n- Files changed: list\n- Next action: recommendation",
+      "subtask": true
+    },
+    "interview": {
+      "description": "Turn a rough idea into a structured spec through Q&A",
+      "template": "You are a requirements analyst. Turn this rough idea into a structured spec through a short Q&A interview.\n\nIdea: {{input}}\n\nAsk 3-5 targeted questions (one at a time) to clarify: scope, constraints, success criteria, non-goals, and tech preferences. After all answers, produce a markdown spec with: Overview, Goals, Non-Goals, Functional Requirements, Technical Constraints, and Open Questions.",
+      "agent": "athena"
+    },
+    "clonedeps": {
+      "description": "Clone a dependency's source into .deps/ for local inspection",
+      "template": "Clone the source of this dependency into .deps/ (gitignored) for local inspection.\n\nDependency: {{input}}\n\nSteps:\n1. Identify the GitHub repo for the dependency\n2. Run: mkdir -p .deps && git clone --depth=1 <repo-url> .deps/<pkg-name>\n3. Confirm .deps/ is in .gitignore\n4. Report the cloned path and key files to inspect",
+      "agent": "apollo"
+    },
+    "review": {
+      "description": "Ask Themis to review current changes for quality, coverage and security",
+      "template": "Review the current changes for quality and security.\n\nFocus: {{input}}\n\nSteps:\n1. Run `git diff HEAD` (or `git diff --staged`) to get the change surface\n2. Identify changed files and classify review scope level (Plan/Wave/Task/Final)\n3. Run ruff on changed Python files; Biome on changed JS/TS files\n4. Check test coverage on changed code (target >80%)\n5. Run OWASP Top 10 security checks\n6. Apply self-reflection quality gate (6 categories, 1-10)\n\nReturn: APPROVED / NEEDS_REVISION / FAILED with specific file:line feedback and the scoring table.",
+      "agent": "themis"
+    }
+  },
+
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "tail_turns": 3,
+    "reserved": 8000
+  },
+
+  "provider": {
+    "opencode": {
+      "options": {
+        "chunkTimeout": 30000
+      }
+    },
+    "anthropic": {
+      "options": {
+        "chunkTimeout": 30000
+      }
+    },
+    "openai": {
+      "options": {
+        "chunkTimeout": 30000
+      }
+    }
+  },
+
   "permission": {
     "bash": {
       "rm -rf /": "deny",
