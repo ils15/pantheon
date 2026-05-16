@@ -610,6 +610,163 @@ your-project/
 | View token stats | `opencode stats` |
 | Debug MCP auth | `opencode mcp debug <server>` |
 
+## 🚀 Advanced: Background Orchestration with opencode-pty
+
+By default, OpenCode's `task` tool runs synchronously — the parent waits for the child to complete. For long-running operations (builds, tests, data processing), you can use the **opencode-pty** plugin to run agents in background.
+
+### Installation
+
+Add to your `~/.config/opencode/opencode.json`:
+
+```json
+{
+  "plugin": [
+    "opencode-sm",
+    "shekohex/opencode-pty"
+  ]
+}
+```
+
+Then install:
+```bash
+opencode plugin install shekohex/opencode-pty
+```
+
+### Tools Added
+
+| Tool | Purpose |
+|------|---------|
+| `pty_spawn` | Start a process in background (returns PID) |
+| `pty_read` | Read output from a background process |
+| `pty_list` | List active background processes |
+| `pty_kill` | Terminate a background process |
+| `pty_snapshot_wait` | Wait for process to reach a condition |
+
+### Usage in Pantheon
+
+When Zeus delegates a long-running task:
+
+```text
+Zeus: "@hermes — run the full test suite in background"
+Hermes: Uses pty_spawn to start pytest
+Zeus: Continues with other work
+Later: Zeus checks pty_read for results
+```
+
+### Example Workflow
+
+```json
+{
+  "tool": "pty_spawn",
+  "command": "pytest --tb=short -q",
+  "cwd": "/workspace/project"
+}
+→ Returns: { "pid": "pty-123", "status": "running" }
+
+{
+  "tool": "pty_read",
+  "pid": "pty-123",
+  "offset": 0,
+  "limit": 100
+}
+→ Returns: { "output": "...test results...", "status": "running" }
+
+{
+  "tool": "pty_snapshot_wait",
+  "pid": "pty-123",
+  "pattern": "passed|failed",
+  "timeout": 300000
+}
+→ Returns: { "output": "...", "status": "completed" }
+```
+
+### Limitations
+
+- Background tasks run on the **same machine** (not distributed)
+- No automatic retry or failure recovery (must be handled manually)
+- Process state is lost if OpenCode restarts
+- Requires `opencode-pty` plugin (not available in all OpenCode installations)
+
+### Alternative: Manual Background
+
+Without the plugin, use standard Unix backgrounding:
+
+```bash
+# Start in background, redirect output to file
+nohup pytest --tb=short -q > /tmp/test-results.log 2>&1 &
+echo $! > /tmp/test-pid.txt
+
+# Later, check results
+cat /tmp/test-results.log
+```
+
+This is the approach used by Pantheon's built-in hooks.
+
+---
+
+## 📝 Advanced: Dynamic Prompts with File Templates
+
+OpenCode prompts are static templates (e.g., `{{input}}`). For dynamic prompt generation based on context, use **file-based templates** with the `{file:...}` syntax.
+
+### How It Works
+
+1. Pre-generate prompt templates for common scenarios
+2. Store them in `prompts/dynamic/` directory
+3. Reference them in `opencode.json` commands
+
+### Example: Dynamic Council Prompt
+
+Create `prompts/dynamic/council-architecture.txt`:
+```
+You are convening a council on architecture decisions.
+Active agents: {{agents}}
+Context: {{context}}
+
+Consult these specialists:
+- @athena for planning
+- @hermes for implementation feasibility  
+- @demeter for database impact
+
+Synthesize their perspectives into a single recommendation.
+```
+
+Reference in `opencode.json`:
+```json
+{
+  "command": {
+    "conclave": {
+      "template": "{file:./prompts/dynamic/council-architecture.txt}"
+    }
+  }
+}
+```
+
+### Generation Script
+
+Add to `scripts/generate-prompts.sh`:
+```bash
+#!/bin/bash
+# Generate dynamic prompts based on active plan
+PLAN=$(cat platform/plans/plan-active.json | jq -r .plan)
+AGENTS=$(ls platform/opencode/agents/ | sed 's/.md//' | paste -sd ', ' -)
+
+sed -e "s/{{plan}}/$PLAN/g" \
+    -e "s/{{agents}}/$AGENTS/g" \
+    prompts/templates/council-template.txt \
+    > prompts/dynamic/council-generated.txt
+```
+
+Run after `select-plan.sh`:
+```bash
+./platform/select-plan.sh opencode-go && ./scripts/generate-prompts.sh
+```
+
+### Limitations
+
+- Not true runtime generation (generated at plan-switch time)
+- Requires manual regeneration when agents change
+- Platform-specific (OpenCode supports `{file:...}`, others may not)
+
 ---
 
 [Main Documentation](../../README.md)
