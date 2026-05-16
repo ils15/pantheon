@@ -169,7 +169,7 @@
         }
       }
     },
-    "observer": {
+    "argus": {
       "description": "Visual analysis specialist — interprets screenshots, images, PDFs, diagrams, and UI mockups",
       "color": "#50C878",
       "temperature": 0.2,
