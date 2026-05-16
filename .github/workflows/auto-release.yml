@@ -57,6 +57,10 @@ jobs:
           new_version=$(node -p "require('./package.json').version")
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
 
+      - name: Generate changelog
+        if: steps.check.outputs.has_commits == 'true'
+        run: node scripts/versioning.mjs changelog "${{ steps.version.outputs.new_version }}"
+
       - name: Regenerate platform configs
         if: steps.check.outputs.has_commits == 'true'
         run: npm run sync

@@ -86,8 +86,104 @@ function updateManifests(newVersion) {
   }
 }
 
+const CHANGELOG_PATH = join(ROOT, 'CHANGELOG.md');
+
+function parseConventional(subject) {
+  if (/^Merge\b/i.test(subject)) {
+    return { type: 'merge', scope: '', breaking: false, desc: subject };
+  }
+  const m = /^([a-zA-Z]+)(?:\(([^)]*)\))?(!)?\s*:\s*(.*)$/.exec(subject);
+  if (m) {
+    return { type: m[1].toLowerCase(), scope: m[2] || '', breaking: !!m[3], desc: m[4] };
+  }
+  return { type: 'other', scope: '', breaking: false, desc: subject };
+}
+
+function categorize(parsed) {
+  if (parsed.breaking) return '⚠️ Breaking Changes';
+  if (parsed.type === 'merge') return null;
+  switch (parsed.type) {
+    case 'feat':
+    case 'feature': return 'Added';
+    case 'fix': return 'Fixed';
+    case 'perf':
+    case 'refactor': return 'Changed';
+    case 'docs': return 'Documentation';
+    case 'test':
+    case 'style': return null;
+    case 'ci': return 'Changed';
+    case 'chore':
+      if (parsed.scope === 'release') return null;
+      if (parsed.scope === 'deps' || parsed.scope === 'deps-dev') return 'Dependencies';
+      return 'Changed';
+    default:
+      return (parsed.desc && parsed.desc.length > 20) ? 'Changed' : null;
+  }
+}
+
+function generateChangelog(newVersion, dateStr) {
+  const latestTag = getLatestTag();
+  const sep = '|||SEP|||';
+  let log = run(`git log ${latestTag}..HEAD --format="%H${sep}%s${sep}%b${sep}%aN${sep}%ai" 2>/dev/null`);
+  if (!log) {
+    console.log('No new commits since last tag — nothing to add to CHANGELOG');
+    return false;
+  }
+
+  const commits = log.split('\n').filter(Boolean).map(line => {
+    const p = line.split(sep);
+    return { hash: p[0] || '', subject: p[1] || '', body: (p[2] || '').trim(), author: p[3] || '', date: p[4] || '' };
+  });
+
+  const sections = { '⚠️ Breaking Changes': [], Added: [], Fixed: [], Changed: [], Documentation: [], Dependencies: [] };
+  const order = ['⚠️ Breaking Changes', 'Added', 'Fixed', 'Changed', 'Documentation', 'Dependencies'];
+
+  for (const c of commits) {
+    const parsed = parseConventional(c.subject);
+    const cat = categorize(parsed);
+    if (!cat) continue;
+
+    let desc = parsed.desc.charAt(0).toUpperCase() + parsed.desc.slice(1);
+    let entry = `- ${desc}`;
+    if (c.body && c.body.length > 10) {
+      const firstPara = c.body.split('\n\n')[0].trim().replace(/\n/g, '\n  ');
+      if (firstPara.length > 10) {
+        entry += `\n  ${firstPara}`;
+      }
+    }
+    sections[cat].push(entry);
+  }
+
+  const hasContent = Object.values(sections).some(a => a.length > 0);
+  if (!hasContent) {
+    console.log('No categorizable commits since last tag — nothing to add to CHANGELOG');
+    return false;
+  }
+
+  const lines = [`## [${newVersion}] - ${dateStr}`, ''];
+  for (const cat of order) {
+    const items = sections[cat];
+    if (!items.length) continue;
+    lines.push(`### ${cat}`, '');
+    lines.push(...items, '');
+  }
+
+  const section = lines.join('\n');
+  const content = readFileSync(CHANGELOG_PATH, 'utf-8');
+  const idx = content.indexOf('\n---\n');
+  if (idx === -1) {
+    console.error('Could not find separator (---) in CHANGELOG.md — aborting');
+    return false;
+  }
+  const insertPos = idx + 5;
+  writeFileSync(CHANGELOG_PATH, content.slice(0, insertPos) + '\n' + section + '\n' + content.slice(insertPos));
+  console.log(`✓ Inserted changelog section for v${newVersion} into CHANGELOG.md`);
+  return true;
+}
+
 const command = process.argv[2];
 const arg = process.argv[3];
+const arg2 = process.argv[4];
 
 switch (command) {
   case 'recommend': {
@@ -118,13 +214,18 @@ switch (command) {
     break;
   }
 
+  case 'changelog': {
+    const version = arg || getCurrentVersion();
+    const date = arg2 || new Date().toISOString().slice(0, 10);
+    generateChangelog(version, date);
+    break;
+  }
+
   default:
     console.log(`Usage: node scripts/versioning.mjs <command>
 Commands:
-  recommend          Analyze commits and suggest version bump
-  apply [type]       Bump version (auto|patch|minor|major) - default: auto
-  apply patch        Force patch bump
-  apply minor        Force minor bump
-  apply major        Force major bump
+  recommend            Analyze commits and suggest version bump
+  apply [type]         Bump version (auto|patch|minor|major) - default: auto
+  changelog [ver] [dt] Generate changelog section since last tag (uses pkg version + today by default)
 `);
 }

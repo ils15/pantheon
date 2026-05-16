@@ -60,12 +60,6 @@ After implementing a UI component or page, use VS Code Integrated Browser tools 
 >
 > If chat browser tools are unavailable, provide manual verification steps in the handoff to Themis.
 
-### Copilot Workflow Notes
-
-- Use the integrated browser plus the new chat image/video preview flow when validating screenshots, attachments, or media-heavy UI states.
-- If a component behaves differently than expected, use `#debugEventsSnapshot` or `/troubleshoot #session` to check loaded customizations and tool state.
-- Keep Apollo discovery bounded to component and layout lookups that do not require the full UI context.
-
 ## Core Responsibilities
 
 ### 1. Component Development

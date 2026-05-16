@@ -3,8 +3,9 @@
 > **Quick links:**
 > - [Main Documentation](README.md) — overview, architecture, quick start
 > - [Agent Details](agents/README.md) — all 16 agents with commands and skills
-> - [Skills Reference](skills/README.md) — all 27 skills by domain
+ > - [Skills Reference](skills/README.md) — all 31 skills by domain
 > - [Platform Setup Guides](docs/platforms/) — VS Code, OpenCode, Claude Code, Cursor, Windsurf
+> - [MCP Server Recommendations](docs/mcp-recommendations.md) — tiered MCP servers per project type
 
 ## 🏛️ Agent Architecture
 
@@ -185,15 +186,17 @@ Both execute simultaneously. Wave 3 starts after both complete.
 ### Planning Tier
 
 #### 🧠 **Athena** (agents/athena.agent.md)
-Strategic planner optimized for speed. Generates concise TDD-driven implementation roadmaps (3-5 phases max).
+Strategic planner and council advisor. Generates concise TDD-driven implementation roadmaps (3-5 phases max) and synthesizes multi-perspective recommendations for high-stakes decisions.
 
-**When to use:** Architecture decisions, technology research, detailed planning before implementation  
-**Tools:** `search/codebase`, `search/usages`, `search/fileSearch`, `search/textSearch`, `search/listDirectory`, `read/readFile`, `web/fetch`  
-**Calls:** apollo (OPTIONAL for complex discovery), hands off to zeus for implementation  
+**When to use:** Architecture decisions, technology research, planning before implementation, trade-off analysis, security/design questions needing multiple expert perspectives  
+**Tools:** `search/codebase`, `search/usages`, `search/fileSearch`, `search/textSearch`, `search/listDirectory`, `read/readFile`, `web/fetch`, `agent`  
+**Calls:** apollo (discovery), hermes/demeter/themis/etc. (council mode), hands off to zeus for implementation  
 **Skills:** plan-architecture.prompt  
 **Performance:** ~30s average (70% faster than previous version)
 
-**Example:**
+**Two modes:**
+
+**1. Planning Mode** (default):
 ```
 /plan-architecture Implement caching layer (L1 local + L2 Redis)
 
@@ -202,8 +205,18 @@ Athena:
 2. Creates concise 3-5 phase TDD plan
 3. Requests approval via interactive questions
 4. Hands off to Zeus for execution
+```
 
-⚡ Optimized: Direct search for simple cases, Apollo only when needed
+**2. Council Mode** (triggered by `/council` or trade-off questions):
+```
+/council Should we use Redis or PostgreSQL for session storage?
+
+Athena:
+1. Identifies 2-3 relevant specialist perspectives (e.g. hermes + demeter + self)
+2. Dispatches same question to all in parallel
+3. Compares agreements and divergences
+4. Synthesizes a single decisive recommendation with confidence level
+5. Suggests next step (implement → Zeus, or more research → Apollo)
 ```
 
 ---
@@ -977,16 +990,18 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 | Need | Agent | Trigger |
 |------|-------|---------|
 | Plan architecture | athena | `/plan-architecture` |
+| Multi-perspective decision (trade-offs) | athena | `/council` |
+| Turn rough idea into spec | athena | `/interview` |
 | Debug issue | apollo | `/debug-issue` |
 | Find files/code | apollo | Direct: @apollo |
 | New API endpoint | hermes | Direct: @hermes |
 | New component | aphrodite | Direct: @aphrodite |
 | Database optimization | demeter | `/optimize-database` |
-| Build AI pipelines (RAG, vector, chains) | hephaestus | Direct:  |
-| Configure model providers / routing | chiron | Direct:  |
-| Design conversational AI / chatbots | echo | Direct:  |
-| Set up observability / monitoring | nyx | Direct:  |
-| Deploy changes | prometheus | Direct:  |
+| Build AI pipelines (RAG, vector, chains) | hephaestus | Direct: @hephaestus |
+| Configure model providers / routing | chiron | Direct: @chiron |
+| Design conversational AI / chatbots | echo | Direct: @echo |
+| Set up observability / monitoring | nyx | Direct: @nyx |
+| Deploy changes | prometheus | Direct: @prometheus |
 | Code review | themis | `/review-code` |
 | Open PR / manage GitHub | iris | Direct: @iris |
 | Create release / tag | iris | Direct: @iris |
@@ -994,7 +1009,45 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 | Document architectural decisions (ADRs) | mnemosyne | Direct: @mnemosyne |
 | Initialize project.md | mnemosyne | Direct: @mnemosyne |
 | Remote sensing / LULC analysis | gaia | Direct: @gaia |
+| Pin session goal | zeus | `/goal` |
+| Bounded child task with structured result | any | `/subtask` |
+| Clone dependency source locally | apollo | `/clonedeps` |
 | Coordinate feature | zeus | `/implement-feature` |
+
+---
+
+## 🔌 MCP (Model Context Protocol) Integration
+
+MCP servers extend agents with external tool access — databases, APIs, web search, browser automation, and more. Pantheon agents can use MCP tools alongside built-in tools.
+
+### Tier 1 — Essential (configured by default)
+
+| Server | Purpose | Agents that use it |
+|---|---|---|
+| **Context7** | Up-to-date library documentation | All agents (eliminates API hallucinations) |
+| **GitHub MCP** | PR/issue management, code search, CI/CD | Zeus, Iris, Apollo, Themis |
+| **grep.app** | Live code search across public GitHub repos — free, no API key | Apollo, Athena, Hermes (finding real-world patterns) |
+
+Config files: `.vscode/mcp.json` (VS Code), `.mcp.json` (Claude Code), `.cursor/mcp.json` (Cursor)
+
+### Tier 2 — Domain-Specific
+
+| Server | Best for | Primary agent |
+|---|---|---|
+| **Playwright** | Browser automation, E2E testing | Aphrodite, Themis |
+| **PostgreSQL** | Schema analysis, query optimization | Demeter, Hermes |
+| **Brave Search** | Real-time web access | Athena, Apollo, Gaia |
+| **Fetch** | External API specs, docs | Hermes, Apollo, Chiron |
+| **Sequential Thinking** | Complex reasoning | Athena, Zeus |
+
+### MCP Discovery Pattern
+
+When an agent needs external capabilities:
+1. **Prefer MCP tools** over `web/fetch` — typed schemas, structured outputs
+2. **Use progressive discovery** — search for the right tool, don't load all definitions
+3. **Fall back to `web/fetch`** — if no MCP server is configured
+
+Full recommendations: [docs/mcp-recommendations.md](docs/mcp-recommendations.md)
 
 ---
 
@@ -1210,6 +1263,30 @@ Edit `agents/athena.agent.md` and add:
 - [ ] Test with sample task
 - [ ] Add to memory bank if discovering new patterns
 
+### orchestratorPrompt Pattern (OpenCode)
+
+When a new agent needs to be pre-briefed by the orchestrator before it starts — for example, to carry session context, active sprint goal, or delegated scope — use the `orchestratorPrompt` field in `opencode.json`:
+
+```json
+"agent": {
+  "my-specialist": {
+    "model": "opencode/kimi-k2.5",
+    "description": "...",
+    "orchestratorPrompt": "You are acting as a specialist under Zeus. The active sprint goal is: {{goal}}. Focus only on {{scope}}. Return structured findings to Zeus."
+  }
+}
+```
+
+**When to use:**
+- Agent needs a pinned session context that wouldn't fit cleanly in the `.agent.md` instructions
+- Different projects need slightly different behavior from the same agent without forking the agent file
+- You want to inject dynamic values (sprint goal, feature name) at delegation time
+
+**When NOT to use:**
+- Permanent behavioral rules → put those in the `.agent.md` instructions body
+- Tool restrictions → use the `permission` field
+- Model selection → use the `model` field
+
 ---
 
 ## 🚀 PRODUCT ADOPTION
@@ -1293,6 +1370,29 @@ Based on industry best practices across all frameworks above:
 | **Auto-loaded Tier 1 memory** | `/memories/repo/` facts are injected by VS Code — zero explicit read calls needed |
 | **Human approval gates** | `agent/askQuestions` blocks at Planning, Review, and Commit — no auto-merging |
 | **Model-role alignment** | Fast models (Haiku, Gemini Flash) for shallow discovery; Sonnet for planning and production code; GPT-5.4 for complex orchestration |
+| **Session reuse** | Zeus reuses active child sessions when follow-up work targets the same files (avoids re-reading context) |
+| **Delegation decision tables** | Each agent has "delegate when / don't delegate when" rules so Zeus avoids unnecessary overhead |
+| **Codemap orientation** | Apollo generates hierarchical codebase maps so Athena plans without loading every file |
+| **Auto-continue pattern** | Zeus works through unambiguous multi-step todos without stopping, pausing only at mandatory gates |
+
+---
+
+## ✅ VERIFY YOUR SETUP (Health Check)
+
+After configuring Pantheon in a new project, verify all agents are reachable and correctly configured:
+
+```
+Ping all agents and confirm they are online:
+@zeus, @athena, @apollo, @hermes, @aphrodite, @demeter, @themis, @prometheus, @iris, @talos, @mnemosyne, @hephaestus, @chiron, @echo, @nyx, @gaia
+Each agent should respond with its name and role. Report any that fail to respond.
+```
+
+Expected response from each: agent name, role summary, and confirmation it is ready.
+
+If any agent fails to respond:
+1. Check the agent's `.agent.md` file is present in `agents/`
+2. Check `opencode.json` has the agent listed with correct settings
+3. Verify the platform supports the agent's required tools
 
 ---
 
@@ -1308,6 +1408,6 @@ Based on industry best practices across all frameworks above:
 
 ---
 
-**Last Updated:** May 2, 2026  
+**Last Updated:** May 15, 2026  
 **Architecture Pattern:** Conductor-Delegate (extensible — add new domain agents as needed)  
 **Mythology Reference:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Themis/Thêmis, Mnemosyne, **Gaia**, **Prometheus**, **Demeter**)

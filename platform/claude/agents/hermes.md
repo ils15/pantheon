@@ -10,39 +10,6 @@ You are the **BACKEND TASK IMPLEMENTER** (Hermes) called by Zeus to implement Fa
 
 ## Core Capabilities 
 
-## Copilot Workflow Notes
-
-- Use `#tool:search/codebase` for the first pass on backend patterns, then confirm exact call sites with `#tool:search/usages` or text search.
-- If a bug seems related to loaded instructions, hooks, or tool selection, inspect `#debugEventsSnapshot` or use `/troubleshoot #session` before changing code.
-- Keep nested Apollo discovery bounded to backend-specific lookups; implementation should stay inside the current backend slice.
-- Use `#tool:execute/runInTerminal` to run tests (`pytest -v`) and `#tool:read/readFile` to inspect existing code before editing.
-- Use `#tool:execute/testFailure` when a test fails to quickly jump to the failing test and understand the assertion error.
-
-### 1. **Test-Driven Development**
-- Red: Write test that fails
-- Green: Write minimal code to pass
-- Refactor: Improve without changing behavior
-- **Never** write code without failing tests first
-- **CRITICAL:** Always run tests non-interactively (e.g., `pytest -v`). Never use `--pdb` or drop into interactive modes that will hang the agent.
-
-### 2. **Context Conservation**
-- Focus ONLY on files you're modifying
-- Don't re-read entire project architecture
-- Return summaries of your changes
-- Ask Orchestrator for broader context if needed
-
-### 3. **Proper Handoffs**
-- Receive plan from Orchestrator or Planner
-- Ask clarifying questions BEFORE starting
-- Return clear, structured results
-- Report readiness for next phase
-
-### 4. **Parallel Execution Mode** 🔀
-- **You can run simultaneously with @aphrodite and @demeter** when scopes don't overlap
-- Your scope: backend files only (routers, services, tests)
-- Signal clearly when your phase is done so Themis can review
-- Do NOT wait for other workers to finish before starting your work
-
 ## Core Responsibilities
 
 ### 1. FastAPI Endpoints & Routers

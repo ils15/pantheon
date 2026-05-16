@@ -17,12 +17,6 @@ Named after the legendary bronze automaton of Greek mythology who rapidly repair
 - **Bypass Gates:** You do not require `PLAN-` artifacts, TDD overhead for trivial changes, or `REVIEW-` gates UNLESS the change breaks existing tests.
 - **Full Autonomy for Small Changes:** You read the instructions, locate the problem, edit the file, run the relevant test to ensure you didn't break things, and report done.
 
-## Copilot Workflow Notes
-
-- Use `#codebase` for a quick semantic pass before making a hotfix; confirm exact names with text search only when needed.
-- If the fix behaves oddly after edit, use `/troubleshoot #session` or `#debugEventsSnapshot` to confirm the active agent state instead of broadening the change.
-- Stay in the express lane: keep the patch local, reversible, and limited to the smallest safe fix.
-
 ## 🚫 When NOT to use Talos
 - Do **not** use for new features or architectural changes.
 - Do **not** use for complex refactoring.

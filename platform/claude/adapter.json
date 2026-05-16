@@ -77,19 +77,19 @@
 
   "bodyFilters": [
     {
-      "pattern": "## Copilot Workflow Updates",
+      "pattern": "Copilot Workflow",
       "action": "omit-section"
     },
     {
-      "pattern": "## Agent Lifecycle Hooks",
+      "pattern": "Agent Lifecycle Hooks",
       "action": "omit-section"
     },
     {
-      "pattern": "### VS Code 1.111-1.114",
+      "pattern": "VS Code 1.111-1.114",
       "action": "omit-section"
     },
     {
-      "pattern": "### Changelog-aligned notes",
+      "pattern": "Changelog-aligned notes",
       "action": "omit-section"
     }
   ]

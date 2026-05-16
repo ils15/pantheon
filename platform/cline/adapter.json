@@ -64,27 +64,27 @@
       "content": "> Pantheon rule for Cline. This content is loaded as system prompt context."
     },
     {
-      "pattern": "## Copilot Workflow Updates",
+      "pattern": "Copilot Workflow",
       "action": "omit-section"
     },
     {
-      "pattern": "## Agent Lifecycle Hooks",
+      "pattern": "Agent Lifecycle Hooks",
       "action": "omit-section"
     },
     {
-      "pattern": "## VS Code Integration",
+      "pattern": "VS Code Integration",
       "action": "omit-section"
     },
     {
-      "pattern": "### Changelog-aligned notes",
+      "pattern": "Changelog-aligned notes",
       "action": "omit-section"
     },
     {
-      "pattern": "### VS Code 1.111-1.114",
+      "pattern": "VS Code 1.111-1.114",
       "action": "omit-section"
     },
     {
-      "pattern": "## Handoffs",
+      "pattern": "Handoffs",
       "action": "omit-section"
     }
   ]
