@@ -1,45 +1,79 @@
-# 🧩 Components
+# 🧩 Components — Pantheon Agent System
 
-> **Template** — update as project components evolve.
+> **17 agents, 31 skills, 9 instructions, 16+ plans, 5 platforms**
 
 ---
 
-## Backend
+## Orchestrator Tier
 
-| Module | Responsibility | Status |
+| Agent | Responsibility | Model Tier | Tools |
+|---|---|---|---|
+| **Zeus** | Coordenação central, delegates para agentes especializados | premium | agent, askQuestions, search |
+| **Athena** | Planejamento estratégico, Council Mode, não implementa | premium | search, read, webfetch, agent |
+| **Apollo** | Descoberta de codebase, 3-10 buscas paralelas, read-only | fast | search, grep, read, webfetch |
+
+## Implementation Tier
+
+| Agent | Responsibility | Model Tier |
 |---|---|---|
-| _Ex: `auth/`_ | _Ex: JWT, refresh tokens, login/logout_ | _Ex: ✅ Done_ |
-| _Ex: `orders/`_ | _Ex: Order CRUD, approval workflow_ | _Ex: 🔨 In progress_ |
-| _Ex: `notifications/`_ | _Ex: Email and webhooks_ | _Ex: 📋 Planned_ |
+| **Hermes** | Backend FastAPI/Python, TDD async | default |
+| **Aphrodite** | Frontend React/TypeScript, WCAG, TDD | default |
+| **Demeter** | Database SQLAlchemy/Alembic, migrações, queries | default |
+| **Hephaestus** | Pipelines de IA (RAG, LangChain, vector stores) | default |
+| **Chiron** | Roteamento multi-modelo, AWS Bedrock, custos | default |
+| **Echo** | IA Conversacional (Rasa NLU, diálogo multi-turno) | default |
 
----
+## Quality & Infrastructure Tier
 
-## Frontend
-
-| Component / Page | Responsibility | Status |
+| Agent | Responsibility | Model Tier |
 |---|---|---|
-| _Ex: `LoginForm`_ | _Ex: User authentication_ | _Ex: ✅ Done_ |
-| _Ex: `OrdersTable`_ | _Ex: Order listing and filters_ | _Ex: 🔨 In progress_ |
+| **Themis** | Revisão de código, OWASP, >80% cobertura | premium |
+| **Nyx** | Observabilidade, OpenTelemetry, custos | fast |
+| **Prometheus** | Docker, docker-compose, CI/CD | default |
 
----
+## Release & Support Tier
 
-## Database
-
-| Table | Purpose | Key Indexes |
+| Agent | Responsibility | Model Tier |
 |---|---|---|
-| _Ex: `users`_ | _Ex: Auth and profile data_ | _Ex: `email` (unique), `created_at`_ |
-| _Ex: `orders`_ | _Ex: Orders and their status_ | _Ex: `user_id`, `status`, `created_at`_ |
+| **Iris** | GitHub (PRs, issues, releases, tags) | fast |
+| **Mnemosyne** | Memory bank, ADRs, fatos atômicos | fast |
+| **Talos** | Hotfixes rápidos (CSS, typos, 1 file) | fast |
+
+## Domain Specialist Tier
+
+| Agent | Responsibility | Model Tier |
+|---|---|---|
+| **Argus** | Análise visual (screenshots, PDFs, diagramas) | fast |
+| **Gaia** | Sensoriamento remoto (LULC, satélite, séries temporais) | default |
 
 ---
 
-## Infrastructure
+## Skills (31 modules)
 
-| Service | Purpose |
-|---|---|
-| _Ex: `traefik`_ | _Ex: Reverse proxy, automatic SSL via Let's Encrypt_ |
-| _Ex: `postgres`_ | _Ex: Primary database_ |
-| _Ex: `redis`_ | _Ex: Session cache and rate limiting_ |
+Disponíveis em `~/.config/opencode/skills/` e carregadas on-demand pelo agente:
+
+`agent-coordination`, `agent-evaluation`, `agent-observability`, `api-design-patterns`, `artifact-management`, `code-review-checklist`, `conversational-ai-design`, `customize-opencode`, `database-migration`, `database-optimization`, `docker-best-practices`, `fastapi-async-patterns`, `frontend-analyzer`, `internet-search`, `interview`, `mcp-server-development`, `multi-model-routing`, `nextjs-seo-optimization`, `orchestration-workflow`, `performance-optimization`, `prompt-improver`, `prompt-injection-security`, `rag-pipelines`, `remote-sensing-analysis`, `security-audit`, `session-goal`, `streaming-patterns`, `tdd-with-agents`, `todo-continuation`, `vector-search`, `web-ui-analysis`
 
 ---
 
-> **Note:** This file is a map. For component details, refer to the source code.
+## Instructions (9 files)
+
+- `backend-standards.instructions.md`
+- `code-review-standards.instructions.md`
+- `database-standards.instructions.md`
+- `documentation-standards.instructions.md`
+- `frontend-standards.instructions.md`
+- `memory-bank-standards.instructions.md`
+- `security-standards.instructions.md`
+- `artifact-protocol.instructions.md`
+- `.github/copilot-instructions.md`
+
+---
+
+## Platform Plans (16+)
+
+`platform/plans/` inclui planos para OpenCode, GitHub Copilot (Free/Pro/Pro+/Student/Business/Enterprise), Cursor (Hobby/Pro/Ultra), Claude Code (Pro/Max 5x/Max 20x), BYOK (cheap/balanced/best).
+
+---
+
+> **Note:** This file is a map. For agent instructions, refer to `agents/*.agent.md`.

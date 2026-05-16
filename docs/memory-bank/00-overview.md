@@ -1,20 +1,18 @@
 # 🗺️ Project Overview
 
-> **Template** — fill this once when starting a new project. Agents read this file during onboarding.
+> **Pantheon** — Framework multi-agente para VS Code Copilot/OpenCode com 17 agentes especializados.
 
 ---
 
 ## What is this project?
 
-<!-- One or two sentences describing the product's purpose. -->
-_Ex: "B2B marketplace order management system with a FastAPI backend and React frontend."_
+Pantheon é um **framework de orquestração multi-agente** para VS Code Copilot e OpenCode. Ele implementa o padrão **Conductor-Delegate** onde um orquestrador central (Zeus) coordena 16 agentes especializados em planejamento, descoberta, implementação backend/frontend/database, revisão de qualidade, infraestrutura, operações GitHub, hotfixes, pipelines de IA, roteamento de modelos, IA conversacional, observabilidade, análise visual e sensoriamento remoto.
 
 ---
 
 ## Problem it solves
 
-<!-- What pain point or need does this product address? -->
-_Ex: "Companies lose time managing orders manually via spreadsheets. This system automates the order → approval → delivery workflow."_
+Times de desenvolvimento perdem tempo com context-switching entre ferramentas, tarefas repetitivas de setup e documentação, e falta de padronização em código, testes e revisão. Pantheon automatiza o ciclo inteiro: **planejar → descobrir → implementar → revisar → implantar → documentar**, com TDD rigoroso, 3 gates de aprovação humana e >80% de cobertura de testes.
 
 ---
 
@@ -22,8 +20,12 @@ _Ex: "Companies lose time managing orders manually via spreadsheets. This system
 
 | Role | Description |
 |---|---|
-| _Ex: Admin_ | _Ex: Manages catalog and approves orders_ |
-| _Ex: Buyer_ | _Ex: Places and tracks orders_ |
+| **Desenvolvedor** | Usa agentes implementadores (Hermes, Aphrodite, Demeter) para codificar com TDD |
+| **Arquiteto** | Usa Athena para planejamento estratégico e análises de trade-off (Council Mode) |
+| **Tech Lead / Revisor** | Usa Themis para revisão de código e auditoria de segurança |
+| **DevOps** | Usa Prometheus para infraestrutura Docker e CI/CD |
+| **Cientista de Dados / RS** | Usa Gaia para análise de sensoriamento remoto e LULC |
+| **Tech Stack** | Usa o framework completo ou agentes individuais |
 
 ---
 
@@ -31,10 +33,13 @@ _Ex: "Companies lose time managing orders manually via spreadsheets. This system
 
 | Layer | Technology |
 |---|---|
-| Backend | _Ex: Python 3.12 + FastAPI 0.115_ |
-| Frontend | _Ex: React 18 + TypeScript strict_ |
-| Database | _Ex: PostgreSQL 16 + SQLAlchemy 2.0_ |
-| Infra | _Ex: Docker + Traefik + VPS Ubuntu_ |
+| **Agent Runtime** | Markdown/YAML (`.agent.md`), JSON (config), Shell (scripts) |
+| **Platform** | VS Code Copilot, OpenCode, Cursor, Claude Code, Windsurf |
+| **CI/CD** | GitHub Actions |
+| **Models** | Multi-provedor: OpenAI, Anthropic, Google, AWS Bedrock, DeepSeek, Qwen |
+| **Backend (exemplos)** | Python 3.12+ / FastAPI (implementado por Hermes) |
+| **Frontend (exemplos)** | React 19 / TypeScript strict (implementado por Aphrodite) |
+| **Database (exemplos)** | PostgreSQL / SQLAlchemy 2.0 / Alembic (implementado por Demeter) |
 
 ---
 
@@ -42,21 +47,30 @@ _Ex: "Companies lose time managing orders manually via spreadsheets. This system
 
 ```
 /
-├── backend/       # FastAPI application
-├── frontend/      # React application
-├── infra/         # Docker, Traefik, scripts
-└── docs/
-    └── memory-bank/   # Project memory bank
+├── agents/              # 17 agent definitions (.agent.md)
+│   └── README.md
+├── skills/              # 31 reusable skill modules
+├── instructions/        # 9 instruction sets (.instructions.md)
+├── prompts/             # 13 prompt templates (.prompt.md)
+├── platform/            # Platform adapters
+│   ├── plans/           # 16+ model plan configurations
+│   └── opencode/        # OpenCode-specific configs
+├── docs/
+│   └── memory-bank/     # Project memory bank (00-05 + _notes + _tasks + decisions)
+├── .github/
+│   └── copilot-instructions.md  # Repo-shared conventions
+├── opencode.json        # OpenCode project config
+├── AGENTS.md            # Agent architecture docs
+└── README.md            # Main documentation
 ```
 
 ---
 
 ## Important Links
 
-<!-- Repo, staging, production, task board, etc. -->
-- Repo: _link_
-- Staging: _link_
-- Board: _link_
+- Repo: https://github.com/ils15/pantheon (local: /home/ils15/pantheon)
+- Docs: README.md (documentação principal)
+- Plans: `./platform/select-plan.sh` (seleção de modelos)
 
 ---
 
