@@ -567,7 +567,7 @@ pantheon/
 │   ├── plan-architecture.prompt.md
 │   ├── implement-feature.prompt.md
 │   ├── debug-issue.prompt.md
-│   ├── review-code.prompt.md
+│   ├── audit.prompt.md
 │   ├── optimize-database.prompt.md
 │   ├── orchestrate-with-zeus.prompt.md
 │   ├── quick-discovery-large-codebase.prompt.md

@@ -15,10 +15,10 @@ Use this skill to pin a session objective at the start of a long or complex sess
 
 ## Usage
 
-Invoke via the `/goal` command:
+Invoke via the `/focus` command:
 
 ```
-/goal Implement JWT authentication with refresh token rotation
+/focus Implement JWT authentication with refresh token rotation
 ```
 
 Or state it explicitly at the start of a session:
