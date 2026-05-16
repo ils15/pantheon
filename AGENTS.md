@@ -207,9 +207,9 @@ Athena:
 4. Hands off to Zeus for execution
 ```
 
-**2. Council Mode** (triggered by `/council` or trade-off questions):
+**2. Council Mode** (triggered by `/conclave` or trade-off questions):
 ```
-/council Should we use Redis or PostgreSQL for session storage?
+/conclave Should we use Redis or PostgreSQL for session storage?
 
 Athena:
 1. Identifies 2-3 relevant specialist perspectives (e.g. hermes + demeter + self)
@@ -990,8 +990,8 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 | Need | Agent | Trigger |
 |------|-------|---------|
 | Plan architecture | athena | `/plan-architecture` |
-| Multi-perspective decision (trade-offs) | athena | `/council` |
-| Turn rough idea into spec | athena | `/interview` |
+| Multi-perspective decision (trade-offs) | athena | `/conclave` |
+| Turn rough idea into spec | athena | `/sketch` |
 | Debug issue | apollo | `/debug-issue` |
 | Find files/code | apollo | Direct: @apollo |
 | New API endpoint | hermes | Direct: @hermes |
@@ -1002,16 +1002,16 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 | Design conversational AI / chatbots | echo | Direct: @echo |
 | Set up observability / monitoring | nyx | Direct: @nyx |
 | Deploy changes | prometheus | Direct: @prometheus |
-| Code review | themis | `/review-code` |
+| Code review | themis | `/audit` |
 | Open PR / manage GitHub | iris | Direct: @iris |
 | Create release / tag | iris | Direct: @iris |
 | Open or triage issues | iris | Direct: @iris |
 | Document architectural decisions (ADRs) | mnemosyne | Direct: @mnemosyne |
 | Initialize project.md | mnemosyne | Direct: @mnemosyne |
 | Remote sensing / LULC analysis | gaia | Direct: @gaia |
-| Pin session goal | zeus | `/goal` |
+| Pin session goal | zeus | `/focus` |
 | Bounded child task with structured result | any | `/subtask` |
-| Clone dependency source locally | apollo | `/clonedeps` |
+| Clone dependency source locally | apollo | `/mirrordeps` |
 | Coordinate feature | zeus | `/implement-feature` |
 
 ---

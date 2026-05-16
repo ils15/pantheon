@@ -15,10 +15,10 @@ Use this skill to transform a rough idea into a structured spec before implement
 
 ## Usage
 
-Invoke via the `/interview` command:
+Invoke via the `/sketch` command:
 
 ```
-/interview Add a notification system so users get alerted when their order ships
+/sketch Add a notification system so users get alerted when their order ships
 ```
 
 Or trigger Athena directly:
