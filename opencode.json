@@ -4,6 +4,8 @@
   "small_model": "opencode-go/deepseek-v4-flash",
   "plugin": [
     "opencode-sm"
+    // Uncomment for background orchestration:
+    // "shekohex/opencode-pty"
   ],
   "mcp": {
     "opencode-docs": {
