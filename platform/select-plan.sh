@@ -81,7 +81,8 @@ usage() {
 
 # ── List Plans ────────────────────────────────────────────────────────────────
 list_plans() {
-    local files=("$PLANS_DIR"/*.json)
+    local files
+    files=("$PLANS_DIR"/*.json)
     local count=0
     for f in "${files[@]}"; do
         local name
@@ -92,7 +93,7 @@ list_plans() {
             tier=$(_json_get "$f" "tier")
             price=$(_json_get "$f" "price")
             printf "  ${CYAN}%-28s${NC} %-14s %-12s %s\n" "$name" "[$service]" "[$tier]" "$price"
-            ((count++))
+            count=$((count + 1))
         fi
     done
     if [[ $count -eq 0 ]]; then
@@ -407,7 +408,9 @@ if fast_model:
 
 # Surgically inject/update only the "model" key in each agent entry.
 # Agents not present in the config are skipped (plan drives model, not structure).
-agent_section = existing.get("agent", {})
+if "agent" not in existing:
+    existing["agent"] = {}
+agent_section = existing["agent"]  # reference, not copy
 updated = 0
 preserved = 0
 preserved_agents = []
@@ -430,8 +433,6 @@ for agent in TIER_MAP:
         agent_section[agent]["model"] = model
         updated += 1
     # If agent doesn't exist in config yet, skip — plan doesn't create agents
-
-existing["agent"] = agent_section
 
 os.makedirs(os.path.dirname(os.path.abspath(output_file)), exist_ok=True)
 
