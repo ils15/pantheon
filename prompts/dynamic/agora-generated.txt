@@ -16,7 +16,7 @@ Agent Overrides:
   zeus: anthropic/claude-sonnet-4-6
 
 ## Instructions
-1. Select 2-3 relevant agents based on the question domain
+1. Select 3-5 relevant agents based on the question domain
 2. Dispatch them in parallel with the same question
 3. Synthesize their perspectives into a single recommendation
 4. Include confidence level and next steps

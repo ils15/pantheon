@@ -27,7 +27,7 @@ node scripts/install.mjs --target /path/to/your-project
 | **VS Code Copilot** | [`vscode.md`](vscode.md) | Marketplace plugin `ils15/pantheon` | `.vscode/settings.json` |
 | **Claude Code** | [`claude.md`](claude.md) | `cp -r platform/claude/agents/ .claude/` | `.claude/settings.json` |
 | **Cursor** | [`cursor.md`](cursor.md) | `cp -r platform/cursor/rules/ .cursor/` | `.cursor/rules/` |
-| **Windsurf** | [`windsurf.md`](windsurf.md) | `cp -r platform/windsurf/rules/ .windsurfrules/` | `.windsurfrules/` |
+| **Windsurf** | [`windsurf.md`](windsurf.md) | `cp -r platform/windsurf/rules/ .windsurf/rules/` | `.windsurf/rules/` |
 | **Continue.dev** | [`continue.md`](continue.md) | `cp -r platform/continue/rules/ .continue/` | `config.yaml` |
 | **Cline** | [`cline.md`](cline.md) | Via `scripts/install.mjs cline` | `.clinerules/` |
 
