@@ -58,11 +58,11 @@ extract_description() {
         || echo "No description available"
 }
 
-# ── Generate Council Prompt ───────────────────────────────────────────────────
-COUNCIL_FILE="$DYNAMIC_DIR/council-generated.txt"
-cat > "$COUNCIL_FILE" << EOF
+# ── Generate Agora Prompt ─────────────────────────────────────────────────────
+AGORA_FILE="$DYNAMIC_DIR/agora-generated.txt"
+cat > "$AGORA_FILE" << EOF
 # =============================================================================
-# Dynamic Council Prompt
+# Dynamic Agora Prompt
 # Generated: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
 # Plan: $PLAN
 # Service: $SERVICE
@@ -71,26 +71,26 @@ cat > "$COUNCIL_FILE" << EOF
 # Monthly Requests: $MONTHLY_REQUESTS
 # =============================================================================
 
-You are convening a council with access to these specialists: $AGENTS_LIST
+You are convening an agora with access to these specialists: $AGENTS_LIST
 
 ## Platform Capabilities
 EOF
 
 if [[ -n "$TIER_MAP" ]]; then
-    echo "Model Tiers:" >> "$COUNCIL_FILE"
-    echo "$TIER_MAP" >> "$COUNCIL_FILE"
-    echo "" >> "$COUNCIL_FILE"
+    echo "Model Tiers:" >> "$AGORA_FILE"
+    echo "$TIER_MAP" >> "$AGORA_FILE"
+    echo "" >> "$AGORA_FILE"
 fi
 
 if [[ -n "$AGENT_OVERRIDES" ]]; then
-    echo "Agent Overrides:" >> "$COUNCIL_FILE"
-    echo "$AGENT_OVERRIDES" >> "$COUNCIL_FILE"
-    echo "" >> "$COUNCIL_FILE"
+    echo "Agent Overrides:" >> "$AGORA_FILE"
+    echo "$AGENT_OVERRIDES" >> "$AGORA_FILE"
+    echo "" >> "$AGORA_FILE"
 fi
 
-cat >> "$COUNCIL_FILE" << EOF
+cat >> "$AGORA_FILE" << EOF
 ## Instructions
-1. Select 2-3 relevant agents based on the question domain
+1. Select 3-5 relevant agents based on the question domain
 2. Dispatch them in parallel with the same question
 3. Synthesize their perspectives into a single recommendation
 4. Include confidence level and next steps
@@ -102,7 +102,7 @@ for agent_file in "$AGENTS_DIR"/*.md; do
     [[ -f "$agent_file" ]] || continue
     agent_name=$(basename "$agent_file" .md)
     description=$(extract_description "$agent_file")
-    printf -- "- @%s: %s\n" "$agent_name" "$description" >> "$COUNCIL_FILE"
+    printf -- "- @%s: %s\n" "$agent_name" "$description" >> "$AGORA_FILE"
 done
 
 # ── Generate Orchestration Prompt ────────────────────────────────────────────
@@ -217,6 +217,6 @@ echo "   Tier: $TIER"
 echo "   Agents: $AGENTS_LIST"
 echo ""
 echo "   Output files:"
-echo "     - $COUNCIL_FILE"
+echo "     - $AGORA_FILE"
 echo "     - $ORCH_FILE"
 echo "     - $HANDOFF_FILE"

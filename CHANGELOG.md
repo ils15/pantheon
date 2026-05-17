@@ -29,7 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Legacy `platform/windsurf/agents/` directory (conflicted with modern `rules/`)
 
 ### Fixed
-- **OpenCode adapter**: Include `agents:`, `user-invocable`, and `handoffs` in frontmatter (were incorrectly excluded, breaking /conclave and agent dispatch)
+- **OpenCode adapter**: Include `agents:`, `user-invocable`, and `handoffs` in frontmatter (were incorrectly excluded, breaking /pantheon and agent dispatch)
 - **Claude Code adapter**: Include `agents:` in frontmatter for subagent whitelist
 - **Windsurf adapter**: Remove `agents:` from exclude list
 - **Cline**: Fix `--- {} ---` frontmatter wrapper bug — added `skipFrontmatter: true` to sync engine

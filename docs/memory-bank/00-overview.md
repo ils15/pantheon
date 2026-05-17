@@ -21,7 +21,7 @@ Times de desenvolvimento perdem tempo com context-switching entre ferramentas, t
 | Role | Description |
 |---|---|
 | **Desenvolvedor** | Usa agentes implementadores (Hermes, Aphrodite, Demeter) para codificar com TDD |
-| **Arquiteto** | Usa Athena para planejamento estratégico e análises de trade-off (Council Mode) |
+| **Arquiteto** | Usa Athena para planejamento estratégico e análises de trade-off (Agora Mode) |
 | **Tech Lead / Revisor** | Usa Themis para revisão de código e auditoria de segurança |
 | **DevOps** | Usa Prometheus para infraestrutura Docker e CI/CD |
 | **Cientista de Dados / RS** | Usa Gaia para análise de sensoriamento remoto e LULC |
