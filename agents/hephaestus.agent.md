@@ -1,6 +1,8 @@
 ---
 name: hephaestus
 description: AI tooling & pipelines specialist — LangChain/LangGraph chains, RAG architecture, vector stores, embedding strategies. Forges the AI infrastructure agents need. Calls apollo for discovery. Sends work to themis for review.
+# mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
+mode: primary
 tools:
   - agent
   - vscode/askQuestions

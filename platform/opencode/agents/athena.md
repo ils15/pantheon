@@ -1,6 +1,7 @@
 ---
 name: athena
 description: "Strategic planner & architect — research-first, plan-only, never implements. Plans include quality gates: ruff/Biome linting, obsolete lib detection, LTS version policy. Calls apollo as nested subagent for complex discovery."
+mode: primary
 tools:
   task: true
   question: true
@@ -9,33 +10,6 @@ tools:
   list: true
   read: true
   webfetch: true
-agents:
-  - apollo
-  - hermes
-  - aphrodite
-  - demeter
-  - themis
-  - prometheus
-  - hephaestus
-  - chiron
-  - nyx
-user-invocable: true
-handoffs:
-  - label: Validate Plan
-    agent: themis
-    prompt: Validate this implementation plan for completeness, risk coverage, and test strategy before execution.
-    send: false
-    model: premium
-  - label: Implement Plan
-    agent: zeus
-    prompt: Implement the plan outlined above following TDD methodology.
-    send: false
-    model: premium
-  - label: Agora Synthesis → Zeus
-    agent: zeus
-    prompt: Agora synthesis complete. Use the recommendation to proceed with orchestration.
-    send: false
-    model: premium
 ---
 
 # Athena - Strategic Planner

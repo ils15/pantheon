@@ -1,6 +1,7 @@
 ---
 name: echo
 description: Conversational AI specialist — Rasa NLU pipelines, dialogue management, intent classification, entity extraction, multi-turn conversation design. Bridges AI agents to human conversation. Calls apollo for discovery. Sends work to themis for review.
+mode: primary
 tools: Agent, AskUserQuestion, Grep, Read, Edit, Bash, WebFetch
 agents:
   - apollo

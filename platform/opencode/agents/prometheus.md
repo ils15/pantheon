@@ -1,6 +1,7 @@
 ---
 name: prometheus
 description: Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management, container deprecation scans. Calls apollo as nested subagent for pattern discovery. Sends work to themis for validation.
+mode: primary
 tools:
   task: true
   question: true
@@ -8,15 +9,6 @@ tools:
   read: true
   edit: true
   bash: true
-agents:
-  - apollo
-user-invocable: true
-handoffs:
-  - label: ➡️ Validate Infrastructure
-    agent: themis
-    prompt: Validate these infrastructure changes for best practices, security, and correctness.
-    send: false
-    model: premium
 ---
 
 # Prometheus - Infrastructure Implementation Specialist

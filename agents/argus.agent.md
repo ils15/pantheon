@@ -1,6 +1,8 @@
 ---
 name: argus
 description: "Visual analysis specialist — interprets screenshots, images, PDFs, diagrams, and UI mockups. Read-only argus with no edit capabilities. Tier: fast."
+# mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
+mode: primary
 tier: fast
 tools:
   - browser/openBrowserPage
