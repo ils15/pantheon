@@ -1,7 +1,7 @@
 {
   "name": "pantheon",
   "description": "Multi-agent orchestration platform. Zeus coordinates 16 specialized agents: Athena (planning), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Demeter (database), Prometheus (infra), Hephaestus (AI pipelines), Chiron (model routing), Echo (conversational AI), Nyx (observability), Iris (GitHub), Themis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). Supports VS Code, OpenCode, Claude Code, Cursor, and Windsurf. Includes 27 on-demand skills.",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "keywords": [
     "multi-agent",
     "orchestration",
