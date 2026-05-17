@@ -386,7 +386,6 @@ Deployment ready for: Staging environment
 - **@hermes**: For application code changes
 - **@aphrodite**: For React app configuration
 - **@demeter**: For database container tuning
-- **@ops**: For server-level operations (systemd, cron)
 - **@mnemosyne**: For ALL documentation (MANDATORY)
 
 ## Output Format

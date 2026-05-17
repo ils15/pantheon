@@ -64,7 +64,7 @@ Full details: [agents/README.md](../agents/README.md)
 |---|---|---|
 | `/forge` | Zeus | Configure model provider and plan |
 | `/focus` | Zeus | Pin session goal — prevents scope drift |
-| `/pantheon` | Athena | Multi-perspective synthesis (2-3 experts in parallel) |
+| `/pantheon` | Athena | Multi-perspective synthesis (3-5 experts in parallel) |
 | `/subtask` | Any | Bounded child worker with structured result |
 | `/sketch` | Athena | Turn rough idea into spec via Q&A interview |
 | `/audit` | Themis | Security + quality review of current changes |

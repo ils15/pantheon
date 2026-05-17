@@ -188,10 +188,10 @@ Before emitting APPROVED, rate yourself on 6 categories (1-10, where 7+ = pass):
 
 **CRITICAL RULE**: Every implementation agent MUST call  IMMEDIATELY after completing code:
 
-- **@hermes** (**FastAPI endpoints**) → calls 
-- **@aphrodite** (**React components**) → calls 
-- **@demeter** (**Database migrations**) → calls 
-- **** (**Docker/infra**) → calls 
+- **@hermes** (**FastAPI endpoints**) → calls @themis
+- **@aphrodite** (**React components**) → calls @themis
+- **@demeter** (**Database migrations**) → calls @themis
+- **@prometheus** (**Docker/infra**) → calls @themis
 
 **Themis Process (Fast - ~30 seconds):**
 1. ✅ Accept list of changed files from implementation agent
@@ -251,11 +251,10 @@ Themis returns:
 - **@hermes**: Implements backend code
 - **@aphrodite**: Implements frontend code
 - **@athena**: Provides specifications and requirements
-- ****: Tests deployment and infrastructure code
-- ****: Provides security-specific findings (self)
-- **@apollo**: Investigates performance issues
+- **@prometheus**: Tests deployment and infrastructure code
+- **@themis**: Provides security-specific findings (self)
 - **@mnemosyne**: Documents ALL review findings (MANDATORY)
-- **** must follow: `instructions/code-review-standards.instructions.md`
+- **@prometheus** must follow: `instructions/code-review-standards.instructions.md`
 
 ---
 

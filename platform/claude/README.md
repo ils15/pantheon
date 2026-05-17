@@ -4,7 +4,7 @@
 Brief description of Claude Code platform support in Pantheon.
 
 ## Status
-✅ **Production Ready** — All 16 agents supported with Claude-specific frontmatter.
+✅ **Production Ready** — All 17 agents supported with Claude-specific frontmatter.
 
 ## Installation
 ```bash

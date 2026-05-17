@@ -8,7 +8,7 @@
 
 ## Overview
 
-Pantheon's 16 agents are authored once in `agents/` (VS Code `.agent.md` format) and **automatically transformed** into each platform's native format via the [sync engine](../scripts/sync-platforms.mjs). You get the same agents, skills, and workflow regardless of platform.
+Pantheon's 17 agents are authored once in `agents/` (VS Code `.agent.md` format) and **automatically transformed** into each platform's native format via the [sync engine](../scripts/sync-platforms.mjs). You get the same agents, skills, and workflow regardless of platform.
 
 ---
 

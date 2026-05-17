@@ -2,7 +2,7 @@
 
 > **Quick links:**
 > - [Main Documentation](README.md) — overview, architecture, quick start
-> - [Agent Details](agents/README.md) — all 16 agents with commands and skills
+> - [Agent Details](agents/README.md) — all 17 agents with commands and skills
  > - [Skills Reference](skills/README.md) — all 31 skills by domain
 > - [Platform Setup Guides](docs/platforms/) — VS Code, OpenCode, Claude Code, Cursor, Windsurf
 > - [MCP Server Recommendations](docs/mcp-recommendations.md) — tiered MCP servers per project type
@@ -213,7 +213,7 @@ Athena:
 /pantheon Should we use Redis or PostgreSQL for session storage?
 
 Athena:
-1. Identifies 2-3 relevant specialist perspectives (e.g. hermes + demeter + self)
+1. Identifies 3-5 relevant specialist perspectives (e.g. hermes + demeter + self)
 2. Dispatches same question to all in parallel
 3. Compares agreements and divergences
 4. Synthesizes a single decisive recommendation with confidence level

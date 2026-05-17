@@ -8,7 +8,7 @@
 
 ## Before You Start
 
-**What is Pantheon?** A framework of 16 specialized AI agents that plan, implement, review, and document code for you — like having a full engineering team in your editor.
+**What is Pantheon?** A framework of 17 specialized AI agents that plan, implement, review, and document code for you — like having a full engineering team in your editor.
 
 **What you need:**
 - A GitHub account
@@ -82,7 +82,7 @@ Athena will create a plan. Approve it, then:
 
 3. Restart VS Code (`Ctrl+Shift+P` → "Developer: Reload Window")
 
-4. All 16 agents appear automatically. No files to copy.
+4. All 17 agents appear automatically. No files to copy.
 
 ### Method B: Manual copy (for customization)
 
@@ -193,7 +193,7 @@ npm install
 node scripts/install.mjs claude
 ```
 
-This creates `.claude/agents/` with all 16 agents in Claude Code format.
+This creates `.claude/agents/` with all 17 agents in Claude Code format.
 
 ### Step 3: Configure Claude
 
@@ -245,7 +245,7 @@ npm install
 node scripts/install.mjs cursor
 ```
 
-This creates `.cursor/rules/` with all 16 agents as `.mdc` rule files.
+This creates `.cursor/rules/` with all 17 agents as `.mdc` rule files.
 
 ### Step 3: Use agents in Cursor
 
