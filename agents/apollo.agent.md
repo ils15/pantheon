@@ -24,6 +24,7 @@ handoffs:
     prompt: "Use these findings to refine or complete the plan."
     send: false
     model: default
+# mode: platform-specific — used by OpenCode (subagent=not in selector, only invoked by other agents)
 mode: subagent
 user-invocable: false
 ---

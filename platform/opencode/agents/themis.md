@@ -1,6 +1,7 @@
 ---
 name: themis
 description: "Quality & security gate — ruff/Biome linting, dead/legacy code detection, OWASP Top 10, coverage >80%, correctness, deprecation audit. Called by: hermes, aphrodite, demeter, zeus. Escalates blockers to zeus."
+mode: subagent
 tools:
   task: true
   question: true
@@ -8,20 +9,6 @@ tools:
   read: true
   bash: true
   edit: true
-agents:
-  - mnemosyne
-user-invocable: true
-handoffs:
-  - label: 🔧 Fix Review Issues
-    agent: zeus
-    prompt: Fix the issues identified in the code review above.
-    send: false
-    model: premium
-  - label: 📝 Document Findings
-    agent: mnemosyne
-    prompt: Document the review findings and decisions above in the Memory Bank.
-    send: false
-    model: fast
 ---
 
 # Themis - Quality & Security Gate Specialist

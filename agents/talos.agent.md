@@ -1,6 +1,8 @@
 ---
 name: talos
 description: "Hotfix express lane — direct fixes for small bugs, CSS, typos, minor logic. No TDD ceremony, no orchestration overhead. Standalone, no subagents. Escalates complex issues to zeus."
+# mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
+mode: primary
 tools:
   - search/codebase
   - search/usages

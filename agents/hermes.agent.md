@@ -1,6 +1,8 @@
 ---
 name: hermes
 description: "Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection via dep-audit/pip-audit. Calls apollo as nested subagent to discover patterns. Sends work to themis for review."
+# mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
+mode: primary
 tools:
     - agent
     - search/codebase

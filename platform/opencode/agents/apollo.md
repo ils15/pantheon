@@ -8,18 +8,6 @@ tools:
   list: true
   read: true
   webfetch: true
-user-invocable: false
-handoffs:
-  - label: 📊 Return Findings to Zeus
-    agent: zeus
-    prompt: Process these discovery findings and proceed with orchestration.
-    send: false
-    model: premium
-  - label: 📊 Return Findings to Athena
-    agent: athena
-    prompt: Use these findings to refine or complete the plan.
-    send: false
-    model: default
 ---
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check

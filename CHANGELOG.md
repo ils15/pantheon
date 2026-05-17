@@ -6,16 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-### Added
+### Fixed
 
-- Add changelog skill for auto-generating CHANGELOG.md from conventional commits
-- Adjust step limits per agent (Mnemosyne 5→20, Themis 10→20, etc) and add platform install hub### Changed
+- /forge template now searches multiple locations for Pantheon dir + platform/plans/ and use select-plan.sh### Documentation
 
-- Rename /conclave to /pantheon and Council Mode to Agora Mode (3-5 agents)### Fixed
-
-- Fill empty bold placeholders in aphrodite/demeter 'When to Delegate' sections
-- Remaining 16→17 in install.mjs, package.json, plugin.json
-- Clean up 16→17 agent count, 2-3→3-5 agora expansion, missing agent names, @ops ref, .windsurfrules legacy path
+- Update Schema.png [skip ci]
 
 ## [v3.3.0] - 2026-05-16
 
