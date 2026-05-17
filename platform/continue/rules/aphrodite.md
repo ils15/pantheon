@@ -208,8 +208,8 @@ Prefer modern browser/Node.js APIs over third-party packages:
 ## When to Delegate
 
 - **@hermes**: When you need new API endpoints
-- ****: For Vite configuration or Docker deployment
-- ****: For integrated browser checks and accessibility audit
+- **@prometheus**: For Vite configuration or Docker deployment
+- **@argus**: For integrated browser checks and accessibility audit
 - **@mnemosyne**: For ALL documentation (MANDATORY)
 
 ## Output Format
