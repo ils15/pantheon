@@ -21,7 +21,7 @@
   },
   "agent": {
     "zeus": {
-      "description": "Central orchestrator — delegates to specialized agents, never implements directly",
+      "description": "Central orchestrator \u2014 delegates to specialized agents, never implements directly",
       "color": "#FFD700",
       "temperature": 0.2,
       "steps": 30,
@@ -31,20 +31,22 @@
         "task": {
           "*": "allow"
         }
-      }
+      },
+      "model": "opencode-go/kimi-k2.6"
     },
     "athena": {
-      "description": "Strategic planner & agora — creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
+      "description": "Strategic planner & agora \u2014 creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 20,
       "permission": {
         "edit": "deny",
         "bash": "deny"
-      }
+      },
+      "model": "opencode-go/kimi-k2.6"
     },
     "themis": {
-      "description": "Quality & security gate — MANDATORY review after every implementation phase",
+      "description": "Quality & security gate \u2014 MANDATORY review after every implementation phase",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 20,
@@ -56,72 +58,82 @@
           "grep *": "allow",
           "npx vitest *": "allow"
         }
-      }
+      },
+      "model": "opencode-go/kimi-k2.6"
     },
     "hermes": {
-      "description": "Backend specialist — FastAPI, Python, async/await, TDD red-green-refactor",
+      "description": "Backend specialist \u2014 FastAPI, Python, async/await, TDD red-green-refactor",
       "color": "#4A90D9",
       "temperature": 0.3,
-      "steps": 30
+      "steps": 30,
+      "model": "opencode-go/kimi-k2.5"
     },
     "aphrodite": {
-      "description": "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, TDD",
+      "description": "Frontend specialist \u2014 React 19, TypeScript strict, WCAG accessibility, TDD",
       "color": "#4A90D9",
       "temperature": 0.5,
-      "steps": 30
+      "steps": 30,
+      "model": "opencode-go/qwen3.6-plus"
     },
     "demeter": {
-      "description": "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention",
+      "description": "Database specialist \u2014 SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention",
       "color": "#4A90D9",
       "temperature": 0.2,
-      "steps": 20
+      "steps": 20,
+      "model": "opencode-go/kimi-k2.5"
     },
     "prometheus": {
-      "description": "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD",
+      "description": "Infrastructure specialist \u2014 Docker multi-stage builds, docker-compose, CI/CD",
       "color": "#4A90D9",
       "temperature": 0.2,
-      "steps": 15
+      "steps": 15,
+      "model": "opencode-go/kimi-k2.5"
     },
     "hephaestus": {
-      "description": "AI pipelines specialist — RAG, LangChain/LangGraph, vector stores, embeddings",
+      "description": "AI pipelines specialist \u2014 RAG, LangChain/LangGraph, vector stores, embeddings",
       "color": "#4A90D9",
       "temperature": 0.3,
-      "steps": 25
+      "steps": 25,
+      "model": "opencode-go/kimi-k2.5"
     },
     "chiron": {
-      "description": "Model provider hub — multi-model routing, AWS Bedrock, cost optimization",
+      "description": "Model provider hub \u2014 multi-model routing, AWS Bedrock, cost optimization",
       "color": "#4A90D9",
       "temperature": 0.2,
-      "steps": 20
+      "steps": 20,
+      "model": "opencode-go/kimi-k2.5"
     },
     "echo": {
-      "description": "Conversational AI specialist — Rasa NLU, dialogue management, intent/entity design",
+      "description": "Conversational AI specialist \u2014 Rasa NLU, dialogue management, intent/entity design",
       "color": "#4A90D9",
       "temperature": 0.4,
-      "steps": 20
+      "steps": 20,
+      "model": "opencode-go/kimi-k2.5"
     },
     "gaia": {
-      "description": "Remote sensing specialist — LULC analysis, satellite imagery, geospatial pipelines",
+      "description": "Remote sensing specialist \u2014 LULC analysis, satellite imagery, geospatial pipelines",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
       "permission": {
         "edit": "deny",
         "bash": "deny"
-      }
+      },
+      "model": "opencode-go/deepseek-v4-pro"
     },
     "apollo": {
-      "description": "Investigation scout — 3-10 parallel codebase searches, read-only, no edits",
+      "description": "Investigation scout \u2014 3-10 parallel codebase searches, read-only, no edits",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 15,
       "permission": {
         "edit": "deny",
         "bash": "deny"
-      }
+      },
+      "model": "opencode-go/deepseek-v4-flash"
     },
     "iris": {
-      "description": "GitHub operations — branches, pull requests, issues, releases, tags",
+      "description": "GitHub operations \u2014 branches, pull requests, issues, releases, tags",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 12,
@@ -131,19 +143,21 @@
           "git *": "allow",
           "gh *": "allow"
         }
-      }
+      },
+      "model": "opencode-go/deepseek-v4-flash"
     },
     "mnemosyne": {
-      "description": "Memory bank management — ADRs, project.md, atomic facts to /memories/repo/",
+      "description": "Memory bank management \u2014 ADRs, project.md, atomic facts to /memories/repo/",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 20,
       "permission": {
         "bash": "deny"
-      }
+      },
+      "model": "opencode-go/deepseek-v4-flash"
     },
     "talos": {
-      "description": "Hotfix express lane — small bugs, CSS, typos, direct fixes, no TDD ceremony",
+      "description": "Hotfix express lane \u2014 small bugs, CSS, typos, direct fixes, no TDD ceremony",
       "color": "#50C878",
       "temperature": 0.3,
       "steps": 5,
@@ -152,10 +166,11 @@
           "git add *": "allow",
           "npx prettier *": "allow"
         }
-      }
+      },
+      "model": "opencode-go/deepseek-v4-flash"
     },
     "nyx": {
-      "description": "Observability specialist — OpenTelemetry, LangSmith, token/cost tracking, alerting",
+      "description": "Observability specialist \u2014 OpenTelemetry, LangSmith, token/cost tracking, alerting",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 15,
@@ -165,10 +180,11 @@
           "pip *": "allow",
           "pytest *": "allow"
         }
-      }
+      },
+      "model": "opencode-go/minimax-m2.5"
     },
     "argus": {
-      "description": "Visual analysis specialist — interprets screenshots, images, PDFs, diagrams, and UI mockups",
+      "description": "Visual analysis specialist \u2014 interprets screenshots, images, PDFs, diagrams, and UI mockups",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 15,
@@ -185,12 +201,12 @@
       "agent": "athena"
     },
     "focus": {
-      "description": "Pin a session goal — all todos, delegation, and verification stay aligned with it",
+      "description": "Pin a session goal \u2014 all todos, delegation, and verification stay aligned with it",
       "template": "SESSION GOAL (pinned): {{input}}\n\nAll subsequent tasks, todos, and delegations must stay aligned with this goal. Verify alignment before each major decision. If a task drifts from this goal, flag it and ask for clarification before proceeding.",
       "agent": "zeus"
     },
     "forge": {
-      "description": "Configure model provider and plan — lists available plans, applies selection to opencode.json",
+      "description": "Configure model provider and plan \u2014 lists available plans, applies selection to opencode.json",
       "template": "You are configuring the model provider for this OpenCode installation.\n\nStep 1: List all available plan files in platform/plans/ (exclude plan-active.json, schema.json, README.md).\n\nStep 2: For each plan file, read it and extract: plan name, service, price tier, and the models mapped to fast/default/premium.\n\nStep 3: Present the user with a numbered list of all available plans showing name, price, and model tiers.\n\nStep 4: Ask the user which plan they want to use (by number or name).\n\nStep 5: Once the user selects a plan:\n  a. Read the selected plan file from platform/plans/\n  b. Update platform/plans/plan-active.json with the selected plan's content\n  c. Edit opencode.json to set the root \"model\" field to the plan's default model\n  d. Edit opencode.json to set the root \"small_model\" field to the plan's fast model\n  e. For each agent in the plan's agent_overrides, add/update the agent's \"model\" field in opencode.json\n  f. Report the changes made\n\nIf the user provides a specific model ID directly (e.g. /forge anthropic/claude-sonnet-4-20250620), set that as the root \"model\" in opencode.json and remove all per-agent model overrides.\n\nIf the user types \"auto\", remove the root \"model\" and \"small_model\" from opencode.json and clear all per-agent model overrides so OpenCode uses its defaults.",
       "agent": "zeus"
     },
@@ -266,5 +282,7 @@
       "gh *": "allow",
       "make *": "allow"
     }
-  }
+  },
+  "model": "opencode-go/kimi-k2.6",
+  "small_model": "opencode-go/deepseek-v4-flash"
 }
