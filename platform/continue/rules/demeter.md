@@ -184,7 +184,7 @@ def upgrade():
 
 - **@hermes**: For implementing service logic that uses models
 - **@apollo**: For investigating slow queries or deadlocks
-- ****: For database container configuration
+- **@prometheus**: For database container configuration
 - **@mnemosyne**: For ALL documentation (MANDATORY)
 
 ## Output Format
