@@ -1,11 +1,11 @@
 ---
-name: conclave
+name: pantheon
 description: "Multi-perspective trade-off analysis — Athena convenes specialist agents and synthesizes a decisive recommendation"
 agent: athena
 tools: ['search', 'usages', 'agent']
 ---
 
-# Conclave — Multi-Perspective Decision (Athena)
+# Pantheon — Multi-Perspective Decision (Athena)
 
 ## Question
 
@@ -13,9 +13,9 @@ $input
 
 ---
 
-## Council Protocol
+## Agora Protocol
 
-1. **Identify perspectives** — Select 2–3 relevant specialist agents for this question (e.g. hermes + demeter for a caching decision, hermes + hephaestus for an AI pipeline decision).
+1. **Identify perspectives** — Select 3–5 relevant specialist agents for this question (e.g. hermes + demeter + themis for a caching decision, hermes + hephaestus + chiron for an AI pipeline decision).
 2. **Dispatch in parallel** — Send the same question to all selected specialists simultaneously.
 3. **Compare findings** — Note agreements and divergences across perspectives.
 4. **Synthesize** — Produce a single decisive recommendation with:
@@ -30,7 +30,7 @@ $input
 ## Output Format
 
 ```
-## Conclave Result
+## Agora Synthesis
 
 **Question:** <restated question>
 

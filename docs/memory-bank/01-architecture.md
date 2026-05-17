@@ -14,7 +14,7 @@ User Request
 │  ZEUS   │  Orchestrator (premium model, no edits)
 └────┬────┘
      │
-     ├──► Athena (planning + council) ──► Apollo (discovery)
+      ├──► Athena (planning + agora) ──► Apollo (discovery)
      │
      ├──► Hermes (backend)     ◄──┐
      ├──► Aphrodite (frontend)     │  Parallel DAG Waves

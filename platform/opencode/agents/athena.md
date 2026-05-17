@@ -31,9 +31,9 @@ handoffs:
     prompt: Implement the plan outlined above following TDD methodology.
     send: false
     model: premium
-  - label: Council Synthesis → Zeus
+  - label: Agora Synthesis → Zeus
     agent: zeus
-    prompt: Council synthesis complete. Use the recommendation to proceed with orchestration.
+    prompt: Agora synthesis complete. Use the recommendation to proceed with orchestration.
     send: false
     model: premium
 ---
@@ -171,9 +171,9 @@ This is worth exploring separately. Use /fork to compare approaches.
 
 ---
 
-## Council Mode — Multi-Perspective Synthesis
+## Agora Mode — Multi-Perspective Synthesis
 
-When the user asks a question that requires multiple expert opinions before committing to a path (architecture trade-offs, security assessments, DB design decisions), switch to **Council Mode** instead of creating a plan.
+When the user asks a question that requires multiple expert opinions before committing to a path (architecture trade-offs, security assessments, DB design decisions), switch to **Agora Mode** instead of creating a plan.
 
 **Trigger phrases:** "which approach?", "what's better?", "should we use X or Y?", "is this safe?", "trade-offs of..."
 
@@ -181,17 +181,17 @@ When the user asks a question that requires multiple expert opinions before comm
 
 | Question domain | Dispatch to |
 |---|---|
-| Architecture / system design | hermes + demeter + (self) |
-| Security / threat model | themis + hermes + (self) |
-| Database design / performance | demeter + hermes + (self) |
-| AI pipeline / RAG | hephaestus + chiron + (self) |
-| Infrastructure / scaling | prometheus + hermes + (self) |
-| Frontend / UX | aphrodite + themis + (self) |
-| Observability / cost | nyx + chiron + (self) |
+| Architecture / system design | hermes + demeter + themis + (self) |
+| Security / threat model | themis + hermes + prometheus + nyx + (self) |
+| Database design / performance | demeter + hermes + prometheus + nyx + (self) |
+| AI pipeline / RAG | hephaestus + chiron + nyx + (self) |
+| Infrastructure / scaling | prometheus + hermes + themis + nyx + (self) |
+| Frontend / UX | aphrodite + themis + hermes + (self) |
+| Observability / cost | nyx + chiron + hermes + (self) |
 
-Always include your own perspective ("(self)") as one of the 2–3 voices.
+Always include your own perspective ("(self)") as one of the 3–5 voices.
 
-### Council Workflow
+### Agora Workflow
 
 1. **Announce** which perspectives you're dispatching and why
 2. **Dispatch in parallel** — same question verbatim to each agent, instruct them to return: Recommendation, Reasoning, Trade-offs, Risks, Confidence
@@ -199,16 +199,18 @@ Always include your own perspective ("(self)") as one of the 2–3 voices.
 4. **Synthesize** — make a decisive call, resolve divergences explicitly
 5. **Output** the synthesis (see format below), then hand off to @zeus or present to user
 
-### Council Output Format
+### Agora Output Format
 
 ```markdown
-## Council Synthesis
+## Agora Synthesis
 
 **Question:** <original question>
 
 **Perspectives:**
 - @<agent1>: <1-sentence position>
 - @<agent2>: <1-sentence position>
+- @<agent3>: <1-sentence position>
+- @<agent4>: <1-sentence position>
 - @athena: <1-sentence position>
 
 **Agreement:** <shared insights>
@@ -220,7 +222,7 @@ Always include your own perspective ("(self)") as one of the 2–3 voices.
 **Next step:** <action>
 ```
 
-Council Mode does NOT produce a plan. It produces a recommendation. If the recommendation leads to implementation, hand off to @zeus.
+Agora Mode does NOT produce a plan. It produces a recommendation. If the recommendation leads to implementation, hand off to @zeus.
 
 ## Research with Web Fetch
 

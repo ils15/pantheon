@@ -9,7 +9,7 @@
 | Agent | Responsibility | Model Tier | Tools |
 |---|---|---|---|
 | **Zeus** | Coordenação central, delegates para agentes especializados | premium | agent, askQuestions, search |
-| **Athena** | Planejamento estratégico, Council Mode, não implementa | premium | search, read, webfetch, agent |
+| **Athena** | Planejamento estratégico, Agora Mode, não implementa | premium | search, read, webfetch, agent |
 | **Apollo** | Descoberta de codebase, 3-10 buscas paralelas, read-only | fast | search, grep, read, webfetch |
 
 ## Implementation Tier

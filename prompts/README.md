@@ -13,7 +13,7 @@ Reusable prompt templates for common development workflows. Each prompt specifie
 | **audit** | Themis | Comprehensive code review with security audit and coverage analysis |
 | **optimize-database** | Demeter | Database schema, query, and performance optimization |
 | **focus** | Zeus | Pin a session goal to keep all work aligned with a single objective |
-| **conclave** | Athena | Multi-perspective trade-off analysis — council of specialists synthesizes one recommendation |
+| **pantheon** | Athena | Multi-perspective trade-off analysis — agora of specialists synthesizes one recommendation |
 | **sketch** | Athena | Interview a rough idea into a structured feature spec (3–5 questions) |
 | **subtask** | Zeus | Delegate a bounded child task to a specialist and receive a structured result |
 | **mirrordeps** | Apollo | Clone a dependency's source locally so agents can read its implementation directly |
@@ -28,7 +28,7 @@ Reusable prompt templates for common development workflows. Each prompt specifie
 /audit Changes in src/auth/
 /optimize-database Slow query on orders table
 /focus Implement email verification end-to-end with TDD
-/conclave Should we use Redis or PostgreSQL for session storage?
+/pantheon Should we use Redis or PostgreSQL for session storage?
 /sketch Add a notification system for order shipments
 /subtask @hermes Implement POST /products endpoint
 /mirrordeps langchain
@@ -39,7 +39,7 @@ Reusable prompt templates for common development workflows. Each prompt specifie
 /project:implement-feature Add user authentication with JWT
 /project:audit Changes in src/auth/
 /project:focus Implement email verification end-to-end
-/project:conclave Redis vs PostgreSQL for session storage?
+/project:pantheon Redis vs PostgreSQL for session storage?
 /project:sketch Add notification system
 /project:mirrordeps langchain
 ```

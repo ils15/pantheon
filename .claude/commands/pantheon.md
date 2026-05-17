@@ -1,12 +1,12 @@
-# Conclave — Multi-Perspective Decision
+# Pantheon — Multi-Perspective Decision
 
-Convene a council of specialist perspectives and synthesize a decisive recommendation on a trade-off question.
+Convene 3-5 specialist perspectives and synthesize a decisive recommendation on a trade-off question.
 
 **Question:** $ARGUMENTS
 
-## Council Protocol
+## Agora Protocol
 
-1. Identify 2–3 relevant specialist perspectives for this question.
+1. Identify 3–5 relevant specialist perspectives for this question.
 2. Analyze each perspective independently.
 3. Compare agreements and divergences.
 4. Produce a single decisive recommendation.
@@ -14,7 +14,7 @@ Convene a council of specialist perspectives and synthesize a decisive recommend
 ## Output Format
 
 ```
-## Conclave Result
+## Agora Synthesis
 
 **Question:** <restated>
 
