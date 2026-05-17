@@ -59,7 +59,8 @@
           "npx vitest *": "allow"
         }
       },
-      "model": "opencode-go/kimi-k2.6"
+      "model": "opencode-go/kimi-k2.6",
+      "mode": "subagent"
     },
     "hermes": {
       "description": "Backend specialist \u2014 FastAPI, Python, async/await, TDD red-green-refactor",
@@ -130,7 +131,8 @@
         "edit": "deny",
         "bash": "deny"
       },
-      "model": "opencode-go/deepseek-v4-flash"
+      "model": "opencode-go/deepseek-v4-flash",
+      "mode": "subagent"
     },
     "iris": {
       "description": "GitHub operations \u2014 branches, pull requests, issues, releases, tags",
@@ -154,7 +156,8 @@
       "permission": {
         "bash": "deny"
       },
-      "model": "opencode-go/deepseek-v4-flash"
+      "model": "opencode-go/deepseek-v4-flash",
+      "mode": "subagent"
     },
     "talos": {
       "description": "Hotfix express lane \u2014 small bugs, CSS, typos, direct fixes, no TDD ceremony",

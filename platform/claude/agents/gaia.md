@@ -1,6 +1,7 @@
 ---
 name: gaia
 description: Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, statistical analysis, scientific literature (MDPI, IEEE TGRS, RSE, ISPRS). Covers full RS pipeline from raw image to product. Calls apollo for discovery. Sends work to themis for review.
+mode: primary
 tools: Grep, Glob, Read, WebFetch, AskUserQuestion
 agents:
   - apollo

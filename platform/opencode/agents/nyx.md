@@ -1,6 +1,7 @@
 ---
 name: nyx
 description: Observability & monitoring specialist — OpenTelemetry tracing, token/cost tracking, agent performance analytics, LangSmith integration. Sees what others cannot in the dark. Calls apollo for discovery. Sends work to themis for review.
+mode: primary
 tools:
   task: true
   question: true
@@ -9,15 +10,6 @@ tools:
   edit: true
   bash: true
   webfetch: true
-agents:
-  - apollo
-user-invocable: true
-handoffs:
-  - label: 🌀 Report Anomaly
-    agent: zeus
-    prompt: Observability detected anomalies in agent execution. Review and decide on corrective action.
-    send: false
-    model: premium
 ---
 
 # Nyx — Observability & Monitoring Specialist

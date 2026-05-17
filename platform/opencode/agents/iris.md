@@ -1,26 +1,13 @@
 ---
 name: iris
 description: GitHub operations specialist — branches, pull requests, issues, releases, tags. Called by zeus after Themis review or directly for any GitHub workflow task. Never pushes or merges without explicit human approval.
+mode: primary
 tools:
   task: true
   question: true
   read: true
   grep: true
   bash: true
-agents:
-  - mnemosyne
-user-invocable: true
-handoffs:
-  - label: Merge PR
-    agent: zeus
-    prompt: Iris has opened a PR and is awaiting your approval to merge. Review the PR link above, then reply 'merge' to proceed.
-    send: false
-    model: premium
-  - label: Document release
-    agent: mnemosyne
-    prompt: Please update the memory bank with the release information provided above.
-    send: false
-    model: fast
 ---
 
 # Iris — GitHub Operations Specialist

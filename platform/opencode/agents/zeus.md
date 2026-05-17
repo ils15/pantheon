@@ -1,6 +1,7 @@
 ---
 name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend + obsolete lib audit), aphrodite (frontend + deprecated npm audit), demeter (database), prometheus (infra), themis (review + ruff/Biome dead-code/deprecation gate), iris (GitHub), mnemosyne (docs), talos (hotfix), hephaestus (AI pipelines), chiron (model routing), echo (conversational AI), nyx (observability), argus (visual analysis)"
+mode: primary
 tools:
   task: true
   question: true
@@ -8,69 +9,6 @@ tools:
   read: true
   grep: true
   webfetch: true
-agents:
-  - athena
-  - apollo
-  - hermes
-  - aphrodite
-  - demeter
-  - themis
-  - prometheus
-  - iris
-  - mnemosyne
-  - talos
-  - hephaestus
-  - chiron
-  - echo
-  - nyx
-  - argus
-user-invocable: true
-handoffs:
-  - label: 🏛️ Agora Decision
-    agent: athena
-    prompt: This is an agora question. Activate agora mode and gather 3-5 specialist perspectives to synthesize a recommendation.
-    send: false
-    model: premium
-  - label: 📋 Plan Feature
-    agent: athena
-    prompt: Create an implementation plan for this feature.
-    send: false
-    model: premium
-  - label: 🔍 Validate Plan
-    agent: themis
-    prompt: "Validate the plan before execution: coverage, risks, test strategy, and rollout safety."
-    send: false
-    model: premium
-  - label: 📝 Document Progress
-    agent: mnemosyne
-    prompt: Document the completed work and decisions in the Memory Bank.
-    send: false
-    model: fast
-  - label: 🔧 Build AI Pipelines
-    agent: hephaestus
-    prompt: Build AI tooling pipelines (RAG, LangChain chains, vector search) for this feature.
-    send: false
-    model: default
-  - label: 🤖 Configure Model Routing
-    agent: chiron
-    prompt: Configure multi-model routing and provider integration for this feature.
-    send: false
-    model: default
-  - label: 💬 Design Conversational Flows
-    agent: echo
-    prompt: Design conversational AI flows (NLU pipelines, dialogue management) for this feature.
-    send: false
-    model: default
-  - label: 👁️ Set Up Observability
-    agent: nyx
-    prompt: Set up observability, tracing, and cost tracking for this feature.
-    send: false
-    model: fast
-  - label: 👁️ Visual Analysis
-    agent: argus
-    prompt: Analyze visual content (screenshots, PDFs, diagrams, UI mockups) and return structured observations.
-    send: false
-    model: fast
 ---
 
 # Zeus - Main Conductor

@@ -16,10 +16,7 @@
       "mode",
       "tools",
       "skills",
-      "instructions",
-      "agents",
-      "user-invocable",
-      "handoffs"
+      "instructions"
     ],
     "exclude": [
       "model",
