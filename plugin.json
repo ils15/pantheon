@@ -3,7 +3,7 @@
   "publisher": "ils15",
   "version": "3.3.0",
   "displayName": "Pantheon - Multi-Agent Orchestration v3.3",
-  "description": "Conductor-Delegate orchestration platform with 16 specialized agents, 27 skills, and multi-platform support (VS Code, OpenCode, Claude Code, Cursor, Windsurf)",
+  "description": "Conductor-Delegate orchestration platform with 17 specialized agents, 27 skills, and multi-platform support (VS Code, OpenCode, Claude Code, Cursor, Windsurf)",
   "agents": "./agents",
   "skills": "./skills",
   "instructions": "./instructions",
