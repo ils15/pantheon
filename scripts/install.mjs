@@ -507,7 +507,7 @@ This project uses the Pantheon multi-agent framework.
 
 ## Architecture
 
-16 specialized agents coordinated by Zeus (orchestrator).
+17 specialized agents coordinated by Zeus (orchestrator).
 See .claude/agents/ for definitions and CLAUDE.md for agent descriptions.
 `;
   const agentsStatus = writeIfChanged(agentsMdPath, agentsMdContent, dryRun);
@@ -557,7 +557,7 @@ function installCursor(target, dryRun) {
   const agentsMdPath = join(target, 'AGENTS.md');
   const agentsMdContent = `# Pantheon Agent System
 
-This project uses the Pantheon multi-agent framework with 16 specialized agents.
+This project uses the Pantheon multi-agent framework with 17 specialized agents.
 
 ## Available Agents
 
@@ -682,7 +682,7 @@ Use this workflow to run a code review and security audit.
   const agentsMdPath = join(target, 'AGENTS.md');
   const agentsMdContent = `# Pantheon Agent System — Windsurf (Cascade)
 
-This project uses the Pantheon multi-agent framework with 16 specialized agents.
+This project uses the Pantheon multi-agent framework with 17 specialized agents.
 
 ## Available Agents
 
