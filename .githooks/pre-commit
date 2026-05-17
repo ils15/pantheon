@@ -25,3 +25,9 @@ git add platform/opencode/agents/*.md
 git add platform/windsurf/rules/*.md
 
 echo "✅ Platform files synced and staged"
+
+# Also update CHANGELOG Unreleased section if there are new commits
+if ! git diff --cached --name-only | grep -q '^CHANGELOG\.md$'; then
+  bash scripts/update-changelog.sh 2>/dev/null || true
+  git add CHANGELOG.md 2>/dev/null || true
+fi
