@@ -348,7 +348,7 @@ SEARCH_URL = "https://www.mdpi.com/search?q={query}&journal=remotesensing&articl
 - **For implementation planning** → hand off to `@athena`
 - **For rapid code search** → delegate to `@apollo` (nested subagent)
 - **For technical implementation** → hand off to `@hermes` (Python backend)
-- **For quality review** → delegate to ``
+- **For quality review** → delegate to `@themis`
 
 ---
 

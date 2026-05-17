@@ -28,7 +28,7 @@ Complete setup and usage guide for running Pantheon in VS Code with GitHub Copil
    }
    ```
 3. Reload VS Code: `Ctrl+Shift+P` → `Developer: Reload Window`
-4. All 16 agents load automatically. Try `@zeus: Implement a feature` in Copilot Chat.
+4. All 17 agents load automatically. Try `@zeus: Implement a feature` in Copilot Chat.
 
 ### Method 2: Clone + copy (for customization)
 
@@ -241,7 +241,7 @@ VS Code loads `.agent.md` files from the following locations:
 ```
 your-project/
 ├── .github/
-│   ├── agents/                       # *.agent.md files — all 16 agents (default path)
+│   ├── agents/                       # *.agent.md files — all 17 agents (default path)
 │   │   ├── zeus.agent.md
 │   │   ├── athena.agent.md
 │   │   ├── apollo.agent.md

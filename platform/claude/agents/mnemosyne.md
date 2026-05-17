@@ -208,8 +208,8 @@ At sprint close: @mnemosyne graduates relevant content to 04-active-context.md (
 
 - **@athena**: Provides plans at sprint start → you graduate them to `04-active-context.md` at sprint close
 - **@hermes / @aphrodite / @demeter**: Implement features → they may append to `04-active-context.md` directly; you are invoked for task records
-- ****: Provides security findings → you create `_notes/` entries for significant findings
-- ****: Documents deployment → you create `_notes/` entries for infrastructure decisions
+- **@themis**: Provides security findings → you create `_notes/` entries for significant findings
+- **@prometheus**: Documents deployment → you create `_notes/` entries for infrastructure decisions
 - **@apollo**: Investigation findings → you create `_notes/` entries when findings are architectural
 
 ---
