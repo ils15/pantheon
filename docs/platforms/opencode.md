@@ -714,11 +714,11 @@ OpenCode prompts are static templates (e.g., `{{input}}`). For dynamic prompt ge
 2. Store them in `prompts/dynamic/` directory
 3. Reference them in `opencode.json` commands
 
-### Example: Dynamic Council Prompt
+### Example: Dynamic Agora Prompt
 
-Create `prompts/dynamic/council-architecture.txt`:
+Create `prompts/dynamic/agora-architecture.txt`:
 ```
-You are convening a council on architecture decisions.
+You are convening an agora on architecture decisions.
 Active agents: {{agents}}
 Context: {{context}}
 
@@ -734,8 +734,8 @@ Reference in `opencode.json`:
 ```json
 {
   "command": {
-    "conclave": {
-      "template": "{file:./prompts/dynamic/council-architecture.txt}"
+    "pantheon": {
+      "template": "{file:./prompts/dynamic/agora-architecture.txt}"
     }
   }
 }
@@ -752,8 +752,8 @@ AGENTS=$(ls platform/opencode/agents/ | sed 's/.md//' | paste -sd ', ' -)
 
 sed -e "s/{{plan}}/$PLAN/g" \
     -e "s/{{agents}}/$AGENTS/g" \
-    prompts/templates/council-template.txt \
-    > prompts/dynamic/council-generated.txt
+    prompts/templates/agora-template.txt \
+    > prompts/dynamic/agora-generated.txt
 ```
 
 Run after `select-plan.sh`:

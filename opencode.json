@@ -36,7 +36,7 @@
       }
     },
     "athena": {
-      "description": "Strategic planner & council — creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
+      "description": "Strategic planner & agora — creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 15,
@@ -181,9 +181,9 @@
     }
   },
   "command": {
-    "conclave": {
+    "pantheon": {
       "description": "Gather 2-3 expert perspectives in parallel and synthesize a single recommendation",
-      "template": "Run a Conclave synthesis on this question. Identify the 2-3 most relevant specialist perspectives, dispatch them in parallel with the same question, then synthesize a single authoritative recommendation.\n\nQuestion: {{input}}",
+      "template": "Run a Pantheon synthesis on this question. Identify the 2-3 most relevant specialist perspectives, dispatch them in parallel with the same question, then synthesize a single authoritative recommendation.\n\nQuestion: {{input}}",
       "agent": "athena"
     },
     "focus": {

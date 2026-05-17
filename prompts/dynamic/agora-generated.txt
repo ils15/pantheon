@@ -1,5 +1,5 @@
 # =============================================================================
-# Dynamic Council Prompt
+# Dynamic Agora Prompt
 # Generated: 2026-05-16T13:50:41Z
 # Plan: copilot-free
 # Service: vscode
@@ -8,7 +8,7 @@
 # Monthly Requests: 50
 # =============================================================================
 
-You are convening a council with access to these specialists: aphrodite,apollo argus,athena chiron,demeter echo,gaia hephaestus,hermes iris,mnemosyne nyx,prometheus talos,themis zeus
+You are convening an agora with access to these specialists: aphrodite,apollo argus,athena chiron,demeter echo,gaia hephaestus,hermes iris,mnemosyne nyx,prometheus talos,themis zeus
 
 ## Platform Capabilities
 Agent Overrides:

@@ -186,11 +186,11 @@ Both execute simultaneously. Wave 3 starts after both complete.
 ### Planning Tier
 
 #### 🧠 **Athena** (agents/athena.agent.md)
-Strategic planner and council advisor. Generates concise TDD-driven implementation roadmaps (3-5 phases max) and synthesizes multi-perspective recommendations for high-stakes decisions.
+Strategic planner and agora advisor. Generates concise TDD-driven implementation roadmaps (3-5 phases max) and synthesizes multi-perspective recommendations for high-stakes decisions.
 
 **When to use:** Architecture decisions, technology research, planning before implementation, trade-off analysis, security/design questions needing multiple expert perspectives  
 **Tools:** `search/codebase`, `search/usages`, `search/fileSearch`, `search/textSearch`, `search/listDirectory`, `read/readFile`, `web/fetch`, `agent`  
-**Calls:** apollo (discovery), hermes/demeter/themis/etc. (council mode), hands off to zeus for implementation  
+**Calls:** apollo (discovery), hermes/demeter/themis/etc. (agora mode), hands off to zeus for implementation  
 **Skills:** plan-architecture.prompt  
 **Performance:** ~30s average (70% faster than previous version)
 
@@ -207,9 +207,10 @@ Athena:
 4. Hands off to Zeus for execution
 ```
 
-**2. Council Mode** (triggered by `/conclave` or trade-off questions):
+**2. Agora Mode** (triggered by `/pantheon` or trade-off questions):
+
 ```
-/conclave Should we use Redis or PostgreSQL for session storage?
+/pantheon Should we use Redis or PostgreSQL for session storage?
 
 Athena:
 1. Identifies 2-3 relevant specialist perspectives (e.g. hermes + demeter + self)
@@ -1007,7 +1008,7 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 | Need | Agent | Trigger |
 |------|-------|---------|
 | Plan architecture | athena | `/plan-architecture` |
-| Multi-perspective decision (trade-offs) | athena | `/conclave` |
+| Multi-perspective decision (trade-offs) | athena | `/pantheon` |
 | Turn rough idea into spec | athena | `/sketch` |
 | Debug issue | apollo | `/debug-issue` |
 | Find files/code | apollo | Direct: @apollo |
