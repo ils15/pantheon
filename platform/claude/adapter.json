@@ -18,13 +18,17 @@
       "instructions",
       "model",
       "mcpServers",
-      "agents"
+      "agents",
+      "user-invocable",
+      "permission",
+      "hooks",
+      "temperature",
+      "steps",
+      "globs"
     ],
     "exclude": [
-      "handoffs",
       "disable-model-invocation",
-      "argument-hint",
-      "user-invocable"
+      "argument-hint"
     ],
     "transform": {
       "tools": { "strategy": "comma-separated" },
@@ -40,7 +44,6 @@
     "search/fileSearch": "Glob",
     "search/textSearch": "Grep",
     "search/listDirectory": "Glob",
-    "search/changes": "Bash",
     "read/readFile": "Read",
     "edit/editFiles": "Edit",
     "execute/runInTerminal": "Bash",
@@ -52,6 +55,7 @@
   },
 
   "excludeTools": [
+    "search/changes",
     "read/problems",
     "execute/createAndRunTask",
     "vscode/runCommand",
@@ -92,5 +96,9 @@
       "pattern": "Changelog-aligned notes",
       "action": "omit-section"
     }
-  ]
+  ],
+
+  "skillsOutputDir": ".claude/skills",
+  "deploySkills": true,
+  "handoffStrategy": "embed"
 }

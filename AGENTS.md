@@ -186,17 +186,16 @@ Both execute simultaneously. Wave 3 starts after both complete.
 ### Planning Tier
 
 #### 🧠 **Athena** (agents/athena.agent.md)
-Strategic planner and agora advisor. Generates concise TDD-driven implementation roadmaps (3-5 phases max) and synthesizes multi-perspective recommendations for high-stakes decisions.
+Strategic planner — research-first, plan-only, never implements. Generates concise TDD-driven implementation roadmaps (3-5 phases max) with quality gates.
 
-**When to use:** Architecture decisions, technology research, planning before implementation, trade-off analysis, security/design questions needing multiple expert perspectives  
+**When to use:** Architecture decisions, technology research, planning before implementation  
 **Tools:** `search/codebase`, `search/usages`, `search/fileSearch`, `search/textSearch`, `search/listDirectory`, `read/readFile`, `web/fetch`, `agent`  
-**Calls:** apollo (discovery), hermes/demeter/themis/etc. (agora mode), hands off to zeus for implementation  
+**Calls:** apollo (discovery), hands off to zeus for implementation  
 **Skills:** plan-architecture.prompt  
-**Performance:** ~30s average (70% faster than previous version)
+**Performance:** ~30s average
 
-**Two modes:**
+**Mode:**
 
-**1. Planning Mode** (default):
 ```
 /plan-architecture Implement caching layer (L1 local + L2 Redis)
 
@@ -207,17 +206,32 @@ Athena:
 4. Hands off to Zeus for execution
 ```
 
-**2. Agora Mode** (triggered by `/pantheon` or trade-off questions):
+For trade-off / multi-perspective questions, use `@agora` instead.
+
+---
+
+
+
+#### ☯️ **Agora** (agents/agora.agent.md)
+Multi-perspective synthesis engine — dispatches the same question to 3-5 specialist agents in parallel, compares agreements & divergences, produces a single decisive recommendation.
+
+**When to use:** Trade-off analysis, architecture decisions with multiple valid approaches, security/design questions needing multiple expert perspectives, any "which is better?" question  
+**Trigger:** `@agora` or `/pantheon <question>`  
+**Tools:** `agent`, `search/codebase`, `read/readFile`, `web/fetch`  
+**Dispatches to:** hermes, demeter, themis, prometheus, aphrodite, hephaestus, chiron, nyx, athena (3-5 per question, selected by domain)  
+**Output:** Structured synthesis with Recommendation, Confidence, Agreements, Divergences, Next step
+
+**Example:**
 
 ```
-/pantheon Should we use Redis or PostgreSQL for session storage?
+@agora Should we use Redis or PostgreSQL for session storage?
 
-Athena:
-1. Identifies 3-5 relevant specialist perspectives (e.g. hermes + demeter + self)
-2. Dispatches same question to all in parallel
-3. Compares agreements and divergences
-4. Synthesizes a single decisive recommendation with confidence level
-5. Suggests next step (implement → Zeus, or more research → Apollo)
+Agora:
+1. Classifies question domain → Database design
+2. Dispatches to demeter + hermes + themis + nyx in parallel
+3. Collects independent perspectives
+4. Identifies agreements (caching strategy) and divergences (consistency model)
+5. Produces decisive recommendation with confidence level
 ```
 
 ---
@@ -587,10 +601,10 @@ Instead of mixing all project knowledge into a single bucket, separate into **3 
 
 ## 🔒 MANDATORY QUALITY GATE WORKFLOW
 
-**CRITICAL RULE**:  is NOT optional. Every implementation phase MUST pass  review:
+**CRITICAL RULE**: Themis is NOT optional. Every implementation phase MUST pass Themis review:
 
 ```
-Implementation Agents Code →  IMMEDIATELY
+Implementation Agents Code → Themis IMMEDIATELY
                                     ↓
                     Automated Quality Checks (ruff, black, isort, eslint, prettier)
                                     ↓
@@ -603,7 +617,7 @@ Implementation Agents Code →  IMMEDIATELY
                     ✅ APPROVED → Next Phase or ⏸️ User commits
 ```
 
-**Implementers DO NOT skip .** Without approval, code is not ready for merge.
+**Implementers DO NOT skip Themis.** Without approval, code is not ready for merge.
 
 ---
 
@@ -988,15 +1002,17 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 
 @demeter: Optimize users table queries
 
-: Create multi-stage Docker build for new service
+@prometheus: Create multi-stage Docker build for new service
 
-: Review this PR for security issues
+@themis: Review this PR for security issues
 
 @mnemosyne: Update memory bank with completed features
 
 @talos: Fix the hidden lg:flex CSS bug on MobileMenuButton.tsx
 
 @gaia: Analyze inter-product agreement metrics and recommend ensemble method
+
+@agora: Should we use Redis or PostgreSQL for session storage?
 
 @zeus: Orchestrate full feature implementation
 ```
@@ -1007,8 +1023,9 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 
 | Need | Agent | Trigger |
 |------|-------|---------|
+| Multi-perspective synthesis (Council) | agora | `@agora` or `/pantheon` |
 | Plan architecture | athena | `/plan-architecture` |
-| Multi-perspective decision (trade-offs) | athena | `/pantheon` |
+| Multi-perspective decision (trade-offs) | agora | `@agora` or `/pantheon` |
 | Turn rough idea into spec | athena | `/sketch` |
 | Debug issue | apollo | `/debug-issue` |
 | Find files/code | apollo | Direct: @apollo |

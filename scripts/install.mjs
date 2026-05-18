@@ -364,6 +364,49 @@ function installOpenCode(target, dryRun) {
         }
       }
     }
+
+    // Apply agent defaults — mode, hidden, task_budget, bash permissions
+    // Models are NOT included here (configured via /forge → ~/.config/opencode/)
+    const agentDefaults = {
+      zeus:      { mode: 'primary',                          task_budget: 30, bash: 'deny' },
+      athena:    { mode: 'primary',                          task_budget: 10, bash: 'deny' },
+      themis:    {                           hidden: true,   task_budget: 5,  bash: { 'pytest *': 'allow', 'ruff *': 'allow', 'grep *': 'allow', 'npx vitest *': 'allow', 'pip *': 'allow' } },
+      hermes:    { mode: 'subagent',         hidden: true,   task_budget: 5,  bash: 'allow' },
+      aphrodite: { mode: 'subagent',         hidden: true,   task_budget: 5,  bash: 'allow' },
+      demeter:   { mode: 'subagent',         hidden: true,   task_budget: 5,  bash: 'allow' },
+      prometheus:{ mode: 'subagent',         hidden: true,   task_budget: 3,  bash: 'allow' },
+      hephaestus:{ mode: 'subagent',         hidden: true,   task_budget: 5,  bash: 'allow' },
+      chiron:    { mode: 'subagent',         hidden: true,   task_budget: 3,  bash: 'allow' },
+      echo:      { mode: 'subagent',         hidden: true,   task_budget: 3,  bash: 'allow' },
+      gaia:      { mode: 'subagent',         hidden: true,   task_budget: 3,  bash: 'deny' },
+      apollo:    { mode: 'subagent',         hidden: true,   task_budget: 0,  bash: 'deny' },
+      iris:      { mode: 'subagent',         hidden: true,   task_budget: 2,  bash: { 'git *': 'allow', 'gh *': 'allow' } },
+      mnemosyne: { mode: 'subagent',         hidden: true,   task_budget: 0,  bash: 'deny' },
+      nyx:       { mode: 'subagent',         hidden: true,   task_budget: 3,  bash: 'allow' },
+      talos:     { mode: 'subagent',         hidden: true,   task_budget: 0,  bash: { 'git add *': 'allow', 'npx prettier *': 'allow', 'git *': 'allow' } },
+      argus:     { mode: 'subagent',         hidden: true,   task_budget: 0,  bash: 'deny' },
+    };
+
+    for (const [agentName, defaults] of Object.entries(agentDefaults)) {
+      if (config.agent[agentName]) {
+        const agent = config.agent[agentName];
+        // Apply flat fields (mode, hidden, task_budget)
+        for (const [key, val] of Object.entries(defaults)) {
+          if (key === 'bash') continue; // handled below
+          if (val !== null && !(key in agent)) {
+            agent[key] = val;
+          }
+        }
+        // Apply bash permission (nested under permission)
+        if (defaults.bash !== undefined) {
+          if (!agent.permission) agent.permission = {};
+          if (!('bash' in agent.permission)) {
+            agent.permission.bash = defaults.bash;
+          }
+        }
+      }
+    }
+
     // Remove agent section entirely if empty
     if (Object.keys(config.agent).length === 0) {
       delete config.agent;

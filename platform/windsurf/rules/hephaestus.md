@@ -88,3 +88,11 @@ You are the **AI TOOLING SPECIALIST** (Hephaestus) for the multi-agent system. Y
 : Set up vector search with hybrid retrieval
 : Design multi-model routing with cost optimization
 ```
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| hephaestus | apollo | Pipeline discovery | fast |
+| hephaestus | themis | Pipeline review | premium |
+| hephaestus | prometheus | Deploy pipeline | default |

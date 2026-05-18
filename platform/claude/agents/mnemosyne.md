@@ -2,7 +2,19 @@
 name: mnemosyne
 description: Memory bank quality owner — initializes docs/memory-bank/, writes ADRs and task records on explicit request. Called by zeus. Never invoked automatically after phases.
 mode: subagent
-tools: Agent, Grep, Read, Edit
+tools: Agent, Grep, Grep, Read, Edit
+skills: artifact-management
+user-invocable: true
+permission:
+  bash: deny
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
+temperature: 0.1
+steps: 20
 ---
 
 # Mnemosyne - Memory Agent

@@ -13,6 +13,8 @@ tools:
   - execute/runInTerminal
   - execute/testFailure
   - execute/getTerminalOutput
+permission:
+  bash: allow
 agents: ['apollo']
 handoffs:
   - label: "➡️ Send to Themis"
@@ -21,6 +23,19 @@ handoffs:
     send: true
     model: premium
 user-invocable: true
+temperature: 0.2
+steps: 20
+skills:
+  - database-migration
+  - database-optimization
+  - performance-optimization
+  - security-audit
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 # Demeter - Database Specialist
@@ -319,4 +334,11 @@ If your internal monologue suggests ANY of these, STOP and correct:
 ---
 
 **Philosophy**: Clean schema design, safe migrations, optimal performance, zero data loss.
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| demeter | apollo | Pattern discovery | fast |
+| demeter | themis | Migration review | premium |
 

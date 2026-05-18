@@ -92,3 +92,11 @@ You are the **OBSERVABILITY SPECIALIST** (Nyx, the primordial goddess of night ‚
 : Detect why parallel agents are deadlocking
 : Set up cost alerts for premium model usage spikes
 ```
+
+## ü§ù Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| nyx | apollo | Observability discovery | fast |
+| nyx | themis | Monitoring review | premium |
+| nyx | zeus | Report anomaly | premium |

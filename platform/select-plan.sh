@@ -454,7 +454,7 @@ PYEOF
 # ── Sub-command: generate ─────────────────────────────────────────────────────
 cmd_generate() {
     # Parse optional --target and --force flags
-    local target_file="$ROOT_DIR/opencode.json"
+    local target_file="${HOME}/.config/opencode/opencode.json"
     local force_mode="false"
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -535,8 +535,9 @@ cmd_select_plan() {
     fi
     echo ""
 
-    # Generate opencode.json in repo root
-    local output_file="$ROOT_DIR/opencode.json"
+    # Generate opencode.json in ~/.config/opencode/
+    local output_file="${HOME}/.config/opencode/opencode.json"
+    mkdir -p "$(dirname "$output_file")"
     echo -e "${BLUE}Generating opencode.json...${NC}"
     local result
     result=$(generate_opencode_json "$plan_file" "$output_file" "$force_mode")

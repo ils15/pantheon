@@ -296,3 +296,10 @@ When completing a task, provide:
 
 **Philosophy**: Reliable infrastructure, clear dependencies, zero downtime, easy debugging.
 
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| prometheus | apollo | Infrastructure discovery | fast |
+| prometheus | themis | Deploy review | premium |
+

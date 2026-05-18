@@ -16,6 +16,8 @@ tools:
   - execute/getTerminalOutput
   - search/changes
   - web/fetch
+permission:
+  bash: allow
 agents: ['apollo']
 handoffs:
   - label: "🔍 Review Conversation Design"
@@ -29,6 +31,17 @@ handoffs:
     send: false
     model: fast
 user-invocable: true
+temperature: 0.4
+steps: 20
+skills:
+  - conversational-ai-design
+  - prompt-improver
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 # Echo — Conversational AI Specialist
@@ -113,3 +126,11 @@ You are the **CONVERSATIONAL AI SPECIALIST** (Echo, the nymph whose voice echoes
 : Diagnose intent confusion between "cancel" and "reschedule"
 : Set up multi-platform chat with Telegram and web
 ```
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| echo | apollo | Conversation discovery | fast |
+| echo | themis | NLU review | premium |
+| echo | talos | Hotfix conversation | fast |

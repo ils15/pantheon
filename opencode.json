@@ -21,7 +21,7 @@
   },
   "agent": {
     "zeus": {
-      "description": "Central orchestrator \u2014 delegates to specialized agents, never implements directly",
+      "description": "Central orchestrator — delegates to specialized agents, never implements directly",
       "color": "#FFD700",
       "temperature": 0.2,
       "steps": 30,
@@ -32,10 +32,11 @@
           "*": "allow"
         }
       },
-      "model": "opencode-go/kimi-k2.6"
+      "mode": "primary",
+      "task_budget": 30
     },
     "athena": {
-      "description": "Strategic planner & agora \u2014 creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
+      "description": "Strategic planner & agora — creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 20,
@@ -43,10 +44,11 @@
         "edit": "deny",
         "bash": "deny"
       },
-      "model": "opencode-go/kimi-k2.6"
+      "mode": "primary",
+      "task_budget": 10
     },
     "themis": {
-      "description": "Quality & security gate \u2014 MANDATORY review after every implementation phase",
+      "description": "Quality & security gate — MANDATORY review after every implementation phase",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 20,
@@ -56,63 +58,100 @@
           "pytest *": "allow",
           "ruff *": "allow",
           "grep *": "allow",
-          "npx vitest *": "allow"
+          "npx vitest *": "allow",
+          "pip *": "allow"
         }
       },
-      "model": "opencode-go/kimi-k2.6",
-      "mode": "subagent"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 5
     },
     "hermes": {
-      "description": "Backend specialist \u2014 FastAPI, Python, async/await, TDD red-green-refactor",
+      "description": "Backend specialist — FastAPI, Python, async/await, TDD red-green-refactor",
       "color": "#4A90D9",
       "temperature": 0.3,
       "steps": 30,
-      "model": "opencode-go/kimi-k2.5"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 5,
+      "permission": {
+        "bash": "allow"
+      }
     },
     "aphrodite": {
-      "description": "Frontend specialist \u2014 React 19, TypeScript strict, WCAG accessibility, TDD",
+      "description": "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, TDD",
       "color": "#4A90D9",
       "temperature": 0.5,
       "steps": 30,
-      "model": "opencode-go/qwen3.6-plus"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 5,
+      "permission": {
+        "bash": "allow"
+      }
     },
     "demeter": {
-      "description": "Database specialist \u2014 SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention",
+      "description": "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
-      "model": "opencode-go/kimi-k2.5"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 5,
+      "permission": {
+        "bash": "allow"
+      }
     },
     "prometheus": {
-      "description": "Infrastructure specialist \u2014 Docker multi-stage builds, docker-compose, CI/CD",
+      "description": "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 15,
-      "model": "opencode-go/kimi-k2.5"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 3,
+      "permission": {
+        "bash": "allow"
+      }
     },
     "hephaestus": {
-      "description": "AI pipelines specialist \u2014 RAG, LangChain/LangGraph, vector stores, embeddings",
+      "description": "AI pipelines specialist — RAG, LangChain/LangGraph, vector stores, embeddings",
       "color": "#4A90D9",
       "temperature": 0.3,
       "steps": 25,
-      "model": "opencode-go/kimi-k2.5"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 5,
+      "permission": {
+        "bash": "allow"
+      }
     },
     "chiron": {
-      "description": "Model provider hub \u2014 multi-model routing, AWS Bedrock, cost optimization",
+      "description": "Model provider hub — multi-model routing, AWS Bedrock, cost optimization",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
-      "model": "opencode-go/kimi-k2.5"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 3,
+      "permission": {
+        "bash": "allow"
+      }
     },
     "echo": {
-      "description": "Conversational AI specialist \u2014 Rasa NLU, dialogue management, intent/entity design",
+      "description": "Conversational AI specialist — Rasa NLU, dialogue management, intent/entity design",
       "color": "#4A90D9",
       "temperature": 0.4,
       "steps": 20,
-      "model": "opencode-go/kimi-k2.5"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 3,
+      "permission": {
+        "bash": "allow"
+      }
     },
     "gaia": {
-      "description": "Remote sensing specialist \u2014 LULC analysis, satellite imagery, geospatial pipelines",
+      "description": "Remote sensing specialist — LULC analysis, satellite imagery, geospatial pipelines",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
@@ -120,10 +159,12 @@
         "edit": "deny",
         "bash": "deny"
       },
-      "model": "opencode-go/deepseek-v4-pro"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 3
     },
     "apollo": {
-      "description": "Investigation scout \u2014 3-10 parallel codebase searches, read-only, no edits",
+      "description": "Investigation scout — 3-10 parallel codebase searches, read-only, no edits",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 15,
@@ -131,11 +172,12 @@
         "edit": "deny",
         "bash": "deny"
       },
-      "model": "opencode-go/deepseek-v4-flash",
-      "mode": "subagent"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 0
     },
     "iris": {
-      "description": "GitHub operations \u2014 branches, pull requests, issues, releases, tags",
+      "description": "GitHub operations — branches, pull requests, issues, releases, tags",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 12,
@@ -146,71 +188,95 @@
           "gh *": "allow"
         }
       },
-      "model": "opencode-go/deepseek-v4-flash"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 2
     },
     "mnemosyne": {
-      "description": "Memory bank management \u2014 ADRs, project.md, atomic facts to /memories/repo/",
+      "description": "Memory bank management — ADRs, project.md, atomic facts to /memories/repo/",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 20,
       "permission": {
         "bash": "deny"
       },
-      "model": "opencode-go/deepseek-v4-flash",
-      "mode": "subagent"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 0
     },
     "talos": {
-      "description": "Hotfix express lane \u2014 small bugs, CSS, typos, direct fixes, no TDD ceremony",
+      "description": "Hotfix express lane — small bugs, CSS, typos, direct fixes, no TDD ceremony",
       "color": "#50C878",
       "temperature": 0.3,
       "steps": 5,
       "permission": {
         "bash": {
           "git add *": "allow",
-          "npx prettier *": "allow"
+          "npx prettier *": "allow",
+          "git *": "allow"
         }
       },
-      "model": "opencode-go/deepseek-v4-flash"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 0
     },
     "nyx": {
-      "description": "Observability specialist \u2014 OpenTelemetry, LangSmith, token/cost tracking, alerting",
+      "description": "Observability specialist — OpenTelemetry, LangSmith, token/cost tracking, alerting",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 15,
       "permission": {
         "edit": "ask",
-        "bash": {
-          "pip *": "allow",
-          "pytest *": "allow"
-        }
+        "bash": "allow"
       },
-      "model": "opencode-go/minimax-m2.5"
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 3
     },
     "argus": {
-      "description": "Visual analysis specialist \u2014 interprets screenshots, images, PDFs, diagrams, and UI mockups",
+      "description": "Visual analysis specialist — interprets screenshots, images, PDFs, diagrams, and UI mockups",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 15,
       "permission": {
         "edit": "deny",
         "bash": "deny"
-      }
+      },
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 0
+    },
+    "agora": {
+      "description": "Multi-perspective synthesis engine — dispatches same question to 3-5 specialists in parallel, compares agreements & divergences, produces decisive recommendation",
+      "color": "#9B59B6",
+      "temperature": 0.1,
+      "steps": 20,
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "task": {
+          "*": "allow"
+        }
+      },
+      "mode": "subagent",
+      "hidden": true,
+      "task_budget": 10
     }
   },
   "command": {
     "pantheon": {
       "description": "Gather 3-5 expert perspectives in parallel and synthesize a single recommendation",
       "template": "Run a Pantheon synthesis on this question. Identify the 3-5 most relevant specialist perspectives, dispatch them in parallel with the same question, then synthesize a single authoritative recommendation.\n\nQuestion: {{input}}",
-      "agent": "athena"
+      "agent": "agora"
     },
     "focus": {
-      "description": "Pin a session goal \u2014 all todos, delegation, and verification stay aligned with it",
+      "description": "Pin a session goal — all todos, delegation, and verification stay aligned with it",
       "template": "SESSION GOAL (pinned): {{input}}\n\nAll subsequent tasks, todos, and delegations must stay aligned with this goal. Verify alignment before each major decision. If a task drifts from this goal, flag it and ask for clarification before proceeding.",
       "agent": "zeus"
     },
     "forge": {
-      "description": "Configure model provider and plan \u2014 lists available plans, applies selection to opencode.json",
-      "template": "You are configuring the model provider for this OpenCode installation.\n\nFirst, find the Pantheon installation directory. Check these locations IN ORDER:\n  1. The current workspace root (look for platform/plans/)\n  2. ~/.config/opencode/ (global OpenCode config)\n  3. $HOME/.config/opencode/\nUse the FIRST location that has a platform/plans/ directory with plan JSON files.\n\nStep 1: List all available plan files in the Pantheon platform/plans/ directory (exclude plan-active.json, schema.json, README.md).\n\nStep 2: For each plan file, read it and extract: plan name, service, price tier, and the models mapped to fast/default/premium.\n\nStep 3: Present the user with a numbered list of all available plans showing name, price, and model tiers.\n\nStep 4: Ask the user which plan they want to use (by number or name).\n\nStep 5: Once the user selects a plan:\n  a. Read the selected plan file from the Pantheon platform/plans/ directory\n  b. Run: bash <pantheon-dir>/platform/select-plan.sh <plan-name> --force\n  c. If the script is not found or fails, do it manually:\n     - Edit opencode.json (find it: workspace root, then ~/.config/opencode/) to set root \"model\" to plan's default model\n     - Set root \"small_model\" to plan's fast model\n     - For each agent in the plan's agent_overrides, add/update the agent's \"model\" field\n  d. Report the changes made\n\nIf the user provides a specific model ID directly (e.g. /forge anthropic/claude-sonnet-4-20250620), find the opencode.json (workspace root or ~/.config/opencode/), set root \"model\" to that ID, and remove all per-agent model overrides.\n\nIf the user types \"auto\", find opencode.json, remove root \"model\" and \"small_model\", clear all per-agent model overrides so OpenCode uses its defaults.",
+      "description": "Configure model provider and plan — lists available plans, applies selection to opencode.json",
+      "template": "You are configuring the model provider for this OpenCode installation.\n\nFirst, find the Pantheon installation directory. Check these locations IN ORDER:\n  1. The current workspace root (look for platform/plans/)\n  2. ~/.config/opencode/ (global OpenCode config)\nUse the FIRST location that has a platform/plans/ directory with plan JSON files.\n\nStep 1: List all available plan files in the Pantheon platform/plans/ directory (exclude plan-active.json, schema.json).\nStep 2: Present the user with a numbered list showing plan name, price, and model tiers.\nStep 3: Ask the user which plan to use.\n\nStep 4: Once the user selects a plan, run:\n  bash <pantheon-dir>/platform/select-plan.sh <plan-name>\n\nThis writes models to ~/.config/opencode/opencode.json (NOT the repo).\n\nIf the user provides a specific model ID directly (e.g. /forge anthropic/claude-sonnet-4-20250620), write to ~/.config/opencode/opencode.json:\n  - Set root \"model\" to that ID\n  - Remove all per-agent model overrides\n\nIf the user types \"auto\", write to ~/.config/opencode/opencode.json:\n  - Remove root \"model\" and \"small_model\"\n  - Clear all per-agent model overrides\nso OpenCode uses its defaults.",
       "agent": "zeus"
     },
     "subtask": {
@@ -232,6 +298,12 @@
       "description": "Ask Themis to audit current changes for quality, coverage and security",
       "template": "Audit the current changes for quality and security.\n\nFocus: {{input}}\n\nSteps:\n1. Run `git diff HEAD` (or `git diff --staged`) to get the change surface\n2. Identify changed files and classify review scope level (Plan/Wave/Task/Final)\n3. Run ruff on changed Python files; Biome on changed JS/TS files\n4. Check test coverage on changed code (target >80%)\n5. Run OWASP Top 10 security checks\n6. Apply self-reflection quality gate (6 categories, 1-10)\n\nReturn: APPROVED / NEEDS_REVISION / FAILED with specific file:line feedback and the scoring table.",
       "agent": "themis"
+    },
+    "ping": {
+      "description": "Ping all 17 Pantheon agents — dispatches to each and reports status",
+      "template": "Ping all configured Pantheon agents. For each one, dispatch a task asking them to reply with their name and status. Collect all responses and present a table with: agent_name | role | status (✅ Online / ❌ No response).\n\nIf any agent fails to respond within 10 seconds, mark it as ❌ No response and continue.",
+      "agent": "zeus",
+      "subtask": true
     }
   },
   "compaction": {
@@ -285,7 +357,5 @@
       "gh *": "allow",
       "make *": "allow"
     }
-  },
-  "model": "opencode-go/kimi-k2.6",
-  "small_model": "opencode-go/deepseek-v4-flash"
+  }
 }

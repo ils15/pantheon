@@ -16,6 +16,8 @@ tools:
   - execute/getTerminalOutput
   - search/changes
   - web/fetch
+permission:
+  bash: allow
 agents: ['apollo']
 handoffs:
   - label: "🔍 Review Provider Config"
@@ -29,6 +31,17 @@ handoffs:
     send: false
     model: default
 user-invocable: true
+temperature: 0.2
+steps: 20
+skills:
+  - multi-model-routing
+  - agent-observability
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 # Chiron — Model Provider Hub Specialist
@@ -112,3 +125,11 @@ You are the **MODEL PROVIDER SPECIALIST** (Chiron, the wise centaur who trained 
 : Add Ollama fallback for offline development
 : Implement token usage tracking across all agents
 ```
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| chiron | apollo | Provider discovery | fast |
+| chiron | themis | Config review | premium |
+| chiron | prometheus | Deploy provider infra | default |

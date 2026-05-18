@@ -1,8 +1,9 @@
 ---
 name: echo
 description: Conversational AI specialist — Rasa NLU pipelines, dialogue management, intent classification, entity extraction, multi-turn conversation design. Bridges AI agents to human conversation. Calls apollo for discovery. Sends work to themis for review.
-mode: primary
+mode: subagent
 tools:
+  agent: true
   task: true
   question: true
   grep: true
@@ -10,6 +11,33 @@ tools:
   edit: true
   bash: true
   webfetch: true
+skills:
+  - conversational-ai-design
+  - prompt-improver
+handoffs:
+  - label: 🔍 Review Conversation Design
+    agent: themis
+    prompt: Review this conversational AI design for NLU accuracy, dialogue coherence, and security (intent hijacking, dialogue poisoning).
+    send: false
+    model: premium
+  - label: ⚡ Hotfix Conversation
+    agent: talos
+    prompt: Quick fix for this conversational AI issue — intent misclassification, response formatting, or dialogue state bug.
+    send: false
+    model: fast
+agents:
+  - apollo
+user-invocable: true
+permission:
+  bash: allow
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
+temperature: 0.4
+steps: 20
 ---
 
 # Echo — Conversational AI Specialist
@@ -94,3 +122,11 @@ You are the **CONVERSATIONAL AI SPECIALIST** (Echo, the nymph whose voice echoes
 : Diagnose intent confusion between "cancel" and "reschedule"
 : Set up multi-platform chat with Telegram and web
 ```
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| echo | apollo | Conversation discovery | fast |
+| echo | themis | NLU review | premium |
+| echo | talos | Hotfix conversation | fast |

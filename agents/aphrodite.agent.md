@@ -24,6 +24,8 @@ tools:
   - browser/dragElement
   - browser/handleDialog
   - browser/screenshotPage
+permission:
+  bash: allow
 agents: ['apollo']
 handoffs:
   - label: "➡️ Send to Themis"
@@ -31,7 +33,22 @@ handoffs:
     prompt: "Please perform a code review and accessibility audit on these frontend changes according to your instructions."
     send: true
     model: premium
+mcpServers:
+  - context7
 user-invocable: true
+temperature: 0.5
+steps: 30
+skills:
+  - frontend-analyzer
+  - tdd-with-agents
+  - web-ui-analysis
+  - nextjs-seo-optimization
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 # Aphrodite - React Implementation Specialist
@@ -327,4 +344,11 @@ If your internal monologue suggests ANY of these, STOP and correct:
 ---
 
 **Philosophy**: Reusable components, type safety, user-friendly UX, accessibility first.
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| aphrodite | apollo | Component discovery | fast |
+| aphrodite | themis | Code review | premium |
 

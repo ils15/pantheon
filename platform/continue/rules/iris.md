@@ -158,4 +158,11 @@ When asked to process a GitHub issue:
 6. Return issue URL + PR URL
 
 **Requirements:** `gh` CLI must be authenticated.
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| iris | zeus | Merge PR | premium |
+| iris | mnemosyne | Document release | fast |
 ```

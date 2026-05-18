@@ -295,3 +295,10 @@ If your internal monologue suggests ANY of these, STOP and correct:
 
 **Philosophy**: Reusable components, type safety, user-friendly UX, accessibility first.
 
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| aphrodite | apollo | Component discovery | fast |
+| aphrodite | themis | Code review | premium |
+

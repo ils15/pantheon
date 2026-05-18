@@ -68,5 +68,9 @@
       "pattern": "VS Code Integration",
       "action": "omit-section"
     }
-  ]
+  ],
+
+  "skillsOutputDir": ".windsurf/skills",
+  "deploySkills": true,
+  "handoffStrategy": "embed"
 }
