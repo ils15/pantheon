@@ -1,0 +1,66 @@
+site_name: Pantheon
+site_url: https://ils15.github.io/pantheon/
+site_description: Multi-agent orchestration framework — 18 specialized agents, 7 platforms, 33 skills
+repo_url: https://github.com/ils15/pantheon
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - search.highlight
+    - content.action.edit
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+  - mike:
+      version_selector: true
+
+extra:
+  version:
+    provider: mike
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ils15/pantheon
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+
+nav:
+  - Home: INDEX.md
+  - Getting Started:
+    - Installation: INSTALLATION.md
+    - Quick Start: QUICKSTART.md
+    - Setup: SETUP.md
+  - Architecture: ARCHITECTURE.md
+  - Platforms: PLATFORMS.md
+  - Release Process: RELEASING.md
+  - Branch Protection: BRANCH-PROTECTION.md
+  - Upgrade Guide: UPGRADING.md
+  - MCP Recommendations: mcp-recommendations.md

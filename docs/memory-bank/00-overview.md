@@ -1,12 +1,12 @@
 # 🗺️ Project Overview
 
-> **Pantheon** — Framework multi-agente para VS Code Copilot/OpenCode com 17 agentes especializados.
+> **Pantheon** — Framework multi-agente para VS Code Copilot/OpenCode com 18 agentes especializados.
 
 ---
 
 ## What is this project?
 
-Pantheon é um **framework de orquestração multi-agente** para VS Code Copilot e OpenCode. Ele implementa o padrão **Conductor-Delegate** onde um orquestrador central (Zeus) coordena 16 agentes especializados em planejamento, descoberta, implementação backend/frontend/database, revisão de qualidade, infraestrutura, operações GitHub, hotfixes, pipelines de IA, roteamento de modelos, IA conversacional, observabilidade, análise visual e sensoriamento remoto.
+Pantheon é um **framework de orquestração multi-agente** para VS Code Copilot e OpenCode. Ele implementa o padrão **Conductor-Delegate** onde um orquestrador central (Zeus) coordena 18 agentes especializados em planejamento, descoberta, implementação backend/frontend/database, revisão de qualidade, infraestrutura, operações GitHub, hotfixes, pipelines de IA, roteamento de modelos, IA conversacional, observabilidade, análise visual e sensoriamento remoto.
 
 ---
 
@@ -47,7 +47,7 @@ Times de desenvolvimento perdem tempo com context-switching entre ferramentas, t
 
 ```
 /
-├── agents/              # 17 agent definitions (.agent.md)
+├── agents/              # 18 agent definitions (.agent.md)
 │   └── README.md
 ├── skills/              # 31 reusable skill modules
 ├── instructions/        # 9 instruction sets (.instructions.md)

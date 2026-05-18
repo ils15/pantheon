@@ -1,0 +1,59 @@
+name: Release Gate
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check version consistency
+        run: |
+          pkg_ver=$(node -p "require('./package.json').version")
+          plugin_ver=$(node -p "require('./plugin.json').version")
+          gh_plugin_ver=$(node -p "require('./.github/plugin/plugin.json').version")
+          echo "package.json: $pkg_ver"
+          echo "plugin.json: $plugin_ver"
+          echo ".github/plugin/plugin.json: $gh_plugin_ver"
+          if [ "$pkg_ver" != "$plugin_ver" ] || [ "$pkg_ver" != "$gh_plugin_ver" ]; then
+            echo "❌ Version mismatch across manifests!"
+            exit 1
+          fi
+          echo "✅ All versions match: $pkg_ver"
+
+      - name: Check CHANGELOG has entry for current version
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if grep -q "## \[v$version\]" CHANGELOG.md; then
+            echo "✅ CHANGELOG has entry for v$version"
+          else
+            echo "❌ CHANGELOG missing entry for v$version"
+            echo "   Run: node scripts/versioning.mjs changelog $version"
+            exit 1
+          fi
+
+      - name: Check CHANGELOG header structure
+        run: |
+          if head -1 CHANGELOG.md | grep -q "^# Changelog"; then
+            echo "✅ CHANGELOG header OK"
+          else
+            echo "❌ CHANGELOG missing header"
+            exit 1
+          fi
+
+      - name: Run sync check
+        run: npm run sync:check 2>/dev/null || echo "⚠️  sync:check not available or failed (non-blocking)"
+
+      - name: Run plugin validation
+        run: npm run plugin:validate 2>/dev/null || echo "⚠️  plugin:validate not available or failed (non-blocking)"

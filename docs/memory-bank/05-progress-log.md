@@ -68,7 +68,7 @@ Or manually:
 
 ### Arquivos principais alterados
 - \`opencode.json\` — Configuração de permissões e agentes
-- \`agents/*.agent.md\` — Todos os 16 agentes com permissões e handoffs
+- \`agents/*.agent.md\` — Todos os 18 agentes com permissões e handoffs
 - \`platform/opencode/\` — Adapter, README, agentes OpenCode
 - \`.github/hooks/\` — Lifecycle hooks security/format/logging/delegation
 - \`instructions/\` — Standards e regras

@@ -1,6 +1,6 @@
 # 🧩 Components — Pantheon Agent System
 
-> **17 agents, 31 skills, 9 instructions, 16+ plans, 5 platforms**
+> **18 agents, 33 skills, 9 instructions, 16+ plans, 5 platforms**
 
 ---
 

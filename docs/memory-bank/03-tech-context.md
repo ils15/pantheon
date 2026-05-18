@@ -8,9 +8,9 @@
 
 | Layer | Technology | Notes |
 |---|---|---|
-| **Agent Definitions** | Markdown + YAML frontmatter (.agent.md / .md) | 17 agentes |
+| **Agent Definitions** | Markdown + YAML frontmatter (.agent.md / .md) | 18 agentes |
 | **Configuration** | JSON (opencode.json) + JSONC | OpenCode/Copilot/Cursor |
-| **Skills** | Markdown (SKILL.md) | 31 skills on-demand |
+| **Skills** | Markdown (SKILL.md) | 33 skills on-demand |
 | **Instructions** | Markdown (.instructions.md) | 9 arquivos de padrões |
 | **Prompts** | Markdown (.prompt.md) | 13 templates |
 | **Platform Scripts** | Shell + npm | select-plan.sh, npm run sync |
@@ -47,7 +47,7 @@ git clone <repo-url> && cd pantheon
 | Item | Localização | Descrição |
 |---|---|---|
 | `opencode.json` | `/pantheon/` e `~/.config/opencode/` | Config principal OpenCode |
-| Agent `.md` files | `~/.config/opencode/agents/` | Definições dos 17 agentes |
+| Agent `.md` files | `~/.config/opencode/agents/` | Definições dos 18 agentes |
 | Agent `.agent.md` files | `agents/` | VS Code Copilot format (mesmos agentes) |
 | Platform plans | `platform/plans/` | Modelo por serviço + tier |
 | Memory bank | `docs/memory-bank/` | Contexto narrativo do projeto |

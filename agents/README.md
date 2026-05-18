@@ -2,7 +2,7 @@
 
 ## Overview
 
-Pantheon provides **17 specialized agents** organized into a conductor-delegate architecture. Zeus (the orchestrator) dispatches work to specialized sub-agents with isolated context windows, enforced quality gates, and human approval at every transition. Each agent has a single responsibility, a restricted tool set, and explicit context boundaries.
+Pantheon provides **18 specialized agents** organized into a conductor-delegate architecture. Zeus (the orchestrator) dispatches work to specialized sub-agents with isolated context windows, enforced quality gates, and human approval at every transition. Each agent has a single responsibility, a restricted tool set, and explicit context boundaries.
 
 ### 🎯 Plan-Based Model Configuration
 
@@ -18,14 +18,15 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 
 > **TL;DR:** Same agent files, different models depending on what your subscription gives you. See [platform/plans/](../platform/plans/) for all available plans and [docs/INSTALLATION.md](../docs/INSTALLATION.md) for setup.
 
-**7 tiers:**
+**8 tiers:**
 1. **Orchestrator** — Zeus
-2. **Planning & Discovery** — Athena, Apollo
-3. **AI Infrastructure** (v3) — Hephaestus, Chiron, Echo
-4. **Implementation** — Hermes, Aphrodite, Demeter
-5. **Quality & Observability** — Themis, Nyx
-6. **Infrastructure & Release** — Prometheus, Iris, Mnemosyne
-7. **Express & Specialist** — Talos, Gaia
+2. **Planning** — Athena, Agora
+3. **Discovery** — Apollo, Argus
+4. **AI Infrastructure** — Hephaestus, Chiron, Echo
+5. **Implementation** — Hermes, Aphrodite, Demeter
+6. **Quality & Observability** — Themis, Nyx
+7. **Infrastructure & Release** — Prometheus, Iris, Mnemosyne
+8. **Express & Specialist** — Talos, Gaia
 
 ---
 
@@ -33,9 +34,11 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 
 | Agent | Tier | Role | Delegates to | Skills Used |
 |---|---|---|---|---|
-| Zeus | Orchestrator | Central coordinator | All 15 agents | agent-coordination, orchestration-workflow, artifact-management |
+| Zeus | Orchestrator | Central coordinator | All 17 agents | agent-coordination, orchestration-workflow, artifact-management |
 | Athena | Planning | Strategic planner | Apollo, Themis | (none — plan-only) |
+| Agora | Planning | Multi-perspective synthesis, trade-off analysis | Zeus | (none — synthesis) |
 | Apollo | Discovery | Read-only codebase scout | Zeus, Athena | (none — read-only) |
+| Argus | Discovery | Visual analysis (screenshots, PDFs, diagrams) | Athena, Themis | (none — read-only) |
 | Hephaestus | AI Infrastructure | AI pipelines (RAG, LangChain) | Apollo, Themis, Prometheus | rag-pipelines, vector-search, mcp-server-development |
 | Chiron | AI Infrastructure | Model provider hub | Apollo, Themis, Prometheus | multi-model-routing |
 | Echo | AI Infrastructure | Conversational AI | Apollo, Themis, Talos | conversational-ai-design |
@@ -59,7 +62,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 - **Tier:** Orchestrator
 - **Model:** premium (see [active plan](../platform/plans/plan-active.json))
 - **Description:** Central coordinator of the entire development lifecycle. NEVER implements code, NEVER edits files. Delegates work to specialized sub-agents.
-- **Delegates to:** All 15 agents
+- **Delegates to:** All 17 agents
 - **Key Responsibilities:** Phase-based orchestration, parallel dispatch, approval gates (3 pause points), context conservation, agent routing
 - **Usage:** `@zeus: Implement [feature description]`
 - **Tools:** agent (delegation), askQuestions, runInTerminal, readFile, search/codebase, search/usages, web/fetch, search/changes
@@ -246,12 +249,16 @@ graph TB
     classDef tier4 fill:#1e3a3f,stroke:#14b8a6,stroke-width:2px,color:#ccfbf1
     classDef tier5 fill:#1e294b,stroke:#60a5fa,stroke-width:1px,color:#bfdbfe
     classDef tier6 fill:#3f065f,stroke:#a855f7,stroke-width:2px,color:#e9d5ff
+    classDef planning fill:#1e3a5f,stroke:#f59e0b,stroke-width:2px,color:#dbeafe
+    classDef discovery fill:#1e3a5f,stroke:#10b981,stroke-width:2px,color:#dbeafe
 
     O["Zeus<br/>Orchestrator"]:::tier0
 
     subgraph T1["Planning & Discovery"]
         A1["Athena<br/>Strategic Planner"]:::tier1
+        AGORA["Agora<br/>Multi-Perspective<br/>Synthesis"]:::planning
         A2["Apollo<br/>Codebase Scout"]:::tier1
+        ARGUS["Argus<br/>Visual Analysis<br/>Screenshot & PDF"]:::discovery
     end
 
     subgraph AI["AI Infrastructure"]
@@ -282,7 +289,7 @@ graph TB
         G["Gaia<br/>Remote Sensing"]:::tier6
     end
 
-    O --> A1 & A2 & H & Q & E & I1 & I2 & I3 & T1a & N & R & I & M
+    O --> A1 & AGORA & A2 & ARGUS & H & Q & E & I1 & I2 & I3 & T1a & N & R & I & M
     O -.-> T & G
     A1 --> A2
 
@@ -302,7 +309,9 @@ graph TB
 |---|---|---|
 | Orchestrate a full feature | Zeus | `@zeus: Implement [feature]` |
 | Plan architecture with TDD phases | Athena | `@athena: Plan [feature]` |
+| Multi-perspective synthesis, trade-off analysis | Agora | @agora: Should we use [X] or [Y]? | Zeus |
 | Discover codebase patterns | Apollo | `@apollo: Find all [pattern]` |
+| Visual analysis (screenshots, PDFs, diagrams) | Argus | @argus: Analyze this screenshot | Apollo, Themis |
 | Build RAG / LangChain pipelines | Hephaestus | `: Build RAG pipeline for [use case]` |
 | Configure model routing / providers | Chiron | `: Configure [provider] routing` |
 | Design chatbot / conversational flows | Echo | `: Design chatbot for [flow]` |

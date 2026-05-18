@@ -115,3 +115,153 @@ When contributing, ensure your agents or skills do not instruct the LLM to write
 2. Ensure no linting errors exist in your YAML frontmatter.
 3. Commit your changes with a descriptive message.
 4. Open a Pull Request!
+
+---
+
+## 6. Code of Conduct
+
+Pantheon follows the [Contributor Covenant](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+
+In short:
+- **Be respectful** — disagreement is healthy, personal attacks are not
+- **Be constructive** — critique ideas, not people
+- **Be collaborative** — help others succeed
+- **Be transparent** — disclose conflicts of interest
+
+Violations can be reported by opening an issue with the `conduct` label.
+
+---
+
+## 7. Development Setup
+
+### Prerequisites
+
+- Node.js 20+ (for sync engine and install scripts)
+- Git 2.30+
+- VS Code Copilot, OpenCode, or Claude Code (your choice)
+
+### Local setup
+
+```bash
+# Clone the repo
+git clone https://github.com/ils15/pantheon.git
+cd pantheon
+
+# Install dependencies
+npm install
+
+# Verify sync works
+node scripts/sync-platforms.mjs --dry-run
+
+# Select a model plan
+./platform/select-plan.sh opencode-go
+```
+
+### Running the sync engine
+
+```bash
+# Sync all platforms
+node scripts/sync-platforms.mjs
+
+# Sync a single platform (faster for development)
+node scripts/sync-platforms.mjs opencode
+
+# Dry run (no files written)
+node scripts/sync-platforms.mjs --dry-run
+
+# Check sync integrity
+node scripts/validate-sync.mjs
+```
+
+### Testing your changes
+
+- **Agent changes:** Edit the canonical `.agent.md` in `agents/`, re-run sync, verify the generated output in `platform/<name>/agents/`
+- **Skill changes:** Edit `skills/<name>/SKILL.md`, re-run sync to deploy
+- **Adapter changes:** Edit `platform/<name>/adapter.json`, re-run sync to regenerate agent files
+- **Doc changes:** Read the result in your browser or editor preview
+
+---
+
+## 8. PR Checklist
+
+Before submitting a PR, verify:
+
+- [ ] All canonical agents parse correctly (`node scripts/validate-sync.mjs`)
+- [ ] Platform files are in sync (`node scripts/sync-platforms.mjs --dry-run` shows expected changes)
+- [ ] No hardcoded model names in canonical agents (use tiers: `fast`/`default`/`premium`)
+- [ ] No `search/changes` in toolMap (moved to `excludeTools`)
+- [ ] Commit messages follow Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`)
+- [ ] CHANGELOG.md updated if user-facing change
+- [ ] Docs updated if behavior changed (README, AGENTS.md, agents/README.md)
+- [ ] Version manifests match (`package.json` == `plugin.json` == `.github/plugin/plugin.json`)
+
+### PR title format
+
+```
+type(scope): description
+```
+
+Examples:
+- `feat(agents): add permission field to all canonical agents`
+- `fix(sync): correct tool dedup composite key`
+- `docs(readme): fix agent count from 17 to 18`
+
+### PR description template
+
+```markdown
+## What changed
+
+[Brief description of the change]
+
+## Why
+
+[Motivation and context]
+
+## How to test
+
+[Steps to verify]
+
+## Breaking changes
+
+[None, or list of breaking changes with migration notes]
+```
+
+---
+
+## 9. Issue Templates
+
+### Bug report
+
+```markdown
+**Describe the bug**
+[A clear description of what isn't working]
+
+**To reproduce**
+1. Invoke agent `@...`
+2. Run command `...`
+3. See error `...`
+
+**Expected behavior**
+[What should happen instead]
+
+**Environment**
+- Platform: [OpenCode / VS Code / Claude Code / Cursor / Windsurf / Cline / Continue]
+- Version: [e.g., v3.4.0]
+- Subscription: [e.g., Copilot Pro, OpenCode Go]
+```
+
+### Feature request
+
+```markdown
+**Is your feature request related to a problem?**
+[A clear description of what the problem is]
+
+**Describe the solution you'd like**
+[What you want to happen]
+
+**Describe alternatives you've considered**
+[Any alternative solutions or workarounds]
+
+**Additional context**
+[Any other relevant information]
+```

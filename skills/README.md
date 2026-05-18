@@ -4,7 +4,7 @@
 
 Skills are reference modules loaded on demand by agents. Each skill provides domain-specific knowledge — architecture patterns, security checklists, optimization strategies, and implementation guides. Agents load skills when their task matches the skill's description, keeping context focused and token-efficient.
 
-There are **31 skills** divided into **8 domains**.
+There are **33 skills** divided into **9 domains**.
 
 ## Skills by Domain
 
@@ -152,6 +152,16 @@ There are **31 skills** divided into **8 domains**.
     - Used by: Zeus, Hermes, Aphrodite, Demeter
     - Domain: Orchestration
 
+### Domain 9: Utilities
+
+32. **changelog** — `skills/changelog/SKILL.md`
+    - Automated CHANGELOG.md generation from conventional commits with version bump detection, release note extraction, and git tag management.
+    - Used by: Iris
+
+33. **codemap** — `skills/codemap/SKILL.md`
+    - Hierarchical codebase map generation — directory trees, entry points, module relationships and dependency analysis.
+    - Used by: Apollo, Zeus
+
 ## Skills File Structure
 
 Each skill follows a consistent layout:
@@ -208,6 +218,8 @@ The `SKILL.md` file contains YAML frontmatter with `name`, `description`, and pl
 | 29 | session-goal | Orchestration | Zeus, Athena |
 | 30 | simplify | Quality | All agents |
 | 31 | todo-continuation | Orchestration | Zeus, Hermes, Aphrodite, Demeter |
+| 32 | changelog | Utilities | Iris |
+| 33 | codemap | Utilities | Apollo, Zeus |
 
 ---
 

@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased] - Upcoming
+
+### Added
+### Changed
+### Fixed
+
+## [v3.3.2] - 2026-05-17
+
+### Added
+- **Changelog skill** — `node scripts/versioning.mjs changelog` auto-generates CHANGELOG.md entries from conventional commits, making release note generation a single command
+- **Step limit adjustments** — Mnemosyne (5→20), Themis (10→20), and other agents received higher step limits for complex multi-file tasks
+
+### Changed
+- **/conclave renamed to /pantheon** — Council Mode renamed to Agora Mode (3-5 agents); the `/pantheon` command now triggers multi-perspective synthesis
+- **Agent count 16→17** — All manifests, install scripts, and platform configs updated to reflect the correct 17-agent roster (including Argus)
+
+### Fixed
+- **Empty bold placeholders** — Filled missing `****` delegate names in Aphrodite and Demeter "When to Delegate" sections
+- **Missing agent names** — @ops reference removed, .windsurfrules legacy path cleaned up
+
 ## [v3.4.0] - 2026-05-18
 
 Pantheon v3.4.0 is a **platform infrastructure release** — the kind of release you don't see on the surface but feel in every interaction. Three months of architectural work compressed into one theme: **agents that actually work the same way on every platform**.
@@ -125,3 +145,37 @@ v3.5.0 will focus on documentation consolidation (Fase 2 from our audit — merg
 - ✅ Windsurf — Cascade rules
 - ✅ Cline — .clinerules (skipFrontmatter fixed)
 - ✅ Continue.dev — system prompt rules
+
+## [v3.1.1] - 2026-05-01
+
+### Added
+- **Optional model configuration** — The plan-based model system now works with zero configuration; if no plan is selected, agents inherit the conversation model by default
+- **Windsurf platform agents** — Regenerated all platform agents for Windsurf with the new optional model config pattern
+
+## [v3.1.0] - 2026-05-01
+
+### Added
+- **Plan-based model configuration system** — Abstract tier system (`fast`, `default`, `premium`) replaces hardcoded model names; platform-specific plan files resolve tiers to concrete models
+- **`platform/plans/` directory** — JSON Schema validation, 7 platform plan files (OpenCode, Copilot, Cursor, Claude Code, Cursor, BYOK)
+- **`platform/select-plan.sh`** — CLI tool to list, select, and inspect active model plans
+- **`plan-active.json`** — Symlink-based active plan selection with auto-detection
+
+## [v3.0.0] - 2026-04-30
+
+Pantheon v3.0.0 marks the **rename from mythic-agents to Pantheon** — a complete architectural rewrite targeting multi-platform agent orchestration.
+
+### Added
+- **4 new agents** — Hephaestus (AI pipelines), Chiron (model providers), Echo (conversational AI), Nyx (observability)
+- **9 new skills** — `rag-pipelines`, `vector-search`, `mcp-server-development`, `multi-model-routing`, `conversational-ai-design`, `agent-observability`, `streaming-patterns`, `internet-search`, `tdd-with-agents`
+- **Multi-platform architecture** — Sync engine with 5 platform adapters (Claude Code, Cursor, OpenCode, Cline, Continue.dev) and template for adding new platforms
+- **Release system** — `auto-release.yml`, `release.yml`, CHANGELOG.md generation pipeline
+
+### Changed
+- **Project renamed** — `mythic-agents` → `Pantheon` across all files, URLs, and configurations
+- **Documentation restructured** — Multi-platform docs, per-platform READMEs, architecture diagrams
+- **CI/CD overhaul** — 12 workflow issues fixed across 5 pipelines; multi-platform validation infrastructure
+
+### Infrastructure
+- 5 platform adapters with tool mapping, frontmatter translation, and per-platform output formats
+- Skill deployment engine with per-platform paths and format conversion
+- 131 files changed, ~27.8k lines added

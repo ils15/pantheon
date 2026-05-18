@@ -72,7 +72,7 @@ Add to your VS Code `settings.json`:
 }
 ```
 
-All 17 agents load automatically. Try `@zeus: Implement a feature` in Copilot Chat.
+All 18 agents load automatically. Try `@zeus: Implement a feature` in Copilot Chat.
 
 ### Option B: Manual copy (2 minutes)
 
