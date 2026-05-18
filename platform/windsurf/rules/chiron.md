@@ -88,3 +88,11 @@ You are the **MODEL PROVIDER SPECIALIST** (Chiron, the wise centaur who trained 
 : Add Ollama fallback for offline development
 : Implement token usage tracking across all agents
 ```
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| chiron | apollo | Provider discovery | fast |
+| chiron | themis | Config review | premium |
+| chiron | prometheus | Deploy provider infra | default |

@@ -16,7 +16,16 @@
     ],
     "exclude": [
       "handoffs",
-      "disable-model-invocation"
+      "disable-model-invocation",
+      "permission",
+      "hooks",
+      "mcpServers",
+      "temperature",
+      "steps",
+      "globs",
+      "agents",
+      "user-invocable",
+      "argument-hint"
     ],
     "transform": {
       "tools": { "strategy": "identity" },
@@ -37,5 +46,10 @@
       "pattern": "Copilot Workflow",
       "action": "omit-section"
     }
-  ]
+  ],
+
+  "skillsOutputDir": "skills",
+  "deploySkills": false,
+  "handoffStrategy": "exclude",
+  "ensureAgentTool": false
 }

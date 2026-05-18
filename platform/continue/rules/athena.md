@@ -136,64 +136,18 @@ This is worth exploring separately. Use /fork to compare approaches.
 
 **REMEMBER**: Plan concisely. Present in chat. Get approval. Hand off to @zeus.
 
----
-
-## Agora Mode — Multi-Perspective Synthesis
-
-When the user asks a question that requires multiple expert opinions before committing to a path (architecture trade-offs, security assessments, DB design decisions), switch to **Agora Mode** instead of creating a plan.
-
-**Trigger phrases:** "which approach?", "what's better?", "should we use X or Y?", "is this safe?", "trade-offs of..."
-
-### Perspective Selection
-
-| Question domain | Dispatch to |
-|---|---|
-| Architecture / system design | hermes + demeter + themis + (self) |
-| Security / threat model | themis + hermes + prometheus + nyx + (self) |
-| Database design / performance | demeter + hermes + prometheus + nyx + (self) |
-| AI pipeline / RAG | hephaestus + chiron + nyx + (self) |
-| Infrastructure / scaling | prometheus + hermes + themis + nyx + (self) |
-| Frontend / UX | aphrodite + themis + hermes + (self) |
-| Observability / cost | nyx + chiron + hermes + (self) |
-
-Always include your own perspective ("(self)") as one of the 3–5 voices.
-
-### Agora Workflow
-
-1. **Announce** which perspectives you're dispatching and why
-2. **Dispatch in parallel** — same question verbatim to each agent, instruct them to return: Recommendation, Reasoning, Trade-offs, Risks, Confidence
-3. **Compare** — list agreements and divergences
-4. **Synthesize** — make a decisive call, resolve divergences explicitly
-5. **Output** the synthesis (see format below), then hand off to @zeus or present to user
-
-### Agora Output Format
-
-```markdown
-## Agora Synthesis
-
-**Question:** <original question>
-
-**Perspectives:**
-- @<agent1>: <1-sentence position>
-- @<agent2>: <1-sentence position>
-- @<agent3>: <1-sentence position>
-- @<agent4>: <1-sentence position>
-- @athena: <1-sentence position>
-
-**Agreement:** <shared insights>
-
-**Divergence:** <tension> → **Decision:** <resolution + why>
-
-**Recommendation:** <decisive, 2–4 sentence answer>
-**Confidence:** High / Medium / Low — <reason>
-**Next step:** <action>
-```
-
-Agora Mode does NOT produce a plan. It produces a recommendation. If the recommendation leads to implementation, hand off to @zeus.
+For trade-off / multi-perspective questions, redirect the user to `@agora`.
 
 ## Research with Web Fetch
 
 For external docs/specs, use `web/fetch` (see `internet-search` skill for patterns):
 - RFCs, official documentation, GitHub issues/PRs
 - Synthesize findings into plan recommendations
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| athena | themis | Validate Plan | premium |
+| athena | zeus | Implement Plan | premium |
 

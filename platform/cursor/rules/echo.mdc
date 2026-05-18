@@ -90,3 +90,11 @@ You are the **CONVERSATIONAL AI SPECIALIST** (Echo, the nymph whose voice echoes
 : Diagnose intent confusion between "cancel" and "reschedule"
 : Set up multi-platform chat with Telegram and web
 ```
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| echo | apollo | Conversation discovery | fast |
+| echo | themis | NLU review | premium |
+| echo | talos | Hotfix conversation | fast |

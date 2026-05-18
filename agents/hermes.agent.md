@@ -14,10 +14,32 @@ tools:
     - execute/testFailure
     - execute/getTerminalOutput
     - search/changes
+permission:
+  bash: allow
 handoffs:
     - { label: "Send to Themis", agent: themis, prompt: "Please perform a code review and security audit on these backend changes according to your instructions.", send: true, model: premium }
 agents: ['apollo']
+mcpServers:
+  - context7
+globs:
+  - "**/*.py"
+  - "**/routers/**/*.py"
+  - "**/services/**/*.py"
+skills:
+  - api-design-patterns
+  - fastapi-async-patterns
+  - tdd-with-agents
+  - security-audit
+  - database-optimization
 user-invocable: true
+temperature: 0.3
+steps: 30
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 # Hermes - Backend Executor (FastAPI Specialist)
@@ -183,7 +205,7 @@ pip-audit -r requirements.txt
 
 - **@apollo** (via `agent` tool): For codebase discovery — find existing patterns, related files, async examples
 - **@mnemosyne** (via `agent` tool): For ALL artifact creation — `@mnemosyne Create artifact: IMPL-phase<N>-hermes` (MANDATORY after each phase)
-- **** (via handoff button): For code review and security audit when phase is complete
+- **@themis** (via handoff button): For code review and security audit when phase is complete
 - **@aphrodite / @demeter / **: Route through **Zeus** — Hermes cannot directly invoke these agents
 
 ## Handoff Strategy (VS Code 1.108+)
@@ -270,4 +292,11 @@ If your internal monologue suggests ANY of these, STOP and correct:
 ---
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| hermes | apollo | Codebase discovery | fast |
+| hermes | themis | Code review | premium |
 

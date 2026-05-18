@@ -13,6 +13,9 @@ tools:
   - browser/navigatePage
   - browser/readPage
   - browser/screenshotPage
+permission:
+  edit: deny
+  bash: deny
 handoffs:
   - label: "📊 Return Findings to Zeus"
     agent: zeus
@@ -24,9 +27,23 @@ handoffs:
     prompt: "Use these findings to refine or complete the plan."
     send: false
     model: default
+mcpServers:
+  - github
+  - context7
 # mode: platform-specific — used by OpenCode (subagent=not in selector, only invoked by other agents)
 mode: subagent
 user-invocable: false
+temperature: 0.1
+steps: 15
+skills:
+  - internet-search
+  - codemap
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check

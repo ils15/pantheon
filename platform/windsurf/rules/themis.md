@@ -345,3 +345,10 @@ Themis returns:
 ---
 
 **Philosophy**: Catch issues early. Prevent production problems. Maintain standards.
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| themis | zeus | Escalate blockers | premium |
+| themis | mnemosyne | Document findings | fast |

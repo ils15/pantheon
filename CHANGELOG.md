@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- Modernize OpenCode v1.15.4 compatibility - Remove rejected frontmatter fields from opencode adapter - Add mode (primary/subagent) to all canonical agents with platform-specific docs - Regenerate all 17 OpenCode platform agents - Workaround bug #22130: force mode:subagent in opencode.json for apollo/themis/mnemosyne
 - /forge template now searches multiple locations for Pantheon dir + platform/plans/ and use select-plan.sh### Documentation
 
 - Update Schema.png [skip ci]

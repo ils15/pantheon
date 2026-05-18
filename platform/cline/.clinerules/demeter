@@ -265,3 +265,10 @@ If your internal monologue suggests ANY of these, STOP and correct:
 
 **Philosophy**: Clean schema design, safe migrations, optimal performance, zero data loss.
 
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| demeter | apollo | Pattern discovery | fast |
+| demeter | themis | Migration review | premium |
+

@@ -16,6 +16,8 @@ tools:
   - execute/getTerminalOutput
   - search/changes
   - web/fetch
+permission:
+  bash: allow
 agents: ['apollo']
 handoffs:
   - label: "🔍 Review Pipeline"
@@ -29,6 +31,19 @@ handoffs:
     send: false
     model: default
 user-invocable: true
+temperature: 0.3
+steps: 25
+skills:
+  - rag-pipelines
+  - vector-search
+  - mcp-server-development
+  - agent-evaluation
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 # Hephaestus — AI Tooling & Pipelines Specialist
@@ -112,3 +127,11 @@ You are the **AI TOOLING SPECIALIST** (Hephaestus) for the multi-agent system. Y
 : Set up vector search with hybrid retrieval
 : Design multi-model routing with cost optimization
 ```
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| hephaestus | apollo | Pipeline discovery | fast |
+| hephaestus | themis | Pipeline review | premium |
+| hephaestus | prometheus | Deploy pipeline | default |

@@ -63,7 +63,9 @@ function serializeFm(fm) {
  * Map tool names through a toolMap.
  * - If toolMap is empty: return tools unchanged.
  * - If toolMap is non-empty: only include tools present as keys, mapped to values.
- * - Deduplicates mapped values (e.g. search/codebase + search/usages → search once).
+ * - Deduplicates by canonical+mapped pair so distinct tools mapping to the same
+ *   platform tool are preserved (e.g. execute/runInTerminal:bash and
+ *   execute/testFailure:bash remain separate entries).
  */
 function mapTools(tools, toolMap) {
   if (!tools || !Array.isArray(tools)) return tools;
@@ -74,8 +76,11 @@ function mapTools(tools, toolMap) {
   for (const tool of tools) {
     if (tool in toolMap) {
       const mapped = toolMap[tool];
-      if (!seen.has(mapped)) {
-        seen.add(mapped);
+      // Track by canonical name to preserve semantic distinction
+      // even when multiple tools map to the same platform tool
+      const key = `${tool}:${mapped}`;
+      if (!seen.has(key)) {
+        seen.add(key);
         result.push(mapped);
       }
     }
@@ -192,6 +197,100 @@ function validateBodyForExcludedTools(body, agentName, platformName, excludeTool
   }
 }
 
+/**
+ * Transform canonical #tool: references in body text to platform-mapped names.
+ * - If tool is in excludeTools: strikethrough the reference
+ * - If tool is in toolMap: replace with mapped name
+ * - Otherwise: leave unchanged
+ */
+function transformBodyToolReferences(body, toolMap, excludeTools) {
+  const excluded = new Set(excludeTools ?? []);
+  return body.replace(/`#tool:(\S+)`/g, (match, toolName) => {
+    if (excluded.has(toolName)) return `~~${match}~~`;
+    if (toolName in toolMap) return match.replace(toolName, toolMap[toolName]);
+    return match;
+  });
+}
+
+/**
+ * Deploy skill files referenced by canonical agents to the platform output directory.
+ * Reads skills from skills/<skill-name>/SKILL.md and copies to <platform>/<skillsOutputDir>/<skill-name>/SKILL.md
+ */
+function deploySkills(platformName, adapter, agentFiles, outDir) {
+  if (!adapter.deploySkills) return 0;
+  const skillsDir = adapter.skillsOutputDir;
+  if (!skillsDir) return 0;
+
+  const skillsRoot = join(ROOT, 'skills');
+  const targetDir = join(PLATFORM_DIR, platformName, skillsDir);
+
+  // Collect all unique skills referenced by agents
+  const skills = new Set();
+  for (const f of agentFiles) {
+    const raw = readFileSync(f, 'utf8');
+    const parsed = parseFrontmatter(raw);
+    if (!parsed || !Array.isArray(parsed.fm.skills)) continue;
+    for (const s of parsed.fm.skills) skills.add(s);
+  }
+
+  if (skills.size === 0) return 0;
+
+  let deployed = 0;
+  for (const skill of skills) {
+    const srcFile = join(skillsRoot, skill, 'SKILL.md');
+    if (!existsSync(srcFile)) {
+      console.warn(`  ⚠️  [${platformName}] skill not found: ${skill}`);
+      continue;
+    }
+    const destDir = join(targetDir, skill);
+    if (!DRY_RUN) mkdirSync(destDir, { recursive: true });
+    const destFile = join(destDir, 'SKILL.md');
+    const existing = existsSync(destFile) ? readFileSync(destFile, 'utf8') : null;
+    const content = readFileSync(srcFile, 'utf8');
+    if (existing === content) continue;
+    if (!DRY_RUN) writeFileSync(destFile, content, 'utf8');
+    console.log(`  📦 ${skill}/SKILL.md → ${skillsDir}/${skill}/`);
+    deployed++;
+  }
+  return deployed;
+}
+
+/**
+ * Validate that every #tool: reference in the body corresponds to a tool
+ * that will actually be available to the agent on this platform.
+ * Warns on mismatches (does not fail).
+ */
+function validateBodyToolReferences(body, agentName, platformName, finalTools, toolMap, excludeTools) {
+  const excluded = new Set(excludeTools ?? []);
+  const availableTools = new Set(finalTools ?? []);
+  const mappedTools = new Set(Object.values(toolMap ?? {}));
+
+  const toolRefs = body.match(/`#tool:(\S+)`/g) ?? [];
+  let warnings = 0;
+
+  for (const ref of toolRefs) {
+    const match = ref.match(/`#tool:(\S+)`/);
+    if (!match) continue;
+    const toolName = match[1];
+
+    // Skip if it's a mapped tool that exists on the platform
+    if (mappedTools.has(toolName)) continue;
+
+    // Skip if it's excluded (already strikethrough'd by transformer)
+    if (excluded.has(toolName)) continue;
+
+    // Check if the canonical tool name is in the final tools list
+    if (availableTools.has(toolName)) continue;
+
+    // Check if it's a browser/VS Code tool that's universally excluded
+    if (toolName.startsWith('browser/') || toolName.startsWith('vscode/')) continue;
+
+    console.warn(`  ⚠️  [${platformName}/${agentName}] body references tool not available: "${toolName}"`);
+    warnings++;
+  }
+  return warnings;
+}
+
 // ---------------------------------------------------------------------------
 // Frontmatter transform
 // ---------------------------------------------------------------------------
@@ -256,6 +355,11 @@ function transformFrontmatter(fm, adapter) {
       }
     }
 
+    // Apply agent mode override if configured
+    if (key === 'mode' && adapter.agentModeOverrides && fm.name && adapter.agentModeOverrides[fm.name]) {
+      value = adapter.agentModeOverrides[fm.name];
+    }
+
     // Comma-separated serialization (e.g. Claude Code tools field)
     if (strategy === 'comma-separated' && Array.isArray(value)) {
       if (value.length === 0) continue;
@@ -304,7 +408,7 @@ function omitSection(text, pattern) {
     if (headingMatch && !inCodeBlock) {
       const depth = headingMatch[1].length;
       const title = headingMatch[2].trim();
-      if (title.startsWith(pattern)) {
+      if (title.includes(pattern)) {
         inSection = true;
         sectionDepth = depth;
         continue;
@@ -369,6 +473,7 @@ function syncPlatform(platformName, adapter, agentFiles) {
   if (!DRY_RUN) mkdirSync(outDir, { recursive: true });
 
   const ext = adapter.fileExtension ?? '.md';
+  const toolMap = adapter.toolMap ?? {};
   let written = 0;
   let unchanged = 0;
 
@@ -386,9 +491,13 @@ function syncPlatform(platformName, adapter, agentFiles) {
 
     const newFm = transformFrontmatter(fm, adapter);
     const newBody = applyBodyFilters(body, adapter.bodyFilters);
-    validateBodyForExcludedTools(newBody, name, platformName, adapter.excludeTools);
+    const transformedBody = transformBodyToolReferences(newBody, toolMap, adapter.excludeTools);
+    // Validate body tool references against final tool set
+    const finalTools = Array.isArray(newFm.tools) ? newFm.tools : (newFm.permission ? Object.keys(newFm.permission) : []);
+    validateBodyToolReferences(transformedBody, name, platformName, finalTools, toolMap, adapter.excludeTools);
+    validateBodyForExcludedTools(transformedBody, name, platformName, adapter.excludeTools);
     const skipFrontmatter = adapter.frontmatter?.skipFrontmatter ?? false;
-    const output = buildOutputFile(newFm, newBody, skipFrontmatter);
+    const output = buildOutputFile(newFm, transformedBody, skipFrontmatter);
 
     const outFile = join(outDir, `${name}${ext}`);
     const existing = existsSync(outFile) ? readFileSync(outFile, 'utf8') : null;
@@ -411,6 +520,12 @@ function syncPlatform(platformName, adapter, agentFiles) {
     console.log(`  ✅ all ${unchanged} files already up-to-date`);
   } else if (unchanged > 0) {
     console.log(`  ℹ️  ${unchanged} files unchanged`);
+  }
+
+  // Deploy skill files if configured
+  const skillsDeployed = deploySkills(platformName, adapter, agentFiles, outDir);
+  if (skillsDeployed > 0) {
+    console.log(`  📦 ${skillsDeployed} skills deployed to ${adapter.skillsOutputDir}`);
   }
 
   return written;
