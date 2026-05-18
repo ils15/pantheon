@@ -8,12 +8,14 @@
   <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-3.4.0-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
-  <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-17-purple" alt="Agents"></a>
-  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-31-orange" alt="Skills"></a>
+  <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-18-purple" alt="Agents"></a>
+  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-33-orange" alt="Skills"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf|cline|continue-8250DF" alt="Built with"></a>
+  <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/ci.yml?branch=main&label=CI" alt="CI"></a>
+  <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/release.yml?branch=main&label=release" alt="Release"></a>
 </p>
 
-**17 specialized AI agents** that plan, build, review, and deploy features through enforced TDD, persistent project memory, and human approval at every gate.
+**18 specialized AI agents** that plan, build, review, and deploy features through enforced TDD, persistent project memory, and human approval at every gate.
 
 Stop settling for generalist single-agent coding. Pantheon's conductor-delegate architecture dispatches expert agents with isolated context windows — parallel execution, zero context bleed, and quality gates that block anything below 80% coverage.
 
@@ -25,9 +27,10 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 
 | Resource | Link |
 |----------|------|
-| 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 17 agents |
-| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 31 skills |
+| 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 18 agents |
+| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 33 skills |
 | 🚀 **Installation Guide** | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
+| 🔌 **MCP Servers** | [docs/mcp-recommendations.md](docs/mcp-recommendations.md) — recommended MCP servers for each project type |
 | ⚡ **Quick Start** | [docs/QUICKSTART.md](docs/QUICKSTART.md) |
 | 🖥️ **VS Code** | [docs/platforms/vscode.md](docs/platforms/vscode.md) |
 | ⚡ **OpenCode** | [docs/platforms/opencode.md](docs/platforms/opencode.md) |
@@ -101,7 +104,9 @@ flowchart TD
 
     subgraph Plan["Planning & Discovery"]
         Athena["Athena<br/>Strategic Planner"]:::planner
+        Agora["Agora<br/>Multi-Perspective<br/>Synthesis"]:::planner
         Apollo["Apollo<br/>Codebase Scout"]:::planner
+        Argus["Argus<br/>Visual Analysis"]:::planner
     end
 
     subgraph AI["AI Infrastructure"]
@@ -263,7 +268,7 @@ work; you make every architectural and commit decision.
 
 ## Agent Ecosystem
 
-Pantheon provides **17 specialized agents** organized into tiers. Each agent has a
+Pantheon provides **18 specialized agents** organized into tiers. Each agent has a
 single responsibility, a dedicated model assignment, a restricted tool set, and explicit
 context boundaries.
 
@@ -382,7 +387,7 @@ graph TB
 
 ## Skill Ecosystem
 
-Pantheon bundles **31 skills** — modular instruction sets that agents load on demand
+Pantheon bundles **33 skills** — modular instruction sets that agents load on demand
 to perform specialized tasks. Skills are organized into domains:
 
 | Domain | Skills |
@@ -511,10 +516,12 @@ pantheon/
 ├── sync-opencode.sh           — OpenCode sync script
 ├── plugin.json                — marketplace plugin manifest
 │
-├── agents/                    — 16 agent definitions (.agent.md)
+├── agents/                    — 20 agent definitions (.agent.md)
 │   ├── zeus.agent.md          — orchestrator
 │   ├── athena.agent.md        — strategic planner
+│   ├── agora.agent.md         — multi-perspective synthesis
 │   ├── apollo.agent.md        — codebase & web discovery
+│   ├── argus.agent.md         — visual analysis
 │   ├── hermes.agent.md        — backend APIs
 │   ├── aphrodite.agent.md     — frontend UI
 │   ├── demeter.agent.md          — database
@@ -530,7 +537,7 @@ pantheon/
 │   ├── nyx.agent.md           — observability
 │   └── README.md
 │
-├── skills/                    — 27 skill modules
+├── skills/                    — 29 skill modules
 │   ├── README.md
 │   ├── agent-coordination/    * orchestration & coordination
 │   ├── orchestration-workflow/
@@ -559,6 +566,8 @@ pantheon/
 │   ├── prompt-improver/       * utilities
 │   ├── agent-evaluation/
 │   ├── agent-observability/
+│   ├── changelog/              * changelog generation
+│   ├── codemap/                * codebase mapping
 │   └── */SKILL.md
 │
 ├── instructions/              — 9 domain coding standards
@@ -679,11 +688,11 @@ Agents can also be invoked directly for focused tasks:
 @hermes: Create POST /products endpoint with cursor pagination
 @aphrodite: Refactor ProductCard for WCAG AA compliance
 @demeter: Analyze and fix N+1 queries on orders table
-: Build a RAG pipeline with pgvector for product docs
-: Configure AWS Bedrock with Claude fallback
-: Design an NLU pipeline for customer support chatbot
-: Set up OpenTelemetry tracing for the payment service
-: Review this PR for security vulnerabilities
+@hephaestus: Build a RAG pipeline with pgvector for product docs
+@chiron: Configure AWS Bedrock with Claude fallback
+@echo: Design an NLU pipeline for customer support chatbot
+@nyx: Set up OpenTelemetry tracing for the payment service
+@themis: Review this PR for security vulnerabilities
 @iris: Create branch feat/search and open a draft PR
 @gaia: Analyze agreement metrics between MapBiomas and ESA WorldCover
 ```
@@ -844,4 +853,4 @@ Pantheon draws from the broader multi-agent landscape while diverging in key way
 
 **License:** MIT  
 **Architecture Pattern:** Conductor-Delegate  
-**Mythology:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Themis, Mnemosyne, Gaia, Hephaestus, Chiron, Echo, Nyx) · Egyptian (Prometheus, Demeter) · Roman (Iris)
+**Mythology:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Themis, Mnemosyne, Gaia, Hephaestus, Chiron, Echo, Nyx, Prometheus, Demeter, Iris)

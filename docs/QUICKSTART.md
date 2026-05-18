@@ -2,7 +2,7 @@
 
 ## What is Pantheon
 
-A multi-agent framework for VS Code Copilot and OpenCode using the Conductor-Delegate pattern. 17 specialized agents coordinate through Zeus (orchestrator) to implement features with TDD enforcement and mandatory quality gates.
+A multi-agent framework for VS Code Copilot and OpenCode using the Conductor-Delegate pattern. 18 specialized agents coordinate through Zeus (orchestrator) to implement features with TDD enforcement and mandatory quality gates.
 
 ## Installation
 
@@ -106,7 +106,7 @@ User → Zeus (orchestrator)
 ```
 pantheon/
 ├── opencode.json              # Agent config, commands, permissions, MCP servers
-├── agents/                    # 17 agent definitions (*.agent.md)
+├── agents/                    # 18 agent definitions (*.agent.md)
 │   ├── zeus.agent.md          # Orchestrator
 │   ├── athena.agent.md        # Planner
 │   ├── themis.agent.md        # Quality gate

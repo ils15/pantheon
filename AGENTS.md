@@ -2,8 +2,8 @@
 
 > **Quick links:**
 > - [Main Documentation](README.md) — overview, architecture, quick start
-> - [Agent Details](agents/README.md) — all 17 agents with commands and skills
- > - [Skills Reference](skills/README.md) — all 31 skills by domain
+> - [Agent Details](agents/README.md) — all 18 agents with commands and skills
+ > - [Skills Reference](skills/README.md) — all 33 skills by domain
 > - [Platform Setup Guides](docs/platforms/) — VS Code, OpenCode, Claude Code, Cursor, Windsurf
 > - [MCP Server Recommendations](docs/mcp-recommendations.md) — tiered MCP servers per project type
 
