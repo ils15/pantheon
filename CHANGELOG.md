@@ -10,20 +10,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 ### Fixed
 
-## [v3.3.2] - 2026-05-17
-
-### Added
-- **Changelog skill** — `node scripts/versioning.mjs changelog` auto-generates CHANGELOG.md entries from conventional commits, making release note generation a single command
-- **Step limit adjustments** — Mnemosyne (5→20), Themis (10→20), and other agents received higher step limits for complex multi-file tasks
-
-### Changed
-- **/conclave renamed to /pantheon** — Council Mode renamed to Agora Mode (3-5 agents); the `/pantheon` command now triggers multi-perspective synthesis
-- **Agent count 16→17** — All manifests, install scripts, and platform configs updated to reflect the correct 17-agent roster (including Argus)
-
-### Fixed
-- **Empty bold placeholders** — Filled missing `****` delegate names in Aphrodite and Demeter "When to Delegate" sections
-- **Missing agent names** — @ops reference removed, .windsurfrules legacy path cleaned up
-
 ## [v3.4.0] - 2026-05-18
 
 Pantheon v3.4.0 is a **platform infrastructure release** — the kind of release you don't see on the surface but feel in every interaction. Three months of architectural work compressed into one theme: **agents that actually work the same way on every platform**.
@@ -100,6 +86,25 @@ v3.5.0 will focus on documentation consolidation (Fase 2 from our audit — merg
 - ✅ Cline — .clinerules with skipFrontmatter
 - ✅ Continue.dev — system prompt rules with skills
 
+## [v3.3.2] - 2026-05-17
+
+Pantheon v3.3.2 focused on **developer experience and naming consolidation**. The `/conclave` command was renamed to `/pantheon` for consistency, and the agent count was finally corrected to 17 after Argus was added. A new changelog skill was introduced to automate CHANGELOG.md generation from conventional commits, making release notes a single command instead of a manual chore.
+
+### Added
+
+- **Changelog skill** — `node scripts/versioning.mjs changelog` auto-generates CHANGELOG.md entries from conventional commits, making release note generation a single command
+- **Step limit adjustments** — Mnemosyne (5→20), Themis (10→20), and other agents received higher step limits for complex multi-file tasks
+
+### Changed
+
+- **/conclave renamed to /pantheon** — Council Mode renamed to Agora Mode (3-5 agents); the `/pantheon` command now triggers multi-perspective synthesis
+- **Agent count 16→17** — All manifests, install scripts, and platform configs updated to reflect the correct 17-agent roster (including Argus)
+
+### Fixed
+
+- **Empty bold placeholders** — Filled missing `****` delegate names in Aphrodite and Demeter "When to Delegate" sections
+- **Missing agent names** — @ops reference removed, .windsurfrules legacy path cleaned up
+
 ## [v3.3.0] - 2026-05-16
 
 ### Added
@@ -148,17 +153,27 @@ v3.5.0 will focus on documentation consolidation (Fase 2 from our audit — merg
 
 ## [v3.1.1] - 2026-05-01
 
+Pantheon v3.1.1 made the **model configuration system fully optional**. Users no longer needed to select a plan — if no plan was active, agents would simply inherit the conversation model by default. This removed a friction point for new users who found the plan system confusing on first setup.
+
 ### Added
-- **Optional model configuration** — The plan-based model system now works with zero configuration; if no plan is selected, agents inherit the conversation model by default
-- **Windsurf platform agents** — Regenerated all platform agents for Windsurf with the new optional model config pattern
+
+- **Zero-config fallback** — When no plan is selected, agents use the main conversation model, making the system work out of the box
+- **Windsurf platform regeneration** — All Windsurf agents rebuilt with the new optional config pattern
+- **Plan auto-detection** — If a plan file exists, it's used; if not, the system falls back gracefully without errors
 
 ## [v3.1.0] - 2026-05-01
 
+Pantheon v3.1.0 introduced a **plan-based model configuration system** — one of the most requested features. Instead of hardcoding model names in every agent configuration, an abstract tier system (`fast`, `default`, `premium`) was created. Platform-specific plan files resolve these tiers to the actual model names for each runtime (OpenCode, Copilot, Cursor, Claude Code, etc.).
+
+This meant users could switch between "cheap" and "best" model configurations with a single command, without editing agent files. The system was designed to work across all 7 platforms with zero duplication.
+
 ### Added
-- **Plan-based model configuration system** — Abstract tier system (`fast`, `default`, `premium`) replaces hardcoded model names; platform-specific plan files resolve tiers to concrete models
-- **`platform/plans/` directory** — JSON Schema validation, 7 platform plan files (OpenCode, Copilot, Cursor, Claude Code, Cursor, BYOK)
-- **`platform/select-plan.sh`** — CLI tool to list, select, and inspect active model plans
-- **`plan-active.json`** — Symlink-based active plan selection with auto-detection
+
+- **Abstract tier system** — `fast`, `default`, and `premium` tiers replace hardcoded model names in all agents
+- **`platform/plans/` directory** — JSON Schema validation (`schema.json`) plus 7 platform plan files for OpenCode, Copilot (Free/Pro/Pro+/Student/Business/Enterprise), Cursor (Hobby/Pro/Ultra), Claude Code (Pro/Max), and BYOK (cheap/balanced/best)
+- **`platform/select-plan.sh`** — CLI tool to list available plans, select one, inspect model mappings, and show active status
+- **`plan-active.json`** — Symlink-based active plan pointer, auto-detected at runtime
+- **40 files changed** — +920 lines of new configuration infrastructure across platform adapters, plan files, and CLI tools
 
 ## [v3.0.0] - 2026-04-30
 
