@@ -2,9 +2,27 @@
 name: hermes
 description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection via dep-audit/pip-audit. Calls apollo as nested subagent to discover patterns. Sends work to themis for review.
 mode: primary
-tools: Agent, Grep, Read, Edit, Bash
+tools: Agent, Grep, Grep, Read, Edit, Bash, Bash, Bash
+skills: api-design-patterns, fastapi-async-patterns, tdd-with-agents, security-audit, database-optimization
+mcpServers:
+  - context7
 agents:
   - apollo
+user-invocable: true
+permission:
+  bash: allow
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
+temperature: 0.3
+steps: 30
+globs:
+  - "**/*.py"
+  - "**/routers/**/*.py"
+  - "**/services/**/*.py"
 ---
 
 # Hermes - Backend Executor (FastAPI Specialist)
@@ -137,7 +155,7 @@ pip-audit -r requirements.txt
 
 - **@apollo** (via `agent` tool): For codebase discovery — find existing patterns, related files, async examples
 - **@mnemosyne** (via `agent` tool): For ALL artifact creation — `@mnemosyne Create artifact: IMPL-phase<N>-hermes` (MANDATORY after each phase)
-- **** (via handoff button): For code review and security audit when phase is complete
+- **@themis** (via handoff button): For code review and security audit when phase is complete
 - **@aphrodite / @demeter / **: Route through **Zeus** — Hermes cannot directly invoke these agents
 
 ## Handoff Strategy (VS Code 1.108+)
@@ -224,4 +242,11 @@ If your internal monologue suggests ANY of these, STOP and correct:
 ---
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| hermes | apollo | Codebase discovery | fast |
+| hermes | themis | Code review | premium |
 

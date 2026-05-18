@@ -63,7 +63,6 @@
     "web/fetch",
     "read/problems",
     "vscode/runCommand",
-    "vscode/askQuestions",
     "browser/openBrowserPage",
     "browser/navigatePage",
     "browser/readPage",
@@ -97,5 +96,9 @@
       "pattern": "Agent Lifecycle Hooks",
       "action": "omit-section"
     }
-  ]
+  ],
+
+  "skillsOutputDir": ".cursor/skills",
+  "deploySkills": true,
+  "handoffStrategy": "embed"
 }

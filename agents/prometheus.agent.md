@@ -13,6 +13,8 @@ tools:
   - edit/editFiles
   - execute/runInTerminal
   - execute/getTerminalOutput
+permission:
+  bash: allow
 agents: ['apollo']
 handoffs:
   - label: "➡️ Validate Infrastructure"
@@ -21,6 +23,18 @@ handoffs:
     send: false
     model: premium
 user-invocable: true
+temperature: 0.2
+steps: 15
+skills:
+  - docker-best-practices
+  - performance-optimization
+  - security-audit
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 # Prometheus - Infrastructure Implementation Specialist
@@ -403,4 +417,11 @@ When completing a task, provide:
 ---
 
 **Philosophy**: Reliable infrastructure, clear dependencies, zero downtime, easy debugging.
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| prometheus | apollo | Infrastructure discovery | fast |
+| prometheus | themis | Deploy review | premium |
 

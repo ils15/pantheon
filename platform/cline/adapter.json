@@ -29,12 +29,12 @@
     "search/textSearch": "Grep",
     "search/usages": "Grep",
     "search/listDirectory": "Glob",
-    "search/changes": "Bash",
     "web/fetch": "WebFetch",
     "agent": "Task"
   },
 
   "excludeTools": [
+    "search/changes",
     "read/problems",
     "execute/createAndRunTask",
     "vscode/runCommand",
@@ -88,5 +88,8 @@
       "pattern": "Handoffs",
       "action": "omit-section"
     }
-  ]
+  ],
+  "skillsOutputDir": ".clinerules/skills",
+  "deploySkills": true,
+  "handoffStrategy": "embed"
 }

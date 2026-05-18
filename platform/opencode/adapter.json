@@ -16,7 +16,16 @@
       "mode",
       "tools",
       "skills",
-      "instructions"
+      "instructions",
+      "handoffs",
+      "agents",
+      "user-invocable",
+      "permission",
+      "hooks",
+      "temperature",
+      "steps",
+      "mcpServers",
+      "globs"
     ],
     "exclude": [
       "model",
@@ -34,7 +43,6 @@
     "search/fileSearch": "glob",
     "search/textSearch": "grep",
     "search/listDirectory": "list",
-    "search/changes": "bash",
     "read/readFile": "read",
     "edit/editFiles": "edit",
     "execute/runInTerminal": "bash",
@@ -46,6 +54,7 @@
   },
 
   "excludeTools": [
+    "search/changes",
     "read/problems",
     "execute/createAndRunTask",
     "vscode/runCommand",
@@ -59,6 +68,26 @@
     "browser/handleDialog",
     "browser/screenshotPage"
   ],
+
+  "agentModeOverrides": {
+    "zeus": "primary",
+    "athena": "primary",
+    "hermes": "subagent",
+    "aphrodite": "subagent",
+    "demeter": "subagent",
+    "prometheus": "subagent",
+    "hephaestus": "subagent",
+    "chiron": "subagent",
+    "echo": "subagent",
+    "gaia": "subagent",
+    "themis": "subagent",
+    "apollo": "subagent",
+    "iris": "subagent",
+    "mnemosyne": "subagent",
+    "nyx": "subagent",
+    "talos": "subagent",
+    "argus": "subagent"
+  },
 
   "capabilityFlags": {
     "orchestration": true,
@@ -75,12 +104,29 @@
       "action": "omit-section"
     },
     {
+      "pattern": "Copilot's Agent",
+      "action": "omit-section"
+    },
+    {
       "pattern": "Agent Lifecycle Hooks",
       "action": "omit-section"
     },
     {
       "pattern": "VS Code Integration",
       "action": "omit-section"
+    },
+    {
+      "pattern": "Handoff Strategy",
+      "action": "omit-section"
+    },
+    {
+      "pattern": "Custom Instructions",
+      "action": "omit-section"
     }
-  ]
+  ],
+
+  "skillsOutputDir": ".opencode/skills",
+  "deploySkills": true,
+  "handoffStrategy": "native",
+  "ensureAgentTool": true
 }

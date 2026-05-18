@@ -11,6 +11,11 @@ tools:
   - edit/editFiles
   - execute/runInTerminal
   - execute/testFailure
+permission:
+  bash:
+    "git add *": allow
+    "npx prettier *": allow
+    "git *": allow
 handoffs:
   - label: "🚨 Escalate to Zeus"
     agent: zeus
@@ -19,6 +24,16 @@ handoffs:
     model: premium
 user-invocable: true
 disable-model-invocation: true
+temperature: 0.3
+steps: 5
+skills:
+  - tdd-with-agents
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 # Talos - Hotfix & Rapid Repair

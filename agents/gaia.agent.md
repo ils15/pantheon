@@ -12,6 +12,9 @@ tools:
   - read/readFile
   - web/fetch
   - vscode/askQuestions
+permission:
+  edit: deny
+  bash: deny
 agents: ['apollo']
 handoffs:
   - label: "🔍 Review Analysis"
@@ -26,6 +29,17 @@ handoffs:
     model: premium
 user-invocable: true
 disable-model-invocation: true
+temperature: 0.2
+steps: 20
+skills:
+  - remote-sensing-analysis
+  - internet-search
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 # 🌍 Gaia — Remote Sensing Domain Specialist

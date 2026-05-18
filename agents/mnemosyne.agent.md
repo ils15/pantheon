@@ -9,7 +9,19 @@ tools:
   - search/usages
   - read/readFile
   - edit/editFiles
+permission:
+  bash: deny
 user-invocable: true
+temperature: 0.1
+steps: 20
+skills:
+  - artifact-management
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 # Mnemosyne - Memory Agent

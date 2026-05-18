@@ -19,15 +19,23 @@ tools:
   - browser/readPage
   - browser/clickElement
   - browser/screenshotPage
+permission:
+  edit: ask
+  bash:
+    "pytest *": allow
+    "ruff *": allow
+    "grep *": allow
+    "npx vitest *": allow
+    "pip *": allow
 hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
   PostToolUse:
     - type: command
       command: scripts/hooks/format-multi-language.sh
-      cwd: "."
-      timeout: 30
-      env:
-        HOOK_EVENT: PostToolUse
-        HOOK_NAME: themis-format
+      timeout: 45
 agents: ['mnemosyne']
 handoffs:
   - label: "🔧 Fix Review Issues"
@@ -41,6 +49,12 @@ handoffs:
     send: false
     model: fast
 user-invocable: true
+temperature: 0.1
+steps: 20
+skills:
+  - code-review-checklist
+  - security-audit
+  - tdd-with-agents
 ---
 
 # Themis - Quality & Security Gate Specialist
@@ -520,3 +534,10 @@ Themis returns:
 ---
 
 **Philosophy**: Catch issues early. Prevent production problems. Maintain standards.
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| themis | zeus | Escalate blockers | premium |
+| themis | mnemosyne | Document findings | fast |

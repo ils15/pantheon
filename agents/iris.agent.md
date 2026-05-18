@@ -10,13 +10,28 @@ tools:
    - search/codebase
    - search/changes
    - execute/runInTerminal
-   - execute/getTerminalOutput
+    - execute/getTerminalOutput
+permission:
+  edit: deny
+  bash:
+    "git *": allow
+    "gh *": allow
 
 handoffs:
    - { label: "Merge PR", agent: zeus, prompt: "Iris has opened a PR and is awaiting your approval to merge. Review the PR link above, then reply 'merge' to proceed.", send: false, model: premium }
    - { label: "Document release", agent: mnemosyne, prompt: "Please update the memory bank with the release information provided above.", send: false, model: fast }
 agents: ['mnemosyne']
 user-invocable: true
+temperature: 0.2
+steps: 12
+skills:
+  - artifact-management
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
 ---
 
 # Iris — GitHub Operations Specialist
@@ -266,4 +281,11 @@ When asked to process a GitHub issue:
 6. Return issue URL + PR URL
 
 **Requirements:** `gh` CLI must be authenticated.
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| iris | zeus | Merge PR | premium |
+| iris | mnemosyne | Document release | fast |
 ```

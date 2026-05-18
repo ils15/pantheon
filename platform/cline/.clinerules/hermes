@@ -131,7 +131,7 @@ pip-audit -r requirements.txt
 
 - **@apollo** (via `agent` tool): For codebase discovery — find existing patterns, related files, async examples
 - **@mnemosyne** (via `agent` tool): For ALL artifact creation — `@mnemosyne Create artifact: IMPL-phase<N>-hermes` (MANDATORY after each phase)
-- **** (via handoff button): For code review and security audit when phase is complete
+- **@themis** (via handoff button): For code review and security audit when phase is complete
 - **@aphrodite / @demeter / **: Route through **Zeus** — Hermes cannot directly invoke these agents
 
 ## Handoff Strategy (VS Code 1.108+)
@@ -218,4 +218,11 @@ If your internal monologue suggests ANY of these, STOP and correct:
 ---
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
+
+## 🤝 Handoff Routes
+
+| From | To | Purpose | Model Tier |
+|------|---|---------|------------|
+| hermes | apollo | Codebase discovery | fast |
+| hermes | themis | Code review | premium |
 

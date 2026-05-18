@@ -8,7 +8,7 @@ A multi-agent framework for VS Code Copilot and OpenCode using the Conductor-Del
 
 ```bash
 # Clone into your project
-git clone https://github.com/anomalyco/pantheon.git .pantheon
+git clone https://github.com/ils15/pantheon.git .pantheon
 
 # Copy agents, skills, and config to project root
 cp -r .pantheon/agents/ .pantheon/skills/ .pantheon/opencode.json ./

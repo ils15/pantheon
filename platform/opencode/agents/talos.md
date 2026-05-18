@@ -1,12 +1,35 @@
 ---
 name: talos
 description: Hotfix express lane — direct fixes for small bugs, CSS, typos, minor logic. No TDD ceremony, no orchestration overhead. Standalone, no subagents. Escalates complex issues to zeus.
-mode: primary
+mode: subagent
 tools:
+  agent: true
   grep: true
   read: true
   edit: true
   bash: true
+skills:
+  - tdd-with-agents
+handoffs:
+  - label: 🚨 Escalate to Zeus
+    agent: zeus
+    prompt: This fix is more complex than expected and requires multi-agent orchestration. Please take over.
+    send: false
+    model: premium
+user-invocable: true
+permission:
+  bash:
+    git add *: allow
+    npx prettier *: allow
+    git *: allow
+hooks:
+  SessionStart: []
+  SubagentStart: []
+  SubagentStop: []
+  PreToolUse: []
+  PostToolUse: []
+temperature: 0.3
+steps: 5
 ---
 
 # Talos - Hotfix & Rapid Repair
