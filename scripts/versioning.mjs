@@ -170,12 +170,36 @@ function generateChangelog(newVersion, dateStr) {
 
   const section = lines.join('\n');
   const content = readFileSync(CHANGELOG_PATH, 'utf-8');
-  const idx = content.indexOf('\n---\n');
-  if (idx === -1) {
-    console.error('Could not find separator (---) in CHANGELOG.md — aborting');
+
+  // Find insertion point in CHANGELOG
+  // Prefer --- separator (old format), fall back to after [Unreleased] section
+  let insertPos = -1;
+
+  // Try old format: look for --- separator
+  const sepIdx = content.indexOf('\n---\n');
+  if (sepIdx !== -1) {
+    insertPos = sepIdx + 5;
+  } else {
+    // New format: look for ## [Unreleased] section
+    const unreleasedIdx = content.indexOf('## [Unreleased]');
+    if (unreleasedIdx !== -1) {
+      // Find the blank line after the Unreleased section content
+      // The Unreleased section has placeholders: ### Added ### Changed ### Fixed
+      // We want to insert after the ### Fixed line
+      const afterUnreleased = content.indexOf('### Fixed\n', unreleasedIdx);
+      if (afterUnreleased !== -1) {
+        // Position after "### Fixed\n" - consume trailing blank lines
+        let pos = afterUnreleased + '### Fixed\n'.length;
+        while (pos < content.length && (content[pos] === '\n' || content[pos] === '\r')) pos++;
+        insertPos = pos;
+      }
+    }
+  }
+
+  if (insertPos === -1) {
+    console.error('Could not find insertion point (--- or [Unreleased]) in CHANGELOG.md — aborting');
     return false;
   }
-  const insertPos = idx + 5;
   writeFileSync(CHANGELOG_PATH, content.slice(0, insertPos) + '\n' + section + '\n' + content.slice(insertPos));
   console.log(`✓ Inserted changelog section for v${newVersion} into CHANGELOG.md`);
   return true;

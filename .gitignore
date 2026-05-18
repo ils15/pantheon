@@ -42,3 +42,6 @@ platform/plans/plan-active.json
 
 # OpenCode workspace agents (copied from agents/)
 .opencode/
+
+# MkDocs build output
+site/

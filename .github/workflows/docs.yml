@@ -1,0 +1,52 @@
+name: Docs
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version alias to deploy (e.g., v3.4.0)'
+        required: true
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          pip install -r docs/requirements.txt
+
+      - name: Configure Git
+        run: |
+          git config user.name "pantheon-bot"
+          git config user.email "bot@pantheon.ai"
+
+      - name: Deploy versioned docs
+        if: github.event_name == 'push'
+        env:
+          VERSION: ${{ github.ref_name }}
+        run: |
+          mike deploy --update-aliases "${VERSION}" latest
+          mike set-default latest
+
+      - name: Deploy docs (manual dispatch)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          mike deploy --update-aliases "${{ github.event.inputs.version }}" latest
+          mike set-default latest

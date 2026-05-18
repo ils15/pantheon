@@ -4,6 +4,7 @@
   "description": "Multi-agent orchestration platform with 17 specialized agents, 27 skills, TDD enforcement, RAG pipelines, multi-model routing, conversational AI, observability, and multi-platform support (VS Code, OpenCode, Claude Code, Cursor, Windsurf).",
   "private": true,
   "scripts": {
+    "prepare": "husky",
     "version:recommend": "node scripts/versioning.mjs recommend",
     "version:auto": "node scripts/versioning.mjs apply auto",
     "version:patch": "node scripts/versioning.mjs apply patch",
@@ -17,6 +18,9 @@
     "bundle": "node scripts/release-bundle.mjs"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "husky": "^9.1.7",
     "js-yaml": "^4.1.1"
   },
   "repository": {
