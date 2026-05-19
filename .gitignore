@@ -45,3 +45,4 @@ platform/plans/plan-active.json
 
 # MkDocs build output
 site/
+.test-runner/

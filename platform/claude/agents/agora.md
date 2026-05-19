@@ -20,12 +20,6 @@ permission:
   bash: deny
   task:
     "*": allow
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.1
 steps: 20
 ---

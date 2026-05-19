@@ -13,12 +13,6 @@ user-invocable: true
 permission:
   edit: deny
   bash: deny
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.2
 steps: 15
 ---

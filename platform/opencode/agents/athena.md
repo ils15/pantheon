@@ -12,7 +12,8 @@ tools:
 skills:
   - interview
   - codemap
-  - plan-architecture
+  - metis-gap-analysis
+  - init-deep
 handoffs:
   - label: Validate Plan
     agent: themis
@@ -38,12 +39,6 @@ user-invocable: true
 permission:
   edit: deny
   bash: deny
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.1
 steps: 20
 ---

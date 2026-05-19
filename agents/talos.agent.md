@@ -28,12 +28,7 @@ temperature: 0.3
 steps: 5
 skills:
   - tdd-with-agents
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
+  - ai-slop-remover
 ---
 
 # Talos - Hotfix & Rapid Repair

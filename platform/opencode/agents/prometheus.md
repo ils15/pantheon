@@ -13,7 +13,7 @@ tools:
 skills:
   - docker-best-practices
   - performance-optimization
-  - security-audit
+  - session-recovery
 handoffs:
   - label: ➡️ Validate Infrastructure
     agent: themis
@@ -25,12 +25,6 @@ agents:
 user-invocable: true
 permission:
   bash: allow
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.2
 steps: 15
 ---

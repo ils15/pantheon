@@ -26,12 +26,6 @@ temperature: 0.2
 steps: 12
 skills:
   - artifact-management
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 ---
 
 # Iris — GitHub Operations Specialist

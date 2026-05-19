@@ -13,7 +13,9 @@ tools:
 skills:
   - code-review-checklist
   - security-audit
+  - security-audit-pro
   - tdd-with-agents
+  - review-work
 handoffs:
   - label: 🔧 Fix Review Issues
     agent: zeus
@@ -37,10 +39,6 @@ permission:
     npx vitest *: allow
     pip *: allow
 hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
   PostToolUse:
     - type: command
       command: scripts/hooks/format-multi-language.sh

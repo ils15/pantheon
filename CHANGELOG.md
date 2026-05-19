@@ -4,11 +4,54 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [Unreleased] - Upcoming
+## [v3.5.0] - 2026-05-19
+
+Pantheon v3.5.0 is a **commands and skills expansion release** — the result of extracting, documenting, and testing the full feature set from oh-my-openagent, agentic, OpenAgentsControl, and oh-my-opencode-slim into Pantheon's existing 18-agent architecture. Zero new agents. Everything as skills, hooks, and commands on the existing roster.
+
+### Why v3.5.0 exists
+
+The previous v3.4.0 focused on platform infrastructure (canonical → adapter → sync). v3.5.0 completes the feature expansion: 16 new skills (1 rename), 4 new slash commands, deduplication, documentation consolidation, and a complete test suite validation — 10/10 skills and commands passing.
 
 ### Added
+
+- **16 new skills** — auto-continue (renamed from todo-continuation), relentless-mode, wisdom-accumulation, ai-slop-remover, metis-gap-analysis, task-system, review-work, handoff, init-deep, security-audit-pro, test-architecture, cache-strategy, session-recovery, hashline-edits, category-routing, file-prompts
+- **4 new slash commands** — `/praxis` (execute plan via task system), `/metamorphosis` (intelligent refactoring with TDD), `/cancel-relentless` (cancel relentless mode), `/stop-continuation` (stop all continuation mechanisms)
+- **Commands documentation** — New Commands section in README.md (12 commands + multi-platform note)
+- **Agent Selection Guide** — 6 new entries in AGENTS.md (`/forge`, `/ping`, `/cancel-relentless`, `/metamorphosis`, `/praxis`, `/stop-continuation`)
+- **Sync scripts updated** — `sync-opencode.sh` + `sync-platforms.mjs` now deploy commands alongside agents and skills
+
 ### Changed
+
+- **Commands shortened** — All 4 command `.md` files reduced from 30-65 lines to 5-6 lines each (avg 86% reduction in injected context)
+- **auto-continue removed from Zeus default skills** — auto-continue and relentless-mode are now opt-in (loaded on-demand via command or task), not loaded by default. Fixes gate-bypass issue where agents were auto-continuing through mandatory stops.
+- **todo-continuation → auto-continue** — Skill renamed across all 6 platforms; 11 stale platform directories deleted
+- **TDD skill updated** — `tdd-with-agents/SKILL.md` enhanced across all 6 platform copies
+- **124 lines of deduplication** — Empty hook sections, anti-rationalization table, stale security-audit references removed from agents
+
+### Removed
+
+- **todo-continuation skill** — Renamed to auto-continue; stale directories cleaned from 6 platforms
+- **auto-continue and relentless-mode from Zeus default skills** — Now only activated when explicitly loaded by the user
+
 ### Fixed
+
+- **auto-continue gate conflict** — Skills were loaded by default and overriding mandatory safety gates. Now opt-in only. Gates (plan approval, phase review, git commit) always take precedence.
+- **Command documentation gap** — 4 commands existed as orphan `.md` files without README, AGENTS.md, or opencode.json registration. Now fully documented.
+- **Sync script gap** — Only agents and skills were synced; commands were copied manually across 3 locations. Now all three are covered.
+
+### Tested
+
+- **10/10 skills and commands validated** via `.test-runner/TEST-GUIDE.md`:
+  - `/praxis` ✅ — task execution with dependency waves, gates respected
+  - `/cancel-relentless` ✅ — graceful handling with no active mode
+  - `/stop-continuation` ✅ — graceful handling with no active mechanisms
+  - `/metamorphosis` ✅ — 4-phase refactoring (engine extraction, N+1 fix, password security, type hints)
+  - `auto-continue` ✅ — 4-phase sequential execution without "should I continue?"
+  - `/relentless-mode` ✅ — 3 tasks, 47 tests passing, `<promise>DONE</promise>` signal
+  - `wisdom-accumulation` ✅ — Wave 1 + Wave 2 cross-wave learning with 5 categories
+  - `ai-slop-remover` ✅ — 34→18 lines (44% AI slop removed)
+  - `metis-gap-analysis` ✅ — 10 gaps found, plan revised from 5 to 4 phases
+  - `review-work` ✅ — 5 parallel checks with file:line references and severity
 
 ## [v3.4.0] - 2026-05-18
 

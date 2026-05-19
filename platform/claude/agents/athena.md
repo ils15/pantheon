@@ -3,7 +3,7 @@ name: athena
 description: "Strategic planner & architect — research-first, plan-only, never implements. Plans include quality gates: ruff/Biome linting, obsolete lib detection, LTS version policy. Calls apollo as nested subagent for complex discovery. For trade-off analysis, the user should call @agora."
 mode: primary
 tools: Agent, AskUserQuestion, Grep, Grep, Glob, Grep, Glob
-skills: interview, codemap, plan-architecture
+skills: interview, codemap, metis-gap-analysis, init-deep
 agents:
   - apollo
   - hermes
@@ -18,12 +18,6 @@ user-invocable: true
 permission:
   edit: deny
   bash: deny
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.1
 steps: 20
 ---

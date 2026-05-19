@@ -10,15 +10,11 @@ tools:
   edit: true
 skills:
   - artifact-management
+  - handoff
+  - task-system
 user-invocable: true
 permission:
   bash: deny
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.1
 steps: 20
 ---

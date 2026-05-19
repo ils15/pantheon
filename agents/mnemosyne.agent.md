@@ -16,12 +16,8 @@ temperature: 0.1
 steps: 20
 skills:
   - artifact-management
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
+  - handoff
+  - task-system
 ---
 
 # Mnemosyne - Memory Agent

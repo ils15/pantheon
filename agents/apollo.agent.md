@@ -38,12 +38,6 @@ steps: 15
 skills:
   - internet-search
   - codemap
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 ---
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check

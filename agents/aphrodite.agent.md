@@ -43,12 +43,7 @@ skills:
   - tdd-with-agents
   - web-ui-analysis
   - nextjs-seo-optimization
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
+  - ai-slop-remover
 ---
 
 # Aphrodite - React Implementation Specialist
