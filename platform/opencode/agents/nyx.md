@@ -26,12 +26,6 @@ user-invocable: true
 permission:
   edit: ask
   bash: allow
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.1
 steps: 15
 mcpServers:

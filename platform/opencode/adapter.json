@@ -127,6 +127,8 @@
 
   "skillsOutputDir": ".opencode/skills",
   "deploySkills": true,
+  "commandsOutputDir": ".opencode/commands",
+  "deployCommands": true,
   "handoffStrategy": "native",
   "ensureAgentTool": true
 }

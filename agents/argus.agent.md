@@ -20,12 +20,6 @@ steps: 15
 skills:
   - web-ui-analysis
   - frontend-analyzer
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 ---
 
 # Argus - Visual Analysis Specialist

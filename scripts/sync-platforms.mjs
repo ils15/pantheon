@@ -256,6 +256,41 @@ function deploySkills(platformName, adapter, agentFiles, outDir) {
 }
 
 /**
+ * Deploy command .md files from commands/ to the platform's commands output directory.
+ * Copies all .md files from commands/ to <platform>/<commandsOutputDir>/.
+ * Unlike skills, commands are not referenced by agent frontmatter — they are
+ * deployed wholesale as standalone prompt files.
+ */
+function deployCommands(platformName, adapter) {
+  if (!adapter.deployCommands) return 0;
+  const commandsDir = adapter.commandsOutputDir;
+  if (!commandsDir) return 0;
+
+  const srcDir = join(ROOT, 'commands');
+  const targetDir = join(PLATFORM_DIR, platformName, commandsDir);
+
+  if (!existsSync(srcDir)) return 0;
+
+  const srcFiles = readdirSync(srcDir).filter(f => f.endsWith('.md'));
+  if (srcFiles.length === 0) return 0;
+
+  if (!DRY_RUN) mkdirSync(targetDir, { recursive: true });
+
+  let deployed = 0;
+  for (const file of srcFiles) {
+    const srcFile = join(srcDir, file);
+    const destFile = join(targetDir, file);
+    const existing = existsSync(destFile) ? readFileSync(destFile, 'utf8') : null;
+    const content = readFileSync(srcFile, 'utf8');
+    if (existing === content) continue;
+    if (!DRY_RUN) writeFileSync(destFile, content, 'utf8');
+    console.log(`  📄 ${file} → ${commandsDir}/`);
+    deployed++;
+  }
+  return deployed;
+}
+
+/**
  * Validate that every #tool: reference in the body corresponds to a tool
  * that will actually be available to the agent on this platform.
  * Warns on mismatches (does not fail).
@@ -526,6 +561,12 @@ function syncPlatform(platformName, adapter, agentFiles) {
   const skillsDeployed = deploySkills(platformName, adapter, agentFiles, outDir);
   if (skillsDeployed > 0) {
     console.log(`  📦 ${skillsDeployed} skills deployed to ${adapter.skillsOutputDir}`);
+  }
+
+  // Deploy command files if configured
+  const commandsDeployed = deployCommands(platformName, adapter);
+  if (commandsDeployed > 0) {
+    console.log(`  📄 ${commandsDeployed} commands deployed to ${adapter.commandsOutputDir}`);
   }
 
   return written;

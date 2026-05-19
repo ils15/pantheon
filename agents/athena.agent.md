@@ -27,13 +27,8 @@ steps: 20
 skills:
   - interview
   - codemap
-  - plan-architecture
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
+  - metis-gap-analysis
+  - init-deep
 ---
 
 # Athena - Strategic Planner

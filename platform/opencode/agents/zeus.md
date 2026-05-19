@@ -14,7 +14,9 @@ skills:
   - agent-coordination
   - orchestration-workflow
   - session-goal
-  - todo-continuation
+  - auto-continue
+  - relentless-mode
+  - wisdom-accumulation
   - artifact-management
 handoffs:
   - label: 🏛️ Agora Decision
@@ -85,12 +87,6 @@ permission:
   bash: deny
   task:
     "*": allow
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.2
 steps: 30
 mcpServers:

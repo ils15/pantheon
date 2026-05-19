@@ -38,12 +38,6 @@ skills:
   - vector-search
   - mcp-server-development
   - agent-evaluation
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 ---
 
 # Hephaestus — AI Tooling & Pipelines Specialist

@@ -502,6 +502,29 @@ Zeus will:
 
 ---
 
+## Commands
+
+Pantheon provides slash commands via OpenCode. On other platforms (Copilot, Cursor, Claude Code), use natural language with the agent name.
+
+| Command | Agent | Description |
+|---------|-------|-------------|
+| `/pantheon` | agora | Multi-perspective synthesis (Council) |
+| `/focus` | zeus | Pin a session goal |
+| `/forge` | zeus | Configure model provider and plan |
+| `/sketch` | athena | Turn rough idea into spec |
+| `/audit` | themis | Code review + security audit |
+| `/ping` | zeus | Ping all Pantheon agents |
+| `/subtask` | any | Bounded child task |
+| `/mirrordeps` | apollo | Clone dependency source locally |
+| `/praxis` | zeus | Execute plan via task system |
+| `/metamorphosis` | zeus | Intelligent refactoring with TDD |
+| `/cancel-relentless` | zeus | Cancel relentless mode |
+| `/stop-continuation` | zeus | Stop all continuation |
+
+> **Multi-platform note:** Commands are native to OpenCode. On VS Code Copilot, use `@agent-name` in chat. On Cursor/Claude Code, describe the task in natural language.
+
+---
+
 ## Repository Structure
 
 ```

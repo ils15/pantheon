@@ -29,12 +29,6 @@ permission:
   bash:
     git *: allow
     gh *: allow
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.2
 steps: 12
 ---

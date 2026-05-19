@@ -29,13 +29,8 @@ skills:
   - database-migration
   - database-optimization
   - performance-optimization
-  - security-audit
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
+  - ai-slop-remover
+  - cache-strategy
 ---
 
 # Demeter - Database Specialist

@@ -3,7 +3,7 @@ name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend + obsolete lib audit), aphrodite (frontend + deprecated npm audit), demeter (database), prometheus (infra), themis (review + ruff/Biome dead-code/deprecation gate), iris (GitHub), mnemosyne (docs), talos (hotfix), hephaestus (AI pipelines), chiron (model routing), echo (conversational AI), nyx (observability), argus (visual analysis)"
 mode: primary
 tools: Agent, AskUserQuestion, Bash, Read, Grep, Grep, WebFetch
-skills: agent-coordination, orchestration-workflow, session-goal, todo-continuation, artifact-management
+skills: agent-coordination, orchestration-workflow, session-goal, auto-continue, relentless-mode, wisdom-accumulation, artifact-management
 mcpServers:
   - github
   - context7
@@ -30,12 +30,6 @@ permission:
   bash: deny
   task:
     "*": allow
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.2
 steps: 30
 ---

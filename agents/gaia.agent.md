@@ -34,12 +34,6 @@ steps: 20
 skills:
   - remote-sensing-analysis
   - internet-search
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 ---
 
 # 🌍 Gaia — Remote Sensing Domain Specialist

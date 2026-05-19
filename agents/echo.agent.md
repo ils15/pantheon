@@ -36,12 +36,6 @@ steps: 20
 skills:
   - conversational-ai-design
   - prompt-improver
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 ---
 
 # Echo — Conversational AI Specialist

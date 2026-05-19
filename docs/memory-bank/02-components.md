@@ -1,6 +1,6 @@
 # 🧩 Components — Pantheon Agent System
 
-> **18 agents, 33 skills, 9 instructions, 16+ plans, 5 platforms**
+> **18 agents, 48 skills, 9 instructions, 16+ plans, 5 platforms**
 
 ---
 
@@ -48,11 +48,11 @@
 
 ---
 
-## Skills (31 modules)
+## Skills (48 modules)
 
-Disponíveis em `~/.config/opencode/skills/` e carregadas on-demand pelo agente:
+Disponíveis em `~/.config/opencode/skills/` e carregadas on-demand pelo agente (48 skills ao total):
 
-`agent-coordination`, `agent-evaluation`, `agent-observability`, `api-design-patterns`, `artifact-management`, `code-review-checklist`, `conversational-ai-design`, `customize-opencode`, `database-migration`, `database-optimization`, `docker-best-practices`, `fastapi-async-patterns`, `frontend-analyzer`, `internet-search`, `interview`, `mcp-server-development`, `multi-model-routing`, `nextjs-seo-optimization`, `orchestration-workflow`, `performance-optimization`, `prompt-improver`, `prompt-injection-security`, `rag-pipelines`, `remote-sensing-analysis`, `security-audit`, `session-goal`, `streaming-patterns`, `tdd-with-agents`, `todo-continuation`, `vector-search`, `web-ui-analysis`
+`agent-coordination`, `agent-evaluation`, `agent-observability`, `ai-slop-remover`, `api-design-patterns`, `artifact-management`, `auto-continue`, `cache-strategy`, `category-routing`, `codemap`, `code-review-checklist`, `conversational-ai-design`, `customize-opencode`, `database-migration`, `database-optimization`, `docker-best-practices`, `fastapi-async-patterns`, `file-prompts`, `frontend-analyzer`, `handoff`, `hashline-edits`, `init-deep`, `internet-search`, `interview`, `mcp-server-development`, `metis-gap-analysis`, `multi-model-routing`, `nextjs-seo-optimization`, `orchestration-workflow`, `performance-optimization`, `prompt-improver`, `prompt-injection-security`, `rag-pipelines`, `relentless-mode`, `remote-sensing-analysis`, `review-work`, `security-audit`, `security-audit-pro`, `session-goal`, `session-recovery`, `simplify`, `streaming-patterns`, `task-system`, `tdd-with-agents`, `test-architecture`, `vector-search`, `web-ui-analysis`, `wisdom-accumulation`
 
 ---
 

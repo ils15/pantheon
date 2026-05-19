@@ -4,7 +4,7 @@
 
 Skills are reference modules loaded on demand by agents. Each skill provides domain-specific knowledge — architecture patterns, security checklists, optimization strategies, and implementation guides. Agents load skills when their task matches the skill's description, keeping context focused and token-efficient.
 
-There are **33 skills** divided into **9 domains**.
+There are **48 skills** divided into **9 domains**.
 
 ## Skills by Domain
 
@@ -147,7 +147,7 @@ There are **33 skills** divided into **9 domains**.
     - Used by: All agents
     - Domain: Quality
 
-31. **todo-continuation** — `skills/todo-continuation/SKILL.md`
+31. **auto-continue** — `skills/auto-continue/SKILL.md`
     - Safe auto-continue pattern for multi-step orchestration — how to automatically work through todo lists without unnecessary interruptions while always stopping at mandatory safety gates (plan approval, phase review, git commit).
     - Used by: Zeus, Hermes, Aphrodite, Demeter
     - Domain: Orchestration
@@ -217,7 +217,7 @@ The `SKILL.md` file contains YAML frontmatter with `name`, `description`, and pl
 | 28 | interview | Planning | Athena, Zeus |
 | 29 | session-goal | Orchestration | Zeus, Athena |
 | 30 | simplify | Quality | All agents |
-| 31 | todo-continuation | Orchestration | Zeus, Hermes, Aphrodite, Demeter |
+| 31 | auto-continue | Orchestration | Zeus, Hermes, Aphrodite, Demeter |
 | 32 | changelog | Utilities | Iris |
 | 33 | codemap | Utilities | Apollo, Zeus |
 

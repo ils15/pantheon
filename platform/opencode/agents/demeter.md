@@ -13,7 +13,8 @@ skills:
   - database-migration
   - database-optimization
   - performance-optimization
-  - security-audit
+  - ai-slop-remover
+  - cache-strategy
 handoffs:
   - label: ➡️ Send to Themis
     agent: themis
@@ -25,12 +26,6 @@ agents:
 user-invocable: true
 permission:
   bash: allow
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.2
 steps: 20
 ---

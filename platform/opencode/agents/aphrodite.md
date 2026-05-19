@@ -15,6 +15,7 @@ skills:
   - tdd-with-agents
   - web-ui-analysis
   - nextjs-seo-optimization
+  - ai-slop-remover
 handoffs:
   - label: ➡️ Send to Themis
     agent: themis
@@ -26,12 +27,6 @@ agents:
 user-invocable: true
 permission:
   bash: allow
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.5
 steps: 30
 mcpServers:

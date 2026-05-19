@@ -7,9 +7,17 @@
 
 ## Current Focus
 
-**Finalização do ciclo de adaptações Pantheon** — 14 adaptações implementadas (5 alta + 5 média + 4 baixa prioridade) completando o ciclo cross-platform de evolução do framework.
+**Pantheon v3.5.0 — Commands & Skills Expansion** — Released 2026-05-19.
 
-**Status**: ✅ Ciclo completo em 2026-05-02
+**Status**: ✅ Released
+
+**Key Changes**:
+- 16 new skills (1 rename: todo-continuation → auto-continue)
+- 4 new slash commands (praxis, metamorphosis, cancel-relentless, stop-continuation)
+- Commands shortened 86% (30-65 → 5-6 lines)
+- auto-continue/relentless-mode now opt-in (not default)
+- 10/10 skills and commands tested and passing
+- 85 files changed, 224 insertions, 1991 deletions
 
 ---
 
@@ -59,7 +67,6 @@ Implement **bounded research framework** to accelerate @athena planning (30+min 
 **Rationale**: Large feature planning has become bottleneck. New framework enables incremental delivery (plan-review-implement-approve-plan-next-phase) instead of 30+ min upfront analysis. Applies to all research-heavy agents.
 
 **Files Changed**:
-- [docs/RESEARCH-OPTIMIZATION-QUICK-REF.md](RESEARCH-OPTIMIZATION-QUICK-REF.md) — Team quick reference  
 - [prompts/quick-plan-large-feature.prompt.md](../prompts/quick-plan-large-feature.prompt.md) — Athena fast-path
 - [prompts/quick-discovery-large-codebase.prompt.md](../prompts/quick-discovery-large-codebase.prompt.md) — Apollo fast-path
 - agents/athena.agent.md, agents/apollo.agent.md — Updated guidance
@@ -76,11 +83,10 @@ Implement **bounded research framework** to accelerate @athena planning (30+min 
 
 ## Next Steps
 
-1. Consider v3.0.0 release tagging (all 14 adaptations complete)
-2. Share plugin installation docs with team
-3. Monitor adoption of \`/assign-issue\` workflow
-4. Gather feedback on worktree isolation and cloud delegation patterns
-5. Plan next development cycle based on team input
+1. Monitor adoption of new commands (/praxis, /metamorphosis)
+2. Gather feedback on auto-continue as opt-in (was default before v3.5.0)
+3. Plan next development cycle based on community input
+4. Address skills/README.md table completeness (quick reference table needs to list all 48 skills)
 
 ---
 
