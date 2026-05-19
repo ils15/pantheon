@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased] - Upcoming
+
+### Added
+### Changed
+### Fixed
+
 ## [v3.5.0] - 2026-05-19
 
 Pantheon v3.5.0 is a **commands and skills expansion release** — the result of extracting, documenting, and testing the full feature set from oh-my-openagent, agentic, OpenAgentsControl, and oh-my-opencode-slim into Pantheon's existing 18-agent architecture. Zero new agents. Everything as skills, hooks, and commands on the existing roster.
