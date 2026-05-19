@@ -108,8 +108,11 @@ jobs:
 
           # Tag and push (tag triggers nothing — GITHUB_TOKEN limitation — that's fine,
           # we create the release directly below)
+          # Branch push is idempotent: delete remote branch first to handle CI re-runs
           git tag "${TAG}"
           git push origin "${TAG}"
+          # Delete remote branch if it exists (idempotent — handles CI re-runs)
+          git push origin --delete "${BRANCH}" 2>/dev/null || true
           git push origin "${BRANCH}"
 
           # Create GitHub release with the bundle as a downloadable asset
