@@ -14,9 +14,6 @@ skills:
   - agent-coordination
   - orchestration-workflow
   - session-goal
-  - auto-continue
-  - relentless-mode
-  - wisdom-accumulation
   - artifact-management
 handoffs:
   - label: 🏛️ Agora Decision
