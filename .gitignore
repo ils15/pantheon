@@ -21,6 +21,7 @@ BEFORE-AFTER-*.md
 
 # Scripts (caminhos absolutos, não versionados)
 sync-*.sh
+!sync-opencode.sh
 validate-*.sh
 copilot-instructions.md
 instructions/DOCUMENTATION-STRUCTURE.md
@@ -29,6 +30,13 @@ instructions/vault-secrets-access.instructions.md
 
 # Artifact temp folder (ephemeral — wiped on sprint close, never committed)
 docs/memory-bank/.tmp/
+
+# Code indexer files (gtags, cscope)
+GTAGS
+GRTAGS
+GPATH
+gtags.files
+cscope.*
 
 # Dependencies
 node_modules/
