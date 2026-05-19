@@ -34,12 +34,6 @@ steps: 15
 skills:
   - agent-observability
   - agent-evaluation
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 ---
 
 # Nyx — Observability & Monitoring Specialist

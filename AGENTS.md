@@ -1048,6 +1048,12 @@ Enter these commands in VS Code Copilot Chat. Do not run them in `bash`, `zsh`, 
 | Pin session goal | zeus | `/focus` |
 | Bounded child task with structured result | any | `/subtask` |
 | Clone dependency source locally | apollo | `/mirrordeps` |
+| Configure model provider / routing | chiron | `/forge` |
+| Ping all agents | zeus | `/ping` |
+| Cancel relentless mode | zeus | `/cancel-relentless` |
+| Intelligent refactoring | zeus | `/metamorphosis` |
+| Execute plan via task system | zeus | `/praxis` |
+| Stop all continuation | zeus | `/stop-continuation` |
 | Coordinate feature | zeus | `/implement-feature` |
 
 ---

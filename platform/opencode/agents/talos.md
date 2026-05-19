@@ -10,6 +10,7 @@ tools:
   bash: true
 skills:
   - tdd-with-agents
+  - ai-slop-remover
 handoffs:
   - label: 🚨 Escalate to Zeus
     agent: zeus
@@ -22,12 +23,6 @@ permission:
     git add *: allow
     npx prettier *: allow
     git *: allow
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 temperature: 0.3
 steps: 5
 ---

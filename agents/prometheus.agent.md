@@ -28,13 +28,7 @@ steps: 15
 skills:
   - docker-best-practices
   - performance-optimization
-  - security-audit
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
+  - session-recovery
 ---
 
 # Prometheus - Infrastructure Implementation Specialist

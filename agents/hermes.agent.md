@@ -29,17 +29,13 @@ skills:
   - api-design-patterns
   - fastapi-async-patterns
   - tdd-with-agents
-  - security-audit
   - database-optimization
+  - ai-slop-remover
+  - test-architecture
+  - cache-strategy
 user-invocable: true
 temperature: 0.3
 steps: 30
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 ---
 
 # Hermes - Backend Executor (FastAPI Specialist)
@@ -273,21 +269,6 @@ When completing a task, provide:
 - ✅ Docstrings explaining functionality
 - ✅ Example curl commands for testing
 - ✅ Unit test skeleton (optional)
-
----
-
-## 🚫 Anti-Rationalization Table
-
-If your internal monologue suggests ANY of these, STOP and correct:
-
-| Rationalization | Truth |
-|---|---|
-| "This is too simple for TDD" | **No. TDD is for ALL code.** Write the test. |
-| "I'll add tests later" | **No. Tests FIRST, code second.** |
-| "The existing code doesn't have tests" | **Irrelevant. Your code will have tests.** |
-| "This refactor is safe to skip testing" | **No. Refactoring without tests = guessing.** |
-| "Coverage is good enough already" | **Target is >80%. No exceptions.** |
-| "I know this works, no need to run tests" | **Run them. Confidence = verification, not intuition.** |
 
 ---
 

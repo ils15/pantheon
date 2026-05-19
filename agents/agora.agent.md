@@ -17,12 +17,6 @@ agents: ['apollo', 'hermes', 'aphrodite', 'demeter', 'themis', 'prometheus', 'he
 user-invocable: false
 temperature: 0.1
 steps: 20
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 ---
 
 # Agora — Multi-Perspective Synthesis Engine

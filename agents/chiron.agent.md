@@ -36,12 +36,6 @@ steps: 20
 skills:
   - multi-model-routing
   - agent-observability
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 ---
 
 # Chiron — Model Provider Hub Specialist

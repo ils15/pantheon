@@ -75,14 +75,7 @@ skills:
   - agent-coordination
   - orchestration-workflow
   - session-goal
-  - todo-continuation
   - artifact-management
-hooks:
-  SessionStart: []
-  SubagentStart: []
-  SubagentStop: []
-  PreToolUse: []
-  PostToolUse: []
 ---
 
 # Zeus - Main Conductor
