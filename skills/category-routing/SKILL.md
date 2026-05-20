@@ -1,6 +1,6 @@
 ---
 name: category-routing
-description: "Semantic delegation by task type — route tasks to optimized models based on category (deep, quick, visual-engineering, ultrabrain) instead of specifying model names manually."
+description: "Route tasks to models by semantic category (deep, quick, visual). Use for optimal model selection without manual names."
 context: fork
 globs: []
 alwaysApply: false

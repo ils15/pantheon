@@ -1,6 +1,6 @@
 ---
 name: init-deep
-description: "Generate hierarchical AGENTS.md files throughout the project directory tree. Each directory gets context-specific instructions for agents working in that scope."
+description: "Generate hierarchical AGENTS.md files per directory. Use for context-specific instructions throughout projects."
 context: fork
 globs: []
 alwaysApply: false

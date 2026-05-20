@@ -649,12 +649,12 @@ pantheon/
 │   │   ├── cursor.md
 │   │   └── windsurf.md
 │   └── memory-bank/           — project memory templates
-│       ├── 00-overview.md
-│       ├── 01-architecture.md
-│       ├── 02-components.md
-│       ├── 03-tech-context.md
-│       ├── 04-active-context.md
-│       ├── 05-progress-log.md
+│       ├── 00-project.md
+│       ├── 00-project.md
+│       ├── 00-project.md
+│       ├── 00-project.md
+│       ├── 01-active-context.md
+│       ├── 02-progress-log.md
 │       └── _notes/
 │
 ├── template/                  — project templates
@@ -740,7 +740,7 @@ Pantheon uses a two-tier memory architecture to maintain context across sessions
 | **Tier 2 — Reference** | `docs/memory-bank/` | Project overview, architecture, active sprint, decisions | Read cost per file |
 | **Session** | `/memories/session/` | Current conversation plans, work-in-progress | One read per session |
 
-`04-active-context.md` is the priority file. Agents read it first when starting any task.
+`01-active-context.md` is the priority file. Agents read it first when starting any task.
 It contains the current sprint focus, the most recent architectural decision, active
 blockers, and next steps.
 
@@ -822,7 +822,7 @@ systems: 20–30 hours across multiple sprint sessions.
 
 **What happens if my editor session is interrupted?**
 Open phases pause. The memory bank captures the last committed state. Resume by reading
-`04-active-context.md` at the start of the next session.
+`01-active-context.md` at the start of the next session.
 
 ---
 

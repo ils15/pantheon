@@ -59,12 +59,12 @@ Apollo findings → /memories/session/apollo-findings.md
 
 ```
 docs/memory-bank/
-├── 00-overview.md           ← What is this project?
-├── 01-architecture.md       ← System design, agent hierarchy
-├── 02-components.md         ← Component breakdown
-├── 03-tech-context.md       ← Tech stack, setup, environment
-├── 04-active-context.md     ← Current sprint focus, recent decisions  ← most important
-├── 05-progress-log.md       ← Completed milestones (append-only)
+├── 00-project.md           ← What is this project?
+├── 00-project.md       ← System design, agent hierarchy
+├── 00-project.md         ← Component breakdown
+├── 00-project.md       ← Tech stack, setup, environment
+├── 01-active-context.md     ← Current sprint focus, recent decisions  ← most important
+├── 02-progress-log.md       ← Completed milestones (append-only)
 ├── _tasks/                  ← Sprint task tracking (add when needed)
 │   ├── _index.md
 │   └── TASK0001-name.md
@@ -73,14 +73,14 @@ docs/memory-bank/
     └── NOTE0001-topic.md
 ```
 
-**`04-active-context.md` is the priority file.** It is what `copilot-instructions.md` points to and what agents read first when starting a new feature.
+**`01-active-context.md` is the priority file.** It is what `copilot-instructions.md` points to and what agents read first when starting a new feature.
 
 ### The session→active-context graduation pattern
 
 ```
 During sprint        → /memories/session/sprint-plan.md   (ephemeral, in-conversation)
-At sprint close      → docs/memory-bank/04-active-context.md  (permanent, in git)
-                     → docs/memory-bank/05-progress-log.md    (appended)
+At sprint close      → docs/memory-bank/01-active-context.md  (permanent, in git)
+                     → docs/memory-bank/02-progress-log.md    (appended)
 ```
 
 ---
@@ -91,9 +91,9 @@ At sprint close      → docs/memory-bank/04-active-context.md  (permanent, in g
 |-----------|-------------|------|
 | Any task | `/memories/repo/` (automatic) | Zero — already in context |
 | Current conversation plan | `/memories/session/sprint-plan.md` | One explicit read |
-| Starting a new feature | `docs/memory-bank/04-active-context.md` | One explicit read |
-| Onboarding to a new project | `docs/memory-bank/00-overview.md` + `04-active-context.md` | Two explicit reads |
-| Architecture deep-dive | `docs/memory-bank/01-architecture.md` + relevant `_notes/` | Explicit reads |
+| Starting a new feature | `docs/memory-bank/01-active-context.md` | One explicit read |
+| Onboarding to a new project | `docs/memory-bank/00-project.md` + `01-active-context.md` | Two explicit reads |
+| Architecture deep-dive | `docs/memory-bank/00-project.md` + relevant `_notes/` | Explicit reads |
 | Historical decision rationale | `docs/memory-bank/_notes/NOTE000X-*.md` | One explicit read |
 
 ---
@@ -104,8 +104,8 @@ At sprint close      → docs/memory-bank/04-active-context.md  (permanent, in g
 |---------|-----------|-------|------|
 | Atomic facts (stack, commands, conventions) | Any agent | `/memories/repo/` | On discovery |
 | Conversation plan / WIP | Athena or any agent | `/memories/session/` | Sprint start |
-| Sprint context (active decisions, blockers) | Agent or Mnemosyne | `04-active-context.md` | Sprint close |
-| Completed milestones | Agent or Mnemosyne | `05-progress-log.md` | Sprint close |
+| Sprint context (active decisions, blockers) | Agent or Mnemosyne | `01-active-context.md` | Sprint close |
+| Completed milestones | Agent or Mnemosyne | `02-progress-log.md` | Sprint close |
 | Project overview and architecture | Mnemosyne (once) | `00-03.md` | Project adoption |
 | Task records | Mnemosyne (on request) | `_tasks/TASK000X-*.md` | On request |
 | Architectural decisions | Mnemosyne (on request) | `_notes/NOTE000X-*.md` | On request |
@@ -130,8 +130,8 @@ touch docs/memory-bank/_tasks/.gitkeep docs/memory-bank/_notes/.gitkeep
 
 Add to your `.github/copilot-instructions.md`:
 ```markdown
-Always read docs/memory-bank/04-active-context.md before answering.
-Always read docs/memory-bank/00-overview.md for project scope.
+Always read docs/memory-bank/01-active-context.md before answering.
+Always read docs/memory-bank/00-project.md for project scope.
 ```
 
 > **Do NOT copy** `docs/memory-bank/` content from Pantheon — it describes the framework itself, not your product.
@@ -140,8 +140,8 @@ Always read docs/memory-bank/00-overview.md for project scope.
 
 ## Maintenance Rules
 
-- **Keep `04-active-context.md` current** — stale active context is worse than no context (agents make wrong assumptions)
-- **`05-progress-log.md` is append-only** — never edit history, only add entries
+- **Keep `01-active-context.md` current** — stale active context is worse than no context (agents make wrong assumptions)
+- **`02-progress-log.md` is append-only** — never edit history, only add entries
 - **`_notes/` decisions are immutable** — never edit a decision note; create a new one that supersedes it
 - **Zero overhead rule** — if information can be found via a codebase search, do not duplicate it in the memory bank
 - **Obsolete `/memories/repo/` facts must be replaced** — do not accumulate stale atomic facts

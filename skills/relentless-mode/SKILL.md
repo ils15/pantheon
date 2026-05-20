@@ -1,6 +1,6 @@
 ---
 name: relentless-mode
-description: "Self-referential development loop — agent continues working until <promise>DONE</promise> is detected. Auto-injects system reminder when idle with incomplete todos. Opt-in via /relentless-mode command."
+description: "Auto-continue until task completion with idle detection. Use for complex multi-step tasks requiring autonomous execution."
 context: fork
 globs: []
 alwaysApply: false

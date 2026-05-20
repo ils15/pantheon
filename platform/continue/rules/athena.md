@@ -49,7 +49,7 @@ Use `web/fetch` to verify availability before proposing model updates to other a
 - Wait for perfect understanding
 - Make multiple planning attempts
 
-**Only read Memory Bank files** (`docs/memory-bank/00-overview.md`, `01-architecture.md`) if they exist with content — skip research if documented.
+**Only read Memory Bank files** (`docs/memory-bank/00-project.md`, `00-project.md`) if they exist with content — skip research if documented.
 
 ## Plan Structure (CONCISE)
 
