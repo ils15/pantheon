@@ -54,6 +54,7 @@ Each specialist must return a structured response with:
 - **Trade-offs:** what's sacrificed
 - **Risks:** what could go wrong
 - **Confidence:** High / Medium / Low
+- **Position:** 1-sentence summary for the overview table
 
 ### 3. Compare — Identify Agreements & Divergences
 
@@ -69,21 +70,63 @@ After all responses arrive:
 
 **Question:** <restated>
 
-**Councillors:**
-- @<agent>: <1-sentence position> (Confidence: X)
-- @<agent>: <1-sentence position> (Confidence: X)
-- @<agent>: <1-sentence position> (Confidence: X)
+**Date:** YYYY-MM-DD
 
-**Agreements:**
-- Point 1 — <shared insight>
-- Point 2 — <shared insight>
+---
 
-**Divergences:**
-- <issue> → **Decision:** <resolution + why>
+### Specialist Perspectives
 
-**Recommendation:** <decisive, 2-4 sentence answer>
-**Confidence:** High / Medium / Low — <reason>
-**Next step:** <implement with Zeus | research more with Apollo>
+| Agent | Position | Reasoning | Trade-offs | Risks | Confidence |
+|-------|----------|-----------|------------|-------|------------|
+| @agent | <1-sentence> | <key reasoning> | <what's sacrificed> | <what could go wrong> | High/Med/Low |
+| @agent | <1-sentence> | <key reasoning> | <what's sacrificed> | <what could go wrong> | High/Med/Low |
+| @agent | <1-sentence> | <key reasoning> | <what's sacrificed> | <what could go wrong> | High/Med/Low |
+
+---
+
+### Agreements (where 2+ agents converge)
+- **<topic>:** <shared insight with evidence>
+- **<topic>:** <shared insight with evidence>
+
+### Divergences (where agents disagree)
+
+| Issue | Position A | Position B | Resolution |
+|-------|------------|------------|------------|
+| <topic> | @A: <their position> | @B: <their position> | <why this was chosen over the alternative> |
+
+For each divergence, explain:
+1. What each specialist argued
+2. The trade-off between positions
+3. Why one was chosen (evidence, risk profile, alignment with goals)
+
+---
+
+### Decision Log
+
+| Decision | Chosen Option | Alternatives Rejected | Trade-off Accepted | Trigger to Revert |
+|----------|---------------|----------------------|-------------------|-------------------|
+| <decision> | <what was selected> | <what was considered and rejected> | <what was sacrificed> | <condition that would reverse this decision> |
+
+---
+
+### Recommendation
+<decisive, 2-4 sentence conclusion>
+
+**Confidence:** High / Medium / Low — <justification based on convergence/divergence patterns>
+
+**Next step:** <implement with Zeus | research more with Apollo | discard>
+
+---
+
+### Decision Gate
+**Status:** AWAITING_APPROVAL
+
+This synthesis has been saved to `docs/memory-bank/.tmp/DISC-<topic>.md`.
+
+Choose:
+- **APPROVE** — proceed with implementation as recommended
+- **REQUEST CHANGES** — revise specific decisions
+- **DISCARD** — abandon this direction
 ```
 
 ---
@@ -96,6 +139,13 @@ After all responses arrive:
 - **If all specialists disagree**, explain the tension and make the call with reasoning
 - **If a specialist fails or times out**, note it and synthesize from what you have
 - **Confidence must be justified** — "High because all 3 converged on same approach"
+- **Always end with a Decision Gate** — the user must explicitly approve before any implementation begins
+- **Always create a DISC artifact** — after producing the synthesis, delegate to @mnemosyne to persist it:
+
+  ```
+  @mnemosyne Create artifact: DISC-<topic> with the following content:
+  [full synthesis including all specialist responses]
+  ```
 
 ---
 
