@@ -30,7 +30,7 @@ skills:
   - fastapi-async-patterns
   - tdd-with-agents
   - database-optimization
-  - ai-slop-remover
+  - simplify
   - test-architecture
   - cache-strategy
 user-invocable: true

@@ -7,7 +7,6 @@ tools:
   read: true
   webfetch: true
 skills:
-  - web-ui-analysis
   - frontend-analyzer
 user-invocable: true
 permission:

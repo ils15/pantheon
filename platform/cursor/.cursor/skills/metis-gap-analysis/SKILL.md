@@ -1,6 +1,6 @@
 ---
 name: metis-gap-analysis
-description: "Pre-plan gap analysis — catch hidden intentions, ambiguities, missing acceptance criteria, AI slop patterns, and edge cases before the plan is delivered to the user."
+description: "Pre-plan gap analysis for hidden intentions and edge cases. Use before delivering plans to catch missing elements."
 context: fork
 globs: []
 alwaysApply: false

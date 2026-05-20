@@ -34,20 +34,20 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 
 | Agent | Tier | Role | Delegates to | Skills Used |
 |---|---|---|---|---|
-| Zeus | Orchestrator | Central coordinator | All 17 agents | agent-coordination, orchestration-workflow, artifact-management |
+| Zeus | Orchestrator | Central coordinator | All 17 agents | agent-coordination, artifact-management |
 | Athena | Planning | Strategic planner | Apollo, Themis | (none — plan-only) |
 | Agora | Planning | Multi-perspective synthesis, trade-off analysis | Zeus | (none — synthesis) |
 | Apollo | Discovery | Read-only codebase scout | Zeus, Athena | (none — read-only) |
 | Argus | Discovery | Visual analysis (screenshots, PDFs, diagrams) | Athena, Themis | (none — read-only) |
-| Hephaestus | AI Infrastructure | AI pipelines (RAG, LangChain) | Apollo, Themis, Prometheus | rag-pipelines, vector-search, mcp-server-development |
+| Hephaestus | AI Infrastructure | AI pipelines (RAG, LangChain) | Apollo, Themis, Prometheus | rag-pipelines, mcp-server-development |
 | Chiron | AI Infrastructure | Model provider hub | Apollo, Themis, Prometheus | multi-model-routing |
 | Echo | AI Infrastructure | Conversational AI | Apollo, Themis, Talos | conversational-ai-design |
-| Hermes | Implementation | Backend (FastAPI) | Apollo, Themis | fastapi-async-patterns, api-design-patterns, security-audit, tdd-with-agents |
-| Aphrodite | Implementation | Frontend (React) | Apollo, Themis | web-ui-analysis, frontend-analyzer, nextjs-seo-optimization, tdd-with-agents |
-| Demeter | Implementation | Database | Apollo, Themis | database-migration, database-optimization, performance-optimization, security-audit |
-| Themis | Quality | Security & review gate | Mnemosyne, Zeus | code-review-checklist, security-audit, tdd-with-agents, prompt-injection-security |
+| Hermes | Implementation | Backend (FastAPI) | Apollo, Themis | fastapi-async-patterns, api-design-patterns, security-audit-pro, tdd-with-agents |
+| Aphrodite | Implementation | Frontend (React) | Apollo, Themis | frontend-analyzer, nextjs-seo-optimization, tdd-with-agents |
+| Demeter | Implementation | Database | Apollo, Themis | database-migration, database-optimization, security-audit-pro |
+| Themis | Quality | Security & review gate | Mnemosyne, Zeus | code-review-checklist, security-audit-pro, tdd-with-agents, prompt-injection-security |
 | Nyx | Observability | Tracing & cost tracking | Apollo, Zeus | agent-observability |
-| Prometheus | Infrastructure | Docker & CI/CD | Apollo, Themis | docker-best-practices, performance-optimization |
+| Prometheus | Infrastructure | Docker & CI/CD | Apollo, Themis | docker-best-practices, database-optimization |
 | Iris | GitHub Ops | PRs, issues, releases | Mnemosyne, Zeus | (none — workflow ops) |
 | Mnemosyne | Memory | Memory bank & ADRs | (none) | (none — documentation) |
 | Talos | Hotfix | Rapid direct fixes | Zeus | (none — direct edits) |

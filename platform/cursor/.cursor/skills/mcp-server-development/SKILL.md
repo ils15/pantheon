@@ -1,6 +1,6 @@
 ---
 name: mcp-server-development
-description: Build MCP (Model Context Protocol) servers with Python FastMCP and TypeScript SDK. Covers tool registration, resource exposure, prompt templates, transport configuration (stdio/HTTP/sse), input validation, error handling, and security best practices for production-grade MCP server implementations.
+description: Build MCP servers with tools, resources, and transport configs. Use for Model Context Protocol implementations.
 context: fork
 globs: ["**/mcp/**", "**/*.mcp.*"]
 alwaysApply: false

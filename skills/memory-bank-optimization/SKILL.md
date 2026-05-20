@@ -35,7 +35,6 @@ description: Audit and compress memory bank files — eliminate redundancy, enfo
 - ❌ ASCII architecture diagrams (keep simplified)
 - ❌ Progress percentages (use git/issues)
 - ❌ "Last updated" dates on every file (git has this)
-- ❌ Skills that are platform internals (hashline-edits, session-recovery)
 - ❌ Agent names in skill descriptions (creates maintenance churn)
 
 ## What IS Worth Auto-Loading

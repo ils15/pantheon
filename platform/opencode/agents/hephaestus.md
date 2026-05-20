@@ -13,7 +13,6 @@ tools:
   webfetch: true
 skills:
   - rag-pipelines
-  - vector-search
   - mcp-server-development
   - agent-evaluation
 handoffs:

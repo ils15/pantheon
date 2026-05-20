@@ -73,7 +73,6 @@ temperature: 0.2
 steps: 30
 skills:
   - agent-coordination
-  - orchestration-workflow
   - session-goal
   - artifact-management
 ---
@@ -343,7 +342,7 @@ git worktree remove ../pantheon-aphrodite
 - **Role**: RAG pipelines, LangChain/LangGraph chains, vector databases, AI workflow composition
 - **Use for**: Building RAG systems, vector search, LLM pipeline orchestration, embedding strategies
 - **Returns**: Tested AI pipelines with >80% coverage, vector store integrations
-- **Skill**: `rag-pipelines`, `vector-search`, `mcp-server-development`
+- **Skill**: `rag-pipelines`, `mcp-server-development`
 
 ### 12. Chiron (MODEL PROVIDER) - THE HUB
 - **Model tier**: default

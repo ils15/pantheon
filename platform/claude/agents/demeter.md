@@ -3,7 +3,7 @@ name: demeter
 description: Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention, TDD migrations, modern DB libs (avoid obsolete ORM patterns). Calls apollo as nested subagent for optimization patterns. Sends work to themis for review.
 mode: primary
 tools: Agent, Grep, Grep, Read, Edit, Bash, Bash, Bash
-skills: database-migration, database-optimization, performance-optimization, ai-slop-remover, cache-strategy
+skills: database-migration, database-optimization, simplify, cache-strategy
 agents:
   - apollo
 user-invocable: true

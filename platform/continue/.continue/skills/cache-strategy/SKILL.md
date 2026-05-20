@@ -1,6 +1,6 @@
 ---
 name: cache-strategy
-description: "Cache architecture patterns — Redis (read-through, write-through, write-behind), CDN, TTL strategies, invalidation patterns, session stores. Used by Demeter and Hermes."
+description: "Cache patterns for Redis, CDN, TTL, and invalidation. Use for architecture decisions on caching strategies."
 context: fork
 globs: ["**/*.py", "**/*.ts"]
 alwaysApply: false

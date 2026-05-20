@@ -1,6 +1,6 @@
 ---
 name: code-review-checklist
-description: Systematic code review using quality gates, SOLID principles, error handling patterns, and test coverage analysis. Provides structured feedback with severity levels and actionable improvements.
+description: Systematic code review with quality gates and SOLID principles. Use for structured feedback on pull requests.
 globs: ["**/*.py", "**/*.ts", "**/*.tsx"]
 alwaysApply: false
 ---

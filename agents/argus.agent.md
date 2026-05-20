@@ -18,7 +18,6 @@ disable-model-invocation: true
 temperature: 0.2
 steps: 15
 skills:
-  - web-ui-analysis
   - frontend-analyzer
 ---
 

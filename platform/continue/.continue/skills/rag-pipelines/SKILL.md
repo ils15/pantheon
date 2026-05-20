@@ -1,6 +1,6 @@
 ---
 name: rag-pipelines
-description: "RAG (Retrieval-Augmented Generation) pipeline design — chunking strategies, embedding model selection, document loaders, vector store configuration (Pinecone, Weaviate, pgvector, Chroma), retrieval strategies (similarity search, MMR, hybrid BM25, self-querying), evaluation with RAGAS/LangSmith, and Gradio/Streamlit demo patterns. Covers LangChain and LlamaIndex integration for production-grade RAG systems."
+description: "RAG pipeline design with chunking, embeddings, and vector stores. Use for retrieval-augmented generation systems."
 context: fork
 globs: ["**/rag/**", "**/retrieval/**", "**/embeddings/**"]
 alwaysApply: false
@@ -885,3 +885,224 @@ if prompt := st.chat_input("Ask a question about your documents"):
 - [ ] Pagination/document deduplication in retrieval results
 - [ ] Streaming generation enabled for UX
 - [ ] Citation/source tracking in every response
+
+---
+
+## Appendix: Vector Search & Semantic Retrieval
+
+Deep dive into vector search mechanics, embedding generation, and ANN indexing.
+
+### Embedding Generation
+
+#### OpenAI ada-002
+```python
+import httpx
+
+OPENAI_API_KEY = "sk-..."
+
+async def embed_openai(texts: list[str], model: str = "text-embedding-ada-002") -> list[list[float]]:
+    async with httpx.AsyncClient(timeout=30) as client:
+        resp = await client.post(
+            "https://api.openai.com/v1/embeddings",
+            headers={"Authorization": f"Bearer {OPENAI_API_KEY}"},
+            json={"input": texts, "model": model},
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        return [d["embedding"] for d in data["data"]]
+```
+
+#### Sentence-Transformers (local)
+```python
+import numpy as np
+from numpy.typing import NDArray
+
+# Load once at startup
+from sentence_transformers import SentenceTransformer
+_model = SentenceTransformer("all-MiniLM-L6-v2")
+
+def embed_local(texts: list[str]) -> NDArray[np.float32]:
+    return _model.encode(texts, normalize_embeddings=True)  # (N, 384)
+
+# Batch to avoid OOM
+def embed_batched(texts: list[str], batch_size: int = 64) -> NDArray[np.float32]:
+    return _model.encode(texts, batch_size=batch_size, normalize_embeddings=True)
+```
+
+### Distance Metrics
+
+| Metric | Formula | Use Case | Range |
+|--------|---------|----------|-------|
+| Cosine | `1 - cos(θ)` | Text embeddings (normalized) | [0, 2] |
+| Dot Product | `-A·B` | Unnormalized embeddings | unbounded |
+| Euclidean (L2) | `||A-B||²` | Dense visual embeddings | [0, ∞) |
+
+```python
+import numpy as np
+from numpy.typing import NDArray
+
+def cosine_similarity(a: NDArray[np.float32], b: NDArray[np.float32]) -> float:
+    return np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b))
+
+def cosine_distance(a: NDArray[np.float32], b: NDArray[np.float32]) -> float:
+    return 1.0 - cosine_similarity(a, b)
+```
+
+### ANN Indexes
+
+#### HNSW (Hierarchical Navigable Small World)
+```sql
+-- Best recall, moderate build time, high memory
+CREATE INDEX ON documents USING hnsw (embedding vector_cosine_ops)
+    WITH (m=16, ef_construction=200);
+-- m: 12-48 (connections per layer). Higher = better recall, more memory
+-- ef_construction: 100-500. Higher = better recall, slower build
+```
+
+#### IVFFlat (Inverted File with Flat Compression)
+```sql
+-- Faster build, lower memory, lower recall (needs tuning)
+CREATE INDEX ON documents USING ivfflat (embedding vector_cosine_ops)
+    WITH (lists=100);
+-- lists: sqrt(n_rows) recommended. Higher = faster search, lower recall
+```
+
+### Hybrid Search (BM25 + Vector)
+
+```python
+import numpy as np
+from rank_bm25 import BM25Okapi
+
+class HybridSearcher:
+    def __init__(self, alpha: float = 0.5):
+        self.alpha = alpha  # 0 = pure BM25, 1 = pure vector
+
+    async def search(
+        self,
+        query: str,
+        query_vector: list[float],
+        bm25_corpus: list[str],
+        vector_results: list[tuple[int, str, float]],
+        top_k: int = 20,
+    ) -> list[tuple[int, str, float]]:
+        # BM25 scores
+        tokenized_corpus = [doc.split() for doc in bm25_corpus]
+        bm25 = BM25Okapi(tokenized_corpus)
+        bm25_scores = bm25.get_scores(query.split())
+
+        # Normalize both score sets to [0, 1]
+        bm25_norm = self._normalize(bm25_scores)
+        vec_scores = np.array([s[2] for s in vector_results])
+        vec_norm = self._normalize(vec_scores)
+
+        # Combined score
+        combined = self.alpha * vec_norm + (1 - self.alpha) * bm25_norm
+
+        # Rerank
+        ranked = sorted(
+            zip(vector_results, combined),
+            key=lambda x: x[1], reverse=True,
+        )
+        return ranked
+
+    def _normalize(self, scores: NDArray[np.float32]) -> NDArray[np.float32]:
+        mn, mx = scores.min(), scores.max()
+        if mx == mn:
+            return np.zeros_like(scores)
+        return (scores - mn) / (mx - mn)
+```
+
+### Reranking Strategies
+
+#### Cross-Encoder Reranking
+```python
+from sentence_transformers import CrossEncoder
+
+# Load once
+_reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+
+async def rerank(query: str, candidates: list[tuple[int, str]], top_k: int = 10) -> list[tuple[int, str, float]]:
+    pairs = [(query, doc) for _, doc in candidates]
+    scores = _reranker.predict(pairs)
+    ranked = sorted(
+        zip([c[0] for c in candidates], [c[1] for c in candidates], scores.tolist()),
+        key=lambda x: x[2], reverse=True,
+    )
+    return ranked[:top_k]
+
+# Usage in a RAG pipeline
+async def search_and_rerank(query: str, query_vector: list[float], top_k: int = 10):
+    candidates = await vector_search(query_vector, top_k=top_k * 3)
+    return await rerank(query, candidates, top_k=top_k)
+```
+
+### Index Tuning
+
+| Parameter | Range | Effect | Trade-off |
+|-----------|-------|--------|-----------|
+| `m` | 12-48 | Connections per layer | Higher = better recall, more memory, slower build |
+| `ef_construction` | 100-500 | Build-time search width | Higher = better recall, slower build |
+| `ef_search` | 1-1000 | Query-time search width | Higher = better recall, slower query |
+
+### Batch Indexing
+
+```python
+import asyncio
+from dataclasses import dataclass
+
+@dataclass
+class BatchConfig:
+    batch_size: int = 64
+    max_concurrent: int = 4
+    max_retries: int = 3
+    retry_delay: float = 1.0
+
+class BatchIndexer:
+    def __init__(self, embed_fn, index_fn, config: BatchConfig | None = None):
+        self.embed_fn = embed_fn
+        self.index_fn = index_fn
+        self.config = config or BatchConfig()
+
+    async def index_all(self, documents: list[dict]) -> int:
+        total = 0
+        sem = asyncio.Semaphore(self.config.max_concurrent)
+
+        async def process_batch(batch: list[dict]):
+            async with sem:
+                texts = [d["text"] for d in batch]
+                for attempt in range(self.config.max_retries):
+                    try:
+                        embeddings = await self.embed_fn(texts)
+                        ids = [d["id"] for d in batch]
+                        metadatas = [d.get("metadata", {}) for d in batch]
+                        await self.index_fn(ids, embeddings, metadatas)
+                        return len(batch)
+                    except Exception as e:
+                        if attempt == self.config.max_retries - 1:
+                            logger.error(f"Batch failed after {self.config.max_retries} retries: {e}")
+                            return 0
+                        await asyncio.sleep(self.config.retry_delay * (2 ** attempt))
+
+        tasks = []
+        for i in range(0, len(documents), self.config.batch_size):
+            batch = documents[i:i + self.config.batch_size]
+            tasks.append(process_batch(batch))
+
+        results = await asyncio.gather(*tasks)
+        return sum(results)
+```
+
+### Vector Search Checklist
+
+- [ ] Embedding model chosen (dimensions, cost, latency trade-offs evaluated)
+- [ ] Vector database selected (pgvector for tight Postgres integration; Pinecone/Weaviate for managed)
+- [ ] Distance metric matches embedding normalization (cosine for normalized, dot for unnormalized)
+- [ ] ANN index type chosen (HNSW for recall, IVFFlat for fast build)
+- [ ] Index parameters tuned (ef_search vs ef_construction, lists vs probes trade-off)
+- [ ] Hybrid search implemented (BM25 + vector with RRF or weighted fusion)
+- [ ] Metadata filtering strategy decided (pre-filter vs post-filter vs hybrid)
+- [ ] Reranking stage added for production (cross-encoder or Cohere rerank)
+- [ ] Batch indexing with retry and error handling
+- [ ] Latency monitored (p95 < 100ms for ANN, reranking adds 50-200ms)
+- [ ] Recall monitored (monthly ground-truth eval against exact k-NN)
+- [ ] Index maintenance (rebuild schedule for IVFFlat as data grows)

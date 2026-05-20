@@ -1,6 +1,6 @@
 ---
 name: task-system
-description: "File-backed task management with dependencies (blockedBy/blocks), automatic parallel execution, and session persistence. For complex work with 3+ interdependent tasks."
+description: "File-backed task management with dependencies and parallel execution. Use for complex work with 3+ interdependent tasks."
 context: fork
 globs: []
 alwaysApply: false

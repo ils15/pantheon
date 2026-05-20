@@ -28,8 +28,7 @@ steps: 20
 skills:
   - database-migration
   - database-optimization
-  - performance-optimization
-  - ai-slop-remover
+  - simplify
   - cache-strategy
 ---
 

@@ -12,7 +12,6 @@ tools:
   edit: true
 skills:
   - code-review-checklist
-  - security-audit
   - security-audit-pro
   - tdd-with-agents
   - review-work
