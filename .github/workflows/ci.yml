@@ -89,3 +89,25 @@ jobs:
 
       - name: Validate platform sync freshness
         run: npm run sync:check
+
+      - name: Validate skill SKILL.md frontmatter
+        run: |
+          set -e; FAILED=0
+          for file in skills/*/SKILL.md; do
+            [ -f "$file" ] || continue
+            fm=$(awk '/^---/{if(f){exit}else{f=1;next}} f{print}' "$file")
+            if [ -z "$fm" ]; then
+              echo "❌ No frontmatter in $file"; FAILED=1; continue
+            fi
+            # Check required fields: name and description
+            echo "$fm" | grep -q '^name:' || { echo "❌ Missing 'name' in $file"; FAILED=1; }
+            echo "$fm" | grep -q '^description:' || { echo "❌ Missing 'description' in $file"; FAILED=1; }
+            # Validate YAML syntax
+            tmp=$(mktemp --suffix=.yml)
+            echo "$fm" > "$tmp"
+            yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$tmp" \
+              && echo "✅ $file" \
+              || { echo "❌ $file"; FAILED=1; }
+            rm "$tmp"
+          done
+          [ "$FAILED" -eq 0 ] || exit 1
