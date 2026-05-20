@@ -70,6 +70,24 @@ Users reported that even a simple "oi" consumed 17-20K tokens per session. Inves
 ### Changed
 ### Fixed
 
+
+## [3.6.1] - 2026-05-20
+
+### Added
+
+- V3.6.0 — token optimization (-97% auto-loaded context)
+  Pantheon v3.6.0 reduces auto-loaded context from ~27K to ~748 tokens
+- Add commands/commands.json as source of truth for OpenCode commands
+
+### Fixed
+
+- Clean orphaned skill references, sync platforms, fix CI agent check
+  - Remove all references to 9 deleted skills from agent files
+- Make release branch push idempotent to handle CI re-runs
+  Delete remote release branch before pushing to avoid non-fast-forward
+- Restore [Unreleased] section in CHANGELOG for auto-versioning
+- Sync platform files after zeus.agent.md edit
+
 ## [v3.5.0] - 2026-05-19
 
 Pantheon v3.5.0 is a **commands and skills expansion release** — the result of extracting, documenting, and testing the full feature set from oh-my-openagent, agentic, OpenAgentsControl, and oh-my-opencode-slim into Pantheon's existing 18-agent architecture. Zero new agents. Everything as skills, hooks, and commands on the existing roster.
