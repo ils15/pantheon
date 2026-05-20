@@ -32,8 +32,8 @@ Artifact naming convention (all land in `.tmp/` except ADR):
 ```
 @mnemosyne Initialize the memory bank for this repo
 → Analyze repo structure
-→ Create docs/memory-bank/00-overview.md through 03-tech-context.md
-→ Create empty 04-active-context.md and 05-progress-log.md
+→ Create docs/memory-bank/00-project.md through 00-project.md
+→ Create empty 01-active-context.md and 02-progress-log.md
 → Write key facts to /memories/repo/
 → Output: list of created files
 ```
@@ -42,8 +42,8 @@ Artifact naming convention (all land in `.tmp/` except ADR):
 ```
 @mnemosyne Close sprint: [summary of what was completed]
 → Wipe entire docs/memory-bank/.tmp/ folder (all ephemeral artifacts deleted)
-→ Update docs/memory-bank/04-active-context.md (new focus, recent decisions, blockers)
-→ Append to docs/memory-bank/05-progress-log.md (what was completed, date)
+→ Update docs/memory-bank/01-active-context.md (new focus, recent decisions, blockers)
+→ Append to docs/memory-bank/02-progress-log.md (what was completed, date)
 → Output: updated files + confirmation ".tmp/ wiped"
 ```
 
@@ -63,7 +63,7 @@ Artifact naming convention (all land in `.tmp/` except ADR):
 → Output: created file path
 ```
 
-**You are NOT invoked automatically after every implementation phase.** Implementation agents may append directly to `04-active-context.md` and `05-progress-log.md`. You are invoked when structure, quality, or explicit documentation is required.
+**You are NOT invoked automatically after every implementation phase.** Implementation agents may append directly to `01-active-context.md` and `02-progress-log.md`. You are invoked when structure, quality, or explicit documentation is required.
 
 ### 5. Artifact cleanup
 
@@ -96,12 +96,12 @@ Artifact naming convention (all land in `.tmp/` except ADR):
 ### `docs/memory-bank/` — what you own
 ```
 docs/memory-bank/
-├── 00-overview.md           ← What is this project? (fill once)
-├── 01-architecture.md       ← System design (fill once, update rarely)
-├── 02-components.md         ← Component breakdown (update as components change)
-├── 03-tech-context.md       ← Tech stack, setup (fill once)
-├── 04-active-context.md     ← Sprint focus, decisions, blockers  ← most important
-├── 05-progress-log.md       ← Completed milestones (append-only)
+├── 00-project.md           ← What is this project? (fill once)
+├── 00-project.md       ← System design (fill once, update rarely)
+├── 00-project.md         ← Component breakdown (update as components change)
+├── 00-project.md       ← Tech stack, setup (fill once)
+├── 01-active-context.md     ← Sprint focus, decisions, blockers  ← most important
+├── 02-progress-log.md       ← Completed milestones (append-only)
 ├── _tasks/
 │   ├── _index.md
 │   └── TASK0001-name.md
@@ -110,20 +110,20 @@ docs/memory-bank/
     └── NOTE0001-topic.md
 ```
 
-**`04-active-context.md` is the priority file.** It is what `copilot-instructions.md` points to. Always keep it current when closing a sprint.
+**`01-active-context.md` is the priority file.** It is what `copilot-instructions.md` points to. Always keep it current when closing a sprint.
 
 ### Session → active context graduation
 
 ```
 During sprint:   agents write to /memories/session/sprint-plan.md  (ephemeral)
-At sprint close: @mnemosyne graduates relevant content to 04-active-context.md (permanent)
+At sprint close: @mnemosyne graduates relevant content to 01-active-context.md (permanent)
 ```
 
 ---
 
 ## File Templates
 
-### `04-active-context.md`
+### `01-active-context.md`
 ```markdown
 # Active Context — [Sprint/Feature Name]
 
@@ -194,7 +194,7 @@ At sprint close: @mnemosyne graduates relevant content to 04-active-context.md (
 ## Quality Rules
 
 - **`_notes/` are immutable** — never edit a decision note; create a new one that supersedes it
-- **`05-progress-log.md` is append-only** — never edit history
+- **`02-progress-log.md` is append-only** — never edit history
 - **No numbered files outside the defined structure** — no `06-whatever.md`
 - **`_index.md` files must be updated** when any file is added to `_tasks/` or `_notes/`
 - **No session output as files** — SUMMARY.md, ANALYSIS.md, STATUS.md are forbidden
@@ -203,8 +203,8 @@ At sprint close: @mnemosyne graduates relevant content to 04-active-context.md (
 
 ## Integration with Other Agents
 
-- **@athena**: Provides plans at sprint start → you graduate them to `04-active-context.md` at sprint close
-- **@hermes / @aphrodite / @demeter**: Implement features → they may append to `04-active-context.md` directly; you are invoked for task records
+- **@athena**: Provides plans at sprint start → you graduate them to `01-active-context.md` at sprint close
+- **@hermes / @aphrodite / @demeter**: Implement features → they may append to `01-active-context.md` directly; you are invoked for task records
 - **@themis**: Provides security findings → you create `_notes/` entries for significant findings
 - **@prometheus**: Documents deployment → you create `_notes/` entries for infrastructure decisions
 - **@apollo**: Investigation findings → you create `_notes/` entries when findings are architectural

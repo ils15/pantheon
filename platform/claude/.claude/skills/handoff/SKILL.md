@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: "Generate structured session handoff for continuing work in a new session. Captures current state, what was done, what remains, decisions, and relevant files."
+description: "Generate session handoff documents for work continuation. Use when transitioning between sessions."
 context: fork
 globs: []
 alwaysApply: false

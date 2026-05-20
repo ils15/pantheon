@@ -1,6 +1,6 @@
 ---
 name: interview
-description: "Turn a rough idea into a structured spec through a short Q&A interview. Ask 3–5 targeted questions one at a time, then produce a complete markdown spec with goals, requirements, constraints, and open questions. Use before starting any non-trivial feature."
+description: "Interview users to convert rough ideas into structured specs. Use before starting non-trivial features."
 context: fork
 globs: []
 alwaysApply: false

@@ -1,6 +1,6 @@
 ---
 name: remote-sensing-analysis
-description: "Complete remote sensing pipeline — optical/SAR processing, spectral indices, time series analysis, ML/DL classification, LULC inter-product agreement, statistical accuracy assessment (Olofsson 2014), cloud platform integration (GEE, STAC), and scientific literature search"
+description: "Remote sensing pipeline with optical/SAR processing and ML classification. Use for satellite imagery analysis."
 context: fork
 globs: ["**/*.tif", "**/*.tiff", "**/*.nc", "**/scripts/rs_*.py"]
 alwaysApply: false

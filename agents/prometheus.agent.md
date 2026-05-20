@@ -27,8 +27,7 @@ temperature: 0.2
 steps: 15
 skills:
   - docker-best-practices
-  - performance-optimization
-  - session-recovery
+  - database-optimization
 ---
 
 # Prometheus - Infrastructure Implementation Specialist

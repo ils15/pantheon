@@ -1,6 +1,6 @@
 ---
 name: artifact-management
-description: "Complete guide to the artifact trail system - plans directory structure, templates, and best practices for documenting feature implementations"
+description: "Artifact trail system for documenting feature implementations. Use for plans directory structure."
 context: fork
 globs: ["**/docs/memory-bank/**", "**/instructions/**"]
 alwaysApply: false

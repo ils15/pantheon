@@ -1,6 +1,6 @@
 ---
 name: session-goal
-description: "Pin a session objective so all todos, delegation decisions, and verification steps stay aligned with a single stated goal. Prevents scope creep and drift across long multi-agent sessions."
+description: "Pin session objectives to prevent scope creep. Use for alignment across long multi-agent sessions."
 context: fork
 globs: []
 alwaysApply: false

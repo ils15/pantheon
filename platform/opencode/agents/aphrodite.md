@@ -13,9 +13,8 @@ tools:
 skills:
   - frontend-analyzer
   - tdd-with-agents
-  - web-ui-analysis
   - nextjs-seo-optimization
-  - ai-slop-remover
+  - simplify
 handoffs:
   - label: ➡️ Send to Themis
     agent: themis

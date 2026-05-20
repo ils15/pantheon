@@ -1,6 +1,6 @@
 ---
 name: docker-best-practices
-description: Create optimized Dockerfiles with multi-stage builds, security hardening, layer caching, and health checks. Includes docker-compose patterns for development and production environments.
+description: Optimized Dockerfiles with multi-stage builds and security hardening. Use for container setup and docker-compose.
 context: fork
 globs: ["**/Dockerfile", "**/docker-compose*"]
 alwaysApply: false

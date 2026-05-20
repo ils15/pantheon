@@ -12,8 +12,7 @@ tools:
   bash: true
 skills:
   - docker-best-practices
-  - performance-optimization
-  - session-recovery
+  - database-optimization
 handoffs:
   - label: ➡️ Validate Infrastructure
     agent: themis

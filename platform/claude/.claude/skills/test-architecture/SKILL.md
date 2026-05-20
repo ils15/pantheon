@@ -1,6 +1,6 @@
 ---
 name: test-architecture
-description: "Advanced testing patterns — E2E with Playwright, load testing with k6/locust, mutation testing, contract testing with Pact, visual regression. Complements tdd-with-agents."
+description: "Advanced testing with E2E, load, mutation, and contract tests. Use for production-ready test coverage beyond unit tests."
 context: fork
 globs: ["**/test_*.py", "**/*.test.ts", "**/*.spec.ts", "**/e2e/**", "**/tests/e2e/**"]
 alwaysApply: false

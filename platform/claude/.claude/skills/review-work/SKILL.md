@@ -1,6 +1,6 @@
 ---
 name: review-work
-description: "Post-implementation review orchestrator — launches 5 parallel sub-checks: goal verification, code quality, security, QA, and context mining. All must pass for review to pass."
+description: "Parallel review with 5 checks: goal, quality, security, QA, context. Use for comprehensive post-implementation validation."
 context: fork
 globs: []
 alwaysApply: false

@@ -3,7 +3,7 @@ name: prometheus
 description: Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management, container deprecation scans. Calls apollo as nested subagent for pattern discovery. Sends work to themis for validation.
 mode: primary
 tools: Agent, AskUserQuestion, Grep, Grep, Read, Edit, Bash, Bash
-skills: docker-best-practices, performance-optimization, session-recovery
+skills: docker-best-practices, database-optimization
 agents:
   - apollo
 user-invocable: true

@@ -9,7 +9,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-18-purple" alt="Agents"></a>
-  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-33-orange" alt="Skills"></a>
+  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-24-orange" alt="Skills"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf|cline|continue-8250DF" alt="Built with"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/ci.yml?branch=main&label=CI" alt="CI"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/release.yml?branch=main&label=release" alt="Release"></a>
@@ -28,7 +28,7 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 | Resource | Link |
 |----------|------|
 | 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 18 agents |
-| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 33 skills |
+| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 24 skills |
 | 🚀 **Installation Guide** | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
 | 🔌 **MCP Servers** | [docs/mcp-recommendations.md](docs/mcp-recommendations.md) — recommended MCP servers for each project type |
 | ⚡ **Quick Start** | [docs/QUICKSTART.md](docs/QUICKSTART.md) |
@@ -387,19 +387,19 @@ graph TB
 
 ## Skill Ecosystem
 
-Pantheon bundles **33 skills** — modular instruction sets that agents load on demand
+Pantheon bundles **24 skills** — modular instruction sets that agents load on demand
 to perform specialized tasks. Skills are organized into domains:
 
 | Domain | Skills |
 |---|---|
-| **Orchestration** | agent-coordination, orchestration-workflow, artifact-management, tdd-with-agents |
+| **Orchestration** | agent-coordination, artifact-management, tdd-with-agents, auto-continue, session-goal |
 | **Backend & API** | api-design-patterns, fastapi-async-patterns, database-migration, database-optimization |
-| **Frontend** | frontend-analyzer, nextjs-seo-optimization, web-ui-analysis |
-| **AI Pipelines** | rag-pipelines, vector-search, multi-model-routing, conversational-ai-design, mcp-server-development |
-| **Infrastructure** | docker-best-practices, performance-optimization, streaming-patterns |
-| **Security & Quality** | security-audit, code-review-checklist, prompt-injection-security |
+| **Frontend** | frontend-analyzer, nextjs-seo-optimization |
+| **AI Pipelines** | rag-pipelines, multi-model-routing, conversational-ai-design, mcp-server-development |
+| **Infrastructure** | docker-best-practices, streaming-patterns, cache-strategy |
+| **Security & Quality** | security-audit-pro, code-review-checklist, prompt-injection-security, simplify |
 | **Domain** | remote-sensing-analysis, internet-search |
-| **Utilities** | prompt-improver, agent-evaluation, agent-observability |
+| **Utilities** | prompt-improver, agent-evaluation, agent-observability, metis-gap-analysis, interview |
 
 > See [skills/README.md](skills/README.md) for the complete reference with descriptions
 > and usage patterns.
@@ -560,10 +560,9 @@ pantheon/
 │   ├── nyx.agent.md           — observability
 │   └── README.md
 │
-├── skills/                    — 29 skill modules
+├── skills/                    — 24 skill modules
 │   ├── README.md
 │   ├── agent-coordination/    * orchestration & coordination
-│   ├── orchestration-workflow/
 │   ├── artifact-management/
 │   ├── tdd-with-agents/
 │   ├── api-design-patterns/   * backend & API
@@ -572,16 +571,13 @@ pantheon/
 │   ├── database-optimization/
 │   ├── frontend-analyzer/     * frontend
 │   ├── nextjs-seo-optimization/
-│   ├── web-ui-analysis/
 │   ├── rag-pipelines/         * AI pipelines
-│   ├── vector-search/
 │   ├── multi-model-routing/
 │   ├── conversational-ai-design/
 │   ├── mcp-server-development/
 │   ├── docker-best-practices/ * infrastructure
-│   ├── performance-optimization/
 │   ├── streaming-patterns/
-│   ├── security-audit/        * security & quality
+│   ├── security-audit-pro/    * security & quality
 │   ├── code-review-checklist/
 │   ├── prompt-injection-security/
 │   ├── remote-sensing-analysis/ * domain
@@ -589,8 +585,8 @@ pantheon/
 │   ├── prompt-improver/       * utilities
 │   ├── agent-evaluation/
 │   ├── agent-observability/
-│   ├── changelog/              * changelog generation
-│   ├── codemap/                * codebase mapping
+│   ├── simplify/              * code quality
+│   ├── metis-gap-analysis/
 │   └── */SKILL.md
 │
 ├── instructions/              — 9 domain coding standards
@@ -869,7 +865,6 @@ Pantheon draws from the broader multi-agent landscape while diverging in key way
 | [platform/plans/](platform/plans/) | Model plan configurations |
 | [.github/hooks/](.github/hooks/) | Agent lifecycle hooks |
 | [skills/agent-coordination/SKILL.md](skills/agent-coordination/SKILL.md) | When to use which agent |
-| [skills/orchestration-workflow/SKILL.md](skills/orchestration-workflow/SKILL.md) | Step-by-step walkthrough |
 | [skills/tdd-with-agents/SKILL.md](skills/tdd-with-agents/SKILL.md) | TDD standards and rules |
 
 ---
