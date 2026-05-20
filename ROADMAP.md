@@ -1,6 +1,6 @@
 # 🗺️ Pantheon Roadmap
 
-> **Last updated:** v3.4.0 (2026-05-18)
+> **Last updated:** v3.6.0 (2026-05-20)
 >
 > This document tracks what was delivered, what's coming next, and how you
 > can influence priorities. The roadmap is a living document — PRs and issues
