@@ -89,3 +89,17 @@ jobs:
 
       - name: Validate platform sync freshness
         run: npm run sync:check
+
+      - name: Validate skill SKILL.md files
+        run: |
+          set -e; FAILED=0
+          for dir in skills/*/; do
+            [ -f "${dir}SKILL.md" ] || { echo "⚠️  No SKILL.md in $dir"; FAILED=1; continue; }
+            fm=$(awk '/^---/{if(f){exit}else{f=1;next}} f{print}' "${dir}SKILL.md")
+            [ -z "$fm" ] && { echo "❌ No frontmatter in ${dir}SKILL.md"; FAILED=1; continue; }
+            tmp=$(mktemp --suffix=.yml)
+            echo "$fm" > "$tmp"
+            yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$tmp" && echo "✅ ${dir}SKILL.md" || { echo "❌ ${dir}SKILL.md"; FAILED=1; }
+            rm "$tmp"
+          done
+          [ "$FAILED" -eq 0 ] || exit 1
