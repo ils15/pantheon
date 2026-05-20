@@ -361,6 +361,13 @@
       "curl *": "allow",
       "gh *": "allow",
       "make *": "allow"
+    },
+    "skill": {
+      "*": "allow"
     }
-  }
+  },
+  "instructions": [
+    "AGENTS.md",
+    "instructions/*.instructions.md"
+  ]
 }

@@ -29,7 +29,8 @@ agents/coupon.agent.md
 instructions/vault-secrets-access.instructions.md
 
 # Artifact temp folder (ephemeral — wiped on sprint close, never committed)
-docs/memory-bank/.tmp/
+# Memory bank (project-specific context — not tracked in framework repo)
+docs/memory-bank/
 
 # Code indexer files (gtags, cscope)
 GTAGS
