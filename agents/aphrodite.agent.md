@@ -41,9 +41,8 @@ steps: 30
 skills:
   - frontend-analyzer
   - tdd-with-agents
-  - web-ui-analysis
   - nextjs-seo-optimization
-  - ai-slop-remover
+  - simplify
 ---
 
 # Aphrodite - React Implementation Specialist

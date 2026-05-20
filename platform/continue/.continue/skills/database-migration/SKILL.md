@@ -1,6 +1,6 @@
 ---
 name: database-migration
-description: "Database migrations with Alembic - forward scripts, rollbacks, testing, zero-downtime deployment"
+description: "Database migrations with Alembic, rollbacks, and zero-downtime deployment. Use for schema changes."
 globs: ["**/alembic/**", "**/migrations/**"]
 alwaysApply: false
 ---

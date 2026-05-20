@@ -1,6 +1,6 @@
 ---
 name: prompt-improver
-description: Improve prompts for AI agents and Telegram bots using OpenAI's prompt engineering best practices. Analyzes clarity, specificity, context, and output format. Returns structured improvements.
+description: Improve prompts using best practices for clarity and specificity. Use for optimizing AI agent and bot instructions.
 context: fork
 globs: ["**/*.prompt.md", "**/prompts/**"]
 alwaysApply: false

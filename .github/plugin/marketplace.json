@@ -12,7 +12,7 @@
     {
       "name": "pantheon",
       "source": "./",
-      "description": "Complete multi-agent orchestration system featuring Zeus (orchestrator), Athena (planner), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Demeter (database), Prometheus (infra), Iris (GitHub), Themis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). 18 on-demand skills for TDD, security, API design, database migration, Docker, and more.",
+      "description": "Complete multi-agent orchestration system featuring Zeus (orchestrator), Athena (planner), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Demeter (database), Prometheus (infra), Iris (GitHub), Themis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). 24 on-demand skills for TDD, security, API design, database migration, Docker, and more.",
       "version": "3.4.0",
       "agents": [
         "./agents"
@@ -29,13 +29,11 @@
         "./skills/frontend-analyzer",
         "./skills/internet-search",
         "./skills/nextjs-seo-optimization",
-        "./skills/orchestration-workflow",
-        "./skills/performance-optimization",
         "./skills/prompt-improver",
         "./skills/remote-sensing-analysis",
-        "./skills/security-audit",
+        "./skills/security-audit-pro",
         "./skills/tdd-with-agents",
-        "./skills/web-ui-analysis"
+        "./skills/simplify"
       ]
     }
   ]

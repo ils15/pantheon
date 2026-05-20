@@ -35,7 +35,6 @@ temperature: 0.3
 steps: 25
 skills:
   - rag-pipelines
-  - vector-search
   - mcp-server-development
   - agent-evaluation
 ---

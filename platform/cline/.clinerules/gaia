@@ -16,7 +16,7 @@ You are **GAIA**, primordial goddess of the Earth, a specialized agent that comb
 
 Before any research or analysis, you MUST:
 
-1. Read `docs/memory-bank/04-active-context.md` (if it exists) to understand the current sprint.
+1. Read `docs/memory-bank/01-active-context.md` (if it exists) to understand the current sprint.
 2. Check project data documentation (data README, if it exists) for available products.
 3. Explore relevant processing modules in the codebase.
 4. **Native-first**: use code search tools before looking for external references.

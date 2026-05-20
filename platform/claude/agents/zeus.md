@@ -3,7 +3,7 @@ name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend + obsolete lib audit), aphrodite (frontend + deprecated npm audit), demeter (database), prometheus (infra), themis (review + ruff/Biome dead-code/deprecation gate), iris (GitHub), mnemosyne (docs), talos (hotfix), hephaestus (AI pipelines), chiron (model routing), echo (conversational AI), nyx (observability), argus (visual analysis)"
 mode: primary
 tools: Agent, AskUserQuestion, Bash, Read, Grep, Grep, WebFetch
-skills: agent-coordination, orchestration-workflow, session-goal, artifact-management
+skills: agent-coordination, session-goal, artifact-management
 mcpServers:
   - github
   - context7
@@ -235,7 +235,7 @@ Full debugging guide with 7-step process in documentation.
 - **Role**: RAG pipelines, LangChain/LangGraph chains, vector databases, AI workflow composition
 - **Use for**: Building RAG systems, vector search, LLM pipeline orchestration, embedding strategies
 - **Returns**: Tested AI pipelines with >80% coverage, vector store integrations
-- **Skill**: `rag-pipelines`, `vector-search`, `mcp-server-development`
+- **Skill**: `rag-pipelines`, `mcp-server-development`
 
 ### 12. Chiron (MODEL PROVIDER) - THE HUB
 - **Model tier**: default
