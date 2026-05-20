@@ -12,7 +12,6 @@ tools:
 skills:
   - database-migration
   - database-optimization
-  - simplify
   - cache-strategy
 handoffs:
   - label: ➡️ Send to Themis

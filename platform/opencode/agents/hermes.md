@@ -14,8 +14,6 @@ skills:
   - fastapi-async-patterns
   - tdd-with-agents
   - database-optimization
-  - simplify
-  - test-architecture
   - cache-strategy
 handoffs:
   - label: Send to Themis

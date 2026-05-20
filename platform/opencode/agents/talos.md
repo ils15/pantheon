@@ -10,7 +10,6 @@ tools:
   bash: true
 skills:
   - tdd-with-agents
-  - ai-slop-remover
 handoffs:
   - label: 🚨 Escalate to Zeus
     agent: zeus

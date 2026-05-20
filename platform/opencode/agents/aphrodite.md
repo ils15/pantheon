@@ -14,7 +14,6 @@ skills:
   - frontend-analyzer
   - tdd-with-agents
   - nextjs-seo-optimization
-  - simplify
 handoffs:
   - label: ➡️ Send to Themis
     agent: themis

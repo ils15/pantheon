@@ -3,7 +3,7 @@ name: aphrodite
 description: Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD, modern API patterns, deprecated npm detection via npm-deprecated-check/Biome. Calls apollo as nested subagent to discover components. Sends work to themis for review.
 mode: primary
 tools: Agent, AskUserQuestion, Grep, Grep, Read, Edit, Bash, Bash, Bash
-skills: frontend-analyzer, tdd-with-agents, nextjs-seo-optimization, simplify
+skills: frontend-analyzer, tdd-with-agents, nextjs-seo-optimization
 mcpServers:
   - context7
 agents:

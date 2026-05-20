@@ -1,173 +1,139 @@
 ---
 name: code-review-checklist
-description: Systematic code review with quality gates and SOLID principles. Use for structured feedback on pull requests.
-globs: ["**/*.py", "**/*.ts", "**/*.tsx"]
+description: "Systematic code review with quality gates, security audit, and parallel checks. Use for structured feedback on pull requests."
+context: fork
+globs: []
 alwaysApply: false
 ---
 
-# Code Review Checklist Skill
+# Code Review Checklist
 
-## When to Use
+Systematic code review combining quality gates, security audit (OWASP Top 10), and parallel checks for comprehensive validation.
 
-Use this skill when:
-- Reviewing pull requests
-- Validating code quality before merge
-- Checking test coverage
-- Ensuring SOLID principles
-- Validating error handling
-- Reviewing documentation
-- Checking for anti-patterns
+---
 
-## Review Framework
+## Review Scope
 
-### 1. Code Quality Gates
+- Review **ONLY changed files** (check diff, not entire file)
+- Check related commits
+- Link to related PRs/issues
 
-```
-✅ Must Pass:
-- [ ] No linting errors (flake8/ESLint)
-- [ ] Type checking passes (mypy/tsc)
-- [ ] Tests pass (pytest/jest)
-- [ ] Coverage ≥ 80%
-- [ ] No security vulnerabilities
-- [ ] Documentation updated
-```
+---
 
-### 2. SOLID Principles
+## Automated Quality Checks (Run FIRST)
 
-```
-S - Single Responsibility
-    ❌ Function does multiple unrelated things
-    ✅ Function has one clear purpose
+**Before any manual review, run automated checks:**
 
-O - Open/Closed
-    ❌ Modifying existing code for new features
-    ✅ Extending via inheritance/composition
+```bash
+# Python
+ruff check src/ --fix && black --check src/ && isort --check-only src/
 
-L - Liskov Substitution
-    ❌ Subclass changes parent behavior
-    ✅ Subclass is drop-in replacement
-
-I - Interface Segregation
-    ❌ Large interfaces with unused methods
-    ✅ Small, focused interfaces
-
-D - Dependency Inversion
-    ❌ High-level depends on low-level
-    ✅ Both depend on abstractions
+# TypeScript/JavaScript
+eslint src/ --fix && prettier --check src/
 ```
 
-### 3. Error Handling Patterns
+**Block review if checks fail.** Return NEEDS_REVISION with specific violations.
 
-```python
-# ✅ Proper error handling
-from fastapi import HTTPException
+---
 
-async def get_user(user_id: int) -> User:
-    user = await user_repository.get(user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return user
+## Review Checklist
 
-# ❌ Anti-patterns
-async def get_user(user_id: int):
-    try:
-        return await user_repository.get(user_id)
-    except:  # Never bare except!
-        return None  # Hiding errors
-```
+### Correctness
+- [ ] Logic is correct and complete
+- [ ] Edge cases handled
+- [ ] Error handling appropriate
+- [ ] Performance acceptable
 
-### 4. Test Coverage Analysis
+### Code Quality
+- [ ] No duplication (DRY principle)
+- [ ] Single responsibility functions
+- [ ] Clear and descriptive naming
+- [ ] Reasonable complexity (no god functions)
+- [ ] Proper file sizes (<300 lines)
 
-```
-✅ Required Coverage:
-- Unit tests: ≥ 80%
-- Integration tests: Critical paths
-- E2E tests: User journeys
+### Testing
+- [ ] Unit tests written
+- [ ] Coverage ≥80%
+- [ ] Integration tests for workflows
+- [ ] Edge cases tested
+- [ ] Error conditions tested
 
-✅ Test Quality:
-- [ ] Tests are independent
-- [ ] Tests have clear assertions
-- [ ] Edge cases covered
-- [ ] Error paths tested
-- [ ] No flaky tests
-```
+### Security (OWASP Top 10)
+- [ ] Input validation present
+- [ ] No hardcoded secrets/credentials
+- [ ] No XXE, CSRF, XSS vulnerabilities
+- [ ] Authentication/authorization proper
+- [ ] Sensitive data encrypted
+- [ ] Rate limiting on sensitive endpoints
+- [ ] Audit logging for security events
 
-### 5. Documentation Check
+### Documentation
+- [ ] Public functions documented
+- [ ] Comments explain WHY not WHAT
+- [ ] README/guides accurate
+- [ ] API documentation complete
 
-```
-✅ Required Docs:
-- [ ] Function docstrings (purpose, params, returns)
-- [ ] Complex logic explained
-- [ ] API endpoints documented
-- [ ] README updated if needed
-- [ ] CHANGELOG updated
-```
+---
 
-## Review Severity Levels
+## Feedback Format
 
 ```
-🔴 BLOCKER - Must fix before merge
-   - Security vulnerability
-   - Breaking change
-   - Test failure
-   - Data loss risk
+## Verdict: APPROVED | NEEDS_REVISION | FAILED
 
-🟠 MAJOR - Should fix before merge
-   - Missing error handling
-   - Poor performance
-   - Missing tests
-   - Unclear logic
+### Issues
+- CRITICAL: X | HIGH: Y | MEDIUM: Z | LOW: W
 
-🟡 MINOR - Nice to fix
-   - Style issues
-   - Minor refactoring
-   - Documentation gaps
-   - Code duplication
+### Details
+- [CRITICAL] file.py:42 — SQL injection risk, use parameterized queries
+- [HIGH] component.tsx:15 — Missing input validation
+- [MEDIUM] test_utils.py:8 — Edge case not covered
 
-🟢 SUGGESTION - Optional improvement
-   - Alternative approach
-   - Future optimization
-   - Best practice tip
+### 🔍 Human Review Focus
+1. [Item AI cannot fully validate — e.g., business logic correctness]
+2. [Item 2 — e.g., UX flow matches requirements]
 ```
 
-## Output Format
+---
 
-```markdown
-## Code Review Summary
+## Parallel Review Pattern
 
-### Overview
-- Files reviewed: X
-- Lines changed: +X / -X
-- Test coverage: X%
+For comprehensive reviews, run 5 checks simultaneously:
 
-### Quality Gates
-- ✅ Linting: Passed
-- ✅ Type checking: Passed
-- ⚠️ Tests: 2 failures
-- ❌ Coverage: 65% (target: 80%)
+| Check | Focus | Agent |
+|-------|-------|-------|
+| **Goal** | Does it meet requirements? | Themis |
+| **Quality** | Code quality, SOLID, DRY | Themis |
+| **Security** | OWASP Top 10, secrets | Themis |
+| **QA** | Tests, coverage, edge cases | Themis |
+| **Context** | Fits architecture, no regressions | Themis |
 
-### Findings
+---
 
-#### 🔴 [BLOCKER] Missing input validation
-- **File**: `services/user_service.py:45`
-- **Issue**: User input not sanitized
-- **Fix**: Add Pydantic validation
+## Severity Definitions
 
-#### 🟠 [MAJOR] N+1 query in get_orders
-- **File**: `repositories/order_repo.py:23`
-- **Issue**: Eager loading missing
-- **Fix**: Use `selectinload()`
+| Level | Action | Example |
+|-------|--------|---------|
+| **CRITICAL** | Block merge | Security vulnerability, data loss risk |
+| **HIGH** | Must fix before merge | Missing auth, broken error handling |
+| **MEDIUM** | Should fix soon | Missing tests, code duplication |
+| **LOW** | Nice to have | Naming, formatting, minor docs |
 
-### Verdict
-- ✅ APPROVE (with suggestions)
-- ⚠️ REQUEST CHANGES (blockers found)
-```
+---
 
-## Example Usage
+## SOLID Principles Check
 
-```
-@reviewer Review the PR for user authentication feature
-@reviewer Check test coverage on the new endpoints
-@reviewer Validate error handling in payment service
-@reviewer Analyze code for SOLID violations
-```
+- **S**ingle Responsibility: Each class/function does one thing
+- **O**pen/Closed: Extensible without modification
+- **L**iskov Substitution: Subtypes behave like base types
+- **I**nterface Segregation: Small, focused interfaces
+- **D**ependency Inversion: Depend on abstractions, not concretions
+
+---
+
+## Anti-Patterns
+
+- ❌ Reviewing entire file instead of diff
+- ❌ Approving without running tests
+- ❌ Ignoring security implications
+- ❌ Vague feedback ("looks good", "needs work")
+- ❌ Nitpicking style over substance

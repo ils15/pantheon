@@ -54,9 +54,9 @@ Read `docs/memory-bank/01-active-context.md` **only when**:
 
 You must **stop and wait for explicit user approval** at each gate. Use `agent/askQuestions` to ask interactively — do not rely on ⏸️ text markers alone:
 
-1. **Planning Gate:** Athena generates plan → call `agent/askQuestions` asking:  
+1. **Planning Gate:** Athena generates plan → present a **Decision Log** showing what was decided, alternatives considered, and trade-offs accepted, then call `agent/askQuestions` asking:  
    `"Athena's plan is ready. Do you approve it? (yes / request changes)"`  
-2. **Phase Review Gate:** After Themis review → call `agent/askQuestions` asking:  
+2. **Phase Review Gate:** After Themis review → present a **Decision Log** with phase decisions, alternatives rejected, and trade-offs, then call `agent/askQuestions` asking:  
    `"Phase N review complete. Issues found: [summary]. Approve to continue? (yes / fix first)"`  
 3. **Git Commit Gate:** Before finalization → call `agent/askQuestions` asking:  
    `"Suggested commit: '<message>'. Ready to commit? I'll wait — run git commit manually."`
