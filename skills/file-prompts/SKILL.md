@@ -1,6 +1,6 @@
 ---
 name: file-prompts
-description: "Load agent system prompts from external files using file:// URLs. Supports ~ expansion and relative paths. Enables version-controlled prompts separate from config."
+description: "Load prompts from external files with path expansion. Use for version-controlled prompts outside config."
 context: fork
 globs: []
 alwaysApply: false

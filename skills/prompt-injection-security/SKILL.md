@@ -1,6 +1,6 @@
 ---
 name: prompt-injection-security
-description: "Prompt injection detection, prevention, and mitigation — LLM input sanitization, output validation, defense patterns, guardrails, RAG security, and red-teaming"
+description: "Prompt injection defense with input sanitization and guardrails. Use for securing LLM applications."
 context: fork
 globs: ["**/*.py", "**/*.ts", "**/*.tsx"]
 alwaysApply: false

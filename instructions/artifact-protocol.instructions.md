@@ -30,8 +30,8 @@ docs/memory-bank/
 │   └── REVIEW-<feature>.md
 ├── _notes/                ← COMMITTED — permanent ADRs only
 │   └── ADR-<topic>.md
-├── 04-active-context.md   ← COMMITTED
-└── 05-progress-log.md     ← COMMITTED
+├── 01-active-context.md   ← COMMITTED
+└── 02-progress-log.md     ← COMMITTED
 ```
 
 ---

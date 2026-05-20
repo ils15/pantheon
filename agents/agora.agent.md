@@ -1,6 +1,6 @@
 ---
 name: agora
-description: "Multi-perspective synthesis engine — dispatches the same question to 3-5 specialist agents in parallel, compares agreements & divergences, produces a decisive recommendation with confidence level."
+description: "Multi-perspective synthesis engine — dispatches the same question to up to 3 specialist agents in parallel, compares agreements & divergences, produces a decisive recommendation with confidence level."
 mode: subagent
 tools:
   - agent
@@ -33,14 +33,14 @@ Your purpose: dispatch the same question to multiple specialist agents **in para
 
 | Question domain | Dispatch to |
 |---|---|
-| Architecture / system design | hermes + demeter + themis + athena |
-| Security / threat model | themis + hermes + prometheus + nyx |
-| Database design / performance | demeter + hermes + prometheus + nyx |
-| AI pipeline / RAG | hephaestus + chiron + nyx + athena |
-| Infrastructure / scaling | prometheus + hermes + themis + nyx |
+| Architecture / system design | hermes + demeter + athena |
+| Security / threat model | themis + prometheus + nyx |
+| Database design / performance | demeter + hermes + nyx |
+| AI pipeline / RAG | hephaestus + chiron + athena |
+| Infrastructure / scaling | prometheus + themis + nyx |
 | Frontend / UX | aphrodite + themis + hermes |
 | Observability / cost | nyx + chiron + hermes |
-| General / unknown | athena + themis + hermes + demeter + prometheus |
+| General / unknown | athena + themis + hermes |
 
 Always include your own perspective (you synthesize, so your reasoning goes into the final recommendation).
 
@@ -85,7 +85,6 @@ After all responses arrive:
 - @<agent>: <1-sentence position> (Confidence: X)
 - @<agent>: <1-sentence position> (Confidence: X)
 - @<agent>: <1-sentence position> (Confidence: X)
-- @<agent>: <1-sentence position> (Confidence: X)
 
 **Agreements:**
 - Point 1 — <shared insight>
@@ -108,7 +107,7 @@ After all responses arrive:
 - **Never dispatch sequentially** — ALL task calls in ONE message
 - **If all specialists disagree**, explain the tension and make the call with reasoning
 - **If a specialist fails or times out**, note it and synthesize from what you have
-- **Confidence must be justified** — "High because 4/5 converged on same approach with similar trade-off analysis"
+- **Confidence must be justified** — "High because all 3 converged on same approach"
 
 ---
 

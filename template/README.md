@@ -40,8 +40,8 @@ cd <your-project>
 ## Customization Checklist
 
 - [ ] Edit `.github/copilot-instructions.md` with your stack
-- [ ] Fill `docs/memory-bank/00-overview.md` with project scope
-- [ ] Fill `docs/memory-bank/03-tech-context.md` with tech details
+- [ ] Fill `docs/memory-bank/00-project.md` with project scope
+- [ ] Fill `docs/memory-bank/00-project.md` with tech details
 - [ ] Add project-specific skills to `skills/`
 - [ ] Update `package.json` with your project name
 - [ ] Commit and push — all agents + workflows are ready

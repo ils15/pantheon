@@ -21,7 +21,7 @@
   },
   "agent": {
     "zeus": {
-      "description": "Central orchestrator — delegates to specialized agents, never implements directly",
+      "description": "Central orchestrator — delegates tasks, never implements",
       "color": "#FFD700",
       "temperature": 0.2,
       "steps": 30,
@@ -36,7 +36,7 @@
       "task_budget": 30
     },
     "athena": {
-      "description": "Strategic planner & agora — creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
+      "description": "Strategic planner — TDD plans & architecture decisions",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 20,
@@ -48,7 +48,7 @@
       "task_budget": 10
     },
     "themis": {
-      "description": "Quality & security gate — MANDATORY review after every implementation phase",
+      "description": "Quality & security gate — mandatory review",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 20,
@@ -67,7 +67,7 @@
       "task_budget": 5
     },
     "hermes": {
-      "description": "Backend specialist — FastAPI, Python, async/await, TDD red-green-refactor",
+      "description": "Backend specialist — FastAPI, Python, async, TDD",
       "color": "#4A90D9",
       "temperature": 0.3,
       "steps": 30,
@@ -79,7 +79,7 @@
       }
     },
     "aphrodite": {
-      "description": "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, TDD",
+      "description": "Frontend specialist — React, TypeScript, WCAG, TDD",
       "color": "#4A90D9",
       "temperature": 0.5,
       "steps": 30,
@@ -91,7 +91,7 @@
       }
     },
     "demeter": {
-      "description": "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention",
+      "description": "Database specialist — SQLAlchemy, Alembic, query opt",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
@@ -103,7 +103,7 @@
       }
     },
     "prometheus": {
-      "description": "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD",
+      "description": "Infrastructure — Docker, compose, CI/CD, deploy",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 15,
@@ -115,7 +115,7 @@
       }
     },
     "hephaestus": {
-      "description": "AI pipelines specialist — RAG, LangChain/LangGraph, vector stores, embeddings",
+      "description": "AI pipelines — RAG, LangChain, vector, embeddings",
       "color": "#4A90D9",
       "temperature": 0.3,
       "steps": 25,
@@ -127,7 +127,7 @@
       }
     },
     "chiron": {
-      "description": "Model provider hub — multi-model routing, AWS Bedrock, cost optimization",
+      "description": "Model provider hub — routing, Bedrock, cost opt",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
@@ -139,7 +139,7 @@
       }
     },
     "echo": {
-      "description": "Conversational AI specialist — Rasa NLU, dialogue management, intent/entity design",
+      "description": "Conversational AI — Rasa, dialogue, intent/entity",
       "color": "#4A90D9",
       "temperature": 0.4,
       "steps": 20,
@@ -151,7 +151,7 @@
       }
     },
     "gaia": {
-      "description": "Remote sensing specialist — LULC analysis, satellite imagery, geospatial pipelines",
+      "description": "Remote sensing — LULC, satellite, geospatial",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
@@ -164,7 +164,7 @@
       "task_budget": 3
     },
     "apollo": {
-      "description": "Investigation scout — 3-10 parallel codebase searches, read-only, no edits",
+      "description": "Investigation scout — parallel searches, read-only",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 15,
@@ -177,7 +177,7 @@
       "task_budget": 0
     },
     "iris": {
-      "description": "GitHub operations — branches, pull requests, issues, releases, tags",
+      "description": "GitHub ops — branches, PRs, issues, releases",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 12,
@@ -193,7 +193,7 @@
       "task_budget": 2
     },
     "mnemosyne": {
-      "description": "Memory bank management — ADRs, project.md, atomic facts to /memories/repo/",
+      "description": "Memory bank — ADRs, project.md, atomic facts",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 20,
@@ -205,7 +205,7 @@
       "task_budget": 0
     },
     "talos": {
-      "description": "Hotfix express lane — small bugs, CSS, typos, direct fixes, no TDD ceremony",
+      "description": "Hotfix express — small bugs, CSS, typos, direct",
       "color": "#50C878",
       "temperature": 0.3,
       "steps": 5,
@@ -221,7 +221,7 @@
       "task_budget": 0
     },
     "nyx": {
-      "description": "Observability specialist — OpenTelemetry, LangSmith, token/cost tracking, alerting",
+      "description": "Observability — OpenTelemetry, cost tracking",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 15,
@@ -234,7 +234,7 @@
       "task_budget": 3
     },
     "argus": {
-      "description": "Visual analysis specialist — interprets screenshots, images, PDFs, diagrams, and UI mockups",
+      "description": "Visual analysis — screenshots, images, PDFs",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 15,
@@ -247,7 +247,7 @@
       "task_budget": 0
     },
     "agora": {
-      "description": "Multi-perspective synthesis engine — dispatches same question to 3-5 specialists in parallel, compares agreements & divergences, produces decisive recommendation",
+      "description": "Synthesis engine — parallel dispatch, compare, decide",
       "color": "#9B59B6",
       "temperature": 0.1,
       "steps": 20,
@@ -265,45 +265,50 @@
   },
   "command": {
     "pantheon": {
-      "description": "Gather 3-5 expert perspectives in parallel and synthesize a single recommendation",
-      "template": "Run a Pantheon synthesis on this question. Identify the 3-5 most relevant specialist perspectives, dispatch them in parallel with the same question, then synthesize a single authoritative recommendation.\n\nQuestion: {{input}}",
+      "description": "Synthesize up to 3 expert perspectives into one recommendation",
+      "template": "Dispatch up to 3 relevant specialists in parallel with this question, then synthesize their perspectives into a single recommendation.\n\nQuestion: {{input}}",
       "agent": "agora"
     },
     "focus": {
-      "description": "Pin a session goal — all todos, delegation, and verification stay aligned with it",
-      "template": "SESSION GOAL (pinned): {{input}}\n\nAll subsequent tasks, todos, and delegations must stay aligned with this goal. Verify alignment before each major decision. If a task drifts from this goal, flag it and ask for clarification before proceeding.",
+      "description": "Pin a session goal to prevent scope drift",
+      "template": "SESSION GOAL (pinned): {{input}}\n\nAll tasks and delegations must align with this goal. Flag drift and ask before proceeding.",
       "agent": "zeus"
     },
     "forge": {
-      "description": "Configure model provider and plan — lists available plans, applies selection to opencode.json",
-      "template": "You are configuring the model provider for this OpenCode installation.\n\nFirst, find the Pantheon installation directory. Check these locations IN ORDER:\n  1. The current workspace root (look for platform/plans/)\n  2. ~/.config/opencode/ (global OpenCode config)\nUse the FIRST location that has a platform/plans/ directory with plan JSON files.\n\nStep 1: List all available plan files in the Pantheon platform/plans/ directory (exclude plan-active.json, schema.json).\nStep 2: Present the user with a numbered list showing plan name, price, and model tiers.\nStep 3: Ask the user which plan to use.\n\nStep 4: Once the user selects a plan, run:\n  bash <pantheon-dir>/platform/select-plan.sh <plan-name>\n\nThis writes models to ~/.config/opencode/opencode.json (NOT the repo).\n\nIf the user provides a specific model ID directly (e.g. /forge anthropic/claude-sonnet-4-20250620), write to ~/.config/opencode/opencode.json:\n  - Set root \"model\" to that ID\n  - Remove all per-agent model overrides\n\nIf the user types \"auto\", write to ~/.config/opencode/opencode.json:\n  - Remove root \"model\" and \"small_model\"\n  - Clear all per-agent model overrides\nso OpenCode uses its defaults.",
+      "description": "Configure model provider plan",
+      "template": "Configure the model provider. Find Pantheon dir (workspace root or ~/.config/opencode/), list plans, ask user to select, then run: ./platform/select-plan.sh <plan-name>\n\nIf user provides a model ID directly, write it to ~/.config/opencode/opencode.json root \"model\" and clear per-agent overrides.\nIf user types \"auto\", remove root model and clear all overrides.",
       "agent": "zeus"
     },
     "subtask": {
-      "description": "Run a bounded child worker and return a structured summary",
-      "template": "Run this as a bounded subtask and return a structured summary when complete.\n\nTask: {{input}}\n\nReturn format:\n- Status: DONE | BLOCKED | PARTIAL\n- Summary: 2-3 sentence result\n- Files changed: list\n- Next action: recommendation",
+      "description": "Run a bounded task and return a structured summary",
+      "template": "Complete this task and return:\n- Status: DONE | BLOCKED | PARTIAL\n- Summary: 2-3 sentences\n- Files changed\n- Next action\n\nTask: {{input}}",
       "subtask": true
     },
     "sketch": {
-      "description": "Turn a rough idea into a structured spec through Q&A",
-      "template": "You are a requirements analyst. Turn this rough idea into a structured spec through a short Q&A interview.\n\nIdea: {{input}}\n\nAsk 3-5 targeted questions (one at a time) to clarify: scope, constraints, success criteria, non-goals, and tech preferences. After all answers, produce a markdown spec with: Overview, Goals, Non-Goals, Functional Requirements, Technical Constraints, and Open Questions.",
+      "description": "Turn a rough idea into a structured spec via Q&A",
+      "template": "Ask 3-5 questions (one at a time) to clarify scope, constraints, success criteria, and non-goals. Then produce a spec with: Overview, Goals, Non-Goals, Requirements, Constraints, Open Questions.\n\nIdea: {{input}}",
       "agent": "athena"
     },
     "mirrordeps": {
-      "description": "Mirror a dependency's source into .deps/ for local inspection",
-      "template": "Mirror the source of this dependency into .deps/ (gitignored) for local inspection.\n\nDependency: {{input}}\n\nSteps:\n1. Identify the GitHub repo for the dependency\n2. Run: mkdir -p .deps && git clone --depth=1 <repo-url> .deps/<pkg-name>\n3. Confirm .deps/ is in .gitignore\n4. Report the cloned path and key files to inspect",
+      "description": "Clone a dependency source into .deps/",
+      "template": "Clone the dependency repo into .deps/ (gitignored):\nmkdir -p .deps && git clone --depth=1 <repo-url> .deps/<pkg-name>\n\nDependency: {{input}}",
       "agent": "apollo"
     },
     "audit": {
-      "description": "Ask Themis to audit current changes for quality, coverage and security",
-      "template": "Audit the current changes for quality and security.\n\nFocus: {{input}}\n\nSteps:\n1. Run `git diff HEAD` (or `git diff --staged`) to get the change surface\n2. Identify changed files and classify review scope level (Plan/Wave/Task/Final)\n3. Run ruff on changed Python files; Biome on changed JS/TS files\n4. Check test coverage on changed code (target >80%)\n5. Run OWASP Top 10 security checks\n6. Apply self-reflection quality gate (6 categories, 1-10)\n\nReturn: APPROVED / NEEDS_REVISION / FAILED with specific file:line feedback and the scoring table.",
+      "description": "Audit changes for quality, coverage, and security",
+      "template": "Audit current changes:\n1. Run git diff to find changed files\n2. Run ruff (Python) / biome (JS/TS) on changed files\n3. Check coverage >80%\n4. Run OWASP Top 10 checks\n\nReturn: APPROVED / NEEDS_REVISION / FAILED with file:line feedback.\n\nFocus: {{input}}",
       "agent": "themis"
     },
     "ping": {
-      "description": "Ping all 17 Pantheon agents — dispatches to each and reports status",
-      "template": "Ping all configured Pantheon agents. For each one, dispatch a task asking them to reply with their name and status. Collect all responses and present a table with: agent_name | role | status (✅ Online / ❌ No response).\n\nIf any agent fails to respond within 10 seconds, mark it as ❌ No response and continue.",
+      "description": "Check status of all agents",
+      "template": "Ping all agents. Return table: agent_name | role | status. Mark unresponsive as ❌.",
       "agent": "zeus",
       "subtask": true
+    },
+    "token-audit": {
+      "description": "Audit repo for token waste — find redundant context files, recommend optimizations",
+      "template": "Run a token audit on this repository.\n\nSteps:\n1. Discover all AI context files (AGENTS.md, CLAUDE.md, copilot-instructions.md, memory-bank, skills, agents, rules)\n2. Build a redundancy map — what info appears in which files\n3. Measure baseline: count lines, estimate tokens (1 line ≈ 4 tokens)\n4. Identify red flags: historical content, derivable content, duplicated sections, files exceeding line limits\n5. Generate a report with: baseline, redundancy count, red flags, recommended actions, projected savings\n\nPresent the report as a structured markdown table. If user approves, apply the optimizations.",
+      "agent": "athena"
     }
   },
   "compaction": {
