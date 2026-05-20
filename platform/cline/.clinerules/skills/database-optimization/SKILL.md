@@ -1,6 +1,6 @@
 ---
 name: database-optimization
-description: Optimize SQL queries, analyze indexes, review Alembic migrations, and identify N+1 problems. Provides query execution plans, index recommendations, and migration best practices for SQLAlchemy async.
+description: Optimize SQL queries, indexes, and identify N+1 problems. Use for database performance and migration review.
 context: fork
 globs: ["**/models/**", "**/queries/**"]
 alwaysApply: false
@@ -260,3 +260,68 @@ Check for:
         # Return structured findings with severity
         pass
 ```
+
+---
+
+## Appendix: General Performance Optimization
+
+Additional performance optimization patterns beyond database-specific concerns.
+
+### Caching Strategy
+
+```python
+class CachingService:
+    def __init__(self, redis_client):
+        self.redis = redis_client
+    
+    async def get_user(self, user_id: int):
+        # Try cache first
+        cached = await self.redis.get(f"user:{user_id}")
+        if cached:
+            return json.loads(cached)
+        
+        # Cache miss - fetch from DB
+        user = await db.query(User).filter(User.id == user_id).first()
+        
+        # Cache for 1 hour
+        await self.redis.setex(
+            f"user:{user_id}",
+            3600,
+            json.dumps(user.dict())
+        )
+        return user
+
+# Cache invalidation on update
+async def update_user(user_id: int, data):
+    user = await db.query(User).filter(User.id == user_id).first()
+    user.update(data)
+    await db.commit()
+    
+    # Invalidate cache
+    await self.redis.delete(f"user:{user_id}")
+```
+
+### Monitoring Performance
+
+```python
+# Add timing middleware
+@app.middleware("http")
+async def add_timing_header(request, call_next):
+    start = time.time()
+    response = await call_next(request)
+    duration = time.time() - start
+    response.headers["X-Process-Time"] = str(duration)
+    logger.info(f"{request.url.path} took {duration:.3f}s")
+    return response
+```
+
+### Performance Checklist
+
+- [ ] Identified slow queries (with EXPLAIN ANALYZE)
+- [ ] Indexes added on WHERE/JOIN/ORDER BY columns
+- [ ] N+1 queries fixed (eager loading)
+- [ ] Caching implemented for hot data
+- [ ] Pagination added to list endpoints
+- [ ] Batch operations where possible
+- [ ] Connection pooling configured
+- [ ] Monitoring/alerting in place

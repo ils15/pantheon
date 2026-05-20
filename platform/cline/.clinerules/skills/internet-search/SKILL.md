@@ -1,6 +1,6 @@
 ---
 name: internet-search
-description: "Web research and internet search — source trust hierarchy, structured API patterns for general web (DuckDuckGo, Wikipedia, Jina Reader), tech community (Stack Overflow, Hacker News, Reddit, Dev.to), official vendor docs, academic databases (Semantic Scholar, CrossRef, arXiv), GitHub search, package registries, and remote sensing data sources. All sources are free and require no API key. Covers query construction, site-scoped search, parallel search strategy, and result synthesis."
+description: "Web research with structured APIs and source hierarchy. Use for documentation lookup and technical answers."
 context: fork
 globs: ["**/*.md"]
 alwaysApply: false

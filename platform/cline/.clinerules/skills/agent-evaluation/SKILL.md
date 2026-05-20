@@ -1,6 +1,6 @@
 ---
 name: agent-evaluation
-description: "Comprehensive framework for evaluating AI agent outputs — hallucination detection, output quality scoring, behavioral regression testing, task completion metrics, latency/reliability benchmarks, adversarial red teaming, LangSmith integration, CI/CD evaluation pipelines, and RAGAS deep-dive metrics"
+description: "Evaluate AI agents with hallucination detection and quality scoring. Use for behavioral testing and metrics."
 context: fork
 globs: ["**/*.py", "**/*.ts", "**/*.tsx"]
 alwaysApply: false
