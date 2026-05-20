@@ -79,7 +79,6 @@ git push && git push --tags
 |---|---|---|
 | [auto-release.yml](../.github/workflows/auto-release.yml) | Push to `main` | Bumps version, regenerates platforms, creates tag |
 | [release.yml](../.github/workflows/release.yml) | Tag push (`v*`) | Syncs platforms, extracts CHANGELOG notes, builds bundle, creates GitHub Release |
-| [tag-version-sync.yml](../.github/workflows/tag-version-sync.yml) | Tag push (`v*`) | Validates that manifests match the tag |
 | [release-drafter.yml](../.github/workflows/release-drafter.yml) | Push to `main` | Drafts release notes from PR labels |
 
 ---

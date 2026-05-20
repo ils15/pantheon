@@ -672,7 +672,6 @@ pantheon/
 │       ├── release.yml
 │       ├── validate-agents.yml
 │       ├── sync-check.yml
-│       ├── tag-version-sync.yml
 │       ├── version-recommendation.yml
 │       └── pr-conventional-labels.yml
 │
