@@ -14,7 +14,6 @@ skills:
   - code-review-checklist
   - security-audit-pro
   - tdd-with-agents
-  - review-work
 handoffs:
   - label: 🔧 Fix Review Issues
     agent: zeus

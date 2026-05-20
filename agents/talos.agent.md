@@ -28,7 +28,6 @@ temperature: 0.3
 steps: 5
 skills:
   - tdd-with-agents
-  - ai-slop-remover
 ---
 
 # Talos - Hotfix & Rapid Repair
