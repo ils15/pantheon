@@ -47,7 +47,14 @@ dist/
 
 # Platform template — reference only, not generated
 platforms/_template/agents/
-platform/plans/plan-active.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Generated script outputs
+scripts/model_data.json
 
 # OpenCode workspace agents (copied from agents/)
 .opencode/
