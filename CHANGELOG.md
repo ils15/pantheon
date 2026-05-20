@@ -58,6 +58,26 @@ Users reported that even a simple "oi" consumed 17-20K tokens per session. Inves
 
 ### Fixed
 
+
+## [3.7.0] - 2026-05-20
+
+### Added
+
+- 4-tier model routing with per-plan fallback chains
+  - Add coding tier to plan schema (premium/default/coding/fast)
+- V3.6.0 — token optimization (-97% auto-loaded context)
+  Pantheon v3.6.0 reduces auto-loaded context from ~27K to ~748 tokens
+- Add commands/commands.json as source of truth for OpenCode commands
+
+### Fixed
+
+- Clean orphaned skill references, sync platforms, fix CI agent check
+  - Remove all references to 9 deleted skills from agent files
+- Make release branch push idempotent to handle CI re-runs
+  Delete remote release branch before pushing to avoid non-fast-forward
+- Restore [Unreleased] section in CHANGELOG for auto-versioning
+- Sync platform files after zeus.agent.md edit
+
 - **Token audit false positives** — "wave" no longer matches "DAG Waves" architectural pattern. "progress" no longer matches progress-log.md. "delivered" no longer matches instruction templates.
 - **Memory bank file naming** — Renamed to simple numeric scheme: `00-project.md`, `01-active-context.md`, `02-progress-log.md`
 - **ADR numbering** — All ADRs now use consistent `ADR-NNNN` format with proper index
