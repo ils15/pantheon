@@ -34,8 +34,8 @@ Launch 1-3 parallel searches:
   3. (OPTIONAL) "How is [similar feature] currently implemented?"
 
 While searching: Review Memory Bank if it has content
-  - docs/memory-bank/00-overview.md (project scope)
-  - docs/memory-bank/01-architecture.md (existing patterns)
+  - docs/memory-bank/00-project.md (project scope)
+  - docs/memory-bank/00-project.md (existing patterns)
 ```
 
 ### Minute 2-4: Synthesis

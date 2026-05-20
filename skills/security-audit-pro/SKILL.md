@@ -1,6 +1,6 @@
 ---
 name: security-audit-pro
-description: "Professional security audit — SAST, SCA, container security, SBOM, PII detection, and compliance (GDPR, LGPD, HIPAA). Used by Themis during review."
+description: "Security audit with SAST, SCA, containers, SBOM, PII detection. Use for comprehensive security reviews."
 context: fork
 globs: ["**/*.py", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.yml", "**/*.yaml", "**/Dockerfile*", "**/docker-compose*"]
 alwaysApply: false

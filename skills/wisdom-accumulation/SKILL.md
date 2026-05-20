@@ -1,6 +1,6 @@
 ---
 name: wisdom-accumulation
-description: "Extract and pass learnings between implementation waves — conventions, successes, failures, gotchas, and commands. Temporary, scoped to feature, deleted after merge."
+description: "Extract learnings between implementation waves. Use to share conventions and gotchas across phases."
 context: fork
 globs: []
 alwaysApply: false

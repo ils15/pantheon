@@ -1,38 +1,16 @@
-# Decision Notes Index (ADRs)
+# ADR Index
 
 > Managed by `@mnemosyne`. Add entries with: `@mnemosyne Document decision: [topic]`
 
 | ID | Title | Date | Status |
-|---|---|---|---|---|
-| ADR-001 | Rename Agents to English Names | 2026-05-02 | Accepted |
+|---|---|---|---|
+| ADR-0001 | Rename agents to English names | 2026-05-02 | Accepted |
+| ADR-0002 | Bounded research framework | 2026-05-16 | Accepted |
+| ADR-0003 | DAG wave execution | 2026-05-16 | Accepted |
+| ADR-0004 | Learning routing triple | 2026-05-16 | Accepted |
 
----
-
-## Entry format
-
-Each decision has a dedicated file: `NOTE0001-short-topic.md`
-
-```markdown
-# NOTE0001: [Topic]
-
-**Date:** YYYY-MM-DD
-**Status:** Active | Superseded by NOTE000Y
-
-## Context
-[Why this decision was needed]
-
-## Decision
-[What was decided]
-
-## Alternatives Considered
-- [Alternative 1] — rejected because [reason]
-- [Alternative 2] — rejected because [reason]
-
-## Rationale
-[Why this option was chosen]
-
-## Consequences
-[What changes as a result]
-```
-
-> **Rule:** Decision notes are immutable. Never edit an existing note — create a new one that supersedes it.
+## Rules
+- **Immutable:** Never edit — create new ADR that supersedes
+- **Max 50 lines** per ADR
+- **Status flow:** Proposed → Accepted → Deprecated | Superseded
+- **Link from code:** `# See docs/memory-bank/_notes/ADR-0003.md`

@@ -1,6 +1,6 @@
 ---
 name: codemap
-description: "Generate hierarchical codebase maps — directory trees, entry points, module relationships"
+description: "Generate codebase maps with directory trees and relationships. Use for onboarding and architecture documentation."
 context: fork
 ---
 
