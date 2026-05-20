@@ -4,19 +4,23 @@
 
 Skills are reference modules loaded on demand by agents. Each skill provides domain-specific knowledge — architecture patterns, security checklists, optimization strategies, and implementation guides. Agents load skills when their task matches the skill's description, keeping context focused and token-efficient.
 
-There are **24 skills** divided into **9 domains**.
+There are **36 skills** divided into **9 domains**.
 
 ## Skills by Domain
 
 ### Domain 1: Orchestration & Workflow
 
 1. **agent-coordination** — `skills/agent-coordination/SKILL.md`
-   - Master guide to the multi-agent system for rapid, TDD-driven feature development with guaranteed code quality and audit trails.
+   - Master guide to the multi-agent system with category routing, model selection, and sprint management for rapid, TDD-driven feature development.
    - Used by: Zeus, Athena
 
 2. **artifact-management** — `skills/artifact-management/SKILL.md`
    - Complete guide to the artifact trail system — plans directory structure, templates, and best practices for documenting feature implementations.
    - Used by: Zeus, Mnemosyne
+
+3. **memory-bank** — `skills/memory-bank/SKILL.md`
+   - Complete guide to Pantheon memory bank — structure, rules, optimization, session→active-context graduation, and compression strategies.
+   - Used by: Mnemosyne, All agents
 
 ### Domain 2: AI & Machine Learning
 
@@ -85,16 +89,10 @@ There are **24 skills** divided into **9 domains**.
     - Used by: Themis, Hermes, Demeter
 
 17. **tdd-with-agents** — `skills/tdd-with-agents/SKILL.md`
-    - TDD lifecycle enforcement (RED → GREEN → REFACTOR), test-first development across backend (pytest, unittest), frontend (vitest, testing-library), and database (migration tests), coverage thresholds (>80%), mocking strategies, fixture management, and agent-level TDD evaluation criteria.
+    - TDD lifecycle enforcement (RED → GREEN → REFACTOR), test-first development across all layers, advanced testing patterns (E2E, load, mutation, contract, visual regression), coverage thresholds (>80%).
     - Used by: Hermes, Aphrodite, Demeter, Themis
 
-18. **simplify** — `skills/simplify/SKILL.md`
-    - Reduce complexity of prompts, code, or specs through targeted simplification: eliminate redundancy, flatten nested logic, replace jargon, shorten chains, and enforce single-responsibility in agent instructions.
-    - Used by: All agents
-
-### Domain 7: Infrastructure & DevOps
-
-19. **docker-best-practices** — `skills/docker-best-practices/SKILL.md`
+18. **docker-best-practices** — `skills/docker-best-practices/SKILL.md`
     - Multi-stage Docker builds, layer caching optimization, .dockerignore patterns, non-root user execution, health check configuration, GPU container setup (CUDA), memory and CPU limits, secrets management (Docker secrets, not env vars), and docker-compose patterns for dev/prod parity.
     - Used by: Prometheus
 
@@ -163,22 +161,7 @@ There are **24 skills** divided into **9 domains**.
     - Used by: Zeus, Athena
     - Domain: Orchestration
 
-34. **test-architecture** — `skills/test-architecture/SKILL.md`
-    - Advanced testing patterns — E2E with Playwright, load testing with k6/locust, mutation testing, contract testing with Pact, visual regression.
-    - Used by: Hermes, Aphrodite, Themis
-    - Domain: Quality
-
-35. **review-work** — `skills/review-work/SKILL.md`
-    - Post-implementation review orchestrator — launches 5 parallel sub-checks: goal verification, code quality, security, QA, and context mining. All must pass for review to pass.
-    - Used by: Themis
-    - Domain: Quality
-
-36. **relentless-mode** — `skills/relentless-mode/SKILL.md`
-    - Self-referential development loop — agent continues working until <promise>DONE</promise> is detected. Auto-injects system reminder when idle with incomplete todos.
-    - Used by: Zeus
-    - Domain: Orchestration
-
-37. **wisdom-accumulation** — `skills/wisdom-accumulation/SKILL.md`
+34. **wisdom-accumulation** — `skills/wisdom-accumulation/SKILL.md`
     - Extract and pass learnings between implementation waves — conventions, successes, failures, gotchas, and commands. Temporary, scoped to feature, deleted after merge.
     - Used by: All agents
     - Domain: Utilities
@@ -210,26 +193,26 @@ The `SKILL.md` file contains YAML frontmatter with `name`, `description`, and pl
 |---|------------|--------|---------|
 | 1 | agent-coordination | Orchestration & Workflow | Zeus, Athena |
 | 2 | artifact-management | Orchestration & Workflow | Zeus, Mnemosyne |
-| 3 | auto-continue | Orchestration | Zeus, Hermes, Aphrodite, Demeter |
-| 4 | session-goal | Orchestration | Zeus, Athena |
-| 5 | task-system | Orchestration | Zeus, Athena |
-| 6 | rag-pipelines | AI & Machine Learning | Hephaestus |
-| 7 | multi-model-routing | AI & Machine Learning | Chiron, Hephaestus |
-| 8 | streaming-patterns | AI & Machine Learning | Nyx |
-| 9 | agent-evaluation | AI & Machine Learning | Hephaestus, Themis |
-| 10 | prompt-injection-security | AI & Machine Learning | Themis, Echo |
-| 11 | conversational-ai-design | AI & Machine Learning | Echo |
-| 12 | fastapi-async-patterns | Backend Development | Hermes |
-| 13 | api-design-patterns | Backend Development | Hermes |
-| 14 | frontend-analyzer | Frontend Development | Aphrodite |
-| 15 | nextjs-seo-optimization | Frontend Development | Aphrodite |
-| 16 | database-migration | Database & Storage | Demeter |
-| 17 | database-optimization | Database & Storage | Demeter, Prometheus |
-| 18 | cache-strategy | Database & Storage | Demeter, Hermes |
-| 19 | code-review-checklist | Quality & Security | Themis |
-| 20 | security-audit-pro | Quality & Security | Themis, Hermes, Demeter |
-| 21 | tdd-with-agents | Quality & Security | Hermes, Aphrodite, Demeter, Themis |
-| 22 | simplify | Quality & Security | All agents |
+| 3 | memory-bank | Orchestration & Workflow | Mnemosyne, All agents |
+| 4 | auto-continue | Orchestration | Zeus, Hermes, Aphrodite, Demeter |
+| 5 | session-goal | Orchestration | Zeus, Athena |
+| 6 | task-system | Orchestration | Zeus, Athena |
+| 7 | rag-pipelines | AI & Machine Learning | Hephaestus |
+| 8 | multi-model-routing | AI & Machine Learning | Chiron, Hephaestus |
+| 9 | streaming-patterns | AI & Machine Learning | Nyx |
+| 10 | agent-evaluation | AI & Machine Learning | Hephaestus, Themis |
+| 11 | prompt-injection-security | AI & Machine Learning | Themis, Echo |
+| 12 | conversational-ai-design | AI & Machine Learning | Echo |
+| 13 | fastapi-async-patterns | Backend Development | Hermes |
+| 14 | api-design-patterns | Backend Development | Hermes |
+| 15 | frontend-analyzer | Frontend Development | Aphrodite |
+| 16 | nextjs-seo-optimization | Frontend Development | Aphrodite |
+| 17 | database-migration | Database & Storage | Demeter |
+| 18 | database-optimization | Database & Storage | Demeter, Prometheus |
+| 19 | cache-strategy | Database & Storage | Demeter, Hermes |
+| 20 | code-review-checklist | Quality & Security | Themis |
+| 21 | security-audit-pro | Quality & Security | Themis, Hermes, Demeter |
+| 22 | tdd-with-agents | Quality & Security | Hermes, Aphrodite, Demeter, Themis |
 | 23 | docker-best-practices | Infrastructure & DevOps | Prometheus |
 | 24 | mcp-server-development | Infrastructure & DevOps | Hephaestus, Chiron, Nyx |
 | 25 | agent-observability | Infrastructure & DevOps | Nyx, Chiron |
@@ -241,10 +224,7 @@ The `SKILL.md` file contains YAML frontmatter with `name`, `description`, and pl
 | 31 | codemap | Planning | Apollo, Zeus |
 | 32 | init-deep | Planning | Athena, Prometheus |
 | 33 | handoff | Utilities | All agents |
-| 34 | test-architecture | Utilities | Hermes, Aphrodite, Themis |
-| 35 | review-work | Utilities | Themis |
-| 36 | relentless-mode | Utilities | Zeus |
-| 37 | wisdom-accumulation | Utilities | All agents |
+| 34 | wisdom-accumulation | Utilities | All agents |
 
 ---
 
