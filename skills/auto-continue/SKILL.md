@@ -22,6 +22,7 @@ Disciplined automatic continuation through multi-step tasks. Eliminates unnecess
 
 | Gate | When | Why |
 |---|---|---|
+| **GATE 0 — Decision Gate** | After Agora returns `AWAITING_APPROVAL` | User must explicitly type APPROVE / REQUEST CHANGES / DISCARD. "ok", "continue", "sure", "yes" are NOT valid approvals. |
 | **GATE 1 — Plan Approval** | After Athena produces a plan | User confirms scope before code is written |
 | **GATE 2 — Phase Review** | After Themis reviews implementation | User sees changes before next phase |
 | **GATE 3 — Git Commit** | After each phase is approved | User controls git history; no auto-commit |

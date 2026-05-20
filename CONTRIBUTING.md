@@ -152,9 +152,6 @@ npm install
 
 # Verify sync works
 node scripts/sync-platforms.mjs --dry-run
-
-# Select a model plan
-./platform/select-plan.sh opencode-go
 ```
 
 ### Running the sync engine

@@ -4,19 +4,11 @@
 
 Pantheon provides **18 specialized agents** organized into a conductor-delegate architecture. Zeus (the orchestrator) dispatches work to specialized sub-agents with isolated context windows, enforced quality gates, and human approval at every transition. Each agent has a single responsibility, a restricted tool set, and explicit context boundaries.
 
-### 🎯 Plan-Based Model Configuration
+### 🎯 Model Tiers
 
-Pantheon uses a **plan-based model configuration system**. Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concrete model names. The actual model resolution depends on which **service + plan** you're using.
+Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concrete model names. The actual model depends on the platform and subscription you're using (OpenCode Go, Copilot Pro, Cursor Pro, etc.).
 
-```bash
-# Select your plan (e.g., OpenCode Go, Copilot Pro, etc.)
-./platform/select-plan.sh opencode-go
-
-# See which models each agent will use
-./platform/select-plan.sh models
-```
-
-> **TL;DR:** Same agent files, different models depending on what your subscription gives you. See [platform/plans/](../platform/plans/) for all available plans and [docs/INSTALLATION.md](../docs/INSTALLATION.md) for setup.
+> **TL;DR:** Same agent files, different models depending on your subscription. Configure models via your platform's settings (e.g., `~/.config/opencode/opencode.json` for OpenCode).
 
 **8 tiers:**
 1. **Orchestrator** — Zeus
@@ -60,7 +52,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Zeus (Orchestrator)
 
 - **Tier:** Orchestrator
-- **Model:** premium (see [active plan](../platform/plans/plan-active.json))
+- **Model:** premium
 - **Description:** Central coordinator of the entire development lifecycle. NEVER implements code, NEVER edits files. Delegates work to specialized sub-agents.
 - **Delegates to:** All 17 agents
 - **Key Responsibilities:** Phase-based orchestration, parallel dispatch, approval gates (3 pause points), context conservation, agent routing
@@ -71,7 +63,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Athena (Strategic Planner)
 
 - **Tier:** Planning & Discovery
-- **Model:** premium (see [active plan](../platform/plans/plan-active.json))
+- **Model:** premium
 - **Description:** Research-first architecture design and TDD roadmap generation. NEVER implements code or edits files. Creates concise 3-5 phase plans presented in chat.
 - **Delegates to:** Apollo (nested subagent for complex discovery), Themis (plan validation), Zeus (execution handoff)
 - **Key Responsibilities:** Codebase research, architecture decisions, risk analysis, phase planning, plan validation gate
@@ -81,7 +73,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Apollo (Codebase Scout)
 
 - **Tier:** Planning & Discovery
-- **Model:** fast (see [active plan](../platform/plans/plan-active.json))
+- **Model:** fast
 - **Description:** Read-only rapid discovery agent. Launches 3-10 parallel searches simultaneously. Never edits files, never runs commands. Can be invoked as nested subagent from any other agent.
 - **Delegates to:** Zeus (findings handoff), Athena (plan refinement)
 - **Key Responsibilities:** Codebase exploration, pattern discovery, dependency mapping, external docs/GitHub research, structured reports
@@ -92,7 +84,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Hephaestus (AI Pipelines) — NEW v3
 
 - **Tier:** AI Infrastructure
-- **Model:** default (see [active plan](../platform/plans/plan-active.json))
+- **Model:** default
 - **Description:** AI tooling & pipelines specialist. Forges RAG pipelines, LangChain/LangGraph chains, vector databases, embedding strategies, and AI workflow composition.
 - **Delegates to:** Apollo (discovery), Themis (review + prompt injection audit), Prometheus (GPU deployment)
 - **Skills:** rag-pipelines, vector-search, mcp-server-development
@@ -103,7 +95,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Chiron (Model Provider Hub) — NEW v3
 
 - **Tier:** AI Infrastructure
-- **Model:** default (see [active plan](../platform/plans/plan-active.json))
+- **Model:** default
 - **Description:** Multi-model routing, provider abstraction, AWS Bedrock integration, cost optimization. The bridge between agents and AI models.
 - **Delegates to:** Apollo (discovery), Themis (review + security audit), Prometheus (inference deployment)
 - **Skills:** multi-model-routing
@@ -114,7 +106,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Echo (Conversational AI) — NEW v3
 
 - **Tier:** AI Infrastructure
-- **Model:** default (see [active plan](../platform/plans/plan-active.json))
+- **Model:** default
 - **Description:** Conversational AI specialist — NLU pipelines, dialogue management, Rasa integration, intent/entity design, multi-turn conversation flows.
 - **Delegates to:** Apollo (discovery), Themis (review + injection security), Talos (hotfix for intent misclassification)
 - **Skills:** conversational-ai-design
@@ -125,7 +117,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Hermes (Backend Specialist)
 
 - **Tier:** Implementation
-- **Model:** default (see [active plan](../platform/plans/plan-active.json))
+- **Model:** default
 - **Description:** Backend FastAPI implementation specialist. Async endpoints, Pydantic schemas, service layer, dependency injection, TDD enforced.
 - **Delegates to:** Apollo (nested for pattern discovery), Themis (code review + security audit)
 - **Skills:** fastapi-async-patterns, api-design-patterns, security-audit, tdd-with-agents
@@ -136,7 +128,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Aphrodite (Frontend Specialist)
 
 - **Tier:** Implementation
-- **Model:** default (see [active plan](../platform/plans/plan-active.json))
+- **Model:** default
 - **Description:** React frontend implementation specialist. TypeScript strict mode, WCAG AA accessibility, responsive design (mobile-first), component tests with vitest.
 - **Delegates to:** Apollo (nested for component discovery), Themis (review + accessibility audit)
 - **Skills:** web-ui-analysis, frontend-analyzer, nextjs-seo-optimization, tdd-with-agents
@@ -147,7 +139,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Demeter (Database Specialist)
 
 - **Tier:** Implementation
-- **Model:** default (see [active plan](../platform/plans/plan-active.json))
+- **Model:** default
 - **Description:** Database implementation specialist. SQLAlchemy 2.0 async models, Alembic migrations, query optimization, N+1 prevention, zero-downtime strategy.
 - **Delegates to:** Apollo (nested for optimization patterns), Themis (review + security audit)
 - **Skills:** database-migration, database-optimization, performance-optimization, security-audit
@@ -158,7 +150,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Themis (Quality & Security Gate)
 
 - **Tier:** Quality & Observability
-- **Model:** premium (see [active plan](../platform/plans/plan-active.json))
+- **Model:** premium
 - **Description:** Quality & security gate enforcer. Reviews only changed files (lightweight). OWASP Top 10, >80% coverage, correctness validation. Returns APPROVED / NEEDS_REVISION / FAILED.
 - **Delegates to:** Mnemosyne (artifact persistence), Zeus (fix escalation)
 - **Skills:** code-review-checklist, security-audit, tdd-with-agents, prompt-injection-security
@@ -169,7 +161,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Nyx (Observability) — NEW v3
 
 - **Tier:** Quality & Observability
-- **Model:** fast (see [active plan](../platform/plans/plan-active.json))
+- **Model:** fast
 - **Description:** Observability & monitoring specialist. OpenTelemetry tracing, token/cost tracking, LangSmith integration, agent performance analytics.
 - **Delegates to:** Apollo (discovery), Zeus (anomaly reporting)
 - **Skills:** agent-observability
@@ -180,7 +172,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Prometheus (Infrastructure Specialist)
 
 - **Tier:** Infrastructure & Release
-- **Model:** default (see [active plan](../platform/plans/plan-active.json))
+- **Model:** default
 - **Description:** Infrastructure implementation specialist. Docker multi-stage builds, docker-compose orchestration, Traefik proxy, CI/CD workflows, health checks.
 - **Delegates to:** Apollo (nested for pattern discovery), Themis (infrastructure validation)
 - **Skills:** docker-best-practices, performance-optimization
@@ -191,7 +183,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Iris (GitHub Operations)
 
 - **Tier:** Infrastructure & Release
-- **Model:** fast (see [active plan](../platform/plans/plan-active.json))
+- **Model:** fast
 - **Description:** GitHub workflow specialist — branches, pull requests, issues, releases, tags. Never merges without explicit human approval. Never force-pushes.
 - **Delegates to:** Mnemosyne (release documentation), Zeus (merge confirmation)
 - **Tools:** agent, askQuestions, readFile, search/codebase, runInTerminal, getTerminalOutput
@@ -201,7 +193,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Mnemosyne (Memory Keeper)
 
 - **Tier:** Infrastructure & Release
-- **Model:** fast (see [active plan](../platform/plans/plan-active.json))
+- **Model:** fast
 - **Description:** Memory bank quality owner. Initializes `docs/memory-bank/`, writes ADRs and task records on explicit request, manages artifact persistence. Never invoked automatically after phases.
 - **Tools:** search/codebase, search/usages, readFile, edit/editFiles
 - **Usage:** `@mnemosyne: Initialize memory bank` | `@mnemosyne: Close sprint [summary]` | `@mnemosyne: Create artifact: REVIEW-[feature] [content]`
@@ -210,7 +202,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Talos (Hotfix Express)
 
 - **Tier:** Express Lane
-- **Model:** fast (see [active plan](../platform/plans/plan-active.json))
+- **Model:** fast
 - **Description:** Hotfix & rapid repair specialist. Direct fixes for small bugs, CSS, typos, minor logic errors. No TDD ceremony, no orchestration overhead, no review gates (unless tests break).
 - **Tools:** search/codebase, search/usages, readFile, problems, edit/editFiles, runInTerminal, testFailure, runCommand
 - **Usage:** `@talos: Fix [bug]` | `@talos: Fix color on [component]`
@@ -220,7 +212,7 @@ Pantheon uses a **plan-based model configuration system**. Agents declare abstra
 ### Gaia (Remote Sensing)
 
 - **Tier:** Domain Specialist
-- **Model:** default (see [active plan](../platform/plans/plan-active.json))
+- **Model:** default
 - **Description:** Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification, photogrammetry, LULC products, scientific literature research.
 - **Delegates to:** Athena (implementation planning), Apollo (rapid code search), Hermes (Python backend), Themis (quality review)
 - **Skills:** remote-sensing-analysis, internet-search

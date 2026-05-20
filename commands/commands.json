@@ -5,13 +5,8 @@
     "agent": "agora"
   },
   "focus": {
-    "description": "Pin a session goal — all todos, delegation, and verification stay aligned with it",
+    "description": "Pin a session goal \u2014 all todos, delegation, and verification stay aligned with it",
     "template": "SESSION GOAL (pinned): {{input}}\n\nAll subsequent tasks, todos, and delegations must stay aligned with this goal. Verify alignment before each major decision. If a task drifts from this goal, flag it and ask for clarification before proceeding.",
-    "agent": "zeus"
-  },
-  "forge": {
-    "description": "Configure model provider and plan — lists available plans, applies selection to opencode.json",
-    "template": "You are configuring the model provider for this OpenCode installation.\n\nFirst, find the Pantheon installation directory. Check these locations IN ORDER:\n  1. The current workspace root (look for platform/plans/)\n  2. ~/.config/opencode/ (global OpenCode config)\nUse the FIRST location that has a platform/plans/ directory with plan JSON files.\n\nStep 1: List all available plan files in the Pantheon platform/plans/ directory (exclude plan-active.json, schema.json).\nStep 2: Present the user with a numbered list showing plan name, price, and model tiers.\nStep 3: Ask the user which plan to use.\n\nStep 4: Once the user selects a plan, run:\n  bash <pantheon-dir>/platform/select-plan.sh <plan-name>\n\nThis writes models to ~/.config/opencode/opencode.json (NOT the repo).\n\nIf the user provides a specific model ID directly (e.g. /forge anthropic/claude-sonnet-4-20250620), write to ~/.config/opencode/opencode.json:\n  - Set root \"model\" to that ID\n  - Remove all per-agent model overrides\n\nIf the user types \"auto\", write to ~/.config/opencode/opencode.json:\n  - Remove root \"model\" and \"small_model\"\n  - Clear all per-agent model overrides\nso OpenCode uses its defaults.",
     "agent": "zeus"
   },
   "subtask": {
@@ -35,8 +30,8 @@
     "agent": "themis"
   },
   "ping": {
-    "description": "Ping all 17 Pantheon agents — dispatches to each and reports status",
-    "template": "Ping all configured Pantheon agents. For each one, dispatch a task asking them to reply with their name and status. Collect all responses and present a table with: agent_name | role | status (✅ Online / ❌ No response).\n\nIf any agent fails to respond within 10 seconds, mark it as ❌ No response and continue.",
+    "description": "Ping all 17 Pantheon agents \u2014 dispatches to each and reports status",
+    "template": "Ping all configured Pantheon agents. For each one, dispatch a task asking them to reply with their name and status. Collect all responses and present a table with: agent_name | role | status (\u2705 Online / \u274c No response).\n\nIf any agent fails to respond within 10 seconds, mark it as \u274c No response and continue.",
     "agent": "zeus",
     "subtask": true
   },

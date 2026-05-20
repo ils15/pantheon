@@ -21,7 +21,7 @@
   },
   "agent": {
     "zeus": {
-      "description": "Central orchestrator — delegates tasks, never implements",
+      "description": "Central orchestrator \u2014 delegates tasks, never implements",
       "color": "#FFD700",
       "temperature": 0.2,
       "steps": 30,
@@ -36,7 +36,7 @@
       "task_budget": 30
     },
     "athena": {
-      "description": "Strategic planner — TDD plans & architecture decisions",
+      "description": "Strategic planner \u2014 TDD plans & architecture decisions",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 20,
@@ -48,7 +48,7 @@
       "task_budget": 10
     },
     "themis": {
-      "description": "Quality & security gate — mandatory review",
+      "description": "Quality & security gate \u2014 mandatory review",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 20,
@@ -67,7 +67,7 @@
       "task_budget": 5
     },
     "hermes": {
-      "description": "Backend specialist — FastAPI, Python, async, TDD",
+      "description": "Backend specialist \u2014 FastAPI, Python, async, TDD",
       "color": "#4A90D9",
       "temperature": 0.3,
       "steps": 30,
@@ -79,7 +79,7 @@
       }
     },
     "aphrodite": {
-      "description": "Frontend specialist — React, TypeScript, WCAG, TDD",
+      "description": "Frontend specialist \u2014 React, TypeScript, WCAG, TDD",
       "color": "#4A90D9",
       "temperature": 0.5,
       "steps": 30,
@@ -91,7 +91,7 @@
       }
     },
     "demeter": {
-      "description": "Database specialist — SQLAlchemy, Alembic, query opt",
+      "description": "Database specialist \u2014 SQLAlchemy, Alembic, query opt",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
@@ -103,7 +103,7 @@
       }
     },
     "prometheus": {
-      "description": "Infrastructure — Docker, compose, CI/CD, deploy",
+      "description": "Infrastructure \u2014 Docker, compose, CI/CD, deploy",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 15,
@@ -115,7 +115,7 @@
       }
     },
     "hephaestus": {
-      "description": "AI pipelines — RAG, LangChain, vector, embeddings",
+      "description": "AI pipelines \u2014 RAG, LangChain, vector, embeddings",
       "color": "#4A90D9",
       "temperature": 0.3,
       "steps": 25,
@@ -127,7 +127,7 @@
       }
     },
     "chiron": {
-      "description": "Model provider hub — routing, Bedrock, cost opt",
+      "description": "Model provider hub \u2014 routing, Bedrock, cost opt",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
@@ -139,7 +139,7 @@
       }
     },
     "echo": {
-      "description": "Conversational AI — Rasa, dialogue, intent/entity",
+      "description": "Conversational AI \u2014 Rasa, dialogue, intent/entity",
       "color": "#4A90D9",
       "temperature": 0.4,
       "steps": 20,
@@ -151,7 +151,7 @@
       }
     },
     "gaia": {
-      "description": "Remote sensing — LULC, satellite, geospatial",
+      "description": "Remote sensing \u2014 LULC, satellite, geospatial",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
@@ -164,7 +164,7 @@
       "task_budget": 3
     },
     "apollo": {
-      "description": "Investigation scout — parallel searches, read-only",
+      "description": "Investigation scout \u2014 parallel searches, read-only",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 15,
@@ -177,7 +177,7 @@
       "task_budget": 0
     },
     "iris": {
-      "description": "GitHub ops — branches, PRs, issues, releases",
+      "description": "GitHub ops \u2014 branches, PRs, issues, releases",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 12,
@@ -193,7 +193,7 @@
       "task_budget": 2
     },
     "mnemosyne": {
-      "description": "Memory bank — ADRs, project.md, atomic facts",
+      "description": "Memory bank \u2014 ADRs, project.md, atomic facts",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 20,
@@ -205,7 +205,7 @@
       "task_budget": 0
     },
     "talos": {
-      "description": "Hotfix express — small bugs, CSS, typos, direct",
+      "description": "Hotfix express \u2014 small bugs, CSS, typos, direct",
       "color": "#50C878",
       "temperature": 0.3,
       "steps": 5,
@@ -221,7 +221,7 @@
       "task_budget": 0
     },
     "nyx": {
-      "description": "Observability — OpenTelemetry, cost tracking",
+      "description": "Observability \u2014 OpenTelemetry, cost tracking",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 15,
@@ -234,7 +234,7 @@
       "task_budget": 3
     },
     "argus": {
-      "description": "Visual analysis — screenshots, images, PDFs",
+      "description": "Visual analysis \u2014 screenshots, images, PDFs",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 15,
@@ -247,7 +247,7 @@
       "task_budget": 0
     },
     "agora": {
-      "description": "Synthesis engine — parallel dispatch, compare, decide",
+      "description": "Synthesis engine \u2014 parallel dispatch, compare, decide",
       "color": "#9B59B6",
       "temperature": 0.1,
       "steps": 20,
@@ -265,18 +265,13 @@
   },
   "command": {
     "pantheon": {
-      "description": "Synthesize up to 3 expert perspectives into one recommendation",
-      "template": "Dispatch up to 3 relevant specialists in parallel with this question, then synthesize their perspectives into a single recommendation.\n\nQuestion: {{input}}",
+      "description": "Council of experts \u2014 parallel perspectives, synthesized recommendation, structured decision log",
+      "template": "Dispatch to the @agora subagent with the question below. Present the full synthesis Agora returns to the user.\n\n\u26d4 MANDATORY STOP: After presenting Agora's synthesis, STOP COMPLETELY. Do NOT continue, implement, research, or take any further action. Wait for the user to explicitly type one of:\n- APPROVE \u2014 then ask them what to do next\n- REQUEST CHANGES \u2014 revise specific decisions\n- DISCARD \u2014 drop the direction\n\nNever interpret words like \"continue\", \"ok\", \"sure\", \"proceed\" or \"yes\" as implicit APPROVE. The user must type one of the three options above exactly.\n\nQuestion: {{input}}",
       "agent": "agora"
     },
     "focus": {
       "description": "Pin a session goal to prevent scope drift",
       "template": "SESSION GOAL (pinned): {{input}}\n\nAll tasks and delegations must align with this goal. Flag drift and ask before proceeding.",
-      "agent": "zeus"
-    },
-    "forge": {
-      "description": "Configure model provider plan",
-      "template": "Configure the model provider. Find Pantheon dir (workspace root or ~/.config/opencode/), list plans, ask user to select, then run: ./platform/select-plan.sh <plan-name>\n\nIf user provides a model ID directly, write it to ~/.config/opencode/opencode.json root \"model\" and clear per-agent overrides.\nIf user types \"auto\", remove root model and clear all overrides.",
       "agent": "zeus"
     },
     "subtask": {
@@ -301,13 +296,13 @@
     },
     "ping": {
       "description": "Check status of all agents",
-      "template": "Ping all agents. Return table: agent_name | role | status. Mark unresponsive as ❌.",
+      "template": "Ping all agents. Return table: agent_name | role | status. Mark unresponsive as \u274c.",
       "agent": "zeus",
       "subtask": true
     },
     "token-audit": {
-      "description": "Audit repo for token waste — find redundant context files, recommend optimizations",
-      "template": "Run a token audit on this repository.\n\nSteps:\n1. Discover all AI context files (AGENTS.md, CLAUDE.md, copilot-instructions.md, memory-bank, skills, agents, rules)\n2. Build a redundancy map — what info appears in which files\n3. Measure baseline: count lines, estimate tokens (1 line ≈ 4 tokens)\n4. Identify red flags: historical content, derivable content, duplicated sections, files exceeding line limits\n5. Generate a report with: baseline, redundancy count, red flags, recommended actions, projected savings\n\nPresent the report as a structured markdown table. If user approves, apply the optimizations.",
+      "description": "Audit repo for token waste \u2014 find redundant context files, recommend optimizations",
+      "template": "Run a token audit on this repository.\n\nSteps:\n1. Discover all AI context files (AGENTS.md, CLAUDE.md, copilot-instructions.md, memory-bank, skills, agents, rules)\n2. Build a redundancy map \u2014 what info appears in which files\n3. Measure baseline: count lines, estimate tokens (1 line \u2248 4 tokens)\n4. Identify red flags: historical content, derivable content, duplicated sections, files exceeding line limits\n5. Generate a report with: baseline, redundancy count, red flags, recommended actions, projected savings\n\nPresent the report as a structured markdown table. If user approves, apply the optimizations.",
       "agent": "athena"
     }
   },
@@ -319,16 +314,6 @@
   },
   "provider": {
     "opencode": {
-      "options": {
-        "chunkTimeout": 30000
-      }
-    },
-    "anthropic": {
-      "options": {
-        "chunkTimeout": 30000
-      }
-    },
-    "openai": {
       "options": {
         "chunkTimeout": 30000
       }

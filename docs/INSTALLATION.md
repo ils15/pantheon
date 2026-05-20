@@ -30,30 +30,7 @@
 
 ## After Installation: Select Your Model Plan
 
-After installing the agents for your platform, **select the model plan** that matches your subscription. This determines which AI models each agent uses.
-
-```bash
-# Go to the Pantheon directory
-cd pantheon
-
-# List all available plans
-./platform/select-plan.sh list
-
-# Select your plan (example: OpenCode Go, Copilot Pro, etc.)
-./platform/select-plan.sh opencode-go
-
-# Verify the models assigned to each agent
-./platform/select-plan.sh models
-```
-
-> 💡 **Don't know which plan to pick?** Choose based on your subscription:
-> - **OpenCode** → `opencode-go` ($10/mo) or `opencode-zen-free`
-> - **GitHub Copilot** → `copilot-pro` ($10/mo) or `copilot-free`
-> - **Cursor** → `cursor-pro` ($20/mo) or `cursor-hobby`
-> - **Claude Code** → `claude-pro` ($20/mo) or `claude-max-5x`
-> - **BYOK** → `byok-balanced` (balanced) or `byok-best` (best models)
-
-Switch plans anytime with `./platform/select-plan.sh <plan-name>`.
+After installing the agents for your platform, agents declare abstract tiers (`fast`/`default`/`premium`). Configure your preferred models via your platform's own settings (e.g., `~/.config/opencode/opencode.json` for OpenCode, or your editor's model picker for Copilot/Cursor).
 
 ---
 

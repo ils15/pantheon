@@ -368,28 +368,15 @@ This chain ensures predictable behavior while allowing flexibility.
 
 > **Note:** The `/model` command in OpenCode sets the chat's active model. Agents configured with `"auto"` immediately follow this selection. Use `/models` to see available models and `/model <id>` to switch.
 
-### Plan-Based Model Selection
+### Model Tiers
 
-The file `platform/plans/` contains **16 model plans** across 5 services. Agents declare abstract **tiers** (`fast`/`default`/`premium`) and the active plan resolves them to concrete model IDs.
+Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concrete model names. Configure the models you want for each tier directly in your `~/.config/opencode/opencode.json` or project-level `opencode.json` under the `provider` key.
 
-```bash
-# List all available plans
-./platform/select-plan.sh list
-
-# Select OpenCode Go plan
-./platform/select-plan.sh opencode-go
-
-# See which models each agent uses
-./platform/select-plan.sh models
-```
-
-| Agent Tier | OpenCode Go | OpenCode Zen Free |
-|---|---|---|
-| `fast` | `opencode/deepseek-v4-flash` | `opencode/gpt-5-nano` |
-| `default` | `opencode/kimi-k2.5` | `opencode/minimax-m2.5-free` |
-| `premium` | `opencode/kimi-k2.6` | `opencode/kimi-k2.5` |
-
-> Switch plans anytime with `./platform/select-plan.sh <plan-name>`
+| Agent Tier | Example mapping |
+|---|---|
+| `fast` | A lightweight/cheap model (e.g. `gpt-4o-mini`, `haiku`) |
+| `default` | A balanced model (e.g. `gpt-4o`, `sonnet`) |
+| `premium` | A frontier model (e.g. `o3`, `opus`) |
 
 ### ACP (Agent Client Protocol)
 
@@ -746,19 +733,12 @@ Reference in `opencode.json`:
 Add to `scripts/generate-prompts.sh`:
 ```bash
 #!/bin/bash
-# Generate dynamic prompts based on active plan
-PLAN=$(cat platform/plans/plan-active.json | jq -r .plan)
+# Generate dynamic prompts
 AGENTS=$(ls platform/opencode/agents/ | sed 's/.md//' | paste -sd ', ' -)
 
-sed -e "s/{{plan}}/$PLAN/g" \
-    -e "s/{{agents}}/$AGENTS/g" \
+sed -e "s/{{agents}}/$AGENTS/g" \
     prompts/templates/agora-template.txt \
     > prompts/dynamic/agora-generated.txt
-```
-
-Run after `select-plan.sh`:
-```bash
-./platform/select-plan.sh opencode-go && ./scripts/generate-prompts.sh
 ```
 
 ### Limitations

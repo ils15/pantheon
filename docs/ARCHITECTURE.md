@@ -14,7 +14,7 @@
 3. [DAG Wave Execution](#3-dag-wave-execution)
 4. [Two-Tier Memory Strategy](#4-two-tier-memory-strategy)
 5. [Platform Adapter Design Pattern](#5-platform-adapter-design-pattern)
-6. [Model Tier Abstraction](#6-model-tier-abstraction)
+6. [Model Configuration](#6-model-configuration)
 7. [Summary: Why This Architecture](#7-summary-why-this-architecture)
 
 ---
@@ -348,54 +348,21 @@ A template adapter is at `platform/_template/adapter.json`. To add a new platfor
 
 ---
 
-## 6. Model Tier Abstraction
+## 6. Model Configuration
 
-### Problem
+Pantheon does NOT hardcode models by default. Each agent uses your
+platform's account default model.
 
-Agents shouldn't hardcode model names (e.g., "Claude Opus 4.6") because different
-subscriptions have different model access. An agent definition should work regardless of
-whether the user has Copilot Pro, OpenCode Go, or Claude Max.
+### Provider prefix
 
-### Solution
+The model ID prefix determines which provider OpenCode uses:
+- `opencode-go/...` → OpenCode Go provider (recommended)
+- `openai/...` → OpenAI provider
 
-Agents declare abstract **model tiers** (`fast` / `default` / `premium`) in their
-frontmatter. The actual model resolution is handled by **plan files** in
-`platform/plans/`:
+### Reference configs
 
-```yaml
-# agents/apollo.agent.md (canonical)
-model: fast
-```
-
-```json
-// platform/plans/opencode-go.json
-{
-  "tiers": {
-    "fast": "opencode/deepseek-v4-flash",
-    "default": "opencode/kimi-k2.5",
-    "premium": "opencode/kimi-k2.6"
-  }
-}
-```
-
-Users select their plan once:
-```bash
-./platform/select-plan.sh copilot-pro
-```
-
-The `plan-active.json` symlink points to the active plan, and the system resolves
-tiers to concrete models at delegation time.
-
-### Priority chain for model selection
-
-When a subagent is invoked, model selection follows this order:
-1. **Explicit model parameter** — overrides everything
-2. **Agent-configured model** — agent's `model:` frontmatter field
-3. **Plan-resolved tier** — abstract tier → concrete model via plan file
-4. **Main conversation model** — fallback if nothing else matches
-
-**Cost cap rule:** A `fast` main conversation model cannot delegate to a `premium`
-subagent — the subagent falls back to the main model's tier.
+Example model configurations are in `platform/examples/`.
+These are documentation only — not used at runtime.
 
 ---
 
@@ -408,7 +375,7 @@ subagent — the subagent falls back to the main model's tier.
 | **DAG Wave Execution** | Sequential idle time, slow feedback | Total time = critical path only |
 | **Two-Tier Memory** | Mixed knowledge with wrong access patterns | Facts free, narrative on demand |
 | **Platform Adapter** | 7 different agent runtimes to support | Pluggable architecture, easy to extend |
-| **Model Tier Abstraction** | Hardcoded model names across subscriptions | Same agents, any provider |
+| **Model Configuration** | Hardcoded model names across subscriptions | Any provider, no config needed |
 
 > **Design philosophy:** Pantheon is configuration, not code. There are zero framework
 > Python/TypeScript source files. The entire system is `.agent.md` (agent definitions),

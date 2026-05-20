@@ -154,13 +154,9 @@ Use `--dry-run` to preview changes without writing:
 node scripts/sync-platforms.mjs --dry-run
 ```
 
-### Step 3: Select a model plan
+### Step 3: Configure models
 
-```bash
-./platform/select-plan.sh list       # see available plans
-./platform/select-plan.sh copilot-pro  # choose your plan
-./platform/select-plan.sh models     # verify agent-to-model mapping
-```
+Configure your preferred models in your platform settings (e.g., `~/.config/opencode/opencode.json` for OpenCode, or your editor's model picker). Agents use abstract tiers (`fast`/`default`/`premium`) — no plan file required.
 
 ### Step 4: Update platform configs
 

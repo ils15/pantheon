@@ -44,4 +44,4 @@ Reusable prompt templates for common development workflows. Each prompt specifie
 /project:mirrordeps langchain
 ```
 
-> **Note:** `/forge` (model tier selection) is OpenCode-only — not available on VS Code or Claude Code.
+

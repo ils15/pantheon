@@ -21,7 +21,7 @@
 | **Sync Engine** | `scripts/sync-platforms.mjs` with body validation, tool reference transformation, dedup | Catching stale references at sync time, not runtime |
 | **Skill Deployments** | 174 skills deployed (29 skills × 6 platforms) | Consistent domain expertise across all platforms |
 | **Agora Subagent** | Hidden multi-perspective synthesis agent (`/pantheon` or `@agora`) | Trade-off analysis without cluttering the agent list |
-| **Platform Select** | `platform/select-plan.sh` with `list`, `models`, `status` commands | Easy plan switching for model configuration |
+| **Platform Select** | ~~`platform/select-plan.sh`~~ (removed in v3.6.0 — model tiers now resolved via platform settings) | — |
 | **Security Fix** | `search/changes` removed from toolMap (was mapped to unrestricted bash on 3 platforms) | Eliminated shell injection vector |
 
 ### Stats
@@ -112,7 +112,6 @@ These are directional. Specific items will be scoped as we approach each release
 | New agent | Create `agents/<name>.agent.md`, add to Zeus's delegation list |
 | New skill | Create `skills/<name>/SKILL.md` with YAML frontmatter |
 | New platform | Create `platform/<name>/adapter.json`, add setup guide to `docs/platforms/` |
-| New plan | Add `<name>.json` to `platform/plans/` following `schema.json` |
 | Bug fix | Open a PR with the fix — see `CONTRIBUTING.md` for standards |
 
 ### Release cadence
@@ -135,7 +134,6 @@ Versions follow [Semantic Versioning 2.0.0](https://semver.org/):
 **Theme:** Agent count expansion and model configuration flexibility.
 
 - **Argus agent** — visual analysis specialist for screenshots, PDFs, diagrams
-- **`/forge` command** — edits `opencode.json` directly for model selection
 - **No hardcoded models** — removed from `opencode.json` root
 - **Cline `skipFrontmatter` fix** — resolved frontmatter wrapper bug
 - **17 agents** (pre-Argus was 16)

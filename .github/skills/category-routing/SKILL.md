@@ -149,7 +149,7 @@ Define custom categories in config:
 
 | System | Purpose | Scope |
 |--------|---------|-------|
-| `platform/plans/` tier system | Which model per agent (fast/default/premium) | Per-agent |
+| Platform model settings | Which model per agent (fast/default/premium) | Per-agent |
 | **Category routing** | Which model per task type (deep/quick/visual) | Per-task |
 
 They are complementary:

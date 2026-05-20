@@ -42,7 +42,6 @@ skills:
   - frontend-analyzer
   - tdd-with-agents
   - nextjs-seo-optimization
-  - simplify
 ---
 
 # Aphrodite - React Implementation Specialist

@@ -51,7 +51,6 @@ skills:
   - code-review-checklist
   - security-audit-pro
   - tdd-with-agents
-  - review-work
 ---
 
 # Themis - Quality & Security Gate Specialist
@@ -76,6 +75,12 @@ Themis includes `edit/editFiles` **exclusively for trivial auto-corrections duri
 - Don't re-analyze unchanged code
 - Context conservative: use summaries from implementers
 - Ask for clarification if needed
+
+### 1.1 **PLAN Status Validation**
+- Before reviewing any implementation, check if a `PLAN-<feature>.md` artifact exists in `docs/memory-bank/.tmp/`
+- If it exists, verify its **Status** is **Approved**
+- If the PLAN exists but is NOT Approved: return **FAILED** with message: `"Plan not approved. User must approve PLAN-<feature>.md before implementation proceeds."` and escalate to Zeus
+- If no PLAN exists, proceed normally (not all features require a formal PLAN artifact)
 
 ### 2. **TDD Verification**
 - Verify tests were written first
