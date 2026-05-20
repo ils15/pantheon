@@ -1,6 +1,6 @@
 # Pantheon Agent System
 
-This project uses the Pantheon multi-agent framework with 17 specialized agents.
+This project uses the Pantheon multi-agent framework with 18 specialized agents.
 
 ## Available Agents
 
@@ -22,6 +22,8 @@ This project uses the Pantheon multi-agent framework with 17 specialized agents.
 | @iris | GitHub operations | PRs & releases |
 | @mnemosyne | Documentation | Memory bank |
 | @talos | Hotfixes | Rapid repairs |
+| @argus | Visual analysis | Screenshots & diagrams |
+| @agora | Council synthesis | Multi-agent decisions |
 
 ## Commands
 

@@ -57,23 +57,6 @@ Configuração `steps` por agente — controla quantas tool calls o agente pode 
 
 ---
 
-## Model Plans
-
-Escolha seu plano de modelos com `/forge`:
-
-```bash
-# No OpenCode, digite na conversa:
-/forge
-
-# Ou via CLI:
-./platform/select-plan.sh list
-./platform/select-plan.sh opencode-go
-```
-
-Planos disponíveis: `opencode-go`, `opencode-zen-free`, `copilot-free/pro/pro-plus`, `cursor-hobby/pro/ultra`, `claude-pro/max`, `byok-cheap/balanced/best`.
-
----
-
 ## File Structure (after install)
 
 ```

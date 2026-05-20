@@ -366,7 +366,7 @@ function installOpenCode(target, dryRun) {
     }
 
     // Apply agent defaults — mode, hidden, task_budget, bash permissions
-    // Models are NOT included here (configured via /forge → ~/.config/opencode/)
+    // Models are NOT included here (configured via ~/.config/opencode/opencode.json)
     const agentDefaults = {
       zeus:      { mode: 'primary',                          task_budget: 30, bash: 'deny' },
       athena:    { mode: 'primary',                          task_budget: 10, bash: 'deny' },

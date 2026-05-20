@@ -19,21 +19,6 @@ cp -r .pantheon/agents/ .pantheon/skills/ ~/.config/opencode/
 
 See [docs/INSTALLATION.md](INSTALLATION.md) for platform-specific setup (VS Code, Cursor, Claude Code, Windsurf).
 
-## Model Configuration
-
-**No models are hardcoded by default.** OpenCode uses its built-in defaults until you configure a plan.
-
-| Command | What it does |
-|---|---|
-| `/forge` | Lists all available plans, you choose one |
-| `/forge auto` | Clears all model overrides, uses OpenCode defaults |
-| `/forge <plan-name>` | Applies a plan (e.g. `/forge opencode-go`) |
-| `/forge <model-id>` | Sets a specific model directly (e.g. `/forge anthropic/claude-sonnet-4-20250620`) |
-
-**How it works:** `/forge` reads `platform/plans/*.json` files and edits `opencode.json` directly — setting `model`, `small_model`, and per-agent `model` fields. No symlinks or intermediate files needed.
-
-**Available plans** (18 total): `opencode-go`, `opencode-zen-free`, `copilot-free`, `copilot-pro`, `copilot-pro-plus`, `copilot-business`, `copilot-enterprise`, `copilot-student`, `cursor-hobby`, `cursor-pro`, `cursor-ultra`, `claude-pro`, `claude-max-5x`, `claude-max-20x`, `byok-cheap`, `byok-balanced`, `byok-best`, and more in `platform/plans/`.
-
 ## Available Agents (17)
 
 | Agent | Role | Tier |
@@ -62,7 +47,6 @@ Full details: [agents/README.md](../agents/README.md)
 
 | Command | Agent | Purpose |
 |---|---|---|
-| `/forge` | Zeus | Configure model provider and plan |
 | `/focus` | Zeus | Pin session goal — prevents scope drift |
 | `/pantheon` | Athena | Multi-perspective synthesis (3-5 experts in parallel) |
 | `/subtask` | Any | Bounded child worker with structured result |
@@ -78,9 +62,7 @@ Full details: [agents/README.md](../agents/README.md)
 | Change | Description |
 |---|---|
 | **Argus agent added** | Visual analysis specialist (screenshots, images, PDFs) — was missing from AGENTS.md, causing CI failures |
-| **Hardcoded models removed** | `opencode.json` no longer has root `model`/`small_model` or per-agent model fields — uses OpenCode defaults until `/forge` is run |
-| **`/forge` rewritten** | Now edits `opencode.json` directly instead of managing `plan-active.json` symlinks |
-| **`plan-active.json` defaults to auto** | Falls back to OpenCode defaults when no plan is explicitly selected |
+
 
 ## Architecture
 
@@ -117,8 +99,7 @@ pantheon/
 │   ├── security-audit/        # OWASP Top 10 checks
 │   └── ...                    # 28 more skills
 ├── platform/
-│   ├── plans/                 # 18+ model plan files (*.json)
-│   └── select-plan.sh         # CLI plan selector
+│   └── examples/              # Reference model configs (documentation only)
 ├── prompts/                   # Reusable prompt templates
 ├── instructions/              # Standards documents (coding, review, memory)
 └── docs/
@@ -130,7 +111,6 @@ pantheon/
 
 ## Next Steps
 
-1. Run `/forge` to select a model plan
-2. Run `@zeus: Ping all agents` to verify setup
-3. Start with a simple task: `@apollo: Find all authentication-related files`
-4. Read [agents/README.md](../agents/README.md) for full agent commands and workflows
+1. Run `@zeus: Ping all agents` to verify setup
+2. Start with a simple task: `@apollo: Find all authentication-related files`
+3. Read [agents/README.md](../agents/README.md) for full agent commands and workflows

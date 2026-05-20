@@ -45,7 +45,7 @@ docs/memory-bank/
 | `@athena` plans (with or without Zeus) | **Athena** | `PLAN-<feature>.md` |
 | `@hermes` / `@aphrodite` / `@demeter` implement | **The worker** | `IMPL-phase<N>-<agent>.md` |
 | `` reviews | **Themis** | `REVIEW-<feature>.md` |
-| `#runSubagent Explore` (isolated mode only) | **Explore** | `DISC-<topic>.md` |
+| `@agora` council / `#runSubagent Explore` | **Agora / Explore** | `DISC-<topic>.md` |
 | Architectural decision (any agent) | **Any → Mnemosyne** | `ADR-<topic>.md` (permanent) |
 
 > [!IMPORTANT]
@@ -61,7 +61,7 @@ docs/memory-bank/
 | `PLAN-` | `.tmp/` | ✅ Deleted on sprint close | Athena |
 | `IMPL-` | `.tmp/` | ✅ Deleted on sprint close | Hermes / Aphrodite / Demeter |
 | `REVIEW-` | `.tmp/` | ✅ Deleted on sprint close | Themis |
-| `DISC-` | `.tmp/` | ✅ Deleted on sprint close | Apollo (`#runSubagent`) |
+| `DISC-` | `.tmp/` | ✅ Deleted on sprint close | Agora (council) / Apollo (`#runSubagent`) |
 | `ADR-` | `_notes/` | ❌ Permanent, never deleted | Any agent |
 
 ---
@@ -152,13 +152,43 @@ Agent produces phase output
 2. [Item 2]
 ```
 
+### DISC (Agora → `.tmp/`)
+
+```markdown
+# DISC-<topic>
+**Date:** YYYY-MM-DD  **Status:** AWAITING_APPROVAL
+
+## Question
+[The original question]
+
+## Specialist Perspectives
+[Table: Agent | Position | Reasoning | Trade-offs | Risks | Confidence]
+
+## Agreements
+[Where 2+ agents converged]
+
+## Divergences
+[Table: Issue | Position A | Position B | Resolution]
+
+## Decision Log
+[Table: Decision | Chosen | Rejected Alternatives | Trade-off | Trigger to Revert]
+
+## Recommendation
+[Decisive conclusion]
+
+## Decision Gate
+**Status:** AWAITING_APPROVAL
+Choose: **APPROVE** | **REQUEST CHANGES** | **DISCARD**
+```
+
 ---
 
 ## Human Pause Points
 
-1. **After PLAN** → user reads `.tmp/PLAN-<feature>.md` and approves
-2. **After REVIEW** → user reads `.tmp/REVIEW-<feature>.md` and validates Human Review Focus items
-3. **Before git commit** → user executes manually
+1. **After DISC** → user reads `.tmp/DISC-<topic>.md` and chooses APPROVE / REQUEST CHANGES / DISCARD
+2. **After PLAN** → user reads `.tmp/PLAN-<feature>.md` and approves
+3. **After REVIEW** → user reads `.tmp/REVIEW-<feature>.md` and validates Human Review Focus items
+4. **Before git commit** → user executes manually
 
 ---
 

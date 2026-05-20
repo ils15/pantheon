@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Removed
+
+- **`/forge` command removed** — the `forge` system (`platform/forge.json`, presets, model tiers) and all Anthropic model configurations have been removed to eliminate complexity. OpenCode auto-selects models by default; users can configure models manually via `~/.config/opencode/opencode.json`.
+- **Anthropic provider configs** — removed `claude-pro` and `byok-best` preset examples; removed Anthropic model references from docs.
+
 ## [v3.6.0] - 2026-05-20
 
 Pantheon v3.6.0 is a **token optimization release** — reduces auto-loaded context by **97%** (27K → 748 tokens) while keeping all 18 agents, 42 skills, and full functionality intact. Inspired by RTK (Rust Token Killer) patterns for smart filtering and progressive disclosure.
@@ -63,12 +70,6 @@ Users reported that even a simple "oi" consumed 17-20K tokens per session. Inves
 | On-demand | ~4K tokens | ~896 tokens | -78% |
 | Skills (lazy) | ~3K per load | ~83K total (only when invoked) | Lazy-load |
 | `/pantheon` call | ~50K+ (4-5 agents) | ~25K (max 3 agents) | -50% |
-
-## [Unreleased] - Upcoming
-
-### Added
-### Changed
-### Fixed
 
 ## [v3.5.0] - 2026-05-19
 

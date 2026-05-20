@@ -30,8 +30,6 @@ skills:
   - fastapi-async-patterns
   - tdd-with-agents
   - database-optimization
-  - simplify
-  - test-architecture
   - cache-strategy
 user-invocable: true
 temperature: 0.3
