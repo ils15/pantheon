@@ -1,4 +1,20 @@
 #!/usr/bin/env node
+/**
+ * versioning.mjs — Pantheon release versioning helper
+ *
+ * Commands:
+ *   recommend            Analyze commits and suggest next version bump type
+ *   apply [type]         Bump manifests + move [Unreleased] → [vX.Y.Z] in CHANGELOG
+ *                        type: patch | minor | major | auto (default: auto)
+ *   changelog [ver]      (Internal) Insert a versioned section into CHANGELOG
+ *                        Normally called by `apply`; can be run standalone.
+ *   status               Show current version, latest tag, and pending bump type
+ *
+ * Design: the release signal is "package.json version > latest git tag".
+ * Developers (or AI agents) call `apply` to bump + update CHANGELOG, then push.
+ * The auto-release workflow detects the version bump and creates the release.
+ * No version bumping ever happens inside GitHub Actions.
+ */
 
 import { execSync } from 'child_process';
 import { readFileSync, writeFileSync } from 'fs';
@@ -8,48 +24,39 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-const manifestFiles = [
+const MANIFEST_FILES = [
   'package.json',
   'plugin.json',
   '.github/plugin/plugin.json',
 ];
 
-function run(cmd, opts = {}) {
+const CHANGELOG_PATH = join(ROOT, 'CHANGELOG.md');
+
+// ---------------------------------------------------------------------------
+// Git helpers
+// ---------------------------------------------------------------------------
+
+function run(cmd) {
   try {
-    return execSync(cmd, { cwd: ROOT, encoding: 'utf-8', ...opts }).trim();
+    return execSync(cmd, { cwd: ROOT, encoding: 'utf-8' }).trim();
   } catch {
     return '';
   }
 }
 
-function getCurrentVersion() {
-  const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf-8'));
-  return pkg.version;
-}
-
 function getLatestTag() {
-  const tag = run('git describe --tags --abbrev=0 2>/dev/null || true');
+  // Use numerically highest tag, not just nearest git ancestor
+  const tag = run("git tag -l 'v[0-9]*.[0-9]*.[0-9]*' | sort -V | tail -1");
   return tag || 'v0.0.0';
 }
 
-function analyzeConventionalCommits(since) {
-  const log = run(`git log ${since}..HEAD --format="%s" 2>/dev/null || git log --format="%s"`);
-  if (!log) return 'patch';
-
-  const messages = log.split('\n').filter(Boolean);
-  let bump = 'patch';
-
-  for (const msg of messages) {
-    if (/BREAKING CHANGE/i.test(msg) || /^[a-z]+!:/i.test(msg)) {
-      return 'major';
-    }
-    if (/^feat/i.test(msg) || /^feature/i.test(msg)) {
-      bump = 'minor';
-    }
-  }
-
-  return bump;
+function getCurrentVersion() {
+  return JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf-8')).version;
 }
+
+// ---------------------------------------------------------------------------
+// Semver helpers
+// ---------------------------------------------------------------------------
 
 function bumpVersion(version, type) {
   const [major, minor, patch] = version.split('.').map(Number);
@@ -60,196 +67,177 @@ function bumpVersion(version, type) {
   }
 }
 
-function getNextAvailableVersion(baseVersion, bumpType) {
-  let candidate = bumpVersion(baseVersion, bumpType);
-  while (true) {
-    const tag = `v${candidate}`;
-    const result = execSync(`git tag -l "${tag}"`, { encoding: 'utf-8' }).trim();
-    if (!result) return candidate; // tag doesn't exist — use it
-    // Tag exists — bump patch
-    const [major, minor, patch] = candidate.split('.').map(Number);
-    candidate = `${major}.${minor}.${patch + 1}`;
+function analyzeConventionalCommits(since) {
+  const log = run(`git log ${since}..HEAD --format="%s"`);
+  if (!log) return 'patch';
+  let bump = 'patch';
+  for (const msg of log.split('\n').filter(Boolean)) {
+    if (/BREAKING CHANGE/i.test(msg) || /^[a-z]+!/i.test(msg)) return 'major';
+    if (/^feat/i.test(msg)) bump = 'minor';
   }
+  return bump;
 }
 
+// ---------------------------------------------------------------------------
+// Manifest updater
+// ---------------------------------------------------------------------------
+
 function updateManifests(newVersion) {
-  for (const file of manifestFiles) {
+  for (const file of MANIFEST_FILES) {
     const path = join(ROOT, file);
     try {
       const content = JSON.parse(readFileSync(path, 'utf-8'));
       content.version = newVersion;
       writeFileSync(path, JSON.stringify(content, null, 2) + '\n');
-      console.log(`✓ Updated ${file} → ${newVersion}`);
+      console.log(`  ✓ ${file} → ${newVersion}`);
     } catch {
-      console.log(`⚠ Skipped ${file} (not found)`);
+      console.log(`  ⚠ ${file} not found — skipped`);
     }
   }
 }
 
-const CHANGELOG_PATH = join(ROOT, 'CHANGELOG.md');
+// ---------------------------------------------------------------------------
+// CHANGELOG updater
+//
+// Finds the [Unreleased] section and:
+//   1. Strips empty subsections (### Added\n\n### Changed...)
+//   2. Renames [Unreleased] → [vX.Y.Z] - date
+//   3. Inserts a fresh empty [Unreleased] template above it
+// ---------------------------------------------------------------------------
 
-function parseConventional(subject) {
-  if (/^Merge\b/i.test(subject)) {
-    return { type: 'merge', scope: '', breaking: false, desc: subject };
-  }
-  const m = /^([a-zA-Z]+)(?:\(([^)]*)\))?(!)?\s*:\s*(.*)$/.exec(subject);
-  if (m) {
-    return { type: m[1].toLowerCase(), scope: m[2] || '', breaking: !!m[3], desc: m[4] };
-  }
-  return { type: 'other', scope: '', breaking: false, desc: subject };
-}
-
-function categorize(parsed) {
-  if (parsed.breaking) return '⚠️ Breaking Changes';
-  if (parsed.type === 'merge') return null;
-  switch (parsed.type) {
-    case 'feat':
-    case 'feature': return 'Added';
-    case 'fix': return 'Fixed';
-    case 'perf':
-    case 'refactor': return 'Changed';
-    case 'docs': return 'Documentation';
-    case 'test':
-    case 'style': return null;
-    case 'ci': return 'Changed';
-    case 'chore':
-      if (parsed.scope === 'release') return null;
-      if (parsed.scope === 'deps' || parsed.scope === 'deps-dev') return 'Dependencies';
-      return 'Changed';
-    default:
-      return (parsed.desc && parsed.desc.length > 20) ? 'Changed' : null;
-  }
-}
-
-function generateChangelog(newVersion, dateStr) {
-  const latestTag = getLatestTag();
-  const sep = '|||SEP|||';
-  let log = run(`git log ${latestTag}..HEAD --format="%H${sep}%s${sep}%b${sep}%aN${sep}%ai" 2>/dev/null`);
-  if (!log) {
-    console.log('No new commits since last tag — nothing to add to CHANGELOG');
-    return false;
-  }
-
-  const commits = log.split('\n').filter(Boolean).map(line => {
-    const p = line.split(sep);
-    return { hash: p[0] || '', subject: p[1] || '', body: (p[2] || '').trim(), author: p[3] || '', date: p[4] || '' };
-  });
-
-  const sections = { '⚠️ Breaking Changes': [], Added: [], Fixed: [], Changed: [], Documentation: [], Dependencies: [] };
-  const order = ['⚠️ Breaking Changes', 'Added', 'Fixed', 'Changed', 'Documentation', 'Dependencies'];
-
-  for (const c of commits) {
-    const parsed = parseConventional(c.subject);
-    const cat = categorize(parsed);
-    if (!cat) continue;
-
-    let desc = parsed.desc.charAt(0).toUpperCase() + parsed.desc.slice(1);
-    let entry = `- ${desc}`;
-    if (c.body && c.body.length > 10) {
-      const firstPara = c.body.split('\n\n')[0].trim().replace(/\n/g, '\n  ');
-      if (firstPara.length > 10) {
-        entry += `\n  ${firstPara}`;
-      }
-    }
-    sections[cat].push(entry);
-  }
-
-  const hasContent = Object.values(sections).some(a => a.length > 0);
-  if (!hasContent) {
-    console.log('No categorizable commits since last tag — nothing to add to CHANGELOG');
-    return false;
-  }
-
-  const lines = [`## [${newVersion}] - ${dateStr}`, ''];
-  for (const cat of order) {
-    const items = sections[cat];
-    if (!items.length) continue;
-    lines.push(`### ${cat}`, '');
-    lines.push(...items, '');
-  }
-
-  const section = lines.join('\n');
+function promoteUnreleased(newVersion, dateStr) {
   const content = readFileSync(CHANGELOG_PATH, 'utf-8');
 
-  // Find insertion point in CHANGELOG
-  // Prefer --- separator (old format), fall back to after [Unreleased] section
-  let insertPos = -1;
-
-  // Try old format: look for --- separator
-  const sepIdx = content.indexOf('\n---\n');
-  if (sepIdx !== -1) {
-    insertPos = sepIdx + 5;
-  } else {
-    // New format: look for ## [Unreleased] section
-    const unreleasedIdx = content.indexOf('## [Unreleased]');
-    if (unreleasedIdx !== -1) {
-      // Find the blank line after the Unreleased section content
-      // The Unreleased section has placeholders: ### Added ### Changed ### Fixed
-      // We want to insert after the ### Fixed line
-      const afterUnreleased = content.indexOf('### Fixed\n', unreleasedIdx);
-      if (afterUnreleased !== -1) {
-        // Position after "### Fixed\n" - consume trailing blank lines
-        let pos = afterUnreleased + '### Fixed\n'.length;
-        while (pos < content.length && (content[pos] === '\n' || content[pos] === '\r')) pos++;
-        insertPos = pos;
-      }
-    }
-  }
-
-  if (insertPos === -1) {
-    console.error('Could not find insertion point (--- or [Unreleased]) in CHANGELOG.md — aborting');
+  const unreleasedHeader = '## [Unreleased]';
+  const idx = content.indexOf(unreleasedHeader);
+  if (idx === -1) {
+    console.log('  ⚠ [Unreleased] section not found in CHANGELOG — skipping');
     return false;
   }
-  writeFileSync(CHANGELOG_PATH, content.slice(0, insertPos) + '\n' + section + '\n' + content.slice(insertPos));
-  console.log(`✓ Inserted changelog section for v${newVersion} into CHANGELOG.md`);
+
+  // Find the end of [Unreleased]: next ## header or end of file
+  const afterHeader = idx + unreleasedHeader.length;
+  const nextSectionIdx = content.indexOf('\n## [', afterHeader);
+  const unreleasedBody = nextSectionIdx === -1
+    ? content.slice(afterHeader)
+    : content.slice(afterHeader, nextSectionIdx);
+
+  // Check if the [Unreleased] section has any real content (non-empty lines
+  // that aren't just section headers or comments)
+  const realLines = unreleasedBody
+    .split('\n')
+    .filter(l => l.trim() && !l.startsWith('###') && !l.startsWith('<!--'));
+
+  if (realLines.length === 0) {
+    console.log('  ℹ [Unreleased] is empty — CHANGELOG not modified');
+    return false;
+  }
+
+  // Strip lines that are just empty subsections (### X followed by blank line
+  // then another ### or end)
+  const cleanedBody = unreleasedBody
+    .replace(/\n### \w[^\n]*\n(\n(?=###|\n## |\n$))+/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trimEnd();
+
+  const newTemplate = `\n\n<!-- Add new changes here. Running \`node scripts/versioning.mjs apply\` will\n     move this section to a versioned entry and reset the template below. -->\n\n### Added\n\n### Changed\n\n### Fixed\n\n### Removed`;
+  const newVersionHeader = `## [v${newVersion}] - ${dateStr}`;
+
+  const before = content.slice(0, idx);
+  const after  = nextSectionIdx === -1 ? '' : content.slice(nextSectionIdx);
+
+  const updated =
+    before +
+    unreleasedHeader + newTemplate + '\n\n' +
+    newVersionHeader + cleanedBody +
+    after;
+
+  writeFileSync(CHANGELOG_PATH, updated);
+  console.log(`  ✓ CHANGELOG: [Unreleased] → [v${newVersion}]`);
   return true;
 }
 
+// ---------------------------------------------------------------------------
+// Commands
+// ---------------------------------------------------------------------------
+
 const command = process.argv[2];
-const arg = process.argv[3];
-const arg2 = process.argv[4];
+const arg     = process.argv[3];
 
 switch (command) {
+
+  case 'status': {
+    const latestTag   = getLatestTag();
+    const current     = getCurrentVersion();
+    const latestVer   = latestTag.replace(/^v/, '');
+    const bump        = analyzeConventionalCommits(latestTag);
+    const next        = bumpVersion(current, bump);
+    const needsRelease = current !== latestVer;
+
+    console.log(`Current version  : ${current}`);
+    console.log(`Latest git tag   : ${latestTag}`);
+    console.log(`Release pending  : ${needsRelease ? `YES — tag ${latestTag} < pkg ${current}` : 'NO — already tagged'}`);
+    console.log(`Recommended bump : ${bump}`);
+    console.log(`Next version     : ${next}`);
+    break;
+  }
+
   case 'recommend': {
     const latestTag = getLatestTag();
-    const bump = analyzeConventionalCommits(latestTag);
-    const current = getCurrentVersion();
-    const next = bumpVersion(current, bump);
-    console.log(`Current: ${current}`);
-    console.log(`Latest tag: ${latestTag}`);
-    console.log(`Recommended bump: ${bump}`);
-    console.log(`Next version: ${next}`);
+    const bump      = analyzeConventionalCommits(latestTag);
+    const current   = getCurrentVersion();
+    console.log(bumpVersion(current, bump));
     break;
   }
 
   case 'apply': {
-    const type = arg || 'auto';
+    const type      = arg || 'auto';
     const latestTag = getLatestTag();
-    const current = getCurrentVersion();
-    let bumpType = type;
+    const current   = getCurrentVersion();
+    const latestVer = latestTag.replace(/^v/, '');
 
-    if (type === 'auto') {
-      bumpType = analyzeConventionalCommits(latestTag);
+    // If package.json is already ahead of the latest tag, someone bumped
+    // without tagging — warn and use the current version as-is.
+    if (current !== latestVer) {
+      console.log(`⚠ package.json (${current}) already ahead of latest tag (${latestTag}).`);
+      console.log(`  Promoting CHANGELOG for ${current} without bumping further.`);
+      const date = new Date().toISOString().slice(0, 10);
+      promoteUnreleased(current, date);
+      break;
     }
 
-    const nextVersion = getNextAvailableVersion(current, bumpType);
-    updateManifests(nextVersion);
-    console.log(`\nBumped ${current} → ${nextVersion} (${bumpType})`);
+    const bumpType   = type === 'auto' ? analyzeConventionalCommits(latestTag) : type;
+    const newVersion = bumpVersion(current, bumpType);
+    const date       = new Date().toISOString().slice(0, 10);
+
+    console.log(`Bumping ${current} → ${newVersion} (${bumpType})`);
+    updateManifests(newVersion);
+    promoteUnreleased(newVersion, date);
+    console.log(`\nDone. Commit with: git add -A && git commit -m "chore(release): v${newVersion}"`);
     break;
   }
 
+  // Legacy standalone command — kept for backward compat
   case 'changelog': {
     const version = arg || getCurrentVersion();
-    const date = arg2 || new Date().toISOString().slice(0, 10);
-    generateChangelog(version, date);
+    const date    = new Date().toISOString().slice(0, 10);
+    promoteUnreleased(version, date);
     break;
   }
 
   default:
     console.log(`Usage: node scripts/versioning.mjs <command>
+
 Commands:
-  recommend            Analyze commits and suggest version bump
-  apply [type]         Bump version (auto|patch|minor|major) - default: auto
-  changelog [ver] [dt] Generate changelog section since last tag (uses pkg version + today by default)
+  status               Show current version, latest tag, release status
+  recommend            Print recommended bump type (patch/minor/major)
+  apply [type]         Bump manifests + move [Unreleased] → [vX.Y.Z]
+                       type: patch | minor | major | auto (default: auto)
+  changelog [version]  Promote [Unreleased] → [vX.Y.Z] without bumping
+
+Release flow:
+  1. node scripts/versioning.mjs apply [minor]
+  2. git add -A && git commit -m "chore(release): vX.Y.Z"
+  3. git push     ← CI passes → auto-release fires because pkg > tag
 `);
 }
