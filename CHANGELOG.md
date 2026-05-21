@@ -6,10 +6,36 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
+     move this section to a versioned entry and reset the template below. -->
+
+### Added
+
+### Changed
+
+### Fixed
+
 ### Removed
 
-- **`/forge` command removed** — the `forge` system (`platform/forge.json`, presets, model tiers) and all Anthropic model configurations have been removed to eliminate complexity. OpenCode auto-selects models by default; users can configure models manually via `~/.config/opencode/opencode.json`.
-- **Anthropic provider configs** — removed `claude-pro` and `byok-best` preset examples; removed Anthropic model references from docs.
+## [v3.7.2] - 2026-05-20
+
+### Changed
+
+- Decision gate enforcement: `/pantheon` command now has mandatory `⛔ MANDATORY STOP` instruction; Gate 0 added to `auto-continue` skill
+- `agora.agent.md`: structured DISC artifact output and Decision Gate block
+- `zeus.agent.md`, `themis.agent.md`: Planning Gate and PLAN Status Validation
+- `artifact-protocol.instructions.md`: DISC template and Gate 0 pause point
+- `agents/README.md`: plan-system section replaced with model-tiers description
+- CI: `auto-release.yml` now triggers via `workflow_run` on CI success (not raw push)
+- CI: `ci.yml` adds SKILL.md frontmatter validation step
+- `skills/plan-architecture/SKILL.md`: new architecture planning skill
+
+### Removed
+
+- `platform/plans/` (16 plan JSON files) and `platform/select-plan.sh` — model tiers are now abstract; users configure models via platform settings
+- `platform/forge.json`, `platform/examples/` — forge system removed
+- Dead skill refs: `simplify`, `test-architecture`, `review-work`, `ai-slop-remover` removed from agents
+- Stale `platform/plans` references cleaned from all docs, agents, and contributing guides
 
 ## [v3.6.0] - 2026-05-20
 
