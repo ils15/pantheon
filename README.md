@@ -5,7 +5,7 @@
 <h1 align="center">Pantheon</h1>
 
 <p align="center">
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-3.6.0-blue" alt="Version"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-3.7.0-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-18-purple" alt="Agents"></a>
@@ -415,22 +415,54 @@ OpenCode-specific extras in `.opencode/skills/`). Skills are organized into doma
 
 ---
 
-## Model Tiers
+## Model Tiers & Presets
 
-Pantheon agents declare abstract model tiers (`fast` / `default` / `premium`) rather than
+Pantheon agents declare abstract model tiers (`fast` / `default` / `coding` / `premium`) rather than
 hardcoded model names. The actual model resolved for each tier depends on your platform
-subscription (OpenCode Go, Copilot Pro, Claude Pro, Cursor Pro, etc.) — you configure
-models in your platform's settings, not in Pantheon.
+subscription (OpenCode Go, Copilot Pro, Claude Pro, etc.).
 
-| Tier | Purpose | Example Agents | Typical Models |
-|------|---------|---------------|----------------|
-| `fast` | Quick, cheap ops | Apollo, Iris, Mnemosyne, Talos, Nyx | DeepSeek V4 Flash, Gemini Flash |
-| `default` | Balanced quality/speed | Hermes, Aphrodite, Demeter, Prometheus, Echo | Claude Sonnet, GPT-5, Kimi K2 |
-| `premium` | Deep reasoning, critical | Zeus, Athena, Agora, Themis | Claude Opus, Kimi K2.6, GPT-5.4 |
+| Tier | Purpose | Agents | Typical Models |
+|------|---------|--------|----------------|
+| `premium` | Deep reasoning, critical | Zeus, Athena, Agora, Themis | DeepSeek V4 Pro, Claude Opus, o3 |
+| `default` | Balanced quality/speed | Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Chiron, Echo, Gaia | Kimi K2.6, Claude Sonnet, GPT-4o |
+| `coding` | Heavy coding tasks | Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Talos | DeepSeek V4 Flash, Claude Sonnet |
+| `fast` | Quick, cheap ops | Apollo, Iris, Mnemosyne, Talos, Nyx, Argus | DeepSeek V4 Flash, MiniMax M2.7, Gemini Flash |
 
-Each platform folder (`platform/opencode/`, `platform/claude/`, `platform/cursor/`, etc.)
-contains adapter configs that map these tiers to the models available on that platform.
-Configure concrete models via your platform's own settings (see [docs/platforms/](docs/platforms/) for per-platform guides).
+### /forge — Model Presets
+
+Pantheon ships with **`/forge`** — a model configuration command that applies named presets from
+`platform/forge.json`. Each preset maps 4 tiers to concrete models across all 18 agents.
+
+**Usage:**
+```
+/forge opencode-go     ← Apply a preset (12 available)
+/forge default          ← Reset to account defaults (no models set)
+/forge list             ← List all available presets
+/forge status           ← Show current model configuration
+/forge deepseek-flash   ← Single model for all agents
+/forge --zeus anthropic/claude-opus-4-6  ← Override a single agent
+```
+
+**Available presets:**
+
+| Preset | Premium | Default | Coding | Fast | Requires |
+|--------|---------|---------|--------|------|----------|
+| `default` | — | — | — | — | Account defaults |
+| `opencode-go` | DeepSeek V4 Pro | Kimi K2.6 | DeepSeek V4 Flash | MiniMax M2.7 | OpenCode Go |
+| `deepseek-flash` | DeepSeek V4 Flash | DeepSeek V4 Flash | DeepSeek V4 Flash | DeepSeek V4 Flash | OpenCode Go |
+| `kimi` | Kimi K2.6 | Kimi K2.5 | Kimi K2.6 | MiniMax M2.7 | OpenCode Go |
+| `qwen` | Qwen3.6 Plus | Qwen3.5 Plus | Qwen3.6 Plus | DeepSeek V4 Flash | OpenCode Go |
+| `opencode-co` | DeepSeek V4 Pro | Kimi K2.6 | Kimi K2.6 | MiniMax M2.7 | OpenCode Go |
+| `claude-pro` | Claude Opus-4 🤔 | Claude Sonnet-4 🤔 | Claude Sonnet-4 🤔 | Claude Haiku-4 🤔 | Anthropic key |
+| `openai` | o3 (high) | GPT-4o | GPT-4o | GPT-4o-mini | OpenAI key |
+| `gemini` | Gemini 3.5 Flash | Gemini 2.5 Flash | Gemini 2.5 Flash | Gemini 3.1 Flash-Lite | Google AI key |
+| `github-copilot` | Claude Opus-4 | GPT-4o | GPT-4o | GPT-4o-mini | Copilot ($10/m) |
+| `byok-best` | Claude Opus-4 🤔 | GPT-4o | GPT-4o | GPT-4o-mini | Anthropic + OpenAI |
+| `together-moe` | DeepSeek V4 | Llama 4 Scout | Llama 4 Scout | Llama 3.2 3B | Together key |
+
+> 🤔 = thinking habilitado
+
+See `platform/forge.json` for full preset definitions and `docs/platforms/` for per-platform setup guides.
 
 ---
 
@@ -488,6 +520,7 @@ Pantheon provides slash commands via OpenCode. On other platforms (Copilot, Curs
 |---------|-------|-------------|
 | `/pantheon` | agora | Multi-perspective synthesis (Council) |
 | `/focus` | zeus | Pin a session goal |
+| `/forge` | zeus | Configure models by preset (`/forge opencode-go`) or per-agent (`/forge --zeus <model>`) |
 | `/sketch` | athena | Turn rough idea into spec |
 | `/audit` | themis | Code review + security audit |
 | `/ping` | zeus | Ping all Pantheon agents |
