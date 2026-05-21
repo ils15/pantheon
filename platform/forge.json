@@ -181,65 +181,36 @@
       "provider_options": {}
     },
     "claude-pro": {
-      "description": "Anthropic Claude with thinking enabled. Opus for deep reasoning, Sonnet for balanced work and coding, Haiku for fast tasks. Requires Anthropic API key or GitHub Copilot subscription.",
+      "description": "Anthropic Claude with extended thinking. Opus for deep reasoning, Sonnet for balanced work and coding, Haiku for fast tasks. Requires Anthropic API key or GitHub Copilot subscription.",
       "tiers": {
         "premium": {
-          "model": "anthropic/claude-opus-4-6",
-          "variant": "thinking"
+          "model": "anthropic/claude-opus-4-5",
+          "variant": "max"
         },
         "default": {
-          "model": "anthropic/claude-sonnet-4-6",
-          "variant": "thinking"
+          "model": "anthropic/claude-sonnet-4-5",
+          "variant": "high"
         },
         "coding": {
-          "model": "anthropic/claude-sonnet-4-6",
-          "variant": "thinking"
+          "model": "anthropic/claude-sonnet-4-5",
+          "variant": "high"
         },
         "fast": {
-          "model": "anthropic/claude-haiku-4-5",
-          "variant": "thinking"
+          "model": "anthropic/claude-haiku-3-5",
+          "variant": "high"
         }
       },
       "agent_overrides": {
         "zeus": {
-          "model": "anthropic/claude-opus-4-6",
-          "variant": "thinking"
+          "model": "anthropic/claude-opus-4-5",
+          "variant": "max"
         },
         "aphrodite": {
-          "model": "anthropic/claude-sonnet-4-6",
-          "variant": "thinking"
+          "model": "anthropic/claude-sonnet-4-5",
+          "variant": "high"
         }
       },
-      "provider_options": {
-        "anthropic": {
-          "models": {
-            "claude-opus-4-6": {
-              "options": {
-                "thinking": {
-                  "type": "enabled",
-                  "budgetTokens": 32000
-                }
-              }
-            },
-            "claude-sonnet-4-6": {
-              "options": {
-                "thinking": {
-                  "type": "enabled",
-                  "budgetTokens": 16000
-                }
-              }
-            },
-            "claude-haiku-4-5": {
-              "options": {
-                "thinking": {
-                  "type": "enabled",
-                  "budgetTokens": 8000
-                }
-              }
-            }
-          }
-        }
-      }
+      "provider_options": {}
     },
     "openai": {
       "description": "OpenAI tiered: o3 for deep reasoning (high reasoning effort), gpt-4o for balanced work and coding, gpt-4o-mini for fast tasks. Requires OpenAI API key or GitHub Copilot subscription.",
@@ -334,12 +305,36 @@
       }
     },
     "byok-best": {
-      "description": "Bring Your Own Key \u2014 best-in-class per tier using your own API keys. Claude Opus-4 (thinking) for deep reasoning, GPT-4o for balanced and coding, GPT-4o-mini for fast.",
+      "description": "Bring Your Own Key — best-in-class per tier using your own API keys. Claude Opus-4 (thinking) for deep reasoning, GPT-4o for balanced and coding, GPT-4o-mini for fast.",
       "tiers": {
         "premium": {
-          "model": "anthropic/claude-opus-4-6",
-          "variant": "thinking"
+          "model": "anthropic/claude-opus-4-5",
+          "variant": "max"
         },
+        "default": {
+          "model": "openai/gpt-4o"
+        },
+        "coding": {
+          "model": "openai/gpt-4o"
+        },
+        "fast": {
+          "model": "openai/gpt-4o-mini"
+        }
+      },
+      "agent_overrides": {},
+      "provider_options": {
+        "openai": {
+          "models": {
+            "gpt-4o": {
+              "options": {}
+            },
+            "gpt-4o-mini": {
+              "options": {}
+            }
+          }
+        }
+      }
+    },
         "default": {
           "model": "openai/gpt-4o"
         },
