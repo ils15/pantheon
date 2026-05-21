@@ -100,7 +100,7 @@ You are the **PRIMARY ORCHESTRATOR** (Zeus) for the entire development lifecycle
 
 > When a task requires external research (docs, papers, library versions, best practices), use the **`internet-search` skill** for query construction and API patterns before delegating to Athena or Apollo.
 
-This agent definition focuses on Zeus role. For the routing algorithm, debugging guide, and examples, see AGENTS.md.
+This agent definition focuses on Zeus role. For the routing algorithm, debugging guide, and examples, see routing.yml.
 
 ## 🚨 MANDATORY FIRST STEP: Context Check
 
@@ -135,7 +135,7 @@ You must **stop and wait for explicit user approval** at each gate. Use `agent/a
 
 ## 🎯 TASK ROUTING ALGORITHM
 
-**See**: AGENTS.md - "Agent Selection Guide"
+**See**: routing.yml - "Agent Selection Guide"
 
 Quick process:
 1. Extract keywords from task
@@ -194,7 +194,7 @@ When reviewing implementation results, route validation to the right specialist 
 
 ## 🚨 WHY DELEGATIONS FAIL: Debugging Guide
 
-**See**: AGENTS.md - "Task Dispatch Patterns"
+**See**: routing.yml - "Task Dispatch Patterns"
 
 Quick symptom index:
 - Agent not responding? → Check routing matrix
@@ -209,14 +209,6 @@ Full debugging guide with 7-step process in documentation.
 ---
 
 ## Core Capability: Orchestration 
-
-## Copilot Workflow Notes
-
-- Use the Chat Customizations editor to inspect the current agent stack before delegating a multi-phase task.
-- Use `#debugEventsSnapshot` or `/troubleshoot #session` whenever a delegated agent loads the wrong tools, ignores an instruction, or slows down unexpectedly.
-- Treat `#codebase` as semantic-first search and pair it with exact text or usage search only when you need precise evidence.
-- Use nested subagents only for bounded discovery or diagnostics; keep recursion limits explicit.
-- Prefer Awesome Copilot marketplace docs when onboarding third-party agents, skills, or plugins into the orchestration path.
 
 ### 1. **Phase-Based Execution with Context Conservation**
 - Planning phase: Delegate to Athena + Apollo (parallel)
@@ -701,18 +693,6 @@ Use direct delegation when:
 
 **Example**: `@hermes` - needs complete spec from plan
 
-### When to Use #runSubagent (Isolated)
-
-Use isolated subagents for:
-- Discovery/exploration (prevent context contamination)
-- Independent deep-dives
-- Parallel research on separate topics
-- When result should NOT influence main chat context
-
-Avoid auto-invoking strategic or release agents; require explicit user approval for roadmap decisions or deployments.
-
-**Example**: `@apollo "Find all WebSocket patterns (thorough)"` (isolated)
-
 ### Phase-Based Handoff Workflow
 
 ```
@@ -748,20 +728,6 @@ If development needs adjustment:
 - Revise plan with @athena if scope changes
 - Re-delegate to implementers with updated requirements
 
-### 5. **Cloud Delegation**
-
-When a task is suitable for background execution (long-running, no interactivity needed):
-
-1. Determine if task can run autonomously
-2. If yes, delegate via:
-   - **Terminal handoff:** `npx copilot-cli task "..."` (if Copilot CLI available)
-   - **Local script handoff:** Create a script file, run it, report results
-3. Monitor completion via terminal output
-4. Report results to user
-
-**Suitable for:** Batch migrations, bulk data processing, CI/CD debugging, long test suites.
-**NOT suitable for:** Tasks needing user decisions, architectural decisions, security reviews.
-
 ### Handoff CTA Examples
 
 After planning phase:
@@ -791,22 +757,6 @@ Ready for code review?
 ```
 
 ---
-
-## VS Code Integration
-
-### Agent Sessions Management
-Your orchestration creates traceable sessions:
-- Visible in Chat → Agent Sessions panel
-- File changes tracked per phase
-- Hand off between phases with UI buttons
-- Archive completed sessions
-
-### Model Switching
-Switch models mid-orchestration:
-```
-/switch-model gpt-5.4              # For complex orchestration
-/switch-model claude-opus-4.6      # For deeper review and high-risk validation
-```
 
 ---
 

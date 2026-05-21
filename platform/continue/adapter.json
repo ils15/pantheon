@@ -2,19 +2,43 @@
   "name": "continue",
   "version": "1.0.0",
   "displayName": "Continue.dev",
-  "description": "Continue.dev VS Code extension — agents become rules in .continue/rules/ with config.yaml. No frontmatter needed; body content is the rule text injected into system prompts.",
+  "description": "Continue.dev VS Code extension \u2014 agents become rules in .continue/rules/ with config.yaml. No frontmatter needed; body content is the rule text injected into system prompts.",
   "outputDir": "rules",
   "fileExtension": ".md",
   "platformType": "config-rules",
   "frontmatter": {
     "include": [],
-    "exclude": ["name", "description", "tools", "skills", "instructions", "handoffs", "agents", "model", "argument-hint", "user-invocable", "mode", "hooks", "mcpServers"],
+    "exclude": [
+      "name",
+      "description",
+      "tools",
+      "skills",
+      "instructions",
+      "handoffs",
+      "agents",
+      "model",
+      "argument-hint",
+      "user-invocable",
+      "mode",
+      "hooks",
+      "mcpServers"
+    ],
     "transform": {
-      "tools": { "strategy": "omit" },
-      "model": { "strategy": "omit" },
-      "handoffs": { "strategy": "omit" },
-      "skills": { "strategy": "omit" },
-      "instructions": { "strategy": "omit" }
+      "tools": {
+        "strategy": "omit"
+      },
+      "model": {
+        "strategy": "omit"
+      },
+      "handoffs": {
+        "strategy": "omit"
+      },
+      "skills": {
+        "strategy": "omit"
+      },
+      "instructions": {
+        "strategy": "omit"
+      }
     }
   },
   "toolMap": {},
@@ -57,30 +81,6 @@
     {
       "action": "prepend",
       "content": "> Pantheon agent rule for Continue.dev. This rule is injected into the system prompt as context. Reference: https://github.com/ils15/pantheon"
-    },
-    {
-      "pattern": "Copilot Workflow",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "Agent Lifecycle Hooks",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "VS Code Integration",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "VS Code Copilot Workflow",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "VS Code 1.111-1.114",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "Changelog-aligned notes",
-      "action": "omit-section"
     },
     {
       "pattern": "Handoff Strategy",

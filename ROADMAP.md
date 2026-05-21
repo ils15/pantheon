@@ -1,6 +1,6 @@
 # 🗺️ Pantheon Roadmap
 
-> **Last updated:** v3.4.0 (2026-05-18)
+> **Last updated:** v3.7.2 (2026-05-21)
 >
 > This document tracks what was delivered, what's coming next, and how you
 > can influence priorities. The roadmap is a living document — PRs and issues
@@ -28,7 +28,7 @@
 
 - **416 files changed** — 119 modified + 297 new
 - **18 agents** (17 visible + 1 hidden subagent)
-- **33 skills** across 9 domains
+- **37 skills** across 9 domains
 - **16+ plan configurations** for different subscriptions
 - **7 platforms** supported
 
@@ -46,7 +46,7 @@
 | **docs/ARCHITECTURE.md** | Architecture rationale doc (Conductor-Delegate, Canonical→Adapter→Sync, DAG Waves, Memory, Platform Adapters) | ✅ Delivered |
 | **ROADMAP.md** | This file — version history, upcoming themes, contribution guide | ✅ Delivered |
 | **docs/UPGRADING.md** | Migration guide between major versions (v3.3.x → v3.4.0) | 🔜 Planned |
-| **`plan-architecture` skill** | Referenced by Athena canonical agent but no `skills/plan-architecture/SKILL.md` exists | 🔴 Missing |
+| **`plan-architecture` skill** | Feature architecture planning with component breakdown and data flow mapping | ✅ Complete |
 | **Platform setup polish** | Verify all 7 platform guides are current and consistent | 🔜 Planned |
 | **Tutorial** | "Build your first feature with Pantheon" walkthrough | 🔜 Proposed |
 

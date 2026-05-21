@@ -2,12 +2,9 @@
   "name": "windsurf",
   "displayName": "Windsurf (Cascade)",
   "version": "3.0.0",
-
   "description": "Windsurf Cascade uses .windsurf/rules/*.md with trigger modes (always_on, model_decision, glob, manual). Skills in .windsurf/skills/. Workflows in .windsurf/workflows/.",
-
   "outputDir": "rules",
   "fileExtension": ".md",
-
   "frontmatter": {
     "include": [
       "name",
@@ -25,19 +22,27 @@
       "mode"
     ],
     "transform": {
-      "tools": { "strategy": "omit" },
-      "model": { "strategy": "omit" },
-      "handoffs": { "strategy": "omit" },
-      "skills": { "strategy": "omit" },
-      "instructions": { "strategy": "omit" }
+      "tools": {
+        "strategy": "omit"
+      },
+      "model": {
+        "strategy": "omit"
+      },
+      "handoffs": {
+        "strategy": "omit"
+      },
+      "skills": {
+        "strategy": "omit"
+      },
+      "instructions": {
+        "strategy": "omit"
+      }
     },
     "addFields": {
       "trigger": "model_decision"
     }
   },
-
   "toolMap": {},
-
   "capabilityFlags": {
     "orchestration": false,
     "approval": false,
@@ -46,30 +51,12 @@
     "ide-local": false,
     "github-service": false
   },
-
   "bodyFilters": [
     {
       "action": "prepend",
       "content": "> Pantheon agent for Windsurf Cascade. Invoke with @<name>."
-    },
-    {
-      "pattern": "Copilot Workflow",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "0. VS Code Copilot Workflow",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "Agent Lifecycle Hooks",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "VS Code Integration",
-      "action": "omit-section"
     }
   ],
-
   "skillsOutputDir": ".windsurf/skills",
   "deploySkills": true,
   "handoffStrategy": "embed"

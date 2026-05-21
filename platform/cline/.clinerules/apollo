@@ -87,7 +87,6 @@ When asked to generate a codemap, produce a hierarchical map of the project's st
 
 ## 🚀 Bounded Discovery Strategy (Fast Path)
 
-
 **Rules**:
 - Max 10 parallel searches per batch
 - Max 5 batches total (50 searches max)
