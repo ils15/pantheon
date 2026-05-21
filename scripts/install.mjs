@@ -57,7 +57,23 @@ Usage:
   node scripts/install.mjs --platforms opencode,claude         specific platforms, cwd
   node scripts/install.mjs --target /path --platforms all      all platforms
   node scripts/install.mjs --dry-run                           preview without writing
+  node scripts/install.mjs --clean                             wipe + fresh install (all components)
+  node scripts/install.mjs --clean --components agents,skills  wipe only agents+skills, reinstall
+  node scripts/install.mjs --components agents                 install only agents (no skills/instructions)
   node scripts/install.mjs --help                              show this help
+
+Components (--components):
+  Comma-separated list of what to install. Default: agents,skills,instructions
+    agents        → agent .md files
+    skills        → skill definitions (.opencode/skills/)
+    instructions  → AGENTS.md + instructions/*.instructions.md
+    prompts       → prompts/*.prompt.md (optional)
+    commands      → .opencode/commands/*.md (OpenCode command shortcuts)
+
+Clean mode (--clean):
+  Deletes ALL existing Pantheon files for selected components, then
+  re-installs fresh from source. Useful after removing/renaming agents or skills.
+  OFF by default — without --clean only copies new/changed files (never deletes).
 
 Platforms:
   opencode    → .opencode/agents/ + opencode.json
@@ -82,7 +98,9 @@ function parseArgs(argv) {
   const args = {
     target: null,
     platforms: null,
+    components: null,
     dryRun: false,
+    clean: false,
     help: false,
   };
 
@@ -94,8 +112,14 @@ function parseArgs(argv) {
       case '--platforms':
         args.platforms = argv[++i].split(',').map(s => s.trim().toLowerCase());
         break;
+      case '--components':
+        args.components = argv[++i].split(',').map(s => s.trim().toLowerCase());
+        break;
       case '--dry-run':
         args.dryRun = true;
+        break;
+      case '--clean':
+        args.clean = true;
         break;
       case '--help':
         args.help = true;
@@ -175,18 +199,26 @@ function sourceDirValid(dir) {
 /**
  * Copy files from srcDir to dstDir, returning counts of created/skipped.
  * Skips files that already exist with identical content.
+ *
+ * When clean=true: removes stale Pantheon agent .md files from dst that
+ * no longer exist in src. Uses AGENT_NAMES as safety guard — only removes
+ * files whose base name (without .md/.mdc) matches a known Pantheon agent.
+ * User custom files are NEVER removed.
  */
-function copyFiles(srcDir, dstDir, dryRun, renameMap = null) {
+function copyFiles(srcDir, dstDir, dryRun, renameMap = null, clean = false) {
   const entries = readdirSync(srcDir);
   let created = 0;
   let skipped = 0;
 
+  // Build set of expected destination filenames (after rename)
+  const dstNames = new Set();
   for (const entry of entries) {
     const srcFile = join(srcDir, entry);
-    const dstName = renameMap ? (renameMap(entry) ?? entry) : entry;
-    const dstFile = join(dstDir, dstName);
-
     if (!existsSync(srcFile)) continue;
+    const dstName = renameMap ? (renameMap(entry) ?? entry) : entry;
+    dstNames.add(dstName);
+
+    const dstFile = join(dstDir, dstName);
 
     const content = readFileSync(srcFile, 'utf8');
     const existing = existsSync(dstFile) ? readFileSync(dstFile, 'utf8') : null;
@@ -203,6 +235,24 @@ function copyFiles(srcDir, dstDir, dryRun, renameMap = null) {
     } else {
       if (!dryRun) {
         writeFileSync(dstFile, content, 'utf8');
+      }
+      created++;
+    }
+  }
+
+  // Remove stale Pantheon agent files from dst (opt-in via clean flag)
+  // Safety: ONLY removes files whose base name matches a known AGENT_NAMES entry
+  if (clean && existsSync(dstDir)) {
+    const dstEntries = readdirSync(dstDir);
+    for (const entry of dstEntries) {
+      if (dstNames.has(entry)) continue; // still in source
+      const dstFile = join(dstDir, entry);
+      if (!statSync(dstFile).isFile()) continue;
+      // Safety: only remove known Pantheon agent files (user custom files untouched)
+      const baseName = entry.replace(/\.(md|mdc)$/, '');
+      if (!AGENT_NAMES.includes(baseName)) continue;
+      if (!dryRun) {
+        rmSync(dstFile, { force: true });
       }
       created++;
     }
@@ -245,10 +295,14 @@ function collectSkillNames() {
 
 /**
  * Install skills to target project's skills directory.
+ * Copies new/changed file content. Does NOT remove stale skills from dest —
+ * we can't distinguish user custom skills from removed Pantheon skills
+ * without a manifest. Use sync-opencode.sh with --clean for full sync.
+ *
  * @param {string[]} skills - list of skill names
  * @param {string} target - target project root
  * @param {boolean} dryRun - dry-run mode
- * @param {string} subDir - subdirectory for skills (e.g. '.opencode', '.claude', '.cursor')
+ * @param {string} subDir - subdirectory for skills (e.g. '.opencode')
  */
 function installSkills(skills, target, dryRun, subDir = '.opencode') {
   const srcSkillsDir = join(ROOT, 'skills');
@@ -261,7 +315,6 @@ function installSkills(skills, target, dryRun, subDir = '.opencode') {
     const src = join(srcSkillsDir, skill);
     const dst = join(dstSkillsDir, skill);
 
-    // Recursively copy skill directory
     if (!dryRun) mkdirSync(dst, { recursive: true });
 
     function copyDirRecursive(from, to) {
@@ -292,81 +345,209 @@ function installSkills(skills, target, dryRun, subDir = '.opencode') {
 }
 
 /**
+ * Recursively copy a directory from src to dst.
+ * When clean=true: removes dst/* completely before copying (full sync).
+ * @param {function} [filter] - optional filter fn (entryName) => boolean
+ * Returns { created, skipped } counts.
+ */
+function syncDir(src, dst, dryRun, clean = false, filter = null) {
+  if (!existsSync(src)) return { created: 0, skipped: 0 };
+  let created = 0;
+  let skipped = 0;
+
+  if (clean && existsSync(dst)) {
+    if (!dryRun) {
+      rmSync(dst, { recursive: true, force: true });
+    }
+  }
+
+  if (!dryRun) mkdirSync(dst, { recursive: true });
+
+  const entries = readdirSync(src);
+  for (const entry of entries) {
+    if (filter && !filter(entry)) continue;
+    const srcPath = join(src, entry);
+    const dstPath = join(dst, entry);
+    if (statSync(srcPath).isDirectory()) {
+      const sub = syncDir(srcPath, dstPath, dryRun, false, filter);
+      created += sub.created;
+      skipped += sub.skipped;
+    } else {
+      const content = readFileSync(srcPath, 'utf8');
+      const existing = existsSync(dstPath) ? readFileSync(dstPath, 'utf8') : null;
+      if (existing === content) {
+        skipped++;
+      } else {
+        if (!dryRun) writeFileSync(dstPath, content, 'utf8');
+        created++;
+      }
+    }
+  }
+  return { created, skipped };
+}
+
+/**
  * Install OpenCode platform.
  * - Runs sync to generate agents from canonical sources
  * - Copies platform/opencode/agents/ → .opencode/agents/
- * - Copies skills/ → .opencode/skills/
- * - Creates/updates opencode.json with skill permissions (strips per-agent model configs)
+ * - Copies skills/ → .opencode/skills/ (project-level, also available globally)
+ * - Copies AGENTS.md + instructions/ → target root
+ * - Creates/updates opencode.json: reads target's existing config, merges Pantheon
+ *   settings (agents, commands, permissions, instructions) on top.
+ *   Preserves user's MCP, provider, plugin, compaction, theme settings.
+ *
+ * @param {boolean} clean - wipe dest + fresh install for selected components
+ * @param {string[]} components - what to install: ['agents','skills','instructions','prompts']
  */
-function installOpenCode(target, dryRun) {
-  const label = 'OpenCode';
+function installOpenCode(target, dryRun, clean = false, components = ['agents', 'skills', 'instructions', 'commands']) {
+  const componentSet = new Set(components);
   const stats = summary.opencode;
 
   // -----------------------------------------------------------------------
-  // 1. Install agents
+  // 1. Install agents (--components agents)
   // -----------------------------------------------------------------------
-  const srcDir = join(PLATFORM_DIR, 'opencode', 'agents');
-  if (!sourceDirValid(srcDir)) {
-    console.warn(`  ⚠️  Agent source directory not found: ${srcDir}`);
-    stats.errors++;
-  } else {
-    const dstDir = join(target, '.opencode', 'agents');
-    if (!dryRun) mkdirSync(dstDir, { recursive: true });
-
-    const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
-    stats.created += created;
-    stats.skipped += skipped;
+  if (componentSet.has('agents')) {
+    const srcDir = join(PLATFORM_DIR, 'opencode', 'agents');
+    if (!sourceDirValid(srcDir)) {
+      console.warn(`  ⚠️  Agent source directory not found: ${srcDir}`);
+      stats.errors++;
+    } else {
+      const dstDir = join(target, '.opencode', 'agents');
+      if (!dryRun) mkdirSync(dstDir, { recursive: true });
+      if (clean && existsSync(dstDir) && !dryRun) {
+        const existing = readdirSync(dstDir);
+        for (const f of existing) {
+          rmSync(join(dstDir, f), { recursive: true, force: true });
+        }
+      }
+      const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
+      stats.created += created;
+      stats.skipped += skipped;
+    }
   }
 
   // -----------------------------------------------------------------------
-  // 2. Install skills
+  // 2. Install skills (--components skills)
   // -----------------------------------------------------------------------
-  const skillNames = collectSkillNames();
-  if (skillNames.length > 0) {
-    console.log(`  📚 Installing ${skillNames.length} skills...`);
-    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.opencode');
-    stats.created += sCreated;
-    stats.skipped += sSkipped;
+  if (componentSet.has('skills')) {
+    const skillNames = collectSkillNames();
+    if (skillNames.length > 0) {
+      console.log(`  📚 Installing ${skillNames.length} skills...`);
+      const dstSkillsDir = join(target, '.opencode', 'skills');
+      if (clean && existsSync(dstSkillsDir) && !dryRun) {
+        const existing = readdirSync(dstSkillsDir);
+        for (const s of existing) {
+          rmSync(join(dstSkillsDir, s), { recursive: true, force: true });
+        }
+      }
+      const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.opencode');
+      stats.created += sCreated;
+      stats.skipped += sSkipped;
+    }
   }
 
   // -----------------------------------------------------------------------
-  // 3. Create/update opencode.json
-  //    IMPORTANT: Strips per-agent model configs — models vary by user plan
-  //    and hardcoded models cause "not valid" errors. Model suggestions
-  //    belong in documentation (see platform/plans/), not in config.
+  // 2.5 Install instructions: AGENTS.md + instructions/ (--components instructions)
   // -----------------------------------------------------------------------
-  const opencodeConfigPath = join(ROOT, 'opencode.json');
+  if (componentSet.has('instructions')) {
+    // AGENTS.md
+    const srcAgentsMd = join(ROOT, 'AGENTS.md');
+    const dstAgentsMd = join(target, 'AGENTS.md');
+    if (existsSync(srcAgentsMd)) {
+      const content = readFileSync(srcAgentsMd, 'utf8');
+      const status = writeIfChanged(dstAgentsMd, content, dryRun);
+      if (status === 'created') stats.created++;
+      else stats.skipped++;
+    }
+    // instructions/ directory
+    const srcInstr = join(ROOT, 'instructions');
+    const dstInstr = join(target, 'instructions');
+    if (existsSync(srcInstr)) {
+      const instrResult = syncDir(srcInstr, dstInstr, dryRun, clean);
+      stats.created += instrResult.created;
+      stats.skipped += instrResult.skipped;
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // 2.6 Install prompts (--components prompts)
+  // -----------------------------------------------------------------------
+  if (componentSet.has('prompts')) {
+    const srcPrompts = join(ROOT, 'prompts');
+    const dstPrompts = join(target, 'prompts');
+    if (existsSync(srcPrompts)) {
+      const promptsResult = syncDir(srcPrompts, dstPrompts, dryRun, clean);
+      stats.created += promptsResult.created;
+      stats.skipped += promptsResult.skipped;
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // 2.7 Install commands (--components commands)
+  // -----------------------------------------------------------------------
+  if (componentSet.has('commands')) {
+    const srcCmds = join(ROOT, 'commands');
+    const dstCmds = join(target, '.opencode', 'commands');
+    if (existsSync(srcCmds)) {
+      const cmdResult = syncDir(srcCmds, dstCmds, dryRun, clean, (f) => f.endsWith('.md'));
+      stats.created += cmdResult.created;
+      stats.skipped += cmdResult.skipped;
+    }
+  }
+
+  // -----------------------------------------------------------------------
+  // 3. Create/update opencode.json (always runs)
+  //    Reads TARGET's existing config first, then merges Pantheon settings
+  //    on top. Preserves user's MCP, provider, plugin, compaction, theme.
+  // -----------------------------------------------------------------------
+  const pantheonConfigPath = join(ROOT, 'opencode.json');
   const targetConfigPath = join(target, 'opencode.json');
 
   let config = {};
-  if (existsSync(opencodeConfigPath)) {
+  if (existsSync(targetConfigPath)) {
     try {
-      config = JSON.parse(readFileSync(opencodeConfigPath, 'utf8'));
+      config = JSON.parse(readFileSync(targetConfigPath, 'utf8'));
     } catch {
       config = {};
     }
   }
 
-  // Strip ALL model configurations — users configure models via their plan
-  // Models vary by user plan and hardcoded models cause "not valid" errors.
-  // Remove root model/small_model defaults AND per-agent overrides.
-  delete config.model;
-  delete config.small_model;
-
-  if (config.agent) {
-    for (const [agentName, agentConfig] of Object.entries(config.agent)) {
-      if (agentConfig && typeof agentConfig === 'object') {
-        delete agentConfig.model;
-        delete agentConfig.small_model;
-        // Remove empty agent entries (no source, no model, no permission)
-        if (Object.keys(agentConfig).length === 0) {
-          delete config.agent[agentName];
-        }
-      }
+  let pantheonConfig = {};
+  if (existsSync(pantheonConfigPath)) {
+    try {
+      pantheonConfig = JSON.parse(readFileSync(pantheonConfigPath, 'utf8'));
+    } catch {
+      pantheonConfig = {};
     }
+  }
 
-    // Apply agent defaults — mode, hidden, task_budget, bash permissions
-    // Models are NOT included here (configured via ~/.config/opencode/opencode.json)
+  // --------------------------------------------------------------------
+  // A. Merge agents into opencode.json config
+  // --------------------------------------------------------------------
+  if (pantheonConfig.agent) {
+    if (!config.agent) config.agent = {};
+
+    const agentSources = {
+      zeus:      '.opencode/agents/zeus.md',
+      athena:    '.opencode/agents/athena.md',
+      themis:    '.opencode/agents/themis.md',
+      hermes:    '.opencode/agents/hermes.md',
+      aphrodite: '.opencode/agents/aphrodite.md',
+      demeter:   '.opencode/agents/demeter.md',
+      prometheus:'.opencode/agents/prometheus.md',
+      hephaestus:'.opencode/agents/hephaestus.md',
+      chiron:    '.opencode/agents/chiron.md',
+      echo:      '.opencode/agents/echo.md',
+      gaia:      '.opencode/agents/gaia.md',
+      apollo:    '.opencode/agents/apollo.md',
+      iris:      '.opencode/agents/iris.md',
+      mnemosyne: '.opencode/agents/mnemosyne.md',
+      nyx:       '.opencode/agents/nyx.md',
+      talos:     '.opencode/agents/talos.md',
+      argus:     '.opencode/agents/argus.md',
+      agora:     '.opencode/agents/agora.md',
+    };
+
     const agentDefaults = {
       zeus:      { mode: 'primary',                          task_budget: 30, bash: 'deny' },
       athena:    { mode: 'primary',                          task_budget: 10, bash: 'deny' },
@@ -385,44 +566,87 @@ function installOpenCode(target, dryRun) {
       nyx:       { mode: 'subagent',         hidden: true,   task_budget: 3,  bash: 'allow' },
       talos:     { mode: 'subagent',         hidden: true,   task_budget: 0,  bash: { 'git add *': 'allow', 'npx prettier *': 'allow', 'git *': 'allow' } },
       argus:     { mode: 'subagent',         hidden: true,   task_budget: 0,  bash: 'deny' },
+      agora:     { mode: 'subagent',         hidden: true,   task_budget: 10, bash: 'deny' },
     };
 
-    for (const [agentName, defaults] of Object.entries(agentDefaults)) {
+    for (const [agentName, agentCfg] of Object.entries(pantheonConfig.agent)) {
+      if (!agentCfg || typeof agentCfg !== 'object') continue;
       if (config.agent[agentName]) {
-        const agent = config.agent[agentName];
-        // Apply flat fields (mode, hidden, task_budget)
+        const existing = config.agent[agentName];
+        if (agentSources[agentName]) existing.source = agentSources[agentName];
+        delete existing.model;
+        delete existing.small_model;
+        continue;
+      }
+      const newAgent = {};
+      if (agentSources[agentName]) newAgent.source = agentSources[agentName];
+      if (agentCfg.description) newAgent.description = agentCfg.description;
+      const defaults = agentDefaults[agentName];
+      if (defaults) {
         for (const [key, val] of Object.entries(defaults)) {
-          if (key === 'bash') continue; // handled below
-          if (val !== null && !(key in agent)) {
-            agent[key] = val;
-          }
+          if (key === 'bash') continue;
+          newAgent[key] = val;
         }
-        // Apply bash permission (nested under permission)
-        if (defaults.bash !== undefined) {
-          if (!agent.permission) agent.permission = {};
-          if (!('bash' in agent.permission)) {
-            agent.permission.bash = defaults.bash;
-          }
-        }
+        if (defaults.bash !== undefined) newAgent.permission = { bash: defaults.bash };
+      }
+      config.agent[agentName] = newAgent;
+    }
+
+    const pantheonAgentNames = new Set(Object.keys(pantheonConfig.agent));
+    for (const [agentName] of Object.entries(config.agent)) {
+      if (agentSources[agentName] && !pantheonAgentNames.has(agentName)) {
+        delete config.agent[agentName];
       }
     }
+    if (Object.keys(config.agent).length === 0) delete config.agent;
+  }
 
-    // Remove agent section entirely if empty
-    if (Object.keys(config.agent).length === 0) {
-      delete config.agent;
+  // --------------------------------------------------------------------
+  // B. Merge commands
+  // --------------------------------------------------------------------
+
+  // --------------------------------------------------------------------
+  // C. Merge permissions
+  // --------------------------------------------------------------------
+  if (!config.permission) config.permission = {};
+  if (componentSet.has('skills')) {
+    config.permission.skill = { '*': 'allow' };
+  }
+  if (!config.permission.bash) {
+    config.permission.bash = {
+      'git *': 'allow',
+      'npm *': 'allow',
+      'npx *': 'allow',
+      'pytest *': 'allow',
+      'ruff *': 'allow',
+      'black *': 'allow',
+      'pip *': 'allow',
+      'docker *': 'allow',
+      'curl *': 'allow',
+      'gh *': 'allow',
+      'make *': 'allow',
+    };
+  }
+
+  // --------------------------------------------------------------------
+  // D. Merge instructions paths
+  // --------------------------------------------------------------------
+  const pantheonInstructions = ['AGENTS.md', 'instructions/*.instructions.md'];
+  if (!config.instructions) {
+    config.instructions = [...pantheonInstructions];
+  } else {
+    for (const instr of pantheonInstructions) {
+      if (!config.instructions.includes(instr)) {
+        config.instructions.push(instr);
+      }
     }
   }
 
-  // Add skill permissions
-  if (!config.permission) config.permission = {};
-  // Always set skill permission when skills are installed
-  if (skillNames.length > 0) {
-    config.permission.skill = { '*': 'allow' };
-  }
-
-  // Add instructions to load Pantheon rules (AGENTS.md + instructions/)
-  if (!config.instructions) {
-    config.instructions = ['AGENTS.md', 'instructions/*.instructions.md'];
+  // --------------------------------------------------------------------
+  // E. Ensure $schema
+  // --------------------------------------------------------------------
+  if (!config.$schema) {
+    config.$schema = 'https://opencode.ai/config.json';
   }
 
   const configContent = JSON.stringify(config, null, 2) + '\n';
@@ -437,8 +661,9 @@ function installOpenCode(target, dryRun) {
  * - Creates .claude/settings.json with minimal config
  * - Creates CLAUDE.md bridge file
  * - Creates AGENTS.md if it doesn't exist
+ * - Skills: installed globally via sync-opencode.sh, not per-platform
  */
-function installClaude(target, dryRun) {
+function installClaude(target, dryRun, clean = false) {
   const stats = summary.claude;
 
   // Source: platform/claude/agents/
@@ -453,19 +678,12 @@ function installClaude(target, dryRun) {
   const dstDir = join(target, '.claude', 'agents');
   if (!dryRun) mkdirSync(dstDir, { recursive: true });
 
-  const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
+  const { created, skipped } = copyFiles(srcDir, dstDir, dryRun, null, clean);
   stats.created += created;
   stats.skipped += skipped;
 
-  // Install skills to .claude/skills/
-  const skillNames = collectSkillNames();
-  if (skillNames.length > 0) {
-    console.log(`  📚 Installing ${skillNames.length} skills...`);
-    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.claude');
-    stats.created += sCreated;
-    stats.skipped += sSkipped;
-  }
-
+  // Skills: installed globally via sync-opencode.sh not per-project
+  // OpenCode already reads .opencode/skills/ and .claude/skills/ as fallback
   // Create .claude/settings.json with safe defaults
   const settingsPath = join(target, '.claude', 'settings.json');
   const settings = {
@@ -522,7 +740,7 @@ Always check AGENTS.md for shared project conventions and architecture decisions
 
 Plan → Implement → Review → Commit (each phase requires approval)
 See .claude/agents/ for full agent definitions.
-Skills are in .claude/skills/.
+Skills are in .opencode/skills/ (or globally at ~/.config/opencode/skills/).
 `;
   const claudeMdStatus = writeIfChanged(claudeMdPath, claudeMdContent, dryRun);
   if (claudeMdStatus === 'created') stats.created++;
@@ -561,10 +779,10 @@ See .claude/agents/ for definitions and CLAUDE.md for agent descriptions.
 /**
  * Install Cursor platform.
  * - Copies platform/cursor/rules/ → .cursor/rules/
- * - Copies skills/ → .cursor/skills/
  * - Creates AGENTS.md for global rules
+ * - Skills: installed globally via sync-opencode.sh, not per-platform
  */
-function installCursor(target, dryRun) {
+function installCursor(target, dryRun, clean = false) {
   const stats = summary.cursor;
 
   // -----------------------------------------------------------------------
@@ -578,24 +796,13 @@ function installCursor(target, dryRun) {
     const dstDir = join(target, '.cursor', 'rules');
     if (!dryRun) mkdirSync(dstDir, { recursive: true });
 
-    const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
+    const { created, skipped } = copyFiles(srcDir, dstDir, dryRun, null, clean);
     stats.created += created;
     stats.skipped += skipped;
   }
 
   // -----------------------------------------------------------------------
-  // 2. Install skills
-  // -----------------------------------------------------------------------
-  const skillNames = collectSkillNames();
-  if (skillNames.length > 0) {
-    console.log(`  📚 Installing ${skillNames.length} skills...`);
-    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.cursor');
-    stats.created += sCreated;
-    stats.skipped += sSkipped;
-  }
-
-  // -----------------------------------------------------------------------
-  // 3. Create/sync AGENTS.md
+  // 2. Create/sync AGENTS.md
   // -----------------------------------------------------------------------
   const agentsMdPath = join(target, 'AGENTS.md');
   const agentsMdContent = `# Pantheon Agent System
@@ -644,11 +851,11 @@ This project uses the Pantheon multi-agent framework with 17 specialized agents.
 /**
  * Install Windsurf (Cascade) platform.
  * - Copies platform/windsurf/rules/ → .windsurf/rules/
- * - Copies skills/ → .windsurf/skills/
  * - Creates workflows/ → .windsurf/workflows/
  * - Creates AGENTS.md with project rules
+ * - Skills: installed globally via sync-opencode.sh, not per-platform
  */
-function installWindsurf(target, dryRun) {
+function installWindsurf(target, dryRun, clean = false) {
   const stats = summary.windsurf;
 
   // -----------------------------------------------------------------------
@@ -662,24 +869,13 @@ function installWindsurf(target, dryRun) {
     const dstDir = join(target, '.windsurf', 'rules');
     if (!dryRun) mkdirSync(dstDir, { recursive: true });
 
-    const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
+    const { created, skipped } = copyFiles(srcDir, dstDir, dryRun, null, clean);
     stats.created += created;
     stats.skipped += skipped;
   }
 
   // -----------------------------------------------------------------------
-  // 2. Install skills
-  // -----------------------------------------------------------------------
-  const skillNames = collectSkillNames();
-  if (skillNames.length > 0) {
-    console.log(`  📚 Installing ${skillNames.length} skills...`);
-    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.windsurf');
-    stats.created += sCreated;
-    stats.skipped += sSkipped;
-  }
-
-  // -----------------------------------------------------------------------
-  // 3. Create workflows
+  // 2. Create workflows
   // -----------------------------------------------------------------------
   const workflowsDir = join(target, '.windsurf', 'workflows');
   if (!dryRun) mkdirSync(workflowsDir, { recursive: true });
@@ -775,7 +971,7 @@ This project uses the Pantheon multi-agent framework with 17 specialized agents.
  * - Copies platform/continue/rules/ → .continue/rules/
  * - Copies platform/continue/config.yaml → .continue/config.yaml
  */
-function installContinue(target, dryRun) {
+function installContinue(target, dryRun, clean = false) {
   const stats = summary.continue;
 
   // -----------------------------------------------------------------------
@@ -789,7 +985,7 @@ function installContinue(target, dryRun) {
     const dstDir = join(target, '.continue', 'rules');
     if (!dryRun) mkdirSync(dstDir, { recursive: true });
 
-    const { created, skipped } = copyFiles(srcDir, dstDir, dryRun);
+    const { created, skipped } = copyFiles(srcDir, dstDir, dryRun, null, clean);
     stats.created += created;
     stats.skipped += skipped;
   }
@@ -810,10 +1006,10 @@ function installContinue(target, dryRun) {
 /**
  * Install VS Code / Copilot platform.
  * - Copies canonical agents to .github/agents/
- * - Copies skills/ to .github/skills/
  * - Configures .vscode/settings.json for plugin + subagents
+ * - Skills: installed globally via sync-opencode.sh, not per-platform
  */
-function installCopilot(target, dryRun) {
+function installCopilot(target, dryRun, clean = false) {
   const stats = summary.copilot;
 
   // -----------------------------------------------------------------------
@@ -847,23 +1043,7 @@ function installCopilot(target, dryRun) {
   }
 
   // -----------------------------------------------------------------------
-  // 2. Install skills to .github/skills/
-  // -----------------------------------------------------------------------
-  const skillNames = collectSkillNames();
-  if (skillNames.length > 0) {
-    console.log(`  📚 Installing ${skillNames.length} skills...`);
-    // For VS Code, skills need the .github/skills/ directory with SKILL.md
-    // Also reference them in plugin.json
-    const skillsDir = join(target, '.github', 'skills');
-    if (!dryRun) mkdirSync(skillsDir, { recursive: true });
-    // Copy skills using existing installSkills function
-    const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.github');
-    stats.created += sCreated;
-    stats.skipped += sSkipped;
-  }
-
-  // -----------------------------------------------------------------------
-  // 3. Configure .vscode/settings.json
+  // 2. Configure .vscode/settings.json
   // -----------------------------------------------------------------------
   const vscodeSettingsPath = join(target, '.vscode', 'settings.json');
   const vscodeDir = join(target, '.vscode');
@@ -881,11 +1061,6 @@ function installCopilot(target, dryRun) {
   // Ensure plugin and subagent settings
   settings['chat.plugins.enabled'] = true;
   settings['chat.subagents.allowInvocationsFromSubagents'] = true;
-
-  // Add skill tool references if skills exist
-  if (skillNames.length > 0) {
-    settings['github.copilot.chat.skills'] = skillNames;
-  }
 
   const settingsContent = JSON.stringify(settings, null, 2) + '\n';
   const status = writeIfChanged(vscodeSettingsPath, settingsContent, dryRun);
@@ -1067,27 +1242,27 @@ function main() {
     switch (platform) {
       case 'opencode':
         console.log(`🔧 OpenCode`);
-        installOpenCode(target, args.dryRun);
+        installOpenCode(target, args.dryRun, args.clean, args.components || undefined);
         break;
       case 'claude':
         console.log(`🔧 Claude Code`);
-        installClaude(target, args.dryRun);
+        installClaude(target, args.dryRun, args.clean);
         break;
       case 'cursor':
         console.log(`🔧 Cursor`);
-        installCursor(target, args.dryRun);
+        installCursor(target, args.dryRun, args.clean);
         break;
       case 'windsurf':
         console.log(`🔧 Windsurf`);
-        installWindsurf(target, args.dryRun);
+        installWindsurf(target, args.dryRun, args.clean);
         break;
       case 'copilot':
         console.log(`🔧 VS Code / Copilot`);
-        installCopilot(target, args.dryRun);
+        installCopilot(target, args.dryRun, args.clean);
         break;
       case 'continue':
         console.log(`🔧 Continue.dev`);
-        installContinue(target, args.dryRun);
+        installContinue(target, args.dryRun, args.clean);
         break;
       default:
         console.warn(`  ⚠️  Unknown platform: ${platform} — skipping`);

@@ -585,7 +585,7 @@ For every feature, Zeus enforces the artifact lifecycle:
 | Phase | Producing Agent | Artifact | Gate type |
 |---|---|---|---|
 | Planning | Athena (+ Mnemosyne if requested) | Chat plan (optional `PLAN-<feature>.md`) | Human approval |
-| Discovery | Explore (`#runSubagent`) or Apollo direct | Optional `DISC-<topic>.md` | Informational |
+| Discovery | `@apollo` or `task` | Optional `DISC-<topic>.md` | Informational |
 | Implementation | Workers + Mnemosyne | `IMPL-<phase>-<agent>.md` | Themis review |
 | Quality | Themis + Mnemosyne | `REVIEW-<feature>.md` | Human approval |
 | Decisions | Any + Mnemosyne | `ADR-<topic>.md` | Archive |

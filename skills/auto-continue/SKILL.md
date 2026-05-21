@@ -47,7 +47,7 @@ Disciplined automatic continuation through multi-step tasks. Eliminates unnecess
 
 ## Relentless Mode (Aggressive Auto-Continue)
 
-**Activation:** `/relentless-mode "task description"`
+**Activation:** Type `relentless-mode "task description"` in chat (text activation, not a registered command)
 
 **When to use:** Complex multi-step tasks (5+ todos), autonomous execution needed.
 
@@ -68,9 +68,9 @@ Loop ends when: <promise>DONE</promise> detected OR user cancels
 
 **DONE Detection:** Loop ends only when `<promise>DONE</promise>` appears in response.
 
-**Cancellation:** `/cancel-relentless`, `/stop-continuation`, or `Esc×2`
+**Cancellation:** `/stop-continuation` (all) or `/stop-continuation --relentless` (relentless only), or `Esc×2`
 
-**Relentless respects all 3 safety gates** — auto-continues BETWEEN gates, not THROUGH them.
+**Relentless respects all 4 safety gates** — auto-continues BETWEEN gates, not THROUGH them.
 
 ---
 

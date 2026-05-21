@@ -16,7 +16,7 @@ tools: ['search', 'usages']
 
 ### 2. Research Phase (Parallel)
 Use @apollo for exploration.
-If you need isolated read-only research, use `#runSubagent Explore`.
+If you need isolated read-only research, use `@apollo`.
 - Discover related files
 - Understand dependencies
 - Identify existing patterns

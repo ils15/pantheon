@@ -52,7 +52,7 @@ Before starting any search or exploration, you MUST:
 - Treat `#codebase` as the first-pass semantic search for discovery.
 - Use `search/textSearch` and `search/usages` only to confirm exact names, paths, or references after the semantic pass.
 - If a discovery result looks inconsistent with the loaded instructions or tools, inspect `#debugEventsSnapshot` or use `/troubleshoot #session`.
-- Keep follow-up searches bounded; prefer a narrow `#runSubagent Explore` pass over widening the main context.
+- Keep follow-up searches bounded; prefer a narrow isolated pass via `task(subagent_type:"explore")` over widening the main context.
 
 ### 1. **Parallel Search Excellence**
 - Launch 3-10 simultaneous searches (your superpower)
@@ -340,20 +340,20 @@ Every response from Apollo MUST follow this structure — no exceptions:
 ## 🚨 Documentation Policy
 
 **Artifact via Mnemosyne (for isolated discovery results):**
-- ✅ When discovery is run in isolated mode via `#runSubagent Explore`, return findings and optionally request Mnemosyne to save as `DISC-<topic>.md`
+- ✅ When discovery is run in isolated mode via the `explore` subagent, return findings and optionally request Mnemosyne to save as `DISC-<topic>.md`
 - ✅ When invoked directly as `@apollo`, return findings in chat (no artifact needed)
 - ❌ Direct .md file creation by Apollo
 
 **Artifact Protocol Reference:** `instructions/artifact-protocol.instructions.md`
 
-## When to Use: `#runSubagent Explore` vs. `@apollo`
+## When to Use: Isolated `explore` subagent vs. `@apollo`
 
 | Mode | When to use | Output |
 |---|---|---|
 | `@apollo` (direct) | When parent agent needs findings in same context | Chat report only |
-| `#runSubagent Explore` | Independent deep-dive, prevent context contamination | Chat report (optional `DISC-<topic>.md` via Mnemosyne) |
+| `explore` subagent | Independent deep-dive, prevent context contamination | Chat report (optional `DISC-<topic>.md` via Mnemosyne) |
 
-**Example**: Use `#runSubagent Explore` when researching 3 separate topics in parallel that should NOT contaminate each other's context.
+**Example**: Use the `explore` subagent when researching 3 separate topics in parallel that should NOT contaminate each other's context.
 
 ## Read-Only Constraint
 
@@ -531,7 +531,7 @@ Always return **structured findings** — your output is consumed by parent agen
 - Aphrodite: <what to build>
 ```
 
-> **When discovery is isolated** (`#runSubagent Explore`): return ONLY the structured report above — no preamble, no explanation, no raw file content. The parent agent receives only your final output.
+> **When discovery is isolated** (`explore` subagent): return ONLY the structured report above — no preamble, no explanation, no raw file content. The parent agent receives only your final output.
 
 ## Speed Tips for You
 
