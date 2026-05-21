@@ -335,42 +335,6 @@
         }
       }
     },
-        "default": {
-          "model": "openai/gpt-4o"
-        },
-        "coding": {
-          "model": "openai/gpt-4o"
-        },
-        "fast": {
-          "model": "openai/gpt-4o-mini"
-        }
-      },
-      "agent_overrides": {},
-      "provider_options": {
-        "anthropic": {
-          "models": {
-            "claude-opus-4-6": {
-              "options": {
-                "thinking": {
-                  "type": "enabled",
-                  "budgetTokens": 32000
-                }
-              }
-            }
-          }
-        },
-        "openai": {
-          "models": {
-            "gpt-4o": {
-              "options": {}
-            },
-            "gpt-4o-mini": {
-              "options": {}
-            }
-          }
-        }
-      }
-    },
     "together-moe": {
       "description": "Together AI routed Mixture-of-Experts models. DeepSeek V4 for deep reasoning, Llama 4 Scout for balanced and coding, Llama 3.2 3B for fast. Requires Together AI API key.",
       "tiers": {
