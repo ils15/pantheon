@@ -2,13 +2,10 @@
   "name": "opencode",
   "displayName": "OpenCode",
   "version": "2.1.0",
-
   "description": "OpenCode uses .md files with YAML frontmatter. Agent tools use boolean format (tools: { name: true }). Permission config in opencode.json uses allow/ask/deny.",
-
   "outputDir": "agents",
   "fileExtension": ".md",
   "toolsFormat": "object",
-
   "frontmatter": {
     "include": [
       "name",
@@ -32,11 +29,14 @@
       "disable-model-invocation"
     ],
     "transform": {
-      "tools": { "strategy": "identity" },
-      "mode": { "strategy": "identity" }
+      "tools": {
+        "strategy": "identity"
+      },
+      "mode": {
+        "strategy": "identity"
+      }
     }
   },
-
   "toolMap": {
     "search/codebase": "grep",
     "search/usages": "grep",
@@ -52,7 +52,6 @@
     "agent": "task",
     "vscode/askQuestions": "question"
   },
-
   "excludeTools": [
     "search/changes",
     "read/problems",
@@ -68,7 +67,6 @@
     "browser/handleDialog",
     "browser/screenshotPage"
   ],
-
   "agentModeOverrides": {
     "zeus": "primary",
     "athena": "primary",
@@ -88,7 +86,6 @@
     "talos": "subagent",
     "argus": "subagent"
   },
-
   "capabilityFlags": {
     "orchestration": true,
     "approval": false,
@@ -97,34 +94,15 @@
     "ide-local": false,
     "github-service": false
   },
-
   "bodyFilters": [
-    {
-      "pattern": "Copilot Workflow",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "Copilot's Agent",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "Agent Lifecycle Hooks",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "VS Code Integration",
-      "action": "omit-section"
-    },
     {
       "pattern": "Handoff Strategy",
       "action": "omit-section"
     },
     {
-      "pattern": "Custom Instructions",
-      "action": "omit-section"
+      "action": "inject-routing"
     }
   ],
-
   "skillsOutputDir": ".opencode/skills",
   "deploySkills": true,
   "commandsOutputDir": ".opencode/commands",

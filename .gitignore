@@ -62,3 +62,6 @@ scripts/model_data.json
 # MkDocs build output
 site/
 .test-runner/
+
+# Local routing tests (not committed)
+.tests/

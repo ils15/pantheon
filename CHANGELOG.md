@@ -17,6 +17,27 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+## [v3.7.2] - 2026-05-21
+
+### Added
+- routing.yml: Canonical routing source (1302 lines) with 18 agents, 35 delegation rules, 27 handoffs, 21 routing matrix entries
+- scripts/validate-routing.mjs: 124 validation checks for routing.yml consistency
+- scripts/generate-routing-docs.mjs: Auto-generates routing documentation from routing.yml
+- scripts/install/: Modular install system (7 modules replacing 1278-line monolithic install.mjs)
+- `npm run validate` and `npm run docs` scripts
+- CI: Routing validation step in `.github/workflows/ci.yml`
+
+### Changed
+- Core agents: Strip VS Code/Copilot-specific sections from all 11 canonical agents
+- zeus.agent.md: References `routing.yml` instead of `AGENTS.md`
+- Platform adapters: Clean stale bodyFilters from all 6 adapters
+- Sync engine: Reads routing.yml and injects routing tables into OpenCode/Claude zeus files
+- install.mjs: Refactored from 1278→108 lines (thin coordinator), logic in 7 modules under scripts/install/
+
+### Fixed
+- Agent routing: Canonical agents now platform-agnostic (no VS Code sections in body)
+- Body filters: Removed stale omit-section patterns for sections that no longer exist
+
 ## [v3.7.1] - 2026-05-21
 
 ### Fixed

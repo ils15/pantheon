@@ -2,14 +2,10 @@
   "name": "cursor",
   "displayName": "Cursor",
   "version": "2.1.0",
-
   "description": "Cursor uses .mdc rule files in .cursor/rules/. Each agent becomes a reusable rule with alwaysApply and description for Agent mode compatibility.",
-
-  "notes": "Skills are loaded from .cursor/skills/ directories containing SKILL.md files. Our install.mjs copies skills there automatically. Skills do not apply to .mdc rule files — they are a separate system.",
-
+  "notes": "Skills are loaded from .cursor/skills/ directories containing SKILL.md files. Our install.mjs copies skills there automatically. Skills do not apply to .mdc rule files \u2014 they are a separate system.",
   "outputDir": "rules",
   "fileExtension": ".mdc",
-
   "frontmatter": {
     "include": [
       "name",
@@ -30,18 +26,27 @@
     ],
     "omitNameSuffix": true,
     "transform": {
-      "tools": { "strategy": "omit" },
-      "model": { "strategy": "omit" },
-      "handoffs": { "strategy": "omit" },
-      "skills": { "strategy": "omit" },
-      "instructions": { "strategy": "omit" }
+      "tools": {
+        "strategy": "omit"
+      },
+      "model": {
+        "strategy": "omit"
+      },
+      "handoffs": {
+        "strategy": "omit"
+      },
+      "skills": {
+        "strategy": "omit"
+      },
+      "instructions": {
+        "strategy": "omit"
+      }
     },
     "addFields": {
       "alwaysApply": false,
       "globs": []
     }
   },
-
   "toolMap": {
     "read/readFile": "read",
     "edit/editFiles": "edit",
@@ -49,7 +54,6 @@
     "search/codebase": "searchCodebase",
     "vscode/askQuestions": "askUser"
   },
-
   "excludeTools": [
     "agent",
     "search/usages",
@@ -73,7 +77,6 @@
     "browser/dragElement",
     "browser/handleDialog"
   ],
-
   "capabilityFlags": {
     "orchestration": false,
     "approval": false,
@@ -82,22 +85,12 @@
     "ide-local": false,
     "github-service": false
   },
-
   "bodyFilters": [
     {
       "action": "prepend",
       "content": "> Pantheon agent for Cursor. Invoke with @<name> in Agent mode."
-    },
-    {
-      "pattern": "Copilot Workflow",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "Agent Lifecycle Hooks",
-      "action": "omit-section"
     }
   ],
-
   "skillsOutputDir": ".cursor/skills",
   "deploySkills": true,
   "handoffStrategy": "embed"
