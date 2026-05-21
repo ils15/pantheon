@@ -21,7 +21,7 @@
   },
   "agent": {
     "zeus": {
-      "description": "Central orchestrator \u2014 delegates to specialized agents, never implements directly",
+      "description": "Central orchestrator — delegates to specialized agents, never implements directly",
       "color": "#FFD700",
       "temperature": 0.2,
       "steps": 30,
@@ -33,10 +33,11 @@
         }
       },
       "mode": "primary",
-      "task_budget": 30
+      "task_budget": 30,
+      "source": ".opencode/agents/zeus.md"
     },
     "athena": {
-      "description": "Strategic planner & agora \u2014 creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
+      "description": "Strategic planner & agora — creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 20,
@@ -45,10 +46,11 @@
         "bash": "deny"
       },
       "mode": "primary",
-      "task_budget": 10
+      "task_budget": 10,
+      "source": ".opencode/agents/athena.md"
     },
     "themis": {
-      "description": "Quality & security gate \u2014 MANDATORY review after every implementation phase",
+      "description": "Quality & security gate — MANDATORY review after every implementation phase",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 20,
@@ -64,10 +66,11 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 5
+      "task_budget": 5,
+      "source": ".opencode/agents/themis.md"
     },
     "hermes": {
-      "description": "Backend specialist \u2014 FastAPI, Python, async/await, TDD red-green-refactor",
+      "description": "Backend specialist — FastAPI, Python, async/await, TDD red-green-refactor",
       "color": "#4A90D9",
       "temperature": 0.3,
       "steps": 30,
@@ -76,10 +79,11 @@
       "task_budget": 5,
       "permission": {
         "bash": "allow"
-      }
+      },
+      "source": ".opencode/agents/hermes.md"
     },
     "aphrodite": {
-      "description": "Frontend specialist \u2014 React 19, TypeScript strict, WCAG accessibility, TDD",
+      "description": "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, TDD",
       "color": "#4A90D9",
       "temperature": 0.5,
       "steps": 30,
@@ -88,10 +92,11 @@
       "task_budget": 5,
       "permission": {
         "bash": "allow"
-      }
+      },
+      "source": ".opencode/agents/aphrodite.md"
     },
     "demeter": {
-      "description": "Database specialist \u2014 SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention",
+      "description": "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
@@ -100,10 +105,11 @@
       "task_budget": 5,
       "permission": {
         "bash": "allow"
-      }
+      },
+      "source": ".opencode/agents/demeter.md"
     },
     "prometheus": {
-      "description": "Infrastructure specialist \u2014 Docker multi-stage builds, docker-compose, CI/CD",
+      "description": "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 15,
@@ -112,10 +118,11 @@
       "task_budget": 3,
       "permission": {
         "bash": "allow"
-      }
+      },
+      "source": ".opencode/agents/prometheus.md"
     },
     "hephaestus": {
-      "description": "AI pipelines specialist \u2014 RAG, LangChain/LangGraph, vector stores, embeddings",
+      "description": "AI pipelines specialist — RAG, LangChain/LangGraph, vector stores, embeddings",
       "color": "#4A90D9",
       "temperature": 0.3,
       "steps": 25,
@@ -124,10 +131,11 @@
       "task_budget": 5,
       "permission": {
         "bash": "allow"
-      }
+      },
+      "source": ".opencode/agents/hephaestus.md"
     },
     "chiron": {
-      "description": "Model provider hub \u2014 multi-model routing, AWS Bedrock, cost optimization",
+      "description": "Model provider hub — multi-model routing, AWS Bedrock, cost optimization",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
@@ -136,10 +144,11 @@
       "task_budget": 3,
       "permission": {
         "bash": "allow"
-      }
+      },
+      "source": ".opencode/agents/chiron.md"
     },
     "echo": {
-      "description": "Conversational AI specialist \u2014 Rasa NLU, dialogue management, intent/entity design",
+      "description": "Conversational AI specialist — Rasa NLU, dialogue management, intent/entity design",
       "color": "#4A90D9",
       "temperature": 0.4,
       "steps": 20,
@@ -148,10 +157,11 @@
       "task_budget": 3,
       "permission": {
         "bash": "allow"
-      }
+      },
+      "source": ".opencode/agents/echo.md"
     },
     "gaia": {
-      "description": "Remote sensing specialist \u2014 LULC analysis, satellite imagery, geospatial pipelines",
+      "description": "Remote sensing specialist — LULC analysis, satellite imagery, geospatial pipelines",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
@@ -161,10 +171,11 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 3
+      "task_budget": 3,
+      "source": ".opencode/agents/gaia.md"
     },
     "apollo": {
-      "description": "Investigation scout \u2014 3-10 parallel codebase searches, read-only, no edits",
+      "description": "Investigation scout — 3-10 parallel codebase searches, read-only, no edits",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 15,
@@ -174,10 +185,11 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 0
+      "task_budget": 0,
+      "source": ".opencode/agents/apollo.md"
     },
     "iris": {
-      "description": "GitHub operations \u2014 branches, pull requests, issues, releases, tags",
+      "description": "GitHub operations — branches, pull requests, issues, releases, tags",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 12,
@@ -190,10 +202,11 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 2
+      "task_budget": 2,
+      "source": ".opencode/agents/iris.md"
     },
     "mnemosyne": {
-      "description": "Memory bank management \u2014 ADRs, project.md, atomic facts to /memories/repo/",
+      "description": "Memory bank management — ADRs, project.md, atomic facts to /memories/repo/",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 20,
@@ -202,10 +215,11 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 0
+      "task_budget": 0,
+      "source": ".opencode/agents/mnemosyne.md"
     },
     "talos": {
-      "description": "Hotfix express lane \u2014 small bugs, CSS, typos, direct fixes, no TDD ceremony",
+      "description": "Hotfix express lane — small bugs, CSS, typos, direct fixes, no TDD ceremony",
       "color": "#50C878",
       "temperature": 0.3,
       "steps": 5,
@@ -218,10 +232,11 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 0
+      "task_budget": 0,
+      "source": ".opencode/agents/talos.md"
     },
     "nyx": {
-      "description": "Observability specialist \u2014 OpenTelemetry, LangSmith, token/cost tracking, alerting",
+      "description": "Observability specialist — OpenTelemetry, LangSmith, token/cost tracking, alerting",
       "color": "#50C878",
       "temperature": 0.1,
       "steps": 15,
@@ -231,10 +246,11 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 3
+      "task_budget": 3,
+      "source": ".opencode/agents/nyx.md"
     },
     "argus": {
-      "description": "Visual analysis specialist \u2014 interprets screenshots, images, PDFs, diagrams, and UI mockups",
+      "description": "Visual analysis specialist — interprets screenshots, images, PDFs, diagrams, and UI mockups",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 15,
@@ -244,23 +260,22 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 0
+      "task_budget": 0,
+      "source": ".opencode/agents/argus.md"
     },
     "agora": {
-      "description": "Multi-perspective synthesis engine \u2014 dispatches same question to 3-5 specialists in parallel, compares agreements & divergences, produces decisive recommendation",
+      "description": "Multi-perspective synthesis engine — analyzes questions from multiple domain perspectives internally, compares agreements & divergences, produces decisive recommendation with confidence level.",
       "color": "#9B59B6",
       "temperature": 0.1,
       "steps": 20,
       "permission": {
         "edit": "deny",
-        "bash": "deny",
-        "task": {
-          "*": "allow"
-        }
+        "bash": "deny"
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 10
+      "task_budget": 10,
+      "source": ".opencode/agents/agora.md"
     }
   },
   "compaction": {
@@ -279,17 +294,26 @@
       "models": {
         "claude-haiku-4-5": {
           "options": {
-            "thinking": { "type": "enabled", "budgetTokens": 8000 }
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 8000
+            }
           }
         },
         "claude-sonnet-4-6": {
           "options": {
-            "thinking": { "type": "enabled", "budgetTokens": 16000 }
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 16000
+            }
           }
         },
         "claude-opus-4-6": {
           "options": {
-            "thinking": { "type": "enabled", "budgetTokens": 32000 }
+            "thinking": {
+              "type": "enabled",
+              "budgetTokens": 32000
+            }
           }
         }
       }
