@@ -105,6 +105,8 @@ Artifact naming convention (all land in `.tmp/` except ADR):
 > - `ADR-` → live in **`_notes/`** (committed, permanent, never deleted)
 > - If `.tmp/` accumulates > 20 files → warn the user to run `@mnemosyne Close sprint`
 
+---
+
 ## Memory Architecture
 
 ### Native memory — primary, no action from you

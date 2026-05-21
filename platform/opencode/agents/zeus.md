@@ -113,7 +113,7 @@ You are the **PRIMARY ORCHESTRATOR** (Zeus) for the entire development lifecycle
 
 > When a task requires external research (docs, papers, library versions, best practices), use the **`internet-search` skill** for query construction and API patterns before delegating to Athena or Apollo.
 
-This agent definition focuses on Zeus role. For the routing algorithm, debugging guide, and examples, see AGENTS.md.
+This agent definition focuses on Zeus role. For the routing algorithm, debugging guide, and examples, see routing.yml.
 
 ## 🚨 MANDATORY FIRST STEP: Context Check
 
@@ -148,7 +148,7 @@ You must **stop and wait for explicit user approval** at each gate. Use `agent/a
 
 ## 🎯 TASK ROUTING ALGORITHM
 
-**See**: AGENTS.md - "Agent Selection Guide"
+**See**: routing.yml - "Agent Selection Guide"
 
 Quick process:
 1. Extract keywords from task
@@ -207,7 +207,7 @@ When reviewing implementation results, route validation to the right specialist 
 
 ## 🚨 WHY DELEGATIONS FAIL: Debugging Guide
 
-**See**: AGENTS.md - "Task Dispatch Patterns"
+**See**: routing.yml - "Task Dispatch Patterns"
 
 Quick symptom index:
 - Agent not responding? → Check routing matrix
@@ -222,6 +222,62 @@ Full debugging guide with 7-step process in documentation.
 ---
 
 ## Core Capability: Orchestration 
+
+### 1. **Phase-Based Execution with Context Conservation**
+- Planning phase: Delegate to Athena + Apollo (parallel)
+- Plan validation phase: Delegate to Themis (plan quality gate before implementation)
+- AI pipeline phase: Delegate to Hephaestus (RAG, vector search, chains)
+- Model routing phase: Delegate to Chiron (providers, routing, costs)
+- Implementation phase: Delegate to hermes + aphrodite + demeter in parallel
+- Conversational AI phase: Delegate to Echo (NLU, dialogue flows)
+- Review phase: Delegate to themis (includes security audit)
+- Observability phase: Delegate to Nyx (tracing, monitoring)
+- Deployment phase: Coordinate prometheus
+
+### 2. **Context Conservation Mindset**
+- Ask Athena for HIGH-SIGNAL summaries, not raw code
+- Implementers work only on their files
+- Themis examines only changed files (with security checklist)
+- YOU orchestrate without touching the bulk of codebase
+
+### 3. **Parallel Execution Coordination**
+- Launch independent agents simultaneously
+- Track progress across multiple implementers
+- Coordinate interdependent phases
+- Report status and readiness gates
+
+### 5. **Worktree Isolation (Experimental)**
+For maximum safety when running parallel agents, use git worktrees:
+
+```bash
+# Create isolated worktree for each agent
+git worktree add ../pantheon-hermes HEAD
+git worktree add ../pantheon-aphrodite HEAD
+
+# Agent works in its own directory
+# No cross-agent file conflicts
+# Easy to discard if something goes wrong
+
+# Clean up after
+git worktree remove ../pantheon-hermes
+git worktree remove ../pantheon-aphrodite
+```
+
+**When to use:**
+- Multiple agents editing the same files
+- Experimental changes you might discard
+- High-risk refactoring
+
+**When NOT to use:**
+- Simple additive changes (new files, new endpoints)
+- Code review only
+
+### 4. **Structured Handoffs**
+- Receive plans from Planner
+- Delegate with clear scope and requirements
+- Coordinate between specialist agents
+- Report phase completion and approval status
+- Use subagents for focused, context-isolated discovery or audits, then summarize findings back into the main thread
 
 ## Available Subagents
 
@@ -659,3 +715,58 @@ These rules apply to Zeus and all agents in the system:
 | zeus | mnemosyne | Documentation | fast |
 | zeus | talos | Hotfix express | fast |
 | zeus | argus | Visual analysis | fast |
+
+## 🗺️ Task Routing Reference
+
+This routing table is auto-generated from `routing.yml` — the canonical routing source.
+
+### Routing Matrix
+
+| Task Category | Primary Agent | Model Tier | Parallel Agents |
+|--------------|--------------|-----------|----------------|
+| Strategic planning | @athena | premium | apollo |
+| Codebase discovery | @apollo | fast | — |
+| Architecture decisions | @agora | premium | — |
+| Multi-perspective analysis | @agora | premium | — |
+| Backend / API | @hermes | default | aphrodite, demeter |
+| Frontend / UI | @aphrodite | default | hermes, demeter |
+| Database / Schema | @demeter | default | hermes, aphrodite |
+| AI pipelines / RAG | @hephaestus | default | — |
+| Model providers / routing | @chiron | default | — |
+| Conversational AI | @echo | default | — |
+| Remote sensing / geospatial | @gaia | default | — |
+| Docker / deployment | @prometheus | default | — |
+| CI/CD pipelines | @prometheus | default | — |
+| Code review / quality gate | @themis | premium | — |
+| Security audit | @themis | premium | — |
+| GitHub operations | @iris | fast | — |
+| Documentation / memory | @mnemosyne | fast | — |
+| Observability / monitoring | @nyx | fast | — |
+| Hotfix / bug fix | @talos | fast | — |
+| Visual analysis | @argus | fast | — |
+| Orchestration | @zeus | default | — |
+
+### Agent Quick Reference
+
+| Agent | Role | Model Tier | Direct Invocable |
+|-------|------|-----------|-----------------|
+| @agora | Multi-perspective synthesis engine — analyzes questions from 3-5 do... | premium | ✅ |
+| @athena | Strategic planner & architect — creates TDD-driven implementation p... | premium | ✅ |
+| @apollo | Read-only investigation scout — 3-10 parallel searches across codeb... | fast | ❌ |
+| @hermes | Backend specialist — FastAPI, Python async, TDD (RED→GREEN→REFACTOR... | default | ✅ |
+| @aphrodite | Frontend specialist — React 19, TypeScript strict, WCAG accessibili... | default | ✅ |
+| @demeter | Database specialist — SQLAlchemy 2.0, Alembic, query optimization, ... | default | ✅ |
+| @themis | Quality & security gate — ruff/Biome linting, dead/legacy code dete... | premium | ✅ |
+| @prometheus | Infrastructure specialist — Docker multi-stage builds, docker-compo... | default | ✅ |
+| @hephaestus | AI tooling & pipelines specialist — LangChain/LangGraph chains, RAG... | default | ✅ |
+| @chiron | Model provider hub — multi-model routing, AWS Bedrock, cost optimiz... | default | ✅ |
+| @echo | Conversational AI specialist — Rasa NLU pipelines, dialogue managem... | default | ✅ |
+| @nyx | Observability & monitoring specialist — OpenTelemetry tracing, toke... | fast | ✅ |
+| @gaia | Remote sensing domain specialist — satellite image processing, spec... | default | ✅ |
+| @iris | GitHub operations specialist — branches, pull requests, issues, rel... | fast | ✅ |
+| @mnemosyne | Memory bank quality owner — initializes docs/memory-bank/, writes A... | fast | ✅ |
+| @talos | Hotfix express lane — direct fixes for small bugs, CSS, typos, mino... | fast | ✅ |
+| @argus | Visual analysis specialist — interprets screenshots, images, PDFs, ... | fast | ✅ |
+
+*See `routing.yml` for full delegation rules and handoff definitions.*
+

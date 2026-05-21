@@ -5,11 +5,11 @@
 <h1 align="center">Pantheon</h1>
 
 <p align="center">
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.7.1-blue" alt="Version"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.7.2-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-18-purple" alt="Agents"></a>
-  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-36-orange" alt="Skills"></a>
+  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-37-orange" alt="Skills"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf|cline|continue-8250DF" alt="Built with"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/ci.yml?branch=main&label=CI" alt="CI"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/release.yml?branch=main&label=release" alt="Release"></a>
@@ -28,7 +28,7 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 | Resource | Link |
 |----------|------|
 | 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 18 agents |
-| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 36 skills |
+| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 37 skills |
 | 🚀 **Installation Guide** | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
 | 🔌 **MCP Servers** | [docs/mcp-recommendations.md](docs/mcp-recommendations.md) — recommended MCP servers for each project type |
 | ⚡ **Quick Start** | [docs/QUICKSTART.md](docs/QUICKSTART.md) |
@@ -394,8 +394,8 @@ graph TB
 
 ## Skill Ecosystem
 
-Pantheon bundles **36 cross-platform skills** — modular instruction sets that agents load
-on demand to perform specialized tasks. OpenCode users get **43 skills** (36 + 7
+Pantheon bundles **37 cross-platform skills** — modular instruction sets that agents load
+on demand to perform specialized tasks. OpenCode users get **44 skills** (37 + 7
 OpenCode-specific extras in `.opencode/skills/`). Skills are organized into domains:
 
 | Domain | Skills |
@@ -405,10 +405,11 @@ OpenCode-specific extras in `.opencode/skills/`). Skills are organized into doma
 | **Frontend** | frontend-analyzer, nextjs-seo-optimization |
 | **AI Pipelines** | rag-pipelines, multi-model-routing, conversational-ai-design, mcp-server-development |
 | **Infrastructure** | docker-best-practices, streaming-patterns, cache-strategy |
-| **Security & Quality** | security-audit-pro, code-review-checklist, prompt-injection-security, code-review-checklist |
-| **Memory & Context** | memory-bank, token-audit, codemap, init-deep, file-prompts |
+| **Security & Quality** | security-audit-pro, code-review-checklist, prompt-injection-security |
+| **Planning & Design** | plan-architecture, codemap, init-deep, interview, metis-gap-analysis |
+| **Memory & Context** | memory-bank, token-audit, file-prompts |
 | **Domain** | remote-sensing-analysis, internet-search |
-| **Utilities** | prompt-improver, agent-evaluation, agent-observability, metis-gap-analysis, interview, wisdom-accumulation |
+| **Utilities** | prompt-improver, agent-evaluation, agent-observability, wisdom-accumulation |
 
 > See [skills/README.md](skills/README.md) for the complete reference with descriptions
 > and usage patterns.
@@ -570,7 +571,7 @@ pantheon/
 │   ├── nyx.agent.md           — observability
 │   └── README.md
 │
-├── skills/                    — 36 cross-platform skill modules
+├── skills/                    — 37 cross-platform skill modules
 │   ├── README.md
 │   ├── agent-coordination/    * orchestration & coordination
 │   ├── artifact-management/

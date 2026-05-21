@@ -2,22 +2,19 @@
   "name": "cline",
   "version": "1.0.0",
   "displayName": "Cline",
-
-  "description": "Cline (open-source VS Code AI coding agent) — rules via .clinerules files. Strips frontmatter entirely; output is plain markdown body only.",
-
-  "notes": "Cline has NO frontmatter support — skipFrontmatter: true prevents --- wrappers. File extension is empty string so generated files are named <agent> (no .md suffix), matching Cline's convention.",
-
+  "description": "Cline (open-source VS Code AI coding agent) \u2014 rules via .clinerules files. Strips frontmatter entirely; output is plain markdown body only.",
+  "notes": "Cline has NO frontmatter support \u2014 skipFrontmatter: true prevents --- wrappers. File extension is empty string so generated files are named <agent> (no .md suffix), matching Cline's convention.",
   "outputDir": ".clinerules",
   "fileExtension": "",
-
   "frontmatter": {
     "include": [],
-    "exclude": ["*"],
+    "exclude": [
+      "*"
+    ],
     "transform": {},
     "addFields": {},
     "skipFrontmatter": true
   },
-
   "toolMap": {
     "read/readFile": "Read",
     "edit/editFiles": "Edit",
@@ -32,7 +29,6 @@
     "web/fetch": "WebFetch",
     "agent": "Task"
   },
-
   "excludeTools": [
     "search/changes",
     "read/problems",
@@ -49,7 +45,6 @@
     "browser/handleDialog",
     "browser/screenshotPage"
   ],
-
   "capabilityFlags": {
     "orchestration": false,
     "approval": false,
@@ -58,35 +53,10 @@
     "ide-local": false,
     "github-service": false
   },
-
   "bodyFilters": [
     {
       "action": "prepend",
       "content": "> Pantheon rule for Cline. This content is loaded as system prompt context."
-    },
-    {
-      "pattern": "Copilot Workflow",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "Agent Lifecycle Hooks",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "VS Code Integration",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "Changelog-aligned notes",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "VS Code 1.111-1.114",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "Handoffs",
-      "action": "omit-section"
     }
   ],
   "skillsOutputDir": ".clinerules/skills",
