@@ -289,35 +289,7 @@
       "options": {
         "chunkTimeout": 30000
       }
-    },
-    "anthropic": {
-      "models": {
-        "claude-haiku-4-5": {
-          "options": {
-            "thinking": {
-              "type": "enabled",
-              "budgetTokens": 8000
-            }
-          }
-        },
-        "claude-sonnet-4-6": {
-          "options": {
-            "thinking": {
-              "type": "enabled",
-              "budgetTokens": 16000
-            }
-          }
-        },
-        "claude-opus-4-6": {
-          "options": {
-            "thinking": {
-              "type": "enabled",
-              "budgetTokens": 32000
-            }
-          }
-        }
       }
-    }
   },
   "permission": {
     "websearch": "allow",
