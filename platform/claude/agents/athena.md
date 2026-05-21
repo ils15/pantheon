@@ -147,7 +147,7 @@ This is worth exploring separately. Use /fork to compare approaches.
 
 **Complex:** "Plan microservices migration" → Delegate to `@apollo` for full discovery → Create 5-phase plan
 
-**Isolated discovery:** use `#runSubagent Explore` for read-only deep dives that should not contaminate the current context.
+**Isolated discovery:** delegate to `@apollo` for read-only deep dives that should not contaminate the current context.
 
 ---
 
