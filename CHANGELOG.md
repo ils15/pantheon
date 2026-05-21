@@ -78,15 +78,14 @@ Users reported that even a simple "oi" consumed 17-20K tokens per session. Inves
 - **`/token-audit` command** — Audits any repository for token waste, finds redundant context files, measures baseline, and recommends optimizations
 - **`optimize-context.sh` script** — CLI tool that scans for AI context files, measures baseline tokens, detects red flags (historical content, duplication, oversized files), and projects savings
 - **`skills/token-audit/SKILL.md`** — 6-step audit methodology: discover, map redundancy, measure baseline, identify red flags, generate report, apply optimizations
-- **`skills/memory-bank-rules/SKILL.md`** — Complete guide to ADR, PLAN, NOTE, and TASK file types — what each is, when to create it, max line limits, and anti-patterns
-- **`skills/memory-bank-optimization/SKILL.md`** — Audit and compress memory bank files, enforce lazy-load patterns, reduce auto-loaded context by 80-90%
+- **`skills/memory-bank/SKILL.md`** — Consolidated memory bank skill covering ADR/PLAN/NOTE/TASK file types, optimization strategies, lazy-load patterns, structure rules, and anti-patterns
 
 ### Changed
 
 - **AGENTS.md: 1455 → 59 lines (-96%)** — Removed verbose agent descriptions, long examples, detailed dispatch patterns, lifecycle hooks documentation. Kept compact registry, golden rules, commands, model tiers, memory structure.
 - **Memory bank: 6 → 3 core files** — Consolidated `00-overview.md` + `01-architecture.md` + `02-components.md` + `03-tech-context.md` → `00-project.md` (56 lines, zero duplication)
 - **ADRs consolidated** — `decisions/` directory merged into `_notes/` as numbered ADRs (ADR-0001 through ADR-0004)
-- **Skills: 48 → 42** — 5 merges (orchestration→coordination, perf→database, vector→rag, web-ui→frontend, slop→simplify), 4 deletes (security-audit, hashline-edits, session-recovery, changelog)
+- **Skills: 48 → 42** — 5 merges (orchestration→coordination, perf→database, vector→rag, web-ui→frontend, slop→simplify), 4 deletes (security-audit, hashline-edits, session-recovery, changelog), 2 memory-bank skills consolidated into 1
 - **All skill descriptions <100 chars** — Average 60% reduction. Removed version numbers, agent name references, redundant words.
 - **Agent descriptions: ~47 chars each** — Shortened from ~80 chars. Removed version numbers, verbosity.
 - **Command templates: -77%** — `/forge` 500→361 chars, `/focus` 200→124 chars, `/audit` 300→251 chars, `/ping` 200→82 chars, `/sketch` 250→211 chars
