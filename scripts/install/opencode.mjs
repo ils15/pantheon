@@ -4,12 +4,38 @@
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
+import { homedir } from 'os';
 import { ROOT, PLATFORM_DIR, summary, sourceDirValid, copyFiles, writeIfChanged, collectSkillNames, installSkills, syncDir } from './shared.mjs';
+
+/**
+ * Detect whether `target` is the user's global OpenCode config directory
+ * (~/.config/opencode or $XDG_CONFIG_HOME/opencode).
+ * Global installs use a flat layout: agents/ skills/ commands/
+ * Project installs use the .opencode/ sub-directory layout.
+ */
+function isGlobalConfigDir(target) {
+  const xdgConfig = process.env.XDG_CONFIG_HOME || join(homedir(), '.config');
+  const globalDir = resolve(join(xdgConfig, 'opencode'));
+  return resolve(target) === globalDir;
+}
 
 export function installOpenCode(target, dryRun, clean = false, components = ['agents', 'skills', 'instructions', 'commands']) {
   const componentSet = new Set(components);
   const stats = summary.opencode;
+
+  // Determine layout based on install scope.
+  // Global config dir (~/.config/opencode) uses a flat layout:
+  //   agents/   skills/   commands/
+  // Project installs use the .opencode/ sub-directory layout:
+  //   .opencode/agents/   .opencode/skills/   .opencode/commands/
+  const isGlobal = isGlobalConfigDir(target);
+  const subDir = isGlobal ? '' : '.opencode';
+  const agentPrefix = isGlobal ? 'agents' : '.opencode/agents';
+
+  if (isGlobal) {
+    console.log('  🌐 Global config directory detected — using flat layout (agents/, skills/, commands/)');
+  }
 
   // -----------------------------------------------------------------------
   // 1. Install agents (--components agents)
@@ -20,7 +46,7 @@ export function installOpenCode(target, dryRun, clean = false, components = ['ag
       console.warn(`  ⚠️  Agent source directory not found: ${srcDir}`);
       stats.errors++;
     } else {
-      const dstDir = join(target, '.opencode', 'agents');
+      const dstDir = isGlobal ? join(target, 'agents') : join(target, '.opencode', 'agents');
       if (!dryRun) mkdirSync(dstDir, { recursive: true });
       if (clean && existsSync(dstDir) && !dryRun) {
         const existing = readdirSync(dstDir);
@@ -41,14 +67,15 @@ export function installOpenCode(target, dryRun, clean = false, components = ['ag
     const skillNames = collectSkillNames();
     if (skillNames.length > 0) {
       console.log(`  📚 Installing ${skillNames.length} skills...`);
-      const dstSkillsDir = join(target, '.opencode', 'skills');
+      const dstSkillsDir = isGlobal ? join(target, 'skills') : join(target, '.opencode', 'skills');
       if (clean && existsSync(dstSkillsDir) && !dryRun) {
         const existing = readdirSync(dstSkillsDir);
         for (const s of existing) {
           rmSync(join(dstSkillsDir, s), { recursive: true, force: true });
         }
       }
-      const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, '.opencode');
+      const installSubDir = isGlobal ? '' : '.opencode';
+      const { created: sCreated, skipped: sSkipped } = installSkills(skillNames, target, dryRun, installSubDir);
       stats.created += sCreated;
       stats.skipped += sSkipped;
     }
@@ -95,7 +122,7 @@ export function installOpenCode(target, dryRun, clean = false, components = ['ag
   // -----------------------------------------------------------------------
   if (componentSet.has('commands')) {
     const srcCmds = join(ROOT, 'commands');
-    const dstCmds = join(target, '.opencode', 'commands');
+    const dstCmds = isGlobal ? join(target, 'commands') : join(target, '.opencode', 'commands');
     if (existsSync(srcCmds)) {
       const cmdResult = syncDir(srcCmds, dstCmds, dryRun, clean, (f) => f.endsWith('.md'));
       stats.created += cmdResult.created;
@@ -136,24 +163,24 @@ export function installOpenCode(target, dryRun, clean = false, components = ['ag
     if (!config.agent) config.agent = {};
 
     const agentSources = {
-      zeus:      '.opencode/agents/zeus.md',
-      athena:    '.opencode/agents/athena.md',
-      themis:    '.opencode/agents/themis.md',
-      hermes:    '.opencode/agents/hermes.md',
-      aphrodite: '.opencode/agents/aphrodite.md',
-      demeter:   '.opencode/agents/demeter.md',
-      prometheus:'.opencode/agents/prometheus.md',
-      hephaestus:'.opencode/agents/hephaestus.md',
-      chiron:    '.opencode/agents/chiron.md',
-      echo:      '.opencode/agents/echo.md',
-      gaia:      '.opencode/agents/gaia.md',
-      apollo:    '.opencode/agents/apollo.md',
-      iris:      '.opencode/agents/iris.md',
-      mnemosyne: '.opencode/agents/mnemosyne.md',
-      nyx:       '.opencode/agents/nyx.md',
-      talos:     '.opencode/agents/talos.md',
-      argus:     '.opencode/agents/argus.md',
-      agora:     '.opencode/agents/agora.md',
+      zeus:      `${agentPrefix}/zeus.md`,
+      athena:    `${agentPrefix}/athena.md`,
+      themis:    `${agentPrefix}/themis.md`,
+      hermes:    `${agentPrefix}/hermes.md`,
+      aphrodite: `${agentPrefix}/aphrodite.md`,
+      demeter:   `${agentPrefix}/demeter.md`,
+      prometheus:`${agentPrefix}/prometheus.md`,
+      hephaestus:`${agentPrefix}/hephaestus.md`,
+      chiron:    `${agentPrefix}/chiron.md`,
+      echo:      `${agentPrefix}/echo.md`,
+      gaia:      `${agentPrefix}/gaia.md`,
+      apollo:    `${agentPrefix}/apollo.md`,
+      iris:      `${agentPrefix}/iris.md`,
+      mnemosyne: `${agentPrefix}/mnemosyne.md`,
+      nyx:       `${agentPrefix}/nyx.md`,
+      talos:     `${agentPrefix}/talos.md`,
+      argus:     `${agentPrefix}/argus.md`,
+      agora:     `${agentPrefix}/agora.md`,
     };
 
     const agentDefaults = {
