@@ -1,6 +1,6 @@
 {
   "name": "pantheon",
-  "version": "3.7.1",
+  "version": "3.7.2",
   "description": "Multi-agent orchestration platform with 18 specialized agents, 37 skills, TDD enforcement, RAG pipelines, multi-model routing, conversational AI, observability, and multi-platform support (VS Code, OpenCode, Claude Code, Cursor, Windsurf).",
   "private": true,
   "scripts": {
@@ -15,7 +15,9 @@
     "plugin:inspect": "node -e \"const m=require('./.github/plugin/plugin.json'); console.log(JSON.stringify({name:m.name,version:m.version,agents:m.agents?.length||0,skills:m.skills?.length||0},null,2));\"",
     "sync": "node scripts/sync-platforms.mjs",
     "sync:check": "node scripts/validate-sync.mjs",
-    "bundle": "node scripts/release-bundle.mjs"
+    "bundle": "node scripts/release-bundle.mjs",
+    "validate": "node scripts/validate-routing.mjs",
+    "docs": "node scripts/generate-routing-docs.mjs"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",

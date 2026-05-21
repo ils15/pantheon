@@ -30,7 +30,6 @@ Use `web/fetch` to verify availability before proposing model updates to other a
 
 ## 🚀 Bounded Research Strategy (Fast Planning)
 
-
 **Rules**:
 - Max 3 direct codebase searches (then delegate to @apollo if needed)
 - Convergence rule: 80% understanding OR stop at 5 min

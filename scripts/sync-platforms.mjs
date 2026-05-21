@@ -142,6 +142,65 @@ const CAPABILITY_TAXONOMY = {
 };
 
 /**
+ * Parse routing.yml and extract routing data for zeus injection.
+ * Returns { agents: {}, routing_matrix: [] } or null on failure.
+ */
+function loadRoutingYml() {
+  const routingPath = join(ROOT, 'routing.yml');
+  try {
+    if (!existsSync(routingPath)) return null;
+    const content = readFileSync(routingPath, 'utf8');
+    return yaml.load(content);
+  } catch (err) {
+    console.warn(`  ⚠️  Could not load routing.yml: ${err.message}`);
+    return null;
+  }
+}
+
+/**
+ * Generate a markdown routing reference table from routing.yml data.
+ * Only used for zeus agent injection.
+ */
+function generateRoutingTable(routingData) {
+  if (!routingData) return '';
+  
+  const agents = routingData.agents || {};
+  const matrix = routingData.routing_matrix || [];
+  
+  let table = '## 🗺️ Task Routing Reference\n\n';
+  table += 'This routing table is auto-generated from `routing.yml` — the canonical routing source.\n\n';
+  
+  table += '### Routing Matrix\n\n';
+  table += '| Task Category | Primary Agent | Model Tier | Parallel Agents |\n';
+  table += '|--------------|--------------|-----------|----------------|\n';
+  
+  for (const rule of matrix) {
+    const primary = rule.primary_agent || '—';
+    const tier = rule.model_tier || '—';
+    const parallel = rule.parallel_with ? rule.parallel_with.join(', ') : '—';
+    table += `| ${rule.category} | @${primary} | ${tier} | ${parallel} |\n`;
+  }
+  
+  table += '\n### Agent Quick Reference\n\n';
+  table += '| Agent | Role | Model Tier | Direct Invocable |\n';
+  table += '|-------|------|-----------|-----------------|\n';
+  
+  for (const [name, info] of Object.entries(agents)) {
+    if (name === 'zeus') continue;  // skip self-reference
+    const role = info.role || '—';
+    const tier = info.model_tier || '—';
+    const invocable = info.user_invocable ? '✅' : '❌';
+    // Truncate long role descriptions
+    const shortRole = role.length > 70 ? role.substring(0, 67) + '...' : role;
+    table += `| @${name} | ${shortRole} | ${tier} | ${invocable} |\n`;
+  }
+  
+  table += '\n*See `routing.yml` for full delegation rules and handoff definitions.*\n';
+  
+  return table;
+}
+
+/**
  * Collect the set of all unique tool names across all canonical agent files.
  */
 function collectCanonicalTools(agentFiles) {
@@ -460,7 +519,7 @@ function omitSection(text, pattern) {
 /**
  * Apply all body filters from adapter.bodyFilters.
  */
-function applyBodyFilters(body, filters) {
+function applyBodyFilters(body, filters, agentName = '') {
   if (!filters || filters.length === 0) return body;
 
   let result = body;
@@ -477,6 +536,15 @@ function applyBodyFilters(body, filters) {
         break;
       case 'append':
         appends.push(filter.content);
+        break;
+      case 'inject-routing':
+        if (agentName === 'zeus') {
+          const routingData = loadRoutingYml();
+          const routingContent = generateRoutingTable(routingData);
+          if (routingContent) {
+            appends.push(routingContent);
+          }
+        }
         break;
     }
   }
@@ -525,7 +593,7 @@ function syncPlatform(platformName, adapter, agentFiles) {
     const name = fm.name ?? basename(agentFile).replace('.agent.md', '');
 
     const newFm = transformFrontmatter(fm, adapter);
-    const newBody = applyBodyFilters(body, adapter.bodyFilters);
+    const newBody = applyBodyFilters(body, adapter.bodyFilters, name);
     const transformedBody = transformBodyToolReferences(newBody, toolMap, adapter.excludeTools);
     // Validate body tool references against final tool set
     const finalTools = Array.isArray(newFm.tools) ? newFm.tools : (newFm.permission ? Object.keys(newFm.permission) : []);

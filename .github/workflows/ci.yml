@@ -20,24 +20,22 @@ jobs:
         with: { node-version: '20' }
 
       - name: Install dependencies
-        run: |
-          pip install yamllint
-          npm ci --ignore-scripts || npm install
+        run: pip install yamllint && npm ci --ignore-scripts || npm install
 
       - name: Validate agent frontmatter
         run: |
           set -e
           FAILED=0
-          for glob in "agents/*.agent.md" "platform/claude/agents/*.md" "platform/opencode/agents/*.md" "platform/windsurf/agents/*.md"; do
-            dir="${glob%/\*}"
-            [ -d "$dir" ] || { echo "⏭️  $dir not found"; continue; }
+          for glob in "agents/*.agent.md" "platform/claude/agents/*.md" "platform/opencode/agents/*.md" "platform/windsurf/rules/*.md"; do
+            dir="${glob%/*}"
+            [ -d "$dir" ] || { echo "skip $dir"; continue; }
             for file in $glob; do
               [ -f "$file" ] || continue
               fm=$(awk '/^---/{if(f){exit}else{f=1;next}} f{print}' "$file")
-              [ -z "$fm" ] && { echo "❌ No frontmatter in $file"; FAILED=1; continue; }
+              [ -z "$fm" ] && { echo "No frontmatter $file"; FAILED=1; continue; }
               tmp=$(mktemp --suffix=.yml)
               echo "$fm" > "$tmp"
-              yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$tmp" && echo "✅ $file" || { echo "❌ $file"; FAILED=1; }
+              yamllint -c .yamllint.yml "$tmp" && echo "OK $file" || { echo "FAIL $file"; FAILED=1; }
               rm "$tmp"
             done
           done
@@ -49,10 +47,10 @@ jobs:
           for file in platform/cursor/rules/*.mdc; do
             [ -f "$file" ] || continue
             fm=$(awk '/^---/{if(f){exit}else{f=1;next}} f{print}' "$file")
-            [ -z "$fm" ] && { echo "❌ No frontmatter in $file"; FAILED=1; continue; }
+            [ -z "$fm" ] && { echo "No frontmatter $file"; FAILED=1; continue; }
             tmp=$(mktemp --suffix=.yml)
             echo "$fm" > "$tmp"
-            yamllint -d "{extends: relaxed}" "$tmp" && echo "✅ $file" || { echo "❌ $file"; FAILED=1; }
+            yamllint -c .yamllint.yml "$tmp" && echo "OK $file" || { echo "FAIL $file"; FAILED=1; }
             rm "$tmp"
           done
           [ "$FAILED" -eq 0 ] || exit 1
@@ -62,15 +60,14 @@ jobs:
           set -e; FAILED=0
           for f in agents/*.agent.md; do
             name=$(basename "$f" .agent.md)
-            # Check for agent name in AGENTS.md (table format or tier listing)
-            grep -qiF "$name" AGENTS.md && echo "✅ $name" || { echo "⚠️  $name not in AGENTS.md"; FAILED=1; }
+            grep -qiF "$name" AGENTS.md && echo "OK $name" || { echo "MISSING $name in AGENTS.md"; FAILED=1; }
           done
-          for dir in platform/claude/agents platform/opencode/agents platform/windsurf/agents; do
+          for dir in platform/claude/agents platform/opencode/agents platform/windsurf/rules; do
             [ -d "$dir" ] || continue
             for f in "$dir"/*.md; do
               [ -f "$f" ] || continue
               name=$(basename "$f" .md)
-              grep -qF "$name" AGENTS.md 2>/dev/null && echo "✅ $dir/$name" || echo "ℹ️  $dir/$name not referenced in AGENTS.md (auto-generated)"
+              grep -qF "$name" AGENTS.md 2>/dev/null && echo "OK $dir/$name" || echo "INFO $dir/$name not in AGENTS.md"
             done
           done
           [ "$FAILED" -eq 0 ] || exit 1
@@ -79,10 +76,9 @@ jobs:
         run: |
           set -e; FAILED=0
           for dir in platform/*/; do
-            basename "$dir" | grep -q '^_template' && continue
-            adapter="${dir}adapter.json"
-            [ -f "$adapter" ] || continue
-            node -e "const a=require('./${adapter}'); ['name','displayName','outputDir'].forEach(k=>{if(!a[k])throw new Error('Missing '+k+' in '+a.name)})" && echo "✅ $(basename $dir)/adapter.json" || { echo "❌ $(basename $dir)/adapter.json"; FAILED=1; }
+            echo "$dir" | grep -q '_template' && continue
+            [ -f "${dir}adapter.json" ] || continue
+            node -e "const a=require('./${dir}adapter.json'); ['name','displayName','outputDir'].forEach(k=>{if(!a[k])throw new Error('Missing '+k)})" && echo "OK $(basename $dir)" || { echo "FAIL $(basename $dir)"; FAILED=1; }
           done
           npm run plugin:validate 2>&1 || FAILED=1
           [ "$FAILED" -eq 0 ] || exit 1
@@ -97,17 +93,16 @@ jobs:
             [ -f "$file" ] || continue
             fm=$(awk '/^---/{if(f){exit}else{f=1;next}} f{print}' "$file")
             if [ -z "$fm" ]; then
-              echo "❌ No frontmatter in $file"; FAILED=1; continue
+              echo "No frontmatter $file"; FAILED=1; continue
             fi
-            # Check required fields: name and description
-            echo "$fm" | grep -q '^name:' || { echo "❌ Missing 'name' in $file"; FAILED=1; }
-            echo "$fm" | grep -q '^description:' || { echo "❌ Missing 'description' in $file"; FAILED=1; }
-            # Validate YAML syntax
+            echo "$fm" | grep -q '^name:' || { echo "Missing name $file"; FAILED=1; }
+            echo "$fm" | grep -q '^description:' || { echo "Missing description $file"; FAILED=1; }
             tmp=$(mktemp --suffix=.yml)
             echo "$fm" > "$tmp"
-            yamllint -d "{extends: relaxed, rules: {line-length: {max: 200}}}" "$tmp" \
-              && echo "✅ $file" \
-              || { echo "❌ $file"; FAILED=1; }
+            yamllint -c .yamllint.yml "$tmp" && echo "OK $file" || { echo "FAIL $file"; FAILED=1; }
             rm "$tmp"
           done
           [ "$FAILED" -eq 0 ] || exit 1
+
+      - name: Validate routing.yml consistency
+        run: node scripts/validate-routing.mjs
