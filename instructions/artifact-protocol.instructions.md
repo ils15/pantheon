@@ -45,7 +45,7 @@ docs/memory-bank/
 | `@athena` plans (with or without Zeus) | **Athena** | `PLAN-<feature>.md` |
 | `@hermes` / `@aphrodite` / `@demeter` implement | **The worker** | `IMPL-phase<N>-<agent>.md` |
 | `` reviews | **Themis** | `REVIEW-<feature>.md` |
-| `@agora` council / `#runSubagent Explore` | **Agora / Explore** | `DISC-<topic>.md` |
+| `@agora` council / `@apollo` | **Agora / Apollo** | `DISC-<topic>.md` |
 | Architectural decision (any agent) | **Any → Mnemosyne** | `ADR-<topic>.md` (permanent) |
 
 > [!IMPORTANT]

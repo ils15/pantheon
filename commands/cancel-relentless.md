@@ -1,5 +1,11 @@
+---
+description: "Alias for /stop-continuation --relentless. Stops relentless mode only"
+agent: "zeus"
+---
 # /cancel-relentless — Cancel Relentless Mode
 
-**What:** Stops the self-referential development loop. Preserves work, returns control.
-**Usage:** `/cancel-relentless`
-**Safety:** Does NOT discard changes, close session, or delete tasks.
+**What:** Stops relentless mode only. Equivalent to `/stop-continuation --relentless`.
+
+**Usage:** `/cancel-relentless` or `/stop-continuation --relentless`
+
+**Safety:** Does NOT discard changes, close session, or delete tasks. Preserves auto-continue for other todos.
