@@ -2,12 +2,9 @@
   "name": "claude",
   "displayName": "Claude Code",
   "version": "2.0.0",
-
   "description": "Claude Code uses .md files in .claude/agents/ with comma-separated tools string (not YAML arrays).",
-
   "outputDir": "agents",
   "fileExtension": ".md",
-
   "frontmatter": {
     "include": [
       "name",
@@ -31,13 +28,20 @@
       "argument-hint"
     ],
     "transform": {
-      "tools": { "strategy": "comma-separated" },
-      "skills": { "strategy": "comma-separated" },
-      "instructions": { "strategy": "comma-separated" },
-      "mode": { "strategy": "identity" }
+      "tools": {
+        "strategy": "comma-separated"
+      },
+      "skills": {
+        "strategy": "comma-separated"
+      },
+      "instructions": {
+        "strategy": "comma-separated"
+      },
+      "mode": {
+        "strategy": "identity"
+      }
     }
   },
-
   "toolMap": {
     "search/codebase": "Grep",
     "search/usages": "Grep",
@@ -53,7 +57,6 @@
     "agent": "Agent",
     "vscode/askQuestions": "AskUserQuestion"
   },
-
   "excludeTools": [
     "search/changes",
     "read/problems",
@@ -69,7 +72,6 @@
     "browser/handleDialog",
     "browser/screenshotPage"
   ],
-
   "capabilityFlags": {
     "orchestration": true,
     "approval": true,
@@ -78,27 +80,12 @@
     "ide-local": false,
     "github-service": false
   },
-
-  "bodyFilters": [
-    {
-      "pattern": "Copilot Workflow",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "Agent Lifecycle Hooks",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "VS Code 1.111-1.114",
-      "action": "omit-section"
-    },
-    {
-      "pattern": "Changelog-aligned notes",
-      "action": "omit-section"
-    }
-  ],
-
   "skillsOutputDir": ".claude/skills",
   "deploySkills": true,
+  "bodyFilters": [
+    {
+      "action": "inject-routing"
+    }
+  ],
   "handoffStrategy": "embed"
 }

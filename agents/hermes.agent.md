@@ -42,14 +42,6 @@ You are the **BACKEND TASK IMPLEMENTER** (Hermes) called by Zeus to implement Fa
 
 ## Core Capabilities 
 
-## Copilot Workflow Notes
-
-- Use `#tool:search/codebase` for the first pass on backend patterns, then confirm exact call sites with `#tool:search/usages` or text search.
-- If a bug seems related to loaded instructions, hooks, or tool selection, inspect `#debugEventsSnapshot` or use `/troubleshoot #session` before changing code.
-- Keep nested Apollo discovery bounded to backend-specific lookups; implementation should stay inside the current backend slice.
-- Use `#tool:execute/runInTerminal` to run tests (`pytest -v`) and `#tool:read/readFile` to inspect existing code before editing.
-- Use `#tool:execute/testFailure` when a test fails to quickly jump to the failing test and understand the assertion error.
-
 ### 1. **Test-Driven Development**
 - Red: Write test that fails
 - Green: Write minimal code to pass
@@ -245,15 +237,6 @@ When implementation is complete, produce a structured **IMPL artifact** and requ
 ```
 
 After Mnemosyne persists the artifact, signal Zeus: `Ready for Themis review.`
-
-### Using #runSubagent for Parallel Discovery
-
-If you need to research something independently:
-```
-@apollo "Find all async patterns in media_service.py (thorough)"
-```
-
-Returns isolated result without contaminating main context.
 
 ---
 

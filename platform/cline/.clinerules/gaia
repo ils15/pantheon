@@ -338,6 +338,15 @@ SEARCH_URL = "https://www.mdpi.com/search?q={query}&journal=remotesensing&articl
 
 ---
 
+## 🔗 Handoffs
+
+- **For implementation planning** → hand off to `@athena`
+- **For rapid code search** → delegate to `@apollo` (nested subagent)
+- **For technical implementation** → hand off to `@hermes` (Python backend)
+- **For quality review** → delegate to `@themis`
+
+---
+
 ## ⚡ Invocation Examples
 
 > **Gaia** (Γαῖα) — primordial goddess of the Earth in Greek mythology. Patron of remote sensing: everything we observe from space is Gaia's domain.
