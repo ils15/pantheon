@@ -17,25 +17,53 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
-## [v3.7.2] - 2026-05-20
+## [v3.7.0] - 2026-05-20
+
+Pantheon v3.7.0 introduces **`platform/forge.json`** — a preset-based model configuration system with 12 presets for 18 specialized agents across 4 model tiers. Configure all agent models with a single command.
+
+### Added
+
+- **`platform/forge.json`** — Preset-based model configuration with 4 tiers (premium, default, coding, fast) mapping 12 model presets to all 18 Pantheon agents
+- **12 model presets** — `default` (account defaults), `opencode-go` (oh-my-opencode-slim mirror), `deepseek-flash`, `kimi`, `qwen`, `opencode-co`, `claude-pro`, `openai`, `gemini` (May 2026 models), `github-copilot`, `byok-best`, `together-moe`
+- **`/forge` command** — Configure models by preset (`/forge opencode-go`), per-agent (`/forge --zeus <model>`), single model (`/forge deepseek-flash`), status check (`/forge status`), or list presets (`/forge list`)
+- **`coding` tier** — New 4th model tier for heavy coding agents (Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Talos), mapped to fast coding models like DeepSeek V4 Flash
+- **README documentation** — Full `/forge` command reference, presets comparison table, and tier documentation in the Model Tiers section
 
 ### Changed
 
-- Decision gate enforcement: `/pantheon` command now has mandatory `⛔ MANDATORY STOP` instruction; Gate 0 added to `auto-continue` skill
-- `agora.agent.md`: structured DISC artifact output and Decision Gate block
-- `zeus.agent.md`, `themis.agent.md`: Planning Gate and PLAN Status Validation
-- `artifact-protocol.instructions.md`: DISC template and Gate 0 pause point
-- `agents/README.md`: plan-system section replaced with model-tiers description
-- CI: `auto-release.yml` now triggers via `workflow_run` on CI success (not raw push)
-- CI: `ci.yml` adds SKILL.md frontmatter validation step
-- `skills/plan-architecture/SKILL.md`: new architecture planning skill
+- **README Model Tiers section rewritten** — Expanded from 3 tiers to 4 tiers (premium/default/coding/fast) with /forge docs, 12-preset table, and usage examples
+- **OpenCode Go preset mirrors oh-my-opencode-slim exactly** — GLM-5.1 (Zeus), DeepSeek V4 Pro (Athena/Themis/Agora), Kimi K2.6 (Aphrodite), MiniMax M2.7 (Apollo/Chiron), DeepSeek V4 Flash (coding agents)
+- **Gemini preset updated** — Gemini 3.5 Flash (premium), Gemini 2.5 Flash (default/coding), Gemini 3.1 Flash-Lite (fast) — correct May 2026 model lineup
+- **Version bumped to 3.7.0** across all manifests (package.json, forge.json, CHANGELOG, README badge)
 
-### Removed
+## [v3.6.2] - 2026-05-20
 
-- `platform/plans/` (16 plan JSON files) and `platform/select-plan.sh` — model tiers are now abstract; users configure models via platform settings
-- `platform/forge.json`, `platform/examples/` — forge system removed
-- Dead skill refs: `simplify`, `test-architecture`, `review-work`, `ai-slop-remover` removed from agents
-- Stale `platform/plans` references cleaned from all docs, agents, and contributing guides
+ - 2026-05-20
+
+Pantheon v3.6.2 introduces **4-tier model routing** — a new `coding` tier for heavy coding agents, plus the foundation for preset-based model configuration.
+
+### Added
+
+- **4-tier model routing** — New `coding` tier with agents: Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Talos. Mapped to fast, cheap coding models like DeepSeek V4 Flash across all presets.
+- **Per-plan fallback chains** — Agents now cascade through fallback models if the primary is unavailable.
+
+### Changed
+
+- **Model tier architecture expanded** — From 3 tiers (premium/default/fast) to 4 tiers (premium/default/coding/fast), adding the coding-specific tier.
+- **OpenCode Go preset updated** — Mirrors oh-my-opencode-slim's exact mapping: GLM-5.1 (Zeus), DeepSeek V4 Pro (Athena/Themis/Agora), Kimi K2.6 (Aphrodite), MiniMax M2.7 (Apollo/Chiron), DeepSeek V4 Flash (coding agents).
+
+### Fixed
+
+- CI agent check validation for cross-platform consistency
+- Orphaned skill references cleaned across all platform syncs
+
+## [v3.6.1] - 2026-05-20
+
+### Fixed
+
+- Clean orphaned skill references across all platform sync files
+- CI agent check now validates cross-platform consistency properly
+- Platform sync files regenerated with clean skill references
 
 ## [v3.6.0] - 2026-05-20
 
