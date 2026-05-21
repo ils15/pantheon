@@ -17,6 +17,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+## [v3.7.1] - 2026-05-21
+
+### Fixed
+- **explore→apollo**: 48 occurrences of `#runSubagent Explore` replaced with `@apollo` across 7 canonical agent files and regenerated to all 6 platforms via `npm run sync`
+- **auto-continue skill**: corrected "3 safety gates" → "4 gates" (was missing GATE 0); activation text no longer refers to non-existent `/relentless-mode` command
+- **install.mjs**: added `'commands'` to default component list so command `.md` files are always installed
+- **install.mjs**: removed dead command merge code (never executed after command section removal)
+
+### Removed
+- **Non-canonical skills**: 8 orphan skills deleted from `.opencode/skills/` (category-routing, memory-bank-optimization, memory-bank-rules, relentless-mode, review-work, simplify, test-architecture, todo-continuation); entire `.cursor/skills/` and `.github/skills/` directories removed
+- **Redundant sources**: `commands/commands.json` deleted (was drifting duplicate of opencode.json); `.github/agents/` deleted (outdated agent copies with stale references)
+
+### Changed
+- **Command standardization**: 14 command `.md` files with YAML frontmatter in `commands/` — single source of truth. OpenCode auto-discovers from `.opencode/commands/`. Command definitions removed from `opencode.json` (minimization).
+- **Continuation unified**: `cancel-relentless` simplified to alias of `stop-continuation --relentless`. Single `auto-continue` skill covers both auto-continue and relentless mode.
+- **Stale references**: "Todo-Continuation" → "Auto-Continue" renamed in 5 platform relentless-mode files
+- **Memory bank**: updated active-context and progress-log for v3.7.0 cleanup sprint
 ## [v3.7.0] - 2026-05-20
 
 Pantheon v3.7.0 introduces **`platform/forge.json`** — a preset-based model configuration system with 12 presets for 18 specialized agents across 4 model tiers. Configure all agent models with a single command.

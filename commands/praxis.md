@@ -1,4 +1,8 @@
-# /praxis — Execute Plan via Task System
+---
+description: "Execute a plan via the task system with dependency ordering and mandatory gates"
+agent: "zeus"
+---
+# /praxis — Plan Execution
 
 **What:** Creates tasks from an Athena plan, executes with dependency ordering, stops at mandatory gates.
 **Usage:** `/praxis [plan-name]`
