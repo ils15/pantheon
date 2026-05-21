@@ -149,9 +149,9 @@ The loop auto-continues BETWEEN gates, not THROUGH gates.
 
 ---
 
-## Relationship with Todo-Continuation
+## Relationship with Auto-Continue
 
-| Feature | Todo-Continuation | Relentless Mode |
+| Feature | Auto-Continue | Relentless Mode |
 |---------|-------------------|------------|
 | Trigger | Idle + incomplete todos | Idle + incomplete todos + no DONE |
 | Aggressiveness | Moderate (continues if clear) | High (continues until DONE) |
