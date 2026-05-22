@@ -12,6 +12,7 @@ tools:
   - execute/runInTerminal
   - execute/testFailure
 permission:
+  edit: allow
   bash:
     "git add *": allow
     "npx prettier *": allow

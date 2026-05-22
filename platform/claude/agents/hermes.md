@@ -4,8 +4,6 @@ description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→R
 mode: primary
 tools: Agent, Grep, Grep, Read, Edit, Bash, Bash, Bash
 skills: api-design-patterns, fastapi-async-patterns, tdd-with-agents, database-optimization, cache-strategy
-mcpServers:
-  - context7
 agents:
   - apollo
 user-invocable: true

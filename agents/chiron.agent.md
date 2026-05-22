@@ -17,6 +17,7 @@ tools:
   - search/changes
   - web/fetch
 permission:
+  edit: allow
   bash: allow
 agents: ['apollo']
 handoffs:

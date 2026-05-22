@@ -85,9 +85,6 @@ permission:
     "*": allow
 temperature: 0.2
 steps: 30
-mcpServers:
-  - github
-  - context7
 ---
 
 # Zeus - Main Conductor

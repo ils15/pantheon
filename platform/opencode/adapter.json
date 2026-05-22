@@ -21,7 +21,6 @@
       "hooks",
       "temperature",
       "steps",
-      "mcpServers",
       "globs"
     ],
     "exclude": [
@@ -84,7 +83,8 @@
     "mnemosyne": "subagent",
     "nyx": "subagent",
     "talos": "subagent",
-    "argus": "subagent"
+    "argus": "subagent",
+    "agora": "subagent"
   },
   "capabilityFlags": {
     "orchestration": true,

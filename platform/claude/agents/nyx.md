@@ -4,8 +4,6 @@ description: Observability & monitoring specialist — OpenTelemetry tracing, to
 mode: primary
 tools: Agent, AskUserQuestion, Grep, Grep, Read, Edit, Bash, Bash, Bash, WebFetch
 skills: agent-observability, agent-evaluation
-mcpServers:
-  - context7
 agents:
   - apollo
 user-invocable: true

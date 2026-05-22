@@ -10,6 +10,7 @@ tools:
   - read/readFile
   - edit/editFiles
 permission:
+  edit: allow
   bash: deny
 user-invocable: true
 temperature: 0.1

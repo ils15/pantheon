@@ -27,11 +27,6 @@ permission:
     "grep *": allow
     "npx vitest *": allow
     "pip *": allow
-hooks:
-  PostToolUse:
-    - type: command
-      command: scripts/hooks/format-multi-language.sh
-      timeout: 45
 agents: ['mnemosyne']
 handoffs:
   - label: "🔧 Fix Review Issues"

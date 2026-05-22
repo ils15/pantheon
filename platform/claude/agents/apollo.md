@@ -4,9 +4,6 @@ description: "Read-only investigation scout — 3–10 parallel searches across 
 mode: subagent
 tools: Grep, Grep, Glob, Grep, Glob, Read, WebFetch
 skills: internet-search, codemap
-mcpServers:
-  - github
-  - context7
 user-invocable: false
 permission:
   edit: deny

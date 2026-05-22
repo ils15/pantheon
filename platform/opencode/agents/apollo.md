@@ -29,9 +29,6 @@ permission:
   bash: deny
 temperature: 0.1
 steps: 15
-mcpServers:
-  - github
-  - context7
 ---
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check

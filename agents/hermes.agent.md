@@ -15,12 +15,11 @@ tools:
     - execute/getTerminalOutput
     - search/changes
 permission:
+  edit: allow
   bash: allow
 handoffs:
     - { label: "Send to Themis", agent: themis, prompt: "Please perform a code review and security audit on these backend changes according to your instructions.", send: true, model: premium }
 agents: ['apollo']
-mcpServers:
-  - context7
 globs:
   - "**/*.py"
   - "**/routers/**/*.py"

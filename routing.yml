@@ -560,7 +560,8 @@ delegation:
       model_tier: fast
       parallel: false
       prompt_hint: "Fix this minor issue quickly — no TDD ceremony needed."
-      pre_condition: "Only for trivial, bounded changes (<10 lines, 1 file). Multi-file refactors need full orchestration."
+      pre_condition: "Only dispatch Talos for: ≤2 files changed, ≤10 lines total, no schema changes, no security-sensitive code"
+      post_condition: "Talos must escalate to Zeus via the complex_escalation handoff if fix exceeds scope"
 
     - target: argus
       when:

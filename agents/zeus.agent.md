@@ -19,9 +19,6 @@ permission:
   task:
     "*": allow
 agents: ['agora', 'athena', 'apollo', 'hermes', 'aphrodite', 'demeter', 'themis', 'prometheus', 'iris', 'mnemosyne', 'talos', 'hephaestus', 'chiron', 'echo', 'nyx', 'argus']
-mcpServers:
-  - github
-  - context7
 handoffs:
   - label: "🏛️ Agora Decision"
     agent: agora

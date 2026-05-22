@@ -28,8 +28,6 @@ permission:
   bash: allow
 temperature: 0.3
 steps: 30
-mcpServers:
-  - context7
 globs:
   - "**/*.py"
   - "**/routers/**/*.py"

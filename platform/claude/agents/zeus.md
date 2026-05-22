@@ -4,9 +4,6 @@ description: "Central orchestrator — never implements. Delegates to: athena (p
 mode: primary
 tools: Agent, AskUserQuestion, Bash, Read, Grep, Grep, WebFetch
 skills: agent-coordination, session-goal, artifact-management
-mcpServers:
-  - github
-  - context7
 agents:
   - agora
   - athena
