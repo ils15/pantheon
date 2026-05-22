@@ -8,7 +8,9 @@ alwaysApply: false
 
 # Handoff — Session Continuation Summary
 
-Use this skill to generate a structured handoff document when transitioning work to a new session. Eliminates "lost context when restarting session."
+Use this skill to generate a structured handoff summary when transitioning work to a new session.
+
+**Policy-safe storage:** keep handoffs in `/memories/session/` during the conversation. Do not create ad-hoc `.md` files in the repository root.
 
 ---
 
@@ -27,22 +29,22 @@ Use this skill to generate a structured handoff document when transitioning work
 ```markdown
 # Handoff: <Feature Name>
 
-## Estado Atual
-- Wave N completo (<description>)
-- Wave N+1 pendente (<description>)
+## Current Status
+- Wave N completed (<description>)
+- Wave N+1 pending (<description>)
 - Current task: <what was being worked on>
 
-## O que foi feito
+## What Was Completed
 - <file/path> — <what was implemented>
 - <file/path> — <what was implemented>
 - <file/path> — <what was implemented>
 
-## O que falta
+## Remaining Work
 - <remaining task 1>
 - <remaining task 2>
 - <remaining task 3>
 
-## Decisões importantes
+## Key Decisions
 - <decision 1> (rationale)
 - <decision 2> (rationale)
 
@@ -51,7 +53,7 @@ Use this skill to generate a structured handoff document when transitioning work
 - <gotcha 1>
 - <failure to avoid 1>
 
-## Arquivos relevantes
+## Relevant Files
 - <path/to/file1>
 - <path/to/file2>
 - <path/to/file3>
@@ -70,17 +72,17 @@ Use this skill to generate a structured handoff document when transitioning work
 
 ---
 
-## How Mnemosyne Generates Handoff
+## How to Persist Handoff (Policy-Compliant)
 
 When user runs `/handoff`:
 
 ```
 1. Mnemosyne reads current session state
-2. Mnemosyne reads .pantheon/learnings/<feature>/learnings.md (if exists)
-3. Mnemosyne reads .pantheon/tasks/*.json (if exists)
-4. Mnemosyne generates handoff document
-5. Mnemosyne saves to .pantheon/handoffs/<timestamp>.md
-6. Mnemosyne outputs handoff summary to user
+2. Mnemosyne reads /memories/session/* (if relevant)
+3. Mnemosyne generates handoff summary
+4. Mnemosyne saves to /memories/session/handoff-<timestamp>.md
+5. Mnemosyne outputs the summary in chat
+6. At sprint close, promote only durable context to docs/memory-bank via explicit @mnemosyne action
 ```
 
 ---
@@ -104,24 +106,24 @@ When starting a new session:
 ```markdown
 # Handoff: Product Reviews
 
-## Estado Atual
-- Wave 2 completo (backend endpoints + frontend with mocks)
-- Wave 3 pendente (real API integration)
+## Current Status
+- Wave 2 completed (backend endpoints + frontend with mocks)
+- Wave 3 pending (real API integration)
 - Current task: Connecting ReviewCard to real GET /reviews API
 
-## O que foi feito
+## What Was Completed
 - src/routes/reviews/post.py — POST /reviews endpoint
 - src/routes/reviews/get.py — GET /reviews with pagination
 - src/components/ReviewCard.tsx — ReviewCard with mocked data
 - alembic/versions/xxx_reviews.py — reviews table migration
 
-## O que falta
+## Remaining Work
 - Connect ReviewCard to real GET /reviews API
 - Add ReviewForm component
 - Integration tests
 - Error handling for 404/500
 
-## Decisões importantes
+## Key Decisions
 - Use Redis for review cache (TTL 5min) — decided after Wave 2 performance testing
 - Cursor-based pagination, not offset — better for large datasets
 
@@ -159,6 +161,6 @@ When starting a new session:
 |--------|-------|----------|
 | `/memories/repo/` | Permanent facts | Forever |
 | `docs/memory-bank/` | Project context | Sprint |
-| **Handoff** | **Session state** | **Until next session** |
+| **`/memories/session/handoff-*.md`** | **Session handoff snapshot** | **Until session ends** |
 
 Handoff is the most temporary — it's a snapshot of the current session for seamless continuation.

@@ -31,7 +31,7 @@ permission:
   edit: allow
   bash: allow
 temperature: 0.3
-steps: 25
+steps: 20
 ---
 
 # Hephaestus — AI Tooling & Pipelines Specialist
