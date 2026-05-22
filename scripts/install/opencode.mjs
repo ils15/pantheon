@@ -284,6 +284,15 @@ export function installOpenCode(target, dryRun, clean = false, components = ['ag
     config.$schema = 'https://opencode.ai/config.json';
   }
 
+  // --------------------------------------------------------------------
+  // F. Compatibility cleanup (OpenCode >= v1.15.7)
+  // --------------------------------------------------------------------
+  // `todoContinuation` is rejected by newer OpenCode versions.
+  // Remove it from merged user config to avoid startup/config failures.
+  if (Object.prototype.hasOwnProperty.call(config, 'todoContinuation')) {
+    delete config.todoContinuation;
+  }
+
   const configContent = JSON.stringify(config, null, 2) + '\n';
   const status = writeIfChanged(targetConfigPath, configContent, dryRun);
   if (status === 'created') stats.created++;
