@@ -316,6 +316,45 @@ function deploySkills(platformName, adapter, agentFiles, outDir) {
 
 /**
  * Deploy command .md files from commands/ to the platform's commands output directory.
+ * Copies all .instructions.md files from instructions/ to
+ * <platform>/<instructionsOutputDir>/.
+ * The instructions/ directory is the canonical source; this function
+ * propagates copies to platform-specific locations (e.g. .github/instructions/).
+ */
+function deployInstructions(platformName, adapter) {
+  if (!adapter.deployInstructions) return 0;
+  const instructionsDir = adapter.instructionsOutputDir;
+  if (!instructionsDir) return 0;
+
+  const srcDir = join(ROOT, 'instructions');
+  // instructionsOutputDir may be relative to platform/<name>/ or absolute-ish
+  // Support paths starting with '../../' (relative to platform/<name>/)
+  const targetDir = instructionsDir.startsWith('../../')
+    ? join(ROOT, instructionsDir.replace(/^\.\.\/\.\.\//, ''))
+    : join(PLATFORM_DIR, platformName, instructionsDir);
+
+  if (!existsSync(srcDir)) return 0;
+
+  const srcFiles = readdirSync(srcDir).filter(f => f.endsWith('.instructions.md'));
+  if (srcFiles.length === 0) return 0;
+
+  if (!DRY_RUN) mkdirSync(targetDir, { recursive: true });
+
+  let deployed = 0;
+  for (const file of srcFiles) {
+    const srcFile = join(srcDir, file);
+    const destFile = join(targetDir, file);
+    const existing = existsSync(destFile) ? readFileSync(destFile, 'utf8') : null;
+    const content = readFileSync(srcFile, 'utf8');
+    if (existing === content) continue;
+    if (!DRY_RUN) writeFileSync(destFile, content, 'utf8');
+    console.log(`  📋 ${file} → ${instructionsDir}/`);
+    deployed++;
+  }
+  return deployed;
+}
+
+/**
  * Copies all .md files from commands/ to <platform>/<commandsOutputDir>/.
  * Unlike skills, commands are not referenced by agent frontmatter — they are
  * deployed wholesale as standalone prompt files.
@@ -335,12 +374,31 @@ function deployCommands(platformName, adapter) {
 
   if (!DRY_RUN) mkdirSync(targetDir, { recursive: true });
 
+  const excludeFields = Array.isArray(adapter.commandsFrontmatterExclude)
+    ? new Set(adapter.commandsFrontmatterExclude)
+    : null;
+
   let deployed = 0;
   for (const file of srcFiles) {
     const srcFile = join(srcDir, file);
     const destFile = join(targetDir, file);
     const existing = existsSync(destFile) ? readFileSync(destFile, 'utf8') : null;
-    const content = readFileSync(srcFile, 'utf8');
+    let content = readFileSync(srcFile, 'utf8');
+
+    if (excludeFields && excludeFields.size > 0) {
+      // Strip excluded fields from YAML frontmatter
+      content = content.replace(/^---\n([\s\S]*?)\n---/, (_, fm) => {
+        const stripped = fm
+          .split('\n')
+          .filter(line => {
+            const key = line.match(/^([\w-]+):/)?.[1];
+            return !key || !excludeFields.has(key);
+          })
+          .join('\n');
+        return `---\n${stripped}\n---`;
+      });
+    }
+
     if (existing === content) continue;
     if (!DRY_RUN) writeFileSync(destFile, content, 'utf8');
     console.log(`  📄 ${file} → ${commandsDir}/`);
@@ -580,6 +638,10 @@ function syncPlatform(platformName, adapter, agentFiles) {
   let written = 0;
   let unchanged = 0;
 
+  // skipAgentSync: platform reads agents from canonical source directly (e.g. VS Code Copilot via plugin.json)
+  if (adapter.skipAgentSync) {
+    console.log(`  ℹ️  Agent sync skipped (skipAgentSync: true — platform reads agents natively)`);
+  } else {
   for (const agentFile of agentFiles) {
     const content = readFileSync(agentFile, 'utf8');
     const parsed = parseFrontmatter(content);
@@ -624,6 +686,7 @@ function syncPlatform(platformName, adapter, agentFiles) {
   } else if (unchanged > 0) {
     console.log(`  ℹ️  ${unchanged} files unchanged`);
   }
+  } // end of skipAgentSync else-block
 
   // Deploy skill files if configured
   const skillsDeployed = deploySkills(platformName, adapter, agentFiles, outDir);
@@ -635,6 +698,12 @@ function syncPlatform(platformName, adapter, agentFiles) {
   const commandsDeployed = deployCommands(platformName, adapter);
   if (commandsDeployed > 0) {
     console.log(`  📄 ${commandsDeployed} commands deployed to ${adapter.commandsOutputDir}`);
+  }
+
+  // Deploy instruction files if configured
+  const instructionsDeployed = deployInstructions(platformName, adapter);
+  if (instructionsDeployed > 0) {
+    console.log(`  📋 ${instructionsDeployed} instructions deployed to ${adapter.instructionsOutputDir}`);
   }
 
   return written;

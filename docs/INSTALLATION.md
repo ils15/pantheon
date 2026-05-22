@@ -38,6 +38,29 @@
 | **OpenCode** | 2 min | Config file + agents |
 | **Claude Code** | 1 min | `node scripts/install.mjs claude` |
 | **Cursor** | 1 min | `node scripts/install.mjs cursor` |
+
+---
+
+## Sync Scripts
+
+After installing, keep your agents up to date with the platform sync scripts:
+
+| Script | npm shortcut | Platform | What it deploys |
+|--------|-------------|----------|----------------|
+| `./sync-copilot.sh` | `npm run sync:copilot` | VS Code Copilot | `instructions/` → `.github/instructions/` · `prompts/` + commands → `VSCODE_USER_PROMPTS_FOLDER` |
+| `./sync-claude.sh` | `npm run sync:claude` | Claude Code | agents + commands → `.claude/agents/` + `.claude/commands/` |
+| `./sync-opencode.sh` | `npm run sync:opencode` | OpenCode | agents + skills + commands → `~/.config/opencode/` |
+| `./sync-cursor.sh` | `npm run sync:cursor` | Cursor | rules → `.cursor/rules/` |
+| `./sync-windsurf.sh` | `npm run sync:windsurf` | Windsurf | rules → `.windsurf/rules/` |
+| `./sync-continue.sh` | `npm run sync:continue` | Continue | rules → `.continue/rules/` |
+| `./sync-cline.sh` | `npm run sync:cline` | Cline | rules → `.clinerules/` |
+
+Run all at once:
+```bash
+npm run sync:all
+```
+
+> **VS Code instructions auto-discovery**: VS Code Copilot ≥1.99 reads `*.instructions.md` from `.github/instructions/` automatically. Run `./sync-copilot.sh` once after cloning to populate that directory.
 | **Windsurf** | — | 🧪 Preview, coming soon |
 
 ---

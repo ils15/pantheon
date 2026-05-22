@@ -59,5 +59,8 @@
   ],
   "skillsOutputDir": ".windsurf/skills",
   "deploySkills": true,
+  "commandsOutputDir": "workflows",
+  "deployCommands": true,
+  "commandsFrontmatterExclude": ["agent"],
   "handoffStrategy": "embed"
 }

@@ -17,9 +17,12 @@ JSON
 echo "[DELEGATION] $AGENT_NAME started → $LOG_DIR/delegations.log" >&2
 
 # --- Dispatch-time validation: check target against routing.yml ---
-ROUTING_FILE="/home/ils15/pantheon/routing.yml"
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
+ROUTING_FILE="$REPO_ROOT/routing.yml"
 if [ -f "$ROUTING_FILE" ] && [ -n "$AGENT_NAME" ]; then
-    if grep -qE "^\s+-\s+target:\s+$AGENT_NAME\s*$" "$ROUTING_FILE" 2>/dev/null; then
+    ESCAPED_AGENT_NAME=$(printf '%s\n' "$AGENT_NAME" | sed 's/[][(){}.^$*+?|\/\\-]/\\&/g')
+    if grep -qE "^[[:space:]]*-[[:space:]]+target:[[:space:]]+$ESCAPED_AGENT_NAME[[:space:]]*$" "$ROUTING_FILE" 2>/dev/null; then
         echo "[VALIDATION] ✅ Target '$AGENT_NAME' found in routing.yml" >&2
     else
         echo "[VALIDATION] ⚠️ Target '$AGENT_NAME' NOT in routing.yml delegation rules" >&2

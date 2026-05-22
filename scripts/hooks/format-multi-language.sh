@@ -3,6 +3,8 @@
 # Runs appropriate formatter on the modified file.
 # Supports both Claude Code stdin protocol and legacy env-var input.
 set -euo pipefail
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd -- "$SCRIPT_DIR/../.." && pwd)"
 
 # ── Claude Code stdin protocol ──────────────────────────────────────────
 # Parse JSON from stdin when piped (PostToolUse hook format).
@@ -33,8 +35,22 @@ d = json.load(sys.stdin)
 print(d.get('tool_input', {}).get('command', ''))
 " 2>/dev/null || echo "")
       if [ -n "$COMMAND" ]; then
-        # Extract the first file-like path from the bash command
-        CANDIDATE=$(echo "$COMMAND" | grep -oE '(/[^ ]+\.\w+)' | head -1) || true
+        # Extract first file-like path from bash command (supports relative and quoted paths)
+        CANDIDATE=$(python3 -c "
+import re, shlex, sys
+command = sys.argv[1]
+try:
+    tokens = shlex.split(command)
+except ValueError:
+    tokens = command.split()
+path_re = re.compile(r'^([^\\n]+\\.[A-Za-z0-9]+)$')
+for token in tokens:
+    if token.startswith('-'):
+        continue
+    if path_re.match(token):
+        print(token)
+        break
+" "$COMMAND" 2>/dev/null || echo "")
         if [ -n "$CANDIDATE" ]; then
           FILE_PATH="$CANDIDATE"
         fi
@@ -44,6 +60,11 @@ print(d.get('tool_input', {}).get('command', ''))
 fi
 
 FILE_PATH="${FILE_PATH:-${1:-}}"
+if [[ -n "$FILE_PATH" ]] && [[ "$FILE_PATH" != /* ]]; then
+    if [[ -f "$REPO_ROOT/$FILE_PATH" ]]; then
+        FILE_PATH="$REPO_ROOT/$FILE_PATH"
+    fi
+fi
 
 if [[ -z "$FILE_PATH" ]] || [[ ! -f "$FILE_PATH" ]]; then
     exit 0
