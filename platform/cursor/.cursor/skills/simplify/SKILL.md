@@ -1,3 +1,11 @@
+---
+name: simplify
+description: "Behavior-preserving code simplification to reduce complexity while keeping outputs, side effects, and APIs unchanged."
+context: fork
+globs: []
+alwaysApply: false
+---
+
 # Simplify Skill
 
 Behavior-preserving code simplification. Reduce complexity, eliminate noise, and improve readability without changing what the code does.
