@@ -14,7 +14,8 @@ permission:
     ruff *: allow
     grep *: allow
     npx vitest *: allow
-    pip *: allow
+    pip-audit *: allow
+    dep-audit *: allow
 temperature: 0.1
 steps: 20
 ---
@@ -114,7 +115,7 @@ Run these when dependencies changed or to detect code rot:
 
 **Python — dep-audit** (obsolete libs):
 ```bash
-pip install dep-audit && dep-audit . --exit-code
+dep-audit . --exit-code
 ```
 Detects: stdlib backports (`pytz`→`zoneinfo`, `tomli`→`tomllib`), zombie shims (`six`, `future`), deprecated packages (`pycrypto`→`pycryptodome`), unused deps.
 
@@ -421,7 +422,7 @@ Please fix blocker issues and resubmit.
 
 ## 🚨 MANDATORY WORKFLOW: Lightweight Quality Gate (Changed Files Only)
 
-**CRITICAL RULE**: Every implementation agent MUST call  IMMEDIATELY after completing code:
+**CRITICAL RULE**: Every implementation agent MUST call @themis IMMEDIATELY after completing code:
 
 - **@hermes** (**FastAPI endpoints**) → calls @themis
 - **@aphrodite** (**React components**) → calls @themis
@@ -444,7 +445,7 @@ Please fix blocker issues and resubmit.
 
 ## When to Use This Agent
 
-Use  for:
+Use @themis for:
 - "Review this Python service for correctness and style"
 - "Create comprehensive test plan for payment feature"
 - "Audit React component for accessibility and performance"
