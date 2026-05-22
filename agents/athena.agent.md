@@ -4,26 +4,26 @@ description: "Strategic planner & architect — research-first, plan-only, never
 # mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
 mode: primary
 tools:
-   - agent
-   - vscode/askQuestions
-   - search/codebase
-   - search/usages
-   - search/fileSearch
-   - search/textSearch
-   - search/listDirectory
-   - read/readFile
-    - web/fetch
+  - agent
+  - vscode/askQuestions
+  - search/codebase
+  - search/usages
+  - search/fileSearch
+  - search/textSearch
+  - search/listDirectory
+  - read/readFile
+  - web/fetch
 permission:
   edit: deny
   bash: deny
 agents: ['apollo', 'hermes', 'aphrodite', 'demeter', 'themis', 'prometheus', 'hephaestus', 'chiron', 'nyx']
 handoffs:
-    - { label: "Validate Plan", agent: "themis", prompt: "Validate this implementation plan for completeness, risk coverage, and test strategy before execution.", send: false, model: premium }
-    - { label: "Implement Plan", agent: "zeus", prompt: "Implement the plan outlined above following TDD methodology.", send: false, model: premium }
+    - { label: "Validate Plan", agent: "themis", prompt: "Validate this implementation plan for completeness, risk coverage, and test strategy before execution.", send: false }
+    - { label: "Implement Plan", agent: "zeus", prompt: "Implement the plan outlined above following TDD methodology.", send: false }
 
 user-invocable: true
 temperature: 0.1
-steps: 20
+steps: 15
 skills:
   - interview
   - codemap
@@ -169,10 +169,5 @@ For external docs/specs, use `web/fetch` (see `internet-search` skill for patter
 - RFCs, official documentation, GitHub issues/PRs
 - Synthesize findings into plan recommendations
 
-## 🤝 Handoff Routes
 
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| athena | themis | Validate Plan | premium |
-| athena | zeus | Implement Plan | premium |
 

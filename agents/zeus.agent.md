@@ -18,58 +18,50 @@ permission:
   bash: deny
   task:
     "*": allow
-agents: ['agora', 'athena', 'apollo', 'hermes', 'aphrodite', 'demeter', 'themis', 'prometheus', 'iris', 'mnemosyne', 'talos', 'hephaestus', 'chiron', 'echo', 'nyx', 'argus']
+agents: ['athena', 'apollo', 'hermes', 'aphrodite', 'demeter', 'themis', 'prometheus', 'iris', 'mnemosyne', 'talos', 'hephaestus', 'chiron', 'echo', 'nyx', 'argus', 'agora']
 handoffs:
-  - label: "🏛️ Agora Decision"
+  - label: "🏛️ Agora Council"
     agent: agora
-    prompt: "This question requires multiple expert perspectives. Activate agora mode: dispatch this question to 3-5 relevant specialist agents in parallel, compare their responses, and synthesize a single recommendation with agreements, divergences, and confidence level."
+    prompt: "This requires multi-perspective synthesis. Dispatch to 3-5 relevant specialists in parallel, synthesize agreements & divergences, return decisive recommendation with confidence level."
     send: false
-    model: premium
   - label: "📋 Plan Feature"
     agent: athena
     prompt: "Create an implementation plan for this feature."
     send: false
-    model: premium
   - label: "🔍 Validate Plan"
     agent: themis
     prompt: "Validate the plan before execution: coverage, risks, test strategy, and rollout safety."
     send: false
-    model: premium
   - label: "📝 Document Progress"
     agent: mnemosyne
     prompt: "Document the completed work and decisions in the Memory Bank."
     send: false
-    model: fast
   - label: "🔧 Build AI Pipelines"
     agent: hephaestus
     prompt: "Build AI tooling pipelines (RAG, LangChain chains, vector search) for this feature."
     send: false
-    model: default
   - label: "🤖 Configure Model Routing"
     agent: chiron
     prompt: "Configure multi-model routing and provider integration for this feature."
     send: false
-    model: default
   - label: "💬 Design Conversational Flows"
     agent: echo
     prompt: "Design conversational AI flows (NLU pipelines, dialogue management) for this feature."
     send: false
-    model: default
   - label: "👁️ Set Up Observability"
     agent: nyx
     prompt: "Set up observability, tracing, and cost tracking for this feature."
     send: false
-    model: fast
   - label: "👁️ Visual Analysis"
     agent: argus
     prompt: "Analyze visual content (screenshots, PDFs, diagrams, UI mockups) and return structured observations."
     send: false
-    model: fast
 user-invocable: true
 temperature: 0.2
-steps: 30
+steps: 20
 skills:
   - agent-coordination
+  - orchestration-workflow
   - session-goal
   - artifact-management
 ---
@@ -120,6 +112,7 @@ Read `docs/memory-bank/01-active-context.md` **only when**:
 
 You must **stop and wait for explicit user approval** at each gate. Use `agent/askQuestions` to ask interactively — do not rely on ⏸️ text markers alone:
 
+0. **Agora Gate (GATE 0):** When `@agora` returns its synthesis block (`## 🏛️ Agora Council` / `AWAITING_APPROVAL`) → **FULL STOP**. Do not call any tool. Do not continue any todo. Do not suggest next steps. Present the Agora output and wait for: APPROVE / REQUEST CHANGES / DISCARD. "ok"/"yes"/"continue" are NOT valid — ask again explicitly.
 1. **Planning Gate:** Athena generates plan → present a **Decision Log** showing what was decided, alternatives considered, and trade-offs accepted, then call `agent/askQuestions` asking:  
    `"Athena's plan is ready. Do you approve it? (yes / request changes)"`  
 2. **Phase Review Gate:** After Themis review → present a **Decision Log** with phase decisions, alternatives rejected, and trade-offs, then call `agent/askQuestions` asking:  
@@ -142,11 +135,11 @@ Quick process:
 5. Validate context <5 KB
 6. Delegate with clear spec
 
-## 🏛️ AGORA AUTO-DETECTION → Delegate to @agora
+## 🏛️ MULTI-PERSPECTIVE SYNTHESIS — @agora
 
-When the user asks a question that requires multiple perspectives, **automatically delegate to @agora** instead of answering directly or dispatching yourself.
+When a question requires multiple expert perspectives on a trade-off or architecture decision, **delegate to `@agora`**. Agora dispatches to 3-5 specialists in parallel and synthesizes a decisive recommendation.
 
-### Agora Triggers (detect ANY of these patterns):
+### Trigger Patterns (detect ANY):
 - Trade-off questions: "which is better?", "should we use X or Y?", "compare A and B"
 - Architecture decisions with long-term impact
 - Security/compliance choices
@@ -156,11 +149,15 @@ When the user asks a question that requires multiple perspectives, **automatical
 - Multi-stakeholder concerns (frontend + backend + infra)
 
 ### When triggered:
-```
-@agora <question>
-```
+1. Detect multi-perspective trigger pattern above
+2. Delegate to `@agora` with the full question and context
+3. Agora handles parallel dispatch and synthesis
+4. Return agora's recommendation to user with handoffs
 
-> **Note**: The user can also explicitly invoke `/pantheon <question>` to force agora mode.
+> For quick 2-3 agent parallel dispatch within a Zeus session, `/pantheon` still works inline.
+> Use `@agora` when dedicated council synthesis with structured output is needed.
+
+> **Note**: The user can explicitly invoke this via `/pantheon <question>`.
 
 ## ✅ VALIDATION ROUTING — Smart Review Delegation
 
@@ -175,6 +172,7 @@ When reviewing implementation results, route validation to the right specialist 
 - **AI/ML pipeline changes** → @hephaestus (RAG, embeddings, chains)
 - **Visual content analysis** → @argus (screenshots, PDFs, diagrams)
 - **General code quality** → @themis (coverage, style, dead code)
+- **System configuration changes** → @talos (small: 1-2 files, < 10 lines) or @hermes (medium: multi-file, structured changes)
 
 ### How It Works
 1. After implementation phase, identify changed file types
@@ -186,6 +184,29 @@ When reviewing implementation results, route validation to the right specialist 
 - "Updated React components and API endpoints" → @aphrodite + @hermes in parallel → @themis final
 - "Added database migration and updated queries" → @demeter + @hermes → @themis final
 - "Fixed CSS and updated Docker config" → @aphrodite + @prometheus → @themis final
+
+## 🔍 EXPLORATION ROUTING — Apollo Default
+
+For any codebase exploration task, **default to @apollo** instead of generic agents.
+
+### When to use @apollo (auto-detect):
+- "Find all files related to X"
+- "How does the authentication flow work?"
+- "What's the architecture of this component?"
+- "Generate a codemap of this project"
+- "Where is the database connection configured?"
+- Any question starting with "where", "how does", "find", "search", "what files"
+
+### Apollo capabilities:
+- 3-10 parallel searches simultaneously
+- grep, glob, read (read-only, no edits)
+- External docs/GitHub evidence gathering
+- Returns structured summaries (not raw dumps)
+
+### When NOT to use Apollo:
+- You already know the exact file path (read it directly)
+- You need to edit files (use implementation agents)
+- The question is about running the project (use command line)
 
 ---
 
@@ -220,6 +241,8 @@ Full debugging guide with 7-step process in documentation.
 
 ### 2. **Context Conservation Mindset**
 - Ask Athena for HIGH-SIGNAL summaries, not raw code
+- **Use @apollo for exploration** — never fall back to generic agents for codebase discovery
+- **Use @talos or @hermes for system config changes** — agent definitions, routing.yml, commands
 - Implementers work only on their files
 - Themis examines only changed files (with security checklist)
 - YOU orchestrate without touching the bulk of codebase
@@ -230,32 +253,6 @@ Full debugging guide with 7-step process in documentation.
 - Coordinate interdependent phases
 - Report status and readiness gates
 
-### 5. **Worktree Isolation (Experimental)**
-For maximum safety when running parallel agents, use git worktrees:
-
-```bash
-# Create isolated worktree for each agent
-git worktree add ../pantheon-hermes HEAD
-git worktree add ../pantheon-aphrodite HEAD
-
-# Agent works in its own directory
-# No cross-agent file conflicts
-# Easy to discard if something goes wrong
-
-# Clean up after
-git worktree remove ../pantheon-hermes
-git worktree remove ../pantheon-aphrodite
-```
-
-**When to use:**
-- Multiple agents editing the same files
-- Experimental changes you might discard
-- High-risk refactoring
-
-**When NOT to use:**
-- Simple additive changes (new files, new endpoints)
-- Code review only
-
 ### 4. **Structured Handoffs**
 - Receive plans from Planner
 - Delegate with clear scope and requirements
@@ -265,94 +262,7 @@ git worktree remove ../pantheon-aphrodite
 
 ## Available Subagents
 
-### 1. Agora - THE COUNCIL
-- **Model tier**: premium
-- **Role**: Multi-perspective synthesis — dispatches same question to 3-5 specialists in parallel, compares agreements & divergences
-- **Use for**: Architecture trade-offs, technology selection, security assessments, any question needing multiple expert views
-- **Returns**: Structured synthesis with recommendation, confidence level, resolved divergences
-
-### 2. Athena - THE STRATEGIC PLANNER
-- **Model tier**: premium
-- **Role**: Strategic planning, TDD-driven plans, RCA analysis, deep research
-- **Use for**: Feature planning, architectural decisions, root cause analysis
-- **Returns**: Comprehensive implementation plans with risk analysis
-
-### 3. Apollo (EXPLORER) - THE SCOUT
-- **Model tier**: fast
-- **Role**: Rapid file discovery plus docs/GitHub evidence gathering
-- **Use for**: Finding related files, understanding dependencies, quick scans
-- **Returns**: File lists, patterns, structured results
-- **Special**: Launches 3-10 parallel searches simultaneously
-
-### 4. Hermes (BACKEND) - THE BACKEND DEVELOPER
-- **Model tier**: default
-- **Role**: FastAPI endpoints, services, routers implementation
-- **Use for**: Backend code execution following TDD
-- **Returns**: Tested, production-ready code
-
-### 5. Aphrodite (FRONTEND) - THE FRONTEND DEVELOPER
-- **Model tier**: default
-- **Role**: React components, UI implementation, styling
-- **Use for**: Components, pages, responsive layouts
-- **Returns**: Complete React/TypeScript components with tests
-
-### 6. Themis (REVIEWER) - THE QUALITY GATE
-- **Model tier**: premium
-- **Role**: Code correctness, quality, test coverage validation
-- **Use for**: Reviewing implementations before shipping
-- **Returns**: APPROVED / NEEDS_REVISION / FAILED with structured feedback
-
-### 7. Demeter (DATABASE) - THE DATABASE DEVELOPER
-- **Model tier**: default
-- **Role**: Alembic migrations, schema design, query optimization
-- **Use for**: Database changes, migrations, performance analysis
-- **Returns**: Migration files, schema changes, performance reports
-
-### 8. Prometheus (INFRA) - THE INFRASTRUCTURE DEVELOPER
-- **Model tier**: default
-- **Role**: Docker, deployment, CI/CD, monitoring
-- **Use for**: Infrastructure changes, deployment strategy, scaling
-- **Returns**: Infrastructure code, deployment procedures
-
-### 9. Talos (HOTFIX) - THE EXPRESS REPAIR
-- **Model tier**: fast
-- **Role**: Precise, fast bug fixes and minor adjustments (CSS, typos)
-- **Use for**: Bypassing the heavy orchestration phase for quick wins, executing fast repairs
-- **Returns**: Directly applied code changes and test verifications
-
-### 10. Mnemosyne (MEMORY) - THE MEMORY KEEPER
-- **Model tier**: fast
-- **Role**: Memory bank management, artifact persistence, ADR writing, sprint close
-- **Use for**: Creating PLAN/IMPL/REVIEW/DISC artifacts, project initialization, sprint documentation
-- **Returns**: Confirmation of saved artifacts, updated `docs/memory-bank/` files
-
-### 11. Hephaestus (AI TOOLING) - THE FORGE
-- **Model tier**: default
-- **Role**: RAG pipelines, LangChain/LangGraph chains, vector databases, AI workflow composition
-- **Use for**: Building RAG systems, vector search, LLM pipeline orchestration, embedding strategies
-- **Returns**: Tested AI pipelines with >80% coverage, vector store integrations
-- **Skill**: `rag-pipelines`, `mcp-server-development`
-
-### 12. Chiron (MODEL PROVIDER) - THE HUB
-- **Model tier**: default
-- **Role**: Multi-model routing, provider abstraction, AWS Bedrock, local inference (Ollama/vLLM)
-- **Use for**: Configuring model providers, fallback strategies, cost optimization, Bedrock guardrails
-- **Returns**: Configured provider layer with cost tracking and failover
-- **Skill**: `multi-model-routing`
-
-### 13. Echo (CONVERSATIONAL AI) - THE ECHO
-- **Model tier**: default
-- **Role**: NLU pipelines, dialogue management, Rasa integration, multi-turn conversation design
-- **Use for**: Chatbot architecture, intent/entity design, conversational testing, multi-platform chat
-- **Returns**: Tested NLU pipelines and dialogue flows
-- **Skill**: `conversational-ai-design`
-
-### 14. Nyx (OBSERVABILITY) - THE NIGHT WATCH
-- **Model tier**: fast
-- **Role**: OpenTelemetry tracing, token/cost tracking, LangSmith integration, agent performance analytics
-- **Use for**: Setting up monitoring, diagnosing performance issues, cost attribution, alerting
-- **Returns**: Instrumentation code, dashboards, alert configurations
-- **Skill**: `agent-observability`
+**See**: routing.yml for the full agent reference.
 
 ## Orchestration Workflow
 
@@ -450,11 +360,13 @@ This avoids the specialist re-reading files it already has context on.
 
 For long multi-step tasks where every intermediate step is unambiguous, avoid stopping after each todo. Enable continuous execution:
 
-**Enable when:**
-- User requests autonomous/batch implementation (4+ todos created)
+**Enable when (ALL conditions must be true):**
+- User **explicitly** requests: "relentless mode", "run without stopping", or invokes `relentless-mode "task"`
 - Every step has clear, unambiguous requirements
-- User explicitly requests "run without stopping"
-- Large refactors where intermediate states are not useful review points
+- The plan has already been approved at Gate 1 (Plan Approval)
+
+> ⚠️ **Never self-activate**: creating 4+ todos does NOT automatically enable this mode.
+> Only explicit user text triggers auto-continue.
 
 **Do NOT enable when:**
 - Interactive/conversational flow where user is guiding choices
@@ -524,93 +436,7 @@ Orchestrate an AI chatbot feature:
 - Deploy: Prometheus
 ```
 
-## 🎯 DELEGATION DECISION GUIDE
-
-Quick reference per specialist. Only delegate when the specialist adds clear net value — overhead matters.
-
-### Apollo (Discovery Scout)
-- **Stats**: 3–10 parallel searches, read-only, ~2x faster than doing it yourself, no side effects
-- **Delegate when:** Unknown file locations • Broad codebase sweep before planning • Root cause discovery across 3+ files • Need a pattern map before implementing
-- **Don't delegate:** Single specific file lookup (just read it) • About to edit the file immediately after • Already know the exact path
-- **Rule of thumb:** "What exists and where?" → @apollo. "I know where it is" → read it directly.
-
-### Athena (Strategic Planner)
-- **Stats**: Premium reasoning, slow but high signal, produces TDD-driven phase plans
-- **Delegate when:** Complex feature requiring 3+ implementation agents • Ambiguous requirements needing breakdown • Major architectural decision with long-term impact • High-risk refactor
-- **Don't delegate:** Simple 1–2 agent task you already understand • Already have a clear plan • Hot fix where planning overhead > doing it
-- **Rule of thumb:** "How do we build this correctly?" → @athena. Already know what to build? → delegate directly to implementers.
-
-### Hermes (Backend)
-- **Stats**: Default model, async Python specialist, TDD enforced, >80% coverage target
-- **Delegate when:** FastAPI endpoints • Service layer • Async Python I/O • Business logic • Backend tests
-- **Don't delegate:** Frontend changes • Database migrations (→ @demeter) • Infrastructure (→ @prometheus)
-- **Rule of thumb:** Python backend? → @hermes.
-
-### Aphrodite (Frontend)
-- **Stats**: Default model, React 19 + TypeScript strict, browser tools for visual verification, vitest TDD
-- **Delegate when:** React components • UI/UX polish • TypeScript frontend • Accessibility • Responsive design • Visual validation
-- **Don't delegate:** Backend API logic • Database changes • Headless/non-visual work
-- **Rule of thumb:** Users will see it and quality matters? → @aphrodite. Headless or functional? → implement directly or @hermes.
-
-### Demeter (Database)
-- **Stats**: Default model, Alembic expert, EXPLAIN ANALYZE, zero-downtime migrations, N+1 elimination
-- **Delegate when:** Alembic migrations • Schema changes • Query optimization • N+1 elimination • Index strategy • EXPLAIN ANALYZE
-- **Don't delegate:** Application-level logic • API layer • Frontend
-- **Rule of thumb:** Database schema or performance changes → @demeter.
-
-### Themis (Quality Gate)
-- **Stats**: MANDATORY after every implementation phase — not optional
-- **Delegate when:** Any implementation phase completes • Security audit needed • Coverage validation • Pre-merge review
-- **Don't delegate:** Planning stages (no code to review yet)
-- **Rule of thumb:** Code was written? → @themis before merging. No exceptions.
-
-### Prometheus (Infrastructure)
-- **Stats**: Default model, Docker multi-stage builds, health checks, zero-downtime deploy patterns
-- **Delegate when:** Docker/Compose changes • CI/CD pipelines • Health checks • Deployment strategy • ENV variable management
-- **Don't delegate:** Application code • Migrations • Frontend
-- **Rule of thumb:** Container or deployment changes → @prometheus.
-
-### Talos (Hotfix Express)
-- **Stats**: Fastest path, no TDD ceremony for trivial fixes, max 3 steps
-- **Delegate when:** CSS bugs • Typos • Single-line logic fix • Urgent bounded change < 10 lines, 1 file
-- **Don't delegate:** Multi-file refactors • Architectural changes • New features (use full orchestration)
-- **Rule of thumb:** Fix is trivial and bounded? → @talos. Anything larger → standard orchestration.
-
-### Iris (GitHub Operations)
-- **Stats**: Fast model, git + gh CLI only, never force-pushes, always opens PRs as DRAFT
-- **Delegate when:** Creating PRs • Branch management • Issues • Releases • Changelog • Git workflow
-- **Don't delegate:** Code changes (→ implementers) • Code review (→ @themis) • Deployment (→ @prometheus)
-- **Rule of thumb:** GitHub operations → @iris. Only after Themis approves.
-
-### Mnemosyne (Memory Bank)
-- **Stats**: Cheapest, fast model, simple writes — invoke sparingly
-- **Delegate when:** Explicit user request to document • Significant ADR worth preserving • Project initialization
-- **Don't delegate:** After every routine phase (creates noise) • When info already lives in git commits
-- **Rule of thumb:** "Document this architectural decision" → @mnemosyne. Routine phase summaries → stay in chat.
-
-### Hephaestus (AI Pipelines)
-- **Stats**: Default model, LangChain/LangGraph specialist, vector store integrations, >80% test coverage on pipelines
-- **Delegate when:** RAG system • Vector search • LangChain/LangGraph chains • Embedding strategy • LLM workflow orchestration
-- **Don't delegate:** Standard backend code that happens to call an LLM via a single SDK call
-- **Rule of thumb:** Building the AI pipeline itself → @hephaestus. Using an already-built pipeline → @hermes.
-
-### Chiron (Model Provider)
-- **Stats**: Default model, provider-agnostic, cost tracking, fallback chains, never hardcodes API keys
-- **Delegate when:** Provider configuration • Multi-model routing • Fallback chains • Cost attribution • AWS Bedrock integration
-- **Don't delegate:** Application code that uses a provider already configured
-- **Rule of thumb:** Configuring how AI models are accessed → @chiron.
-
-### Nyx (Observability)
-- **Stats**: Fast model, OpenTelemetry + LangSmith, structured JSON logging, cost reconciliation
-- **Delegate when:** OpenTelemetry setup • Token/cost tracking • LangSmith integration • Alerting • Performance monitoring dashboards
-- **Don't delegate:** Business logic • Frontend • Database schema
-- **Rule of thumb:** "How do we know the system is healthy and costs are under control?" → @nyx.
-
-### Echo (Conversational AI)
-- **Stats**: Default model, Rasa NLU specialist, intent/entity F1 evaluation, multi-turn dialogue design
-- **Delegate when:** NLU pipelines • Dialogue management • Rasa integration • Intent/entity design • Multi-turn conversation flows
-- **Don't delegate:** Standard REST API endpoints without conversation context
-- **Rule of thumb:** Chatbot or NLU work → @echo.
+**See**: routing.yml for delegation rules.
 
 ### Gaia (Remote Sensing)
 - **Stats**: Default model, scientific literature search (IEEE TGRS, RSE, MDPI, ISPRS), LULC agreement metrics, read-only analysis
@@ -759,23 +585,4 @@ Ready for code review?
 
 **Philosophy**: Orchestrate expertise. Conserve context. Deliver quality. Move fast.
 
-## 🤝 Handoff Routes
 
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| zeus | agora | Multi-perspective synthesis | default |
-| zeus | athena | Strategic planning | premium |
-| zeus | apollo | Codebase discovery | fast |
-| zeus | hermes | Backend implementation | default |
-| zeus | aphrodite | Frontend implementation | default |
-| zeus | demeter | Database changes | default |
-| zeus | themis | Quality & security review | premium |
-| zeus | prometheus | Infrastructure changes | default |
-| zeus | hephaestus | AI pipeline building | default |
-| zeus | chiron | Model provider config | default |
-| zeus | echo | Conversational AI design | default |
-| zeus | nyx | Observability setup | fast |
-| zeus | iris | GitHub operations | fast |
-| zeus | mnemosyne | Documentation | fast |
-| zeus | talos | Hotfix express | fast |
-| zeus | argus | Visual analysis | fast |

@@ -18,6 +18,7 @@ import re
 import argparse
 from pathlib import Path
 from datetime import datetime
+from typing import TextIO
 
 # ---------------------------------------------------------------------------
 # Real benchmark data (LMSYS Coding Arena + Artificial Analysis, May 2026)
@@ -151,9 +152,11 @@ def get_model_score(model_id: str) -> dict:
     lookup = strip_suffix(name)
 
     def find(d, key):
-        if key in d: return d[key]
+        if key in d:
+            return d[key]
         for k, v in d.items():
-            if k.startswith(key) or key.startswith(k): return v
+            if k.startswith(key) or key.startswith(k):
+                return v
         return 0
 
     elo = find(CODING_ELO, lookup)
@@ -189,10 +192,13 @@ def get_fallbacks_for_plan(model_id: str, plan_models: list[str]) -> list[str]:
 def load_plans() -> list[dict]:
     plans = []
     for f in sorted(PLANS_DIR.glob("*.json")):
-        if f.name in ("schema.json", "plan-active.json"): continue
+        if f.name in ("schema.json", "plan-active.json"):
+            continue
         try:
-            with open(f) as fh: plans.append(json.load(fh))
-        except Exception: pass
+            with open(f) as fh:
+                plans.append(json.load(fh))
+        except Exception:
+            pass
     return plans
 
 
@@ -207,244 +213,272 @@ def compute_cost(model_id: str, profile: str, calls: int = 1000) -> float:
 # Report
 # ---------------------------------------------------------------------------
 
-def generate_report(plans: list[dict], output_path: Path) -> None:
-    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+def _write_strategy_section(f: TextIO) -> None:
+    f.write("## Token-Based Pricing Strategy\n\n")
+    f.write("> We are **token-based**. Every API call costs per input + output token.\n")
+    f.write("> For coding: **deepseek-v4-flash** (SWE-bench 79%, $0.28/1M) is sufficient — 89x cheaper than Opus.\n")
+    f.write("> For reasoning: quality matters — use best available.\n")
+    f.write("> **Fallback chains use ONLY models available in the same plan** — no cross-plan mixing.\n\n")
 
-    # Collect ALL unique models across all plans
+
+def _write_global_model_universe(f: TextIO, plans: list[dict]) -> None:
     all_models_global = set()
+    model_to_plans: dict[str, list[str]] = {}
     for plan in plans:
+        plan_name = plan.get("plan", "?")
         models = plan.get("models", {})
         overrides = plan.get("agent_overrides", {})
         for m in list(models.values()) + list(overrides.values()):
             if m and isinstance(m, str):
                 all_models_global.add(m)
+                name = normalize_model_id(m)
+                if name not in model_to_plans:
+                    model_to_plans[name] = []
+                model_to_plans[name].append(plan_name)
+
+    f.write("## Global Model Universe\n\n")
+    f.write(f"All unique models across {len(plans)} plans ({len(all_models_global)} total):\n\n")
+    f.write("| Model | Coding ELO | SWE-bench | Cost ($/1M out) | Latency | Available in Plans |\n")
+    f.write("|-------|------------|-----------|-----------------|---------|-------------------|\n")
+
+    for m in sorted(all_models_global, key=lambda x: get_model_score(x)["elo"], reverse=True):
+        name = normalize_model_id(m)
+        score = get_model_score(m)
+        latency_str = f"{score['latency_ms']}ms" if score['latency_ms'] else "N/A"
+        plan_list = ", ".join(model_to_plans.get(name, []))
+        f.write(f"| `{name}` | {score['elo']} | {score['swe_bench']}% | ${score['cost_output']:.2f} | {latency_str} | {plan_list} |\n")
+
+    f.write("\n")
+
+
+def _write_tier_definitions(f: TextIO) -> None:
+    f.write("## 4-Tier Agent Classification\n\n")
+    f.write("| Tier | Purpose | Agents | Model Strategy |\n")
+    f.write("|------|---------|--------|----------------|\n")
+    f.write("| **1. Premium** | Reasoning, planning, delegation | zeus, athena, themis | Best ELO available in plan |\n")
+    f.write("| **2. Default** | Analysis, advanced tasks | gaia, hephaestus, prometheus, chiron | Balance quality + cost |\n")
+    f.write("| **3. Coding** | Day-to-day code generation | hermes, aphrodite, demeter, echo | Cost-efficient, SWE ≥ 73% |\n")
+    f.write("| **4. Fast** | Research, ops, docs, hotfixes | apollo, nyx, iris, mnemosyne, talos | Cheapest, fastest |\n\n")
+
+
+def _collect_plan_models(models: dict, overrides: dict) -> set[str]:
+    plan_models: set[str] = set()
+    for m in models.values():
+        if m and isinstance(m, str):
+            plan_models.add(m)
+    for m in overrides.values():
+        if m and isinstance(m, str):
+            plan_models.add(m)
+    return plan_models
+
+
+def _write_plan_available_models(
+    f: TextIO,
+    plan_name: str,
+    price: str,
+    plan_models: set[str],
+    models: dict,
+    overrides: dict,
+) -> None:
+    f.write(f"---\n\n### {plan_name} ({price})\n\n")
+    f.write(f"**Available models ({len(plan_models)}):**\n\n")
+    f.write("| Model | Coding ELO | SWE-bench | Cost ($/1M out) | Latency | Role |\n")
+    f.write("|-------|------------|-----------|-----------------|---------|------|\n")
+
+    for m in sorted(plan_models, key=lambda x: get_model_score(x)["elo"], reverse=True):
+        name = normalize_model_id(m)
+        score = get_model_score(m)
+        role = "tier default"
+        for tier_key, tier_model in models.items():
+            if tier_model == m:
+                role = f"{tier_key} tier"
+                break
+        for agent, agent_model in overrides.items():
+            if agent_model == m:
+                role = f"{agent} override"
+                break
+        latency_str = f"{score['latency_ms']}ms" if score['latency_ms'] else "N/A"
+        f.write(f"| `{name}` | {score['elo']} | {score['swe_bench']}% | ${score['cost_output']:.2f} | {latency_str} | {role} |\n")
+
+    f.write("\n")
+
+
+def _write_plan_fallback_chains(f: TextIO, plan_models: set[str], overrides: dict, models: dict) -> None:
+    f.write("**Agent assignments with fallback chains (per-plan only):**\n\n")
+    f.write("| Agent | Tier | Primary | Fallback 1 | Fallback 2 | Fallback 3 | Cost/1K calls |\n")
+    f.write("|-------|------|---------|------------|------------|------------|--------------|\n")
+
+    for agent in sorted(AGENT_TIERS.keys()):
+        info = AGENT_TIERS[agent]
+        model = overrides.get(agent, models.get("default" if info["tier"] == "coding" else info["tier"], ""))
+        name = normalize_model_id(model) if model else "N/A"
+        fallbacks = get_fallbacks_for_plan(model, list(plan_models)) if model else ["N/A", "N/A", "N/A"]
+        cost = compute_cost(model, info["token_profile"]) if model else 0
+        fb = fallbacks if len(fallbacks) >= 3 else fallbacks + ["N/A"] * (3 - len(fallbacks))
+        f.write(f"| {agent} | {info['tier']} | `{name}` | `{fb[0]}` | `{fb[1]}` | `{fb[2]}` | ${cost:.4f} |\n")
+
+    f.write("\n")
+
+
+def _write_plan_cost_summary(f: TextIO, overrides: dict, models: dict) -> None:
+    f.write("**Cost per 1000 feature development cycles:**\n\n")
+    f.write("| Component | Calls | Model | Cost |\n")
+    f.write("|-----------|-------|-------|------|\n")
+
+    z_model = overrides.get("zeus", models.get("premium", ""))
+    z_cost = compute_cost(z_model, "high-input", 1)
+    f.write(f"| Planning (zeus) | 1 | `{normalize_model_id(z_model)}` | ${z_cost:.2f} |\n")
+
+    coding_models = [
+        ("hermes", overrides.get("hermes", models.get("default", "")), "medium-output"),
+        ("aphrodite", overrides.get("aphrodite", models.get("default", "")), "high-output"),
+        ("demeter", overrides.get("demeter", models.get("default", "")), "medium-output"),
+    ]
+    for label, cm, profile in coding_models:
+        c_cost = compute_cost(cm, profile, 1)
+        f.write(f"| Coding ({label}) | 1 | `{normalize_model_id(cm)}` | ${c_cost:.2f} |\n")
+
+    t_model = overrides.get("themis", models.get("premium", ""))
+    t_cost = compute_cost(t_model, "high-input", 2)
+    f.write(f"| Review (themis) | 2 | `{normalize_model_id(t_model)}` | ${t_cost:.2f} |\n")
+
+    fast_model = models.get("fast", "")
+    f_cost = compute_cost(fast_model, "many-calls", 5)
+    f.write(f"| Fast (apollo×5) | 5 | `{normalize_model_id(fast_model)}` | ${f_cost:.2f} |\n")
+
+    total = z_cost + sum(compute_cost(cm, p, 1) for _, cm, p in coding_models) + t_cost + f_cost
+    f.write(f"| **TOTAL** | | | **${total:.2f}** |\n")
+    f.write("\n")
+
+
+def _write_plan_assessment(f: TextIO, models: dict, plan_models: set[str]) -> None:
+    premium = models.get("premium", "")
+    default = models.get("default", "")
+    fast = models.get("fast", "")
+
+    p_score = get_model_score(premium) if premium else {}
+    d_score = get_model_score(default) if default else {}
+    f_score = get_model_score(fast) if fast else {}
+
+    f.write("**Assessment:**\n\n")
+
+    f.write(f"- **Tier 1 (Premium):** `{normalize_model_id(premium)}` — ")
+    if p_score.get("elo", 0) >= 1500:
+        f.write(f"Excellent (ELO {p_score['elo']}). Top-tier reasoning.\n")
+    elif p_score.get("elo", 0) >= 1430:
+        f.write(f"Strong (ELO {p_score['elo']}). Good for planning and review.\n")
+    else:
+        f.write(f"Moderate (ELO {p_score['elo']}). May struggle with complex orchestration.\n")
+
+    f.write(f"- **Tier 2 (Default):** `{normalize_model_id(default)}` — ")
+    if d_score.get("swe_bench", 0) >= 78:
+        f.write(f"Excellent (SWE-bench {d_score['swe_bench']}%). Strong for analysis.\n")
+    elif d_score.get("swe_bench", 0) >= 73:
+        f.write(f"Good (SWE-bench {d_score['swe_bench']}%). Suitable for most work.\n")
+    else:
+        f.write(f"Moderate (SWE-bench {d_score['swe_bench']}%). Consider override.\n")
+
+    _write_tier3_assessment(f, d_score, plan_models)
+    _write_tier4_assessment(f, fast, f_score)
+
+    f.write("\n")
+
+
+def _write_tier3_assessment(f: TextIO, d_score: dict, plan_models: set[str]) -> None:
+    f.write("- **Tier 3 (Coding):** uses default — ")
+    if d_score.get("swe_bench", 0) >= 78:
+        f.write(f"Excellent (SWE-bench {d_score['swe_bench']}%). But expensive at ${d_score['cost_output']:.2f}/1M.\n")
+        cheapest = min(plan_models, key=lambda m: get_model_score(m)["cost_output"])
+        c_score = get_model_score(cheapest)
+        f.write(f"  💡 **Recommendation:** Override coding agents to `{normalize_model_id(cheapest)}` (SWE {c_score['swe_bench']}%, ${c_score['cost_output']:.2f}/1M).\n")
+    elif d_score.get("swe_bench", 0) >= 73:
+        f.write(f"Good (SWE-bench {d_score['swe_bench']}%). Cost: ${d_score['cost_output']:.2f}/1M.\n")
+        cheapest = min(plan_models, key=lambda m: get_model_score(m)["cost_output"])
+        c_score = get_model_score(cheapest)
+        if c_score["cost_output"] < d_score["cost_output"] * 0.5:
+            f.write(f"  💡 **Recommendation:** Override coding agents to `{normalize_model_id(cheapest)}` for better cost (${c_score['cost_output']:.2f}/1M).\n")
+    else:
+        f.write(f"Below optimal (SWE-bench {d_score['swe_bench']}).\n")
+
+
+def _write_tier4_assessment(f: TextIO, fast: str, f_score: dict) -> None:
+    f.write(f"- **Tier 4 (Fast):** `{normalize_model_id(fast)}` — ")
+    if f_score.get("latency_ms", 9999) <= 400:
+        f.write(f"Fast ({f_score['latency_ms']}ms). Good for research/ops.\n")
+    elif f_score.get("latency_ms", 9999) <= 700:
+        f.write(f"Moderate ({f_score['latency_ms']}ms). Acceptable.\n")
+    else:
+        f.write(f"Slow ({f_score['latency_ms']}ms). Consider faster.\n")
+
+
+def _write_per_plan_detail(f: TextIO, plans: list[dict]) -> None:
+    f.write("## Per-Plan Deep Analysis\n\n")
+
+    for plan in plans:
+        models = plan.get("models", {})
+        overrides = plan.get("agent_overrides", {})
+        plan_models = _collect_plan_models(models, overrides)
+
+        _write_plan_available_models(f, plan.get("plan", "?"), plan.get("price", "?"), plan_models, models, overrides)
+        _write_plan_fallback_chains(f, plan_models, overrides, models)
+        _write_plan_cost_summary(f, overrides, models)
+        _write_plan_assessment(f, models, plan_models)
+
+
+def _write_plan_comparison_summary(f: TextIO, plans: list[dict]) -> None:
+    f.write("## Plan Comparison Summary\n\n")
+    f.write("| Plan | Price | Premium (ELO) | Default (SWE) | Fast (latency) | Total/1K cycles |\n")
+    f.write("|------|-------|---------------|---------------|----------------|----------------|\n")
+
+    for plan in plans:
+        plan_name = plan.get("plan", "?")
+        price = plan.get("price", "?")
+        models = plan.get("models", {})
+        overrides = plan.get("agent_overrides", {})
+
+        p = models.get("premium", "")
+        d = models.get("default", "")
+        fa = models.get("fast", "")
+        p_score = get_model_score(p) if p else {}
+        d_score = get_model_score(d) if d else {}
+        f_score = get_model_score(fa) if fa else {}
+
+        z_model = overrides.get("zeus", models.get("premium", ""))
+        z_cost = compute_cost(z_model, "high-input", 1)
+        coding_models = [
+            overrides.get("hermes", models.get("default", "")),
+            overrides.get("aphrodite", models.get("default", "")),
+            overrides.get("demeter", models.get("default", "")),
+        ]
+        c_cost = sum(compute_cost(cm, "high-output" if cm == coding_models[1] else "medium-output", 1) for cm in coding_models)
+        t_model = overrides.get("themis", models.get("premium", ""))
+        t_cost = compute_cost(t_model, "high-input", 2)
+        f_cost = compute_cost(fa, "many-calls", 5)
+        total = z_cost + c_cost + t_cost + f_cost
+
+        f.write(f"| {plan_name} | {price} | {normalize_model_id(p)} ({p_score.get('elo', '?')}) | {normalize_model_id(d)} ({d_score.get('swe_bench', '?')}%) | {normalize_model_id(fa)} ({f_score.get('latency_ms', '?')}ms) | **${total:.2f}** |\n")
+
+    f.write("\n")
+
+
+def generate_report(plans: list[dict], output_path: Path) -> None:
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     with open(output_path, "w") as f:
-        f.write(f"# Pantheon Model Routing — Deep Analysis with Per-Plan Fallback Chains\n\n")
+        f.write("# Pantheon Model Routing — Deep Analysis with Per-Plan Fallback Chains\n\n")
         f.write(f"**Generated:** {now}\n")
         f.write(f"**Plans analyzed:** {len(plans)}\n")
         f.write(f"**Agents:** {len(AGENT_TIERS)} (4 tiers)\n")
-        f.write(f"**Data:** LMSYS Arena Coding, SWE-bench Verified, Artificial Analysis (May 2026)\n\n")
+        f.write("**Data:** LMSYS Arena Coding, SWE-bench Verified, Artificial Analysis (May 2026)\n\n")
 
-        # ── Strategy ──
-        f.write("## Token-Based Pricing Strategy\n\n")
-        f.write("> We are **token-based**. Every API call costs per input + output token.\n")
-        f.write("> For coding: **deepseek-v4-flash** (SWE-bench 79%, $0.28/1M) is sufficient — 89x cheaper than Opus.\n")
-        f.write("> For reasoning: quality matters — use best available.\n")
-        f.write("> **Fallback chains use ONLY models available in the same plan** — no cross-plan mixing.\n\n")
+        _write_strategy_section(f)
+        _write_global_model_universe(f, plans)
+        _write_tier_definitions(f)
+        _write_per_plan_detail(f, plans)
+        _write_plan_comparison_summary(f)
 
-        # ── Global model universe ──
-        f.write("## Global Model Universe\n\n")
-        f.write(f"All unique models across {len(plans)} plans ({len(all_models_global)} total):\n\n")
-        f.write("| Model | Coding ELO | SWE-bench | Cost ($/1M out) | Latency | Available in Plans |\n")
-        f.write("|-------|------------|-----------|-----------------|---------|-------------------|\n")
-
-        # Map model → plans
-        model_to_plans = {}
-        for plan in plans:
-            plan_name = plan.get("plan", "?")
-            models = plan.get("models", {})
-            overrides = plan.get("agent_overrides", {})
-            for m in list(models.values()) + list(overrides.values()):
-                if m and isinstance(m, str):
-                    name = normalize_model_id(m)
-                    if name not in model_to_plans:
-                        model_to_plans[name] = []
-                    model_to_plans[name].append(plan_name)
-
-        for m in sorted(all_models_global, key=lambda x: get_model_score(x)["elo"], reverse=True):
-            name = normalize_model_id(m)
-            score = get_model_score(m)
-            latency_str = f"{score['latency_ms']}ms" if score['latency_ms'] else "N/A"
-            plan_list = ", ".join(model_to_plans.get(name, []))
-            f.write(f"| `{name}` | {score['elo']} | {score['swe_bench']}% | ${score['cost_output']:.2f} | {latency_str} | {plan_list} |\n")
-
-        f.write("\n")
-
-        # ── Tier definitions ──
-        f.write("## 4-Tier Agent Classification\n\n")
-        f.write("| Tier | Purpose | Agents | Model Strategy |\n")
-        f.write("|------|---------|--------|----------------|\n")
-        f.write("| **1. Premium** | Reasoning, planning, delegation | zeus, athena, themis | Best ELO available in plan |\n")
-        f.write("| **2. Default** | Analysis, advanced tasks | gaia, hephaestus, prometheus, chiron | Balance quality + cost |\n")
-        f.write("| **3. Coding** | Day-to-day code generation | hermes, aphrodite, demeter, echo | Cost-efficient, SWE ≥ 73% |\n")
-        f.write("| **4. Fast** | Research, ops, docs, hotfixes | apollo, nyx, iris, mnemosyne, talos | Cheapest, fastest |\n\n")
-
-        # ── Per-Plan Deep Analysis ──
-        f.write("## Per-Plan Deep Analysis\n\n")
-
-        for plan in plans:
-            plan_name = plan.get("plan", "?")
-            price = plan.get("price", "?")
-            models = plan.get("models", {})
-            overrides = plan.get("agent_overrides", {})
-
-            # Collect all models in THIS plan only
-            plan_models = set()
-            for m in models.values():
-                if m and isinstance(m, str): plan_models.add(m)
-            for m in overrides.values():
-                if m and isinstance(m, str): plan_models.add(m)
-
-            f.write(f"---\n\n### {plan_name} ({price})\n\n")
-
-            f.write(f"**Available models ({len(plan_models)}):**\n\n")
-            f.write("| Model | Coding ELO | SWE-bench | Cost ($/1M out) | Latency | Role |\n")
-            f.write("|-------|------------|-----------|-----------------|---------|------|\n")
-            for m in sorted(plan_models, key=lambda x: get_model_score(x)["elo"], reverse=True):
-                name = normalize_model_id(m)
-                score = get_model_score(m)
-                role = "tier default"
-                for tier_key, tier_model in models.items():
-                    if tier_model == m:
-                        role = f"{tier_key} tier"
-                        break
-                for agent, agent_model in overrides.items():
-                    if agent_model == m:
-                        role = f"{agent} override"
-                        break
-                latency_str = f"{score['latency_ms']}ms" if score['latency_ms'] else "N/A"
-                f.write(f"| `{name}` | {score['elo']} | {score['swe_bench']}% | ${score['cost_output']:.2f} | {latency_str} | {role} |\n")
-
-            f.write("\n")
-
-            # Agent-by-agent assignment with fallbacks (ONLY from this plan)
-            f.write("**Agent assignments with fallback chains (per-plan only):**\n\n")
-            f.write("| Agent | Tier | Primary | Fallback 1 | Fallback 2 | Fallback 3 | Cost/1K calls |\n")
-            f.write("|-------|------|---------|------------|------------|------------|--------------|\n")
-
-            for agent in sorted(AGENT_TIERS.keys()):
-                info = AGENT_TIERS[agent]
-                model = overrides.get(agent, models.get("default" if info["tier"] == "coding" else info["tier"], ""))
-                name = normalize_model_id(model) if model else "N/A"
-                fallbacks = get_fallbacks_for_plan(model, list(plan_models)) if model else ["N/A", "N/A", "N/A"]
-                cost = compute_cost(model, info["token_profile"]) if model else 0
-                fb = fallbacks if len(fallbacks) >= 3 else fallbacks + ["N/A"] * (3 - len(fallbacks))
-                f.write(f"| {agent} | {info['tier']} | `{name}` | `{fb[0]}` | `{fb[1]}` | `{fb[2]}` | ${cost:.4f} |\n")
-
-            f.write("\n")
-
-            # Cost summary
-            f.write("**Cost per 1000 feature development cycles:**\n\n")
-            f.write("| Component | Calls | Model | Cost |\n")
-            f.write("|-----------|-------|-------|------|\n")
-
-            z_model = overrides.get("zeus", models.get("premium", ""))
-            z_cost = compute_cost(z_model, "high-input", 1)
-            f.write(f"| Planning (zeus) | 1 | `{normalize_model_id(z_model)}` | ${z_cost:.2f} |\n")
-
-            coding_models = [
-                ("hermes", overrides.get("hermes", models.get("default", "")), "medium-output"),
-                ("aphrodite", overrides.get("aphrodite", models.get("default", "")), "high-output"),
-                ("demeter", overrides.get("demeter", models.get("default", "")), "medium-output"),
-            ]
-            for label, cm, profile in coding_models:
-                c_cost = compute_cost(cm, profile, 1)
-                f.write(f"| Coding ({label}) | 1 | `{normalize_model_id(cm)}` | ${c_cost:.2f} |\n")
-
-            t_model = overrides.get("themis", models.get("premium", ""))
-            t_cost = compute_cost(t_model, "high-input", 2)
-            f.write(f"| Review (themis) | 2 | `{normalize_model_id(t_model)}` | ${t_cost:.2f} |\n")
-
-            fast_model = models.get("fast", "")
-            f_cost = compute_cost(fast_model, "many-calls", 5)
-            f.write(f"| Fast (apollo×5) | 5 | `{normalize_model_id(fast_model)}` | ${f_cost:.2f} |\n")
-
-            total = z_cost + sum(compute_cost(cm, p, 1) for _, cm, p in coding_models) + t_cost + f_cost
-            f.write(f"| **TOTAL** | | | **${total:.2f}** |\n")
-
-            f.write("\n")
-
-            # Assessment
-            f.write("**Assessment:**\n\n")
-            premium = models.get("premium", "")
-            default = models.get("default", "")
-            fast = models.get("fast", "")
-
-            p_score = get_model_score(premium) if premium else {}
-            d_score = get_model_score(default) if default else {}
-            f_score = get_model_score(fast) if fast else {}
-
-            f.write(f"- **Tier 1 (Premium):** `{normalize_model_id(premium)}` — ")
-            if p_score.get("elo", 0) >= 1500:
-                f.write(f"Excellent (ELO {p_score['elo']}). Top-tier reasoning.\n")
-            elif p_score.get("elo", 0) >= 1430:
-                f.write(f"Strong (ELO {p_score['elo']}). Good for planning and review.\n")
-            else:
-                f.write(f"Moderate (ELO {p_score['elo']}). May struggle with complex orchestration.\n")
-
-            f.write(f"- **Tier 2 (Default):** `{normalize_model_id(default)}` — ")
-            if d_score.get("swe_bench", 0) >= 78:
-                f.write(f"Excellent (SWE-bench {d_score['swe_bench']}%). Strong for analysis.\n")
-            elif d_score.get("swe_bench", 0) >= 73:
-                f.write(f"Good (SWE-bench {d_score['swe_bench']}%). Suitable for most work.\n")
-            else:
-                f.write(f"Moderate (SWE-bench {d_score['swe_bench']}%). Consider override.\n")
-
-            f.write(f"- **Tier 3 (Coding):** uses default — ")
-            if d_score.get("swe_bench", 0) >= 78:
-                f.write(f"Excellent (SWE-bench {d_score['swe_bench']}%). But expensive at ${d_score['cost_output']:.2f}/1M.\n")
-                # Find cheapest model in this plan for coding fallback
-                cheapest = min(plan_models, key=lambda m: get_model_score(m)["cost_output"])
-                c_score = get_model_score(cheapest)
-                f.write(f"  💡 **Recommendation:** Override coding agents to `{normalize_model_id(cheapest)}` (SWE {c_score['swe_bench']}%, ${c_score['cost_output']:.2f}/1M).\n")
-            elif d_score.get("swe_bench", 0) >= 73:
-                f.write(f"Good (SWE-bench {d_score['swe_bench']}%). Cost: ${d_score['cost_output']:.2f}/1M.\n")
-                cheapest = min(plan_models, key=lambda m: get_model_score(m)["cost_output"])
-                c_score = get_model_score(cheapest)
-                if c_score["cost_output"] < d_score["cost_output"] * 0.5:
-                    f.write(f"  💡 **Recommendation:** Override coding agents to `{normalize_model_id(cheapest)}` for better cost (${c_score['cost_output']:.2f}/1M).\n")
-            else:
-                f.write(f"Below optimal (SWE-bench {d_score['swe_bench']}).\n")
-
-            f.write(f"- **Tier 4 (Fast):** `{normalize_model_id(fast)}` — ")
-            if f_score.get("latency_ms", 9999) <= 400:
-                f.write(f"Fast ({f_score['latency_ms']}ms). Good for research/ops.\n")
-            elif f_score.get("latency_ms", 9999) <= 700:
-                f.write(f"Moderate ({f_score['latency_ms']}ms). Acceptable.\n")
-            else:
-                f.write(f"Slow ({f_score['latency_ms']}ms). Consider faster.\n")
-
-            f.write("\n")
-
-        # ── Summary Comparison ──
-        f.write("## Plan Comparison Summary\n\n")
-        f.write("| Plan | Price | Premium (ELO) | Default (SWE) | Fast (latency) | Total/1K cycles |\n")
-        f.write("|------|-------|---------------|---------------|----------------|----------------|\n")
-
-        for plan in plans:
-            plan_name = plan.get("plan", "?")
-            price = plan.get("price", "?")
-            models = plan.get("models", {})
-            overrides = plan.get("agent_overrides", {})
-
-            p = models.get("premium", "")
-            d = models.get("default", "")
-            fa = models.get("fast", "")
-            p_score = get_model_score(p) if p else {}
-            d_score = get_model_score(d) if d else {}
-            f_score = get_model_score(fa) if fa else {}
-
-            # Calculate total
-            z_model = overrides.get("zeus", models.get("premium", ""))
-            z_cost = compute_cost(z_model, "high-input", 1)
-            coding_models = [
-                overrides.get("hermes", models.get("default", "")),
-                overrides.get("aphrodite", models.get("default", "")),
-                overrides.get("demeter", models.get("default", "")),
-            ]
-            c_cost = sum(compute_cost(cm, "high-output" if cm == coding_models[1] else "medium-output", 1) for cm in coding_models)
-            t_model = overrides.get("themis", models.get("premium", ""))
-            t_cost = compute_cost(t_model, "high-input", 2)
-            f_cost = compute_cost(fa, "many-calls", 5)
-            total = z_cost + c_cost + t_cost + f_cost
-
-            f.write(f"| {plan_name} | {price} | {normalize_model_id(p)} ({p_score.get('elo', '?')}) | {normalize_model_id(d)} ({d_score.get('swe_bench', '?')}%) | {normalize_model_id(fa)} ({f_score.get('latency_ms', '?')}ms) | **${total:.2f}** |\n")
-
-        f.write("\n")
-
-        f.write(f"*Generated by Pantheon Model Routing Deep Analysis*\n")
-        f.write(f"*Fallback chains use ONLY models available in each plan — no cross-plan mixing*\n")
+        f.write("*Generated by Pantheon Model Routing Deep Analysis*\n")
+        f.write("*Fallback chains use ONLY models available in each plan — no cross-plan mixing*\n")
 
     print(f"📄 Report saved to: {output_path}")
 
@@ -460,7 +494,7 @@ def main():
 
     output_path = Path(args.output)
     generate_report(plans, output_path)
-    print(f"\n✅ Analysis complete!")
+    print("\n✅ Analysis complete!")
 
 
 if __name__ == "__main__":

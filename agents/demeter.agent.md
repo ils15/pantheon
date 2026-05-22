@@ -22,7 +22,6 @@ handoffs:
     agent: themis
     prompt: "Please perform a code review and security audit on these database/migration changes."
     send: true
-    model: premium
 user-invocable: true
 temperature: 0.2
 steps: 20
@@ -30,6 +29,7 @@ skills:
   - database-migration
   - database-optimization
   - cache-strategy
+  - simplify
 ---
 
 # Demeter - Database Specialist
@@ -320,11 +320,4 @@ If your internal monologue suggests ANY of these, STOP and correct:
 ---
 
 **Philosophy**: Clean schema design, safe migrations, optimal performance, zero data loss.
-
-## 🤝 Handoff Routes
-
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| demeter | apollo | Pattern discovery | fast |
-| demeter | themis | Migration review | premium |
 

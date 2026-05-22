@@ -9,6 +9,8 @@ tools:
   grep: true
   glob: true
   list: true
+  read: true
+  webfetch: true
 skills:
   - interview
   - codemap
@@ -19,12 +21,10 @@ handoffs:
     agent: themis
     prompt: Validate this implementation plan for completeness, risk coverage, and test strategy before execution.
     send: false
-    model: premium
   - label: Implement Plan
     agent: zeus
     prompt: Implement the plan outlined above following TDD methodology.
     send: false
-    model: premium
 agents:
   - apollo
   - hermes
@@ -40,7 +40,7 @@ permission:
   edit: deny
   bash: deny
 temperature: 0.1
-steps: 20
+steps: 15
 ---
 
 # Athena - Strategic Planner
@@ -181,10 +181,5 @@ For external docs/specs, use `web/fetch` (see `internet-search` skill for patter
 - RFCs, official documentation, GitHub issues/PRs
 - Synthesize findings into plan recommendations
 
-## 🤝 Handoff Routes
 
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| athena | themis | Validate Plan | premium |
-| athena | zeus | Implement Plan | premium |
 

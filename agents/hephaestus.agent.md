@@ -25,12 +25,10 @@ handoffs:
     agent: themis
     prompt: "Review this AI pipeline for correctness, security (prompt injection, data exfiltration), and performance."
     send: false
-    model: premium
   - label: "📊 Deploy Pipeline"
     agent: prometheus
     prompt: "Deploy this AI pipeline — consider GPU requirements, model volume mounts, and inference health checks."
     send: false
-    model: default
 user-invocable: true
 temperature: 0.3
 steps: 25
@@ -122,10 +120,4 @@ You are the **AI TOOLING SPECIALIST** (Hephaestus) for the multi-agent system. Y
 : Design multi-model routing with cost optimization
 ```
 
-## 🤝 Handoff Routes
 
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| hephaestus | apollo | Pipeline discovery | fast |
-| hephaestus | themis | Pipeline review | premium |
-| hephaestus | prometheus | Deploy pipeline | default |

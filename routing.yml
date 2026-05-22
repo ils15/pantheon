@@ -26,7 +26,6 @@ agents:
       - phase_management
       - quality_gate_enforcement
     subagent_can_delegate_to:
-      - agora
       - athena
       - apollo
       - hermes
@@ -49,16 +48,30 @@ agents:
       - artifact-management
 
   agora:
-    role: "Multi-perspective synthesis engine — analyzes questions from 3-5 domain perspectives internally, produces decisive recommendation with confidence level"
+    role: "Council synthesis engine — dispatches questions to 3-5 specialist agents in parallel via task(), synthesizes agreements & divergences into a decisive recommendation with confidence level"
     model_tier: premium
     user_invocable: true
-    can_delegate: false
+    can_delegate: true
     can_receive_delegation: true
     capabilities:
       - multi_perspective_analysis
+      - parallel_agent_dispatch
       - synthesis
       - trade_off_resolution
       - architecture_decision
+      - council_consensus
+    subagent_can_delegate_to:
+      - athena
+      - hermes
+      - aphrodite
+      - demeter
+      - prometheus
+      - themis
+      - hephaestus
+      - chiron
+      - nyx
+      - apollo
+      - mnemosyne
     skills: []
 
   athena:
@@ -362,6 +375,7 @@ agents:
 delegation:
   # --- ZEUS (primary orchestrator) ---
   zeus:
+    # Agora: multi-perspective synthesis for trade-offs and architecture decisions
     - target: agora
       when:
         - trade_off_question
@@ -372,8 +386,8 @@ delegation:
         - cost_vs_quality
       model_tier: premium
       parallel: false
-      prompt_hint: "This question requires multiple expert perspectives. Activate agora mode: dispatch this question to 3-5 relevant specialist agents in parallel, compare their responses, and synthesize a single recommendation with agreements, divergences, and confidence level."
-      pre_condition: "Agora should be used for ANY question needing multiple perspectives — auto-detect from user query patterns"
+      prompt_hint: "This question requires multiple expert perspectives. Dispatch this question to 3-5 relevant specialist agents in parallel via task(), compare their responses, and synthesize a single recommendation with agreements, divergences, and confidence level."
+      pre_condition: "Use agora for ANY question needing multiple perspectives across domain boundaries"
 
     - target: athena
       when:
@@ -789,11 +803,11 @@ handoffs:
   # --- ZEUS HANDOFFS ---
   zeus:
     agora_decision:
-      label: "🏛️ Agora Decision"
+      label: "🏛️ Agora Council"
       description: "Multi-perspective synthesis for trade-offs, architecture decisions, and security assessments"
       agent: agora
       model_tier: premium
-      prompt: "This question requires multiple expert perspectives. Activate agora mode: dispatch this question to 3-5 relevant specialist agents in parallel, compare their responses, and synthesize a single recommendation with agreements, divergences, and confidence level."
+      prompt: "This question requires multiple expert perspectives. Dispatch to 3-5 relevant specialist agents in parallel via task(), compare their responses, and synthesize a single recommendation with agreements, divergences, and confidence level."
 
     plan_feature:
       label: "📋 Plan Feature"
@@ -1188,7 +1202,6 @@ artifacts:
     location: "docs/memory-bank/.tmp/"
     ephemeral: true
     produced_by:
-      - agora
       - apollo
     persistence: "Deleted on sprint close (@mnemosyne Close sprint)"
     gate: "Human approval after reading synthesis"
@@ -1219,12 +1232,23 @@ routing_matrix:
     model_tier: fast
 
   - category: "Architecture decisions"
-    primary_agent: agora
+    primary_agent: zeus
     model_tier: premium
 
   - category: "Multi-perspective analysis"
-    primary_agent: agora
+    primary_agent: zeus
     model_tier: premium
+
+  - category: "System configuration (agent files, routing.yml, commands)"
+    primary_agent: talos
+    parallel_with: []
+    model_tier: fast
+    notes: "Small changes (1-2 files, <10 lines) → talos. Medium changes (multi-file, structured) → hermes."
+
+  - category: "Codebase exploration"
+    primary_agent: apollo
+    parallel_with: []
+    model_tier: fast
 
   # Implementation
   - category: "Backend / API"

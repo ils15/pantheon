@@ -2,7 +2,7 @@
 name: hermes
 description: "Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection via dep-audit/pip-audit. Calls apollo as nested subagent to discover patterns. Sends work to themis for review."
 # mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
-mode: primary
+mode: subagent
 tools:
     - agent
     - search/codebase
@@ -18,7 +18,7 @@ permission:
   edit: allow
   bash: allow
 handoffs:
-    - { label: "Send to Themis", agent: themis, prompt: "Please perform a code review and security audit on these backend changes according to your instructions.", send: true, model: premium }
+    - { label: "Send to Themis", agent: themis, prompt: "Please perform a code review and security audit on these backend changes according to your instructions.", send: true }
 agents: ['apollo']
 globs:
   - "**/*.py"
@@ -27,12 +27,14 @@ globs:
 skills:
   - api-design-patterns
   - fastapi-async-patterns
+  - simplify
   - tdd-with-agents
+  - test-architecture
   - database-optimization
   - cache-strategy
 user-invocable: true
 temperature: 0.3
-steps: 30
+steps: 20
 ---
 
 # Hermes - Backend Executor (FastAPI Specialist)
@@ -253,11 +255,4 @@ When completing a task, provide:
 ---
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
-
-## 🤝 Handoff Routes
-
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| hermes | apollo | Codebase discovery | fast |
-| hermes | themis | Code review | premium |
 

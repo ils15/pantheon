@@ -22,7 +22,13 @@ BEFORE-AFTER-*.md
 # Scripts (caminhos absolutos, não versionados)
 sync-*.sh
 !sync-opencode.sh
+!sync-claude.sh
+!sync-cursor.sh
+!sync-windsurf.sh
+!sync-continue.sh
+!sync-cline.sh
 validate-*.sh
+!scripts/hooks/validate-talos-scope.sh
 copilot-instructions.md
 instructions/DOCUMENTATION-STRUCTURE.md
 agents/coupon.agent.md
@@ -65,3 +71,4 @@ site/
 
 # Local routing tests (not committed)
 .tests/
+test-results/
