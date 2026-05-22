@@ -7,6 +7,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   # Matrix job: runs adapter conformance tests for all 6 platforms in parallel
   conformance:
