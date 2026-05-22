@@ -19,7 +19,6 @@
       "disable-model-invocation",
       "permission",
       "hooks",
-      "mcpServers",
       "temperature",
       "steps",
       "globs",

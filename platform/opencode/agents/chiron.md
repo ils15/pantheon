@@ -19,16 +19,15 @@ handoffs:
     agent: themis
     prompt: Review this model provider configuration for security (API key handling), cost efficiency, and reliability.
     send: false
-    model: premium
   - label: ⚙️ Deploy Provider Infra
     agent: prometheus
     prompt: Deploy the model provider infrastructure — containerize inference services, configure GPU support, and set up health checks.
     send: false
-    model: default
 agents:
   - apollo
 user-invocable: true
 permission:
+  edit: allow
   bash: allow
 temperature: 0.2
 steps: 20
@@ -116,10 +115,4 @@ You are the **MODEL PROVIDER SPECIALIST** (Chiron, the wise centaur who trained 
 : Implement token usage tracking across all agents
 ```
 
-## 🤝 Handoff Routes
 
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| chiron | apollo | Provider discovery | fast |
-| chiron | themis | Config review | premium |
-| chiron | prometheus | Deploy provider infra | default |

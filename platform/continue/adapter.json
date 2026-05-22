@@ -20,8 +20,7 @@
       "argument-hint",
       "user-invocable",
       "mode",
-      "hooks",
-      "mcpServers"
+      "hooks"
     ],
     "transform": {
       "tools": {

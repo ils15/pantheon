@@ -34,25 +34,26 @@
 
 ---
 
-## v3.5.0 — Documentation & Skills (Next)
+## v3.5.0 — Documentation & Skills
 
 **Focus areas:** Documentation consolidation, skill gap closure, developer experience.
 
-### Planned
+### Delivered
+
+| Area | What | Status |
+|------|------|--------|
+| **docs/ARCHITECTURE.md** | Architecture rationale doc (Conductor-Delegate, Canonical→Adapter→Sync, DAG Waves, Memory, Platform Adapters) | ✅ Delivered |
+| **ROADMAP.md** | This file — version history, upcoming themes, contribution guide | ✅ Delivered |
+| **`plan-architecture` skill** | Feature architecture planning with component breakdown and data flow mapping | ✅ Delivered |
+
+### Future / Not Yet Delivered
 
 | Area | What | Status |
 |------|------|--------|
 | **Documentation consolidation** | Merge SETUP into INSTALLATION, split README/AGENTS, add tutorial and troubleshooting | 🔜 Planned |
-| **docs/ARCHITECTURE.md** | Architecture rationale doc (Conductor-Delegate, Canonical→Adapter→Sync, DAG Waves, Memory, Platform Adapters) | ✅ Delivered |
-| **ROADMAP.md** | This file — version history, upcoming themes, contribution guide | ✅ Delivered |
 | **docs/UPGRADING.md** | Migration guide between major versions (v3.3.x → v3.4.0) | 🔜 Planned |
-| **`plan-architecture` skill** | Feature architecture planning with component breakdown and data flow mapping | ✅ Complete |
 | **Platform setup polish** | Verify all 7 platform guides are current and consistent | 🔜 Planned |
 | **Tutorial** | "Build your first feature with Pantheon" walkthrough | 🔜 Proposed |
-
-### How to prioritize
-
-Open an issue or PR tagged `roadmap-v3.5.0` if you need something here that isn't listed.
 
 ---
 

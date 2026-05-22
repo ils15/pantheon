@@ -169,159 +169,170 @@ def compute_value_score(elo: int, cost_output: float) -> float:
 
 
 # ---------------------------------------------------------------------------
-# Report generation
+# Report generation helpers
 # ---------------------------------------------------------------------------
 
-def generate_report(plans_data: list[tuple[str, dict]], output_path: Path) -> None:
-    now = datetime.now().strftime("%Y-%m-%d %H:%M")
 
-    # Collect all unique models across plans
-    all_models = {}  # model_id → {plans: [], score: {}}
+def _collect_models(plans_data: list[tuple[str, dict]]) -> dict:
+    """Collect all unique models across plans with their scores and plan membership."""
+    all_models = {}
     for plan_name, plan in plans_data:
         models = extract_models(plan)
         for m in models:
             if m not in all_models:
                 all_models[m] = {"plans": [], "score": get_model_score(m)}
             all_models[m]["plans"].append(plan_name)
+    return all_models
 
-    # Sort by ELO descending
+
+def _write_report_header(f, now: str, plans_data: list[tuple[str, dict]]) -> None:
+    f.write("# Pantheon Model Benchmark — Plan Comparison\n\n")
+    f.write(f"**Generated:** {now}\n")
+    f.write(f"**Plans compared:** {', '.join(p[0] for p in plans_data)}\n")
+    f.write("**Data sources:** LMSYS Arena Coding, Artificial Analysis, HuggingFace LLM Perf\n\n")
+
+
+def _write_plan_overview(f, plans_data: list[tuple[str, dict]]) -> None:
+    f.write("## Plan Overview\n\n")
+    f.write("| Plan | Service | Tier | Price | Models |\n")
+    f.write("|------|---------|------|-------|--------|\n")
+    for plan_name, plan in plans_data:
+        models = extract_models(plan)
+        f.write(f"| {plan_name} | {plan.get('service', '?')} | {plan.get('tier', '?')} | {plan.get('price', '?')} | {len(models)} |\n")
+    f.write("\n")
+
+
+def _write_model_comparison(f, sorted_models: list) -> None:
+    f.write("## Model Comparison (Coding Arena)\n\n")
+    f.write("| Model | Plans | Coding ELO | Latency | Throughput | Cost ($/1M out) | Value Score |\n")
+    f.write("|-------|-------|------------|---------|------------|-----------------|-------------|\n")
+
+    for model_id, data in sorted_models:
+        name = normalize_model_id(model_id)
+        score = data["score"]
+        plans = ", ".join(data["plans"])
+        value = compute_value_score(score["elo"], score["cost_output"])
+        latency_str = f"{score['latency_ms']}ms" if score['latency_ms'] else "N/A"
+        tp_str = f"{score['throughput_tps']} tok/s" if score['throughput_tps'] else "N/A"
+        cost_str = f"${score['cost_output']:.2f}"
+        f.write(f"| `{name}` | {plans} | {score['elo']} | {latency_str} | {tp_str} | {cost_str} | {value:.0f} |\n")
+
+    f.write("\n")
+
+
+def _write_per_plan_analysis(f, plans_data: list[tuple[str, dict]]) -> None:
+    f.write("## Per-Plan Analysis\n\n")
+    for plan_name, plan in plans_data:
+        f.write(f"### {plan_name} ({plan.get('price', '?')})\n\n")
+        tier_models = plan.get("models", {})
+        overrides = plan.get("agent_overrides", {})
+
+        f.write("**Tier defaults:**\n\n")
+        f.write("| Tier | Model | ELO | Latency | Cost |\n")
+        f.write("|------|-------|-----|---------|------|\n")
+        for tier, model_id in tier_models.items():
+            if model_id:
+                name = normalize_model_id(model_id)
+                score = get_model_score(model_id)
+                f.write(f"| {tier} | `{name}` | {score['elo']} | {score['latency_ms']}ms | ${score['cost_output']:.2f}/1M |\n")
+
+        f.write("\n**Agent overrides:**\n\n")
+        f.write("| Agent | Model | ELO | Latency | Cost |\n")
+        f.write("|-------|-------|-----|---------|------|\n")
+        for agent, model_id in sorted(overrides.items()):
+            name = normalize_model_id(model_id)
+            score = get_model_score(model_id)
+            f.write(f"| {agent} | `{name}` | {score['elo']} | {score['latency_ms']}ms | ${score['cost_output']:.2f}/1M |\n")
+        f.write("\n")
+
+
+def _compute_tier_candidates(sorted_models: list):
+    """Compute premium, best-value, and fastest model candidates."""
+    premium_candidates = [(m, d) for m, d in sorted_models if d["score"]["elo"] > 0]
+    value_sorted = sorted(
+        [(m, d) for m, d in sorted_models if d["score"]["elo"] > 0],
+        key=lambda x: compute_value_score(x[1]["score"]["elo"], x[1]["score"]["cost_output"]),
+        reverse=True,
+    )
+    fast_candidates = [(m, d) for m, d in sorted_models if d["score"]["latency_ms"] > 0]
+    fast_candidates.sort(key=lambda x: x[1]["score"]["latency_ms"])
+    return premium_candidates, value_sorted, fast_candidates
+
+
+def _write_optimal_models(f, premium_candidates, value_sorted, fast_candidates) -> None:
+    f.write("### Optimal Model per Tier\n\n")
+    f.write("| Tier | Best Model | Why |\n")
+    f.write("|------|-----------|-----|\n")
+    if premium_candidates:
+        best = premium_candidates[0]
+        f.write(f"| **Premium** | `{normalize_model_id(best[0])}` | Highest coding ELO ({best[1]['score']['elo']}) |\n")
+    if value_sorted:
+        best_value = value_sorted[0]
+        f.write(f"| **Default** | `{normalize_model_id(best_value[0])}` | Best quality/cost ratio |\n")
+    if fast_candidates:
+        best_fast = fast_candidates[0]
+        f.write(f"| **Fast** | `{normalize_model_id(best_fast[0])}` | Lowest latency ({best_fast[1]['score']['latency_ms']}ms) |\n")
+    f.write("\n")
+
+
+def _write_agent_recommendations(f, premium_candidates, value_sorted, fast_candidates) -> None:
+    f.write("### Agent-Specific Recommendations\n\n")
+    f.write("| Agent | Recommended Model | Reason |\n")
+    f.write("|-------|------------------|--------|\n")
+
+    agent_recommendations = {
+        "zeus": ("premium", "Needs strong reasoning for orchestration"),
+        "athena": ("premium", "Complex planning requires high ELO"),
+        "themis": ("premium", "Security review needs deep reasoning"),
+        "hermes": ("default", "Coding tasks — balance quality/speed"),
+        "aphrodite": ("default", "Frontend generation — good coding ELO"),
+        "demeter": ("default", "Database work — needs accuracy"),
+        "prometheus": ("default", "Infrastructure — moderate reasoning"),
+        "hephaestus": ("default", "AI pipelines — needs coding ability"),
+        "chiron": ("default", "Model routing — moderate reasoning"),
+        "echo": ("default", "Conversational AI — moderate reasoning"),
+        "gaia": ("default", "Remote sensing — needs analysis"),
+        "apollo": ("fast", "Research — fast responses needed"),
+        "nyx": ("fast", "Observability — lightweight tasks"),
+        "mnemosyne": ("fast", "Documentation — simple tasks"),
+        "talos": ("fast", "Hotfixes — quick responses"),
+        "iris": ("fast", "GitHub ops — simple tasks"),
+    }
+
+    for agent, (tier, reason) in agent_recommendations.items():
+        if tier == "premium":
+            best = premium_candidates[0] if premium_candidates else ("N/A", {})
+        elif tier == "fast":
+            best = fast_candidates[0] if fast_candidates else ("N/A", {})
+        else:
+            best = value_sorted[0] if value_sorted else ("N/A", {})
+        model_name = normalize_model_id(best[0]) if best[0] != "N/A" else "N/A"
+        f.write(f"| {agent} | `{model_name}` | {reason} |\n")
+
+
+def _write_recommendations(f, sorted_models: list) -> None:
+    f.write("## Recommendations\n\n")
+    premium_candidates, value_sorted, fast_candidates = _compute_tier_candidates(sorted_models)
+    _write_optimal_models(f, premium_candidates, value_sorted, fast_candidates)
+    _write_agent_recommendations(f, premium_candidates, value_sorted, fast_candidates)
+    f.write("\n---\n\n")
+    f.write("*Report generated by Pantheon Model Benchmark*\n")
+    f.write("*Data from LMSYS Arena Coding Leaderboard, Artificial Analysis, and HuggingFace LLM Perf Leaderboard*\n")
+
+
+def generate_report(plans_data: list[tuple[str, dict]], output_path: Path) -> None:
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    all_models = _collect_models(plans_data)
     sorted_models = sorted(all_models.items(), key=lambda x: x[1]["score"]["elo"], reverse=True)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(output_path, "w") as f:
-        f.write(f"# Pantheon Model Benchmark — Plan Comparison\n\n")
-        f.write(f"**Generated:** {now}\n")
-        f.write(f"**Plans compared:** {', '.join(p[0] for p in plans_data)}\n")
-        f.write(f"**Data sources:** LMSYS Arena Coding, Artificial Analysis, HuggingFace LLM Perf\n\n")
-
-        # Plan overview
-        f.write("## Plan Overview\n\n")
-        f.write("| Plan | Service | Tier | Price | Models |\n")
-        f.write("|------|---------|------|-------|--------|\n")
-        for plan_name, plan in plans_data:
-            models = extract_models(plan)
-            f.write(f"| {plan_name} | {plan.get('service', '?')} | {plan.get('tier', '?')} | {plan.get('price', '?')} | {len(models)} |\n")
-        f.write("\n")
-
-        # Model comparison table
-        f.write("## Model Comparison (Coding Arena)\n\n")
-        f.write("| Model | Plans | Coding ELO | Latency | Throughput | Cost ($/1M out) | Value Score |\n")
-        f.write("|-------|-------|------------|---------|------------|-----------------|-------------|\n")
-
-        for model_id, data in sorted_models:
-            name = normalize_model_id(model_id)
-            score = data["score"]
-            plans = ", ".join(data["plans"])
-            value = compute_value_score(score["elo"], score["cost_output"])
-            latency_str = f"{score['latency_ms']}ms" if score['latency_ms'] else "N/A"
-            tp_str = f"{score['throughput_tps']} tok/s" if score['throughput_tps'] else "N/A"
-            cost_str = f"${score['cost_output']:.2f}" if score['cost_output'] == 0 else f"${score['cost_output']:.2f}"
-
-            f.write(f"| `{name}` | {plans} | {score['elo']} | {latency_str} | {tp_str} | {cost_str} | {value:.0f} |\n")
-
-        f.write("\n")
-
-        # Per-plan analysis
-        f.write("## Per-Plan Analysis\n\n")
-        for plan_name, plan in plans_data:
-            f.write(f"### {plan_name} ({plan.get('price', '?')})\n\n")
-
-            models = extract_models(plan)
-            tier_models = plan.get("models", {})
-            overrides = plan.get("agent_overrides", {})
-
-            f.write("**Tier defaults:**\n\n")
-            f.write("| Tier | Model | ELO | Latency | Cost |\n")
-            f.write("|------|-------|-----|---------|------|\n")
-            for tier, model_id in tier_models.items():
-                if model_id:
-                    name = normalize_model_id(model_id)
-                    score = get_model_score(model_id)
-                    f.write(f"| {tier} | `{name}` | {score['elo']} | {score['latency_ms']}ms | ${score['cost_output']:.2f}/1M |\n")
-
-            f.write("\n**Agent overrides:**\n\n")
-            f.write("| Agent | Model | ELO | Latency | Cost |\n")
-            f.write("|-------|-------|-----|---------|------|\n")
-            for agent, model_id in sorted(overrides.items()):
-                name = normalize_model_id(model_id)
-                score = get_model_score(model_id)
-                f.write(f"| {agent} | `{name}` | {score['elo']} | {score['latency_ms']}ms | ${score['cost_output']:.2f}/1M |\n")
-
-            f.write("\n")
-
-        # Recommendations
-        f.write("## Recommendations\n\n")
-
-        # Find best model per tier across all plans
-        f.write("### Optimal Model per Tier\n\n")
-        f.write("| Tier | Best Model | Why |\n")
-        f.write("|------|-----------|-----|\n")
-
-        # Premium tier: highest ELO
-        premium_candidates = [(m, d) for m, d in sorted_models if d["score"]["elo"] > 0]
-        if premium_candidates:
-            best = premium_candidates[0]
-            f.write(f"| **Premium** | `{normalize_model_id(best[0])}` | Highest coding ELO ({best[1]['score']['elo']}) |\n")
-
-        # Default tier: best value (quality/cost)
-        value_sorted = sorted(
-            [(m, d) for m, d in sorted_models if d["score"]["elo"] > 0],
-            key=lambda x: compute_value_score(x[1]["score"]["elo"], x[1]["score"]["cost_output"]),
-            reverse=True,
-        )
-        if value_sorted:
-            best_value = value_sorted[0]
-            f.write(f"| **Default** | `{normalize_model_id(best_value[0])}` | Best quality/cost ratio |\n")
-
-        # Fast tier: lowest latency
-        fast_candidates = [(m, d) for m, d in sorted_models if d["score"]["latency_ms"] > 0]
-        fast_candidates.sort(key=lambda x: x[1]["score"]["latency_ms"])
-        if fast_candidates:
-            best_fast = fast_candidates[0]
-            f.write(f"| **Fast** | `{normalize_model_id(best_fast[0])}` | Lowest latency ({best_fast[1]['score']['latency_ms']}ms) |\n")
-
-        f.write("\n")
-
-        # Agent-specific recommendations
-        f.write("### Agent-Specific Recommendations\n\n")
-        f.write("| Agent | Recommended Model | Reason |\n")
-        f.write("|-------|------------------|--------|\n")
-
-        agent_recommendations = {
-            "zeus": ("premium", "Needs strong reasoning for orchestration"),
-            "athena": ("premium", "Complex planning requires high ELO"),
-            "themis": ("premium", "Security review needs deep reasoning"),
-            "hermes": ("default", "Coding tasks — balance quality/speed"),
-            "aphrodite": ("default", "Frontend generation — good coding ELO"),
-            "demeter": ("default", "Database work — needs accuracy"),
-            "prometheus": ("default", "Infrastructure — moderate reasoning"),
-            "hephaestus": ("default", "AI pipelines — needs coding ability"),
-            "chiron": ("default", "Model routing — moderate reasoning"),
-            "echo": ("default", "Conversational AI — moderate reasoning"),
-            "gaia": ("default", "Remote sensing — needs analysis"),
-            "apollo": ("fast", "Research — fast responses needed"),
-            "nyx": ("fast", "Observability — lightweight tasks"),
-            "mnemosyne": ("fast", "Documentation — simple tasks"),
-            "talos": ("fast", "Hotfixes — quick responses"),
-            "iris": ("fast", "GitHub ops — simple tasks"),
-        }
-
-        for agent, (tier, reason) in agent_recommendations.items():
-            # Find best model for this tier
-            if tier == "premium":
-                best = premium_candidates[0] if premium_candidates else ("N/A", {})
-            elif tier == "fast":
-                best = fast_candidates[0] if fast_candidates else ("N/A", {})
-            else:
-                best = value_sorted[0] if value_sorted else ("N/A", {})
-
-            model_name = normalize_model_id(best[0]) if best[0] != "N/A" else "N/A"
-            f.write(f"| {agent} | `{model_name}` | {reason} |\n")
-
-        f.write("\n---\n\n")
-        f.write(f"*Report generated by Pantheon Model Benchmark*\n")
-        f.write(f"*Data from LMSYS Arena Coding Leaderboard, Artificial Analysis, and HuggingFace LLM Perf Leaderboard*\n")
+        _write_report_header(f, now, plans_data)
+        _write_plan_overview(f, plans_data)
+        _write_model_comparison(f, sorted_models)
+        _write_per_plan_analysis(f, plans_data)
+        _write_recommendations(f, sorted_models)
 
     print(f"\n📄 Report saved to: {output_path}")
 
@@ -353,11 +364,11 @@ def main():
         print("\n❌ No valid plans found.")
         sys.exit(1)
 
-    print(f"\n📊 Generating comparison report...")
+    print("\n📊 Generating comparison report...")
     output_path = Path(args.output)
     generate_report(plans_data, output_path)
 
-    print(f"\n✅ Benchmark complete!")
+    print("\n✅ Benchmark complete!")
 
 
 if __name__ == "__main__":

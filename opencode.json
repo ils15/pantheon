@@ -1,9 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "plugin": ["opencode-hooks-plugin"],
   "default_agent": "zeus",
-  "plugin": [
-    "opencode-sm"
-  ],
   "mcp": {
     "opencode-docs": {
       "type": "remote",
@@ -34,11 +32,10 @@
         }
       },
       "mode": "primary",
-      "task_budget": 30,
-      "source": ".opencode/agents/zeus.md"
+      "task_budget": 30
     },
     "athena": {
-      "description": "Strategic planner & agora — creates TDD plans and synthesizes multi-perspective recommendations for architecture decisions",
+      "description": "Strategic planner — creates TDD-driven implementation plans with research-first architecture approach",
       "color": "#FFD700",
       "temperature": 0.1,
       "steps": 20,
@@ -47,8 +44,7 @@
         "bash": "deny"
       },
       "mode": "primary",
-      "task_budget": 10,
-      "source": ".opencode/agents/athena.md"
+      "task_budget": 10
     },
     "themis": {
       "description": "Quality & security gate — MANDATORY review after every implementation phase",
@@ -67,8 +63,7 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 5,
-      "source": ".opencode/agents/themis.md"
+      "task_budget": 5
     },
     "hermes": {
       "description": "Backend specialist — FastAPI, Python, async/await, TDD red-green-refactor",
@@ -79,9 +74,9 @@
       "hidden": true,
       "task_budget": 5,
       "permission": {
+        "edit": "allow",
         "bash": "allow"
-      },
-      "source": ".opencode/agents/hermes.md"
+      }
     },
     "aphrodite": {
       "description": "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, TDD",
@@ -92,9 +87,9 @@
       "hidden": true,
       "task_budget": 5,
       "permission": {
+        "edit": "allow",
         "bash": "allow"
-      },
-      "source": ".opencode/agents/aphrodite.md"
+      }
     },
     "demeter": {
       "description": "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention",
@@ -105,9 +100,9 @@
       "hidden": true,
       "task_budget": 5,
       "permission": {
+        "edit": "allow",
         "bash": "allow"
-      },
-      "source": ".opencode/agents/demeter.md"
+      }
     },
     "prometheus": {
       "description": "Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD",
@@ -118,9 +113,9 @@
       "hidden": true,
       "task_budget": 3,
       "permission": {
+        "edit": "allow",
         "bash": "allow"
-      },
-      "source": ".opencode/agents/prometheus.md"
+      }
     },
     "hephaestus": {
       "description": "AI pipelines specialist — RAG, LangChain/LangGraph, vector stores, embeddings",
@@ -131,9 +126,9 @@
       "hidden": true,
       "task_budget": 5,
       "permission": {
+        "edit": "allow",
         "bash": "allow"
-      },
-      "source": ".opencode/agents/hephaestus.md"
+      }
     },
     "chiron": {
       "description": "Model provider hub — multi-model routing, AWS Bedrock, cost optimization",
@@ -144,9 +139,9 @@
       "hidden": true,
       "task_budget": 3,
       "permission": {
+        "edit": "allow",
         "bash": "allow"
-      },
-      "source": ".opencode/agents/chiron.md"
+      }
     },
     "echo": {
       "description": "Conversational AI specialist — Rasa NLU, dialogue management, intent/entity design",
@@ -157,23 +152,23 @@
       "hidden": true,
       "task_budget": 3,
       "permission": {
+        "edit": "allow",
         "bash": "allow"
-      },
-      "source": ".opencode/agents/echo.md"
+      }
     },
     "gaia": {
-      "description": "Remote sensing specialist — LULC analysis, satellite imagery, geospatial pipelines",
+      "description": "Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection. Read-only analysis of geospatial data.",
       "color": "#4A90D9",
       "temperature": 0.2,
       "steps": 20,
+      "disable_model_invocation": true,
       "permission": {
         "edit": "deny",
         "bash": "deny"
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 3,
-      "source": ".opencode/agents/gaia.md"
+      "task_budget": 3
     },
     "apollo": {
       "description": "Investigation scout — 3-10 parallel codebase searches, read-only, no edits",
@@ -186,8 +181,7 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 0,
-      "source": ".opencode/agents/apollo.md"
+      "task_budget": 0
     },
     "iris": {
       "description": "GitHub operations — branches, pull requests, issues, releases, tags",
@@ -203,8 +197,7 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 2,
-      "source": ".opencode/agents/iris.md"
+      "task_budget": 2
     },
     "mnemosyne": {
       "description": "Memory bank management — ADRs, project.md, atomic facts to /memories/repo/",
@@ -212,19 +205,21 @@
       "temperature": 0.1,
       "steps": 20,
       "permission": {
+        "edit": "allow",
         "bash": "deny"
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 0,
-      "source": ".opencode/agents/mnemosyne.md"
+      "task_budget": 0
     },
     "talos": {
       "description": "Hotfix express lane — small bugs, CSS, typos, direct fixes, no TDD ceremony",
       "color": "#50C878",
       "temperature": 0.3,
       "steps": 5,
+      "disable_model_invocation": true,
       "permission": {
+        "edit": "allow",
         "bash": {
           "git add *": "allow",
           "npx prettier *": "allow",
@@ -233,8 +228,7 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 0,
-      "source": ".opencode/agents/talos.md"
+      "task_budget": 0
     },
     "nyx": {
       "description": "Observability specialist — OpenTelemetry, LangSmith, token/cost tracking, alerting",
@@ -247,22 +241,21 @@
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 3,
-      "source": ".opencode/agents/nyx.md"
+      "task_budget": 3
     },
     "argus": {
       "description": "Visual analysis specialist — interprets screenshots, images, PDFs, diagrams, and UI mockups",
       "color": "#50C878",
       "temperature": 0.2,
       "steps": 15,
+      "disable_model_invocation": true,
       "permission": {
         "edit": "deny",
         "bash": "deny"
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 0,
-      "source": ".opencode/agents/argus.md"
+      "task_budget": 0
     },
     "agora": {
       "description": "Multi-perspective synthesis engine — analyzes questions from multiple domain perspectives internally, compares agreements & divergences, produces decisive recommendation with confidence level.",
@@ -271,13 +264,21 @@
       "steps": 20,
       "permission": {
         "edit": "deny",
-        "bash": "deny"
+        "bash": "deny",
+        "task": {
+          "mnemosyne": "allow"
+        }
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 10,
-      "source": ".opencode/agents/agora.md"
+      "task_budget": 3
     }
+  },
+  "todoContinuation": {
+    "autoEnable": false,
+    "cooldownMs": 3000,
+    "maxContinuations": 5,
+    "autoEnableThreshold": 4
   },
   "compaction": {
     "auto": true,
@@ -290,7 +291,8 @@
       "options": {
         "chunkTimeout": 30000
       }
-      }
+    },
+    "github-copilot": {}
   },
   "permission": {
     "websearch": "allow",

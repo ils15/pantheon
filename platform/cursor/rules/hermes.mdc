@@ -230,10 +230,3 @@ When completing a task, provide:
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
 
-## 🤝 Handoff Routes
-
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| hermes | apollo | Codebase discovery | fast |
-| hermes | themis | Code review | premium |
-
