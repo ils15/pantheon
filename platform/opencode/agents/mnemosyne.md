@@ -14,9 +14,10 @@ skills:
   - task-system
 user-invocable: true
 permission:
+  edit: allow
   bash: deny
 temperature: 0.1
-steps: 20
+steps: 10
 ---
 
 # Mnemosyne - Memory Agent

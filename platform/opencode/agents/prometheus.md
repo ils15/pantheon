@@ -18,11 +18,11 @@ handoffs:
     agent: themis
     prompt: Validate these infrastructure changes for best practices, security, and correctness.
     send: false
-    model: premium
 agents:
   - apollo
 user-invocable: true
 permission:
+  edit: allow
   bash: allow
 temperature: 0.2
 steps: 15
@@ -342,11 +342,4 @@ When completing a task, provide:
 ---
 
 **Philosophy**: Reliable infrastructure, clear dependencies, zero downtime, easy debugging.
-
-## 🤝 Handoff Routes
-
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| prometheus | apollo | Infrastructure discovery | fast |
-| prometheus | themis | Deploy review | premium |
 

@@ -12,6 +12,7 @@ tools:
   - execute/runInTerminal
   - execute/testFailure
 permission:
+  edit: allow
   bash:
     "git add *": allow
     "npx prettier *": allow
@@ -21,12 +22,12 @@ handoffs:
     agent: zeus
     prompt: "This fix is more complex than expected and requires multi-agent orchestration. Please take over."
     send: false
-    model: premium
 user-invocable: true
 disable-model-invocation: true
 temperature: 0.3
 steps: 5
 skills:
+  - simplify
   - tdd-with-agents
 ---
 

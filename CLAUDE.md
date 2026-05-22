@@ -26,6 +26,8 @@ Always check AGENTS.md for shared project conventions and architecture decisions
 | @iris | GitHub operations | Branches, PRs, issues, releases |
 | @mnemosyne | Documentation | Memory bank, ADRs, progress logging |
 | @talos | Hotfixes | Rapid bug fixes, CSS corrections |
+| @argus | Visual analysis | Screenshots, images, PDFs, UI mockups |
+| @agora | Council synthesis | Multi-perspective decisions, trade-off analysis |
 
 ## Workflow
 

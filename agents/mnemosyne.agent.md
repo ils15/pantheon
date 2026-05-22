@@ -10,10 +10,11 @@ tools:
   - read/readFile
   - edit/editFiles
 permission:
+  edit: allow
   bash: deny
 user-invocable: true
 temperature: 0.1
-steps: 20
+steps: 10
 skills:
   - artifact-management
   - handoff

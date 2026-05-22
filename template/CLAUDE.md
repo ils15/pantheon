@@ -20,16 +20,18 @@ For shared project conventions, architecture decisions, and coding standards, **
 | `hermes` | Backend (FastAPI, Python, TDD) | `@hermes Create POST /users endpoint` |
 | `aphrodite` | Frontend (React, TypeScript, UI) | `@aphrodite Build UserProfile component` |
 | `demeter` | Database (SQLAlchemy, Alembic) | `@demeter Add email_verified column to users` |
-| `themis` | Quality & security gate | ` Review the latest changes` |
-| `prometheus` | Infrastructure (Docker, CI/CD) | ` Update docker-compose for Redis` |
+| `themis` | Quality & security gate | `@themis Review the latest changes` |
+| `prometheus` | Infrastructure (Docker, CI/CD) | `@prometheus Update docker-compose for Redis` |
 | `talos` | Hotfix express (simple fixes) | `@talos Fix this CSS typo` |
 | `iris` | GitHub operations (PRs, issues) | `@iris Create a PR for this feature` |
 | `mnemosyne` | Memory & documentation | `@mnemosyne Save this ADR` |
 | `gaia` | Remote sensing domain expert | `@gaia Analyze LULC agreement` |
-| `hephaestus` | AI pipelines (RAG, LangChain) | ` Build a RAG pipeline` |
-| `chiron` | Model providers (routing, costs) | ` Configure Bedrock provider` |
-| `echo` | Conversational AI (chatbots) | ` Design the NLU pipeline` |
-| `nyx` | Observability (tracing, costs) | ` Set up OpenTelemetry` |
+| `hephaestus` | AI pipelines (RAG, LangChain) | `@hephaestus Build a RAG pipeline` |
+| `chiron` | Model providers (routing, costs) | `@chiron Configure Bedrock provider` |
+| `echo` | Conversational AI (chatbots) | `@echo Design the NLU pipeline` |
+| `nyx` | Observability (tracing, costs) | `@nyx Set up OpenTelemetry` |
+| `argus` | Visual analysis | `@argus Analyze this screenshot/PDF` |
+| `agora` | Council synthesis | `@agora Compare architecture options X vs Y` |
 
 ### Notes
 - `AGENTS.md` contains shared cross-platform conventions (also read by Cursor, Windsurf, Copilot, Codex)

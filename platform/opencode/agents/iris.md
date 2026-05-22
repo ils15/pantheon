@@ -8,6 +8,7 @@ tools:
   question: true
   read: true
   grep: true
+  bash: true
 skills:
   - artifact-management
 handoffs:
@@ -15,12 +16,10 @@ handoffs:
     agent: zeus
     prompt: Iris has opened a PR and is awaiting your approval to merge. Review the PR link above, then reply 'merge' to proceed.
     send: false
-    model: premium
   - label: Document release
     agent: mnemosyne
     prompt: Please update the memory bank with the release information provided above.
     send: false
-    model: fast
 agents:
   - mnemosyne
 user-invocable: true
@@ -275,10 +274,5 @@ When asked to process a GitHub issue:
 
 **Requirements:** `gh` CLI must be authenticated.
 
-## 🤝 Handoff Routes
 
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| iris | zeus | Merge PR | premium |
-| iris | mnemosyne | Document release | fast |
 ```

@@ -17,6 +17,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+## [v3.8.0] - 2026-05-22
+
+### Added
+- `scripts/validate-forge.mjs` with structural checks for forge preset consistency (provider/model/options/variant guards)
+- `opencode-free-safe` preset in `platform/forge.json` for safer free-mode routing
+
+### Changed
+- Permission and dispatch enforcement finalized across agents and platform artifacts
+- Hooks bridge hardened for Claude Code ↔ OpenCode compatibility via `.claude/settings.json` + plugin wiring
+- `/forge` docs and OpenCode platform docs updated with compatibility contract and safer usage guidance
+- `sync-opencode.sh` now syncs `platform/forge.json` into `~/.config/opencode/platform/forge.json`
+- Version bump to `3.8.0` across release manifests and README badge
+
+### Fixed
+- Agora self-consistency and dispatch restrictions (`task: { mnemosyne: allow }`, reduced task budget)
+- Provider/model consistency in forge presets (including `github-copilot/*` normalization)
+- OpenCode runtime compatibility by removing unsupported `todoContinuation` from `opencode.json`
+
 ## [v3.7.2] - 2026-05-21
 
 ### Added

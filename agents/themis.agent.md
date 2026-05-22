@@ -26,24 +26,18 @@ permission:
     "ruff *": allow
     "grep *": allow
     "npx vitest *": allow
-    "pip *": allow
-hooks:
-  PostToolUse:
-    - type: command
-      command: scripts/hooks/format-multi-language.sh
-      timeout: 45
+    "pip-audit *": allow
+    "dep-audit *": allow
 agents: ['mnemosyne']
 handoffs:
   - label: "🔧 Fix Review Issues"
     agent: zeus
     prompt: "Fix the issues identified in the code review above."
     send: false
-    model: premium
   - label: "📝 Document Findings"
     agent: mnemosyne
     prompt: "Document the review findings and decisions above in the Memory Bank."
     send: false
-    model: fast
 user-invocable: true
 temperature: 0.1
 steps: 20
@@ -148,7 +142,7 @@ Run these when dependencies changed or to detect code rot:
 
 **Python — dep-audit** (obsolete libs):
 ```bash
-pip install dep-audit && dep-audit . --exit-code
+dep-audit . --exit-code
 ```
 Detects: stdlib backports (`pytz`→`zoneinfo`, `tomli`→`tomllib`), zombie shims (`six`, `future`), deprecated packages (`pycrypto`→`pycryptodome`), unused deps.
 
@@ -455,7 +449,7 @@ Please fix blocker issues and resubmit.
 
 ## 🚨 MANDATORY WORKFLOW: Lightweight Quality Gate (Changed Files Only)
 
-**CRITICAL RULE**: Every implementation agent MUST call  IMMEDIATELY after completing code:
+**CRITICAL RULE**: Every implementation agent MUST call @themis IMMEDIATELY after completing code:
 
 - **@hermes** (**FastAPI endpoints**) → calls @themis
 - **@aphrodite** (**React components**) → calls @themis
@@ -478,7 +472,7 @@ Please fix blocker issues and resubmit.
 
 ## When to Use This Agent
 
-Use  for:
+Use @themis for:
 - "Review this Python service for correctness and style"
 - "Create comprehensive test plan for payment feature"
 - "Audit React component for accessibility and performance"
@@ -528,10 +522,3 @@ Themis returns:
 ---
 
 **Philosophy**: Catch issues early. Prevent production problems. Maintain standards.
-
-## 🤝 Handoff Routes
-
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| themis | zeus | Escalate blockers | premium |
-| themis | mnemosyne | Document findings | fast |

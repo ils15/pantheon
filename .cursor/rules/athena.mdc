@@ -30,7 +30,6 @@ Use `web/fetch` to verify availability before proposing model updates to other a
 
 ## 🚀 Bounded Research Strategy (Fast Planning)
 
-
 **Rules**:
 - Max 3 direct codebase searches (then delegate to @apollo if needed)
 - Convergence rule: 80% understanding OR stop at 5 min
@@ -133,7 +132,7 @@ This is worth exploring separately. Use /fork to compare approaches.
 
 **Complex:** "Plan microservices migration" → Delegate to `@apollo` for full discovery → Create 5-phase plan
 
-**Isolated discovery:** use `#runSubagent Explore` for read-only deep dives that should not contaminate the current context.
+**Isolated discovery:** delegate to `@apollo` for read-only deep dives that should not contaminate the current context.
 
 ---
 
@@ -147,10 +146,5 @@ For external docs/specs, use `web/fetch` (see `internet-search` skill for patter
 - RFCs, official documentation, GitHub issues/PRs
 - Synthesize findings into plan recommendations
 
-## 🤝 Handoff Routes
 
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| athena | themis | Validate Plan | premium |
-| athena | zeus | Implement Plan | premium |
 

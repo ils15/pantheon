@@ -106,3 +106,6 @@ jobs:
 
       - name: Validate routing.yml consistency
         run: node scripts/validate-routing.mjs
+
+      - name: Run adapter conformance (all platforms)
+        run: node scripts/test-adapter-conformance.mjs

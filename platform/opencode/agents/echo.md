@@ -19,16 +19,15 @@ handoffs:
     agent: themis
     prompt: Review this conversational AI design for NLU accuracy, dialogue coherence, and security (intent hijacking, dialogue poisoning).
     send: false
-    model: premium
   - label: ⚡ Hotfix Conversation
     agent: talos
     prompt: Quick fix for this conversational AI issue — intent misclassification, response formatting, or dialogue state bug.
     send: false
-    model: fast
 agents:
   - apollo
 user-invocable: true
 permission:
+  edit: allow
   bash: allow
 temperature: 0.4
 steps: 20
@@ -117,10 +116,4 @@ You are the **CONVERSATIONAL AI SPECIALIST** (Echo, the nymph whose voice echoes
 : Set up multi-platform chat with Telegram and web
 ```
 
-## 🤝 Handoff Routes
 
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| echo | apollo | Conversation discovery | fast |
-| echo | themis | NLU review | premium |
-| echo | talos | Hotfix conversation | fast |

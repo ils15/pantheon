@@ -12,7 +12,9 @@ tools:
 skills:
   - api-design-patterns
   - fastapi-async-patterns
+  - simplify
   - tdd-with-agents
+  - test-architecture
   - database-optimization
   - cache-strategy
 handoffs:
@@ -20,16 +22,14 @@ handoffs:
     agent: themis
     prompt: Please perform a code review and security audit on these backend changes according to your instructions.
     send: true
-    model: premium
 agents:
   - apollo
 user-invocable: true
 permission:
+  edit: allow
   bash: allow
 temperature: 0.3
-steps: 30
-mcpServers:
-  - context7
+steps: 20
 globs:
   - "**/*.py"
   - "**/routers/**/*.py"
@@ -208,11 +208,4 @@ When completing a task, provide:
 ---
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
-
-## 🤝 Handoff Routes
-
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| hermes | apollo | Codebase discovery | fast |
-| hermes | themis | Code review | premium |
 

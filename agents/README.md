@@ -26,7 +26,7 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 
 | Agent | Tier | Role | Delegates to | Skills Used |
 |---|---|---|---|---|
-| Zeus | Orchestrator | Central coordinator | All 17 agents | agent-coordination, artifact-management |
+| Zeus | Orchestrator | Central coordinator | All 18 agents | agent-coordination, artifact-management |
 | Athena | Planning | Strategic planner | Apollo, Themis | (none — plan-only) |
 | Agora | Planning | Multi-perspective synthesis, trade-off analysis | Zeus | (none — synthesis) |
 | Apollo | Discovery | Read-only codebase scout | Zeus, Athena | (none — read-only) |
@@ -54,7 +54,7 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 - **Tier:** Orchestrator
 - **Model:** premium
 - **Description:** Central coordinator of the entire development lifecycle. NEVER implements code, NEVER edits files. Delegates work to specialized sub-agents.
-- **Delegates to:** All 17 agents
+- **Delegates to:** All 18 agents
 - **Key Responsibilities:** Phase-based orchestration, parallel dispatch, approval gates (3 pause points), context conservation, agent routing
 - **Usage:** `@zeus: Implement [feature description]`
 - **Tools:** agent (delegation), askQuestions, runInTerminal, readFile, search/codebase, search/usages, web/fetch, search/changes
@@ -301,18 +301,18 @@ graph TB
 |---|---|---|
 | Orchestrate a full feature | Zeus | `@zeus: Implement [feature]` |
 | Plan architecture with TDD phases | Athena | `@athena: Plan [feature]` |
-| Multi-perspective synthesis, trade-off analysis | Agora | @agora: Should we use [X] or [Y]? | Zeus |
+| Multi-perspective synthesis, trade-off analysis | Agora | `@agora: Should we use [X] or [Y]?` |
 | Discover codebase patterns | Apollo | `@apollo: Find all [pattern]` |
-| Visual analysis (screenshots, PDFs, diagrams) | Argus | @argus: Analyze this screenshot | Apollo, Themis |
-| Build RAG / LangChain pipelines | Hephaestus | `: Build RAG pipeline for [use case]` |
-| Configure model routing / providers | Chiron | `: Configure [provider] routing` |
-| Design chatbot / conversational flows | Echo | `: Design chatbot for [flow]` |
+| Visual analysis (screenshots, PDFs, diagrams) | Argus | `@argus: Analyze this screenshot` |
+| Build RAG / LangChain pipelines | Hephaestus | `@hephaestus: Build RAG pipeline for [use case]` |
+| Configure model routing / providers | Chiron | `@chiron: Configure [provider] routing` |
+| Design chatbot / conversational flows | Echo | `@echo: Design chatbot for [flow]` |
 | Create backend API endpoints | Hermes | `@hermes: Create POST /[endpoint]` |
 | Build frontend React components | Aphrodite | `@aphrodite: Build [component]` |
 | Design or optimize database schema | Demeter | `@demeter: Optimize [query]` |
-| Review code for quality & security | Themis | `: Review this code` |
-| Set up OpenTelemetry / cost tracking | Nyx | `: Set up monitoring for [service]` |
-| Configure Docker / CI/CD / deploy | Prometheus | `: Set up [infrastructure]` |
+| Review code for quality & security | Themis | `@themis: Review this code` |
+| Set up OpenTelemetry / cost tracking | Nyx | `@nyx: Set up monitoring for [service]` |
+| Configure Docker / CI/CD / deploy | Prometheus | `@prometheus: Set up [infrastructure]` |
 | Open PR / manage releases / issues | Iris | `@iris: Create release v[version]` |
 | Close sprint or document decisions | Mnemosyne | `@mnemosyne: Close sprint [summary]` |
 | Fix small bugs / CSS / typos fast | Talos | `@talos: Fix [bug]` |
