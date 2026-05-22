@@ -44,7 +44,7 @@ docs/memory-bank/
 |---|---|---|
 | `@athena` plans (with or without Zeus) | **Athena** | `PLAN-<feature>.md` |
 | `@hermes` / `@aphrodite` / `@demeter` implement | **The worker** | `IMPL-phase<N>-<agent>.md` |
-| `` reviews | **Themis** | `REVIEW-<feature>.md` |
+| `@themis` reviews | **Themis** | `REVIEW-<feature>.md` |
 | `@agora` council / `@apollo` | **Agora / Apollo** | `DISC-<topic>.md` |
 | Architectural decision (any agent) | **Any → Mnemosyne** | `ADR-<topic>.md` (permanent) |
 
@@ -61,7 +61,7 @@ docs/memory-bank/
 | `PLAN-` | `.tmp/` | ✅ Deleted on sprint close | Athena |
 | `IMPL-` | `.tmp/` | ✅ Deleted on sprint close | Hermes / Aphrodite / Demeter |
 | `REVIEW-` | `.tmp/` | ✅ Deleted on sprint close | Themis |
-| `DISC-` | `.tmp/` | ✅ Deleted on sprint close | Agora (council) / Apollo (`#runSubagent`) |
+| `DISC-` | `.tmp/` | ✅ Deleted on sprint close | Agora (council) / Apollo (delegated discovery) |
 | `ADR-` | `_notes/` | ❌ Permanent, never deleted | Any agent |
 
 ---

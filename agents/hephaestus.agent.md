@@ -31,7 +31,7 @@ handoffs:
     send: false
 user-invocable: true
 temperature: 0.3
-steps: 25
+steps: 20
 skills:
   - rag-pipelines
   - mcp-server-development

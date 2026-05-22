@@ -81,6 +81,8 @@
   },
   "skillsOutputDir": ".claude/skills",
   "deploySkills": true,
+  "commandsOutputDir": "commands",
+  "deployCommands": true,
   "bodyFilters": [
     {
       "action": "inject-routing"

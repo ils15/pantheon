@@ -20,11 +20,12 @@
     "docs": "node scripts/generate-routing-docs.mjs",
     "sync:opencode": "./sync-opencode.sh",
     "sync:claude": "./sync-claude.sh",
+    "sync:copilot": "./sync-copilot.sh",
     "sync:cursor": "./sync-cursor.sh",
     "sync:windsurf": "./sync-windsurf.sh",
     "sync:continue": "./sync-continue.sh",
     "sync:cline": "./sync-cline.sh",
-    "sync:all": "./sync-opencode.sh && ./sync-claude.sh && ./sync-cursor.sh && ./sync-windsurf.sh && ./sync-continue.sh && ./sync-cline.sh"
+    "sync:all": "./sync-opencode.sh && ./sync-claude.sh && ./sync-copilot.sh && ./sync-cursor.sh && ./sync-windsurf.sh && ./sync-continue.sh && ./sync-cline.sh"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",

@@ -67,6 +67,35 @@ fi
 
 echo "    ✅ $UPDATED updated, $UNCHANGED unchanged"
 
+# ── Step 2.5: Sync commands -> .claude/commands/ ─────────────────────────────
+echo "=== 2.5. Sincronizando commands -> .claude/commands/ ==="
+mkdir -p "$SCRIPT_DIR/.claude/commands"
+CMDS_UPDATED=0
+CMDS_UNCHANGED=0
+for src_file in "$SCRIPT_DIR/platform/claude/commands/"*.md; do
+  [ -f "$src_file" ] || continue
+  base_name=$(basename "$src_file")
+  dest_file="$SCRIPT_DIR/.claude/commands/$base_name"
+  if [ -f "$dest_file" ] && cmp -s "$src_file" "$dest_file"; then
+    CMDS_UNCHANGED=$((CMDS_UNCHANGED + 1))
+  else
+    cp "$src_file" "$dest_file"
+    CMDS_UPDATED=$((CMDS_UPDATED + 1))
+    echo "    ✏️  $base_name"
+  fi
+done
+if [ "$CLEAN" = true ]; then
+  for dest_file in "$SCRIPT_DIR/.claude/commands/"*.md; do
+    [ -f "$dest_file" ] || continue
+    base_name=$(basename "$dest_file")
+    if [ ! -f "$SCRIPT_DIR/platform/claude/commands/$base_name" ]; then
+      rm "$dest_file"
+      echo "    🗑️  Removed stale command: $base_name"
+    fi
+  done
+fi
+echo "    ✅ $CMDS_UPDATED updated, $CMDS_UNCHANGED unchanged"
+
 # ── Step 3: Sync skills ───────────────────────────────────────────────────────
 echo "=== 3. Sincronizando skills -> .claude/skills/ ==="
 if [ -d "$SCRIPT_DIR/.claude/skills" ]; then
@@ -108,4 +137,4 @@ else
 fi
 
 echo ""
-echo "✅ Sync completo! $(ls "$SCRIPT_DIR/.claude/agents/" | wc -l) agents em .claude/agents/"
+echo "✅ Sync completo! $(ls "$SCRIPT_DIR/.claude/agents/" | wc -l) agents + $(ls "$SCRIPT_DIR/.claude/commands/" 2>/dev/null | wc -l) commands em .claude/"
