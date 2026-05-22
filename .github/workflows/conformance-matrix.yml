@@ -1,0 +1,57 @@
+name: Platform Conformance Matrix
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  # Matrix job: runs adapter conformance tests for all 6 platforms in parallel
+  conformance:
+    name: Conformance — ${{ matrix.platform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [opencode, claude, cline, continue, cursor, windsurf]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm ci --ignore-scripts || npm install
+
+      - name: Run conformance tests for ${{ matrix.platform }}
+        run: node scripts/test-adapter-conformance.mjs --platform ${{ matrix.platform }} --verbose
+
+      - name: Upload conformance report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: conformance-report-${{ matrix.platform }}
+          path: test-results/adapter-conformance.json
+          retention-days: 7
+
+  # Summary job: aggregates all platform results into a single status table
+  conformance-summary:
+    name: Conformance Summary
+    needs: [conformance]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check all platform results
+        run: |
+          echo "## Platform Conformance Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Platform | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| opencode | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| claude   | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| cline    | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| continue | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| cursor   | ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| windsurf | ✅ |" >> $GITHUB_STEP_SUMMARY

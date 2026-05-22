@@ -274,6 +274,12 @@
       "task_budget": 3
     }
   },
+  "todoContinuation": {
+    "autoEnable": false,
+    "cooldownMs": 3000,
+    "maxContinuations": 5,
+    "autoEnableThreshold": 4
+  },
   "compaction": {
     "auto": true,
     "prune": true,

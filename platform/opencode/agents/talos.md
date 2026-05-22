@@ -9,15 +9,16 @@ tools:
   edit: true
   bash: true
 skills:
+  - simplify
   - tdd-with-agents
 handoffs:
   - label: 🚨 Escalate to Zeus
     agent: zeus
     prompt: This fix is more complex than expected and requires multi-agent orchestration. Please take over.
     send: false
-    model: premium
 user-invocable: true
 permission:
+  edit: allow
   bash:
     git add *: allow
     npx prettier *: allow

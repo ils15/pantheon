@@ -15,7 +15,6 @@ Usage:
 
 import json
 import os
-import sys
 import argparse
 from pathlib import Path
 from datetime import datetime
@@ -374,247 +373,288 @@ def compute_cost_per_1000_calls(model_id: str, agent_type: str) -> float:
 # Report generation
 # ---------------------------------------------------------------------------
 
+def _write_strategy_section(f) -> None:
+    f.write("## Token-Based Pricing Strategy\n\n")
+    f.write("### Core Insight\n\n")
+    f.write("> We are **token-based**. Every API call costs per input + output token.\n")
+    f.write("> For coding tasks, **deepseek-v4-flash** (SWE-bench 79%, $0.28/1M output) is sufficient.\n")
+    f.write("> For reasoning tasks, quality matters more than cost — use the best available.\n\n")
+
+    f.write("### Agent Token Profiles\n\n")
+    f.write("| Profile | Agents | Why | Cost Driver |\n")
+    f.write("|---------|--------|-----|-------------|\n")
+    f.write("| **High Input** | zeus, athena, themis, gaia | Long context, complex prompts | Input tokens |\n")
+    f.write("| **High Output** | hermes, aphrodite, hephaestus | Generates lots of code | Output tokens |\n")
+    f.write("| **Medium Output** | demeter, prometheus, chiron, echo, mnemosyne | Config + some code | Balanced |\n")
+    f.write("| **Many Calls** | apollo, nyx, iris | Many short calls | Volume × cost |\n")
+    f.write("| **Low Output** | talos | Small fixes | Minimal |\n\n")
+
+    f.write("### Coding Tier Strategy\n\n")
+    f.write("For agents that generate code (hermes, aphrodite, etc.), we prioritize **cost efficiency**:\n\n")
+    f.write("| Model | SWE-bench | Cost ($/1M out) | Cost per 1000 calls (3K tokens) | Verdict |\n")
+    f.write("|-------|-----------|-----------------|--------------------------------|--------|\n")
+    for model, swe, cost in CODING_TIER_CANDIDATES:
+        cost_1k = cost * 3000 / 1_000_000 * 1000
+        f.write(f"| `{model}` | {swe}% | ${cost:.2f} | ${cost_1k:.4f} | {'✅ Recommended' if model == 'deepseek-v4-flash' else '⚠️ Alternative'} |\n")
+
+    f.write("\n**Recommendation:** Use `deepseek-v4-flash` for all coding agents. It scores 79% on SWE-bench (vs 80.8% for Claude Opus) but costs **89x less** per output token.\n\n")
+
+
+def _write_routing_principles(f) -> None:
+    f.write("## Routing Principles\n\n")
+    f.write("### Tier Assignment Logic\n\n")
+    f.write("| Tier | Agents | Strategy | Model Requirements |\n")
+    f.write("|------|--------|----------|--------------------|\n")
+    f.write("| **1. Premium** (reasoning) | zeus, athena, themis | Best ELO available | High coding ELO (>1450), strong logic |\n")
+    f.write("| **2. Default** (analysis/advanced) | gaia, hephaestus, prometheus, chiron | Balance quality + cost | Good reasoning, moderate cost |\n")
+    f.write("| **3. Coding** (day-to-day) | hermes, aphrodite, demeter, echo | Cost-efficient, SWE-bench ≥73% | Good coding, low cost/output |\n")
+    f.write("| **4. Fast** (research/ops) | apollo, nyx, iris, mnemosyne, talos | Lowest latency, cheapest | Fast response, minimal cost |\n\n")
+
+    f.write("### Decision Rules\n\n")
+    f.write("1. **Tier 1 (Premium) → best model** — reasoning, planning, security review need deep logic\n")
+    f.write("2. **Tier 2 (Default) → balanced model** — analysis and advanced tasks need quality but not premium\n")
+    f.write("3. **Tier 3 (Coding) → cost-efficient model** — deepseek-v4-flash or claude-haiku-4-5 for day-to-day coding\n")
+    f.write("4. **Tier 4 (Fast) → cheapest model** — research, ops, docs need speed, not depth\n")
+    f.write("5. **Agent overrides** — specific agents may need different models (e.g., gaia → analysis-capable)\n")
+    f.write("6. **Free plans** — use best available for Tier 1, accept trade-offs for Tiers 3-4\n\n")
+
+
+def _write_full_assignment_matrix(f, plans: list[dict]) -> None:
+    f.write("## Model Assignment Matrix\n\n")
+
+    f.write("| Agent | Tier | Type |")
+    for plan in plans:
+        plan_name = plan.get("plan", "?")
+        f.write(f" {plan_name} |")
+    f.write("\n")
+
+    f.write("|-------|------|------|")
+    for _ in plans:
+        f.write("--------|")
+    f.write("\n")
+
+    for agent, info in sorted(AGENT_TIERS.items()):
+        f.write(f"| **{agent}** | {info['tier']} | {info['type']} |")
+        for plan in plans:
+            model = resolve_model(plan, info["tier"], agent)
+            model_name = normalize_model_id(model)
+            f.write(f" `{model_name}` |")
+        f.write("\n")
+
+    f.write("\n")
+
+
+def _write_plan_assessment(f, models: dict, plan) -> None:
+    premium_model = models.get("premium", "")
+    default_model = models.get("default", "")
+    fast_model = models.get("fast", "")
+
+    f.write("**Assessment:**\n\n")
+    f.write(f"- **Tier 1 (Premium):** {normalize_model_id(premium_model) if premium_model else 'N/A'} — ")
+    _write_premium_assessment(f, premium_model)
+
+    score = get_model_score(default_model) if default_model else {}
+    f.write(f"- **Tier 2 (Default):** {normalize_model_id(default_model) if default_model else 'N/A'} — ")
+    _write_default_assessment(f, score)
+
+    f.write("- **Tier 3 (Coding):** uses default tier model — ")
+    _write_coding_assessment(f, score)
+
+    f.write(f"- **Tier 4 (Fast):** {normalize_model_id(fast_model) if fast_model else 'N/A'} — ")
+    _write_fast_assessment(f, fast_model)
+
+    f.write("\n---\n\n")
+
+
+def _write_premium_assessment(f, model: str) -> None:
+    if "opus" in model.lower():
+        f.write("Excellent for complex reasoning. Best for zeus/athena/themis.\n")
+    elif "kimi" in model.lower() or "sonnet" in model.lower():
+        f.write("Strong reasoning at good price. Good balance for planning and review.\n")
+    elif "mini" in model.lower():
+        f.write("Moderate reasoning. May struggle with complex orchestration.\n")
+    else:
+        f.write("Verify coding ELO before use.\n")
+
+
+def _write_default_assessment(f, score: dict) -> None:
+    if score.get("swe_bench", 0) >= 75:
+        f.write(f"Excellent for analysis/advanced tasks (SWE-bench {score['swe_bench']}%). Strong across default agents.\n")
+    elif score.get("swe_bench", 0) >= 70:
+        f.write(f"Good for analysis tasks (SWE-bench {score['swe_bench']}%). Suitable for most advanced work.\n")
+    else:
+        f.write("Moderate capability. May need more guidance for complex analysis.\n")
+
+
+def _write_coding_assessment(f, score: dict) -> None:
+    if score.get("swe_bench", 0) >= 75:
+        f.write(f"Excellent for day-to-day coding (SWE-bench {score['swe_bench']}%). Cost-efficient for high-output agents.\n")
+    elif score.get("swe_bench", 0) >= 70:
+        f.write(f"Good for coding (SWE-bench {score['swe_bench']}%). Consider override to deepseek-v4-flash for better cost.\n")
+    else:
+        f.write("Moderate coding. Consider override to deepseek-v4-flash or claude-haiku-4-5.\n")
+
+
+def _write_fast_assessment(f, model: str) -> None:
+    if "flash" in model.lower() or "haiku" in model.lower() or "nano" in model.lower():
+        f.write("Excellent for quick tasks. Low latency, good for research/ops agents.\n")
+    elif "mini" in model.lower():
+        f.write("Good balance of speed and quality. Suitable for fast agents.\n")
+    else:
+        f.write("Verify latency before assigning to fast agents.\n")
+
+
+def _write_plan_tier_defaults(f, models: dict) -> None:
+    f.write("**Tier defaults:**\n\n")
+    f.write("| Tier | Model | Coding ELO | SWE-bench | Cost ($/1M out) | Agents |\n")
+    f.write("|------|-------|------------|-----------|-----------------|--------|\n")
+    for tier_key in ["premium", "default", "fast", "free"]:
+        if tier_key not in models:
+            continue
+        model = models[tier_key]
+        name = normalize_model_id(model)
+        score = get_model_score(model)
+        if tier_key == "premium":
+            agents = [a for a, i in AGENT_TIERS.items() if i["tier"] == "premium"]
+        elif tier_key == "default":
+            agents = [a for a, i in AGENT_TIERS.items() if i["tier"] in ("default", "coding")]
+        elif tier_key == "fast":
+            agents = [a for a, i in AGENT_TIERS.items() if i["tier"] == "fast"]
+        else:
+            agents = []
+        f.write(f"| {tier_key} | `{name}` | {score['elo']} | {score['swe_bench']}% | ${score['cost_output']:.2f} | {', '.join(agents)} |\n")
+    f.write("\n")
+
+
+def _write_plan_overrides(f, models: dict, overrides: dict) -> None:
+    if not overrides:
+        return
+    f.write("**Agent overrides:**\n\n")
+    f.write("| Agent | Override Model | Default Model | Coding ELO | Cost ($/1M out) | Reason |\n")
+    f.write("|-------|---------------|---------------|------------|-----------------|--------|\n")
+    for agent, model in sorted(overrides.items()):
+        name = normalize_model_id(model)
+        score = get_model_score(model)
+        tier = AGENT_TIERS.get(agent, {}).get("tier", "?")
+        default_model = models.get("default" if tier == "coding" else tier, "?")
+        default_name = normalize_model_id(default_model) if default_model != "?" else "?"
+        reason = AGENT_TIERS.get(agent, {}).get("desc", "")
+        f.write(f"| {agent} | `{name}` | `{default_name}` | {score['elo']} | ${score['cost_output']:.2f} | {reason} |\n")
+    f.write("\n")
+
+
+def _write_plan_cost_analysis(f, plan: dict) -> None:
+    f.write("**Estimated cost per 1000 calls:**\n\n")
+    f.write("| Agent | Model | Profile | Est. Cost |\n")
+    f.write("|-------|-------|---------|----------|\n")
+    for agent in sorted(AGENT_TIERS.keys()):
+        model = resolve_model(plan, AGENT_TIERS[agent]["tier"], agent)
+        name = normalize_model_id(model)
+        profile = AGENT_TIERS[agent]["token_profile"]
+        cost = compute_cost_per_1000_calls(model, profile)
+        f.write(f"| {agent} | `{name}` | {profile} | ${cost:.4f} |\n")
+    f.write("\n")
+
+
+def _write_one_plan_detail(f, plan: dict) -> None:
+    plan_name = plan.get("plan", "?")
+    price = plan.get("price", "?")
+    f.write(f"### {plan_name} ({price})\n\n")
+
+    models = plan.get("models", {})
+    _write_plan_tier_defaults(f, models)
+
+    overrides = plan.get("agent_overrides", {})
+    _write_plan_overrides(f, models, overrides)
+
+    _write_plan_cost_analysis(f, plan)
+
+    _write_plan_assessment(f, models, plan)
+
+
+def _write_per_plan_breakdown(f, plans: list[dict]) -> None:
+    f.write("## Per-Plan Breakdown\n\n")
+    for plan in plans:
+        _write_one_plan_detail(f, plan)
+
+
+def _write_cost_comparison(f, plans: list[dict]) -> None:
+    f.write("## Cost Comparison: 1000 Feature Development Cycles\n\n")
+    f.write("*(Each cycle = 1 planning call + 3 coding calls + 2 review calls + 5 fast calls)*\n\n")
+
+    f.write("| Plan | Reasoning Cost | Coding Cost | Review Cost | Fast Cost | **Total** |\n")
+    f.write("|------|---------------|-------------|-------------|-----------|----------|\n")
+
+    for plan in plans:
+        plan_name = plan.get("plan", "?")
+        models = plan.get("models", {})
+        overrides = plan.get("agent_overrides", {})
+
+        premium = overrides.get("zeus", models.get("premium", ""))
+        coding = models.get("default", "")
+        fast = models.get("fast", "")
+
+        reasoning_cost = compute_cost_per_1000_calls(premium, "high-input") * 1
+        coding_cost = compute_cost_per_1000_calls(coding, "high-output") * 3
+        review_cost = compute_cost_per_1000_calls(premium, "high-input") * 2
+        fast_cost = compute_cost_per_1000_calls(fast, "many-calls") * 5
+
+        total = reasoning_cost + coding_cost + review_cost + fast_cost
+
+        f.write(f"| {plan_name} | ${reasoning_cost:.2f} | ${coding_cost:.2f} | ${review_cost:.2f} | ${fast_cost:.2f} | **${total:.2f}** |\n")
+
+    f.write("\n")
+
+
+def _write_recommendations(f) -> None:
+    f.write("## Recommendations\n\n")
+
+    f.write("### General Rules\n\n")
+    f.write("1. **Tier 1 (Premium) → best model** — zeus/athena/themis need deep logic, quality > cost\n")
+    f.write("2. **Tier 2 (Default) → balanced model** — gaia/hephaestus/prometheus/chiron need quality but not premium\n")
+    f.write("3. **Tier 3 (Coding) → cost-efficient model** — hermes/aphrodite/demeter/echo: deepseek-v4-flash or claude-haiku-4-5\n")
+    f.write("4. **Tier 4 (Fast) → cheapest model** — apollo/nyx/iris/mnemosyne/talos: many calls, cost adds up\n")
+    f.write("5. **Free plans should prioritize** — best model for Tier 1, accept trade-offs for Tiers 3-4\n")
+    f.write("6. **Monitor actual token usage** — adjust model assignments based on real cost data\n\n")
+
+    f.write("### When to Use Agent Overrides\n\n")
+    f.write("| Scenario | Override Example | Why |\n")
+    f.write("|----------|-----------------|-----|\n")
+    f.write("| Frontend needs vision | aphrodite → gemini-pro | Better at understanding UI layouts |\n")
+    f.write("| Research needs speed | apollo → flash | Faster responses, lower cost |\n")
+    f.write("| Complex analysis | gaia → pro model | Needs deep reasoning for satellite data |\n")
+    f.write("| Hotfix needs speed | talos → mini/flash | Quick fixes don't need premium |\n")
+    f.write("| Documentation is simple | mnemosyne → flash | Writing docs is straightforward |\n\n")
+
+    f.write("### Cost Optimization Checklist\n\n")
+    f.write("- [ ] All coding agents use cost-efficient models (deepseek-v4-flash or equivalent)\n")
+    f.write("- [ ] All fast agents use cheapest available model\n")
+    f.write("- [ ] Reasoning agents use best available model in plan\n")
+    f.write("- [ ] Agent overrides are justified (not just default tier model)\n")
+    f.write("- [ ] Estimated cost per 1000 calls is within budget\n")
+    f.write("- [ ] SWE-bench score ≥73% for all coding agents\n\n")
+
+    f.write("---\n\n")
+    f.write("*Generated by Pantheon Model Routing Matrix*\n")
+    f.write("*Data from LMSYS Arena Coding Leaderboard, Artificial Analysis, and SWE-bench Verified*\n")
+
+
 def generate_matrix(plans: list[dict], output_path: Path) -> None:
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     with open(output_path, "w") as f:
-        f.write(f"# Pantheon Model Routing Matrix — Cost-Optimized\n\n")
+        f.write("# Pantheon Model Routing Matrix — Cost-Optimized\n\n")
         f.write(f"**Generated:** {now}\n")
         f.write(f"**Plans analyzed:** {len(plans)}\n")
         f.write(f"**Agents:** {len(AGENT_TIERS)}\n")
-        f.write(f"**Data sources:** LMSYS Arena Coding (May 2026), Artificial Analysis, SWE-bench Verified\n\n")
+        f.write("**Data sources:** LMSYS Arena Coding (May 2026), Artificial Analysis, SWE-bench Verified\n\n")
 
-        # ── Token-Based Pricing Strategy ──
-        f.write("## Token-Based Pricing Strategy\n\n")
-        f.write("### Core Insight\n\n")
-        f.write("> We are **token-based**. Every API call costs per input + output token.\n")
-        f.write("> For coding tasks, **deepseek-v4-flash** (SWE-bench 79%, $0.28/1M output) is sufficient.\n")
-        f.write("> For reasoning tasks, quality matters more than cost — use the best available.\n\n")
-
-        f.write("### Agent Token Profiles\n\n")
-        f.write("| Profile | Agents | Why | Cost Driver |\n")
-        f.write("|---------|--------|-----|-------------|\n")
-        f.write("| **High Input** | zeus, athena, themis, gaia | Long context, complex prompts | Input tokens |\n")
-        f.write("| **High Output** | hermes, aphrodite, hephaestus | Generates lots of code | Output tokens |\n")
-        f.write("| **Medium Output** | demeter, prometheus, chiron, echo, mnemosyne | Config + some code | Balanced |\n")
-        f.write("| **Many Calls** | apollo, nyx, iris | Many short calls | Volume × cost |\n")
-        f.write("| **Low Output** | talos | Small fixes | Minimal |\n\n")
-
-        f.write("### Coding Tier Strategy\n\n")
-        f.write("For agents that generate code (hermes, aphrodite, etc.), we prioritize **cost efficiency**:\n\n")
-        f.write("| Model | SWE-bench | Cost ($/1M out) | Cost per 1000 calls (3K tokens) | Verdict |\n")
-        f.write("|-------|-----------|-----------------|--------------------------------|--------|\n")
-        for model, swe, cost in CODING_TIER_CANDIDATES:
-            cost_1k = cost * 3000 / 1_000_000 * 1000
-            f.write(f"| `{model}` | {swe}% | ${cost:.2f} | ${cost_1k:.4f} | {'✅ Recommended' if model == 'deepseek-v4-flash' else '⚠️ Alternative'} |\n")
-
-        f.write("\n**Recommendation:** Use `deepseek-v4-flash` for all coding agents. It scores 79% on SWE-bench (vs 80.8% for Claude Opus) but costs **89x less** per output token.\n\n")
-
-        # ── Routing Principles ──
-        f.write("## Routing Principles\n\n")
-        f.write("### Tier Assignment Logic\n\n")
-        f.write("| Tier | Agents | Strategy | Model Requirements |\n")
-        f.write("|------|--------|----------|--------------------|\n")
-        f.write("| **1. Premium** (reasoning) | zeus, athena, themis | Best ELO available | High coding ELO (>1450), strong logic |\n")
-        f.write("| **2. Default** (analysis/advanced) | gaia, hephaestus, prometheus, chiron | Balance quality + cost | Good reasoning, moderate cost |\n")
-        f.write("| **3. Coding** (day-to-day) | hermes, aphrodite, demeter, echo | Cost-efficient, SWE-bench ≥73% | Good coding, low cost/output |\n")
-        f.write("| **4. Fast** (research/ops) | apollo, nyx, iris, mnemosyne, talos | Lowest latency, cheapest | Fast response, minimal cost |\n\n")
-
-        f.write("### Decision Rules\n\n")
-        f.write("1. **Tier 1 (Premium) → best model** — reasoning, planning, security review need deep logic\n")
-        f.write("2. **Tier 2 (Default) → balanced model** — analysis and advanced tasks need quality but not premium\n")
-        f.write("3. **Tier 3 (Coding) → cost-efficient model** — deepseek-v4-flash or claude-haiku-4-5 for day-to-day coding\n")
-        f.write("4. **Tier 4 (Fast) → cheapest model** — research, ops, docs need speed, not depth\n")
-        f.write("5. **Agent overrides** — specific agents may need different models (e.g., gaia → analysis-capable)\n")
-        f.write("6. **Free plans** — use best available for Tier 1, accept trade-offs for Tiers 3-4\n\n")
-
-        # ── Full Matrix ──
-        f.write("## Model Assignment Matrix\n\n")
-
-        # Header row
-        f.write("| Agent | Tier | Type |")
-        for plan in plans:
-            plan_name = plan.get("plan", "?")
-            f.write(f" {plan_name} |")
-        f.write("\n")
-
-        f.write("|-------|------|------|")
-        for _ in plans:
-            f.write("--------|")
-        f.write("\n")
-
-        # Agent rows
-        for agent, info in sorted(AGENT_TIERS.items()):
-            f.write(f"| **{agent}** | {info['tier']} | {info['type']} |")
-            for plan in plans:
-                model = resolve_model(plan, info["tier"], agent)
-                model_name = normalize_model_id(model)
-                f.write(f" `{model_name}` |")
-            f.write("\n")
-
-        f.write("\n")
-
-        # ── Per-Plan Detail ──
-        f.write("## Per-Plan Breakdown\n\n")
-
-        for plan in plans:
-            plan_name = plan.get("plan", "?")
-            price = plan.get("price", "?")
-
-            f.write(f"### {plan_name} ({price})\n\n")
-
-            # Tier defaults
-            models = plan.get("models", {})
-            f.write("**Tier defaults:**\n\n")
-            f.write("| Tier | Model | Coding ELO | SWE-bench | Cost ($/1M out) | Agents |\n")
-            f.write("|------|-------|------------|-----------|-----------------|--------|\n")
-            for tier_key in ["premium", "default", "fast", "free"]:
-                if tier_key in models:
-                    model = models[tier_key]
-                    name = normalize_model_id(model)
-                    score = get_model_score(model)
-                    if tier_key == "premium":
-                        agents = [a for a, i in AGENT_TIERS.items() if i["tier"] == "premium"]
-                    elif tier_key == "default":
-                        agents = [a for a, i in AGENT_TIERS.items() if i["tier"] in ("default", "coding")]
-                    elif tier_key == "fast":
-                        agents = [a for a, i in AGENT_TIERS.items() if i["tier"] == "fast"]
-                    else:
-                        agents = []
-                    f.write(f"| {tier_key} | `{name}` | {score['elo']} | {score['swe_bench']}% | ${score['cost_output']:.2f} | {', '.join(agents)} |\n")
-            f.write("\n")
-
-            # Agent overrides
-            overrides = plan.get("agent_overrides", {})
-            if overrides:
-                f.write("**Agent overrides:**\n\n")
-                f.write("| Agent | Override Model | Default Model | Coding ELO | Cost ($/1M out) | Reason |\n")
-                f.write("|-------|---------------|---------------|------------|-----------------|--------|\n")
-                for agent, model in sorted(overrides.items()):
-                    name = normalize_model_id(model)
-                    score = get_model_score(model)
-                    tier = AGENT_TIERS.get(agent, {}).get("tier", "?")
-                    default_model = models.get("default" if tier == "coding" else tier, "?")
-                    default_name = normalize_model_id(default_model) if default_model != "?" else "?"
-                    reason = AGENT_TIERS.get(agent, {}).get("desc", "")
-                    f.write(f"| {agent} | `{name}` | `{default_name}` | {score['elo']} | ${score['cost_output']:.2f} | {reason} |\n")
-                f.write("\n")
-
-            # Cost analysis
-            f.write("**Estimated cost per 1000 calls:**\n\n")
-            f.write("| Agent | Model | Profile | Est. Cost |\n")
-            f.write("|-------|-------|---------|----------|\n")
-            for agent in sorted(AGENT_TIERS.keys()):
-                model = resolve_model(plan, AGENT_TIERS[agent]["tier"], agent)
-                name = normalize_model_id(model)
-                profile = AGENT_TIERS[agent]["token_profile"]
-                cost = compute_cost_per_1000_calls(model, profile)
-                f.write(f"| {agent} | `{name}` | {profile} | ${cost:.4f} |\n")
-            f.write("\n")
-
-            # Quality assessment
-            f.write("**Assessment:**\n\n")
-            premium_model = models.get("premium", "")
-            default_model = models.get("default", "")
-            fast_model = models.get("fast", "")
-
-            f.write(f"- **Tier 1 (Premium):** {normalize_model_id(premium_model) if premium_model else 'N/A'} — ")
-            if "opus" in premium_model.lower():
-                f.write("Excellent for complex reasoning. Best for zeus/athena/themis.\n")
-            elif "kimi" in premium_model.lower() or "sonnet" in premium_model.lower():
-                f.write("Strong reasoning at good price. Good balance for planning and review.\n")
-            elif "mini" in premium_model.lower():
-                f.write("Moderate reasoning. May struggle with complex orchestration.\n")
-            else:
-                f.write("Verify coding ELO before use.\n")
-
-            f.write(f"- **Tier 2 (Default):** {normalize_model_id(default_model) if default_model else 'N/A'} — ")
-            score = get_model_score(default_model) if default_model else {}
-            if score.get("swe_bench", 0) >= 75:
-                f.write(f"Excellent for analysis/advanced tasks (SWE-bench {score['swe_bench']}%). Strong across default agents.\n")
-            elif score.get("swe_bench", 0) >= 70:
-                f.write(f"Good for analysis tasks (SWE-bench {score['swe_bench']}%). Suitable for most advanced work.\n")
-            else:
-                f.write(f"Moderate capability. May need more guidance for complex analysis.\n")
-
-            f.write(f"- **Tier 3 (Coding):** uses default tier model — ")
-            if score.get("swe_bench", 0) >= 75:
-                f.write(f"Excellent for day-to-day coding (SWE-bench {score['swe_bench']}%). Cost-efficient for high-output agents.\n")
-            elif score.get("swe_bench", 0) >= 70:
-                f.write(f"Good for coding (SWE-bench {score['swe_bench']}%). Consider override to deepseek-v4-flash for better cost.\n")
-            else:
-                f.write(f"Moderate coding. Consider override to deepseek-v4-flash or claude-haiku-4-5.\n")
-
-            f.write(f"- **Tier 4 (Fast):** {normalize_model_id(fast_model) if fast_model else 'N/A'} — ")
-            if "flash" in fast_model.lower() or "haiku" in fast_model.lower() or "nano" in fast_model.lower():
-                f.write("Excellent for quick tasks. Low latency, good for research/ops agents.\n")
-            elif "mini" in fast_model.lower():
-                f.write("Good balance of speed and quality. Suitable for fast agents.\n")
-            else:
-                f.write("Verify latency before assigning to fast agents.\n")
-
-            f.write("\n---\n\n")
-
-        # ── Cost Comparison Across Plans ──
-        f.write("## Cost Comparison: 1000 Feature Development Cycles\n\n")
-        f.write("*(Each cycle = 1 planning call + 3 coding calls + 2 review calls + 5 fast calls)*\n\n")
-
-        f.write("| Plan | Reasoning Cost | Coding Cost | Review Cost | Fast Cost | **Total** |\n")
-        f.write("|------|---------------|-------------|-------------|-----------|----------|\n")
-
-        for plan in plans:
-            plan_name = plan.get("plan", "?")
-            models = plan.get("models", {})
-            overrides = plan.get("agent_overrides", {})
-
-            # Get models for each tier
-            premium = overrides.get("zeus", models.get("premium", ""))
-            coding = models.get("default", "")
-            fast = models.get("fast", "")
-
-            # Cost calculation
-            reasoning_cost = compute_cost_per_1000_calls(premium, "high-input") * 1  # 1 planning call
-            coding_cost = compute_cost_per_1000_calls(coding, "high-output") * 3  # 3 coding calls
-            review_cost = compute_cost_per_1000_calls(premium, "high-input") * 2  # 2 review calls (themis)
-            fast_cost = compute_cost_per_1000_calls(fast, "many-calls") * 5  # 5 fast calls
-
-            total = reasoning_cost + coding_cost + review_cost + fast_cost
-
-            f.write(f"| {plan_name} | ${reasoning_cost:.2f} | ${coding_cost:.2f} | ${review_cost:.2f} | ${fast_cost:.2f} | **${total:.2f}** |\n")
-
-        f.write("\n")
-
-        # ── Recommendations ──
-        f.write("## Recommendations\n\n")
-
-        f.write("### General Rules\n\n")
-        f.write("1. **Tier 1 (Premium) → best model** — zeus/athena/themis need deep logic, quality > cost\n")
-        f.write("2. **Tier 2 (Default) → balanced model** — gaia/hephaestus/prometheus/chiron need quality but not premium\n")
-        f.write("3. **Tier 3 (Coding) → cost-efficient model** — hermes/aphrodite/demeter/echo: deepseek-v4-flash or claude-haiku-4-5\n")
-        f.write("4. **Tier 4 (Fast) → cheapest model** — apollo/nyx/iris/mnemosyne/talos: many calls, cost adds up\n")
-        f.write("5. **Free plans should prioritize** — best model for Tier 1, accept trade-offs for Tiers 3-4\n")
-        f.write("6. **Monitor actual token usage** — adjust model assignments based on real cost data\n\n")
-
-        f.write("### When to Use Agent Overrides\n\n")
-        f.write("| Scenario | Override Example | Why |\n")
-        f.write("|----------|-----------------|-----|\n")
-        f.write("| Frontend needs vision | aphrodite → gemini-pro | Better at understanding UI layouts |\n")
-        f.write("| Research needs speed | apollo → flash | Faster responses, lower cost |\n")
-        f.write("| Complex analysis | gaia → pro model | Needs deep reasoning for satellite data |\n")
-        f.write("| Hotfix needs speed | talos → mini/flash | Quick fixes don't need premium |\n")
-        f.write("| Documentation is simple | mnemosyne → flash | Writing docs is straightforward |\n\n")
-
-        f.write("### Cost Optimization Checklist\n\n")
-        f.write("- [ ] All coding agents use cost-efficient models (deepseek-v4-flash or equivalent)\n")
-        f.write("- [ ] All fast agents use cheapest available model\n")
-        f.write("- [ ] Reasoning agents use best available model in plan\n")
-        f.write("- [ ] Agent overrides are justified (not just default tier model)\n")
-        f.write("- [ ] Estimated cost per 1000 calls is within budget\n")
-        f.write("- [ ] SWE-bench score ≥73% for all coding agents\n\n")
-
-        f.write("---\n\n")
-        f.write(f"*Generated by Pantheon Model Routing Matrix*\n")
-        f.write(f"*Data from LMSYS Arena Coding Leaderboard, Artificial Analysis, and SWE-bench Verified*\n")
+        _write_strategy_section(f)
+        _write_routing_principles(f)
+        _write_full_assignment_matrix(f, plans)
+        _write_per_plan_breakdown(f, plans)
+        _write_cost_comparison(f, plans)
+        _write_recommendations(f)
 
     print(f"📄 Matrix saved to: {output_path}")
 
@@ -636,7 +676,7 @@ def main():
     output_path = Path(args.output)
     generate_matrix(plans, output_path)
 
-    print(f"\n✅ Matrix generated!")
+    print("\n✅ Matrix generated!")
 
 
 if __name__ == "__main__":

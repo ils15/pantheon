@@ -33,12 +33,10 @@ handoffs:
     agent: zeus
     prompt: "Fix the issues identified in the code review above."
     send: false
-    model: premium
   - label: "📝 Document Findings"
     agent: mnemosyne
     prompt: "Document the review findings and decisions above in the Memory Bank."
     send: false
-    model: fast
 user-invocable: true
 temperature: 0.1
 steps: 20
@@ -523,10 +521,3 @@ Themis returns:
 ---
 
 **Philosophy**: Catch issues early. Prevent production problems. Maintain standards.
-
-## 🤝 Handoff Routes
-
-| From | To | Purpose | Model Tier |
-|------|---|---------|------------|
-| themis | zeus | Escalate blockers | premium |
-| themis | mnemosyne | Document findings | fast |
