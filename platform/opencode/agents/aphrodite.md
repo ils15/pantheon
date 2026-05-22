@@ -27,8 +27,6 @@ permission:
   bash: allow
 temperature: 0.5
 steps: 30
-mcpServers:
-  - context7
 ---
 
 # Aphrodite - React Implementation Specialist

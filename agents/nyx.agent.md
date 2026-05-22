@@ -20,8 +20,6 @@ permission:
   edit: ask
   bash: allow
 agents: ['apollo']
-mcpServers:
-  - context7
 handoffs:
   - label: "🌀 Report Anomaly"
     agent: zeus

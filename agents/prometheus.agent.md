@@ -14,6 +14,7 @@ tools:
   - execute/runInTerminal
   - execute/getTerminalOutput
 permission:
+  edit: allow
   bash: allow
 agents: ['apollo']
 handoffs:

@@ -25,6 +25,7 @@ tools:
   - browser/handleDialog
   - browser/screenshotPage
 permission:
+  edit: allow
   bash: allow
 agents: ['apollo']
 handoffs:
@@ -33,8 +34,6 @@ handoffs:
     prompt: "Please perform a code review and accessibility audit on these frontend changes according to your instructions."
     send: true
     model: premium
-mcpServers:
-  - context7
 user-invocable: true
 temperature: 0.5
 steps: 30

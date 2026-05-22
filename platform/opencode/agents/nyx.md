@@ -28,8 +28,6 @@ permission:
   bash: allow
 temperature: 0.1
 steps: 15
-mcpServers:
-  - context7
 ---
 
 # Nyx — Observability & Monitoring Specialist

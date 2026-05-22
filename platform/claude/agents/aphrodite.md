@@ -4,8 +4,6 @@ description: Frontend specialist — React 19, TypeScript strict, WCAG accessibi
 mode: primary
 tools: Agent, AskUserQuestion, Grep, Grep, Read, Edit, Bash, Bash, Bash
 skills: frontend-analyzer, tdd-with-agents, nextjs-seo-optimization
-mcpServers:
-  - context7
 agents:
   - apollo
 user-invocable: true
