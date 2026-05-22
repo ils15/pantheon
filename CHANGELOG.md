@@ -24,16 +24,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `opencode-free-safe` preset in `platform/forge.json` for safer free-mode routing
 
 ### Changed
-- Permission and dispatch enforcement finalized across agents and platform artifacts
-- Hooks bridge hardened for Claude Code ↔ OpenCode compatibility via `.claude/settings.json` + plugin wiring
-- `/forge` docs and OpenCode platform docs updated with compatibility contract and safer usage guidance
-- `sync-opencode.sh` now syncs `platform/forge.json` into `~/.config/opencode/platform/forge.json`
-- Version bump to `3.8.0` across release manifests and README badge
+- Finalized permission and dispatch enforcement across agents and generated platform artifacts
+- Hardened the Claude Code ↔ OpenCode hooks bridge via `.claude/settings.json` and plugin wiring
+- Updated `/forge` and OpenCode platform documentation with a clearer compatibility contract and safer usage guidance
+- Updated `sync-opencode.sh` to sync `platform/forge.json` into `~/.config/opencode/platform/forge.json`
+- Bumped release manifests and README badge references to `3.8.0`
 
 ### Fixed
-- Agora self-consistency and dispatch restrictions (`task: { mnemosyne: allow }`, reduced task budget)
-- Provider/model consistency in forge presets (including `github-copilot/*` normalization)
-- OpenCode runtime compatibility by removing unsupported `todoContinuation` from `opencode.json`
+- Improved Agora self-consistency and dispatch restrictions (`task: { mnemosyne: allow }`, reduced task budget)
+- Fixed provider/model consistency in forge presets, including `github-copilot/*` normalization
+- Restored OpenCode `v1.15.7` compatibility by removing unsupported `todoContinuation` from `opencode.json`
+- Added installer-side compatibility cleanup so `scripts/install/opencode.mjs` removes legacy `todoContinuation` from merged target configs
 
 ## [v3.7.2] - 2026-05-21
 
