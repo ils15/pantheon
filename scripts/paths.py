@@ -2,7 +2,7 @@
 Pantheon XDG Path Utilities — XDG Base Directory compliant path resolution.
 
 Usage:
-    from paths import xdg_config_home, plans_dir
+    from paths import xdg_config_home, opencode_plans_dir
 
 Per the XDG Base Directory spec (XDG_CONFIG_HOME, XDG_DATA_HOME, XDG_STATE_HOME, XDG_CACHE_HOME).
 All fallback to their spec defaults when the env var is unset.
@@ -13,7 +13,10 @@ from pathlib import Path
 
 
 def _from_env(var: str, default: str) -> Path:
-    return Path(os.environ.get(var, os.path.expanduser(default)))
+    value = os.environ.get(var)
+    if value is None or not value.strip():
+        value = default
+    return Path(os.path.expanduser(value.strip()))
 
 
 def xdg_config_home() -> Path:
