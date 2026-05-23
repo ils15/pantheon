@@ -17,6 +17,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+## [v3.8.1] - 2026-05-23
+
+<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
+     move this section to a versioned entry and reset the template below. -->
+
+### Changed
+
+### Removed
 ## [v3.8.0] - 2026-05-22
 
 ### Added
