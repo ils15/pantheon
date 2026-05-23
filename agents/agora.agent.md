@@ -6,7 +6,7 @@ tools:
   - search/codebase
   - read/readFile
   - web/fetch
-  - task
+  - agent
 permission:
   edit: deny
   bash: deny

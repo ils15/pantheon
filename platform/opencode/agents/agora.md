@@ -7,6 +7,7 @@ tools:
   grep: true
   read: true
   webfetch: true
+  task: true
 handoffs:
   - label: 📝 Persist DISC Artifact
     agent: mnemosyne
