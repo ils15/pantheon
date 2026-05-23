@@ -3,7 +3,14 @@
 # Logs when Zeus delegates to a subagent.
 set -euo pipefail
 
-LOG_DIR="${LOG_DIR:-logs/agent-sessions}"
+# Project-local by default; set XDG_STATE_HOME for system-wide logging
+if [ -n "${LOG_DIR:-}" ]; then
+    LOG_DIR="$LOG_DIR"
+elif [ -n "${XDG_STATE_HOME:-}" ]; then
+    LOG_DIR="$XDG_STATE_HOME/pantheon/hooks"
+else
+    LOG_DIR="logs/agent-sessions"
+fi
 mkdir -p "$LOG_DIR"
 
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")

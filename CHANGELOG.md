@@ -17,6 +17,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+## [v3.8.1] - 2026-05-23
+
+### Added
+- `scripts/paths.py` for XDG Base Directory compliant path resolution shared by Python scripts.
+
+### Changed
+- Python plan loaders now resolve OpenCode plans from `XDG_CONFIG_HOME` via `opencode_plans_dir()`.
+- Hook scripts now keep project-local logging by default and only use `$XDG_STATE_HOME` when explicitly set.
+- Agora agent configuration updated for 2–4 specialist dispatch with reduced step budgets.
+- `sync-opencode.sh` now uses `$XDG_DATA_HOME` for synced repository location.
+- Release manifests updated to `v3.8.1`.
+
 ## [v3.8.0] - 2026-05-22
 
 ### Added

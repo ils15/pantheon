@@ -23,7 +23,7 @@
       "description": "Central orchestrator — delegates to specialized agents, never implements directly",
       "color": "#FFD700",
       "temperature": 0.2,
-      "steps": 30,
+      "steps": 20,
       "permission": {
         "edit": "deny",
         "bash": "deny",
@@ -38,7 +38,7 @@
       "description": "Strategic planner — creates TDD-driven implementation plans with research-first architecture approach",
       "color": "#FFD700",
       "temperature": 0.1,
-      "steps": 20,
+      "steps": 12,
       "permission": {
         "edit": "deny",
         "bash": "deny"
@@ -258,20 +258,32 @@
       "task_budget": 0
     },
     "agora": {
-      "description": "Multi-perspective synthesis engine — analyzes questions from multiple domain perspectives internally, compares agreements & divergences, produces decisive recommendation with confidence level.",
+      "description": "Council synthesis engine — dispatches questions to 2-4 specialist agents in parallel, compares responses, synthesizes decisive recommendation with confidence level.",
       "color": "#9B59B6",
       "temperature": 0.1,
-      "steps": 20,
+      "steps": 10,
       "permission": {
         "edit": "deny",
         "bash": "deny",
         "task": {
+          "hermes": "allow",
+          "aphrodite": "allow",
+          "demeter": "allow",
+          "prometheus": "allow",
+          "themis": "allow",
+          "athena": "allow",
+          "hephaestus": "allow",
+          "nyx": "allow",
+          "chiron": "allow",
+          "echo": "allow",
+          "gaia": "allow",
+          "apollo": "allow",
           "mnemosyne": "allow"
         }
       },
       "mode": "subagent",
       "hidden": true,
-      "task_budget": 3
+      "task_budget": 5
     }
   },
   "compaction": {
