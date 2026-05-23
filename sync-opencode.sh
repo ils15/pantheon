@@ -20,7 +20,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SYNC_REPO="$HOME/.local/share/opencode/opencode-synced/repo"
+XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+SYNC_REPO="$XDG_DATA_HOME/opencode/opencode-synced/repo"
 NO_PUSH=false
 CLEAN=false
 
