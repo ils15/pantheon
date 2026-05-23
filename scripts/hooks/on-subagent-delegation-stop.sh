@@ -3,7 +3,8 @@
 # Logs completion or failure of subagent tasks.
 set -euo pipefail
 
-LOG_DIR="${LOG_DIR:-logs/agent-sessions}"
+# Project-local by default; set XDG_STATE_HOME for system-wide logging
+LOG_DIR="${LOG_DIR:-${XDG_STATE_HOME:-$HOME/.local/state}/pantheon/hooks}"
 mkdir -p "$LOG_DIR"
 
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
