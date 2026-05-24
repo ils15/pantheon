@@ -8,6 +8,37 @@ import { join, resolve } from 'path';
 import { homedir } from 'os';
 import { ROOT, PLATFORM_DIR, summary, sourceDirValid, copyFiles, writeIfChanged, collectSkillNames, installSkills, syncDir } from './shared.mjs';
 
+function deepClone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function mergeMissing(target, source) {
+  if (!source || typeof source !== 'object' || Array.isArray(source)) return target;
+  if (!target || typeof target !== 'object' || Array.isArray(target)) return deepClone(source);
+
+  for (const [key, sourceVal] of Object.entries(source)) {
+    const targetVal = target[key];
+
+    if (targetVal === undefined) {
+      target[key] = deepClone(sourceVal);
+      continue;
+    }
+
+    if (
+      sourceVal &&
+      typeof sourceVal === 'object' &&
+      !Array.isArray(sourceVal) &&
+      targetVal &&
+      typeof targetVal === 'object' &&
+      !Array.isArray(targetVal)
+    ) {
+      mergeMissing(targetVal, sourceVal);
+    }
+  }
+
+  return target;
+}
+
 /**
  * Detect whether `target` is the user's global OpenCode config directory
  * (~/.config/opencode or $XDG_CONFIG_HOME/opencode).
@@ -204,27 +235,60 @@ export function installOpenCode(target, dryRun, clean = false, components = ['ag
       agora:     { mode: 'subagent',         hidden: true,   task_budget: 10, bash: 'deny' },
     };
 
+    const MANAGED_FIELDS = ['steps', 'task_budget', 'temperature', 'color', 'permission'];
+
     for (const [agentName, agentCfg] of Object.entries(pantheonConfig.agent)) {
       if (!agentCfg || typeof agentCfg !== 'object') continue;
+
+      // Common: set source, strip model/small_model from Pantheon config
+      const safeCfg = { ...agentCfg };
+      delete safeCfg.model;
+      delete safeCfg.small_model;
+      delete safeCfg.description; // handled separately
+
       if (config.agent[agentName]) {
+        // ── Agent exists in target config ──
+        // Update framework-managed fields (steps, task_budget, etc.)
+        // Preserve user-customized fields (model, provider, mcp, etc.)
         const existing = config.agent[agentName];
         if (agentSources[agentName]) existing.source = agentSources[agentName];
+        for (const field of MANAGED_FIELDS) {
+          if (field in safeCfg) {
+            existing[field] = JSON.parse(JSON.stringify(safeCfg[field]));
+          }
+        }
+        // Remove stale fields that are no longer in Pantheon config
         delete existing.model;
         delete existing.small_model;
-        continue;
-      }
-      const newAgent = {};
-      if (agentSources[agentName]) newAgent.source = agentSources[agentName];
-      if (agentCfg.description) newAgent.description = agentCfg.description;
-      const defaults = agentDefaults[agentName];
-      if (defaults) {
-        for (const [key, val] of Object.entries(defaults)) {
-          if (key === 'bash') continue;
-          newAgent[key] = val;
+      } else {
+        // ── New agent ──
+        const newAgent = {};
+        if (agentSources[agentName]) newAgent.source = agentSources[agentName];
+        if (agentCfg.description) newAgent.description = agentCfg.description;
+
+        // Copy all framework-managed fields from Pantheon config
+        for (const field of MANAGED_FIELDS) {
+          if (field in safeCfg) {
+            newAgent[field] = JSON.parse(JSON.stringify(safeCfg[field]));
+          }
         }
-        if (defaults.bash !== undefined) newAgent.permission = { bash: defaults.bash };
+
+        // Apply defaults for any missing fields
+        const defaults = agentDefaults[agentName];
+        if (defaults) {
+          if (!newAgent.mode && defaults.mode) newAgent.mode = defaults.mode;
+          if (!newAgent.hidden && defaults.hidden) newAgent.hidden = defaults.hidden;
+          if (!newAgent.task_budget && defaults.task_budget !== undefined) newAgent.task_budget = defaults.task_budget;
+          // Apply bash permission from defaults if permission wasn't set from config
+          if (!newAgent.permission && defaults.bash !== undefined) {
+            newAgent.permission = { bash: defaults.bash };
+          } else if (newAgent.permission && defaults.bash !== undefined && !newAgent.permission.bash) {
+            newAgent.permission.bash = defaults.bash;
+          }
+        }
+
+        config.agent[agentName] = newAgent;
       }
-      config.agent[agentName] = newAgent;
     }
 
     const pantheonAgentNames = new Set(Object.keys(pantheonConfig.agent));
@@ -239,11 +303,58 @@ export function installOpenCode(target, dryRun, clean = false, components = ['ag
   // --------------------------------------------------------------------
   // B. Merge commands
   // --------------------------------------------------------------------
+  const commandsPath = join(ROOT, 'commands', 'commands.json');
+  if (!config.command) config.command = {};
+  if (existsSync(commandsPath)) {
+    try {
+      const pantheonCommands = JSON.parse(readFileSync(commandsPath, 'utf8'));
+      if (pantheonCommands && typeof pantheonCommands === 'object') {
+        for (const [name, definition] of Object.entries(pantheonCommands)) {
+          config.command[name] = deepClone(definition);
+        }
+      }
+    } catch {
+      // Non-fatal: keep existing config.command if commands.json is malformed.
+    }
+  }
+
+  // --------------------------------------------------------------------
+  // B.5 Ensure critical top-level OpenCode config sections
+  // --------------------------------------------------------------------
+  if (!config.default_agent && pantheonConfig.default_agent) {
+    config.default_agent = pantheonConfig.default_agent;
+  }
+
+  if (!Array.isArray(config.plugin)) {
+    config.plugin = [];
+  }
+  if (Array.isArray(pantheonConfig.plugin)) {
+    for (const plugin of pantheonConfig.plugin) {
+      if (!config.plugin.includes(plugin)) {
+        config.plugin.push(plugin);
+      }
+    }
+  }
+
+  if (!config.provider && pantheonConfig.provider) {
+    config.provider = deepClone(pantheonConfig.provider);
+  } else if (config.provider && pantheonConfig.provider) {
+    mergeMissing(config.provider, pantheonConfig.provider);
+  }
+
+  if (!config.compaction && pantheonConfig.compaction) {
+    config.compaction = deepClone(pantheonConfig.compaction);
+  } else if (config.compaction && pantheonConfig.compaction) {
+    mergeMissing(config.compaction, pantheonConfig.compaction);
+  }
 
   // --------------------------------------------------------------------
   // C. Merge permissions
   // --------------------------------------------------------------------
   if (!config.permission) config.permission = {};
+  if (pantheonConfig.permission) {
+    mergeMissing(config.permission, pantheonConfig.permission);
+  }
   if (componentSet.has('skills')) {
     config.permission.skill = { '*': 'allow' };
   }
