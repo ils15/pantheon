@@ -1,7 +1,7 @@
 ---
 name: zeus
 color: "#FFD700"
-description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend + obsolete lib audit), aphrodite (frontend + deprecated npm audit), demeter (database), prometheus (infra), themis (review + ruff/Biome dead-code/deprecation gate), iris (GitHub), mnemosyne (docs), talos (hotfix), hephaestus (AI pipelines), chiron (model routing), echo (conversational AI), nyx (observability), argus (visual analysis)"
+description: "Central orchestrator — never implements. Delegates to: athena, apollo, hermes, aphrodite, demeter, prometheus, themis, iris, mnemosyne, talos, hephaestus, chiron, echo, nyx, argus"
 # mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
 mode: primary
 tools:

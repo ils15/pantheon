@@ -2,7 +2,7 @@
 name: themis
 color: "#FFD700"
 hidden: true
-description: "Quality & security gate — ruff/Biome linting, dead/legacy code detection, OWASP Top 10, coverage >80%, correctness, deprecation audit. Called by: hermes, aphrodite, demeter, zeus. Escalates blockers to zeus."
+description: "Quality & security gate — ruff/Biome linting, dead/legacy code detection, OWASP Top 10, coverage >80%, correctness, deprecation audit. Called by implementers; escalates blockers to zeus."
 # mode: platform-specific — used by OpenCode (subagent=not in selector, only invoked by other agents)
 mode: subagent
 tools:

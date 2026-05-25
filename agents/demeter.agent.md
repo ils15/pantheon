@@ -2,7 +2,7 @@
 name: demeter
 color: "#4A90D9"
 hidden: true
-description: "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention, TDD migrations, modern DB libs (avoid obsolete ORM patterns). Calls apollo as nested subagent for optimization patterns. Sends work to themis for review."
+description: "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention, TDD migrations, modern DB libs. Calls apollo for discovery, sends to themis."
 # mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
 mode: primary
 tools:

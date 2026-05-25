@@ -173,28 +173,7 @@ def upgrade():
 
 ## Best Practices
 
-### Model Design
-- ✅ Use `DateTime(timezone=True)` for timestamps
-- ✅ Add `server_default=func.now()` for created_at
-- ✅ Add `onupdate=func.now()` for updated_at
-- ✅ Define indexes on foreign keys and frequently queried columns
-- ✅ Use proper relationship `back_populates`
-- ✅ Add `__repr__` for debugging
-
-### Migrations
-- ✅ Always write both upgrade() and downgrade()
-- ✅ Test migrations on a copy of production data
-- ✅ Use transactions for data migrations
-- ✅ Document breaking changes in migration comments
-- ✅ Never edit old migrations (create new ones)
-
-### Performance
-- ✅ Use async sessions everywhere
-- ✅ Batch queries where possible
-- ✅ Add indexes for WHERE, JOIN, ORDER BY columns
-- ✅ Use selectinload for 1:N relationships
-- ✅ Use joinedload for N:1 relationships
-- ✅ Avoid loading unnecessary columns (use defer())
+> See instructions/database-standards.instructions.md for the complete database standards.
 
 ## 🚨 Documentation Policy
 
