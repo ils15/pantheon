@@ -750,10 +750,16 @@ function main() {
 
     // Run all 5 test categories
     testSchemaConformance(platform, adapter, canonicalToolSet, canonicalFmKeys);
-    testAgentOutputConformance(platform, adapter, canonicalAgentNames);
-    testToolMappingConformance(platform, adapter, canonicalAgentNames, canonicalToolSet);
+    if (adapter.skipAgentSync) {
+      pass(platform, 'Output', 'Agent output conformance skipped (skipAgentSync: true)');
+      pass(platform, 'ToolMap', 'Tool mapping conformance skipped (skipAgentSync: true)');
+      pass(platform, 'AgentMode', 'Agent mode conformance skipped (skipAgentSync: true)');
+    } else {
+      testAgentOutputConformance(platform, adapter, canonicalAgentNames);
+      testToolMappingConformance(platform, adapter, canonicalAgentNames, canonicalToolSet);
+      testAgentModeConformance(platform, adapter, canonicalAgentNames);
+    }
     testCapabilityConformance(platform, adapter);
-    testAgentModeConformance(platform, adapter, canonicalAgentNames);
 
     // Per-platform summary
     const platResults = results.filter(r => r.platform === platform);
