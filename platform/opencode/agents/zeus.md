@@ -3,7 +3,6 @@ name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena (plan), apollo (research), hermes (backend + obsolete lib audit), aphrodite (frontend + deprecated npm audit), demeter (database), prometheus (infra), themis (review + ruff/Biome dead-code/deprecation gate), iris (GitHub), mnemosyne (docs), talos (hotfix), hephaestus (AI pipelines), chiron (model routing), echo (conversational AI), nyx (observability), argus (visual analysis)"
 mode: primary
 tools:
-  agent: true
   task: true
   question: true
   bash: true

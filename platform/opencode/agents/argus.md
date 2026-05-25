@@ -3,7 +3,7 @@ name: argus
 description: "Visual analysis specialist — interprets screenshots, images, PDFs, diagrams, and UI mockups. Read-only argus with no edit capabilities. Tier: fast."
 mode: subagent
 tools:
-  agent: true
+  task: true
   read: true
   webfetch: true
 skills:
