@@ -1,5 +1,7 @@
 ---
 name: chiron
+color: "#4A90D9"
+hidden: true
 description: Model provider hub specialist — multi-model routing, AWS Bedrock, cost optimization, provider abstraction. The bridge between agents and AI models. Calls apollo for discovery. Sends work to themis for review.
 # mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
 mode: primary

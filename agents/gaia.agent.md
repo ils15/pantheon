@@ -1,5 +1,8 @@
 ---
 name: gaia
+color: "#4A90D9"
+hidden: true
+disable_model_invocation: true
 description: "Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification. Read-only analysis of geospatial data."
 # mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
 mode: primary
@@ -26,7 +29,6 @@ handoffs:
     prompt: "Create an implementation plan based on this remote sensing analysis."
     send: false
 user-invocable: true
-disable-model-invocation: true
 temperature: 0.2
 steps: 20
 skills:

@@ -1,5 +1,7 @@
 ---
 name: apollo
+color: "#50C878"
+hidden: true
 description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, demeter. No edits, no commands."
 tools:
   - search/codebase

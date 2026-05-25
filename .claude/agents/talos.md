@@ -13,6 +13,7 @@ permission:
     git *: allow
 temperature: 0.3
 steps: 5
+disable_model_invocation: true
 ---
 
 # Talos - Hotfix & Rapid Repair

@@ -15,6 +15,7 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import yaml from 'js-yaml';
+import { parseFrontmatter, serializeFm } from './install/shared.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
@@ -28,32 +29,6 @@ const TARGET_PLATFORM = args.find(a => !a.startsWith('--'));
 // ---------------------------------------------------------------------------
 // YAML helpers
 // ---------------------------------------------------------------------------
-
-/**
- * Parse ---frontmatter--- + body from a markdown file.
- * Returns { fm: object, body: string } or null if no frontmatter.
- */
-function parseFrontmatter(content) {
-  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
-  if (!match) return null;
-  return {
-    fm: yaml.load(match[1]) ?? {},
-    body: match[2],
-  };
-}
-
-/**
- * Serialize a frontmatter object back to YAML.
- * Uses long-line mode and avoids unnecessary quoting.
- */
-function serializeFm(fm) {
-  return yaml.dump(fm, {
-    lineWidth: -1,
-    quotingType: '"',
-    forceQuotes: false,
-    noRefs: true,
-  });
-}
 
 // ---------------------------------------------------------------------------
 // Tool mapping / deduplication

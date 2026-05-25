@@ -1,5 +1,7 @@
 ---
 name: iris
+color: "#50C878"
+hidden: true
 description: "GitHub operations specialist — branches, pull requests, issues, releases, tags. Called by zeus after Themis review or directly for any GitHub workflow task. Never pushes or merges without explicit human approval."
 # mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
 mode: primary

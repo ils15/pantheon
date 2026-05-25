@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'fs';
 import { join, resolve } from 'path';
 import { homedir } from 'os';
-import { ROOT, PLATFORM_DIR, summary, sourceDirValid, copyFiles, writeIfChanged, collectSkillNames, installSkills, syncDir } from './shared.mjs';
+import { ROOT, PLATFORM_DIR, summary, sourceDirValid, copyFiles, writeIfChanged, collectSkillNames, installSkills, syncDir, parseFrontmatter, getAgentNames } from './shared.mjs';
 
 function deepClone(value) {
   return JSON.parse(JSON.stringify(value));
@@ -188,117 +188,111 @@ export function installOpenCode(target, dryRun, clean = false, components = ['ag
   }
 
   // --------------------------------------------------------------------
-  // A. Merge agents into opencode.json config
+  // A. Parse canonical agent config from agents/*.agent.md frontmatter
+  //    and merge into opencode.json config.
   // --------------------------------------------------------------------
-  if (pantheonConfig.agent) {
-    if (!config.agent) config.agent = {};
-
-    const agentSources = {
-      zeus:      `${agentPrefix}/zeus.md`,
-      athena:    `${agentPrefix}/athena.md`,
-      themis:    `${agentPrefix}/themis.md`,
-      hermes:    `${agentPrefix}/hermes.md`,
-      aphrodite: `${agentPrefix}/aphrodite.md`,
-      demeter:   `${agentPrefix}/demeter.md`,
-      prometheus:`${agentPrefix}/prometheus.md`,
-      hephaestus:`${agentPrefix}/hephaestus.md`,
-      chiron:    `${agentPrefix}/chiron.md`,
-      echo:      `${agentPrefix}/echo.md`,
-      gaia:      `${agentPrefix}/gaia.md`,
-      apollo:    `${agentPrefix}/apollo.md`,
-      iris:      `${agentPrefix}/iris.md`,
-      mnemosyne: `${agentPrefix}/mnemosyne.md`,
-      nyx:       `${agentPrefix}/nyx.md`,
-      talos:     `${agentPrefix}/talos.md`,
-      argus:     `${agentPrefix}/argus.md`,
-      agora:     `${agentPrefix}/agora.md`,
-    };
-
-    const agentDefaults = {
-      zeus:      { mode: 'primary',                          task_budget: 30, bash: 'deny' },
-      athena:    { mode: 'primary',                          task_budget: 10, bash: 'deny' },
-      themis:    {                           hidden: true,   task_budget: 5,  bash: { 'pytest *': 'allow', 'ruff *': 'allow', 'grep *': 'allow', 'npx vitest *': 'allow', 'pip *': 'allow' } },
-      hermes:    { mode: 'subagent',         hidden: true,   task_budget: 5,  bash: 'allow' },
-      aphrodite: { mode: 'subagent',         hidden: true,   task_budget: 5,  bash: 'allow' },
-      demeter:   { mode: 'subagent',         hidden: true,   task_budget: 5,  bash: 'allow' },
-      prometheus:{ mode: 'subagent',         hidden: true,   task_budget: 3,  bash: 'allow' },
-      hephaestus:{ mode: 'subagent',         hidden: true,   task_budget: 5,  bash: 'allow' },
-      chiron:    { mode: 'subagent',         hidden: true,   task_budget: 3,  bash: 'allow' },
-      echo:      { mode: 'subagent',         hidden: true,   task_budget: 3,  bash: 'allow' },
-      gaia:      { mode: 'subagent',         hidden: true,   task_budget: 3,  bash: 'deny' },
-      apollo:    { mode: 'subagent',         hidden: true,   task_budget: 0,  bash: 'deny' },
-      iris:      { mode: 'subagent',         hidden: true,   task_budget: 2,  bash: { 'git *': 'allow', 'gh *': 'allow' } },
-      mnemosyne: { mode: 'subagent',         hidden: true,   task_budget: 0,  bash: 'deny' },
-      nyx:       { mode: 'subagent',         hidden: true,   task_budget: 3,  bash: 'allow' },
-      talos:     { mode: 'subagent',         hidden: true,   task_budget: 0,  bash: { 'git add *': 'allow', 'npx prettier *': 'allow', 'git *': 'allow' } },
-      argus:     { mode: 'subagent',         hidden: true,   task_budget: 0,  bash: 'deny' },
-      agora:     { mode: 'subagent',         hidden: true,   task_budget: 10, bash: 'deny' },
-    };
-
-    const MANAGED_FIELDS = ['steps', 'task_budget', 'temperature', 'color', 'permission'];
-
-    for (const [agentName, agentCfg] of Object.entries(pantheonConfig.agent)) {
-      if (!agentCfg || typeof agentCfg !== 'object') continue;
-
-      // Common: set source, strip model/small_model from Pantheon config
-      const safeCfg = { ...agentCfg };
-      delete safeCfg.model;
-      delete safeCfg.small_model;
-      delete safeCfg.description; // handled separately
-
-      if (config.agent[agentName]) {
-        // ── Agent exists in target config ──
-        // Update framework-managed fields (steps, task_budget, etc.)
-        // Preserve user-customized fields (model, provider, mcp, etc.)
-        const existing = config.agent[agentName];
-        if (agentSources[agentName]) existing.source = agentSources[agentName];
-        for (const field of MANAGED_FIELDS) {
-          if (field in safeCfg) {
-            existing[field] = JSON.parse(JSON.stringify(safeCfg[field]));
-          }
-        }
-        // Remove stale fields that are no longer in Pantheon config
-        delete existing.model;
-        delete existing.small_model;
-      } else {
-        // ── New agent ──
-        const newAgent = {};
-        if (agentSources[agentName]) newAgent.source = agentSources[agentName];
-        if (agentCfg.description) newAgent.description = agentCfg.description;
-
-        // Copy all framework-managed fields from Pantheon config
-        for (const field of MANAGED_FIELDS) {
-          if (field in safeCfg) {
-            newAgent[field] = JSON.parse(JSON.stringify(safeCfg[field]));
-          }
-        }
-
-        // Apply defaults for any missing fields
-        const defaults = agentDefaults[agentName];
-        if (defaults) {
-          if (!newAgent.mode && defaults.mode) newAgent.mode = defaults.mode;
-          if (!newAgent.hidden && defaults.hidden) newAgent.hidden = defaults.hidden;
-          if (!newAgent.task_budget && defaults.task_budget !== undefined) newAgent.task_budget = defaults.task_budget;
-          // Apply bash permission from defaults if permission wasn't set from config
-          if (!newAgent.permission && defaults.bash !== undefined) {
-            newAgent.permission = { bash: defaults.bash };
-          } else if (newAgent.permission && defaults.bash !== undefined && !newAgent.permission.bash) {
-            newAgent.permission.bash = defaults.bash;
-          }
-        }
-
-        config.agent[agentName] = newAgent;
-      }
+  function getAgentSources(agentPrefix) {
+    const agentsDir = join(ROOT, 'agents');
+    if (!existsSync(agentsDir)) return {};
+    const sources = {};
+    const files = readdirSync(agentsDir).filter(f => f.endsWith('.agent.md'));
+    for (const f of files) {
+      const name = f.replace(/\.agent\.md$/, '');
+      sources[name] = `${agentPrefix}/${name}.md`;
     }
-
-    const pantheonAgentNames = new Set(Object.keys(pantheonConfig.agent));
-    for (const [agentName] of Object.entries(config.agent)) {
-      if (agentSources[agentName] && !pantheonAgentNames.has(agentName)) {
-        delete config.agent[agentName];
-      }
-    }
-    if (Object.keys(config.agent).length === 0) delete config.agent;
+    return sources;
   }
+
+  function readAgentConfigFromCanonical() {
+    const agentsDir = join(ROOT, 'agents');
+    if (!existsSync(agentsDir)) return {};
+    const config = {};
+    const files = readdirSync(agentsDir).filter(f => f.endsWith('.agent.md'));
+    for (const f of files) {
+      const name = f.replace(/\.agent\.md$/, '');
+      const content = readFileSync(join(agentsDir, f), 'utf8');
+      const parsed = parseFrontmatter(content);
+      if (!parsed) continue;
+      const fm = parsed.fm;
+      const agent = {};
+
+      // Extract fields from frontmatter
+      if (fm.color) agent.color = fm.color;
+      if (fm.description) agent.description = fm.description;
+      if (fm.mode) agent.mode = fm.mode;
+      if (fm.hidden) agent.hidden = fm.hidden;
+      if (fm.temperature !== undefined) agent.temperature = fm.temperature;
+      if (fm.steps !== undefined) agent.steps = fm.steps;
+      // Support both hyphen (YAML) and underscore (JSON) key variants
+      if (fm['disable-model-invocation'] !== undefined) agent.disable_model_invocation = fm['disable-model-invocation'];
+      else if (fm.disable_model_invocation !== undefined) agent.disable_model_invocation = fm.disable_model_invocation;
+
+      // Build permission from frontmatter
+      if (fm.permission) {
+        agent.permission = JSON.parse(JSON.stringify(fm.permission));
+      }
+
+      config[name] = agent;
+    }
+    return config;
+  }
+
+  const canonicalAgentConfig = readAgentConfigFromCanonical();
+  const agentSources = getAgentSources(agentPrefix);
+  const MANAGED_FIELDS = ['steps', 'temperature', 'color', 'permission', 'mode', 'hidden', 'disable_model_invocation'];
+
+  if (!config.agent) config.agent = {};
+
+  for (const [agentName, agentCfg] of Object.entries(canonicalAgentConfig)) {
+    if (!agentCfg || typeof agentCfg !== 'object') continue;
+
+    if (config.agent[agentName]) {
+      // ── Agent exists in target config ──
+      // Update framework-managed fields from canonical source
+      // Preserve user-customized fields (model, provider, mcp, etc.)
+      const existing = config.agent[agentName];
+      if (agentSources[agentName]) existing.source = agentSources[agentName];
+      for (const field of MANAGED_FIELDS) {
+        if (field in agentCfg) {
+          existing[field] = JSON.parse(JSON.stringify(agentCfg[field]));
+        }
+      }
+      // Remove stale fields that are no longer in canonical config
+      delete existing.model;
+      delete existing.small_model;
+    } else {
+      // ── New agent ──
+      const newAgent = {};
+      if (agentSources[agentName]) newAgent.source = agentSources[agentName];
+      if (agentCfg.description) newAgent.description = agentCfg.description;
+
+      // Copy all framework-managed fields from canonical config
+      for (const field of MANAGED_FIELDS) {
+        if (field in agentCfg) {
+          newAgent[field] = JSON.parse(JSON.stringify(agentCfg[field]));
+        }
+      }
+
+      // Ensure bash permission is set from canonical (default to deny if missing)
+      if (!newAgent.permission) {
+        newAgent.permission = {};
+      }
+      if (!newAgent.permission.bash && agentCfg.permission?.bash) {
+        newAgent.permission.bash = JSON.parse(JSON.stringify(agentCfg.permission.bash));
+      }
+
+      config.agent[agentName] = newAgent;
+    }
+  }
+
+  // Remove stale agents (exist in target config but not in canonical source)
+  const canonicalNames = new Set(Object.keys(canonicalAgentConfig));
+  for (const [agentName] of Object.entries(config.agent)) {
+    if (agentSources[agentName] && !canonicalNames.has(agentName)) {
+      delete config.agent[agentName];
+    }
+  }
+  if (Object.keys(config.agent).length === 0) delete config.agent;
 
   // --------------------------------------------------------------------
   // B. Commands from .md frontmatter (commands.json removed)
