@@ -29,7 +29,6 @@ temperature: 0.2
 steps: 15
 skills:
   - docker-best-practices
-  - database-optimization
 ---
 
 # Prometheus - Infrastructure Implementation Specialist
@@ -388,6 +387,7 @@ Deployment ready for: Staging environment
 - **@hermes**: For application code changes
 - **@aphrodite**: For React app configuration
 - **@demeter**: For database container tuning
+- **@apollo**: For codebase discovery and infrastructure pattern research
 - **@mnemosyne**: For ALL documentation (MANDATORY)
 
 ## Output Format

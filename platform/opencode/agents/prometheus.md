@@ -11,7 +11,6 @@ tools:
   bash: true
 skills:
   - docker-best-practices
-  - database-optimization
 handoffs:
   - label: ➡️ Validate Infrastructure
     agent: themis
@@ -326,6 +325,7 @@ docker network connect myapp <container_name>
 - **@hermes**: For application code changes
 - **@aphrodite**: For React app configuration
 - **@demeter**: For database container tuning
+- **@apollo**: For codebase discovery and infrastructure pattern research
 - **@mnemosyne**: For ALL documentation (MANDATORY)
 
 ## Output Format

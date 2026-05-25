@@ -45,7 +45,7 @@ handoffs:
     agent: echo
     prompt: "Design conversational AI flows (NLU pipelines, dialogue management) for this feature."
     send: false
-  - label: "👁️ Set Up Observability"
+  - label: "📊 Set Up Observability"
     agent: nyx
     prompt: "Set up observability, tracing, and cost tracking for this feature."
     send: false
