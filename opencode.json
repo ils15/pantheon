@@ -19,6 +19,7 @@
       "type": "remote",
       "url": "https://api.githubcopilot.com/mcp/",
       "enabled": true
+    }
   },
   "compaction": {
     "auto": true,
