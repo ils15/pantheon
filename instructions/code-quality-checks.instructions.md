@@ -44,7 +44,9 @@ ruff check --fix --select F,E,W,UP,B,SIM <files>   # auto-fix
 - Must pass before review
 
 ### 2. Formatting (Ruff built-in)
-Ruff subsumes Black — no separate formatter needed.
+Use `ruff format` as the formatter in quality checks. The repository may still keep
+`[tool.black]` and `[tool.isort]` settings in `pyproject.toml` for compatibility with
+external tooling.
 
 ```bash
 ruff format --check <files>              # check formatting
@@ -194,5 +196,5 @@ url = "https://very-long-url-that-cannot-be-broken-across-lines.example.com/api/
 ## Configuration Files Checklist
 
 - [ ] `pyproject.toml` or `ruff.toml` — ruff config
-- [ ] `biome.json` — Biome config
+- [ ] `biome.json` or `biome.jsonc` (optional) — Biome custom config when needed
 - [ ] `.gitignore` — ensure build/ output excluded
