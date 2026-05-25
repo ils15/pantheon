@@ -100,7 +100,7 @@ Run these when dependencies changed or to detect code rot:
 
 **Python — dep-audit** (obsolete libs):
 ```bash
-pip install dep-audit && dep-audit . --exit-code
+dep-audit . --exit-code
 ```
 Detects: stdlib backports (`pytz`→`zoneinfo`, `tomli`→`tomllib`), zombie shims (`six`, `future`), deprecated packages (`pycrypto`→`pycryptodome`), unused deps.
 
@@ -323,7 +323,7 @@ Before emitting APPROVED, rate yourself on 6 categories (1-10, where 7+ = pass):
 
 ## 🚨 MANDATORY WORKFLOW: Lightweight Quality Gate (Changed Files Only)
 
-**CRITICAL RULE**: Every implementation agent MUST call  IMMEDIATELY after completing code:
+**CRITICAL RULE**: Every implementation agent MUST call @themis IMMEDIATELY after completing code:
 
 - **@hermes** (**FastAPI endpoints**) → calls @themis
 - **@aphrodite** (**React components**) → calls @themis
@@ -333,7 +333,7 @@ Before emitting APPROVED, rate yourself on 6 categories (1-10, where 7+ = pass):
 **Themis Process (Fast - ~30 seconds):**
 1. ✅ Accept list of changed files from implementation agent
 2. ✅ Quick quality check (changed files only): trailing spaces, hard tabs, wild imports
-3. ✅ If tools installed (ruff, black, eslint): run on changed files with `--fix`
+3. ✅ If tools installed (ruff, biome): run on changed files with `ruff check --fix` and `biome check --write`
 4. ✅ Manual review on changed code (OWASP, logic, tests)
 5. ✅ APPROVED/NEEDS_REVISION
 
@@ -346,7 +346,7 @@ Before emitting APPROVED, rate yourself on 6 categories (1-10, where 7+ = pass):
 
 ## When to Use This Agent
 
-Use  for:
+Use @themis for:
 - "Review this Python service for correctness and style"
 - "Create comprehensive test plan for payment feature"
 - "Audit React component for accessibility and performance"

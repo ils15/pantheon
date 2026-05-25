@@ -10,7 +10,6 @@ tools:
   bash: true
 skills:
   - simplify
-  - tdd-with-agents
 handoffs:
   - label: 🚨 Escalate to Zeus
     agent: zeus
