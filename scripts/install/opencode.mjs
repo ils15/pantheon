@@ -301,22 +301,10 @@ export function installOpenCode(target, dryRun, clean = false, components = ['ag
   }
 
   // --------------------------------------------------------------------
-  // B. Merge commands
+  // B. Commands from .md frontmatter (commands.json removed)
   // --------------------------------------------------------------------
-  const commandsPath = join(ROOT, 'commands', 'commands.json');
-  if (!config.command) config.command = {};
-  if (existsSync(commandsPath)) {
-    try {
-      const pantheonCommands = JSON.parse(readFileSync(commandsPath, 'utf8'));
-      if (pantheonCommands && typeof pantheonCommands === 'object') {
-        for (const [name, definition] of Object.entries(pantheonCommands)) {
-          config.command[name] = deepClone(definition);
-        }
-      }
-    } catch {
-      // Non-fatal: keep existing config.command if commands.json is malformed.
-    }
-  }
+  // Commands are now sourced from .md frontmatter in commands/.
+  // The .md frontmatter is the canonical source — no json merge needed.
 
   // --------------------------------------------------------------------
   // B.5 Ensure critical top-level OpenCode config sections

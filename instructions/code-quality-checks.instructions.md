@@ -8,251 +8,114 @@ applyTo: "**/*.{py,ts,tsx,js,jsx}"
 
 ## Overview
 
-Before  performs manual code review, **ALL code must pass automated quality checks**:
+Before Themis performs manual code review, **ALL code must pass automated quality checks**:
 
-1. **Python**: ruff (lint) → black (format) → isort (imports)
-2. **TypeScript/JavaScript**: eslint (lint) → prettier (format)
+1. **Python**: ruff (unified lint + format, 900+ rules)
+2. **TypeScript/JavaScript**: Biome (unified lint + format, 502 rules)
 
-These checks are MANDATORY and run first in  review.
+These checks are MANDATORY and run first in Themis review.
 
 ---
 
 ## Python Quality Checks
 
-### 1. Ruff (Lint)
-Detects code issues: unused variables, unreachable code, complexity violations, security issues.
+### 1. Ruff (Lint + Format — Unified)
+Detects code issues: unused imports/variables, unreachable code, complexity violations, deprecated APIs, security issues, formatting.
 
-**Command:**
+**Commands:**
 ```bash
-ruff check src/                          # Check all Python files
-ruff check src/ --fix                    # Auto-fix issues
-ruff check src/ --select E501            # Check specific rule (line too long)
+ruff check --select F,E,W,I,N,UP,B,SIM,PL,RUF --output-format concise <files>
+ruff format --check <files>              # formatting compliance only
+ruff check --fix --select F,E,W,UP,B,SIM <files>   # auto-fix
 ```
 
-**Common Issues:**
-- `E501`: Line too long (>88 chars)
-- `F841`: Local variable assigned but not used
-- `F401`: Module imported but not used
-- `E302`: Expected 2 blank lines, found N
-- `C901`: Function is too complex
+**Key ruff rules for dead/legacy code:**
+- `F401` — unused import (BLOCKER)
+- `F841` — unused variable (BLOCKER)
+- `PLW0101` — unreachable code (BLOCKER)
+- `UP` — pyupgrade (detects obsolete Python patterns)
+- `W291` — trailing whitespace (BLOCKER)
+- `W191` — hard tabs in Python (BLOCKER)
+- `F403` — wildcard import (MEDIUM)
 
 **Integration:**
 - Runs on ALL changed Python files
-- Blocks review if violations found
-- Must fix before resubmitting
-
-### 2. Black (Code Formatter)
-Enforces consistent code formatting (line length, spacing, quotes).
-
-**Command:**
-```bash
-black --check src/                       # Check formatting
-black src/                               # Format files
-black --line-length 100 src/             # Custom line length
-```
-
-**Configuration** (in `pyproject.toml`):
-```toml
-[tool.black]
-line-length = 88
-target-version = ['py312']
-extend-exclude = '''
-/(
-  \.git
-  | \.venv
-  | build
-  | dist
-)/
-'''
-```
-
-**Integration:**
-- Runs on ALL changed Python files
-- Auto-fixes formatting issues
+- Auto-fixes with `ruff check --fix`
 - Must pass before review
 
-### 3. Isort (Import Ordering)
-Organizes imports into standard groups: stdlib, third-party, local.
+### 2. Formatting (Ruff built-in)
+Ruff subsumes Black — no separate formatter needed.
 
-**Command:**
 ```bash
-isort --check-only src/                  # Check order
-isort src/                               # Fix order
-isort --profile black src/               # Use Black-compatible profile
+ruff format --check <files>              # check formatting
+ruff format <files>                      # auto-format
 ```
 
-**Configuration** (in `pyproject.toml`):
-```toml
-[tool.isort]
-profile = "black"
-line_length = 88
-multi_line_mode = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-use_parentheses = true
-ensure_newline_before_comments = true
-```
-
-**Import Order:**
-```python
-# 1. Future imports
-from __future__ import annotations
-
-# 2. Standard library
-import os
-import sys
-from pathlib import Path
-from typing import Optional
-
-# 3. Third-party
-import sqlalchemy
-from fastapi import FastAPI
-from pydantic import BaseModel
-
-# 4. Local
-from myapp.models import User
-from myapp.schemas import UserSchema
-```
-
-**Integration:**
-- Runs on ALL changed Python files
-- Auto-fixes import order
-- Must pass before review
+**Line length:** 88 characters (matching ruff default)
 
 ---
 
 ## TypeScript/JavaScript Quality Checks
 
-### 1. ESLint (Lint)
-Detects code issues: undefined variables, unused imports, style violations.
+### 1. Biome (Lint + Format — Unified)
+Biome replaces ESLint + Prettier with a single tool (502 rules, 2-10x faster).
 
-**Command:**
+**Commands:**
 ```bash
-eslint src/                              # Check all files
-eslint src/ --fix                        # Auto-fix issues
-eslint src/ --ext .ts,.tsx               # Check specific extensions
+biome check --write --unsafe <files>     # lint + auto-fix + format
+biome ci <files>                         # CI mode (exit code on violations)
 ```
 
-**Configuration** (in `.eslintrc.json`):
-```json
-{
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended"
-  ],
-  "rules": {
-    "no-console": ["warn", { "allow": ["warn", "error"] }],
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error"],
-    "@typescript-eslint/no-explicit-any": "error",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
-  }
-}
-```
-
-**Common Issues:**
-- `no-unused-vars`: Variable declared but not used
-- `no-undef`: Variable used but not defined
-- `@typescript-eslint/no-any`: Use of `any` type
-- `react-hooks/rules-of-hooks`: Hook used incorrectly
+**Key Biome rules:**
+- `noUnusedVariables` — unused variable detection
+- `useConst` — prefer const over let
+- `noExtraBooleanCast` — redundant boolean casts
+- `noDoubleEquals` — strict equality
+- `useArrowFunction` — prefer arrow functions
 
 **Integration:**
 - Runs on ALL changed TypeScript/JavaScript files
-- Can auto-fix many issues
+- Auto-fixes with `biome check --write --unsafe`
 - Must pass before review
 
-### 2. Prettier (Code Formatter)
-Enforces consistent code formatting (indentation, quotes, semicolons, line length).
+### 2. Formatting (Biome built-in)
+Biome subsumes Prettier — no separate formatter needed.
 
-**Command:**
 ```bash
-prettier --check src/                    # Check formatting
-prettier --write src/                    # Format files
-prettier --check src/ --tab-width 2      # Custom tab width
+biome format --write <files>             # auto-format
+biome ci <files>                         # check in CI
 ```
-
-**Configuration** (in `.prettierrc.json`):
-```json
-{
-  "semi": true,
-  "trailingComma": "es5",
-  "singleQuote": true,
-  "printWidth": 88,
-  "tabWidth": 2,
-  "useTabs": false
-}
-```
-
-**Formatting Examples:**
-```typescript
-// Before
-const items = [{id:1,name:"test"},{id:2,name:"demo"}]
-function process(x){return x*2}
-
-// After (Prettier)
-const items = [
-  { id: 1, name: 'test' },
-  { id: 2, name: 'demo' },
-];
-function process(x) {
-  return x * 2;
-}
-```
-
-**Integration:**
-- Runs on ALL changed TypeScript/JavaScript files
-- Auto-fixes formatting issues
-- Must pass before review
 
 ---
 
 ## Full Quality Check Workflow (Themis Implementation)
 
-When  receives code for review:
+When Themis receives code for review:
 
 ```bash
 # 1. Python files detected
-ruff check src/ --fix          # Auto-fix lint issues
+ruff check --select F,E,W,I,N,UP,B,SIM,PL,RUF --output-format concise <files>
 status=$?
 if [ $status -ne 0 ]; then
   echo "❌ Ruff violations found (exit code $status)"
+  ruff check --fix --select F,E,W,UP,B,SIM <files>
+  echo "✅ Auto-fix applied, please review changes"
   exit 1
 fi
 
 # 2. Check Python formatting
-black --check src/
+ruff format --check <files>
 if [ $? -ne 0 ]; then
-  echo "❌ Black format violations found"
-  black src/                   # Auto-fix
-  echo "✅ Fixed with Black, please re-submit"
+  echo "❌ Ruff format violations found"
+  ruff format <files>
+  echo "✅ Auto-formatted, please review changes"
   exit 1
 fi
 
-# 3. Check import order
-isort --check-only src/
+# 3. TypeScript/JavaScript files detected
+biome check --write --unsafe <files>
 if [ $? -ne 0 ]; then
-  echo "❌ Isort violations found"
-  isort src/                   # Auto-fix
-  echo "✅ Fixed with Isort, please re-submit"
-  exit 1
-fi
-
-# 4. TypeScript/JavaScript files detected
-eslint src/ --ext .ts,.tsx,.js,.jsx --fix
-if [ $? -ne 0 ]; then
-  echo "❌ ESLint violations found"
-  exit 1
-fi
-
-# 5. Check JavaScript formatting
-prettier --check src/
-if [ $? -ne 0 ]; then
-  echo "❌ Prettier format violations found"
-  prettier --write src/        # Auto-fix
-  echo "✅ Fixed with Prettier, please re-submit"
+  echo "❌ Biome violations found"
   exit 1
 fi
 
@@ -264,18 +127,18 @@ echo "✅ All quality checks passed!"
 ## Integration with Agents
 
 ### Hermes (Backend)
-- Runs ruff, black, isort on all `.py` files
-- Reports violations to 
+- Runs ruff on all `.py` files
+- Reports violations to Themis
 - Commits auto-fixed files before resubmit
 
 ### Aphrodite (Frontend)
-- Runs eslint, prettier on all `.ts/.tsx/.js/.jsx` files
-- Reports violations to 
+- Runs Biome on all `.ts/.tsx/.js/.jsx` files
+- Reports violations to Themis
 - Commits auto-fixed files before resubmit
 
 ### Demeter (Database)
-- Runs ruff, black, isort on all migration `.py` files
-- Reports violations to 
+- Runs ruff on all migration `.py` files
+- Reports violations to Themis
 - Commits auto-fixed files before resubmit
 
 ### Themis (QA Gate)
@@ -289,43 +152,34 @@ echo "✅ All quality checks passed!"
 ## Performance (FastPath)
 
 **Typical durations:**
-- ruff: 200-500ms for small projects
-- black: 100-300ms
-- isort: 100-300ms
-- eslint: 300-1000ms (depends on plugin count)
-- prettier: 200-500ms
+- ruff check: 200-500ms for small projects
+- ruff format: 100-300ms
+- biome check --write: 300-800ms (faster than ESLint + Prettier)
 
-**Total time for typical phase:** 1-3 seconds
-
-This is FAST compared to manual code review, so  runs this FIRST before any manual review.
+**Total time for typical phase:** 0.5-2 seconds (faster than legacy eslint+prettier pipeline)
 
 ---
 
 ## Troubleshooting
 
 ### "Ruff violations found but auto-fix didn't work"
-Some violations can't be auto-fixed (e.g., imports of unused modules). Fix manually:
+Some violations can't be auto-fixed (e.g., unused imports). Fix manually:
 ```bash
-ruff check src/ --show-source    # Show line with issue
-# Then edit file and remove unused import
+ruff check --show-source <files>    # Show line with issue
+# Then edit file and remove the issue
 ```
 
-### "Prettier conflicts with ESLint"
-Ensure `.eslintrc.json` includes Prettier plugin:
+### "Biome conflicts with TypeScript strict mode"
+Ensure Biome config is aligned with `tsconfig.json`. Some Biome rules may need explicit disabling:
 ```json
 {
-  "extends": ["prettier"],
-  "plugins": ["prettier"],
   "rules": {
-    "prettier/prettier": "error"
+    "correctness": {
+      "noUnusedVariables": "error",
+      "useConst": "error"
+    }
   }
 }
-```
-
-### "isort conflicts with Black"
-Use Black-compatible isort profile:
-```bash
-isort --profile black src/
 ```
 
 ### "Line too long" but I can't break it
@@ -339,10 +193,6 @@ url = "https://very-long-url-that-cannot-be-broken-across-lines.example.com/api/
 
 ## Configuration Files Checklist
 
-- [ ] `pyproject.toml` — ruff, black, isort config
-- [ ] `setup.cfg` or `ruff.toml` — ruff config (if needed)
-- [ ] `.eslintrc.json` — eslint config
-- [ ] `.prettierrc.json` — prettier config
-- [ ] `.prettierignore` — files to skip (e.g., `dist/`, `build/`)
-- [ ] `setup.cfg` — isort config (if not in pyproject.toml)
-
+- [ ] `pyproject.toml` or `ruff.toml` — ruff config
+- [ ] `biome.json` — Biome config
+- [ ] `.gitignore` — ensure build/ output excluded
