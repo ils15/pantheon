@@ -1,6 +1,6 @@
 ---
 name: themis
-description: "Quality & security gate — ruff/Biome linting, dead/legacy code detection, OWASP Top 10, coverage >80%, correctness, deprecation audit. Called by: hermes, aphrodite, demeter, zeus. Escalates blockers to zeus."
+description: Quality & security gate — ruff/Biome linting, dead/legacy code detection, OWASP Top 10, coverage >80%, correctness, deprecation audit. Called by implementers; escalates blockers to zeus.
 mode: subagent
 tools:
   task: true
@@ -71,92 +71,8 @@ Themis includes `edit/editFiles` **exclusively for trivial auto-corrections duri
 - Ensure edge cases and error paths are tested, not just happy paths
 
 ### 3. **Code Quality Checks — Ruff & Biome** 🔍
-Only check files that were ACTUALLY MODIFIED in this phase. Use **ruff** for Python (900+ rules) and **Biome** for JS/TS (502 rules). These detect dead code, legacy patterns, formatting issues, and deprecated APIs.
 
-#### Python — Ruff (changed `.py` files)
-```bash
-ruff check --select F,E,W,I,N,UP,B,SIM,PL,RUF --output-format concise <files>
-ruff format --check <files>        # formatting compliance
-```
-
-**Key ruff rules for dead/legacy code:**
-| Rule | Code | What it catches |
-|------|------|----------------|
-| Unused imports | F401 | Imports never used |
-| Unused local variable | F841 | Variables assigned but never read |
-| Unreachable code | PLW0101 | Code after return/raise that never runs |
-| Unnecessary comprehension | C416 | `[x for x in iterable]` → `list(iterable)` |
-| Unnecessary `None` default | SIM910 | `dict.get(key, None)` → `dict.get(key)` |
-| Deprecated Python API | UP | `pytz`→`zoneinfo`, `collections.X`→`collections.abc.X` |
-| Unnecessary `pass` | PIE790 | Empty body with `pass` |
-| Wildcard imports | F403,F405 | `from X import *` (pollutes namespace) |
-| Hard tabs | W191 | Tab characters in indentation |
-| Trailing whitespace | W291 | Spaces at end of lines |
-
-**Auto-fix what's possible:**
-```bash
-ruff check --fix --select F,E,W,UP,B,SIM <files>
-```
-
-**Fallback (ruff not installed):**
-```bash
-grep -n ' $' <files>              # trailing whitespace (BLOCKER)
-grep -P '\t' <files_python>       # hard tabs in Python (BLOCKER)
-grep -n 'import \*' <files>       # wild imports (MEDIUM)
-grep -n '^[[:space:]]*pass' <files>  # unnecessary pass (LOW)
-```
-
-#### JavaScript/TypeScript — Biome (changed `.js/.ts/.tsx` files)
-```bash
-biome check --write --unsafe <files>   # auto-fix all fixable issues
-biome ci <files>                        # CI mode (exit code on violations)
-```
-
-**Key Biome rules for dead/legacy code:**
-| Rule | Group | What it catches |
-|------|-------|----------------|
-| noUnusedVariables | correctness | Variables declared but never read |
-| noUnusedImports | correctness | Imports never used |
-| noUnreachable | correctness | Code after return/throw |
-| noEmptyBlockStatements | suspicious | Empty `{}` from incomplete refactoring |
-| noExtraBooleanCast | correctness | `!!x` or `Boolean(x)` where unnecessary |
-| noGlobalIsNan | correctness | `isNaN()` → `Number.isNaN()` |
-| useConst | style | `let` never reassigned → `const` |
-| useTemplate | style | String concat → template literals |
-| useExhaustiveDependencies | correctness | Missing React hook deps |
-| noFloatingPromises | correctness | Unhandled promises (type-aware) |
-| noImportCycles | project | Circular imports |
-| noDeprecatedImport | correctness | Deprecated module import |
-
-#### Dead/Legacy Code — Project-Wide Scan
-Run these when dependencies changed or to detect code rot:
-
-**Python — dep-audit** (obsolete libs):
-```bash
-dep-audit . --exit-code
-```
-Detects: stdlib backports (`pytz`→`zoneinfo`, `tomli`→`tomllib`), zombie shims (`six`, `future`), deprecated packages (`pycrypto`→`pycryptodome`), unused deps.
-
-**Python — pip-audit** (security vulns):
-```bash
-pip-audit -r requirements.txt
-```
-Scans against Python Packaging Advisory Database (CVE lookup).
-
-**JS/TS — npm-deprecated-check** (deprecated packages):
-```bash
-npx npm-deprecated-check current --failfast
-```
-Detects: deprecated npm packages, suggests alternatives, checks Node.js EOL.
-
-**Process:**
-- [ ] Identify changed files (provided by implementation agent)
-- [ ] Run **ruff** on Python files (`ruff check --select F,E,W,UP,B,SIM,PL`)
-- [ ] Run **Biome** on JS/TS files (`biome check --write --unsafe`)
-- [ ] Run **dep-audit** if Python deps changed
-- [ ] Run **npm-deprecated-check** if JS deps changed
-- [ ] **BLOCKER if:** trailing spaces, hard tabs in Python, wild imports, unresolved merge conflicts, **or any error-level linter violation from ruff/Biome**
-- [ ] Report violations with EXACT file:line location
+> See instructions/code-quality-checks.instructions.md for automated quality checks.
 
 ### 4. **Structured Feedback**
 - Return: **APPROVED** / **NEEDS_REVISION** / **FAILED**
@@ -224,53 +140,10 @@ Detects: deprecated npm packages, suggests alternatives, checks Node.js EOL.
 ## Code Review Checklist
 
 ### Ruff & Biome — Quality & Dead Code ⚡
-**CRITICAL: Only check files modified in this phase (implementation agent provides the list).**
 
-**Python (ruff):**
-- [ ] **Unused imports** — `ruff check --select F401 <files>` (BLOCKER)
-- [ ] **Unused variables** — `ruff check --select F841 <files>` (BLOCKER)
-- [ ] **Unreachable code** — `ruff check --select PLW0101 <files>` (BLOCKER)
-- [ ] **Deprecated APIs** — `ruff check --select UP <files>` (MEDIUM)
-- [ ] **Trailing whitespace** — `ruff check --select W291 <files>` (BLOCKER)
-- [ ] **Hard tabs** — `ruff check --select W191 <files>` (BLOCKER)
-- [ ] **Wild imports** — `ruff check --select F403 <files>` (MEDIUM)
-- [ ] **Formatting** — `ruff format --check <files>` (MEDIUM)
+> See instructions/code-quality-checks.instructions.md for automated quality checks.
 
-**JavaScript/TypeScript (Biome):**
-- [ ] **Unused variables** — `noUnusedVariables` rule (BLOCKER)
-- [ ] **Unused imports** — `noUnusedImports` rule (BLOCKER)
-- [ ] **Unreachable code** — `noUnreachable` rule (BLOCKER)
-- [ ] **Empty blocks** — `noEmptyBlockStatements` rule (LOW)
-- [ ] **Floating promises** — `noFloatingPromises` rule (HIGH)
-- [ ] **Import cycles** — `noImportCycles` rule (MEDIUM)
-- [ ] **Deprecated imports** — `noDeprecatedImport` rule (MEDIUM)
-- [ ] **Formatting** — `biome check --write --unsafe <files>` (MEDIUM)
-
-**Dependency Health (if deps changed):**
-- [ ] **Python obsolote libs** — `dep-audit .` (detects backports, shims, unused)
-- [ ] **Python vulns** — `pip-audit -r requirements.txt` (CVE scan)
-- [ ] **npm deprecated** — `npx npm-deprecated-check current --failfast`
-
-**Severity:**
-- **BLOCKER (return NEEDS_REVISION):** Trailing spaces, hard tabs in Python, wild imports, **any error-level ruff/Biome rule violation**, unresolved merge conflicts
-- **HIGH:** Floating promises, import cycles, unreachable code
-- **MEDIUM:** Deprecated API usage, formatting style, dependency issues
-- **LOW:** Empty blocks, style improvements
-
-### Correctness (CRITICAL)
-- [ ] Logic is correct and complete
-- [ ] Edge cases are handled
-- [ ] Error handling is appropriate (no silent failures)
-- [ ] No security vulnerabilities
-- [ ] Performance is acceptable
-- [ ] Risk tier identified (low/medium/high)
-
-### Code Quality
-- [ ] No code duplication (DRY principle)
-- [ ] Functions are single-responsibility
-- [ ] Naming is clear and descriptive
-- [ ] Complexity is reasonable (no cognitive overload)
-- [ ] Files are not monolithic (< 300 lines)
+> See instructions/code-review-standards.instructions.md for the review checklist.
 
 ### SOLID Principles
 - [ ] Single Responsibility Principle
@@ -278,34 +151,6 @@ Detects: deprecated npm packages, suggests alternatives, checks Node.js EOL.
 - [ ] Liskov Substitution Principle
 - [ ] Interface Segregation Principle
 - [ ] Dependency Inversion Principle
-
-### Testing
-- [ ] Unit tests exist and pass
-- [ ] Integration tests cover workflows
-- [ ] Edge cases are tested
-- [ ] Error conditions are tested
-- [ ] Test coverage is >80%
-- [ ] Observability checks (logs/metrics/telemetry) are validated
-
-### Documentation
-- [ ] Docstrings in public functions
-- [ ] Comments explain WHY
-- [ ] README is clear and complete
-- [ ] API documentation is accurate
-- [ ] Assumptions are documented
-
-### Security (OWASP Top 10)
-- [ ] Input validation present (prevent injection)
-- [ ] No hardcoded credentials or secrets
-- [ ] Secure dependencies used (check CVE database)
-- [ ] Error messages don't leak sensitive info
-- [ ] Authentication/authorization correct
-- [ ] Encryption used for sensitive data (at rest + in transit)
-- [ ] No XXE or CSRF vulnerabilities
-- [ ] Secure session management (JWT/cookies)
-- [ ] Rate limiting on sensitive endpoints
-- [ ] Audit logging for security events
-- [ ] High-risk changes flagged for extra review
 
 ### AI Review Contract (include in output)
 - [ ] What/Why: intent in 1-2 sentences

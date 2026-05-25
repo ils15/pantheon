@@ -1,6 +1,6 @@
 ---
 name: hermes
-description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection via dep-audit/pip-audit. Calls apollo as nested subagent to discover patterns. Sends work to themis for review.
+description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection. Calls apollo for discovery, sends to themis.
 trigger: model_decision
 ---
 
@@ -109,12 +109,7 @@ When creating a new feature:
 
 ## Code Quality Standards
 
-- **Async/await**: All I/O operations must be async
-- **Type hints**: Required for all function parameters and returns
-- **Docstrings**: Required for public functions
-- **Error messages**: Clear, user-friendly
-- **File size**: Maximum 300 lines (split if larger)
-- **DRY principle**: Reuse existing services/utilities
+> See instructions/backend-standards.instructions.md for the complete backend standards.
 
 ## Modern Python & Dependency Hygiene
 
