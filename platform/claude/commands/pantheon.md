@@ -1,5 +1,5 @@
 ---
-description: "Dispatch a question to 2-4 specialist agents via Agora council synthesis"
+description: "Dispatch a question to 2-4 specialist agents via inline Zeus council"
 agent: zeus
 ---
 # /pantheon — Council Synthesis
