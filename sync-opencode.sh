@@ -127,57 +127,9 @@ else
   echo "    💡 Para ativar: ./platform/select-plan.sh opencode-go"
 fi
 
-# ── Step 4.5: Merge commands from commands/commands.json ──────────────────────
-COMMANDS_SRC="$SCRIPT_DIR/commands/commands.json"
-OPENCODE_CONFIG="$HOME/.config/opencode/opencode.json"
-
-if [ -f "$COMMANDS_SRC" ]; then
-  echo "=== 4.5. Mesclando commands -> $OPENCODE_CONFIG ==="
-  python3 - "$COMMANDS_SRC" "$OPENCODE_CONFIG" "$CLEAN" << 'PYEOF'
-import json, sys
-
-commands_src = sys.argv[1]
-opencode_file = sys.argv[2]
-clean = sys.argv[3].lower() == 'true'
-
-with open(commands_src) as f:
-    new_commands = json.load(f)
-
-with open(opencode_file) as f:
-    config = json.load(f)
-
-if "command" not in config:
-    config["command"] = {}
-
-new_names = set(new_commands.keys())
-merged_count = 0
-removed_count = 0
-
-for name, definition in new_commands.items():
-    config["command"][name] = definition
-    merged_count += 1
-
-# If --clean: remove commands from config that are no longer in commands.json
-if clean:
-    stale = [name for name in config["command"] if name not in new_names]
-    for name in stale:
-        del config["command"][name]
-        removed_count += 1
-    if not config["command"]:
-        del config["command"]
-
-with open(opencode_file, "w") as f:
-    json.dump(config, f, indent=2, ensure_ascii=False)
-    f.write("\n")
-
-msg = f"    ✅ {merged_count} commands merged"
-if removed_count > 0:
-    msg += f", {removed_count} stale removed"
-print(msg)
-PYEOF
-else
-  echo "=== 4.5. Nenhum commands/commands.json encontrado — pulando ==="
-fi
+# ── Step 4.5: Commands from .md frontmatter (commands.json removed) ────────────
+# Commands are now sourced from .md frontmatter in commands/.
+# The .md frontmatter is the canonical source — no json merge needed.
 
 # ── Step 5: Push to remote sync repo ─────────────────────────────────────────
 if [ ! -d "$SYNC_REPO" ]; then

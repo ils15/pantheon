@@ -26,10 +26,10 @@ Systematic code review combining quality gates, security audit (OWASP Top 10), a
 
 ```bash
 # Python
-ruff check src/ --fix && black --check src/ && isort --check-only src/
+ruff check --select F,E,W,UP,B,SIM --output-format concise <files> && ruff format --check <files>
 
 # TypeScript/JavaScript
-eslint src/ --fix && prettier --check src/
+biome check --write --unsafe <files>
 ```
 
 **Block review if checks fail.** Return NEEDS_REVISION with specific violations.
