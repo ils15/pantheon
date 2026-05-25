@@ -471,17 +471,18 @@ function transformFrontmatter(fm, adapter) {
 
     // Apply tool mapping
     if (key === 'tools' && Array.isArray(value)) {
+      // OpenCode: ensure `agent` tool is present BEFORE mapping
+      // (mapTools converts agent→task, so check must happen first)
+      if (adapter.ensureAgentTool && !value.includes('agent')) {
+        value = ['agent', ...value];
+      }
+
       // Drop platform-unsupported tools before mapping
       if (adapter.excludeTools && adapter.excludeTools.length > 0) {
         const excluded = new Set(adapter.excludeTools);
         value = value.filter(t => !excluded.has(t));
       }
       value = mapTools(value, toolMap);
-
-      // OpenCode: prepend `agent` if not already present
-      if (adapter.ensureAgentTool && !value.includes('agent')) {
-        value = ['agent', ...value];
-      }
 
       // Drop empty tools arrays
       if (value.length === 0) continue;

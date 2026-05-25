@@ -3,7 +3,6 @@ name: chiron
 description: Model provider hub specialist — multi-model routing, AWS Bedrock, cost optimization, provider abstraction. The bridge between agents and AI models. Calls apollo for discovery. Sends work to themis for review.
 mode: subagent
 tools:
-  agent: true
   task: true
   question: true
   grep: true

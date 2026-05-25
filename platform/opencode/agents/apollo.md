@@ -3,7 +3,7 @@ name: apollo
 description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, demeter. No edits, no commands."
 mode: subagent
 tools:
-  agent: true
+  task: true
   grep: true
   glob: true
   list: true
