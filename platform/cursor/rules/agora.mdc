@@ -42,7 +42,20 @@ If you need more context, use your available tools:
 
 ⚠️ **TIMEOUT RULE:** If research takes more than 1 tool turn, SKIP to step 3 with available context. Do not spend multiple turns on research.
 
-### 3. Dispatch to Specialists (PARALLEL)
+### 2.5. Progress Log — Announce Dispatch Plan
+
+Before dispatching, log which agents you're about to dispatch and for what domain:
+
+```
+🔀 DISPATCHING to [N] specialists:
+  - @agent1 — [domain]
+  - @agent2 — [domain]
+  - @agent3 — [domain]
+```
+
+This creates a visible breadcrumb so if the dispatch hangs, the user can see exactly which subagents were being dispatched before the freeze.
+
+### 3. Dispatch to Specialists (PARALLEL — AFTER PROGRESS LOG)
 
 Dispatch the question to 2-4 specialist agents in parallel via `task()`. For each agent:
 - Provide the full question and relevant context
