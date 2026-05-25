@@ -6,21 +6,24 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync, unlinkSync, rmSync } from 'fs';
 import { join, dirname, basename, relative } from 'path';
 import { fileURLToPath } from 'url';
+import yaml from 'js-yaml';
 
 export const __dirname = dirname(fileURLToPath(import.meta.url));
 export const ROOT = join(__dirname, '..', '..');
 export const AGENTS_DIR = join(ROOT, 'agents');
 export const PLATFORM_DIR = join(ROOT, 'platform');
 
-export const AGENT_NAMES = [
-  'zeus', 'athena', 'apollo', 'argus', 'agora',
-  'hermes', 'aphrodite', 'demeter', 'prometheus', 'hephaestus', 'chiron', 'echo', 'nyx',
-  'gaia',
-  'iris',
-  'themis',
-  'mnemosyne',
-  'talos',
-];
+// Auto-detect agent names from agents/ directory
+export function getAgentNames() {
+  if (!existsSync(AGENTS_DIR)) return [];
+  return readdirSync(AGENTS_DIR)
+    .filter(f => f.endsWith('.agent.md'))
+    .map(f => f.replace(/\.agent\.md$/, ''))
+    .sort();
+}
+
+// Cached constant for backward compatibility
+export const AGENT_NAMES = getAgentNames();
 
 export const PLATFORM_DETECTORS = {
   opencode: (target) => existsSync(join(target, 'opencode.json')),
@@ -228,6 +231,36 @@ export function collectSkillNames() {
       return statSync(entryPath).isDirectory() && existsSync(join(entryPath, 'SKILL.md'));
     })
     .sort();
+}
+
+// ---------------------------------------------------------------------------
+// YAML / frontmatter helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Parse ---frontmatter--- + body from a markdown file.
+ * Returns { fm: object, body: string } or null if no frontmatter.
+ */
+export function parseFrontmatter(content) {
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if (!match) return null;
+  return {
+    fm: yaml.load(match[1]) ?? {},
+    body: match[2],
+  };
+}
+
+/**
+ * Serialize a frontmatter object back to YAML.
+ * Uses long-line mode and avoids unnecessary quoting.
+ */
+export function serializeFm(fm) {
+  return yaml.dump(fm, {
+    lineWidth: -1,
+    quotingType: '"',
+    forceQuotes: false,
+    noRefs: true,
+  });
 }
 
 export function installSkills(skills, target, dryRun, subDir = '.opencode') {

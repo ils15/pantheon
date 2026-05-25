@@ -1,5 +1,8 @@
 ---
 name: argus
+color: "#50C878"
+hidden: true
+disable_model_invocation: true
 description: "Visual analysis specialist — interprets screenshots, images, PDFs, diagrams, and UI mockups. Read-only argus with no edit capabilities. Tier: fast."
 # mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
 mode: primary
@@ -14,7 +17,6 @@ permission:
   edit: deny
   bash: deny
 user-invocable: true
-disable-model-invocation: true
 temperature: 0.2
 steps: 15
 skills:
