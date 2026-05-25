@@ -292,25 +292,7 @@ docker network connect myapp <container_name>
 
 ## Best Practices
 
-### Dockerfile
-- ✅ Use multi-stage builds
-- ✅ Minimize layers (combine RUN commands)
-- ✅ Use .dockerignore to exclude unnecessary files
-- ✅ Don't run as root (use USER directive)
-- ✅ Add healthchecks
-
-### Docker Compose
-- ✅ Use named volumes for persistence
-- ✅ Define restart policies
-- ✅ Set resource limits (mem_limit, cpus)
-- ✅ Use env_file for secrets
-- ✅ Define explicit dependencies with conditions
-
-### Traefik
-- ✅ Use labels for service discovery
-- ✅ Enable HTTPS with Let's Encrypt
-- ✅ Add rate limiting middleware
-- ✅ Monitor dashboard for issues
+> See instructions/infra-standards.instructions.md for the complete infrastructure standards.
 
 ## Handoff Strategy (VS Code 1.108+)
 

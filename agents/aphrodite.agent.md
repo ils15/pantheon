@@ -189,14 +189,7 @@ After implementing a UI component or page, use VS Code Integrated Browser tools 
 
 ## Code Quality Standards
 
-- **TypeScript**: Strict mode, no `any` types
-- **Props**: Define interfaces for all component props
-- **Hooks**: Follow rules of hooks (no conditionals)
-- **Accessibility**: ARIA labels, keyboard navigation
-- **Responsive**: Mobile-first design with Tailwind
-- **Error handling**: User-friendly error messages
-- **Loading states**: Skeleton loaders or spinners
-- **File size**: Maximum 300 lines per component
+> See instructions/frontend-standards.instructions.md for the complete frontend standards.
 
 ## Modern TypeScript/React & Dependency Hygiene
 
