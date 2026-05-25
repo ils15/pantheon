@@ -586,7 +586,6 @@ This routing table is auto-generated from `routing.yml` — the canonical routin
 
 | Agent | Role | Model Tier | Direct Invocable |
 |-------|------|-----------|-----------------|
-| @agora | Council synthesis engine — dispatches questions to 3-5 specialist a... | premium | ✅ |
 | @athena | Strategic planner & architect — creates TDD-driven implementation p... | premium | ✅ |
 | @apollo | Read-only investigation scout — 3-10 parallel searches across codeb... | fast | ❌ |
 | @hermes | Backend specialist — FastAPI, Python async, TDD (RED→GREEN→REFACTOR... | default | ✅ |

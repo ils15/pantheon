@@ -1,6 +1,6 @@
 ---
 name: prometheus
-description: Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management, container deprecation scans. Calls apollo as nested subagent for pattern discovery. Sends work to themis for validation.
+description: Infrastructure specialist — Docker multi-stage builds, docker-compose, CI/CD workflows, health checks, env management, deprecation scans. Calls apollo, sends to themis.
 mode: subagent
 tools:
   task: true
@@ -11,7 +11,6 @@ tools:
   bash: true
 skills:
   - docker-best-practices
-  - database-optimization
 handoffs:
   - label: ➡️ Validate Infrastructure
     agent: themis
@@ -288,25 +287,7 @@ docker network connect myapp <container_name>
 
 ## Best Practices
 
-### Dockerfile
-- ✅ Use multi-stage builds
-- ✅ Minimize layers (combine RUN commands)
-- ✅ Use .dockerignore to exclude unnecessary files
-- ✅ Don't run as root (use USER directive)
-- ✅ Add healthchecks
-
-### Docker Compose
-- ✅ Use named volumes for persistence
-- ✅ Define restart policies
-- ✅ Set resource limits (mem_limit, cpus)
-- ✅ Use env_file for secrets
-- ✅ Define explicit dependencies with conditions
-
-### Traefik
-- ✅ Use labels for service discovery
-- ✅ Enable HTTPS with Let's Encrypt
-- ✅ Add rate limiting middleware
-- ✅ Monitor dashboard for issues
+> See instructions/infra-standards.instructions.md for the complete infrastructure standards.
 
 ## 🚨 Documentation Policy
 
@@ -326,6 +307,7 @@ docker network connect myapp <container_name>
 - **@hermes**: For application code changes
 - **@aphrodite**: For React app configuration
 - **@demeter**: For database container tuning
+- **@apollo**: For codebase discovery and infrastructure pattern research
 - **@mnemosyne**: For ALL documentation (MANDATORY)
 
 ## Output Format

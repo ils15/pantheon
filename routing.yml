@@ -9,7 +9,7 @@ version: 1.0
 
 # =============================================================================
 # AGENT REGISTRY
-# All 18 agents with their canonical role, model tier, and capabilities.
+# All 17 agents with their canonical role, model tier, and capabilities.
 # Platform-agnostic — no tool names or platform references here.
 # =============================================================================
 agents:
@@ -46,33 +46,6 @@ agents:
       - agent-coordination
       - session-goal
       - artifact-management
-
-  agora:
-    role: "Council synthesis engine — dispatches questions to 3-5 specialist agents in parallel via task(), synthesizes agreements & divergences into a decisive recommendation with confidence level"
-    model_tier: premium
-    user_invocable: true
-    can_delegate: true
-    can_receive_delegation: true
-    capabilities:
-      - multi_perspective_analysis
-      - parallel_agent_dispatch
-      - synthesis
-      - trade_off_resolution
-      - architecture_decision
-      - council_consensus
-    subagent_can_delegate_to:
-      - athena
-      - hermes
-      - aphrodite
-      - demeter
-      - prometheus
-      - themis
-      - hephaestus
-      - chiron
-      - nyx
-      - apollo
-      - mnemosyne
-    skills: []
 
   athena:
     role: "Strategic planner & architect — creates TDD-driven implementation plans, research-first approach"
@@ -375,20 +348,6 @@ agents:
 delegation:
   # --- ZEUS (primary orchestrator) ---
   zeus:
-    # Agora: multi-perspective synthesis for trade-offs and architecture decisions
-    - target: agora
-      when:
-        - trade_off_question
-        - architecture_decision
-        - technology_selection
-        - security_assessment
-        - multi_stakeholder_concern
-        - cost_vs_quality
-      model_tier: premium
-      parallel: false
-      prompt_hint: "This question requires multiple expert perspectives. Dispatch this question to 3-5 relevant specialist agents in parallel via task(), compare their responses, and synthesize a single recommendation with agreements, divergences, and confidence level."
-      pre_condition: "Use agora for ANY question needing multiple perspectives across domain boundaries"
-
     - target: athena
       when:
         - feature_planning
@@ -802,13 +761,6 @@ delegation:
 handoffs:
   # --- ZEUS HANDOFFS ---
   zeus:
-    agora_decision:
-      label: "🏛️ Agora Council"
-      description: "Multi-perspective synthesis for trade-offs, architecture decisions, and security assessments"
-      agent: agora
-      model_tier: premium
-      prompt: "This question requires multiple expert perspectives. Dispatch to 3-5 relevant specialist agents in parallel via task(), compare their responses, and synthesize a single recommendation with agreements, divergences, and confidence level."
-
     plan_feature:
       label: "📋 Plan Feature"
       description: "Strategic planning with TDD-driven implementation phases"

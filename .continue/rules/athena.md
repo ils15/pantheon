@@ -14,7 +14,7 @@
 1. **Understand** the user's goal and requirements
 2. **Research** codebase (use `search/codebase` directly OR delegate to @apollo if complex)
 3. **Plan** in CONCISE phases (3-5 max, not 10+)
-4. **Validate plan quality** via 
+4. **Validate plan quality** via @themis
 5. **Approve** via `agent/askQuestions`
 6. **Handoff** to @zeus for execution
 
@@ -91,12 +91,11 @@ If this plan fails, the most likely cause is:
 
 Present plan in **chat only** (no artifact files unless user explicitly requests).
 
-## Nota: Validação do Plano via 
+## Note: Plan Validation via @themis
 
-Athena solicita revisão do  ANTES da implementação (handoff `Validate Plan` no YAML).
-Diferente da validação pós-implementação que Themis faz em Hermes/Aphrodite/Demeter,
-esta é uma revisão **do plano em si** — riscos, cobertura de testes, clareza.
-⚠️ Themis pode tanto aprovar quanto sugerir revisões no plano antes de passar ao Zeus.
+Athena requests a review from @themis **before implementation** (handoff `Validate Plan` in YAML).
+This is different from post-implementation validation in Hermes/Aphrodite/Demeter phases.
+Here, Themis reviews the **plan itself** — risks, test coverage, and clarity — and may approve or request revisions before handing off to Zeus.
 
 ## Approval Gate
 
