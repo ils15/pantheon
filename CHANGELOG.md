@@ -17,6 +17,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+## [v3.8.3] - 2026-05-25
+
+### Fixed
+- `/pantheon` command no longer loses the question — was routing to `zeus` instead of `agora` (`commands/commands.json` deleted, `commands/council.md` deleted)
+- `skills/code-review-checklist/SKILL.md` toolchain fixed: `black`+`eslint` → `ruff`+`Biome` (active contradiction that could break Themis)
+- `themis.agent.md` fallback tools: `black, eslint` → `ruff, biome`
+- `agora.agent.md` dispatch syntax: `@agent-name` → `task()` (caused silent dispatch failures)
+
+### Changed
+- `code-quality-checks.instructions.md` rewritten: removed `black`+`isort`+`eslint`+`prettier`, now `ruff`+`Biome` only
+- `documentation-standards.instructions.md` slimmed 164→62 lines, delegates memory-bank details to `memory-bank-standards.instructions.md`
+- `memory-bank-standards.instructions.md` slimmed 148→55 lines, keeps unique `/memories/` content
+- `implement-feature.prompt.md` slimmed to quick reference, delegates full workflow to `orchestrate-with-zeus.prompt.md`
+- `CLAUDE.md` removed ~80% duplicate agent table, delegates to `AGENTS.md`
+- `agent-coordination/SKILL.md` removed duplicate agent table and artifact protocol
+
+### Removed
+- `prompts/audit.prompt.md` — triplicate of Themis checklist
+- `commands/commands.json` — duplicate routing, conflicted with `.md` frontmatter
+- `commands/council.md` — duplicate of `/pantheon` command
+
+### Platform Sync
+- Regenerated platform configs across all 7 platforms (opencode, claude, cline, continue, cursor, windsurf)
+- `.github/instructions/` regenerated from canonical `instructions/`
+- Skills `code-review-checklist` and `agent-coordination` synced to all platforms
+- Agent rules (agora, themis) regenerated across all platforms
+
 ## [v3.8.1] - 2026-05-23
 
 ### Added
