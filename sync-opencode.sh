@@ -11,6 +11,7 @@
 #   ./sync-opencode.sh --no-push               # sync locally only, skip git push
 #   ./sync-opencode.sh --clean                 # ALSO remove stale files from dest
 #   ./sync-opencode.sh --clean --no-push       # both flags
+#   ./sync-opencode.sh --skip-plugin-install   # skip local npm plugin install
 #
 # CLEAN MODE (--clean):
 #   Removes agent .md files and skill directories from dest that no longer
@@ -24,11 +25,13 @@ XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 SYNC_REPO="$XDG_DATA_HOME/opencode/opencode-synced/repo"
 NO_PUSH=false
 CLEAN=false
+SKIP_PLUGIN_INSTALL=false
 
 for arg in "$@"; do
   case "$arg" in
     --no-push) NO_PUSH=true ;;
     --clean) CLEAN=true ;;
+    --skip-plugin-install) SKIP_PLUGIN_INSTALL=true ;;
     *) echo "Unknown argument: $arg" && exit 1 ;;
   esac
 done
@@ -91,6 +94,27 @@ if [ -d "$SCRIPT_DIR/commands" ]; then
   echo "    ✅ $(ls "$SCRIPT_DIR/commands/"*.md 2>/dev/null | wc -l) commands sincronizados"
 else
   echo "    ⚠️  Nenhum diretório commands/ encontrado — pulando"
+fi
+
+# ── Step 3.6: Ensure required OpenCode plugin is installed locally ───────────
+echo "=== 3.6. Verificando plugin opencode-hooks-plugin ==="
+mkdir -p "$HOME/.config/opencode"
+if [ ! -d "$HOME/.config/opencode/node_modules/opencode-hooks-plugin" ]; then
+  if [ "$SKIP_PLUGIN_INSTALL" = true ]; then
+    echo "    ⏭️  --skip-plugin-install ativo, pulando instalação do opencode-hooks-plugin"
+  elif ! command -v npm >/dev/null 2>&1; then
+    echo "    ❌ npm não encontrado. Instale Node.js/npm ou use --skip-plugin-install para pular esta etapa."
+    exit 1
+  else
+    echo "    ⬇️  Instalando opencode-hooks-plugin em ~/.config/opencode"
+    (
+      cd "$HOME/.config/opencode"
+      npm install --no-save opencode-hooks-plugin
+    )
+    echo "    ✅ opencode-hooks-plugin instalado"
+  fi
+else
+  echo "    ✅ opencode-hooks-plugin já instalado"
 fi
 
 # ── Step 4: Apply active plan model overrides to ~/.config/opencode/opencode.json

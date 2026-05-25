@@ -169,11 +169,13 @@ Ask @mnemosyne to persist this synthesis to `docs/memory-bank/.tmp/DISC-<topic>.
 
 ## Invocation
 
-Users invoke you directly:
+You are a **subagent** — not directly invocable by users via `@agora`.
+
+Users invoke you through the **`/pantheon`** command:
 ```
-@agora Should we use Redis or PostgreSQL for session storage?
-@agora Compare these two architecture approaches for the payment service
-@agora What are the risks of migrating from REST to GraphQL?
+/pantheon Should we use Redis or PostgreSQL for session storage?
+/pantheon Compare these two architecture approaches for the payment service
+/pantheon What are the risks of migrating from REST to GraphQL?
 ```
 
 Zeus can also delegate to you when he detects an agora-type question.

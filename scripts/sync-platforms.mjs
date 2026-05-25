@@ -271,6 +271,67 @@ function transformBodyToolReferences(body, toolMap, excludeTools) {
   });
 }
 
+function applyPlatformAgentOverrides(platformName, agentName, fm, body) {
+  let nextFm = fm;
+  let nextBody = body;
+
+  if (platformName === 'opencode' && agentName === 'athena' && typeof nextFm.description === 'string') {
+    nextFm = {
+      ...nextFm,
+      description: nextFm.description.replace('the user should call @agora.', 'the user should run /pantheon.'),
+    };
+  }
+
+  if (platformName === 'opencode' && agentName === 'agora') {
+    nextBody = nextBody.replace(
+      /### 3\. Dispatch to Specialists \(PARALLEL\)[\s\S]*?Wait for ALL dispatched agents to respond before proceeding\./,
+      `### 3. Dispatch to Specialists (PARALLEL — CRITICAL)
+
+You MUST send ALL \`task()\` calls in a **SINGLE message**. Never dispatch one at a time.
+
+Dispatch the question to 2-4 specialist agents in parallel. For each agent:
+- Provide the full question and relevant context
+- Ask for their perspective: recommendation, reasoning, trade-offs, risks, confidence
+- Request a concise response (2-4 sentences)
+
+**Dispatch pattern (all in one message with named params):**
+\`\`\`
+task(
+  description="Evaluate [topic] for [project]",
+  prompt="Question: [full question]. Return: Recommendation, Reasoning, Trade-offs, Risks, Confidence",
+  subagent_type="hermes"
+)
+task(
+  description="Evaluate [topic] for [project]",
+  prompt="Question: [full question]. Return: Recommendation, Reasoning, Trade-offs, Risks, Confidence",
+  subagent_type="demeter"
+)
+task(
+  description="Evaluate [topic] for [project]",
+  prompt="Question: [full question]. Return: Recommendation, Reasoning, Trade-offs, Risks, Confidence",
+  subagent_type="athena"
+)
+\`\`\`
+
+**❌ Wrong (positional args — never do this):**
+\`\`\`
+task("hermes", "Question: ...") → wait → task("demeter", ...) → wait → ...
+\`\`\`
+
+Each specialist must return a structured response with:
+- **Recommendation:** their answer
+- **Reasoning:** why they recommend it
+- **Trade-offs:** what's sacrificed
+- **Risks:** what could go wrong
+- **Confidence:** High / Medium / Low
+
+\`task()\` blocks until the specialist returns — sending all in one message runs them in parallel automatically.`
+    );
+  }
+
+  return { fm: nextFm, body: nextBody };
+}
+
 /**
  * Deploy skill files referenced by canonical agents to the platform output directory.
  * Reads skills from skills/<skill-name>/SKILL.md and copies to <platform>/<skillsOutputDir>/<skill-name>/SKILL.md
@@ -471,17 +532,18 @@ function transformFrontmatter(fm, adapter) {
 
     // Apply tool mapping
     if (key === 'tools' && Array.isArray(value)) {
+      // OpenCode: ensure `agent` tool is present BEFORE mapping
+      // (mapTools converts agent→task, so check must happen first)
+      if (adapter.ensureAgentTool && !value.includes('agent')) {
+        value = ['agent', ...value];
+      }
+
       // Drop platform-unsupported tools before mapping
       if (adapter.excludeTools && adapter.excludeTools.length > 0) {
         const excluded = new Set(adapter.excludeTools);
         value = value.filter(t => !excluded.has(t));
       }
       value = mapTools(value, toolMap);
-
-      // OpenCode: prepend `agent` if not already present
-      if (adapter.ensureAgentTool && !value.includes('agent')) {
-        value = ['agent', ...value];
-      }
 
       // Drop empty tools arrays
       if (value.length === 0) continue;
@@ -657,12 +719,15 @@ function syncPlatform(platformName, adapter, agentFiles) {
     const newFm = transformFrontmatter(fm, adapter);
     const newBody = applyBodyFilters(body, adapter.bodyFilters, name);
     const transformedBody = transformBodyToolReferences(newBody, toolMap, adapter.excludeTools);
+    const overridden = applyPlatformAgentOverrides(platformName, name, newFm, transformedBody);
+    const finalFm = overridden.fm;
+    const finalBody = overridden.body;
     // Validate body tool references against final tool set
-    const finalTools = Array.isArray(newFm.tools) ? newFm.tools : (newFm.permission ? Object.keys(newFm.permission) : []);
-    validateBodyToolReferences(transformedBody, name, platformName, finalTools, toolMap, adapter.excludeTools);
-    validateBodyForExcludedTools(transformedBody, name, platformName, adapter.excludeTools);
+    const finalTools = Array.isArray(finalFm.tools) ? finalFm.tools : (finalFm.permission ? Object.keys(finalFm.permission) : []);
+    validateBodyToolReferences(finalBody, name, platformName, finalTools, toolMap, adapter.excludeTools);
+    validateBodyForExcludedTools(finalBody, name, platformName, adapter.excludeTools);
     const skipFrontmatter = adapter.frontmatter?.skipFrontmatter ?? false;
-    const output = buildOutputFile(newFm, transformedBody, skipFrontmatter);
+    const output = buildOutputFile(finalFm, finalBody, skipFrontmatter);
 
     const outFile = join(outDir, `${name}${ext}`);
     const existing = existsSync(outFile) ? readFileSync(outFile, 'utf8') : null;
