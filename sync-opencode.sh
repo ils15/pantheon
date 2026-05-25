@@ -127,9 +127,86 @@ else
   echo "    💡 Para ativar: ./platform/select-plan.sh opencode-go"
 fi
 
-# ── Step 4.5: Commands from .md frontmatter (commands.json removed) ────────────
-# Commands are now sourced from .md frontmatter in commands/.
-# The .md frontmatter is the canonical source — no json merge needed.
+# ── Step 4.5: Merge opencode.json from repo → user config ─────────────────────
+REPO_CONFIG="$SCRIPT_DIR/opencode.json"
+USER_CONFIG="$HOME/.config/opencode/opencode.json"
+
+if [ -f "$REPO_CONFIG" ]; then
+  echo "=== 4.5. Mesclando opencode.json -> $USER_CONFIG ==="
+  python3 - "$REPO_CONFIG" "$USER_CONFIG" "$CLEAN" << 'PYEOF'
+import json, sys
+
+repo_file = sys.argv[1]
+user_file = sys.argv[2]
+clean = sys.argv[3].lower() == 'true'
+
+with open(repo_file) as f:
+    repo = json.load(f)
+with open(user_file) as f:
+    user = json.load(f)
+
+changes = []
+
+# Agent merge: repo agents overwrite user; user extras preserved; --clean removes stale
+repo_agents = repo.get("agent", {})
+user_agents = user.get("agent", {})
+merged_agents = dict(user_agents)
+
+for name, config in repo_agents.items():
+    if name in merged_agents:
+        changes.append(f"    🔄 agent/{name} — updated")
+    merged_agents[name] = config
+
+if clean:
+    stale = [name for name in merged_agents if name not in repo_agents]
+    for name in stale:
+        del merged_agents[name]
+        changes.append(f"    🗑️  agent/{name} — removed (stale)")
+
+user["agent"] = merged_agents
+
+# MCP merge: repo MCPs overwrite user by key; user extras preserved
+repo_mcp = repo.get("mcp", {})
+user_mcp = user.get("mcp", {})
+merged_mcp = dict(user_mcp)
+for name, config in repo_mcp.items():
+    if name not in merged_mcp:
+        changes.append(f"    ➕ mcp/{name} — added")
+    merged_mcp[name] = config
+user["mcp"] = merged_mcp
+
+# Permission: repo wins (security rules must be authoritative)
+user["permission"] = repo.get("permission", user.get("permission", {}))
+changes.append("    🔒 permission — updated from repo")
+
+# Instructions: repo wins
+user["instructions"] = repo.get("instructions", user.get("instructions", []))
+changes.append("    📄 instructions — updated from repo")
+
+# Command: repo wins (currently empty, but authoritative)
+user["command"] = repo.get("command", user.get("command", {}))
+
+# Other top-level keys from repo not already handled
+for key in repo:
+    if key not in ("agent", "mcp", "permission", "instructions", "command"):
+        if key not in user or user[key] != repo[key]:
+            user[key] = repo[key]
+            changes.append(f"    🔧 {key} — updated from repo")
+
+with open(user_file, "w") as f:
+    json.dump(user, f, indent=2, ensure_ascii=False)
+    f.write("\n")
+
+if changes:
+    for c in changes:
+        print(c)
+    print(f"    ✅ {len(changes)} changes applied")
+else:
+    print("    ✅ Already up-to-date")
+PYEOF
+else
+  echo "=== 4.5. Nenhum opencode.json no repo — pulando ==="
+fi
 
 # ── Step 5: Push to remote sync repo ─────────────────────────────────────────
 if [ ! -d "$SYNC_REPO" ]; then
