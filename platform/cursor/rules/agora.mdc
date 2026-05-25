@@ -44,19 +44,23 @@ If you need more context, use your available tools:
 
 ### 3. Dispatch to Specialists (PARALLEL)
 
-Dispatch the question to 2-4 specialist agents in parallel. For each agent:
+Dispatch the question to 2-4 specialist agents in parallel via `task()`. For each agent:
 - Provide the full question and relevant context
 - Ask for their perspective: recommendation, reasoning, trade-offs, risks, confidence
 - Request a concise response (2-4 sentences)
 
 **Dispatch pattern:**
 ```
-@<agent-name> — [question context]. Please provide your specialist perspective:
+task(
+  description="Get <agent> perspective on <topic>",
+  prompt="[full question context]. Please provide your specialist perspective:
 - Recommendation:
 - Reasoning:
 - Trade-offs:
 - Risks:
-- Confidence (High/Medium/Low):
+- Confidence (High/Medium/Low):",
+  subagent_type="<agent>"
+)
 ```
 
 Wait for ALL dispatched agents to respond before proceeding.

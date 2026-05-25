@@ -333,7 +333,7 @@ Before emitting APPROVED, rate yourself on 6 categories (1-10, where 7+ = pass):
 **Themis Process (Fast - ~30 seconds):**
 1. ✅ Accept list of changed files from implementation agent
 2. ✅ Quick quality check (changed files only): trailing spaces, hard tabs, wild imports
-3. ✅ If tools installed (ruff, black, eslint): run on changed files with `--fix`
+3. ✅ If tools installed (ruff, biome): run on changed files with `ruff check --fix` and `biome check --write`
 4. ✅ Manual review on changed code (OWASP, logic, tests)
 5. ✅ APPROVED/NEEDS_REVISION
 

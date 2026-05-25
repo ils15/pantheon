@@ -16,6 +16,8 @@ description: 'Documentation Standards — Where, what, and how to document in Pa
 
 These three systems are complementary. The Memory Bank is **yours** — you write it, it lives in git, and `copilot-instructions.md` points to it by path. The agent memory systems are automatic or ephemeral.
 
+For full details on Memory Bank structure, see `instructions/memory-bank-standards.instructions.md`.
+
 ---
 
 ## The Golden Rule
@@ -34,75 +36,17 @@ What is permanently forbidden:
 
 ---
 
-## Memory Bank Structure
-
-This is the **recommended template** for product repos adopting Pantheon. Copy it once, fill it incrementally.
-
-```
-docs/memory-bank/
-├── 00-project.md           ← What is this project? (fill once)
-├── 00-project.md       ← System design and agent hierarchy (fill once, update rarely)
-├── 00-project.md         ← Component breakdown and ownership (update as components are added)
-├── 00-project.md       ← Tech stack, setup, environment (fill once)
-├── 01-active-context.md     ← Current sprint focus, recent decisions, blockers (update each sprint)
-├── 02-progress-log.md       ← What works, what is left, completed milestones (append-only)
-├── _tasks/
-│   ├── _index.md            ← Task master list with status
-│   └── TASK0001-name.md     ← Individual task record
-└── _notes/
-    ├── _index.md            ← Notes index
-    └── NOTE0001-topic.md    ← Architectural decisions, patterns, findings
-```
-
-**`01-active-context.md` is the most important file** — it is what `copilot-instructions.md` points to. Keep it current.
-
-### File purposes
-
-| File | Fill when | Update frequency |
-|------|-----------|-----------------|
-| `00-project.md` | Project start | Rarely |
-| `00-project.md` | Project start | On significant architecture changes |
-| `00-project.md` | Project start | When components are added/removed |
-| `00-project.md` | Project start | On stack changes |
-| `01-active-context.md` | Each sprint start | Each sprint / major decision |
-| `02-progress-log.md` | First completion | Append-only after each milestone |
-| `_tasks/` | When sprint tracking is needed | Per task |
-| `_notes/` | On significant findings | Per finding |
-
----
-
 ## Who Writes What
 
 | Content | Written by | Where |
 |---------|-----------|-------|
-| Project overview, architecture, tech context | Mnemosyne (at project init) | `00-03.md` |
+| Project overview, architecture, tech context | Mnemosyne (at project init) | `00-project.md` |
 | Sprint focus, recent decisions | Agent completing sprint / Mnemosyne | `01-active-context.md` |
 | Milestone completions | Any agent or Mnemosyne | `02-progress-log.md` (append) |
 | Task records | Mnemosyne (from handoff) | `_tasks/TASK000X-*.md` |
 | Architecture decisions with rationale | Mnemosyne (from handoff) | `_notes/NOTE000X-*.md` |
 | Atomic facts (stack, commands, conventions) | Any agent (directly) | `/memories/repo/` |
 | Conversation-scoped plans | Athena / any agent (directly) | `/memories/session/` |
-
-**Mnemosyne is the quality owner of `docs/memory-bank/`** — she enforces structure and writes when asked. Other agents may write to `01-active-context.md` and `02-progress-log.md` directly when Mnemosyne is not invoked.
-
----
-
-## Session Memory → Active Context Graduation
-
-Plans and work-in-progress live in `/memories/session/` during a conversation. At sprint close, the relevant parts graduate to `docs/memory-bank/`.
-
-```
-During sprint:
-  Athena writes plan → /memories/session/sprint-plan.md   (ephemeral)
-  Agents track wip  → /memories/session/wip.md            (ephemeral)
-
-At sprint close:
-  @mnemosyne Update 01-active-context.md and append to 02-progress-log.md
-  → docs/memory-bank/01-active-context.md                 (permanent)
-  → docs/memory-bank/02-progress-log.md                   (permanent, appended)
-```
-
-Session memory is never promoted to `_tasks/` or `_notes/` automatically — that requires an explicit handoff.
 
 ---
 
