@@ -55,60 +55,9 @@ Apollo findings → /memories/session/apollo-findings.md
 
 ### Secondary: `docs/memory-bank/` — Persistent Project Context
 
-**This is the Memory Bank. It is permanent, versioned, and referenced by path from `copilot-instructions.md`.**
+See `instructions/documentation-standards.instructions.md` for the structure, golden rules, agent access patterns, and who-writes-what.
 
-```
-docs/memory-bank/
-├── 00-project.md           ← What is this project?
-├── 00-project.md       ← System design, agent hierarchy
-├── 00-project.md         ← Component breakdown
-├── 00-project.md       ← Tech stack, setup, environment
-├── 01-active-context.md     ← Current sprint focus, recent decisions  ← most important
-├── 02-progress-log.md       ← Completed milestones (append-only)
-├── _tasks/                  ← Sprint task tracking (add when needed)
-│   ├── _index.md
-│   └── TASK0001-name.md
-└── _notes/                  ← Architectural findings and decisions
-    ├── _index.md
-    └── NOTE0001-topic.md
-```
-
-**`01-active-context.md` is the priority file.** It is what `copilot-instructions.md` points to and what agents read first when starting a new feature.
-
-### The session→active-context graduation pattern
-
-```
-During sprint        → /memories/session/sprint-plan.md   (ephemeral, in-conversation)
-At sprint close      → docs/memory-bank/01-active-context.md  (permanent, in git)
-                     → docs/memory-bank/02-progress-log.md    (appended)
-```
-
----
-
-## Agent Access Patterns
-
-| Situation | What to read | Cost |
-|-----------|-------------|------|
-| Any task | `/memories/repo/` (automatic) | Zero — already in context |
-| Current conversation plan | `/memories/session/sprint-plan.md` | One explicit read |
-| Starting a new feature | `docs/memory-bank/01-active-context.md` | One explicit read |
-| Onboarding to a new project | `docs/memory-bank/00-project.md` + `01-active-context.md` | Two explicit reads |
-| Architecture deep-dive | `docs/memory-bank/00-project.md` + relevant `_notes/` | Explicit reads |
-| Historical decision rationale | `docs/memory-bank/_notes/NOTE000X-*.md` | One explicit read |
-
----
-
-## Who Writes What
-
-| Content | Written by | Where | When |
-|---------|-----------|-------|------|
-| Atomic facts (stack, commands, conventions) | Any agent | `/memories/repo/` | On discovery |
-| Conversation plan / WIP | Athena or any agent | `/memories/session/` | Sprint start |
-| Sprint context (active decisions, blockers) | Agent or Mnemosyne | `01-active-context.md` | Sprint close |
-| Completed milestones | Agent or Mnemosyne | `02-progress-log.md` | Sprint close |
-| Project overview and architecture | Mnemosyne (once) | `00-03.md` | Project adoption |
-| Task records | Mnemosyne (on request) | `_tasks/TASK000X-*.md` | On request |
-| Architectural decisions | Mnemosyne (on request) | `_notes/NOTE000X-*.md` | On request |
+See `skills/memory-bank/SKILL.md` for optimization/compression rules and maintenance commands.
 
 ---
 
