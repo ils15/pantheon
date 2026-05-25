@@ -83,8 +83,7 @@
     "mnemosyne": "subagent",
     "nyx": "subagent",
     "talos": "subagent",
-    "argus": "subagent",
-    "agora": "subagent"
+    "argus": "subagent"
   },
   "capabilityFlags": {
     "orchestration": true,
