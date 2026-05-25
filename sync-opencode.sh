@@ -93,6 +93,20 @@ else
   echo "    ⚠️  Nenhum diretório commands/ encontrado — pulando"
 fi
 
+# ── Step 3.6: Ensure required OpenCode plugin is installed locally ───────────
+echo "=== 3.6. Verificando plugin opencode-hooks-plugin ==="
+mkdir -p "$HOME/.config/opencode"
+if [ ! -d "$HOME/.config/opencode/node_modules/opencode-hooks-plugin" ]; then
+  echo "    ⬇️  Instalando opencode-hooks-plugin em ~/.config/opencode"
+  (
+    cd "$HOME/.config/opencode"
+    npm install --no-save opencode-hooks-plugin
+  )
+  echo "    ✅ opencode-hooks-plugin instalado"
+else
+  echo "    ✅ opencode-hooks-plugin já instalado"
+fi
+
 # ── Step 4: Apply active plan model overrides to ~/.config/opencode/opencode.json
 ACTIVE_PLAN="$SCRIPT_DIR/platform/plans/plan-active.json"
 if [ -f "$ACTIVE_PLAN" ]; then
