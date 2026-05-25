@@ -14,24 +14,7 @@ Master guide to orchestrating the multi-agent system. Includes category routing,
 
 ## Agent Hierarchy
 
-| Agent | Role | Invocation |
-|-------|------|------------|
-| **@zeus** | Central orchestrator | Coordinates all agents |
-| **@athena** | Strategic planner | Creates TDD-driven plans |
-| **@apollo** | Codebase discovery | Parallel research |
-| **@hermes** | Backend (FastAPI) | API implementation |
-| **@aphrodite** | Frontend (React) | UI components |
-| **@demeter** | Database | Schema & optimization |
-| **@themis** | Quality & security | Code review |
-| **@prometheus** | Infrastructure | Docker & deployment |
-| **@hephaestus** | AI pipelines | RAG & LangChain |
-| **@chiron** | Model routing | Provider hub |
-| **@echo** | Conversational AI | NLU & dialogue |
-| **@nyx** | Observability | Tracing & monitoring |
-| **@gaia** | Remote sensing | LULC analysis |
-| **@iris** | GitHub operations | PRs & releases |
-| **@mnemosyne** | Documentation | Memory bank |
-| **@talos** | Hotfixes | Rapid repairs |
+See `AGENTS.md` for the full agent table.
 
 ---
 
@@ -79,15 +62,7 @@ Themis reviews all three after completion.
 
 ## Artifact Protocol
 
-All phase outputs go to `docs/memory-bank/.tmp/` (gitignored, wiped on sprint close):
-
-| Prefix | Produced by | Ephemeral? |
-|--------|-------------|------------|
-| `PLAN-` | Athena | ✅ |
-| `IMPL-` | Hermes/Aphrodite/Demeter | ✅ |
-| `REVIEW-` | Themis | ✅ |
-| `DISC-` | Apollo | ✅ |
-| `ADR-` | Any agent → Mnemosyne | ❌ Permanent |
+All phase outputs go to `docs/memory-bank/.tmp/`. See `instructions/artifact-protocol.instructions.md` for the complete protocol (who generates what, templates, lifecycle).
 
 ---
 
