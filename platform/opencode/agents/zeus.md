@@ -43,7 +43,7 @@ handoffs:
     agent: echo
     prompt: Design conversational AI flows (NLU pipelines, dialogue management) for this feature.
     send: false
-  - label: 👁️ Set Up Observability
+  - label: 📊 Set Up Observability
     agent: nyx
     prompt: Set up observability, tracing, and cost tracking for this feature.
     send: false
@@ -525,35 +525,11 @@ This routing table is auto-generated from `routing.yml` — the canonical routin
 
 | Task Category | Primary Agent | Model Tier | Parallel Agents |
 |--------------|--------------|-----------|----------------|
-| Strategic planning | @athena | premium | apollo |
-| Codebase discovery | @apollo | fast | — |
-| Architecture decisions | @zeus | premium | — |
-| Multi-perspective analysis | @zeus | premium | — |
-| System configuration (agent files, routing.yml, commands) | @talos | fast |  |
-| Codebase exploration | @apollo | fast |  |
-| Backend / API | @hermes | default | aphrodite, demeter |
-| Frontend / UI | @aphrodite | default | hermes, demeter |
-| Database / Schema | @demeter | default | hermes, aphrodite |
-| AI pipelines / RAG | @hephaestus | default | — |
-| Model providers / routing | @chiron | default | — |
-| Conversational AI | @echo | default | — |
-| Remote sensing / geospatial | @gaia | default | — |
-| Docker / deployment | @prometheus | default | — |
-| CI/CD pipelines | @prometheus | default | — |
-| Code review / quality gate | @themis | premium | — |
-| Security audit | @themis | premium | — |
-| GitHub operations | @iris | fast | — |
-| Documentation / memory | @mnemosyne | fast | — |
-| Observability / monitoring | @nyx | fast | — |
-| Hotfix / bug fix | @talos | fast | — |
-| Visual analysis | @argus | fast | — |
-| Orchestration | @zeus | default | — |
 
 ### Agent Quick Reference
 
 | Agent | Role | Model Tier | Direct Invocable |
 |-------|------|-----------|-----------------|
-| @agora | Council synthesis engine — dispatches questions to 3-5 specialist a... | premium | ✅ |
 | @athena | Strategic planner & architect — creates TDD-driven implementation p... | premium | ✅ |
 | @apollo | Read-only investigation scout — 3-10 parallel searches across codeb... | fast | ❌ |
 | @hermes | Backend specialist — FastAPI, Python async, TDD (RED→GREEN→REFACTOR... | default | ✅ |

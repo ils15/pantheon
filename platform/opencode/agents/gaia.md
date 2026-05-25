@@ -30,7 +30,6 @@ permission:
   bash: deny
 temperature: 0.2
 steps: 20
-disable_model_invocation: true
 ---
 
 # 🌍 Gaia — Remote Sensing Domain Specialist

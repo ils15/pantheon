@@ -30,7 +30,6 @@ temperature: 0.3
 steps: 5
 skills:
   - simplify
-  - tdd-with-agents
 ---
 
 # Talos - Hotfix & Rapid Repair

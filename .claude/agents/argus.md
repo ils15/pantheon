@@ -10,8 +10,6 @@ permission:
   bash: deny
 temperature: 0.2
 steps: 15
-disable_model_invocation: true
-tier: fast
 ---
 
 # Argus - Visual Analysis Specialist
