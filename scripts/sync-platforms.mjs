@@ -115,6 +115,8 @@ const CAPABILITY_TAXONOMY = {
   'browser/screenshotPage':    { class: 'browser-ui',       portability: 'optional-accelerator' },
   // external-service
   'web/fetch':                 { class: 'external-service', portability: 'portable' },
+  'context7_resolve-library-id': { class: 'external-service', portability: 'mappable' },
+  'context7_query-docs':         { class: 'external-service', portability: 'mappable' },
 };
 
 /**

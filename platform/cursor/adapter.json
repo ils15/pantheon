@@ -55,6 +55,8 @@
     "vscode/askQuestions": "askUser"
   },
   "excludeTools": [
+    "context7_resolve-library-id",
+    "context7_query-docs",
     "agent",
     "search/usages",
     "search/fileSearch",

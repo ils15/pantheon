@@ -57,6 +57,8 @@
     "vscode/askQuestions": "AskUserQuestion"
   },
   "excludeTools": [
+    "context7_resolve-library-id",
+    "context7_query-docs",
     "search/changes",
     "read/problems",
     "execute/createAndRunTask",
