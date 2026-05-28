@@ -4,6 +4,30 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [v3.9.0] - 2026-05-28
+
+[compare changes](https://github.com/ils15/pantheon/compare/v3.8.4...v3.9.0)
+
+### 🚀 Enhancements
+
+- Setup changelogen + git-cliff for auto-releases ([ce4ee22](https://github.com/ils15/pantheon/commit/ce4ee22))
+
+### 🩹 Fixes
+
+- Add missing closing brace for github configuration in opencode.json ([a63c522](https://github.com/ils15/pantheon/commit/a63c522))
+- Address PR review sync and mapping feedback ([c550049](https://github.com/ils15/pantheon/commit/c550049))
+- Sync version to 3.8.4, fix versioning.mjs apply bug, add version check script ([141a6b1](https://github.com/ils15/pantheon/commit/141a6b1))
+- Add CHANGELOG entry for v3.8.4 to fix CI validate failure ([58cc0f5](https://github.com/ils15/pantheon/commit/58cc0f5))
+- **ci:** Auto-release cria PR com auto-merge ao invés de push direto pra main ([e4f78c9](https://github.com/ils15/pantheon/commit/e4f78c9))
+
+### 🏡 Chore
+
+- Cleanup commands, fix subtask agent, add Context7 tools, improve sync script ([da6ed7c](https://github.com/ils15/pantheon/commit/da6ed7c))
+
+### ❤️ Contributors
+
+- Ils15 ([@ils15](https://github.com/ils15))
+
 ## [Unreleased]
 
 <!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
