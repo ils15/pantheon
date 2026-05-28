@@ -6,7 +6,7 @@
 - Skills: SKILL.md on-demand loading
 - Memory: /memories/repo/ (facts) + docs/memory-bank/ (narrative)
 - Platforms: VS Code, OpenCode, Claude Code, Cursor, Windsurf, Continue.dev, Cline
-- Sync: ./sync-platform.sh <platform> --clean
+- Sync: npm run sync -- <platform> --clean
 - Commands: commands/ (canonical source, synced to all platforms)
 - MCPs: Playwright, Browse, Context7, GitHub, Filesystem
 - Context7: Added to hermes, aphrodite, demeter, hephaestus agents
