@@ -17,6 +17,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+## [v3.8.4] - 2026-05-28
+
+### Added
+- Context7 MCP tools (`context7_resolve-library-id`, `context7_query-docs`) added to hermes, aphrodite, demeter, hephaestus agents
+- Context7 tools registered in capability taxonomy and excluded from non-passthrough platform adapters (claude, cline, cursor, opencode)
+- `--clean` flag for `sync-platforms.mjs` to remove stale generated commands and skills
+- `--clean` flag wired into `validate-sync.mjs` / `npm run sync:check` so stale outputs are caught by CI
+
+### Changed
+- `/pantheon` command enhanced with full synthesis structure (Individual Assessments, Agreements, Divergences, Recommendation)
+- `memories/repo/stack.md` sync command corrected to `npm run sync -- <platform> --clean`
+- Windsurf workflow outputs regenerated to match canonical `/pantheon` command
+- `opencode.json` provider `headerTimeout` set to 10000ms
+
+### Fixed
+- `/subtask` removed invalid `agent: "subtask"` metadata across all platform copies
+
+### Removed
+- `/council` command (duplicate of `/pantheon`) deleted from canonical and all 6 platform directories
+
 ## [v3.8.3] - 2026-05-25
 
 ### Fixed
