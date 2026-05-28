@@ -18,6 +18,8 @@ tools:
   - execute/getTerminalOutput
   - search/changes
   - web/fetch
+  - context7_resolve-library-id
+  - context7_query-docs
 permission:
   edit: allow
   bash: allow

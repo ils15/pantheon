@@ -1,6 +1,5 @@
 ---
 description: "Run a bounded child worker for a specific sub-task"
-agent: "subtask"
 ---
 # /subtask — Child Worker
 

@@ -26,6 +26,8 @@ tools:
   - browser/dragElement
   - browser/handleDialog
   - browser/screenshotPage
+  - context7_resolve-library-id
+  - context7_query-docs
 permission:
   edit: allow
   bash: allow
