@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   auto-release:
@@ -78,7 +79,7 @@ jobs:
         if: steps.check.outputs.has_commits == 'true'
         run: npm run sync
 
-      - name: Commit and tag
+      - name: Commit, tag and push release branch
         if: steps.check.outputs.has_commits == 'true'
         run: |
           git config user.name "github-actions[bot]"
@@ -88,7 +89,33 @@ jobs:
           git commit -m "chore(release): ${NEW_VERSION} [skip ci]"
           git tag "${NEW_VERSION}"
           
-          git push origin main --tags
+          # Push tag (tags bypass branch protection)
+          git push origin "${NEW_VERSION}"
+          
+          # Push release branch instead of pushing to main directly
+          # (main is protected and requires PRs)
+          BRANCH="release/${NEW_VERSION}"
+          git checkout -b "${BRANCH}"
+          git push origin "${BRANCH}"
+
+      - name: Create Pull Request with auto-merge
+        if: steps.check.outputs.has_commits == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BRANCH="release/${NEW_VERSION}"
+          PR_URL=$(gh pr create \
+            --base main \
+            --head "${BRANCH}" \
+            --title "chore(release): ${NEW_VERSION}" \
+            --body "Automated release PR for Pantheon **${NEW_VERSION}**.\n\nThe GitHub Release has already been published. Merging this PR syncs main with the version bump and changelog update." \
+            --json url --jq '.url')
+          
+          echo "PR created: $PR_URL"
+          
+          # Enable auto-merge with squash strategy
+          gh pr merge "${BRANCH}" --auto --squash
+          echo "✅ Auto-merge enabled for $PR_URL"
 
       - name: Install git-cliff
         if: steps.check.outputs.has_commits == 'true'
