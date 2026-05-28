@@ -26,7 +26,10 @@
     "sync:windsurf": "node scripts/sync-platforms.mjs windsurf",
     "sync:continue": "node scripts/sync-platforms.mjs continue",
     "sync:cline": "node scripts/sync-platforms.mjs cline",
-    "sync:all": "node scripts/sync-platforms.mjs all"
+    "sync:all": "node scripts/sync-platforms.mjs all",
+    "changelog:dry": "npx changelogen --dry-run --output /dev/stdout",
+    "changelog:gitcliff": "git-cliff --config cliff.toml -o CHANGELOG.md",
+    "release:preview": "git-cliff --config cliff.toml -o /dev/stdout"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
