@@ -14,7 +14,7 @@ Pantheon follows **Semantic Versioning** based on [Conventional Commits](https:/
 | `feat:` | **MINOR** (x.y.0) |
 | `fix:`, `chore:`, `docs:`, `refactor:`, etc. | **PATCH** (x.y.z) |
 
-Current version: **v3.4.0**
+Current version: **v3.8.4**
 
 ---
 
@@ -34,6 +34,130 @@ npm run version:major   # 2.9.0 → 3.0.0
 ```
 
 These update all 3 manifest files: `package.json`, `plugin.json`, `.github/plugin/plugin.json`.
+
+---
+
+## Changelogen
+
+Pantheon uses [changelogen](https://github.com/unjs/changelogen) for automatic changelog generation and version bumping.
+
+### First Time Setup
+
+If this is the first time using changelogen:
+
+```bash
+npx changelogen --init
+```
+
+### Usage
+
+```bash
+# Generate changelog and bump version automatically
+npm run changelog
+
+# Create release with changelog + commit + tag
+npm run release
+
+# Create GitHub Release (manual trigger)
+npx changelogen gh release
+```
+
+### How It Works
+
+1. **Analyzes commits** — Uses Conventional Commits format (feat:, fix:, docs:)
+2. **Determines bump** — BREAKING→MAJOR, feat→MINOR, fix→PATCH
+3. **Generates CHANGELOG.md** — Structured release notes
+4. **Creates git tag** — Tags the release for GitHub
+
+### Prerequisites
+
+- Project must use Conventional Commits (commitlint + husky already configured)
+- First tag: Creates baseline for future changelogs
+- After first tag: Only generates changelog from last tag (faster, cleaner)
+
+---
+
+## Git-Cliff
+
+Pantheon uses [git-cliff](https://git-cliff.org/) for generating professional changelogs with rich formatting.
+
+### Installation
+
+```bash
+# Via cargo (Rust)
+cargo install git-cliff
+
+# Via npm (via changelogen integration)
+npm run changelog:gitcliff
+```
+
+### Usage
+
+```bash
+# Generate full changelog
+npm run changelog:gitcliff
+
+# Preview without writing (dry-run)
+npm run release:preview
+
+# Generate release notes for specific version
+npm run release:notes v3.8.5
+```
+
+### Configuration
+
+The configuration is in `cliff.toml` at the project root. Key features:
+
+- **Conventional Commits** — Parses feat:/fix:/BREAKING automatically
+- **Grouped sections** — Features, Bug Fixes, Documentation, etc.
+- **Emoji indicators** — Visual categorization (✨ 🐛 📚 ⚡ 🔧 🎨 🧪)
+- **GitHub links** — Auto-links issues and commit hashes
+- **Breaking change markers** — Clear [BREAKING] tags
+
+### Template Customization
+
+Edit `cliff.toml` to customize:
+
+```toml
+[changelog]
+body = """
+{% for group, commits in commits | group_by(attribute="group") %}
+    ### {{ group | upper_first }}
+    {% for commit in commits %}
+        - {{ commit.message | upper_first }}
+    {% endfor %}
+{% endfor %}
+"""
+```
+
+### Release Workflow
+
+```bash
+# 1. Generate changelog
+npm run changelog:gitcliff
+
+# 2. Review changes
+git diff CHANGELOG.md
+
+# 3. Generate release notes
+npm run release:notes v3.8.5
+
+# 4. Create GitHub Release
+gh release create v3.8.5 --notes-file release_notes.md
+```
+
+### Comparison: Changelogen vs Git-Cliff
+
+| Feature | Changelogen | Git-Cliff |
+|---------|-------------|-----------|
+| Auto version bump | ✅ | ❌ (manual) |
+| Rich formatting | Basic | Advanced (emoji, links) |
+| Template engine | Simple | Tera (Jinja-like) |
+| GitHub integration | Limited | Full (PRs, issues) |
+| Breaking changes | ✅ | ✅ (with markers) |
+| Speed | Fast | Fast |
+
+**Recommendation:** Use `changelogen` for version bumping and `git-cliff` for changelog generation.
 
 ---
 
