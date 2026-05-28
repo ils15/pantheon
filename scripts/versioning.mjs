@@ -200,7 +200,8 @@ switch (command) {
     // without tagging — warn and use the current version as-is.
     if (current !== latestVer) {
       console.log(`⚠ package.json (${current}) already ahead of latest tag (${latestTag}).`);
-      console.log(`  Promoting CHANGELOG for ${current} without bumping further.`);
+      console.log(`  Syncing all manifests to ${current} and promoting CHANGELOG.`);
+      updateManifests(current);
       const date = new Date().toISOString().slice(0, 10);
       promoteUnreleased(current, date);
       break;

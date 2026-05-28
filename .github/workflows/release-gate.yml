@@ -19,18 +19,7 @@ jobs:
           node-version: '20'
 
       - name: Check version consistency
-        run: |
-          pkg_ver=$(node -p "require('./package.json').version")
-          plugin_ver=$(node -p "require('./plugin.json').version")
-          gh_plugin_ver=$(node -p "require('./.github/plugin/plugin.json').version")
-          echo "package.json: $pkg_ver"
-          echo "plugin.json: $plugin_ver"
-          echo ".github/plugin/plugin.json: $gh_plugin_ver"
-          if [ "$pkg_ver" != "$plugin_ver" ] || [ "$pkg_ver" != "$gh_plugin_ver" ]; then
-            echo "❌ Version mismatch across manifests!"
-            exit 1
-          fi
-          echo "✅ All versions match: $pkg_ver"
+        run: bash scripts/check-version-consistency.sh
 
       - name: Check CHANGELOG has entry for current version
         run: |

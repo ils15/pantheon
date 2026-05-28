@@ -5,3 +5,9 @@
 - Lint Python: ruff check
 - Format Python: ruff format
 - Lint/Format TS: biome check --write --unsafe
+- /pantheon: Council synthesis — dispatches to 2-4 specialists in parallel
+- /subtask: Bounded child worker (auto-routes to best agent)
+- /forge: Switch model tier (fast/default/premium)
+- /audit: Quality & security audit
+- /praxis: Execute plan with dependency ordering
+- /sketch: Refine rough idea into spec via Q&A

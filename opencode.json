@@ -30,7 +30,8 @@
   "provider": {
     "opencode": {
       "options": {
-        "chunkTimeout": 120000
+        "chunkTimeout": 120000,
+        "headerTimeout": 10000
       }
     },
     "github-copilot": {}
