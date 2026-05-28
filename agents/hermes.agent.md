@@ -16,6 +16,8 @@ tools:
     - execute/testFailure
     - execute/getTerminalOutput
     - search/changes
+    - context7_resolve-library-id
+    - context7_query-docs
 permission:
   edit: allow
   bash: allow

@@ -11,7 +11,7 @@
  *   node scripts/sync-platforms.mjs --dry-run    # print diff without writing
  */
 
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync } from 'fs';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import yaml from 'js-yaml';
@@ -24,6 +24,7 @@ const PLATFORM_DIR = join(ROOT, 'platform');
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
+const CLEAN = args.includes('--clean');
 const TARGET_PLATFORM = args.find(a => !a.startsWith('--'));
 
 // ---------------------------------------------------------------------------
@@ -114,6 +115,8 @@ const CAPABILITY_TAXONOMY = {
   'browser/screenshotPage':    { class: 'browser-ui',       portability: 'optional-accelerator' },
   // external-service
   'web/fetch':                 { class: 'external-service', portability: 'portable' },
+  'context7_resolve-library-id': { class: 'external-service', portability: 'mappable' },
+  'context7_query-docs':         { class: 'external-service', portability: 'mappable' },
 };
 
 /**
@@ -347,6 +350,25 @@ function deploySkills(platformName, adapter, agentFiles, outDir) {
     console.log(`  📦 ${skill}/SKILL.md → ${skillsDir}/${skill}/`);
     deployed++;
   }
+  // Clean stale skill directories if --clean flag is set
+  if (CLEAN && existsSync(targetDir)) {
+    const destDirs = readdirSync(targetDir).filter(d => {
+      const stat = existsSync(join(targetDir, d, 'SKILL.md'));
+      return stat;
+    });
+    for (const dir of destDirs) {
+      if (!skills.has(dir)) {
+        const stalePath = join(targetDir, dir);
+        if (!DRY_RUN) {
+          rmSync(stalePath, { recursive: true, force: true });
+          console.log(`  🗑️  ${dir}/ (stale skill, removed)`);
+        } else {
+          console.log(`  ~ ${dir}/ (stale skill, would remove)`);
+        }
+        deployed++;
+      }
+    }
+  }
   return deployed;
 }
 
@@ -439,6 +461,23 @@ function deployCommands(platformName, adapter) {
     if (!DRY_RUN) writeFileSync(destFile, content, 'utf8');
     console.log(`  📄 ${file} → ${commandsDir}/`);
     deployed++;
+  }
+
+  // Clean stale files from target dir if --clean flag is set
+  if (CLEAN && existsSync(targetDir)) {
+    const destFiles = readdirSync(targetDir).filter(f => f.endsWith('.md'));
+    for (const destFile of destFiles) {
+      if (!srcFiles.includes(destFile)) {
+        const stalePath = join(targetDir, destFile);
+        if (!DRY_RUN) {
+          rmSync(stalePath);
+          console.log(`  🗑️  ${destFile} (stale, removed)`);
+        } else {
+          console.log(`  ~ ${destFile} (stale, would remove)`);
+        }
+        deployed++;
+      }
+    }
   }
   return deployed;
 }
@@ -808,5 +847,6 @@ for (const platform of platforms) {
 }
 
 const action = DRY_RUN ? 'would update' : 'updated';
-console.log(`\n${DRY_RUN ? '🔍' : '✅'} Done — ${totalWritten} files ${action} across ${totalPlatforms} platforms`);
+const cleanNote = CLEAN ? ' (with --clean)' : '';
+console.log(`\n${DRY_RUN ? '🔍' : '✅'} Done — ${totalWritten} files ${action}${cleanNote} across ${totalPlatforms} platforms`);
 if (DRY_RUN && totalWritten > 0) process.exit(1); // non-zero for CI

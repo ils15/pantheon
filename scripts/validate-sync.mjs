@@ -20,7 +20,7 @@ const syncScript = join(__dirname, 'sync-platforms.mjs');
 const args = process.argv.slice(2);
 const target = args.find(a => !a.startsWith('--'));
 
-const syncArgs = ['--dry-run'];
+const syncArgs = ['--dry-run', '--clean'];
 if (target) syncArgs.push(target);
 
 const result = spawnSync(
