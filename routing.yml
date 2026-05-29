@@ -811,18 +811,18 @@ handoffs:
       prompt: "Set up observability, tracing, and cost tracking for this feature."
 
     visual_analysis:
-      label: "👁️ Visual Analysis"
-      description: "Screenshot, PDF, diagram, and UI mockup analysis"
+      label: "👁️ External Visual Analysis"
+      description: "Analyze external screenshots, diagrams, PDFs, mockups (NOT UI implementation review)"
       agent: argus
       model_tier: fast
       prompt: "Analyze visual content (screenshots, PDFs, diagrams, UI mockups) and return structured observations."
 
     visual_fix:
       label: "🔧 Fix Visual Issues"
-      description: "Re-delegate visual fixes to Aphrodite"
+      description: "Re-delegate visual fixes to Aphrodite (self-review loop)"
       agent: aphrodite
       model_tier: default
-      prompt: "Fix these visual issues identified by Argus: [issues]"
+      prompt: "Fix these visual issues identified in self-review: [issues]"
 
   # --- ATHENA HANDOFFS ---
   athena:
@@ -875,11 +875,11 @@ handoffs:
       prompt: "Please perform a code review and accessibility audit on these frontend changes according to your instructions."
 
     visual_review:
-      label: "👁️ Visual Review"
-      description: "Delegate screenshot to Argus for visual analysis"
-      agent: argus
-      model_tier: fast
-      prompt: "Analyze this UI screenshot for visual issues: layout, contrast, responsive, missing elements. Return structured JSON."
+      label: "👁️ Visual Review (Self)"
+      description: "Self-review screenshot for visual issues"
+      agent: aphrodite
+      model_tier: default
+      prompt: "Analyze your own screenshot for visual issues: layout, contrast, responsive, missing elements. Return structured JSON."
 
     visual_escalate:
       label: "🚨 Escalate Visual Issues"

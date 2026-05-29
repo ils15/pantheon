@@ -61,27 +61,27 @@ After implementing a component, run this automated visual review pipeline:
 - Use ~~`#tool:browser/screenshotPage`~~ to capture the rendered component
 - Save screenshot to a temp location (e.g., `/tmp/opencode/screenshot-{timestamp}.png`)
 
-#### Step 2: Analyze
-- Delegate to @argus with the screenshot using the agent tool
-- Request visual analysis for: layout issues, alignment, spacing, text overflow, contrast, responsiveness
+#### Step 2: Self-Analyze
+- Analyze your own screenshot for: layout issues, alignment, spacing, text overflow, contrast, responsiveness
+- Use the JSON schema format below to structure your findings
+- Be honest — look for issues as if you were a QA tester
 
 #### Step 3: Fix or Escalate
-- Parse findings, fix or escalate
 - If issues found: fix them in the component code
-- If fixable: update the component and re-run screenshot
-- If not fixable after 3 iterations: escalate to Zeus
+- Re-capture screenshot and re-analyze
+- After 3 iterations, stop and escalate to Zeus
 
 #### Iteration Tracking
 - Count iterations (max 3)
-- Each iteration must fix at least one `pass_if_fixed` issue
+- Each iteration must fix at least one issue
 - After 3 iterations, stop and escalate
 
 #### Escalation to Zeus
 - Format a structured escalation message
-- Include: screenshot, all iterations, findings, what was fixed, what persists
+- Include: screenshot path, all iterations, findings, what was fixed, what persists
 
 #### JSON Schema Format
-The Argus analysis response should follow this schema:
+Use this format to structure your analysis:
 ```json
 {
   "verdict": "APPROVED | NEEDS_FIX | ESCALATE",
@@ -96,8 +96,7 @@ The Argus analysis response should follow this schema:
   ],
   "iteration": 1,
   "pass_if_fixed": ["ISSUE-001", "ISSUE-002"]
-    }
-  }
+}
 
 ## 🔍 Search Policy
 - You do NOT perform web searches directly
@@ -302,7 +301,6 @@ After Mnemosyne persists the artifact, signal Zeus: `Ready for Themis review.`
 
 - **@hermes**: When you need new API endpoints
 - **@prometheus**: For Vite configuration or Docker deployment
-- **@argus**: For integrated browser checks and accessibility audit
 - **@mnemosyne**: For ALL documentation (MANDATORY)
 
 ## Output Format

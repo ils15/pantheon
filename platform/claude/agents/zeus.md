@@ -217,7 +217,8 @@ When reviewing implementation results, route validation to the right specialist 
 - **Security-sensitive changes** → @themis (OWASP, secret scanning, injection)
 - **Infrastructure changes** → @prometheus (Docker, CI/CD, deployment)
 - **AI/ML pipeline changes** → @hephaestus (RAG, embeddings, chains)
-- **Visual content analysis** → @argus (screenshots, PDFs, diagrams)
+- **Visual content analysis (external)** → @argus (screenshots, PDFs, diagrams)
+- **Visual content analysis (UI self-review)** → @aphrodite (her own implementation)
 - **General code quality** → @themis (coverage, style, dead code)
 - **System configuration changes** → @talos (small: 1-2 files, < 10 lines) or @hermes (medium: multi-file, structured changes)
 
@@ -234,43 +235,40 @@ When reviewing implementation results, route validation to the right specialist 
 
 ## 👁️ VISUAL REVIEW PIPELINE ORCHESTRATION
 
-When UI implementation completes, Zeus can optionally trigger a visual review pipeline to catch visual issues before final review.
+Zeus routes visual analysis to the right agent based on context:
 
-### 1. Delegating Visual Review
+### Routing Rules
 
-After Aphrodite completes UI implementation:
+| Scenario | Route to | Reason |
+|----------|----------|--------|
+| UI implementation needs visual check | **@aphrodite** (self-review) | She knows what she built |
+| Bug report with screenshot | **@argus** | External image analysis |
+| Architecture diagram interpretation | **@argus** | External diagram analysis |
+| PDF documentation analysis | **@argus** | External document analysis |
+| Compare mockup vs implementation | **@argus** + **@aphrodite** | Argus reads mockup, Aphrodite checks implementation |
+| Persistent UI issues after 3 iterations | **@zeus** (direct) | Architectural judgment needed |
 
-1. **Check MCP availability** — Playwright MCP must be available for screenshots
-   - If unavailable → skip visual review with warning: `"⚠️ Visual review skipped: Playwright MCP not available. Run manually after implementation."`
-2. **Delegate to @argus**: `"Analyze screenshot at [path] for visual issues: misalignment, spacing, color contrast, broken layout, missing states"`
-3. **If issues found** → Delegate to @aphrodite: `"Fix these visual issues: [list from argus]"`
-4. **Track iterations** — max 3 rounds before escalation
+### 1. After Aphrodite implements UI
 
-```
-Post-Implementation Visual Check (optional):
-  ├─ Playwright MCP available?
-  │   ├─ YES → @argus (screenshot analysis)
-  │   │        ├─ Issues found? → @aphrodite (fix) → @argus (re-check)
-  │   │        └─ Clean? → proceed to Themis review
-  │   └─ NO → ⚠️ warn user, skip visual review
-  └─ Max 3 iterations → escalate to Zeus for judgment
-```
+Aphrodite self-reviews her own work:
+1. Capture screenshot with Playwright
+2. Analyze for layout, contrast, responsive, accessibility
+3. Fix issues in a loop (max 3 iterations)
+4. If issues persist → escalate to Zeus
 
-### 2. Receiving Escalation from Aphrodite
+**Zeus does NOT delegate to Argus for Aphrodite's UI work.**
 
-When Aphrodite escalates visual issues after 3 failed iterations:
+### 2. When to invoke Argus
 
-1. **Parse remaining issues** from Aphrodite's escalation report
-2. **Classify root cause:**
-   - **Frontend-only** (CSS, layout, component logic) → Re-delegate to @aphrodite with specific guidance: `"Fix these remaining issues: [list]. Focus on: [specific approach]"`
-   - **Backend-dependent** (API data shape, missing fields, wrong types) → Delegate to @hermes: `"Visual issue caused by data: [description]. Fix endpoint to return: [expected shape]"`
-   - **Data-dependent** (missing records, wrong values) → Delegate to @demeter: `"Visual issue caused by data: [description]. Verify schema/migration supports: [expected data]"`
-   - **Cross-cutting** (affects multiple layers) → Sequence fixes: @hermes → @aphrodite → re-check
+Only invoke @argus for EXTERNAL visual content:
+- "Analyze this screenshot from a bug report"
+- "Read this architecture diagram"
+- "Extract text from this PDF"
+- "Compare our UI with this external mockup"
 
 ### 3. MCP Availability Check
 
-Before any visual review delegation:
-
+Before any visual review:
 ```
 MCP Check Protocol:
   1. Verify Playwright MCP is configured and reachable
@@ -279,25 +277,18 @@ MCP Check Protocol:
      - Offer fallback: "Run visual review manually: [instructions]"
      - Do NOT block pipeline — continue to Themis review
   3. If available:
-     - Proceed with @argus delegation
-     - @argus returns: [issues list] or "CLEAN"
+     - Proceed with @aphrodite (UI) or @argus (external)
 ```
 
-### 4. Visual Review Iteration Tracking
+### 4. Escalation from Aphrodite
 
-Track iterations per feature to prevent infinite loops:
-
-| Feature | Iteration | Result | Action |
-|---------|-----------|--------|--------|
-| `<feature>` | 1 | Issues found | → @aphrodite fix |
-| `<feature>` | 2 | Issues found | → @aphrodite fix |
-| `<feature>` | 3 | Issues persist | → Zeus escalation |
-| `<feature>` | 3+ | Escalated | → Classify root cause (see §2) |
-
-**Escalation threshold:** 3 iterations. After 3, Zeus must classify and decide whether to:
-- Continue with specialist delegation (backend/data fix)
-- Accept remaining issues as known limitations
-- Request user judgment
+When Aphrodite escalates after 3 failed iterations:
+1. Parse remaining issues
+2. Classify root cause:
+   - **Frontend-only** → Re-delegate to @aphrodite with specific guidance
+   - **Backend-dependent** → Delegate to @hermes
+   - **Data-dependent** → Delegate to @demeter
+   - **Architectural** → Zeus decides directly
 
 ## 🔍 EXPLORATION ROUTING — Apollo Default
 
