@@ -198,6 +198,56 @@ Add to `~/.codeium/windsurf/mcp_config.json` (global only — Windsurf doesn't s
 
 ---
 
+## MCP Configuration via Frontmatter
+
+Each agent template now includes a `mcpServers` field in its frontmatter that declares which MCP servers the agent can use. This enables per-agent MCP binding with tool scoping.
+
+### Schema
+
+```yaml
+mcpServers:
+  - name: string (required)
+    tools: [string] (required)
+    when: string (required)
+```
+
+### Constraints
+- Maximum 5 MCPs per agent
+- `tools` lists the MCP tools the agent can access
+- `when` describes the activation condition
+
+### Example
+
+```yaml
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving library documentation"
+  - name: playwright
+    tools:
+      - browser_screenshotPage
+    when: "visual verification needed"
+```
+
+### Agent-MCP Mapping
+
+| Agent | MCPs | Tier |
+|-------|------|------|
+| @zeus | context7, github | Core |
+| @hermes | context7, postgresql, playwright | Role-Specific |
+| @aphrodite | context7, playwright, figma | Role-Specific |
+| @demeter | postgresql, context7 | Role-Specific |
+| @prometheus | docker, context7 | Role-Specific |
+| @apollo | context7, brave-search | Optional |
+| @argus | playwright | Role-Specific |
+| @iris | github | Role-Specific |
+| @mnemosyne | memory | Core |
+| Others | context7 | Core |
+
+---
+
 ## MCP Tool Discovery Pattern
 
 When an agent needs external capabilities beyond the codebase:

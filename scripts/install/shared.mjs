@@ -377,6 +377,97 @@ export function syncDir(src, dst, dryRun, clean = false, filter = null) {
 	return { created, skipped };
 }
 
+// ---------------------------------------------------------------------------
+// MCP Servers schema validation
+// ---------------------------------------------------------------------------
+
+/**
+ * Schema definition for mcpServers frontmatter field.
+ * Max 5 MCPs per agent, tools must reference tools in agent's tools: array.
+ */
+export const MCP_SERVERS_SCHEMA = {
+  type: 'array',
+  maxItems: 5,
+  items: {
+    type: 'object',
+    required: ['name', 'tools', 'when'],
+    properties: {
+      name: {
+        type: 'string',
+        minLength: 1,
+        description: 'MCP server identifier'
+      },
+      tools: {
+        type: 'array',
+        minItems: 1,
+        items: {
+          type: 'string',
+          minLength: 1
+        },
+        description: 'Tools this MCP provides (must exist in agent tools: array)'
+      },
+      when: {
+        type: 'string',
+        minLength: 1,
+        description: 'Activation condition (e.g., "always", "on-demand")'
+      }
+    },
+    additionalProperties: false
+  }
+};
+
+/**
+ * Validate mcpServers against schema constraints.
+ * @param {Array} mcpServers - The mcpServers array from agent frontmatter
+ * @param {string[]} agentTools - The agent's tools: array for cross-reference validation (unused, MCP tools are external)
+ * @returns {{ valid: boolean, errors: string[] }}
+ */
+export function validateMcpServers(mcpServers, agentTools = []) {
+  const errors = [];
+
+  if (!Array.isArray(mcpServers)) {
+    errors.push('mcpServers must be an array');
+    return { valid: false, errors };
+  }
+
+  if (mcpServers.length > 5) {
+    errors.push(`mcpServers exceeds maximum of 5 (got ${mcpServers.length})`);
+  }
+
+  for (let i = 0; i < mcpServers.length; i++) {
+    const mcp = mcpServers[i];
+    const prefix = `mcpServers[${i}]`;
+
+    if (!mcp || typeof mcp !== 'object') {
+      errors.push(`${prefix}: must be an object`);
+      continue;
+    }
+
+    // Required fields
+    if (!mcp.name || typeof mcp.name !== 'string' || mcp.name.trim() === '') {
+      errors.push(`${prefix}.name: required and must be non-empty string`);
+    }
+
+    if (!Array.isArray(mcp.tools) || mcp.tools.length === 0) {
+      errors.push(`${prefix}.tools: required and must be non-empty array`);
+    }
+
+    if (!mcp.when || typeof mcp.when !== 'string' || mcp.when.trim() === '') {
+      errors.push(`${prefix}.when: required and must be non-empty string`);
+    }
+
+    // Disallow additional properties
+    const allowedKeys = ['name', 'tools', 'when'];
+    for (const key of Object.keys(mcp)) {
+      if (!allowedKeys.includes(key)) {
+        errors.push(`${prefix}: unexpected property "${key}"`);
+      }
+    }
+  }
+
+  return { valid: errors.length === 0, errors };
+}
+
 export function printSummary(target, platforms) {
 	const PLATFORM_LABELS = {
 		opencode: "OpenCode",

@@ -29,6 +29,18 @@ temperature: 0.2
 steps: 15
 skills:
   - docker-best-practices
+mcpServers:
+  - name: docker
+    tools:
+      - docker_build
+      - docker_run
+      - docker_compose
+    when: "container management and deployment"
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving Docker/CI documentation"
 ---
 
 # Prometheus - Infrastructure Implementation Specialist

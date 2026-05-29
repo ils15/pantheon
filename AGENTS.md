@@ -30,6 +30,12 @@ This project uses the Pantheon multi-agent framework with 17 specialized agents.
 - Test: `npm test`
 - Lint: `npm run lint`
 
+## MCP Configuration
+
+Each agent template includes a `mcpServers` frontmatter field that declares available MCP servers. This enables per-agent MCP binding with tool scoping.
+
+For details, see `docs/mcp-recommendations.md`.
+
 ## Conventions
 
 - TDD: Write failing test first, then implement

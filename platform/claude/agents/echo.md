@@ -12,6 +12,12 @@ permission:
   bash: allow
 temperature: 0.4
 steps: 20
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: resolving Rasa/NLU documentation
 ---
 
 # Echo — Conversational AI Specialist

@@ -33,6 +33,12 @@ steps: 15
 skills:
   - agent-observability
   - agent-evaluation
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving observability documentation"
 ---
 
 # Nyx — Observability & Monitoring Specialist

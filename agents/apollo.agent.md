@@ -35,6 +35,16 @@ steps: 15
 skills:
   - internet-search
   - codemap
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving library documentation"
+  - name: brave-search
+    tools:
+      - brave-search_search
+    when: "researching external documentation"
 ---
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check

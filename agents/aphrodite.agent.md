@@ -45,6 +45,23 @@ skills:
   - simplify
   - tdd-with-agents
   - nextjs-seo-optimization
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving React/TypeScript documentation"
+  - name: playwright
+    tools:
+      - browser_screenshotPage
+      - browser_navigate
+      - browser_snapshot
+    when: "visual verification and E2E testing"
+  - name: figma
+    tools:
+      - figma_get_file
+      - figma_get_node
+    when: "fetching design specifications"
 ---
 
 # Aphrodite - React Implementation Specialist

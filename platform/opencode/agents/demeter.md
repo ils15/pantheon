@@ -26,6 +26,18 @@ permission:
   bash: allow
 temperature: 0.2
 steps: 20
+mcpServers:
+  - name: postgresql
+    tools:
+      - postgresql_query
+      - postgresql_schema
+      - postgresql_execute
+    when: database operations and migrations
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: resolving SQLAlchemy/Alembic documentation
 ---
 
 # Demeter - Database Specialist

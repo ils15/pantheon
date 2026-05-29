@@ -62,7 +62,7 @@ After implementing a UI component or page, use VS Code Integrated Browser tools 
 After implementing a component, run this automated visual review pipeline:
 
 #### Step 1: Capture
-- Use `~~#tool:browser/screenshotPage~~` to capture the rendered component
+- Use ~~`#tool:browser/screenshotPage`~~ to capture the rendered component
 - Save screenshot to a temp location (e.g., `/tmp/opencode/screenshot-{timestamp}.png`)
 
 #### Step 2: Analyze

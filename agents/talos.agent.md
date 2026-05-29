@@ -30,6 +30,12 @@ temperature: 0.3
 steps: 5
 skills:
   - simplify
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving library documentation"
 ---
 
 # Talos - Hotfix & Rapid Repair

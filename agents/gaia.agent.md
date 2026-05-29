@@ -34,6 +34,16 @@ steps: 20
 skills:
   - remote-sensing-analysis
   - internet-search
+mcpServers:
+  - name: brave-search
+    tools:
+      - brave-search_search
+    when: "researching remote sensing literature"
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving geospatial library documentation"
 ---
 
 # 🌍 Gaia — Remote Sensing Domain Specialist

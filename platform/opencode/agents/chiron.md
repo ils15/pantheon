@@ -30,6 +30,12 @@ permission:
   bash: allow
 temperature: 0.2
 steps: 20
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: resolving model provider documentation
 ---
 
 # Chiron — Model Provider Hub Specialist
