@@ -33,6 +33,21 @@ globs:
   - "**/*.py"
   - "**/routers/**/*.py"
   - "**/services/**/*.py"
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: resolving library documentation
+  - name: postgresql
+    tools:
+      - postgresql_query
+      - postgresql_schema
+    when: debugging database queries
+  - name: playwright
+    tools:
+      - browser/screenshotPage
+    when: verifying API responses visually
 ---
 
 # Hermes - Backend Executor (FastAPI Specialist)

@@ -31,6 +31,12 @@ permission:
   bash: allow
 temperature: 0.3
 steps: 20
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: resolving LangChain/LangGraph documentation
 ---
 
 # Hephaestus — AI Tooling & Pipelines Specialist

@@ -27,6 +27,23 @@ permission:
   bash: allow
 temperature: 0.5
 steps: 20
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: resolving React/TypeScript documentation
+  - name: playwright
+    tools:
+      - browser_screenshotPage
+      - browser_navigate
+      - browser_snapshot
+    when: visual verification and E2E testing
+  - name: figma
+    tools:
+      - figma_get_file
+      - figma_get_node
+    when: fetching design specifications
 ---
 
 # Aphrodite - React Implementation Specialist
@@ -86,7 +103,7 @@ After implementing a UI component or page, use VS Code Integrated Browser tools 
 After implementing a component, run this automated visual review pipeline:
 
 #### Step 1: Capture
-- Use `#tool:browser/screenshotPage` to capture the rendered component
+- Use ~~`#tool:browser/screenshotPage`~~ to capture the rendered component
 - Save screenshot to a temp location (e.g., `/tmp/opencode/screenshot-{timestamp}.png`)
 
 #### Step 2: Analyze

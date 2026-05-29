@@ -4,7 +4,8 @@
  *
  * Comprehensive conformance test suite for Pantheon platform adapters.
  * Validates schema, agent output, tool mapping, capability mapping,
- * and agent mode conformance for ALL platform adapters.
+ * agent mode, mcpServers schema, and MCP tool reference conformance
+ * for ALL platform adapters.
  *
  * Usage:
  *   node scripts/test-adapter-conformance.mjs
@@ -19,6 +20,7 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, statSync, mkdirSy
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import yaml from 'js-yaml';
+import { validateMcpServers } from './install/shared.mjs';
 
 // ---------------------------------------------------------------------------
 // Setup
@@ -703,6 +705,96 @@ function testAgentModeConformance(platformName, adapter, canonicalAgentNames) {
 }
 
 // ---------------------------------------------------------------------------
+// Test: mcpServers Schema Conformance (Category 6)
+// ---------------------------------------------------------------------------
+
+function testMcpServersConformance(platformName, adapter, canonicalAgentNames) {
+  const category = 'McpServers';
+
+  // Skip if platform doesn't support mcpServers
+  const include = adapter.frontmatter?.include ?? [];
+  if (!include.includes('mcpServers')) {
+    pass(platformName, category, 'mcpServers not in frontmatter.include — skipping');
+    return;
+  }
+
+  const outDir = join(PLATFORM_DIR, platformName, adapter.outputDir);
+  const ext = adapter.fileExtension ?? '.md';
+
+  // Validate mcpServers in each generated agent file
+  for (const name of canonicalAgentNames) {
+    const filePath = join(outDir, `${name}${ext}`);
+    if (!existsSync(filePath)) continue;
+
+    const content = readFileSync(filePath, 'utf8');
+    const parsed = parseFrontmatter(content);
+    if (!parsed) continue;
+
+    // Only validate if mcpServers is present
+    if (parsed.fm.mcpServers !== undefined) {
+      // Get agent's tools array for cross-reference validation
+      const agentTools = Array.isArray(parsed.fm.tools)
+        ? parsed.fm.tools
+        : [];
+
+      const { valid, errors } = validateMcpServers(parsed.fm.mcpServers, agentTools);
+
+      if (valid) {
+        pass(platformName, category, `Agent "${name}" mcpServers schema valid`);
+      } else {
+        for (const error of errors) {
+          fail(platformName, category, `Agent "${name}" mcpServers error: ${error}`);
+        }
+      }
+    } else {
+      pass(platformName, category, `Agent "${name}" has no mcpServers (optional)`);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Test: mcpServers Tool Reference Conformance (Category 7)
+// ---------------------------------------------------------------------------
+
+function testMcpToolReferencesConformance(platformName, adapter, canonicalAgentNames) {
+  const category = 'McpToolRef';
+
+  // Skip if platform doesn't support mcpServers
+  const include = adapter.frontmatter?.include ?? [];
+  if (!include.includes('mcpServers')) {
+    pass(platformName, category, 'mcpServers not in frontmatter.include — skipping');
+    return;
+  }
+
+  const outDir = join(PLATFORM_DIR, platformName, adapter.outputDir);
+  const ext = adapter.fileExtension ?? '.md';
+
+  // Validate MCP tool references are well-formed (non-empty strings)
+  for (const name of canonicalAgentNames) {
+    const filePath = join(outDir, `${name}${ext}`);
+    if (!existsSync(filePath)) continue;
+
+    const content = readFileSync(filePath, 'utf8');
+    const parsed = parseFrontmatter(content);
+    if (!parsed || !Array.isArray(parsed.fm.mcpServers)) continue;
+
+    for (const mcp of parsed.fm.mcpServers) {
+      if (!mcp.tools || !Array.isArray(mcp.tools)) continue;
+
+      for (const tool of mcp.tools) {
+        if (typeof tool === 'string' && tool.trim().length > 0) {
+          pass(platformName, category,
+            `Agent "${name}" MCP "${mcp.name}" tool "${tool}" is well-formed`);
+        } else {
+          fail(platformName, category,
+            `Agent "${name}" MCP "${mcp.name}" has invalid tool reference: "${tool}"`);
+        }
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 
@@ -748,16 +840,20 @@ function main() {
     totalPlatforms++;
     console.log(`\nPlatform: ${adapter.displayName ?? platform} (v${adapter.version ?? '?'})`);
 
-    // Run all 5 test categories
+    // Run all 7 test categories
     testSchemaConformance(platform, adapter, canonicalToolSet, canonicalFmKeys);
     if (adapter.skipAgentSync) {
       pass(platform, 'Output', 'Agent output conformance skipped (skipAgentSync: true)');
       pass(platform, 'ToolMap', 'Tool mapping conformance skipped (skipAgentSync: true)');
       pass(platform, 'AgentMode', 'Agent mode conformance skipped (skipAgentSync: true)');
+      pass(platform, 'McpServers', 'mcpServers conformance skipped (skipAgentSync: true)');
+      pass(platform, 'McpToolRef', 'McpToolRef conformance skipped (skipAgentSync: true)');
     } else {
       testAgentOutputConformance(platform, adapter, canonicalAgentNames);
       testToolMappingConformance(platform, adapter, canonicalAgentNames, canonicalToolSet);
       testAgentModeConformance(platform, adapter, canonicalAgentNames);
+      testMcpServersConformance(platform, adapter, canonicalAgentNames);
+      testMcpToolReferencesConformance(platform, adapter, canonicalAgentNames);
     }
     testCapabilityConformance(platform, adapter);
 

@@ -34,6 +34,16 @@ permission:
   bash: deny
 temperature: 0.1
 steps: 15
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: resolving library documentation
+  - name: brave-search
+    tools:
+      - brave-search_search
+    when: researching best practices and patterns
 ---
 
 # Athena - Strategic Planner

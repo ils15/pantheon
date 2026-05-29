@@ -9,7 +9,7 @@
   "fileExtension": ".agent.md",
 
   "frontmatter": {
-    "include": [],
+    "include": ["mcpServers"],
     "exclude": []
   },
 

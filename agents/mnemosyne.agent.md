@@ -21,6 +21,13 @@ skills:
   - artifact-management
   - handoff
   - task-system
+mcpServers:
+  - name: memory
+    tools:
+      - memory_create
+      - memory_read
+      - memory_update
+    when: "memory bank operations"
 ---
 
 # Mnemosyne - Memory Agent

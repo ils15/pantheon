@@ -29,6 +29,13 @@ permission:
     gh *: allow
 temperature: 0.2
 steps: 12
+mcpServers:
+  - name: github
+    tools:
+      - github_create_pull_request
+      - github_list_issues
+      - github_create_issue
+    when: GitHub operations
 ---
 
 # Iris — GitHub Operations Specialist

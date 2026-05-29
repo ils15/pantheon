@@ -17,6 +17,13 @@ permission:
   bash: deny
 temperature: 0.1
 steps: 10
+mcpServers:
+  - name: memory
+    tools:
+      - memory_create
+      - memory_read
+      - memory_update
+    when: memory bank operations
 ---
 
 # Mnemosyne - Memory Agent

@@ -37,6 +37,12 @@ steps: 20
 skills:
   - conversational-ai-design
   - prompt-improver
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving Rasa/NLU documentation"
 ---
 
 # Echo — Conversational AI Specialist

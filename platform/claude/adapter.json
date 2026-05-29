@@ -20,7 +20,8 @@
       "hooks",
       "temperature",
       "steps",
-      "globs"
+      "globs",
+      "mcpServers"
     ],
     "exclude": [
       "disable-model-invocation",

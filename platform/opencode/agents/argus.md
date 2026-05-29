@@ -14,6 +14,13 @@ permission:
   bash: deny
 temperature: 0.2
 steps: 15
+mcpServers:
+  - name: playwright
+    tools:
+      - browser_screenshotPage
+      - browser_navigate
+      - browser_snapshot
+    when: visual analysis and screenshot capture
 ---
 
 # Argus - Visual Analysis Specialist

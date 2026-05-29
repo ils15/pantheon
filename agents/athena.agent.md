@@ -30,6 +30,16 @@ skills:
   - codemap
   - metis-gap-analysis
   - init-deep
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving library documentation"
+  - name: brave-search
+    tools:
+      - brave-search_search
+    when: "researching best practices and patterns"
 ---
 
 # Athena - Strategic Planner

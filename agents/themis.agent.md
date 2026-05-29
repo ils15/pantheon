@@ -47,6 +47,17 @@ skills:
   - code-review-checklist
   - security-audit-pro
   - tdd-with-agents
+mcpServers:
+  - name: playwright
+    tools:
+      - browser/screenshotPage
+      - browser_snapshot
+    when: "visual review and accessibility checks"
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving library documentation"
 ---
 
 # Themis - Quality & Security Gate Specialist

@@ -21,7 +21,8 @@
       "hooks",
       "temperature",
       "steps",
-      "globs"
+      "globs",
+      "mcpServers"
     ],
     "exclude": [
       "model",

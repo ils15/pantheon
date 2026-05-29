@@ -12,7 +12,8 @@
       "description",
       "tools",
       "skills",
-      "instructions"
+      "instructions",
+      "mcpServers"
     ],
     "exclude": [
       "handoffs",

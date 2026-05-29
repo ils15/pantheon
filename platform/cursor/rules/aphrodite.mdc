@@ -60,6 +60,52 @@ After implementing a UI component or page, use VS Code Integrated Browser tools 
 >
 > If chat browser tools are unavailable, provide manual verification steps in the handoff to Themis.
 
+### 6. **Visual Review Pipeline** 🔍
+
+After implementing a component, run this automated visual review pipeline:
+
+#### Step 1: Capture
+- Use ~~`#tool:browser/screenshotPage`~~ to capture the rendered component
+- Save screenshot to a temp location (e.g., `/tmp/opencode/screenshot-{timestamp}.png`)
+
+#### Step 2: Analyze
+- Delegate to @argus with the screenshot using the agent tool
+- Request visual analysis for: layout issues, alignment, spacing, text overflow, contrast, responsiveness
+
+#### Step 3: Fix or Escalate
+- Parse findings, fix or escalate
+- If issues found: fix them in the component code
+- If fixable: update the component and re-run screenshot
+- If not fixable after 3 iterations: escalate to Zeus
+
+#### Iteration Tracking
+- Count iterations (max 3)
+- Each iteration must fix at least one `pass_if_fixed` issue
+- After 3 iterations, stop and escalate
+
+#### Escalation to Zeus
+- Format a structured escalation message
+- Include: screenshot, all iterations, findings, what was fixed, what persists
+
+#### JSON Schema Format
+The Argus analysis response should follow this schema:
+```json
+{
+  "verdict": "APPROVED | NEEDS_FIX | ESCALATE",
+  "issues": [
+    {
+      "id": "ISSUE-001",
+      "severity": "CRITICAL | HIGH | MEDIUM | LOW",
+      "description": "Text description of the issue",
+      "location": "Component name or CSS selector",
+      "suggestion": "How to fix"
+    }
+  ],
+  "iteration": 1,
+  "pass_if_fixed": ["ISSUE-001", "ISSUE-002"]
+}
+```
+
 ## Core Responsibilities
 
 ### 1. Component Development

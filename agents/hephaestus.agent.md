@@ -40,6 +40,12 @@ skills:
   - rag-pipelines
   - mcp-server-development
   - agent-evaluation
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving LangChain/LangGraph documentation"
 ---
 
 # Hephaestus — AI Tooling & Pipelines Specialist

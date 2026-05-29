@@ -37,6 +37,12 @@ steps: 20
 skills:
   - multi-model-routing
   - agent-observability
+mcpServers:
+  - name: context7
+    tools:
+      - context7_resolve-library-id
+      - context7_query-docs
+    when: "resolving model provider documentation"
 ---
 
 # Chiron — Model Provider Hub Specialist
