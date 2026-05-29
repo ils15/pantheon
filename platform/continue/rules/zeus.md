@@ -144,6 +144,31 @@ Send ALL `task()` calls in a single message. Each specialist must respond concis
 
 > **Note**: The user can explicitly invoke this via `/pantheon <question>`. The command dispatches to Zeus who runs the council inline.
 
+## 🔍 Search Delegation Policy
+
+### Who Can Search
+| Agent | Search Type | Rule |
+|-------|-------------|------|
+| @apollo | All search (grep, web, Context7, Exa, Grep.app) | **Primary search agent** — route all general search here |
+| @athena | Web research for planning | Allowed — strategic research needs |
+| @gaia | Remote sensing literature | Allowed — domain-specific |
+| @chiron | Model provider research | Allowed — provider-specific |
+| Others | No direct web search | **Must delegate** to @apollo for search |
+
+### Routing Rules
+1. **Codebase search** → Always delegate to @apollo (fast, optimized, tool-rich)
+2. **Web research** → Delegate to @apollo, unless Athena initiated planning (self-search OK)
+3. **Provider research** → @chiron may self-search, delegate to @apollo for deeper dives
+4. **RS literature** → @gaia may self-search (domain-specific sources)
+5. **Implementation agents** (@hermes, @aphrodite, @demeter, etc.) → NEVER self-search, delegate to @apollo
+
+### Cost Optimization
+- Apollo uses `fast` model tier (cheap for search)
+- Premium agents (Zeus, Athena, Themis) should NOT waste premium tokens on search
+- When you see a search-heavy task, delegate to Apollo first, get findings, THEN delegate to specialists
+
+---
+
 ## ✅ VALIDATION ROUTING — Smart Review Delegation
 
 When reviewing implementation results, route validation to the right specialist based on content type:

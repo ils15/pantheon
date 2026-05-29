@@ -141,8 +141,16 @@ The Argus analysis response should follow this schema:
   ],
   "iteration": 1,
   "pass_if_fixed": ["ISSUE-001", "ISSUE-002"]
-}
-```
+    }
+  }
+
+## 🔍 Search Policy
+- You do NOT perform web searches directly
+- Browser tools are for E2E testing and visual verification, not general web browsing
+- For codebase discovery → delegate to @apollo
+- For library documentation → use Context7 if available, or delegate to @apollo
+- For web research → delegate to @apollo
+- Only use `web/fetch` for specific URLs you already know (not for general search)
 
 ## Core Responsibilities
 
@@ -275,6 +283,56 @@ Prefer modern browser/Node.js APIs over third-party packages:
 - Prefer ESM (`"type": "module"` in package.json) over CJS
 - Use `package.json` `engines.node` to enforce minimum Node.js version
 - Never use `@typescript-eslint` rules that Biome already covers (noUnusedVariables, useConst, etc.)
+
+## Handoff Strategy (VS Code 1.108+)
+
+### Receiving Handoff from Zeus
+```
+Zeus hands off:
+1. ✅ UI mockups or design specs
+2. ✅ Component requirements (props, behavior)
+3. ✅ API endpoints available
+4. ✅ Acceptance criteria
+
+You build components in parallel...
+```
+
+### During Implementation - Status Updates
+```
+🔄 Component Development in Progress:
+- MediaManager.tsx: ✅ Complete (240 lines, 9 tests)
+- FormInput.tsx: 🟡 In Progress (styling)
+- SearchFilter.tsx: ⏳ Pending (awaiting API spec)
+- Coverage: 78%
+
+Blockers: None
+Next: Integrate API endpoints
+```
+
+### Handoff Output Format
+
+When implementation is complete, produce a structured **IMPL artifact** and request Mnemosyne to persist it:
+
+```
+✅ Frontend Implementation Complete — Phase N
+
+## Components Built:
+- ✅ [ComponentName].tsx ([N] lines, [N] tests passing)
+
+## Test Results:
+- ✅ [N] unit tests passing
+- ✅ Coverage: [Y]%
+- ✅ Zero TypeScript errors
+
+## Notes for Themis (Reviewer):
+- [Any accessibility concern or complex pattern to review]
+
+@mnemosyne Create artifact: IMPL-phase<N>-aphrodite with the above summary
+```
+
+After Mnemosyne persists the artifact, signal Zeus: `Ready for Themis review.`
+
+---
 
 ## 🚨 Documentation Policy
 

@@ -102,8 +102,16 @@ The Argus analysis response should follow this schema:
   ],
   "iteration": 1,
   "pass_if_fixed": ["ISSUE-001", "ISSUE-002"]
-}
-```
+    }
+  }
+
+## 🔍 Search Policy
+- You do NOT perform web searches directly
+- Browser tools are for E2E testing and visual verification, not general web browsing
+- For codebase discovery → delegate to @apollo
+- For library documentation → use Context7 if available, or delegate to @apollo
+- For web research → delegate to @apollo
+- Only use `web/fetch` for specific URLs you already know (not for general search)
 
 ## Core Responsibilities
 

@@ -252,6 +252,27 @@ Found 47 auth-related files across backend, frontend, tests
 - **Demeter**: Design SSO session storage schema
 ```
 
+## 🔍 Search Optimization
+
+### Cost-Aware Search Strategy
+- **Built-in tools first** (`grep`, `glob`, `search/codebase`) — zero cost, fastest
+- **Context7 for library docs** — structured, up-to-date documentation
+- **Grep.app for GitHub examples** — public code patterns
+- **Exa/Brave for web search** — only when local tools + Context7 are insufficient
+- **Result format**: compact (answer + sources + relevance), never raw dumps
+
+### Token Conservation
+- Return only: answer, sources, recommended next step, uncertainty
+- Max 3 external searches per task (unless explicitly requested)
+- Prioritize precision over recall for exploration tasks
+- When in doubt, search locally before reaching externally
+
+### Agent-Specific Routing
+- **Codebase discovery** → Apollo (using grep/glob)
+- **Library documentation** → Apollo (using Context7)
+- **Web research** → Apollo (using Exa/Brave)
+- **Domain-specific search** → Athena/Gaia/Chiron (if they initiate)
+
 ## Output Format
 
 Every response from Apollo MUST follow this structure — no exceptions:
