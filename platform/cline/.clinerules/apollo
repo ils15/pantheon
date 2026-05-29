@@ -273,6 +273,49 @@ Found 47 auth-related files across backend, frontend, tests
 - **Web research** → Apollo (using Exa/Brave)
 - **Domain-specific search** → Athena/Gaia/Chiron (if they initiate)
 
+## 🔒 MCP Security: Web/Fetch Credential Leakage
+
+> **Risk level: HIGH** — Apollo performs the most web fetch operations across all agents.
+
+### Credential Leakage Rules
+
+1. **Scan URLs before fetching** — Before calling `web/fetch`, inspect the URL for:
+   - Query parameters containing `token`, `key`, `secret`, `password`, `auth`, `api_key`
+   - URL path segments that look like credentials (long alphanumeric strings)
+   - If found: DO NOT fetch. Strip credentials or find an alternative URL.
+
+2. **Authorization headers only** — If authentication is required:
+   - Use `Authorization: Bearer $ENV_VAR` pattern (never hardcoded)
+   - For public APIs, verify the URL works without auth first
+
+3. **Response handling** — Never:
+   - Write fetched content to disk or cache files
+   - Forward raw response bodies containing credentials to other agents
+   - Include credentials in discovery reports or artifacts
+
+4. **URL allowlist** — Preferred domains:
+   | Category | Domains |
+   |----------|---------|
+   | Documentation | `docs.*`, `*.readthedocs.io` |
+   | Standards | `tools.ietf.org`, `datatracker.ietf.org`, `www.w3.org` |
+   | Packages | `pypi.org`, `npmjs.com`, `crates.io` |
+   | Code | `github.com`, `raw.githubusercontent.com` |
+   | Knowledge | `en.wikipedia.org` |
+
+5. **GitHub token safety** — When fetching from `github.com`:
+   - Use public URLs only (no private repos via API tokens)
+   - Never append `?token=` or `?access_token=` to GitHub URLs
+   - Use `grep_app_searchGitHub` for code search (it handles auth safely)
+
+6. **Redact in reports** — If you must include a URL in a discovery report:
+   ```
+   # ✅ Safe
+   API endpoint: https://api.example.com/v1/products
+   
+   # ❌ Never
+   API endpoint: https://api.example.com/v1/products?api_key=sk-abc123
+   ```
+
 ## Output Format
 
 Every response from Apollo MUST follow this structure — no exceptions:

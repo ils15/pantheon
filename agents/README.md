@@ -2,7 +2,7 @@
 
 ## Overview
 
-Pantheon provides **18 specialized agents** organized into a conductor-delegate architecture. Zeus (the orchestrator) dispatches work to specialized sub-agents with isolated context windows, enforced quality gates, and human approval at every transition. Each agent has a single responsibility, a restricted tool set, and explicit context boundaries.
+Pantheon provides **17 specialized agents** organized into a conductor-delegate architecture. Zeus (the orchestrator) dispatches work to specialized sub-agents with isolated context windows, enforced quality gates, and human approval at every transition. Each agent has a single responsibility, a restricted tool set, and explicit context boundaries.
 
 ### 🎯 Model Tiers
 
@@ -12,7 +12,7 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 
 **8 tiers:**
 1. **Orchestrator** — Zeus
-2. **Planning** — Athena, Agora
+2. **Planning** — Athena
 3. **Discovery** — Apollo, Argus
 4. **AI Infrastructure** — Hephaestus, Chiron, Echo
 5. **Implementation** — Hermes, Aphrodite, Demeter
@@ -26,9 +26,8 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 
 | Agent | Tier | Role | Delegates to | Skills Used |
 |---|---|---|---|---|
-| Zeus | Orchestrator | Central coordinator | All 18 agents | agent-coordination, artifact-management |
+| Zeus | Orchestrator | Central coordinator | All 17 agents | agent-coordination, artifact-management |
 | Athena | Planning | Strategic planner | Apollo, Themis | (none — plan-only) |
-| Agora | Planning | Multi-perspective synthesis, trade-off analysis | Zeus | (none — synthesis) |
 | Apollo | Discovery | Read-only codebase scout | Zeus, Athena | (none — read-only) |
 | Argus | Discovery | Visual analysis (screenshots, PDFs, diagrams) | Athena, Themis | (none — read-only) |
 | Hephaestus | AI Infrastructure | AI pipelines (RAG, LangChain) | Apollo, Themis, Prometheus | rag-pipelines, mcp-server-development |
@@ -54,7 +53,7 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 - **Tier:** Orchestrator
 - **Model:** premium
 - **Description:** Central coordinator of the entire development lifecycle. NEVER implements code, NEVER edits files. Delegates work to specialized sub-agents.
-- **Delegates to:** All 18 agents
+- **Delegates to:** All 17 agents
 - **Key Responsibilities:** Phase-based orchestration, parallel dispatch, approval gates (3 pause points), context conservation, agent routing
 - **Usage:** `@zeus: Implement [feature description]`
 - **Tools:** agent (delegation), askQuestions, runInTerminal, readFile, search/codebase, search/usages, web/fetch, search/changes
@@ -248,7 +247,6 @@ graph TB
 
     subgraph T1["Planning & Discovery"]
         A1["Athena<br/>Strategic Planner"]:::tier1
-        AGORA["Agora<br/>Multi-Perspective<br/>Synthesis"]:::planning
         A2["Apollo<br/>Codebase Scout"]:::tier1
         ARGUS["Argus<br/>Visual Analysis<br/>Screenshot & PDF"]:::discovery
     end
@@ -281,7 +279,7 @@ graph TB
         G["Gaia<br/>Remote Sensing"]:::tier6
     end
 
-    O --> A1 & AGORA & A2 & ARGUS & H & Q & E & I1 & I2 & I3 & T1a & N & R & I & M
+    O --> A1 & A2 & ARGUS & H & Q & E & I1 & I2 & I3 & T1a & N & R & I & M
     O -.-> T & G
     A1 --> A2
 
@@ -301,7 +299,6 @@ graph TB
 |---|---|---|
 | Orchestrate a full feature | Zeus | `@zeus: Implement [feature]` |
 | Plan architecture with TDD phases | Athena | `@athena: Plan [feature]` |
-| Multi-perspective synthesis, trade-off analysis | Agora | `@agora: Should we use [X] or [Y]?` |
 | Discover codebase patterns | Apollo | `@apollo: Find all [pattern]` |
 | Visual analysis (screenshots, PDFs, diagrams) | Argus | `@argus: Analyze this screenshot` |
 | Build RAG / LangChain pipelines | Hephaestus | `@hephaestus: Build RAG pipeline for [use case]` |
