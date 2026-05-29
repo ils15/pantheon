@@ -4,20 +4,34 @@ applyTo: "agents/{aphrodite,argus,zeus}.agent.md"
 
 # Visual Review Pipeline
 
-Automated visual review connecting Playwright screenshots → Argus analysis → Aphrodite fixes.
+Automated visual review: Aphrodite captures screenshots via Playwright MCP → Self-analyzes for visual issues → Addresses findings in a loop.
 
 ---
 
 ## Overview
 
-This pipeline establishes a formal workflow for detecting and resolving visual regressions and design issues. It connects three agents in a feedback loop:
+This pipeline establishes a formal workflow for detecting and resolving visual regressions and design issues. It is a self-review architecture where Aphrodite captures, analyzes, and fixes in a single feedback loop:
 
 1. **Aphrodite** captures screenshots via Playwright MCP
-2. **Argus** analyzes screenshots for visual issues
+2. **Aphrodite** self-analyzes screenshots for visual issues (layout, contrast, responsive, accessibility)
 3. **Aphrodite** addresses findings
 4. **Zeus** escalates if issues persist after iterations
 
 The pipeline enforces structured JSON output, iteration limits, and escalation criteria to prevent infinite fix loops.
+
+### Pipeline Flow
+
+```
+Aphrodite implements UI
+    ↓
+📸 Playwright screenshot (browser/screenshotPage)
+    ↓
+🧠 Aphrodite self-analyzes (layout, contrast, responsive, accessibility)
+    ↓
+┌─ verdict: pass → proceed to Themis review
+├─ verdict: fail + iteration < 3 → Aphrodite fix → re-capture
+└─ verdict: fail + iteration = 3 → Zeus escalation
+```
 
 ---
 
@@ -37,11 +51,12 @@ Aphrodite uses Playwright MCP to capture screenshots of the component or page un
 
 ### Step 2: Analyze
 
-Delegate to Argus with structured JSON output requirements.
+Aphrodite self-analyzes screenshots using visual inspection capabilities.
 
 **Actions:**
-- Pass screenshot(s) and context to Argus
-- Argus returns findings in the structured JSON schema (see below)
+- Examine screenshot(s) for visual issues
+- Identify problems in layout, contrast, responsive behavior, and accessibility
+- Return findings in the structured JSON schema (see below)
 - Include iteration number in findings
 - Mark issues with `pass_if_fixed` IDs
 
@@ -49,7 +64,7 @@ Delegate to Argus with structured JSON output requirements.
 
 ### Step 3: Fix
 
-Aphrodite addresses each finding from Argus's analysis.
+Aphrodite addresses each finding from its self-analysis.
 
 **Actions:**
 - Triage findings by severity (critical → high → medium → low)
@@ -80,7 +95,7 @@ Zeus intervenes if issues persist after 3 iterations.
 
 ## JSON Schema
 
-Argus must return findings in this exact structure:
+Aphrodite must return findings in this exact structure:
 
 ```json
 {
@@ -196,21 +211,15 @@ Root cause: [backend | architectural | conflicting]
   Install Playwright MCP server to enable visual review pipeline.
   ```
 
-### Argus (Required for Analysis)
+## Argus — External Visual Analysis
 
-- Argus receives screenshots and returns structured JSON
-- Argus must follow the JSON schema defined above
-- If Argus cannot analyze (e.g., image format unsupported), return:
-  ```json
-  {
-    "verdict": "warn",
-    "iteration": 1,
-    "max_iterations": 3,
-    "issues": [],
-    "summary": "Analysis skipped: unsupported image format",
-    "pass_if_fixed": []
-  }
-  ```
+Argus is NOT part of the visual review pipeline. Argus handles:
+- External screenshots from bug reports
+- Architecture diagrams
+- PDF documentation
+- Mockups from external tools
+
+For UI implementation review, Aphrodite self-reviews.
 
 ---
 
@@ -240,7 +249,7 @@ Root cause: [backend | architectural | conflicting]
 1. Aphrodite captures screenshot of LoginButton component
    → screenshot-iteration-1-login-button.png
 
-2. Argus analyzes and returns:
+2. Aphrodite self-analyzes and returns:
    {
      "verdict": "fail",
      "iteration": 1,
@@ -260,7 +269,7 @@ Root cause: [backend | architectural | conflicting]
 3. Aphrodite fixes contrast, re-captures:
    → screenshot-iteration-2-login-button.png
 
-4. Argus re-analyzes:
+4. Aphrodite re-analyzes:
    {
      "verdict": "pass",
      "iteration": 2,
