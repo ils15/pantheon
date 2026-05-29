@@ -44,9 +44,9 @@ All MCPs currently configured across Pantheon's 17 agents:
 | MCP | Used By (agents) | Type | Setup |
 |-----|-----------------|------|-------|
 | **context7** | 13 agents (zeus, athena, apollo, hermes, aphrodite, demeter, themis, hephaestus, chiron, echo, nyx, talos, gaia) | Local | `npx -y @upstash/context7-mcp` — free, no API key |
-| **brave-search** | 4 agents (athena, apollo, gaia, chiron) | Local | `npx -y @anthropic/brave-search-mcp` — requires `BRAVE_API_KEY` |
+| **brave-search** | 4 agents (athena, apollo, gaia, chiron) | Local | `npx -y @brave/brave-search-mcp-server` — requires `BRAVE_API_KEY` |
 | **playwright** | 4 agents (aphrodite, themis, hermes, argus) | Local | `npx -y @playwright/mcp@latest` — free |
-| **exa** | 1 agent (apollo) | Local | `npx -y exa-mcp` — requires `EXA_API_KEY` |
+| **exa** | 1 agent (apollo) | Local | `npx -y exa-mcp-server` — requires `EXA_API_KEY` |
 | **grep-app** | 1 agent (apollo) | Local | `npx -y @modelcontextprotocol/server-grepapp` — requires `GREP_APP_API_KEY` |
 | **postgresql** | 2 agents (hermes, demeter) | Local | `npx -y @anthropic/postgres-mcp` — requires `DATABASE_URL` |
 | **docker** | 1 agent (prometheus) | CLI | Uses Docker CLI — requires Docker installed |
