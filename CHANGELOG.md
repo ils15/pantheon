@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## v3.10.0
+
+[compare changes](https://github.com/ils15/pantheon/compare/v3.9.0...v3.10.0)
+
+### 🚀 Enhancements
+
+- **agents:** Add visual review pipeline with Argus integration ([9e8f09d](https://github.com/ils15/pantheon/commit/9e8f09d))
+- **agents:** Add mcpServers frontmatter to all 17 agent templates ([f0253ee](https://github.com/ils15/pantheon/commit/f0253ee))
+- **agents:** Add Raven-inspired search optimization ([a8bdcff](https://github.com/ils15/pantheon/commit/a8bdcff))
+- V3.9.0 — Visual review pipeline, mcpServers, search optimization, MCP security ([933aec4](https://github.com/ils15/pantheon/commit/933aec4))
+
+### ❤️ Contributors
+
+- Ils15 ([@ils15](https://github.com/ils15))
+
 ## [v3.9.0] - 2026-05-28
 
 [compare changes](https://github.com/ils15/pantheon/compare/v3.8.4...v3.9.0)
