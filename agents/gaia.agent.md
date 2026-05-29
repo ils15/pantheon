@@ -216,7 +216,8 @@ For each technical topic, run IN PARALLEL:
    - Relate existing code to best practices from literature
    - Identify methodological gaps
    - Recommend evidence-based improvements with citations
-```
+
+**Credential safety**: Scan URLs for `token=`, `key=`, `secret=`, `password=` before fetching. Never hardcode secrets in URLs. See `instructions/mcp-security.instructions.md`.
 
 ---
 

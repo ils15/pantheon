@@ -246,6 +246,7 @@ Send ALL `task()` calls in a single message. Each specialist must respond concis
 - Apollo uses `fast` model tier (cheap for search)
 - Premium agents (Zeus, Athena, Themis) should NOT waste premium tokens on search
 - When you see a search-heavy task, delegate to Apollo first, get findings, THEN delegate to specialists
+- **Credential safety**: Scan URLs for `token=`, `key=`, `secret=`, `password=` before fetching. Never hardcode secrets in URLs. See `instructions/mcp-security.instructions.md`.
 
 ---
 

@@ -5,17 +5,17 @@
 <h1 align="center">Pantheon</h1>
 
 <p align="center">
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.8.3-blue" alt="Version"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.9.0-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
-  <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-18-purple" alt="Agents"></a>
-  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-37-orange" alt="Skills"></a>
+  <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-17-purple" alt="Agents"></a>
+  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-40-orange" alt="Skills"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf|cline|continue-8250DF" alt="Built with"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/ci.yml?branch=main&label=CI" alt="CI"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/release.yml?branch=main&label=release" alt="Release"></a>
 </p>
 
-**18 specialized AI agents** that plan, build, review, and deploy features through enforced TDD, persistent project memory, and human approval at every gate.
+**17 specialized AI agents** that plan, build, review, and deploy features through enforced TDD, persistent project memory, and human approval at every gate.
 
 Stop settling for generalist single-agent coding. Pantheon's conductor-delegate architecture dispatches expert agents with isolated context windows — parallel execution, zero context bleed, and quality gates that block anything below 80% coverage.
 
@@ -27,8 +27,8 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 
 | Resource | Link |
 |----------|------|
-| 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 18 agents |
-| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 37 skills |
+| 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 17 agents |
+| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 40 skills |
 | 🚀 **Installation Guide** | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
 | 🔌 **MCP Servers** | [docs/mcp-recommendations.md](docs/mcp-recommendations.md) — recommended MCP servers for each project type |
 | ⚡ **Quick Start** | [docs/QUICKSTART.md](docs/QUICKSTART.md) |
@@ -104,7 +104,7 @@ flowchart TD
     end
 
     subgraph Plan["Planning & Discovery"]
-        Agora["Agora<br/>Multi-Perspective<br/>Synthesis"]:::planner
+
         Athena["Athena<br/>Strategic Planner"]:::planner
         Apollo["Apollo<br/>Codebase Scout"]:::planner
         Argus["Argus<br/>Visual Analysis"]:::planner
@@ -142,8 +142,7 @@ flowchart TD
     end
 
     User -->|"/implement-feature"| Zeus
-    Zeus -->|"Phase 0 (Decision)"| Agora
-    Agora --> Gate0
+
     Gate0 -->|Approved| Zeus
     Zeus -->|Phase 1| Athena
     Athena -->|Discovers| Apollo
@@ -203,7 +202,6 @@ Pantheon runs on 7 platforms. Here is how each supports the framework's key feat
 
 | Gate | Phase | What happens |
 |---|---|---|
-| **Gate 0** | After Agora synthesis | Agora returns an `AWAITING_APPROVAL` multi-perspective synthesis. You must explicitly type **APPROVE**, **REQUEST CHANGES**, or **DISCARD**. Words like "ok", "continue", or "yes" are not valid approvals. |
 | **Gate 1** | After planning | Athena presents a phased TDD plan. You review and approve (or request changes) before any code is written. |
 | **Gate 2** | After implementation & review | Themis audits all changed files for OWASP compliance, coverage >80%, and quality. You validate items only you can judge. |
 | **Gate 3** | After deployment prep | Agent suggests a commit message. You execute `git commit` manually and decide when to merge. |
@@ -273,7 +271,7 @@ work; you make every architectural and commit decision.
 
 ## Agent Ecosystem
 
-Pantheon provides **18 specialized agents** organized into tiers. Each agent has a
+Pantheon provides **17 specialized agents** organized into tiers. Each agent has a
 single responsibility, a dedicated model assignment, a restricted tool set, and explicit
 context boundaries.
 
@@ -284,7 +282,7 @@ Orchestrator
   └── Zeus — coordinates all agents, manages approval gates
 
 Planning & Discovery
-  ├── Agora — multi-perspective synthesis engine (council decisions)
+
   ├── Athena — strategic planner, TDD roadmap generation
   ├── Apollo — parallel codebase & web research (read-only)
   └── Argus — visual analysis: screenshots, images, PDFs, UI mockups
@@ -340,7 +338,7 @@ graph TB
     O["Zeus<br/>Orchestrator"]:::tier0
 
     subgraph T1["Planning & Discovery"]
-        AG["Agora<br/>Council Synthesis"]:::tier1
+
         A1["Athena<br/>Strategic Planner"]:::tier1
         A2["Apollo<br/>Codebase Scout"]:::tier1
         A3["Argus<br/>Visual Analysis"]:::tier1
@@ -374,7 +372,7 @@ graph TB
         G["Gaia<br/>Remote Sensing"]:::tier6
     end
 
-    O --> AG & A1 & A2 & A3 & H & Q & E & I1 & I2 & I3 & T1a & N & R & I & M
+    O --> A1 & A2 & A3 & H & Q & E & I1 & I2 & I3 & T1a & N & R & I & M
     O -.-> T & G
     A1 --> A2
 
@@ -394,9 +392,8 @@ graph TB
 
 ## Skill Ecosystem
 
-Pantheon bundles **37 cross-platform skills** — modular instruction sets that agents load
-on demand to perform specialized tasks. OpenCode users get **44 skills** (37 + 7
-OpenCode-specific extras in `.opencode/skills/`). Skills are organized into domains:
+Pantheon bundles **40 cross-platform skills** — modular instruction sets that agents load
+on demand to perform specialized tasks. Skills are organized into domains:
 
 | Domain | Skills |
 |---|---|
@@ -424,7 +421,7 @@ subscription (OpenCode Go, Copilot Pro, Claude Pro, etc.).
 
 | Tier | Purpose | Agents | Typical Models |
 |------|---------|--------|----------------|
-| `premium` | Deep reasoning, critical | Zeus, Athena, Agora, Themis | DeepSeek V4 Pro, Claude Opus, o3 |
+| `premium` | Deep reasoning, critical | Zeus, Athena, Themis | DeepSeek V4 Pro, Claude Opus, o3 |
 | `default` | Balanced quality/speed | Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Chiron, Echo, Gaia | Kimi K2.6, Claude Sonnet, GPT-4o |
 | `coding` | Heavy coding tasks | Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Talos | DeepSeek V4 Flash, Claude Sonnet |
 | `fast` | Quick, cheap ops | Apollo, Iris, Mnemosyne, Talos, Nyx, Argus | DeepSeek V4 Flash, MiniMax M2.7, Gemini Flash |
@@ -432,7 +429,7 @@ subscription (OpenCode Go, Copilot Pro, Claude Pro, etc.).
 ### /forge — Model Presets
 
 Pantheon ships with **`/forge`** — a model configuration command that applies named presets from
-`platform/forge.json`. Each preset maps 4 tiers to concrete models across all 18 agents.
+`platform/forge.json`. Each preset maps 4 tiers to concrete models across all 17 agents.
 
 **Usage:**
 ```
@@ -519,7 +516,7 @@ Pantheon provides slash commands via OpenCode. On other platforms (Copilot, Curs
 
 | Command | Agent | Description |
 |---------|-------|-------------|
-| `/pantheon` | agora | Multi-perspective synthesis (Council) |
+| `/pantheon` | zeus | Multi-perspective synthesis (Council) via inline agents |
 | `/focus` | zeus | Pin a session goal |
 | `/forge` | zeus | Configure models by preset (`/forge opencode-go`) or per-agent (`/forge --zeus <model>`) |
 | `/sketch` | athena | Turn rough idea into spec |
@@ -550,10 +547,10 @@ pantheon/
 ├── sync-opencode.sh           — OpenCode sync script
 ├── plugin.json                — marketplace plugin manifest
 │
-├── agents/                    — 18 agent definitions (.agent.md)
+├── agents/                    — 17 agent definitions (.agent.md)
 │   ├── zeus.agent.md          — orchestrator
 │   ├── athena.agent.md        — strategic planner
-│   ├── agora.agent.md         — multi-perspective synthesis
+
 │   ├── apollo.agent.md        — codebase & web discovery
 │   ├── argus.agent.md         — visual analysis
 │   ├── hermes.agent.md        — backend APIs
@@ -571,7 +568,7 @@ pantheon/
 │   ├── nyx.agent.md           — observability
 │   └── README.md
 │
-├── skills/                    — 37 cross-platform skill modules
+├── skills/                    — 40 cross-platform skill modules
 │   ├── README.md
 │   ├── agent-coordination/    * orchestration & coordination
 │   ├── artifact-management/
@@ -717,7 +714,7 @@ pantheon/
 ```
 User → Zeus: "Implement email verification"
 
-0. DECIDE:     Zeus → Agora → USER (approve gate 0, if architectural decision needed)
+
 1. PLAN:       Zeus → Athena → Apollo → Athena → USER (approve gate 1)
 2. AI INFRA:   Zeus → Hephaestus/Chiron/Echo (if AI components needed)
 3. BUILD:      Zeus → Hermes + Aphrodite + Demeter (parallel execution)
@@ -732,7 +729,7 @@ User → Zeus: "Implement email verification"
 Agents can also be invoked directly for focused tasks:
 
 ```
-@agora: Should we use Redis or DB sessions for auth tokens?
+
 @apollo: Find all authentication-related files and usages
 @hermes: Create POST /products endpoint with cursor pagination
 @aphrodite: Refactor ProductCard for WCAG AA compliance
@@ -802,10 +799,10 @@ If they diverge, the release is blocked until Mnemosyne reconciles them.
 
 ```
 # Wrong — manual badge edit creates drift
-Edit README.md line 11: agents-18 → agents-19
+Edit README.md line 11: agents-17 → agents-18
 
 # Right — delegate to Mnemosyne
-@mnemosyne Update README: added @ares agent, increment agent count to 19
+@mnemosyne Update README: added @ares agent, increment agent count to 18
 ```
 
 ```
@@ -944,4 +941,4 @@ Pantheon draws from the broader multi-agent landscape while diverging in key way
 
 **License:** MIT  
 **Architecture Pattern:** Conductor-Delegate  
-**Mythology:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Themis, Mnemosyne, Gaia, Hephaestus, Chiron, Echo, Nyx, Prometheus, Demeter, Iris, Iris, Agora, Argus)
+**Mythology:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Themis, Mnemosyne, Gaia, Hephaestus, Chiron, Echo, Nyx, Prometheus, Demeter, Iris, Argus)

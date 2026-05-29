@@ -71,6 +71,20 @@ Themis includes `edit/editFiles` **exclusively for trivial auto-corrections duri
 - Verify secure data handling and encryption
 - Return security findings with each code review
 
+#### MCP Security Violation Detection 🔒
+When reviewing code, detect these MCP-specific violations automatically:
+
+| MCP Risk | What to grep for | If found → Block? |
+|----------|-----------------|-------------------|
+| **SQL Injection** | `psql_query(f"` or `psql_query("` + `.format(` or `psql_query("` + ` + ` | 🛑 CRITICAL — block |
+| **Docker escape** | `docker_run` without `--cap-drop=ALL` in same command | 🛑 CRITICAL — block |
+| **Docker escape** | `--privileged` or `--pid=host` in docker commands | 🛑 CRITICAL — block |
+| **Credential leak** | `?token=` or `?key=` or `?secret=` or `?password=` in fetch URLs | 🛑 CRITICAL — block |
+| **Missing audit** | `postgresql_execute` without comment explaining why | ⚠️ HIGH — flag |
+| **Missing audit** | `docker_run` without `# purpose:` comment | ⚠️ MEDIUM — flag |
+
+**Note:** These checks are complementary to the general OWASP audit. Run them on every review regardless of risk tier.
+
 ### 7. **Integrated Browser Validation (UI/Flow)**
 - Use the VS Code integrated browser tools for critical UI flow checks
 - Validate route rendering, click paths, and form behavior with browser actions

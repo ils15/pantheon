@@ -40,6 +40,7 @@ You own **everything that happens in GitHub**: branches, pull requests, issues, 
 - For library documentation → use Context7 if available, or delegate to @apollo
 - For web research → delegate to @apollo
 - Only use `web/fetch` for specific URLs you already know (not for general search)
+- **Credential safety**: Scan URLs for `token=`, `key=`, `secret=`, `password=` before fetching. Never hardcode secrets in URLs. See `instructions/mcp-security.instructions.md`.
 
 ---
 

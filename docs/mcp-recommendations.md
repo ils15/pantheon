@@ -209,6 +209,14 @@ mcpServers:
   - name: string (required)
     tools: [string] (required)
     when: string (required)
+    constraints: object (optional)
+      queryMode: string ("parameterized-only" | "free")
+      readOnly: boolean
+      forbiddenPatterns: [string]
+      forbiddenFlags: [string]
+      requiredFlags: [string]
+      imagePolicy: string ("verified-only" | "any")
+      auditLog: boolean
 ```
 
 ### Constraints
@@ -240,11 +248,13 @@ mcpServers:
 | @aphrodite | context7, playwright, figma | Role-Specific |
 | @demeter | postgresql, context7 | Role-Specific |
 | @prometheus | docker, context7 | Role-Specific |
-| @apollo | context7, brave-search | Optional |
+| @apollo | context7, brave-search, exa, grep-app | Optional |
 | @argus | playwright | Role-Specific |
 | @iris | github | Role-Specific |
 | @mnemosyne | memory | Core |
 | Others | context7 | Core |
+
+> **Note:** The `constraints` field in the schema above enables per-agent security hardening. For example, `queryMode: "parameterized-only"` on PostgreSQL MCP prevents SQL injection. See the [Security Hardening](#security-hardening) section below for details.
 
 ---
 
@@ -273,3 +283,24 @@ Fallback: web/fetch → unstructured, may be stale
 - **Review MCP tool permissions** before enabling. Some servers expose destructive tools.
 - **Windsurf has a 100-tool hard limit** — audit tool counts before adding servers.
 - **GitHub MCP remote** (api.githubcopilot.com) uses OAuth — no PAT needed.
+
+---
+
+## Security Hardening
+
+See `instructions/mcp-security.instructions.md` for complete MCP security rules.
+
+### Constraint Types
+
+| Constraint | Purpose | Example |
+|-----------|---------|---------|
+| `queryMode` | Restrict SQL query types | `"parameterized-only"` |
+| `readOnly` | Prevent write operations | `true` for Hermes |
+| `forbiddenFlags` | Block dangerous flags | `["--privileged"]` |
+| `requiredFlags` | Enforce safety flags | `["--cap-drop=ALL"]` |
+| `auditLog` | Require audit comments | `true` for Demeter |
+| `imagePolicy` | Restrict image sources | `"verified-only"` |
+
+### Enforcement
+
+These constraints are enforced by @themis during code review. Violations are CRITICAL and block the review.

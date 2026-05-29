@@ -1,6 +1,6 @@
 # Pantheon Documentation Index
 
-> **A multi-agent orchestration framework** — 18 specialized agents, 7 platforms, 33 skills.
+> **A multi-agent orchestration framework** — 17 specialized agents, 7 platforms, 40 skills.
 
 ---
 
@@ -38,7 +38,9 @@ All agents live as **canonical `.agent.md` files** in `agents/` and are auto-gen
 | **OpenCode** | `.md` + `opencode.json` | ✅ Active | `opencode/` config |
 | **Claude Code** | `.md` (comma-separated tools) | ✅ Active | `node scripts/install.mjs claude` |
 | **Cursor** | `.mdc` rules | ✅ Active | `node scripts/install.mjs cursor` |
-| **Windsurf** | `.md` (stub) | 🧪 Preview | Coming soon |
+| **Windsurf** | `.md` (stub) | ✅ Active | `node scripts/install.mjs windsurf` |
+| **Cline** | `.md` | ✅ Active | `node scripts/install.mjs cline` |
+| **Continue.dev** | `.md` rules | ✅ Active | `node scripts/install.mjs continue` |
 
 ---
 
@@ -66,4 +68,6 @@ Each platform has its own README with installation notes and format details:
 - [Claude Code](../platform/claude/README.md)
 - [Cursor](../platform/cursor/README.md)
 - [Windsurf](../platform/windsurf/README.md)
+- [Cline](../platform/cline/README.md) *(coming soon)*
+- [Continue](../platform/continue/README.md)
 - [Template (add new platform)](../platform/_template/README.md)
