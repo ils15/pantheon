@@ -2,6 +2,108 @@
 
 Tiered MCP server recommendations organized by project type and agent role. MCP servers extend Pantheon agents with external tool access — databases, APIs, web search, browser automation, and more.
 
+> 💡 **New:** Use `node scripts/install-mcp.mjs` to automatically install and configure MCPs for your platform. See [Quick-Start Checklist](#-quick-start-checklist) below.
+
+---
+
+## 🚀 Quick-Start Checklist
+
+### Automatic Setup (Recommended)
+```bash
+# Install essential MCPs (Context7 + GitHub)
+node scripts/install-mcp.mjs
+
+# Install domain-specific MCPs interactively
+node scripts/install-mcp.mjs --tier 2
+
+# See what's available
+node scripts/install-mcp.mjs --list
+
+# Dry-run: see what would be installed
+node scripts/install-mcp.mjs --dry-run
+```
+
+### Manual Setup Checklist
+- [ ] **Context7** — Library documentation (free, no API key needed)
+- [ ] **GitHub MCP** — Repository access (OAuth, no PAT needed)
+- [ ] **Playwright** — Browser automation (for frontend agents)
+- [ ] **PostgreSQL** — Database access (requires DATABASE_URL)
+- [ ] **Brave Search** — Web search (requires BRAVE_API_KEY)
+- [ ] **Docker** — Container management (requires Docker CLI)
+
+> **Minimum for Pantheon to work:** Context7 + GitHub MCP (Tier 1)
+
+---
+
+## 📦 MCP Inventory — Complete
+
+All MCPs currently configured across Pantheon's 17 agents:
+
+### Active MCPs by Agent
+
+| MCP | Used By (agents) | Type | Setup |
+|-----|-----------------|------|-------|
+| **context7** | 13 agents (zeus, athena, apollo, hermes, aphrodite, demeter, themis, hephaestus, chiron, echo, nyx, talos, gaia) | Local | `npx -y @upstash/context7-mcp` — free, no API key |
+| **brave-search** | 4 agents (athena, apollo, gaia, chiron) | Local | `npx -y @anthropic/brave-search-mcp` — requires `BRAVE_API_KEY` |
+| **playwright** | 4 agents (aphrodite, themis, hermes, argus) | Local | `npx -y @playwright/mcp@latest` — free |
+| **exa** | 1 agent (apollo) | Local | `npx -y exa-mcp` — requires `EXA_API_KEY` |
+| **grep-app** | 1 agent (apollo) | Local | `npx -y @modelcontextprotocol/server-grepapp` — requires `GREP_APP_API_KEY` |
+| **postgresql** | 2 agents (hermes, demeter) | Local | `npx -y @anthropic/postgres-mcp` — requires `DATABASE_URL` |
+| **docker** | 1 agent (prometheus) | CLI | Uses Docker CLI — requires Docker installed |
+| **github** | 2 agents (zeus, iris) | Remote | `https://api.githubcopilot.com/mcp/` — OAuth, no PAT needed |
+| **figma** | 1 agent (aphrodite) | Local | Requires Figma access token |
+| **memory** | 1 agent (mnemosyne) | Built-in | VS Code OpenCode native memory — no setup |
+
+### Installation Status
+
+```bash
+# Essential (Tier 1) — install these first
+node scripts/install-mcp.mjs --tier 1
+
+# Domain (Tier 2) — install as needed
+node scripts/install-mcp.mjs --tier 2
+
+# Specific MCP
+node scripts/install-mcp.mjs --mcp playwright,postgresql
+```
+
+---
+
+## 🖥️ Platform-Specific MCPs
+
+Some platforms support MCPs that aren't in the canonical agent templates but enhance the experience:
+
+### OpenCode-Specific
+| MCP | Description | Config |
+|-----|-------------|--------|
+| **Exa AI** | Web search + content fetching | Already in Apollo template |
+| **Grep.app** | Public GitHub code search | Already in Apollo template |
+| **Context7** | Library docs (OpenCode has native integration) | Already in Apollo template |
+
+### VS Code / Cursor-Specific
+| MCP | Description | When to add |
+|-----|-------------|-------------|
+| **vscode-mcp-server** | File system, terminal, editor access | When agents need workspace-level operations |
+| **Sequential Thinking** | Step-by-step reasoning for complex tasks | Architecture-heavy projects |
+
+### Claude Code-Specific
+| MCP | Description | When to add |
+|-----|-------------|-------------|
+| **Filesystem MCP** | Read/write outside workspace | When agents need file ops beyond project root |
+| **Web Fetch MCP** | Alternative HTTP client | When fetch tool is insufficient |
+
+### Docker / Container Workflows
+| MCP | Description | When to add |
+|-----|-------------|-------------|
+| **Docker MCP** | Container lifecycle management | When using Docker for dev/test |
+| **Kubernetes MCP** | K8s cluster management | When deploying to Kubernetes |
+
+### Observability
+| MCP | Description | When to add |
+|-----|-------------|-------------|
+| **Sentry MCP** | Error tracking and performance | Production apps with error tracking |
+| **OpenTelemetry** | Distributed tracing | Microservices architectures |
+
 ---
 
 ## Tier 1 — Essential (All Projects)
@@ -304,3 +406,53 @@ See `instructions/mcp-security.instructions.md` for complete MCP security rules.
 ### Enforcement
 
 These constraints are enforced by @themis during code review. Violations are CRITICAL and block the review.
+
+---
+
+## 🔧 Troubleshooting
+
+### MCP Not Connecting
+
+| Symptom | Likely Cause | Fix |
+|---------|-------------|-----|
+| "MCP server not found" | Server not installed | Run `node scripts/install-mcp.mjs --mcp <name>` |
+| "Connection refused" | URL wrong or server not running | Check the URL in your platform config |
+| "Tool not available" | Agent template missing mcpServers entry | Verify `agents/*.agent.md` has the MCP in frontmatter |
+| "Authentication failed" | Missing env var | Set `DATABASE_URL`, `BRAVE_API_KEY`, etc. |
+| "Command not found: npx" | Node.js not installed | Install Node.js 18+ from nodejs.org |
+
+### Platform-Specific Issues
+
+**VS Code / Cursor:**
+- Restart VS Code after modifying `.vscode/mcp.json` or `.cursor/mcp.json`
+- Open Command Palette → `MCP: List Servers` to verify connection
+
+**OpenCode:**
+- Config is in `opencode.json` under `mcpServers`
+- Run `opencode mcp list` to see configured servers
+- Run `opencode mcp debug <name>` to test connectivity
+
+**Claude Code:**
+- Config is in `.mcp.json` (project) or `~/.claude/settings.json` (global)
+- Run `claude mcp list` to verify
+- Project config takes precedence over global
+
+**Windsurf:**
+- Config is in `~/.codeium/windsurf/mcp_config.json` (global only)
+- Restart Windsurf after modifying config
+
+### Verify MCP is Working
+
+After installation, check that your agents can actually use the MCP:
+
+```bash
+# OpenCode
+opencode mcp list
+opencode mcp debug context7
+
+# Claude Code
+claude mcp list
+
+# VS Code
+# Command Palette → MCP: List Servers
+```
