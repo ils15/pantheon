@@ -35,15 +35,6 @@ skills:
   - cache-strategy
   - simplify
 mcpServers:
-  - name: postgresql
-    tools:
-      - postgresql_query
-      - postgresql_schema
-      - postgresql_execute
-    when: "database operations and migrations"
-    constraints:
-      queryMode: "parameterized-only"
-      auditLog: true
   - name: context7
     tools:
       - context7_resolve-library-id

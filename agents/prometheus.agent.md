@@ -30,24 +30,6 @@ steps: 15
 skills:
   - docker-best-practices
 mcpServers:
-  - name: docker
-    tools:
-      - docker_build
-      - docker_run
-      - docker_compose
-    when: "container management and deployment"
-    constraints:
-      requiredFlags:
-        - "--cap-drop=ALL"
-        - "--security-opt=no-new-privileges"
-        - "--read-only"
-      forbiddenFlags:
-        - "--privileged"
-        - "--pid=host"
-        - "--network=host"
-        - "--security-opt=seccomp=unconfined"
-        - "--security-opt=apparmor=unconfined"
-      auditLog: true
   - name: context7
     tools:
       - context7_resolve-library-id
