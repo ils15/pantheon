@@ -47,6 +47,11 @@ mcpServers:
     tools:
       - brave-search_search
     when: "researching model providers, pricing, and capabilities"
+  - name: exa
+    tools:
+      - exa_web_search_exa
+      - exa_web_fetch_exa
+    when: "web search and content fetching"
 ---
 
 # Chiron — Model Provider Hub Specialist
