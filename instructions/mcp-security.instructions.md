@@ -1,5 +1,5 @@
 ---
-description: "MCP security hardening — SQL injection, container escape, credential leakage prevention"
+description: "MCP security hardening — credential leakage prevention"
 name: "MCP Security Hardening"
 applyTo: "agents/*.agent.md"
 ---
@@ -10,63 +10,7 @@ Mandatory security measures for all MCP server usage in Pantheon agents.
 
 ---
 
-## 1. PostgreSQL MCP — SQL Injection Prevention
-
-### Affected Agents
-- **Demeter** (read/write: `postgresql_query`, `postgresql_schema`, `postgresql_execute`)
-- **Hermes** (read-only: `postgresql_query`, `postgresql_schema`)
-
-### Rules
-
-1. **Parameterized queries only** — Never interpolate values into SQL strings:
-   ```python
-   # ✅ SAFE
-   psql_query("SELECT * FROM users WHERE id = $1", [user_id])
-   # ❌ UNSAFE
-   psql_query(f"SELECT * FROM users WHERE id = {user_id}")
-   ```
-
-2. **Validate dynamic identifiers** — Table/column names from variables must be checked against `postgresql_schema` first.
-
-3. **Read-only for Hermes** — Only `SELECT` queries. Write operations → delegate to @demeter.
-
-4. **DDL justification** (Demeter only) — Every `postgresql_execute` must include a comment explaining why Alembic cannot handle the operation.
-
-### Audit
-- Log every `postgresql_execute` with: purpose, table name, operation type (DDL/DML)
-- Format: `--audit: creating composite index on orders(payment_status, created_at)`
-
----
-
-## 2. Docker MCP — Container Escape Prevention
-
-### Affected Agents
-- **Prometheus** (full access: `docker_build`, `docker_run`, `docker_compose`)
-
-### Rules
-
-1. **Mandatory security flags** on every `docker_run`:
-   ```
-   --cap-drop=ALL
-   --security-opt=no-new-privileges
-   --read-only
-   --user=1000:1000
-   ```
-
-2. **Forbidden flags** — escalate to Zeus if required:
-   `--privileged`, `--pid=host`, `--network=host`, `--security-opt=seccomp=unconfined`, `--security-opt=apparmor=unconfined`
-
-3. **Dockerfile rules**: multi-stage build, non-root user, drop SUID bits (`chmod -s`), pin image tags, no `:latest`
-
-4. **Image provenance**: Verify source labels before running pulled images.
-
-### Audit
-- Every `docker_run`/`docker_build` call includes a `# purpose:` comment
-- Log image name, flags used, and purpose
-
----
-
-## 3. Web/Fetch — Credential Leakage Prevention
+## 1. Web/Fetch — Credential Leakage Prevention
 
 ### Affected Agents
 Apollo, Athena, Argus, Chiron, Echo, Gaia, Hephaestus, Iris, Nyx, Zeus (direct `web/fetch` tool)
@@ -98,15 +42,12 @@ Apollo, Athena, Argus, Chiron, Echo, Gaia, Hephaestus, Iris, Nyx, Zeus (direct `
 
 ---
 
-## 4. Enforcement
+## 2. Enforcement
 
 These rules are enforced by **@themis** during code review:
 
 | Risk Area | Themis Check | Severity if Violated |
 |-----------|-------------|---------------------|
-| Non-parameterized SQL | grep for `f"`, `.format(`, `+` in SQL strings | CRITICAL — block review |
-| Missing docker security flags | grep for `docker_run` without `--cap-drop` | CRITICAL — block review |
 | Credentials in fetch URLs | grep for `token=`, `key=`, `secret=` in URLs | HIGH — block review |
-| Missing audit comments | grep for `postgresql_execute\|docker_run` without `# audit:` or `# purpose:` | MEDIUM — flag for revision |
 
 > **Reference:** `instructions/mcp-security.instructions.md`

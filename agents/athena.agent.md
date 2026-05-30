@@ -36,15 +36,7 @@ mcpServers:
       - context7_resolve-library-id
       - context7_query-docs
     when: "resolving library documentation"
-  - name: brave-search
-    tools:
-      - brave-search_search
-    when: "researching best practices and patterns"
-  - name: exa
-    tools:
-      - exa_web_search_exa
-      - exa_web_fetch_exa
-    when: "web search and content fetching"
+
 ---
 
 # Athena - Strategic Planner

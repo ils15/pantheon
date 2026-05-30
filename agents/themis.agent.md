@@ -49,11 +49,6 @@ skills:
   - tdd-with-agents
   - mcp-security
 mcpServers:
-  - name: playwright
-    tools:
-      - browser/screenshotPage
-      - browser_snapshot
-    when: "visual review and accessibility checks"
   - name: context7
     tools:
       - context7_resolve-library-id

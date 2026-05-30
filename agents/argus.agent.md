@@ -19,13 +19,6 @@ permission:
 user-invocable: true
 temperature: 0.2
 steps: 15
-mcpServers:
-  - name: playwright
-    tools:
-      - browser_screenshotPage
-      - browser_navigate
-      - browser_snapshot
-    when: "capturing external screenshots for analysis"
 ---
 
 # Argus - Visual Analysis Specialist

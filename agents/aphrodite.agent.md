@@ -57,11 +57,7 @@ mcpServers:
       - browser_navigate
       - browser_snapshot
     when: "visual verification and E2E testing"
-  - name: figma
-    tools:
-      - figma_get_file
-      - figma_get_node
-    when: "fetching design specifications"
+
 ---
 
 # Aphrodite - React Implementation Specialist

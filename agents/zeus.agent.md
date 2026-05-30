@@ -68,11 +68,7 @@ mcpServers:
       - context7_resolve-library-id
       - context7_query-docs
     when: "resolving library documentation"
-  - name: github
-    tools:
-      - github_create_pull_request
-      - github_list_issues
-    when: "managing GitHub operations"
+
 ---
 
 # Zeus - Main Conductor

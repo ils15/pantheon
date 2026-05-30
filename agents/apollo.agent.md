@@ -41,19 +41,11 @@ mcpServers:
       - context7_resolve-library-id
       - context7_query-docs
     when: "resolving library documentation"
-  - name: brave-search
-    tools:
-      - brave-search_search
-    when: "researching external documentation"
   - name: exa
     tools:
       - exa_web_search_exa
       - exa_web_fetch_exa
     when: "web search and content fetching"
-  - name: grep-app
-    tools:
-      - grep_app_searchGitHub
-    when: "searching public GitHub code examples"
 ---
 
 ## 🚨 MANDATORY FIRST STEP: Memory Bank Check
