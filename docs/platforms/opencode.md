@@ -314,7 +314,7 @@ Use when you want deterministic, predictable model assignment.
   }
 }
 ```
-The agent follows the user's chat model selection. When you run `/model opencode/deepseek-v4-pro`, these agents automatically switch. Useful for:
+The agent follows the user's chat model selection. When you run `/model opencode-go/deepseek-v4-pro`, these agents automatically switch. Useful for:
 - Experimenting with different models without editing configs
 - Cost control (switch to cheaper models mid-session)
 - Testing agent behavior across multiple providers

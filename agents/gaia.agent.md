@@ -39,6 +39,11 @@ mcpServers:
     tools:
       - brave-search_search
     when: "researching remote sensing literature"
+  - name: exa
+    tools:
+      - exa_web_search_exa
+      - exa_web_fetch_exa
+    when: "web search and content fetching"
   - name: context7
     tools:
       - context7_resolve-library-id
