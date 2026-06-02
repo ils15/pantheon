@@ -2,22 +2,26 @@
 
 ## What is Pantheon
 
-A multi-agent framework for VS Code Copilot and OpenCode using the Conductor-Delegate pattern. 18 specialized agents coordinate through Zeus (orchestrator) to implement features with TDD enforcement and mandatory quality gates.
+A multi-agent framework for VS Code Copilot, OpenCode, Claude Code, Cursor, Windsurf, Cline, and Continue.dev using the Conductor-Delegate pattern. 17 specialized agents coordinate through Zeus (orchestrator) to implement features with TDD enforcement and mandatory quality gates.
 
 ## Installation
 
 ```bash
-# Clone into your project
-git clone https://github.com/ils15/pantheon.git .pantheon
+# Clone the repo
+git clone https://github.com/ils15/pantheon.git
+cd pantheon
 
-# Copy agents, skills, and config to project root
-cp -r .pantheon/agents/ .pantheon/skills/ .pantheon/opencode.json ./
-
-# For OpenCode: copy to global config
-cp -r .pantheon/agents/ .pantheon/skills/ ~/.config/opencode/
+# Install for your platform (pick one)
+./sync-platform.sh copilot --global   # VS Code (global)
+./sync-platform.sh opencode           # OpenCode
+./sync-platform.sh claude             # Claude Code
+./sync-platform.sh cursor             # Cursor
+./sync-platform.sh windsurf           # Windsurf
+./sync-platform.sh cline              # Cline
+./sync-platform.sh continue           # Continue.dev
 ```
 
-See [docs/INSTALLATION.md](INSTALLATION.md) for platform-specific setup (VS Code, Cursor, Claude Code, Windsurf).
+See [docs/INSTALLATION.md](INSTALLATION.md) for detailed platform-specific setup.
 
 ## Available Agents (17)
 

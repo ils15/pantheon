@@ -2,13 +2,13 @@
 
 > From zero to orchestrating with AI agents — step-by-step setup for every platform.
 
-> 📖 **Platform-specific guides:** [VS Code](platforms/vscode.md) · [OpenCode](platforms/opencode.md) · [Claude Code](platforms/claude.md) · [Cursor](platforms/cursor.md) · [Windsurf](platforms/windsurf.md)
+> 📖 **Platform-specific guides:** [VS Code](platforms/vscode.md) · [OpenCode](platforms/opencode.md) · [Claude Code](platforms/claude.md) · [Cursor](platforms/cursor.md) · [Windsurf](platforms/windsurf.md) · [Cline](platforms/cline.md) · [Continue.dev](platforms/continue.md)
 
 ---
 
 ## Before You Start
 
-**What is Pantheon?** A framework of 18 specialized AI agents that plan, implement, review, and document code for you — like having a full engineering team in your editor.
+**What is Pantheon?** A framework of 17 specialized AI agents that plan, implement, review, and document code for you — like having a full engineering team in your editor.
 
 **What you need:**
 - A GitHub account
@@ -26,7 +26,7 @@
 |---|---|
 | **Git** | Any recent version |
 | **Node.js 18+** | Only needed for the sync engine and installer script |
-| **Supported editor** | VS Code, OpenCode, Claude Code, or Cursor |
+| **Supported editor** | VS Code, OpenCode, Claude Code, Cursor, Windsurf, Cline, or Continue.dev |
 
 ---
 
@@ -34,34 +34,70 @@
 
 | Platform | Install Time | Method |
 |---|---|---|
-| **VS Code Copilot** | 1 min | Marketplace plugin or `cp -r` |
-| **OpenCode** | 2 min | Config file + agents |
-| **Claude Code** | 1 min | `node scripts/install.mjs claude` |
-| **Cursor** | 1 min | `node scripts/install.mjs cursor` |
+| **VS Code Copilot** | 1 min | Marketplace plugin or `./sync-platform.sh copilot` |
+| **OpenCode** | 2 min | Config file + agents or `./sync-platform.sh opencode` |
+| **Claude Code** | 1 min | `./sync-platform.sh claude` |
+| **Cursor** | 1 min | `./sync-platform.sh cursor` |
+| **Windsurf** | 1 min | `./sync-platform.sh windsurf` |
+| **Cline** | 1 min | `./sync-platform.sh cline` |
+| **Continue.dev** | 1 min | `./sync-platform.sh continue` |
 
 ---
 
-## Sync Scripts
+## 🚀 Unified Sync: `sync-platform.sh`
 
-After installing, keep your agents up to date with the platform sync scripts:
+**The recommended way to install and update Pantheon** across all platforms:
 
-| Script | npm shortcut | Platform | What it deploys |
-|--------|-------------|----------|----------------|
-| `./sync-copilot.sh` | `npm run sync:copilot` | VS Code Copilot | `instructions/` → `.github/instructions/` · `prompts/` + commands → `VSCODE_USER_PROMPTS_FOLDER` |
-| `./sync-claude.sh` | `npm run sync:claude` | Claude Code | agents + commands → `.claude/agents/` + `.claude/commands/` |
-| `./sync-opencode.sh` | `npm run sync:opencode` | OpenCode | agents + skills + commands → `~/.config/opencode/` |
-| `./sync-cursor.sh` | `npm run sync:cursor` | Cursor | rules → `.cursor/rules/` |
-| `./sync-windsurf.sh` | `npm run sync:windsurf` | Windsurf | rules → `.windsurf/rules/` |
-| `./sync-continue.sh` | `npm run sync:continue` | Continue | rules → `.continue/rules/` |
-| `./sync-cline.sh` | `npm run sync:cline` | Cline | rules → `.clinerules/` |
-
-Run all at once:
 ```bash
-npm run sync:all
+# Install everything for your platform
+./sync-platform.sh <platform>          # project-local (default)
+./sync-platform.sh <platform> --global # global (~/.copilot/, ~/.config/opencode/, etc.)
 ```
 
-> **VS Code instructions auto-discovery**: VS Code Copilot ≥1.99 reads `*.instructions.md` from `.github/instructions/` automatically. Run `./sync-copilot.sh` once after cloning to populate that directory.
-| **Windsurf** | — | 🧪 Preview, coming soon |
+| Platform | Command | Destination |
+|----------|---------|-------------|
+| **VS Code** | `./sync-platform.sh copilot --global` | `~/.copilot/agents/`, `~/.copilot/instructions/`, `~/.copilot/skills/` |
+| **OpenCode** | `./sync-platform.sh opencode` | `~/.config/opencode/` |
+| **Claude Code** | `./sync-platform.sh claude` | `.claude/agents/`, `.claude/commands/` |
+| **Cursor** | `./sync-platform.sh cursor` | `.cursor/rules/`, `.cursor/commands/` |
+| **Windsurf** | `./sync-platform.sh windsurf` | `.windsurf/rules/`, `.windsurf/workflows/` |
+| **Cline** | `./sync-platform.sh cline` | `.clinerules/`, `.clinerules/commands/` |
+| **Continue.dev** | `./sync-platform.sh continue` | `.continue/rules/`, `.continue/commands/` |
+
+**Flags:**
+- `--global` — Install to user-global directories (persists across projects)
+- `--dry-run` — Preview what would be copied
+- `--clean` — Remove stale files from destination
+
+**What it deploys per platform:**
+
+| | Agents | Instructions | Skills | Commands | Prompts |
+|---|:---:|:---:|:---:|:---:|:---:|
+| **VS Code** | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **OpenCode** | ✅ | ✅ | ✅ | ✅ | — |
+| **Claude Code** | ✅ | — | ✅ | ✅ | — |
+| **Cursor** | ✅ | — | ✅ | ✅ | — |
+| **Windsurf** | ✅ | — | ✅ | ✅ | — |
+| **Cline** | ✅ | — | ✅ | ✅ | — |
+| **Continue.dev** | ✅ | — | ✅ | ✅ | — |
+
+---
+
+## Legacy Sync Scripts
+
+Individual sync scripts still work and are equivalent to `sync-platform.sh`:
+
+| Script | Platform | What it deploys |
+|--------|----------|----------------|
+| `./sync-copilot.sh` | VS Code Copilot | `instructions/` → `.github/instructions/` · `prompts/` + commands → `VSCODE_USER_PROMPTS_FOLDER` |
+| `./sync-claude.sh` | Claude Code | agents + commands → `.claude/agents/` + `.claude/commands/` |
+| `./sync-opencode.sh` | OpenCode | agents + skills + commands → `~/.config/opencode/` |
+| `./sync-cursor.sh` | Cursor | rules → `.cursor/rules/` |
+| `./sync-windsurf.sh` | Windsurf | rules → `.windsurf/rules/` |
+| `./sync-continue.sh` | Continue | rules → `.continue/rules/` |
+| `./sync-cline.sh` | Cline | rules → `.clinerules/` |
+
+> **Recommendation:** Use `sync-platform.sh` instead — it handles all platforms with a single command and supports `--global` for persistent installation.
 
 ---
 
@@ -251,13 +287,93 @@ Edit `.cursor/rules/*.mdc` files to adjust agent behavior for your project.
 
 ## Windsurf
 
-Windsurf support is in preview. A platform adapter exists at `platform/windsurf/` with tool name mappings. Full support is planned for v3.1.
+### Prerequisites
 
-To use the stub:
+- **Windsurf** IDE installed
+- Windsurf subscription (for AI features)
+
+### Setup
 
 ```bash
-node scripts/install.mjs windsurf
+# Clone Pantheon
+git clone https://github.com/ils15/pantheon.git
+cd pantheon
+
+# Install Windsurf rules and workflows
+./sync-platform.sh windsurf
 ```
+
+This creates `.windsurf/rules/` with all agents and `.windsurf/workflows/` with commands.
+
+### Usage
+
+In Windsurf chat, use `@` to invoke any agent:
+
+```
+@zeus Implement a feature with full TDD
+```
+
+See [Windsurf setup guide](platforms/windsurf.md) for full configuration and troubleshooting.
+
+---
+
+## Cline
+
+### Prerequisites
+
+- **Cline** extension installed in VS Code
+- An LLM provider API key
+
+### Setup
+
+```bash
+# Clone Pantheon
+git clone https://github.com/ils15/pantheon.git
+cd pantheon
+
+# Install Cline rules and commands
+./sync-platform.sh cline
+```
+
+This creates `.clinerules/` with all agents and `.clinerules/commands/` with commands.
+
+### Usage
+
+In Cline chat, the agent rules are loaded automatically based on context.
+
+See [Cline setup guide](platforms/cline.md) for full configuration and limitations.
+
+---
+
+## Continue.dev
+
+### Prerequisites
+
+- **Continue** extension installed in VS Code or JetBrains
+- An LLM provider API key
+
+### Setup
+
+```bash
+# Clone Pantheon
+git clone https://github.com/ils15/pantheon.git
+cd pantheon
+
+# Install Continue rules and commands
+./sync-platform.sh continue
+```
+
+This creates `.continue/rules/` with all agents and `.continue/commands/` with commands.
+
+### Usage
+
+In Continue chat, use `@` to invoke any agent:
+
+```
+@zeus Implement a feature with full TDD
+```
+
+See [Continue.dev setup guide](platforms/continue.md) for full configuration.
 
 ---
 

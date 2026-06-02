@@ -190,11 +190,38 @@ Pantheon runs on 7 platforms. Here is how each supports the framework's key feat
 - **OpenCode**: Near-complete. Permission blocks via `opencode.json`, tool mapping adapter.
 - **Claude Code**: CLI-native. Agent handoff workflow, skills via markdown rules.
 - **Cursor**: `.mdc` rules with `alwaysApply` and `globs` for Agent mode.
-- **Windsurf**: Preview. Markdown-based agent definitions, basic workflow support.
+- **Windsurf**: Active. Markdown-based agent definitions, workflow support via `.windsurf/workflows/`.
 - **Cline**: Agent-mode focused. Custom agent definitions, skills via instruction files.
 - **Continue.dev**: IDE-agnostic. Rule-based agent configuration, skills via markdown.
 
 > See [docs/platforms/](docs/platforms/) for setup guides and limitations.
+
+---
+
+## 5-Minute Quick Start
+
+```bash
+# 1. Clone the repo
+git clone https://github.com/ils15/pantheon.git
+cd pantheon
+
+# 2. Install for your platform (pick one)
+./sync-platform.sh copilot --global   # VS Code (global)
+./sync-platform.sh opencode           # OpenCode
+./sync-platform.sh claude             # Claude Code
+./sync-platform.sh cursor             # Cursor
+./sync-platform.sh windsurf           # Windsurf
+./sync-platform.sh cline              # Cline
+./sync-platform.sh continue           # Continue.dev
+
+# 3. Open your editor and test
+# VS Code: type @zeus in Copilot Chat
+# OpenCode: press Tab to cycle agents
+# Claude Code: type @zeus
+# Cursor: type @zeus in Agent mode
+```
+
+> **VS Code users:** For global installation (persists across projects), add `--global` flag.
 
 ---
 
