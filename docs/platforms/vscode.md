@@ -442,6 +442,84 @@ VS Code loads instructions in this order:
 
 ---
 
+## GitHub Pull Requests Extension Integration
+
+Pantheon integrates with the **GitHub Pull Requests extension** (`github.vscode-pull-request-github`) for native PR, issue, and review workflows inside VS Code.
+
+### Installation
+
+1. Install the extension from the VS Code marketplace: [GitHub Pull Requests](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github)
+2. Or add to `.vscode/extensions.json`:
+   ```json
+   {
+     "recommendations": ["github.vscode-pull-request-github"]
+   }
+   ```
+
+### Configuration
+
+Add to `.vscode/settings.json`:
+
+```json
+{
+  "githubPullRequests.notifications": "pullRequests",
+  "githubPullRequests.fileListLayout": "tree",
+  "githubPullRequests.createDefaultBaseBranch": "repositoryDefault",
+  "githubPullRequests.remotes": ["origin"]
+}
+```
+
+### Workflows
+
+#### Opening a PR with Pantheon + GitHub Extension
+
+1. **Create branch & push** — Use `@iris` or `gh CLI`
+2. **Open PR** — Iris creates a draft PR via `gh pr create`
+3. **Review in Extension** — Open the PR in the GitHub Extension panel:
+   - `Ctrl+Shift+P` → `PR: Open Pull Request`
+   - View diffs, add comments, request reviewers
+4. **Merge** — Use the Extension's merge button or ask Iris
+5. **Post-merge** — Iris deletes the branch and documents the release
+
+#### Reviewing PRs
+
+The Themis agent can use the GitHub Extension's LM skills:
+- **Summarize PR** — Uses `summarize-github-issue-pr-notification` skill
+- **Suggest fix** — Uses `suggest-fix-issue` skill
+- **Address comments** — Uses `address-pr-comments` skill
+
+#### Available VS Code Commands
+
+| Command | Description |
+|---|---|
+| `pr.openPullRequest` | Open active PR in the GitHub Extension panel |
+| `pr.createPullRequest` | Open the Create PR form |
+| `pr.mergePullRequest` | Open merge dialog |
+| `pr.checkoutPullRequest` | Check out a PR locally |
+| `github.issues.createIssue` | Open the Create Issue form |
+| `github.issues.requireReview` | Request a review from a specific user |
+
+### MCP GitHub Server
+
+For direct API access (beyond CLI), configure `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "github": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": { "GITHUB_TOKEN": "${input:github.token}" }
+    }
+  }
+}
+```
+
+> **Note:** MCP server is optional. The `gh` CLI + GitHub Extension cover 95% of use cases without it.
+
+---
+
 ## Quick Reference
 
 | Action | Command / Config |
@@ -459,6 +537,77 @@ VS Code loads instructions in this order:
 | Enable plugin marketplace | `"chat.plugins.marketplaces": ["ils15/pantheon"]` |
 | View all agents | `@zeus: List all available agents` |
 | Create a new agent | Create `agents/<name>.agent.md` with YAML frontmatter |
+| Open PR in GitHub Extension | `Ctrl+Shift+P` → `PR: Open Pull Request` |
+| Create GitHub issue | `Ctrl+Shift+P` → `GitHub: Create Issue` |
+| View GitHub issues | Click GitHub icon in Activity Bar |
+| Review PR diffs | Open PR in GitHub Extension panel |
+| Merge a PR | Use Extension merge button or `@iris` |
+
+---
+
+## Pantheon Commands Reference
+
+All Pantheon commands are available as `/pantheon-*` in VS Code Copilot Chat. They are synced from `commands/` to your VS Code prompts folder via `sync-platform.sh copilot`.
+
+### Execution Commands
+
+| Command | What it does | Target Agent |
+|---|---|---|
+| `/pantheon-praxis` | Execute an Athena plan with dependency ordering and mandatory gates | Zeus |
+| `/pantheon-pantheon` | Dispatch a question to 2–4 specialist agents in parallel, synthesizes response | Zeus |
+| `/pantheon-subtask` | Spawn a bounded child worker for a specific sub-task | Auto |
+| `/pantheon-audit` | Run lint, format, coverage (>80%), and OWASP checks | Themis |
+| `/pantheon-sketch` | Turn a rough idea into a structured spec via Q&A | Athena |
+
+### Optimization & Maintenance
+
+| Command | What it does | Target Agent |
+|---|---|---|
+| `/pantheon-metamorphosis` | Intelligent refactoring with LSP analysis, gap analysis, TDD, and verification | Zeus |
+| `/pantheon-optimize` | Compress, deduplicate, and consolidate the memory bank | Zeus |
+| `/pantheon-token-audit` | Scan for token waste and compression opportunities | Athena |
+| `/pantheon-focus` | Pin a session goal to prevent scope creep | Zeus |
+| `/pantheon-mirrordeps` | Mirror a dependency source locally for agent access | Apollo |
+
+### Configuration & Utilities
+
+| Command | What it does | Target Agent |
+|---|---|---|
+| `/pantheon-forge` | Configure models by preset (`fast`, `default`, `premium`) | Zeus |
+| `/pantheon-ping` | Ping all 18 agents to verify availability | System |
+| `/pantheon-cancel-relentless` | Stop relentless mode only | System |
+| `/pantheon-stop-continuation` | Stop all auto-continuation mechanisms | System |
+
+### Regular Workflow Prompts
+
+These are simpler prompts (no `pantheon-` prefix) available as `/name`:
+
+| Prompt | What it does |
+|---|---|
+| `/implement-feature` | End-to-end feature with TDD, parallel execution, quality gates |
+| `/plan-architecture` | Strategic architecture planning with research |
+| `/debug-issue` | Rapid debugging with parallel file discovery |
+| `/orchestrate-with-zeus` | Full multi-agent orchestration |
+| `/focus` | Pin a session goal (simpler version) |
+| `/sketch` | Turn idea into structured spec |
+| `/subtask` | Delegate a bounded child task |
+| `/quick-discovery-large-codebase` | Rapid codebase discovery (8 min max) |
+| `/quick-plan-large-feature` | Rapid planning for large features (5 min max) |
+| `/optimize-database` | Analyze and optimize database schema/queries |
+| `/mirrordeps` | Clone dependency source locally |
+
+### Usage in VS Code
+
+```
+# In Copilot Chat, just type:
+/pantheon-praxis Implement user authentication
+/pantheon-audit Changes in src/auth/
+/pantheon-pantheon Should we use Redis or PostgreSQL?
+/pantheon-forge premium
+/pantheon-ping
+```
+
+> **Sync tip:** Run `VSCODE_USER_PROMPTS_FOLDER=/path ./sync-platform.sh copilot` after adding/editing commands to redeploy them to VS Code.
 
 ---
 

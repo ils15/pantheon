@@ -21,6 +21,7 @@ BEFORE-AFTER-*.md
 
 # Scripts (caminhos absolutos, não versionados)
 sync-*.sh
+!sync-platform.sh
 !sync-opencode.sh
 !sync-claude.sh
 !sync-cursor.sh
@@ -37,6 +38,16 @@ instructions/vault-secrets-access.instructions.md
 # Artifact temp folder (ephemeral — wiped on sprint close, never committed)
 # Memory bank (project-specific context — not tracked in framework repo)
 docs/memory-bank/
+
+# Generated platform command artifacts (sync byproduct)
+platform/cline/.clinerules/commands/
+platform/continue/.continue/commands/
+platform/cursor/.cursor/commands/
+
+# Project-level generated artifacts (use --global instead)
+.github/agents/
+.github/skills/
+.github/instructions/
 
 # Code indexer files (gtags, cscope)
 GTAGS

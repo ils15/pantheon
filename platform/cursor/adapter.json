@@ -93,6 +93,8 @@
       "content": "> Pantheon agent for Cursor. Invoke with @<name> in Agent mode."
     }
   ],
+  "deployCommands": true,
+  "commandsOutputDir": ".cursor/commands",
   "skillsOutputDir": ".cursor/skills",
   "deploySkills": true,
   "handoffStrategy": "embed"
