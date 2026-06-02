@@ -21,8 +21,11 @@
   "deployInstructions": true,
   "instructionsOutputDir": "../../.github/instructions",
 
-  "deployCommands": false,
-  "deploySkills": false,
+  "deployAgents": true,
+  "agentsOutputDir": "../../.github/agents",
+
+  "deployCommands": true,
+  "deploySkills": true,
 
   "capabilityFlags": {
     "orchestration": false,

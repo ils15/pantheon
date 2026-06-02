@@ -76,6 +76,8 @@
     "ide-local": false,
     "github-service": false
   },
+  "deployCommands": true,
+  "commandsOutputDir": ".continue/commands",
   "bodyFilters": [
     {
       "action": "prepend",

@@ -4,7 +4,8 @@
     "ils15/pantheon"
   ],
   "chat.subagents.allowInvocationsFromSubagents": true,
-  "github.copilot.chat.skills": [
+
+  "github.copilot.chat.agent.skills": [
     "agent-coordination",
     "agent-evaluation",
     "agent-observability",
@@ -12,7 +13,6 @@
     "artifact-management",
     "auto-continue",
     "cache-strategy",
-    "category-routing",
     "code-review-checklist",
     "codemap",
     "conversational-ai-design",
@@ -47,5 +47,13 @@
     "test-architecture",
     "token-audit",
     "wisdom-accumulation"
-  ]
+  ],
+
+  "githubPullRequests.notifications": "pullRequests",
+  "githubPullRequests.fileListLayout": "tree",
+  "githubPullRequests.pullPullRequestLocaleFromRemote": true,
+  "githubPullRequests.createDefaultBaseBranch": "repositoryDefault",
+  "githubPullRequests.remotes": ["origin"],
+  "githubPullRequests.defaultReviewers": [],
+  "githubPullRequests.overrideRepositoryDescription": false
 }

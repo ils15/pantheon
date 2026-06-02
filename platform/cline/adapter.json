@@ -61,6 +61,8 @@
       "content": "> Pantheon rule for Cline. This content is loaded as system prompt context."
     }
   ],
+  "deployCommands": true,
+  "commandsOutputDir": ".clinerules/commands",
   "skillsOutputDir": ".clinerules/skills",
   "deploySkills": true,
   "handoffStrategy": "embed"
