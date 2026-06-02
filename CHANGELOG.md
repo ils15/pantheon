@@ -4,6 +4,41 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## v3.11.0
+
+[compare changes](https://github.com/ils15/pantheon/compare/v3.9.2...v3.11.0)
+
+### 🚀 Enhancements
+
+- Add exa agent for web search and content fetching across multiple agents ([990f49f](https://github.com/ils15/pantheon/commit/990f49f))
+- Universal command installation across all 7 platforms + global sync ([87e845e](https://github.com/ils15/pantheon/commit/87e845e))
+
+### 💅 Refactors
+
+- Visual review pipeline — Aphrodite self-review, Argus external only ([bfd9c92](https://github.com/ils15/pantheon/commit/bfd9c92))
+
+### 📖 Documentation
+
+- Rewrite MCP documentation to match active config ([68b600c](https://github.com/ils15/pantheon/commit/68b600c))
+- Improve installation documentation for all 7 platforms ([32b09a1](https://github.com/ils15/pantheon/commit/32b09a1))
+
+### 🏡 Chore
+
+- Streamline MCP config — keep only context7, exa, playwright ([18824d4](https://github.com/ils15/pantheon/commit/18824d4))
+- Clean apollo.agent.md mcpServers — keep context7 + exa ([2933fd2](https://github.com/ils15/pantheon/commit/2933fd2))
+- Clean hermes/demeter/prometheus mcpServers — keep context7 only ([4706666](https://github.com/ils15/pantheon/commit/4706666))
+- Clean aphrodite/zeus/iris mcpServers ([336759b](https://github.com/ils15/pantheon/commit/336759b))
+- Clean argus/themis/athena mcpServers ([2dab5ce](https://github.com/ils15/pantheon/commit/2dab5ce))
+- Clean chiron/gaia/mnemosyne mcpServers ([541a159](https://github.com/ils15/pantheon/commit/541a159))
+- Clean echo/hephaestus/nyx/talos mcpServers ([d6fab02](https://github.com/ils15/pantheon/commit/d6fab02))
+- Simplify MCP config to 3 active servers (context7, exa, playwright) ([65eaa3a](https://github.com/ils15/pantheon/commit/65eaa3a))
+- Merge remote main, resolve agent file conflicts ([4e25887](https://github.com/ils15/pantheon/commit/4e25887))
+- Bump version to v3.10.0 ([177c7de](https://github.com/ils15/pantheon/commit/177c7de))
+
+### ❤️ Contributors
+
+- Ils15 ([@ils15](https://github.com/ils15))
+
 ## [v3.9.0] - 2026-05-28
 
 [compare changes](https://github.com/ils15/pantheon/compare/v3.8.4...v3.9.0)
