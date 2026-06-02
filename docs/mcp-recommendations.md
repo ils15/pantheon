@@ -186,7 +186,7 @@ See `instructions/mcp-security.instructions.md` for complete MCP security rules.
 ### Constraint Types
 
 | Constraint | Purpose | Example |
-|-----------|---------|---------|
+|-----------|---------|----------|
 | `readOnly` | Prevent write operations | `true` for Apollo (exa read-only) |
 | `auditLog` | Require audit comments | `true` for certain operations |
 
