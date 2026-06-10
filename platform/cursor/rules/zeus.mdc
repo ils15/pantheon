@@ -577,84 +577,91 @@ These rules apply to Zeus and all agents in the system:
 6. **TDD Always**: Tests first, code second, refactor third
 7. **Memory discipline**: Plans to `/memories/session/`, facts to `/memories/repo/`, ADRs to @mnemosyne only when explicitly needed
 
-## Handoff Strategy (VS Code 1.108+)
+## ⏱️ TIMEOUT & RETRY ENFORCEMENT
 
-### When to Use @agent Delegation (Default)
-Use direct delegation when:
-- Agent needs full context from orchestrator
-- Implementing based on provided plan
-- Mid-phase corrections needed
-- Maintains conversation history
+When a delegated agent does not respond in time, enforce the timeout policy from `routing.yml`.
 
-**Example**: `@hermes` - needs complete spec from plan
+### Timeout Behavior by Agent Role
 
-### Phase-Based Handoff Workflow
+| Agent Role | Timeout | Retry Policy | Fallback | Partial Results OK? |
+|------------|---------|-------------|----------|---------------------|
+| Explorer (@apollo) | 60s | 2 retries, exponential backoff | @athena | ✅ Yes |
+| Implementer (@hermes, @aphrodite, @demeter) | 180s | 3 retries, exponential backoff | @talos | ❌ No |
+| Reviewer (@themis) | 120s | 2 retries, exponential backoff | @zeus | ❌ No |
+| Infrastructure (@prometheus) | 300s | 2 retries, exponential backoff | @hermes | ❌ No |
+| Hotfix (@talos) | 30s | 1 retry, no backoff | @hermes | ✅ Yes |
+| Visual (@argus) | 60s | 2 retries, exponential backoff | @zeus | ✅ Yes |
 
+### Retry Flow
 ```
-Phase 1: Planning
-  → You + @athena (plan) + @apollo (discovery)
-  
-Phase 2: AI Infrastructure
-  → You →  (RAG, vector search, chains)
-  → You →  (model providers, routing)
-  
-Phase 3: Implementation  
-  → You → @hermes (backend, parallel)
-  → You → @aphrodite (frontend, parallel)
-  → You → @demeter (database, parallel)
-  
-Phase 3b: Conversational (optional)
-  → You →  (NLU, dialogue flows)
-  
-Phase 4: Review
-  → You →  (quality gate, security audit)
-  
-Phase 5: Observability
-  → You →  (tracing, monitoring, cost tracking)
-  
-Phase 6: Deploy
-  → You →  (infrastructure, deployment)
+Task dispatch → timeout elapsed → log timeout
+  ├─ retry_count > 0 → retry with backoff → decrement retry_count
+  ├─ fallback_agent exists → dispatch to fallback
+  └─ no retries + no fallback → return TIMEOUT error to user
 ```
 
-### Mid-Phase Course Correction
+### Session Reuse Check
+Before dispatching a task, check if a reusable session exists:
 
-If development needs adjustment:
-- Switch to research mode with @apollo
-- Revise plan with @athena if scope changes
-- Re-delegate to implementers with updated requirements
-
-### Handoff CTA Examples
-
-After planning phase:
 ```
-✅ Phase 1 Complete: Planning & Research
-
-Ready to proceed with implementation?
-
-[➡️ Continue with Implementation]
-[🔄 Refine Plan]
-[❌ Cancel]
+@hermes — continuing from previous session.
+Files already explored: backend/routers/auth.py, backend/services/auth_service.py.
+New task: add refresh token rotation.
 ```
 
-After implementation phase:
+Use `session_max` from routing.yml to determine how many sessions to keep per agent.
+
+## 📦 SUBTASK DISPATCH (Lightweight Delegation)
+
+Subtask is a bounded, low-risk delegation mode that **skips** the standard artifact lifecycle. Use it for focused work that doesn't need Themis review.
+
+### When to Use Subtask vs Full Task
+
+| Aspect | Subtask | Full Task |
+|--------|---------|-----------|
+| Scope | Single file, <10 lines, read-only | Feature, multi-file, schema change |
+| Risk | Low (no security/data implications) | Any risk level |
+| Artifact | ❌ No IMPL artifact | ✅ IMPL artifact required |
+| Themis review | ❌ None | ✅ Mandatory |
+| Use case | Apollo discovery, Talos hotfix, bounded fix | Feature implementation, migration, API change |
+
+### Safety Rules
+1. **Bounded scope** — single file or read-only investigation
+2. **Low risk** — no security implications, no data loss, no breaking changes
+3. **No Themis dependency** — output doesn't feed into a phase that requires review
+
+### Subtask Return Format
+Expect a `subtask_summary` response with:
 ```
-✅ Phase 2 Complete: Implementation (3 agents)
-
-Backend endpoints: ✅ 5 tests passing
-Frontend components: ✅ 8 tests passing  
-Database migration: ✅ Reversible
-
-Ready for code review?
-
-[➡️ Continue with Review]
-[🐛 Request Fixes]
-[❌ Cancel]
+## subtask_summary
+**files_changed:** [paths]
+**summary:** What was done
+**tests:** ✅ or N/A
+**status:** complete | partial | escalated
 ```
 
----
+### Timeout Parcial (Partial Results)
 
----
+Timeout parcial is ONLY for read-only, independent agents:
+- ✅ @apollo — can return partial file list ("found 7 of 12 files before timeout")
+- ✅ @gaia — can return partial literature findings
+- ✅ @argus — can return partial visual observations
+- ✅ @talos — can confirm progress if hotfix times out
+- ❌ Never for implementers or reviewers — must complete or fail
 
-**Philosophy**: Orchestrate expertise. Conserve context. Deliver quality. Move fast.
+When dispatching with partial-OK, set expectation:
+```
+@apollo Search for auth files. Timeout parcial OK — return whatever you have.
+```
 
+## 📊 TIMEOUT TRACKING
 
+Maintain awareness of in-flight delegations:
+
+| Agent | Timeout | Status | Partial OK? |
+|-------|---------|--------|-------------|
+| @apollo | 60s | ✅ complete | ✅ |
+| @hermes | 180s | ⏳ in progress | ❌ |
+| @themis | 120s | ⏳ in progress | ❌ |
+
+Log timeouts to `/memories/session/timeout-log.md` for later analysis.

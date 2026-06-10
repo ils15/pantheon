@@ -27,7 +27,7 @@ handoffs:
     send: false
 user-invocable: true
 temperature: 0.3
-steps: 5
+steps: 30
 skills:
   - simplify
 mcpServers:

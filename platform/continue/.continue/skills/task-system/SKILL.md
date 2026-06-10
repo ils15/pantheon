@@ -37,7 +37,13 @@ Use this skill for complex work with multiple interdependent tasks. Tasks are st
   "blocks": ["T-003"],
   "owner": "Aphrodite",
   "metadata": {},
-  "threadID": "session-abc"
+  "threadID": "session-abc",
+  "timeout_ms": 180000,
+  "retry_policy": { "count": 3, "backoff": "exponential" },
+  "fallback_agent": "talos",
+  "partial_ok": false,
+  "session_id": null,
+  "session_resume": null
 }
 ```
 
@@ -53,6 +59,12 @@ Use this skill for complex work with multiple interdependent tasks. Tasks are st
 | `owner` | string | No | Agent name responsible |
 | `metadata` | object | No | Additional context |
 | `threadID` | string | Yes | Session ID (auto-set) |
+| `timeout_ms` | integer | No | Timeout in milliseconds for this task (default: 120000 = 2min). 0 = no timeout |
+| `retry_policy` | object | No | `{ count: number, backoff: "exponential"\|"fixed" }`. Default: `{ count: 3, backoff: "exponential" }` |
+| `fallback_agent` | string | No | Agent name to use if all retries fail. Default: null (escalate to Zeus) |
+| `partial_ok` | boolean | No | If true, partial results are acceptable on timeout. Default: false |
+| `session_id` | string | No | Alias of the session running this task (e.g. "hermes-1"). Set automatically |
+| `session_resume` | string | No | Session alias to resume instead of starting fresh (e.g. "hermes-1") |
 
 ---
 
@@ -142,6 +154,51 @@ TaskGet({ id: "T-001" })
 | Parallel execution | Manual | Automatic optimization |
 | Multi-agent | Single agent | Multiple agents with owners |
 | Best for | Simple sequential work | Complex interdependent work |
+
+---
+
+## Timeout & Retry
+
+Every task can have timeout and retry policies:
+
+```json
+{
+  "timeout_ms": 180000,
+  "retry_policy": { "count": 3, "backoff": "exponential" },
+  "fallback_agent": "talos"
+}
+```
+
+### How it works:
+
+1. Task starts → timeout timer begins
+2. If timeout expires → retry with backoff:
+   - Exponential: 5s, 15s, 45s (multiply by 3 each retry)
+   - Fixed: 10s, 10s, 10s (constant delay)
+3. If all retries fail → use `fallback_agent` if configured
+4. If no fallback → escalate to Zeus (user decision)
+
+### Partial results (partial_ok: true):
+
+If a task times out but `partial_ok` is true, Zeus can use whatever results were produced and re-delegate the remaining scope.
+
+---
+
+## Session Reuse
+
+Tasks can resume previous sessions to avoid re-reading context:
+
+```json
+{
+  "session_resume": "hermes-1",
+  "session_id": "hermes-2"
+}
+```
+
+- `session_id` — set automatically when a task starts (alias: `{agent}-{N}`)
+- `session_resume` — set manually to continue from a previous session
+
+Session aliases are tracked in-memory by Zeus during a session. Stale references auto-clean.
 
 ---
 

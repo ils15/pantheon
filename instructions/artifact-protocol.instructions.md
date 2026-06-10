@@ -46,6 +46,7 @@ docs/memory-bank/
 | `@hermes` / `@aphrodite` / `@demeter` implement | **The worker** | `IMPL-phase<N>-<agent>.md` |
 | `@themis` reviews | **Themis** | `REVIEW-<feature>.md` |
 | `@agora` council / `@apollo` | **Agora / Apollo** | `DISC-<topic>.md` |
+| `@any` agent via subtask | **The worker** | No artifact — returns `subtask_summary` inline |
 | Architectural decision (any agent) | **Any → Mnemosyne** | `ADR-<topic>.md` (permanent) |
 
 > [!IMPORTANT]
@@ -62,7 +63,39 @@ docs/memory-bank/
 | `IMPL-` | `.tmp/` | ✅ Deleted on sprint close | Hermes / Aphrodite / Demeter |
 | `REVIEW-` | `.tmp/` | ✅ Deleted on sprint close | Themis |
 | `DISC-` | `.tmp/` | ✅ Deleted on sprint close | Agora (council) / Apollo (delegated discovery) |
+| `SUB-` (inline) | inline response | ✅ No persistence | Any agent (via subtask) |
 | `ADR-` | `_notes/` | ❌ Permanent, never deleted | Any agent |
+
+---
+
+## Subtask Rule — No Artifact, No Themis
+
+**Subtask** is a lightweight delegation mode for bounded, low-risk work. It deliberately **skips** the standard artifact lifecycle:
+
+| Aspect | Subtask | Full Task |
+|--------|---------|-----------|
+| Artifact | ❌ No artifact | ✅ IMPL- artifact |
+| Themis review | ❌ No review | ✅ Mandatory review |
+| Gate | ❌ No gate | ✅ Phase Review Gate |
+| Return format | `subtask_summary` (structured) | Free-form response |
+| When to use | Apollo investigation, Talos hotfix, bounded test run | Feature implementation, schema changes, security-sensitive work |
+
+### Safety Rule
+
+Subtask is ONLY appropriate when ALL these conditions are met:
+1. **Bounded scope** — single file, < 10 lines changed, or read-only investigation
+2. **Low risk** — no security implications, no data loss risk, no breaking changes
+3. **No Themis dependency** — the output does not feed into a phase that requires review
+
+If ANY condition is violated, use full `task()` delegation with artifact tracking.
+
+### Examples
+
+| ✅ Good subtask | ❌ Bad subtask |
+|----------------|----------------|
+| `subtask(apollo, "Find all auth route files")` | `subtask(hermes, "Implement login endpoint")` — needs Themis |
+| `subtask(talos, "Fix typo in button CSS")` | `subtask(demeter, "Write user migration")` — needs rollback plan |
+| `subtask(hermes, "Run tests and report")` | `subtask(prometheus, "Update Dockerfile")` — infrastructure risk |
 
 ---
 

@@ -20,10 +20,6 @@ mcpServers:
       - context7_resolve-library-id
       - context7_query-docs
     when: resolving library documentation
-  - name: brave-search
-    tools:
-      - brave-search_search
-    when: researching best practices and patterns
 ---
 
 # Athena - Strategic Planner
@@ -162,7 +158,6 @@ For trade-off / multi-perspective questions, redirect the user to `@agora`.
 For external docs/specs, use `web/fetch` (see `internet-search` skill for patterns):
 - RFCs, official documentation, GitHub issues/PRs
 - Synthesize findings into plan recommendations
-- **Credential safety**: Scan URLs for `token=`, `key=`, `secret=`, `password=` before fetching. Never hardcode secrets in URLs. See `instructions/mcp-security.instructions.md`.
 
 
 
