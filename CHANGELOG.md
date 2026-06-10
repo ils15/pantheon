@@ -41,6 +41,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+## [v3.11.0] - 2026-06-10
+
+### Added
+- Subtask System: `/subtask` command with bounded child worker, summary format, timeout parcial
+- Subtask rule in artifact-protocol: no IMPL artifact, no Themis review
+- Schema extended in task-system SKILL.md with timeout_ms, retry_policy, fallback_agent, partial_ok, session_id, session_resume
+- Timeout & Retry enforcement across all 16 Zeus delegation targets in routing.yml
+- Timeout parcial (partial results) for read-only agents (apollo, gaia, argus, talos)
+- Retry flow with exponential backoff and fallback chain
+- Session tracking with task_id, files in context, max age
+- Session reuse and session_max for agent session control
+- Auto-Continue cooldown pattern with rules between waves
+- Timeout enforcement and tracking tables for in-flight delegations
+
+### Changed
+- agents/zeus.agent.md: 72 → 730 lines (body migrated from platform + 3 new sections)
+- agents/athena.agent.md: 40 → 180 lines (body restored)
+- agents/hermes.agent.md: 49 → 248 lines (body restored)
+- talos steps: 5 → 30, hermes: 20 → 25, aphrodite: 20 → 25, zeus: 20 → 25, prometheus: 15 → 20
+- Session reuse documented in session-goal SKILL.md
+- Agent Body Migration across all agents (Canonical Sync)
+
+### Fixed
+- Max steps reached prevention in multi-edit tasks
+- Version sync: package.json, plugin.json, .github/plugin/plugin.json bumped to 3.11.0
+
 ## [v3.8.4] - 2026-05-28
 
 ### Added
