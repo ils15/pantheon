@@ -22,19 +22,8 @@ mcpServers:
       - context7_resolve-library-id
       - context7_query-docs
     when: resolving library documentation
-  - name: postgresql
-    tools:
-      - postgresql_query
-      - postgresql_schema
-    when: debugging database queries
-    constraints:
-      queryMode: parameterized-only
-      readOnly: true
-  - name: playwright
-    tools:
-      - browser/screenshotPage
-    when: verifying API responses visually
 ---
+
 
 # Hermes - Backend Executor (FastAPI Specialist)
 
@@ -219,52 +208,6 @@ pip-audit -r requirements.txt
 - **@themis** (via handoff button): For code review and security audit when phase is complete
 - **@aphrodite / @demeter / **: Route through **Zeus** — Hermes cannot directly invoke these agents
 
-## Handoff Strategy (VS Code 1.108+)
-
-### Receiving Handoff from Zeus
-```
-Zeus hands off:
-1. ✅ Detailed implementation plan (from Athena)
-2. ✅ Test expectations (TDD phase-1)
-3. ✅ API specs and error handling requirements
-4. ✅ Clear scope of what to implement
-
-You begin implementation...
-```
-
-### During Implementation - Status Updates
-```
-🔄 Implementation in progress:
-- Tests: 3/5 written (60%)
-- Code: 2/5 endpoints implemented
-- Blockers: None
-- Next: Implement media upload endpoint
-```
-
-### Handoff Output Format
-
-When implementation is complete, produce a structured **IMPL artifact** and request Mnemosyne to persist it:
-
-```
-✅ Implementation Complete — Backend Phase
-
-## What was built:
-- [endpoint/service path] — [what it does]
-
-## Tests:
-- ✅ All X unit tests passing
-- ✅ Coverage: Y%
-
-## Notes for Themis (Reviewer):
-- [Any area that deserves extra scrutiny]
-
-@mnemosyne Create artifact: IMPL-phase<N>-hermes with the above summary
-```
-
-After Mnemosyne persists the artifact, signal Zeus: `Ready for Themis review.`
-
----
-
 ## Output Format
 
 When completing a task, provide:
@@ -279,4 +222,3 @@ When completing a task, provide:
 ---
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
-

@@ -356,6 +356,16 @@ delegation:
         - deep_research
         - risk_assessment
       model_tier: premium
+      # Opcional: timeout em ms para esta delegação
+      timeout: 300000
+      # Opcional: número de retries antes de fallback
+      retry_count: 2
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: themis
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 2
       parallel: false
       prompt_hint: "Create an implementation plan for this feature."
       pre_condition: null
@@ -370,6 +380,16 @@ delegation:
         - codemap_generation
         - pre_planning_research
       model_tier: fast
+      # Opcional: timeout em ms para esta delegação
+      timeout: 60000
+      # Opcional: número de retries antes de fallback
+      retry_count: 2
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: athena
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 3
       parallel: true
       prompt_hint: "Find all files related to [topic] and return structured findings."
       pre_condition: "Use for broad codebase sweeps before planning, or when file locations are unknown"
@@ -382,6 +402,16 @@ delegation:
         - async_python_code
         - business_logic
       model_tier: default
+      # Opcional: timeout em ms para esta delegação
+      timeout: 180000
+      # Opcional: número de retries antes de fallback
+      retry_count: 3
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: talos
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 2
       parallel: true
       prompt_hint: "Implement the backend components for this feature following TDD methodology."
       pre_condition: null
@@ -395,6 +425,16 @@ delegation:
         - accessibility_improvement
         - responsive_layout
       model_tier: default
+      # Opcional: timeout em ms para esta delegação
+      timeout: 180000
+      # Opcional: número de retries antes de fallback
+      retry_count: 3
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: talos
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 2
       parallel: true
       prompt_hint: "Implement the frontend components for this feature following TDD methodology."
       pre_condition: null
@@ -408,6 +448,16 @@ delegation:
         - n_plus_one_fix
         - index_strategy
       model_tier: default
+      # Opcional: timeout em ms para esta delegação
+      timeout: 120000
+      # Opcional: número de retries antes de fallback
+      retry_count: 2
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: hermes
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 2
       parallel: true
       prompt_hint: "Create database migrations and schema changes for this feature."
       pre_condition: null
@@ -421,6 +471,16 @@ delegation:
         - pre_merge_review
         - plan_validation
       model_tier: premium
+      # Opcional: timeout em ms para esta delegação
+      timeout: 120000
+      # Opcional: número de retries antes de fallback
+      retry_count: 2
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: zeus
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 1
       parallel: false
       prompt_hint: "Validate this implementation for correctness, security, test coverage, and quality standards."
       pre_condition: "Themis review is MANDATORY after every implementation phase — not optional"
@@ -434,6 +494,16 @@ delegation:
         - deployment_strategy
         - environment_setup
       model_tier: default
+      # Opcional: timeout em ms para esta delegação
+      timeout: 300000
+      # Opcional: número de retries antes de fallback
+      retry_count: 2
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: hermes
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 1
       parallel: true
       prompt_hint: "Set up infrastructure and deployment configuration for this feature."
       pre_condition: null
@@ -447,6 +517,16 @@ delegation:
         - embedding_strategy
         - ai_workflow_orchestration
       model_tier: default
+      # Opcional: timeout em ms para esta delegação
+      timeout: 300000
+      # Opcional: número de retries antes de fallback
+      retry_count: 2
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: hermes
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 1
       parallel: false
       prompt_hint: "Build AI tooling pipelines (RAG, LangChain chains, vector search) for this feature."
       pre_condition: "Only delegate when building AI pipeline itself, not when using an already-built pipeline"
@@ -459,6 +539,16 @@ delegation:
         - cost_optimization
         - provider_integration
       model_tier: default
+      # Opcional: timeout em ms para esta delegação
+      timeout: 120000
+      # Opcional: número de retries antes de fallback
+      retry_count: 2
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: hermes
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 1
       parallel: false
       prompt_hint: "Configure multi-model routing and provider integration for this feature."
       pre_condition: "Only delegate for configuring providers, not for application code using already-configured providers"
@@ -471,6 +561,16 @@ delegation:
         - intent_entity_design
         - rasa_integration
       model_tier: default
+      # Opcional: timeout em ms para esta delegação
+      timeout: 120000
+      # Opcional: número de retries antes de fallback
+      retry_count: 2
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: hermes
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 1
       parallel: false
       prompt_hint: "Design conversational AI flows (NLU pipelines, dialogue management) for this feature."
       pre_condition: "Only delegate for chatbot/NLU work, not for standard REST API endpoints"
@@ -483,6 +583,16 @@ delegation:
         - opentelemetry_instrumentation
         - alerting
       model_tier: fast
+      # Opcional: timeout em ms para esta delegação
+      timeout: 60000
+      # Opcional: número de retries antes de fallback
+      retry_count: 2
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: zeus
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 1
       parallel: false
       prompt_hint: "Set up observability, tracing, and cost tracking for this feature."
       pre_condition: null
@@ -495,6 +605,16 @@ delegation:
         - spectral_analysis
         - geospatial_pipeline
       model_tier: default
+      # Opcional: timeout em ms para esta delegação
+      timeout: 300000
+      # Opcional: número de retries antes de fallback
+      retry_count: 2
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: hermes
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 1
       parallel: true
       prompt_hint: "Perform remote sensing analysis and geospatial data processing for this domain-specific task."
       pre_condition: "Only delegate for geospatial or remote sensing domain tasks"
@@ -507,6 +627,16 @@ delegation:
         - release_publishing
         - issue_management
       model_tier: fast
+      # Opcional: timeout em ms para esta delegação
+      timeout: 60000
+      # Opcional: número de retries antes de fallback
+      retry_count: 2
+      # Opcional: estratégia de backoff (exponential | fixed)
+      retry_backoff: "exponential"
+      # Opcional: agente de fallback se retries esgotarem
+      fallback_agent: zeus
+      # Opcional: máximo de sessões a lembrar para reuso
+      session_max: 1
       parallel: false
       prompt_hint: "Perform GitHub operations for this feature (branches, PRs, releases)."
       pre_condition: "Only delegate after Themis approves. Never force-push. Always open PRs as DRAFT."
@@ -519,6 +649,11 @@ delegation:
         - adr_creation
         - sprint_close
       model_tier: fast
+      timeout: 60000
+      retry_count: 2
+      retry_backoff: "exponential"
+      fallback_agent: zeus
+      session_max: 1
       parallel: false
       prompt_hint: "Document the completed work and decisions in the Memory Bank."
       pre_condition: "Invoke sparingly — only for significant ADRs, project init, or explicit user request. Not after every routine phase."
@@ -531,6 +666,11 @@ delegation:
         - typo_correction
         - urgent_bounded_change
       model_tier: fast
+      timeout: 30000
+      retry_count: 1
+      retry_backoff: "exponential"
+      fallback_agent: hermes
+      session_max: 0
       parallel: false
       prompt_hint: "Fix this minor issue quickly — no TDD ceremony needed."
       pre_condition: "Only dispatch Talos for: ≤2 files changed, ≤10 lines total, no schema changes, no security-sensitive code"
@@ -544,6 +684,11 @@ delegation:
         - pdf_extraction
         - ui_mockup_validation
       model_tier: fast
+      timeout: 60000
+      retry_count: 2
+      retry_backoff: "exponential"
+      fallback_agent: zeus
+      session_max: 1
       parallel: true
       prompt_hint: "Analyze visual content (screenshots, PDFs, diagrams, UI mockups) and return structured observations."
       pre_condition: null
@@ -1188,6 +1333,16 @@ artifacts:
     persistence: "Permanent, never deleted"
     gate: "Explicit user request for documentation"
 
+  subtask:
+    prefix: none
+    location: inline
+    ephemeral: true
+    produced_by:
+      - apollo
+      - talos
+    persistence: "No artifact — returned as subtask_summary inline"
+    gate: "No Themis review required. Bounded scope only: ≤2 files, <10 lines, low risk."
+    notes: "Subtask skips the standard artifact lifecycle. See commands/subtask.md and prompts/subtask.prompt.md"
 
 # =============================================================================
 # ROUTING MATRIX (QUICK REFERENCE)

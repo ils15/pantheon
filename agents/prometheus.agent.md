@@ -26,7 +26,7 @@ handoffs:
     send: false
 user-invocable: true
 temperature: 0.2
-steps: 15
+steps: 20
 skills:
   - docker-best-practices
 mcpServers:

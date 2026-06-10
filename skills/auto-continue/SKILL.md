@@ -103,13 +103,71 @@ Loop ends when: <promise>DONE</promise> detected OR user cancels
 
 ## Cooldown Pattern
 
-Between phases, add a brief synthesis to prevent context drift:
+Between phases, execute a brief synthesis handoff to prevent context drift and prepare the next phase:
+
+### Phase Summary Template
 ```
 Phase N complete. Summary:
 - What was done: <2 bullet points>
 - What changed: <files modified>
 - What's next: <Gate 2 review OR next phase>
+- Will continue: <YES / after gate approval>
 ```
+
+### Cooldown Rules
+1. **Between parallel waves (no dependency):** No cooldown needed — wave results are independent
+2. **Between sequential waves (with dependency):** Always run cooldown — dependencies may have changed context
+3. **After Themis review (GATE 2):** Cooldown is mandatory — review findings may change the plan
+4. **Session reuse check:** Before starting next phase, check if a specialist session from a previous phase can be reused (see session-goal skill)
+
+### Relentless Mode Cooldown
+In relentless mode, the cooldown is abbreviated to one line:
+```
+→ Phase N done. Next: Phase N+1. [auto-continuing]
+```
+Only expand to full cooldown when hitting a mandatory gate.
+
+---
+
+## Timeout & Retry Enforcement
+
+When a delegated agent does not respond in time, enforce the timeout policy from routing.yml.
+
+### Behavior by Agent Role
+
+| Agent Role | Timeout | Retry Policy | Fallback | Timeout Parcial? |
+|------------|---------|-------------|----------|------------------|
+| Explorer (apollo) | 60s | 2 retries, exponential backoff | athena | ✅ Yes — partial results OK |
+| Implementer (hermes, aphrodite) | 180s | 3 retries, exponential backoff | talos | ❌ No — must produce artifact |
+| Reviewer (themis) | 120s | 2 retries, exponential backoff | zeus | ❌ No — must produce verdict |
+| Infrastructure (prometheus) | 300s | 2 retries, exponential backoff | hermes | ❌ No |
+| Hotfix (talos) | 30s | 1 retry, no backoff | hermes | ✅ Yes — one-liner fix OK |
+| Visual (argus) | 60s | 2 retries, exponential backoff | zeus | ✅ Yes — partial observations OK |
+
+### Timeout Parcial (Partial Results)
+
+Timeout parcial is **only** allowed for read-only, independent agents:
+- ✅ @apollo (codebase search) — can return partial file list
+- ✅ @gaia (literature review) — can return partial findings
+- ✅ @argus (visual analysis) — can return partial observations
+- ✅ @talos (hotfix confirmation) — can return without fix if timeout
+- ❌ Never for implementers (@hermes, @aphrodite, @demeter) — must complete or fail
+- ❌ Never for reviewers (@themis) — must produce a verdict
+
+**How to signal timeout parcial:**
+When dispatching, set the expectation explicitly:
+```
+@apollo Search for all auth-related files. If you hit timeout, return whatever you have found so far — partial results are acceptable.
+```
+
+### Timeout Tracking Table
+
+Maintain a mental table of in-flight delegations:
+
+| Agent | Started | Timeout | Status | Partial OK? |
+|-------|---------|---------|--------|-------------|
+| apollo | T+0s | T+60s | ✅ complete | ✅ |
+| hermes | T+0s | T+180s | ⏳ in progress | ❌ |
 
 ---
 

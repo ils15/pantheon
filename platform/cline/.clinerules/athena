@@ -137,7 +137,6 @@ For trade-off / multi-perspective questions, redirect the user to `@agora`.
 For external docs/specs, use `web/fetch` (see `internet-search` skill for patterns):
 - RFCs, official documentation, GitHub issues/PRs
 - Synthesize findings into plan recommendations
-- **Credential safety**: Scan URLs for `token=`, `key=`, `secret=`, `password=` before fetching. Never hardcode secrets in URLs. See `instructions/mcp-security.instructions.md`.
 
 
 

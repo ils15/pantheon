@@ -39,7 +39,7 @@ handoffs:
     send: true
 user-invocable: true
 temperature: 0.5
-steps: 20
+steps: 25
 skills:
   - frontend-analyzer
   - simplify

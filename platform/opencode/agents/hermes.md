@@ -39,19 +39,8 @@ mcpServers:
       - context7_resolve-library-id
       - context7_query-docs
     when: resolving library documentation
-  - name: postgresql
-    tools:
-      - postgresql_query
-      - postgresql_schema
-    when: debugging database queries
-    constraints:
-      queryMode: parameterized-only
-      readOnly: true
-  - name: playwright
-    tools:
-      - browser/screenshotPage
-    when: verifying API responses visually
 ---
+
 
 # Hermes - Backend Executor (FastAPI Specialist)
 
@@ -250,4 +239,3 @@ When completing a task, provide:
 ---
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
-
