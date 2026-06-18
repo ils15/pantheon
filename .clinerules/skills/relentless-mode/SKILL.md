@@ -62,7 +62,7 @@ Agent resumes work
 Repeats until:
   - All todos completed + <promise>DONE</promise> detected
   - maxIterations reached (default 100)
-  - User cancels with /cancel-relentless or Esc×2
+  - User cancels with /cancel --relentless or Esc×2
 ```
 
 ---
@@ -124,7 +124,7 @@ The loop auto-continues BETWEEN gates, not THROUGH gates.
 ## Cancellation
 
 **Methods:**
-- `/cancel-relentless` — cancels active Relentless Mode
+- `/cancel --relentless` — cancels active Relentless Mode
 - `/stop-continuation` — stops all continuation mechanisms
 - `Esc×2` — cancels during cooldown or after injection
 

@@ -76,6 +76,9 @@ scripts/model_data.json
 # OpenCode workspace agents (copied from agents/)
 .opencode/
 
+# Deepwork checkpoints (ephemeral session state)
+.pantheon/deepwork/
+
 # MkDocs build output
 site/
 .test-runner/

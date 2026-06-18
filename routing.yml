@@ -1453,3 +1453,49 @@ routing_matrix:
   - category: "Orchestration"
     primary_agent: zeus
     model_tier: default
+
+
+# =============================================================================
+# MODEL FALLBACK CHAINS
+# =============================================================================
+# When an agent's primary model is rate-limited (429) or unavailable,
+# the platform should attempt the next model in the chain.
+#
+# Chain pattern: Primary → Secondary → Emergency
+# - Primary: Best quality/cost ratio for the agent's task type
+# - Secondary: Same capability tier, different provider
+# - Emergency: Cheapest model that can still complete the task
+#
+# These chains are advisory — the platform's model routing determines
+# actual fallback behavior at runtime.
+
+fallback_chains:
+  premium_agents:           # athena, themis
+    primary: "anthropic/claude-sonnet-4-20250514"
+    secondary: "openai/gpt-5.1"
+    emergency: "deepseek/deepseek-v4-pro"
+
+  default_agents:           # zeus, hermes, aphrodite, demeter, prometheus, hephaestus, chiron, echo, gaia
+    primary: "anthropic/claude-sonnet-4-20250514"
+    secondary: "openai/gpt-4o"
+    emergency: "deepseek/deepseek-v4-pro"
+
+  fast_agents:              # apollo, nyx, iris, mnemosyne, talos, argus
+    primary: "deepseek/deepseek-v4-pro"
+    secondary: "anthropic/claude-haiku-4-20250514"
+    emergency: "openai/gpt-4o-mini"
+
+  # Per-Agent Overrides
+  # Override the tier default for specific agents with special requirements:
+  agent_overrides:
+    # aphrodite: UI needs creative model — inherits from default_agents tier
+
+    gaia:                   # Remote sensing needs vision
+      primary: "anthropic/claude-sonnet-4-20250514"
+      secondary: "openai/gpt-4o"
+      emergency: "deepseek/deepseek-v4-pro"
+
+    argus:                  # Visual analysis needs vision
+      primary: "anthropic/claude-sonnet-4-20250514"
+      secondary: "openai/gpt-4o"
+      emergency: "anthropic/claude-haiku-4-20250514"

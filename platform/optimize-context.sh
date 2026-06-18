@@ -223,7 +223,7 @@ echo -e "${GREEN}💡 Recommendations${NC}"
 echo "─────────────────────────────────────────────"
 
 if [ "$RED_FLAGS" -gt 0 ]; then
-  echo "  Run: /token-audit to apply optimizations"
+  echo "  Run: /optimize --dry-run to apply optimizations"
   echo "  Or:  @athena Run a token audit on this repository"
 else
   echo "  Repository is already well-optimized!"

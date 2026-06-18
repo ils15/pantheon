@@ -553,8 +553,7 @@ Pantheon provides slash commands via OpenCode. On other platforms (Copilot, Curs
 | `/mirrordeps` | apollo | Clone dependency source locally |
 | `/praxis` | zeus | Execute plan via task system |
 | `/metamorphosis` | zeus | Intelligent refactoring with TDD |
-| `/cancel-relentless` | zeus | Cancel relentless mode |
-| `/stop-continuation` | zeus | Stop all continuation |
+| `/cancel` | zeus | Stop auto-continuation (use `--relentless` to stop only relentless mode) |
 
 > **Multi-platform note:** Commands are native to OpenCode. On VS Code Copilot, use `@agent-name` in chat. On Cursor/Claude Code, describe the task in natural language.
 
