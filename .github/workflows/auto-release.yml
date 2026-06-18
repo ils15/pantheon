@@ -43,6 +43,14 @@ jobs:
               echo "has_commits=false" >> $GITHUB_OUTPUT
             fi
           fi
+          
+          # Also check if we're in a release commit already to prevent
+          # recursive triggering (release PR auto-merge sends a push to main)
+          HEAD_MSG=$(git log -1 --pretty=format:"%s")
+          if echo "$HEAD_MSG" | grep -qE "^chore\(release\):"; then
+            echo "HEAD is a release commit — skipping to prevent recursion"
+            echo "has_commits=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Determine version bump
         id: bump
@@ -94,9 +102,11 @@ jobs:
           
           # Push release branch instead of pushing to main directly
           # (main is protected and requires PRs)
+          # Use --force because a previous run may have created this branch
+          # (e.g. auto-merge of the release PR triggers this workflow again)
           BRANCH="release/${NEW_VERSION}"
           git checkout -b "${BRANCH}"
-          git push origin "${BRANCH}"
+          git push origin "${BRANCH}" --force
 
       - name: Create Pull Request with auto-merge
         if: steps.check.outputs.has_commits == 'true'
@@ -109,7 +119,7 @@ jobs:
             --head "${BRANCH}" \
             --title "chore(release): ${NEW_VERSION}" \
             --body "Automated release PR for Pantheon **${NEW_VERSION}**.\n\nThe GitHub Release has already been published. Merging this PR syncs main with the version bump and changelog update." \
-            --json url --jq '.url')
+            2>&1)
           
           echo "PR created: $PR_URL"
           
