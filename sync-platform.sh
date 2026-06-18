@@ -368,6 +368,25 @@ sync_opencode() {
     echo "    ✅ opencode-hooks-plugin installed"
   fi
 
+  # Step 3.7: Sync TUI plugins
+  echo "=== 3.7. Syncing TUI plugins -> ~/.config/opencode/plugins/ ==="
+  local tui_src="$SCRIPT_DIR/platform/opencode/.opencode/plugins"
+  local tui_dest="$HOME/.config/opencode/plugins"
+  if [ -d "$tui_src" ]; then
+    mkdir -p "$tui_dest"
+    if [ "$DRY_RUN" = false ]; then
+      cp "$tui_src"/*.ts "$tui_dest/" 2>/dev/null || true
+      # Copy package.json and tsconfig.json if present
+      [ -f "$SCRIPT_DIR/platform/opencode/.opencode/package.json" ] && \
+        cp "$SCRIPT_DIR/platform/opencode/.opencode/package.json" "$HOME/.config/opencode/"
+      [ -f "$SCRIPT_DIR/platform/opencode/.opencode/tsconfig.json" ] && \
+        cp "$SCRIPT_DIR/platform/opencode/.opencode/tsconfig.json" "$HOME/.config/opencode/"
+    fi
+    echo "    ✅ $(ls "$tui_src"/*.ts 2>/dev/null | wc -l) TUI plugins synced"
+  else
+    echo "    ⚠️  No TUI plugins found — skipping"
+  fi
+
   # Step 4: Apply active plan model overrides
   local active_plan="$SCRIPT_DIR/platform/plans/plan-active.json"
   if [ -f "$active_plan" ]; then

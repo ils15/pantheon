@@ -75,6 +75,11 @@ scripts/model_data.json
 
 # OpenCode workspace agents (copied from agents/)
 .opencode/
+# Keep Pantheon TUI plugin source (versioned, not generated)
+!platform/opencode/.opencode/plugins/
+!platform/opencode/.opencode/plugins/**
+!platform/opencode/.opencode/package.json
+!platform/opencode/.opencode/tsconfig.json
 
 # Deepwork checkpoints (ephemeral session state)
 .pantheon/deepwork/
