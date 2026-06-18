@@ -56,7 +56,7 @@ mcpServers:
       - browser_screenshotPage
       - browser_navigate
       - browser_snapshot
-     when: "visual verification and E2E testing"
+    when: "visual verification and E2E testing"
 
 ---
 
