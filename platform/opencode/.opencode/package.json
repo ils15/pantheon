@@ -1,0 +1,17 @@
+{
+  "name": "pantheon-tui-plugin",
+  "version": "1.0.0",
+  "description": "Pantheon TUI sidebar plugin for OpenCode — shows version badge and agent registry",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@opencode-ai/plugin": "^1.3.17"
+  },
+  "optionalDependencies": {
+    "@opentui/solid": "^0.1.97"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.1",
+    "typescript": "^5.9.3"
+  }
+}

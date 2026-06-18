@@ -10,6 +10,7 @@ tools:
   - search/textSearch
   - search/listDirectory
   - read/readFile
+  - grep_search_code
   - web/fetch
   - browser/openBrowserPage
   - browser/navigatePage
@@ -46,4 +47,8 @@ mcpServers:
       - exa_web_search_exa
       - exa_web_fetch_exa
     when: "web search and content fetching"
+  - name: gh_grep
+    tools:
+      - grep_search_code
+    when: "searching public GitHub code"
 ---
