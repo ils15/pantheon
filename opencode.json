@@ -23,6 +23,11 @@
       },
       "enabled": true
     },
+    "gh_grep": {
+      "type": "local",
+      "command": ["npx", "-y", "@anthropic/grep-mcp-server"],
+      "enabled": true
+    },
     "playwright": {
       "type": "local",
       "command": ["npx", "-y", "@playwright/mcp@latest"],

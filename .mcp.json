@@ -3,6 +3,10 @@
     "context7": {
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp"]
+    },
+    "gh_grep": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/grep-mcp-server"]
     }
   }
 }
