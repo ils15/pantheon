@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## v3.12.1
+
+[compare changes](https://github.com/ils15/pantheon/compare/v3.12.0...v3.12.1)
+
+### 🩹 Fixes
+
+- **ci:** Overhaul release workflows — manual + hardened auto-release ([e12c5c7](https://github.com/ils15/pantheon/commit/e12c5c7))
+
+### ❤️ Contributors
+
+- Ils15 ([@ils15](https://github.com/ils15))
+
 ## v3.12.0
 
 [compare changes](https://github.com/ils15/pantheon/compare/v3.11.0...v3.12.0)
