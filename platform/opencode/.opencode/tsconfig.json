@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "jsx": "preserve",
+    "lib": ["ESNext"],
+    "noEmit": true
+  },
+  "include": ["plugins/**/*.ts"]
+}
