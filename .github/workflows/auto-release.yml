@@ -43,10 +43,21 @@ jobs:
               echo "has_commits=false" >> $GITHUB_OUTPUT
             fi
           fi
+          
+          # Also check if we're in a release commit already to prevent
+          # recursive triggering (release PR auto-merge → main → triggers
+          # this workflow again)
+          HEAD_MSG=$(git log -1 --pretty=format:"%s")
+          if echo "$HEAD_MSG" | grep -qE "^chore\(release\):|^chore\(release\)"; then
+            echo "HEAD is a release commit — skipping to prevent recursion"
+            echo "is_release_commit=true" >> $GITHUB_OUTPUT
+          else
+            echo "is_release_commit=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Determine version bump
         id: bump
-        if: steps.check.outputs.has_commits == 'true'
+        if: steps.check.outputs.has_commits == 'true' && steps.check.outputs.is_release_commit != 'true'
         run: |
           # Determine bump type from commits
           LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
@@ -66,7 +77,7 @@ jobs:
           fi
 
       - name: Generate changelog and bump version
-        if: steps.check.outputs.has_commits == 'true'
+        if: steps.check.outputs.has_commits == 'true' && steps.check.outputs.is_release_commit != 'true'
         run: |
           # Use changelogen to generate changelog and bump version
           npx changelogen --bump --output CHANGELOG.md
@@ -76,11 +87,11 @@ jobs:
           echo "NEW_VERSION=v${NEW_VERSION}" >> $GITHUB_ENV
 
       - name: Update platform configs
-        if: steps.check.outputs.has_commits == 'true'
+        if: steps.check.outputs.has_commits == 'true' && steps.check.outputs.is_release_commit != 'true'
         run: npm run sync
 
       - name: Commit, tag and push release branch
-        if: steps.check.outputs.has_commits == 'true'
+        if: steps.check.outputs.has_commits == 'true' && steps.check.outputs.is_release_commit != 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -92,14 +103,15 @@ jobs:
           # Push tag (tags bypass branch protection)
           git push origin "${NEW_VERSION}"
           
-          # Push release branch instead of pushing to main directly
-          # (main is protected and requires PRs)
+          # Push release branch with force because a previous auto-release
+          # run may have already created it (e.g. when auto-merge of the
+          # release PR triggers this workflow again).
           BRANCH="release/${NEW_VERSION}"
           git checkout -b "${BRANCH}"
-          git push origin "${BRANCH}"
+          git push origin "${BRANCH}" --force
 
       - name: Create Pull Request with auto-merge
-        if: steps.check.outputs.has_commits == 'true'
+        if: steps.check.outputs.has_commits == 'true' && steps.check.outputs.is_release_commit != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -118,7 +130,7 @@ jobs:
           echo "✅ Auto-merge enabled for $PR_URL"
 
       - name: Install git-cliff
-        if: steps.check.outputs.has_commits == 'true'
+        if: steps.check.outputs.has_commits == 'true' && steps.check.outputs.is_release_commit != 'true'
         run: |
           # Download git-cliff binary for CI
           curl -sSfL https://github.com/orhun/git-cliff/releases/download/v2.13.1/git-cliff-2.13.1-x86_64-unknown-linux-musl.tar.gz -o /tmp/git-cliff.tar.gz
@@ -128,14 +140,14 @@ jobs:
 
       - name: Generate release notes
         id: notes
-        if: steps.check.outputs.has_commits == 'true'
+        if: steps.check.outputs.has_commits == 'true' && steps.check.outputs.is_release_commit != 'true'
         run: |
           TAG="${NEW_VERSION}"
           git-cliff --config cliff.toml --tag "$TAG" -o release_notes.md
           echo "Generated release notes for $TAG"
 
       - name: Create GitHub Release
-        if: steps.check.outputs.has_commits == 'true'
+        if: steps.check.outputs.has_commits == 'true' && steps.check.outputs.is_release_commit != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
