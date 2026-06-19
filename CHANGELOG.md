@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## v3.13.0
+
+[compare changes](https://github.com/ils15/pantheon/compare/v3.12.2...v3.13.0)
+
+### 🚀 Enhancements
+
+- **platform:** Publish pantheon-tui-plugin npm package + fix cross-client installation ([09cd7e5](https://github.com/ils15/pantheon/commit/09cd7e5))
+
+### ❤️ Contributors
+
+- Ils15 ([@ils15](https://github.com/ils15))
+
 ## v3.12.0
 
 [compare changes](https://github.com/ils15/pantheon/compare/v3.11.0...v3.12.0)
