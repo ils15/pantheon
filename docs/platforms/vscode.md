@@ -28,7 +28,7 @@ Complete setup and usage guide for running Pantheon in VS Code with GitHub Copil
    }
    ```
 3. Reload VS Code: `Ctrl+Shift+P` → `Developer: Reload Window`
-4. All 18 agents load automatically. Try `@zeus: Implement a feature` in Copilot Chat.
+4. All 14 agents load automatically. Try `@zeus: Implement a feature` in Copilot Chat.
 
 ### Method 2: Clone + copy (for customization)
 
@@ -241,7 +241,7 @@ VS Code loads `.agent.md` files from the following locations:
 ```
 your-project/
 ├── .github/
-│   ├── agents/                       # *.agent.md files — all 18 agents (default path)
+│   ├── agents/                       # *.agent.md files — all 14 agents (default path)
 │   │   ├── zeus.agent.md
 │   │   ├── athena.agent.md
 │   │   ├── apollo.agent.md
@@ -572,7 +572,7 @@ All Pantheon commands are available as `/pantheon-*` in VS Code Copilot Chat. Th
 | Command | What it does | Target Agent |
 |---|---|---|
 | `/pantheon-forge` | Configure models by preset (`fast`, `default`, `premium`) | Zeus |
-| `/pantheon-ping` | Ping all 18 agents to verify availability | System |
+| `/pantheon-ping` | Ping all 14 agents to verify availability | System |
 | `/pantheon-cancel-relentless` | Stop relentless mode only | System |
 | `/pantheon-stop-continuation` | Stop all auto-continuation mechanisms | System |
 

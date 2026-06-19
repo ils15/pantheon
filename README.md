@@ -5,17 +5,17 @@
 <h1 align="center">Pantheon</h1>
 
 <p align="center">
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.9.0-blue" alt="Version"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.12.2-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
-  <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-17-purple" alt="Agents"></a>
-  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-40-orange" alt="Skills"></a>
+  <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-14-purple" alt="Agents"></a>
+  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-41-orange" alt="Skills"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf|cline|continue-8250DF" alt="Built with"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/ci.yml?branch=main&label=CI" alt="CI"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/release.yml?branch=main&label=release" alt="Release"></a>
 </p>
 
-**17 specialized AI agents** that plan, build, review, and deploy features through enforced TDD, persistent project memory, and human approval at every gate.
+**14 specialized AI agents** that plan, build, review, and deploy features through enforced TDD, persistent project memory, and human approval at every gate.
 
 Stop settling for generalist single-agent coding. Pantheon's conductor-delegate architecture dispatches expert agents with isolated context windows — parallel execution, zero context bleed, and quality gates that block anything below 80% coverage.
 
@@ -27,8 +27,8 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 
 | Resource | Link |
 |----------|------|
-| 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 17 agents |
-| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 40 skills |
+| 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 14 agents |
+| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 41 skills |
 | 🚀 **Installation Guide** | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
 | 🔌 **MCP Servers** | [docs/mcp-recommendations.md](docs/mcp-recommendations.md) — recommended MCP servers for each project type |
 | ⚡ **Quick Start** | [docs/QUICKSTART.md](docs/QUICKSTART.md) |
@@ -112,8 +112,6 @@ flowchart TD
 
     subgraph AI["AI Infrastructure"]
         Hephaestus["Hephaestus<br/>AI Pipelines<br/>RAG / LangChain"]:::ai
-        Chiron["Chiron<br/>Model Routing<br/>Provider Hub"]:::ai
-        Echo["Echo<br/>Conversational AI<br/>Rasa NLU"]:::ai
     end
 
     subgraph Impl["Implementation<br/>Parallel Execution"]
@@ -151,7 +149,7 @@ flowchart TD
     Gate1 -->|Approved| Zeus
 
     Zeus -->|"Phase 2 (AI Infrastructure)"| AI
-    Hephaestus & Chiron & Echo --> Zeus
+    Hephaestus --> Zeus
 
     Zeus -->|"Phase 3 (Implementation)"| Impl
     Hermes & Aphrodite & Demeter --> Quality
@@ -298,7 +296,7 @@ work; you make every architectural and commit decision.
 
 ## Agent Ecosystem
 
-Pantheon provides **17 specialized agents** organized into tiers. Each agent has a
+Pantheon provides **14 specialized agents** organized into tiers. Each agent has a
 single responsibility, a dedicated model assignment, a restricted tool set, and explicit
 context boundaries.
 
@@ -314,10 +312,8 @@ Planning & Discovery
   ├── Apollo — parallel codebase & web research (read-only)
   └── Nyx — observability, tracing, monitoring
 
-AI Infrastructure (v3)
-  ├── Hephaestus — AI pipelines: RAG, LangChain/LangGraph, vector stores
-  ├── Chiron — model routing: providers, fallback, cost optimization
-  └── Echo — conversational AI: Rasa NLU, dialogue management
+AI Infrastructure
+  └── Hephaestus — AI pipelines + conversational AI: RAG, LangChain, NLU, dialogue
 
 Implementation (Parallel Executors)
   ├── Hermes — backend: FastAPI, async, type-safe APIs
@@ -399,7 +395,7 @@ graph TB
         G["Gaia<br/>Remote Sensing"]:::tier6
     end
 
-    O --> A1 & A2 & A3 & H & Q & E & I1 & I2 & I3 & T1a & N & R & I & M
+    O --> A1 & A2 & A3 & H & I1 & I2 & I3 & T1a & N & R & I & M
     O -.-> T & G
     A1 --> A2
 
@@ -456,7 +452,7 @@ subscription (OpenCode Go, Copilot Pro, Claude Pro, etc.).
 ### /forge — Model Presets
 
 Pantheon ships with **`/forge`** — a model configuration command that applies named presets from
-`platform/forge.json`. Each preset maps 4 tiers to concrete models across all 17 agents.
+`platform/forge.json`. Each preset maps 4 tiers to concrete models across all 14 agents.
 
 **Usage:**
 ```
@@ -557,6 +553,65 @@ Pantheon provides slash commands via OpenCode. On other platforms (Copilot, Curs
 
 > **Multi-platform note:** Commands are native to OpenCode. On VS Code Copilot, use `@agent-name` in chat. On Cursor/Claude Code, describe the task in natural language.
 
+### TUI Sidebar Plugin (OpenCode)
+
+Pantheon ships a sidebar plugin for OpenCode that shows the full agent registry with role, tier, and mode:
+
+```
+★ @zeus       Central orchestrator      [default]
+· @apollo     Codebase discovery         [fast]
+· @hermes     Backend (FastAPI)          [default]
+...
+```
+
+**Features:**
+- ★ **Primary agents** (zeus, athena) — visible in the agent selector
+- · **Subagents** — invoked via `@mention` or `task` delegation
+- Version badge + Pro/Free tier indicator
+- 14 agents listed with role and model tier
+
+**Dependencies:**
+
+The plugin imports from `@opentui/solid` (TUI rendering), `@opentui/core` (terminal primitives), and `solid-js` (signals). These are **internal packages bundled with OpenCode's binary** — not on the public npm registry. They live in `~/.config/opencode/node_modules/` and are placed there by OpenCode during its startup bootstrap. The only npm dependency declared in `package.json` is `@opencode-ai/plugin` for plugin API types.
+
+**Install:**
+```bash
+./sync-platform.sh opencode                  # copia plugin + package.json
+```
+
+The sync copies the plugin to `~/.config/opencode/plugins/` and `package.json` to `~/.config/opencode/`. OpenCode automatically runs `bun install` on next startup.
+
+**Troubleshooting — plugin não carrega em outro cliente:**
+
+Se o plugin não carrega, o motivo mais provável é que `@opentui/solid` não está em `~/.config/opencode/node_modules/`. Siga estes passos:
+
+1. **Verifique se o OpenCode já foi iniciado pelo menos uma vez** no cliente:
+   ```bash
+   opencode --version
+   ```
+   Isso força o OpenCode a inicializar e popular seus pacotes internos.
+
+2. **Verifique se os pacotes existem:**
+   ```bash
+   ls ~/.config/opencode/node_modules/@opentui/solid/index.js
+   ls ~/.config/opencode/node_modules/@opentui/core/index.js
+   ls ~/.config/opencode/node_modules/solid-js/package.json
+   ```
+   Se faltar qualquer um, o plugin não carrega.
+
+3. **Se os pacotes não estão lá**, o OpenCode não os instalou automaticamente. Tente:
+   ```bash
+   cd ~/.config/opencode && bun install
+   ```
+   Se falhar, é porque o `@opentui/solid` não está disponível no registro npm (ele é interno). Neste caso:
+   - Verifique a versão do OpenCode: `opencode --version` (precisa ser uma versão recente que inclua os pacotes TUI)
+   - Reinstale o OpenCode: `npm install -g @opencode-ai/opencode` ou baixe do site oficial
+   - Após reinstalar, rode `opencode --version` e depois `ls ~/.config/opencode/node_modules/@opentui/solid/`
+
+4. **Se ainda falhar**, o cliente pode não suportar plugins TUI (ex: OpenCode versão web ou headless). O plugin é exclusivo do OpenCode TUI.
+
+> **Note:** For VS Code, Cursor, and other platforms, use the agent list in `AGENTS.md` or `agents/README.md` instead.
+
 ---
 
 ## Repository Structure
@@ -573,7 +628,7 @@ pantheon/
 ├── sync-opencode.sh           — OpenCode sync script
 ├── plugin.json                — marketplace plugin manifest
 │
-├── agents/                    — 17 agent definitions (.agent.md)
+├── agents/                    — 14 agent definitions (.agent.md)
 │   ├── zeus.agent.md          — orchestrator
 │   ├── athena.agent.md        — strategic planner
 
@@ -589,10 +644,9 @@ pantheon/
 │   ├── talos.agent.md         — hotfixes
 │   ├── gaia.agent.md          — remote sensing
 │   ├── hephaestus.agent.md    — AI pipelines
-│   ├── nyx.agent.md           — observability
 │   └── README.md
 │
-├── skills/                    — 40 cross-platform skill modules
+├── skills/                    — 41 cross-platform skill modules
 │   ├── README.md
 │   ├── agent-coordination/    * orchestration & coordination
 │   ├── artifact-management/
@@ -740,7 +794,7 @@ User → Zeus: "Implement email verification"
 
 
 1. PLAN:       Zeus → Athena → Apollo → Athena → USER (approve gate 1)
-2. AI INFRA:   Zeus → Hephaestus/Chiron/Echo (if AI components needed)
+2. AI INFRA:   Zeus → Hephaestus (if AI components needed)
 3. BUILD:      Zeus → Hermes + Aphrodite + Demeter (parallel execution)
 4. OBSERVE:    Nyx instruments tracing, cost, and metrics
 5. REVIEW:     Themis audits all code → USER (approve gate 2)
@@ -963,4 +1017,4 @@ Pantheon draws from the broader multi-agent landscape while diverging in key way
 
 **License:** MIT  
 **Architecture Pattern:** Conductor-Delegate  
-**Mythology:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Themis, Mnemosyne, Gaia, Hephaestus, Chiron, Echo, Nyx, Prometheus, Demeter, Iris)
+**Mythology:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Themis, Mnemosyne, Gaia, Hephaestus, Nyx, Prometheus, Demeter, Iris)

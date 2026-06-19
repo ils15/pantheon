@@ -92,7 +92,7 @@ User → Zeus (orchestrator)
 ```
 pantheon/
 ├── opencode.json              # Agent config, commands, permissions, MCP servers
-├── agents/                    # 18 agent definitions (*.agent.md)
+├── agents/                    # 14 agent definitions (*.agent.md)
 │   ├── zeus.agent.md          # Orchestrator
 │   ├── athena.agent.md        # Planner
 │   ├── themis.agent.md        # Quality gate

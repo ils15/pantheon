@@ -1,7 +1,8 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
-    "opencode-hooks-plugin"
+    "opencode-hooks-plugin",
+    "pantheon-tui-plugin"
   ],
   "default_agent": "zeus",
   "command": {},

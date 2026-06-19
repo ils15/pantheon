@@ -127,7 +127,6 @@ CLEAN=false
 NO_PUSH=false
 DRY_RUN=false
 NO_PROMPTS=false
-SKIP_PLUGIN_INSTALL=false
 GLOBAL=false
 
 # If ACTION looks like a flag (starts with --), treat it as a flag instead
@@ -144,7 +143,6 @@ for arg in "$@"; do
     --dry-run) DRY_RUN=true ;;
     --global) GLOBAL=true ;;
     --no-prompts) NO_PROMPTS=true ;;
-    --skip-plugin-install) SKIP_PLUGIN_INSTALL=true ;;
     help|--help|-h) show_help; exit 0 ;;
     *) echo "Error: Unknown argument: $arg" >&2; exit 1 ;;
   esac
@@ -350,26 +348,8 @@ sync_opencode() {
     echo "    ⚠️  No commands/ directory found — skipping"
   fi
 
-  # Step 3.6: Ensure required OpenCode plugin is installed
-  echo "=== 3.6. Checking opencode-hooks-plugin ==="
-  mkdir -p "$HOME/.config/opencode"
-  if [ -d "$HOME/.config/opencode/node_modules/opencode-hooks-plugin" ]; then
-    echo "    ✅ opencode-hooks-plugin already installed"
-  elif [ "$SKIP_PLUGIN_INSTALL" = true ]; then
-    echo "    ⏭️  --skip-plugin-install active, skipping"
-  elif [ "$DRY_RUN" = true ]; then
-    echo "    ~ opencode-hooks-plugin (would install)"
-  elif ! command -v npm >/dev/null 2>&1; then
-    echo "    ❌ npm not found. Install Node.js/npm or use --skip-plugin-install."
-    exit 1
-  else
-    echo "    ⬇️  Installing opencode-hooks-plugin..."
-    (cd "$HOME/.config/opencode" && npm install --no-save opencode-hooks-plugin)
-    echo "    ✅ opencode-hooks-plugin installed"
-  fi
-
-  # Step 3.7: Sync TUI plugins
-  echo "=== 3.7. Syncing TUI plugins -> ~/.config/opencode/plugins/ ==="
+  # Step 3.6: Sync TUI plugins
+  echo "=== 3.6. Syncing TUI plugins -> ~/.config/opencode/plugins/ ==="
   local tui_src="$SCRIPT_DIR/platform/opencode/.opencode/plugins"
   local tui_dest="$HOME/.config/opencode/plugins"
   if [ -d "$tui_src" ]; then
@@ -385,6 +365,15 @@ sync_opencode() {
     echo "    ✅ $(ls "$tui_src"/*.ts 2>/dev/null | wc -l) TUI plugins synced"
   else
     echo "    ⚠️  No TUI plugins found — skipping"
+  fi
+
+  # Step 3.7: Ensure opencode.json has hooks plugin listed
+  # (OpenCode auto-installs plugins from the "plugin" array on startup)
+  echo "=== 3.7. opencode-hooks-plugin (auto-installed by OpenCode via opencode.json) ==="
+  if grep -q '"opencode-hooks-plugin"' "$HOME/.config/opencode/opencode.json" 2>/dev/null; then
+    echo "    ✅ opencode-hooks-plugin listed in opencode.json — OpenCode will install on startup"
+  else
+    echo "    ⚠️  opencode-hooks-plugin not found in opencode.json — add \"opencode-hooks-plugin\" to the plugin array"
   fi
 
   # Step 4: Apply active plan model overrides
@@ -970,7 +959,6 @@ echo "▸ Action:   $ACTION"
 [ "$NO_PUSH" = true ] && echo "▸ No-push:  yes"
 [ "$DRY_RUN" = true ] && echo "▸ Dry-run:  yes"
 [ "$NO_PROMPTS" = true ] && echo "▸ No-prompts: yes"
-[ "$SKIP_PLUGIN_INSTALL" = true ] && echo "▸ Skip-plugin-install: yes"
 echo ""
 
 case "$PLATFORM" in

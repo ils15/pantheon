@@ -27,7 +27,7 @@
 ### Stats
 
 - **416 files changed** — 119 modified + 297 new
-- **18 agents** (17 visible + 1 hidden subagent)
+- **14 agents** (2 primary + 12 subagents)
 - **37 skills** across 9 domains
 - **16+ plan configurations** for different subscriptions
 - **7 platforms** supported
