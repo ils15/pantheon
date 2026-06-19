@@ -110,7 +110,7 @@ Pantheon includes a TUI plugin that renders a **sidebar panel** in the OpenCode 
 
 - **Version badge** — `Pantheon v3.11.0` (reads `plugin.json` / `package.json`)
 - **Model tier** — `Pro` (premium agents: athena, themis) or `Free`
-- **Agent registry** — all 17 agents with role and tier
+- **Agent registry** — all 14 agents with role and tier
 
 This mirrors the sidebar display from oh-my-opencode-slim.
 

@@ -157,7 +157,7 @@ Approve the plan, then:
    }
    ```
 3. Restart VS Code (`Ctrl+Shift+P` → "Developer: Reload Window")
-4. All 18 agents appear automatically. No files to copy.
+4. All 14 agents appear automatically. No files to copy.
 
 ### Option B: Manual copy (for customization)
 
@@ -236,7 +236,7 @@ npm install
 node scripts/install.mjs claude
 ```
 
-This creates `.claude/agents/` with all 18 agents in Claude Code format.
+This creates `.claude/agents/` with all 14 agents in Claude Code format.
 
 ### Verify
 
@@ -267,7 +267,7 @@ npm install
 node scripts/install.mjs cursor
 ```
 
-This creates `.cursor/rules/` with all 18 agents as `.mdc` rule files.
+This creates `.cursor/rules/` with all 14 agents as `.mdc` rule files.
 
 ### Usage
 
