@@ -1,5 +1,5 @@
 ---
-description: "Redirect — use /cancel instead."
+description: "Redirect — use /cancel instead. Stop auto-continuation. Use --relentless to stop only relentless mode."
 ---
 # /stop-continuation → /cancel
 

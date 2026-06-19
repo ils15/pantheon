@@ -211,9 +211,7 @@ Root cause: [backend | architectural | conflicting]
   Install Playwright MCP server to enable visual review pipeline.
   ```
 
-## Visual Review Responsibility
-
-Visual review is handled by Aphrodite self-review as part of the frontend implementation workflow. No separate visual analysis agent is needed.
+For UI implementation review, Aphrodite self-reviews.
 
 ---
 

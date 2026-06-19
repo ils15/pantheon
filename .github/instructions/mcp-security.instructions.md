@@ -13,7 +13,7 @@ Mandatory security measures for all MCP server usage in Pantheon agents.
 ## 1. Web/Fetch — Credential Leakage Prevention
 
 ### Affected Agents
-Apollo, Athena, Gaia, Hephaestus, Iris, Nyx, Zeus (direct `web/fetch` tool)
+Apollo, Athena, Chiron, Echo, Gaia, Hephaestus, Iris, Nyx, Zeus (direct `web/fetch` tool)
 
 ### Rules
 
