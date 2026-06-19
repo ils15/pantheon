@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## v3.12.3
+
+[compare changes](https://github.com/ils15/pantheon/compare/v3.12.0...v3.12.3)
+
+### 🩹 Fixes
+
+- **ci:** Overhaul release workflows — manual + hardened auto-release ([e12c5c7](https://github.com/ils15/pantheon/commit/e12c5c7))
+
+### 📖 Documentation
+
+- **plan:** Create PLAN artifact for Zeus edit prevention ([e82159c](https://github.com/ils15/pantheon/commit/e82159c))
+
+### 🏡 Chore
+
+- **release:** V3.12.2 ([73bacca](https://github.com/ils15/pantheon/commit/73bacca))
+- **sync:** Sync all 7 platforms to 14-agent system ([44714eb](https://github.com/ils15/pantheon/commit/44714eb))
+
+### ❤️ Contributors
+
+- Ils15 ([@ils15](https://github.com/ils15))
+
 ## v3.12.0
 
 [compare changes](https://github.com/ils15/pantheon/compare/v3.11.0...v3.12.0)
