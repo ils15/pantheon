@@ -36,26 +36,24 @@ interface AgentEntry {
   name: string
   role: string
   tier: "premium" | "default" | "fast"
+  mode: "primary" | "subagent"
 }
 
 const AGENTS: AgentEntry[] = [
-  { name: "zeus", role: "Central orchestrator", tier: "default" },
-  { name: "athena", role: "Strategic planner", tier: "premium" },
-  { name: "apollo", role: "Codebase discovery", tier: "fast" },
-  { name: "hermes", role: "Backend (FastAPI)", tier: "default" },
-  { name: "aphrodite", role: "Frontend (React)", tier: "default" },
-  { name: "demeter", role: "Database", tier: "default" },
-  { name: "themis", role: "Quality & security", tier: "premium" },
-  { name: "prometheus", role: "Infrastructure", tier: "default" },
-  { name: "hephaestus", role: "AI pipelines", tier: "default" },
-  { name: "chiron", role: "Model routing", tier: "default" },
-  { name: "echo", role: "Conversational AI", tier: "default" },
-  { name: "nyx", role: "Observability", tier: "fast" },
-  { name: "gaia", role: "Remote sensing", tier: "fast" },
-  { name: "iris", role: "GitHub operations", tier: "fast" },
-  { name: "mnemosyne", role: "Memory bank", tier: "fast" },
-  { name: "talos", role: "Hotfixes", tier: "fast" },
-  { name: "argus", role: "Visual analysis", tier: "fast" },
+  { name: "zeus", role: "Central orchestrator", tier: "default", mode: "primary" },
+  { name: "athena", role: "Strategic planner", tier: "premium", mode: "primary" },
+  { name: "apollo", role: "Codebase discovery", tier: "fast", mode: "subagent" },
+  { name: "hermes", role: "Backend (FastAPI)", tier: "default", mode: "subagent" },
+  { name: "aphrodite", role: "Frontend (React)", tier: "default", mode: "subagent" },
+  { name: "demeter", role: "Database", tier: "default", mode: "subagent" },
+  { name: "themis", role: "Quality & security", tier: "premium", mode: "subagent" },
+  { name: "prometheus", role: "Infrastructure", tier: "default", mode: "subagent" },
+  { name: "hephaestus", role: "AI pipelines", tier: "default", mode: "subagent" },
+  { name: "nyx", role: "Observability", tier: "fast", mode: "subagent" },
+  { name: "gaia", role: "Remote sensing", tier: "fast", mode: "subagent" },
+  { name: "iris", role: "GitHub operations", tier: "fast", mode: "subagent" },
+  { name: "mnemosyne", role: "Memory bank", tier: "fast", mode: "subagent" },
+  { name: "talos", role: "Hotfixes", tier: "fast", mode: "subagent" },
 ]
 
 // ─── Version Detection ──────────────────────────────────────────────────────
@@ -116,8 +114,11 @@ function tierBadge(tier: string, theme: Theme): JSX.Element {
 }
 
 function agentRow(agent: AgentEntry, theme: Theme): JSX.Element {
+  const modeIcon = agent.mode === "primary" ? "★" : "·"
+  const modeColor = agent.mode === "primary" ? theme.accent : theme.textMuted
   return box({ width: "100%", flexDirection: "row", paddingLeft: 1 }, [
-    text({ fg: theme.text, width: 14 }, [`@${agent.name}`]),
+    text({ fg: modeColor, width: 1 }, [modeIcon]),
+    text({ fg: theme.text, width: 13 }, [`@${agent.name}`]),
     text({ fg: theme.textMuted, width: 24 }, [agent.role]),
     tierBadge(agent.tier, theme),
   ])

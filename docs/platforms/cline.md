@@ -59,8 +59,6 @@ your-project/
     ├── mnemosyne
     ├── talos
     ├── hephaestus
-    ├── chiron
-    ├── echo
     ├── nyx
     └── gaia
 ```

@@ -48,7 +48,7 @@ Configuração `steps` por agente — controla quantas tool calls o agente pode 
 | Chiron, Echo, Gaia | 20 | Configuração multi-provedor |
 | **Mnemosyne** | **20** | ADR: ler código → escrever → verificar → commitar |
 | Apollo | 15 | Pesquisa paralela (3-10 buscas) |
-| Nyx, Argus | 15 | Observabilidade / análise visual |
+| Nyx | 15 | Observabilidade |
 | Iris | 12 | GitHub: branch → commit → push → PR |
 | Prometheus | 15 | Docker + CI/CD |
 | **Talos** | **5** | Hotfix rápido (1 arquivo, sem TDD) |

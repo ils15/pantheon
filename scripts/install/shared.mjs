@@ -50,6 +50,7 @@ export const PLATFORM_DETECTORS = {
 	continue: (target) =>
 		existsSync(join(target, ".continue", "config.yaml")) ||
 		existsSync(join(target, ".continue")),
+	cline: (target) => existsSync(join(target, ".clinerules")),
 };
 
 export const summary = {
@@ -59,6 +60,7 @@ export const summary = {
 	windsurf: { created: 0, skipped: 0, errors: 0 },
 	copilot: { created: 0, skipped: 0, errors: 0 },
 	continue: { created: 0, skipped: 0, errors: 0 },
+	cline: { created: 0, skipped: 0, errors: 0 },
 };
 
 export function showHelp() {
@@ -96,6 +98,7 @@ Platforms:
   windsurf     → .windsurf/agents/ + .windsurfrules
   copilot      → .github/agents/ symlinks + .vscode/settings.json check
   continue     → .continue/rules/ + .continue/config.yaml
+  cline        → .clinerules/ (no extension, plain markdown)
   all          → install every platform
 
 When --platforms is omitted, the script auto-detects which platforms
@@ -476,6 +479,7 @@ export function printSummary(target, platforms) {
 		windsurf: "Windsurf",
 		copilot: "VS Code / Copilot",
 		continue: "Continue.dev",
+		cline: "Cline",
 	};
 
 	console.log("");
@@ -570,6 +574,16 @@ export function printSummary(target, platforms) {
 		);
 		console.log("    - Edit config.yaml to set API keys and models");
 		console.log("    - Use /reload to apply config changes");
+		console.log("");
+	}
+
+	if (platforms.includes("cline")) {
+		console.log("  Cline:");
+		console.log(`    - Agent rules in .clinerules/ (no extension, plain markdown)`);
+		console.log("    - Skills in .clinerules/skills/");
+		console.log("    - Commands in .clinerules/commands/");
+		console.log("    - AGENTS.md in project root");
+		console.log("    - Invoke agents with @agent-name in Cline chat");
 		console.log("");
 	}
 

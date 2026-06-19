@@ -1,5 +1,5 @@
 ---
-applyTo: "agents/{aphrodite,argus,zeus}.agent.md"
+applyTo: "agents/{aphrodite,zeus}.agent.md"
 ---
 
 # Visual Review Pipeline
@@ -210,14 +210,6 @@ Root cause: [backend | architectural | conflicting]
   ⚠️ Playwright MCP unavailable — visual review skipped.
   Install Playwright MCP server to enable visual review pipeline.
   ```
-
-## Argus — External Visual Analysis
-
-Argus is NOT part of the visual review pipeline. Argus handles:
-- External screenshots from bug reports
-- Architecture diagrams
-- PDF documentation
-- Mockups from external tools
 
 For UI implementation review, Aphrodite self-reviews.
 

@@ -1,9 +1,0 @@
----
-name: echo
-description: Conversational AI specialist — Rasa NLU pipelines, dialogue management, intent classification, entity extraction, multi-turn conversation design. Bridges AI to humans. Calls apollo, sends to themis.
-alwaysApply: false
-globs: []
----
-
-> Pantheon agent for Cursor. Invoke with @<name> in Agent mode.
-

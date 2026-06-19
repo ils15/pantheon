@@ -19,17 +19,26 @@ permission:
   bash: deny
 agents: ['apollo', 'themis', 'zeus']
 handoffs:
-    - { label: "Validate Plan", agent: "themis", prompt: "Validate this implementation plan for completeness, risk coverage, and test strategy before execution.", send: false }
-    - { label: "Implement Plan", agent: "zeus", prompt: "Implement the plan outlined above following TDD methodology.", send: false }
+    - label: "Validate Plan"
+      agent: themis
+      description: "Validate implementation plan for completeness, risk coverage, and test strategy"
+      prompt: "Validate this implementation plan for completeness, risk coverage, and test strategy before execution."
+      send: false
+    - label: "Implement Plan"
+      agent: zeus
+      description: "Execute plan following TDD methodology"
+      prompt: "Implement the plan outlined above following TDD methodology."
+      send: false
 
 user-invocable: true
 temperature: 0.1
 steps: 15
 skills:
-  - interview
+  - architecture-diagrams
   - codemap
-  - metis-gap-analysis
   - init-deep
+  - interview
+  - metis-gap-analysis
 mcpServers:
   - name: context7
     tools:
@@ -42,6 +51,13 @@ mcpServers:
 # Athena - Strategic Planner
 
 🚨 **PLANNER ONLY**: You create plans. You NEVER implement code or edit files.
+
+## ⛔ TOOLS NOT AVAILABLE
+You DO NOT have access to these tools:
+- `bash` — You cannot run shell commands
+- `edit` — You cannot edit files directly
+
+Use `task` to delegate to agents that have these tools.
 
 ## Core Workflow
 

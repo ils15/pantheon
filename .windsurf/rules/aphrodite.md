@@ -68,8 +68,7 @@ After implementing a component, run this automated visual review pipeline:
 - Save screenshot to a temp location (e.g., `/tmp/opencode/screenshot-{timestamp}.png`)
 
 #### Step 2: Analyze
-- Delegate to @argus with the screenshot using the agent tool
-- Request visual analysis for: layout issues, alignment, spacing, text overflow, contrast, responsiveness
+- Self-analyze the screenshot for: layout issues, alignment, spacing, text overflow, contrast, responsiveness
 
 #### Step 3: Fix or Escalate
 - Parse findings, fix or escalate
@@ -307,7 +306,7 @@ After Mnemosyne persists the artifact, signal Zeus: `Ready for Themis review.`
 
 - **@hermes**: When you need new API endpoints
 - **@prometheus**: For Vite configuration or Docker deployment
-- **@argus**: For integrated browser checks and accessibility audit
+- **@themis**: For visual review and accessibility audit
 - **@mnemosyne**: For ALL documentation (MANDATORY)
 
 ## Output Format

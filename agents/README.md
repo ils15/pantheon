@@ -1,8 +1,15 @@
 # Agent Reference — Pantheon
 
+## Table of Contents
+- [Overview](#overview)
+- [Delegation Matrix](#delegation-matrix)
+- [Agent Details](#agent-details)
+- [Architecture Diagram](#architecture-diagram)
+- [Quick Selection Guide](#quick-selection-guide)
+
 ## Overview
 
-Pantheon provides **17 specialized agents** organized into a conductor-delegate architecture. Zeus (the orchestrator) dispatches work to specialized sub-agents with isolated context windows, enforced quality gates, and human approval at every transition. Each agent has a single responsibility, a restricted tool set, and explicit context boundaries.
+Pantheon provides **14 specialized agents** organized into a conductor-delegate architecture. Zeus (the orchestrator) dispatches work to specialized sub-agents with isolated context windows, enforced quality gates, and human approval at every transition. Each agent has a single responsibility, a restricted tool set, and explicit context boundaries.
 
 ### 🎯 Model Tiers
 
@@ -10,39 +17,37 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 
 > **TL;DR:** Same agent files, different models depending on your subscription. Configure models via your platform's settings (e.g., `~/.config/opencode/opencode.json` for OpenCode).
 
-**8 tiers:**
+**7 tiers:**
 1. **Orchestrator** — Zeus
-2. **Planning** — Athena
-3. **Discovery** — Apollo, Argus
-4. **AI Infrastructure** — Hephaestus, Chiron, Echo
-5. **Implementation** — Hermes, Aphrodite, Demeter
-6. **Quality & Observability** — Themis, Nyx
-7. **Infrastructure & Release** — Prometheus, Iris, Mnemosyne
-8. **Express & Specialist** — Talos, Gaia
+2. **Planning & Discovery** — Athena, Apollo
+3. **AI Infrastructure** — Hephaestus
+4. **Implementation** — Hermes, Aphrodite, Demeter
+5. **Quality & Observability** — Themis, Nyx
+6. **Infrastructure & Release** — Prometheus, Iris, Mnemosyne
+7. **Express & Specialist** — Talos, Gaia
 
 ---
 
 ## Delegation Matrix
 
 | Agent | Tier | Role | Delegates to | Skills Used |
-|---|---|---|---|---|
-| Zeus | Orchestrator | Central coordinator | All 17 agents | agent-coordination, artifact-management |
-| Athena | Planning | Strategic planner | Apollo, Themis | (none — plan-only) |
-| Apollo | Discovery | Read-only codebase scout | Zeus, Athena | (none — read-only) |
-| Argus | Discovery | Visual analysis (screenshots, PDFs, diagrams) | Athena, Themis | (none — read-only) |
-| Hephaestus | AI Infrastructure | AI pipelines (RAG, LangChain) | Apollo, Themis, Prometheus | rag-pipelines, mcp-server-development |
-| Chiron | AI Infrastructure | Model provider hub | Apollo, Themis, Prometheus | multi-model-routing |
-| Echo | AI Infrastructure | Conversational AI | Apollo, Themis, Talos | conversational-ai-design |
-| Hermes | Implementation | Backend (FastAPI) | Apollo, Themis | fastapi-async-patterns, api-design-patterns, security-audit-pro, tdd-with-agents |
-| Aphrodite | Implementation | Frontend (React) | Apollo, Themis | frontend-analyzer, nextjs-seo-optimization, tdd-with-agents |
-| Demeter | Implementation | Database | Apollo, Themis | database-migration, database-optimization, security-audit-pro |
-| Themis | Quality | Security & review gate | Mnemosyne, Zeus | code-review-checklist, security-audit-pro, tdd-with-agents, prompt-injection-security |
-| Nyx | Observability | Tracing & cost tracking | Apollo, Zeus | agent-observability |
-| Prometheus | Infrastructure | Docker & CI/CD | Apollo, Themis | docker-best-practices, database-optimization |
-| Iris | GitHub Ops | PRs, issues, releases | Mnemosyne, Zeus | (none — workflow ops) |
-| Mnemosyne | Memory | Memory bank & ADRs | (none) | (none — documentation) |
-| Talos | Hotfix | Rapid direct fixes | Zeus | (none — direct edits) |
-| Gaia | Specialist | Remote sensing | Athena, Apollo, Hermes, Themis | remote-sensing-analysis, internet-search |
+|---|---|---|---|---|---|
+| Zeus | Orchestrator | Central coordinator | All 14 agents | agent-coordination, artifact-management, auto-continue, internet-search, orchestration-workflow, session-goal |
+| Athena | Planning & Discovery | Strategic planner | Apollo, Themis | architecture-diagrams, codemap, init-deep, interview, metis-gap-analysis |
+| Apollo | Planning & Discovery | Read-only codebase scout | Zeus, Athena | internet-search, codemap |
+
+| Hephaestus | AI Infrastructure | AI pipelines + conversational AI | Apollo, Themis, Prometheus | rag-pipelines, mcp-server-development, agent-evaluation, conversational-ai-design, prompt-improver |
+
+| Hermes | Implementation | Backend (FastAPI) | Apollo, Themis | api-design-patterns, fastapi-async-patterns, tdd-with-agents, database-optimization, cache-strategy, code-discipline, simplify, test-architecture |
+| Aphrodite | Implementation | Frontend (React) | Apollo, Themis | frontend-analyzer, tdd-with-agents, nextjs-seo-optimization, code-discipline, simplify |
+| Demeter | Implementation | Database | Apollo, Themis | database-migration, database-optimization, cache-strategy, code-discipline, simplify |
+| Themis | Quality & Observability | Security & review gate | Mnemosyne, Zeus | code-review-checklist, security-audit-pro, tdd-with-agents, mcp-security |
+| Nyx | Quality & Observability | Tracing & cost tracking | Apollo, Zeus | agent-observability, agent-evaluation |
+| Prometheus | Infrastructure & Release | Docker + model provider hub | Apollo, Themis | docker-best-practices, multi-model-routing, agent-observability |
+| Iris | Infrastructure & Release | GitHub Ops | Mnemosyne, Zeus | artifact-management |
+| Mnemosyne | Infrastructure & Release | Memory bank & ADRs | (none) | architecture-diagrams, artifact-management, handoff, task-system |
+| Talos | Express & Specialist | Rapid direct fixes | Zeus | code-discipline, simplify |
+| Gaia | Express & Specialist | Remote sensing | Athena, Apollo, Hermes, Themis | remote-sensing-analysis, internet-search |
 
 ---
 
@@ -53,11 +58,11 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 - **Tier:** Orchestrator
 - **Model:** premium
 - **Description:** Central coordinator of the entire development lifecycle. NEVER implements code, NEVER edits files. Delegates work to specialized sub-agents.
-- **Delegates to:** All 17 agents
+- **Delegates to:** All 14 agents
 - **Key Responsibilities:** Phase-based orchestration, parallel dispatch, approval gates (3 pause points), context conservation, agent routing
 - **Usage:** `@zeus: Implement [feature description]`
 - **Tools:** agent (delegation), askQuestions, runInTerminal, readFile, search/codebase, search/usages, web/fetch, search/changes
-- **Handoffs:** athena (plan) → themis (validate plan) → hephaestus (pipelines) → chiron (models) → echo (conversation) → hermes/aphrodite/demeter (implement) → themis (review) → nyx (observe) → prometheus (deploy) → mnemosyne (document)
+- **Handoffs:** athena (plan) → themis (validate) → hermes/aphrodite/demeter (implement) → themis (review) → prometheus (deploy + providers) → hephaestus (AI systems) → nyx (observe) → iris (github) → mnemosyne (document)
 
 ### Athena (Strategic Planner)
 
@@ -80,38 +85,16 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 - **Tools:** search/codebase, search/usages, search/fileSearch, search/textSearch, search/listDirectory, readFile, web/fetch, browser (openPage, navigate, read, screenshot)
 - **Note:** `user-invocable: false` — primarily called by other agents
 
-### Hephaestus (AI Pipelines) — NEW v3
+### Hephaestus (AI Infrastructure & Conversational AI)
 
 - **Tier:** AI Infrastructure
 - **Model:** default
-- **Description:** AI tooling & pipelines specialist. Forges RAG pipelines, LangChain/LangGraph chains, vector databases, embedding strategies, and AI workflow composition.
+- **Description:** AI infrastructure & conversational AI specialist — RAG pipelines, LangChain/LangGraph chains, vector stores, embeddings, NLU pipelines, dialogue management, intent/entity extraction. Merged Echo's conversational AI capabilities.
 - **Delegates to:** Apollo (discovery), Themis (review + prompt injection audit), Prometheus (GPU deployment)
-- **Skills:** rag-pipelines, vector-search, mcp-server-development
+- **Skills:** rag-pipelines, mcp-server-development, agent-evaluation, conversational-ai-design, prompt-improver
 - **Tools:** agent, askQuestions, search, read, edit, runInTerminal, web/fetch
-- **Usage:** `: Build RAG pipeline for [use case]`
-- **Key Responsibilities:** Vector store selection (Pinecone, Weaviate, pgvector, Chroma), chunking strategies, hybrid search (BM25 + vector), LangGraph stateful agents, hallucination detection, RAG evaluation (faithfulness, relevancy)
-
-### Chiron (Model Provider Hub) — NEW v3
-
-- **Tier:** AI Infrastructure
-- **Model:** default
-- **Description:** Multi-model routing, provider abstraction, AWS Bedrock integration, cost optimization. The bridge between agents and AI models.
-- **Delegates to:** Apollo (discovery), Themis (review + security audit), Prometheus (inference deployment)
-- **Skills:** multi-model-routing
-- **Tools:** agent, askQuestions, search, read, edit, runInTerminal, web/fetch
-- **Usage:** `: Configure model routing with [provider]`
-- **Key Responsibilities:** Cost-vs-quality routing, fallback chains, Bedrock Guardrails + Knowledge Bases, local inference (Ollama/vLLM), token usage tracking, API key management (vault-based, no hardcoding)
-
-### Echo (Conversational AI) — NEW v3
-
-- **Tier:** AI Infrastructure
-- **Model:** default
-- **Description:** Conversational AI specialist — NLU pipelines, dialogue management, Rasa integration, intent/entity design, multi-turn conversation flows.
-- **Delegates to:** Apollo (discovery), Themis (review + injection security), Talos (hotfix for intent misclassification)
-- **Skills:** conversational-ai-design
-- **Tools:** agent, askQuestions, search, read, edit, runInTerminal, web/fetch
-- **Usage:** `: Design chatbot for [flow]`
-- **Key Responsibilities:** Intent classification, entity extraction (Regex, CRF), story design, form-based slot filling, multi-platform chat (Telegram, WhatsApp, Slack), NLU evaluation (accuracy, F1)
+- **Usage:** `@hephaestus: Build RAG pipeline for [use case]`
+- **Key Responsibilities:** Vector store selection (Pinecone, Weaviate, pgvector, Chroma), chunking strategies, hybrid search (BM25 + vector), LangGraph stateful agents, hallucination detection, RAG evaluation (faithfulness, relevancy), NLU pipelines, dialogue management, intent/entity extraction
 
 ### Hermes (Backend Specialist)
 
@@ -157,7 +140,7 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 - **Usage:** `: Review this code`
 - **Key Responsibilities:** Trailing whitespace/hard tab/wild import detection (BLOCKER), OWASP Top 10 audit, test coverage gate (>80% hard block), AI review contract (What/Why, Proof, Risk tier, Review focus), integrated browser validation for UI, severity levels (CRITICAL/HIGH/MEDIUM/LOW)
 
-### Nyx (Observability) — NEW v3
+### Nyx (Observability)
 
 - **Tier:** Quality & Observability
 - **Model:** fast
@@ -168,16 +151,17 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 - **Usage:** `: Set up monitoring for [service]`
 - **Key Responsibilities:** Span hierarchy (orchestration → agent → tool → model), per-agent token/cost attribution, P50/P95/P99 latency metrics, LangSmith traces, structured JSON logging, metric naming (`mythic.<agent>.<metric>.<unit>`), sensitive data redaction from traces, anomaly detection (latency spikes, cost anomalies, deadlocks)
 
-### Prometheus (Infrastructure Specialist)
+### Prometheus (Infrastructure & Model Provider Hub)
 
 - **Tier:** Infrastructure & Release
 - **Model:** default
-- **Description:** Infrastructure implementation specialist. Docker multi-stage builds, docker-compose orchestration, Traefik proxy, CI/CD workflows, health checks.
+- **Description:** Infrastructure + model provider specialist — Docker multi-stage builds, docker-compose orchestration, Traefik proxy, CI/CD workflows, health checks, multi-model routing, cost optimization, provider abstraction. Merged Chiron's model provider hub capabilities.
 - **Delegates to:** Apollo (nested for pattern discovery), Themis (infrastructure validation)
-- **Skills:** docker-best-practices, performance-optimization
+- **Skills:** docker-best-practices, multi-model-routing, agent-observability
 - **Tools:** agent, askQuestions, search, read, problems, edit, runInTerminal, createAndRunTask, getTerminalOutput
-- **Usage:** `: Set up [infrastructure]`
-- **Key Responsibilities:** Multi-stage Dockerfiles, non-root user execution, HEALTHCHECK directives, named volumes, restart policies, resource limits, Traefik routing + SSL, zero-downtime deployment, .env.example templates, startup order with `depends_on` conditions
+- **Usage:** `@prometheus: Set up [infrastructure]`
+- **Key Responsibilities:** Multi-stage Dockerfiles, non-root user execution, HEALTHCHECK directives, named volumes, restart policies, resource limits, Traefik routing + SSL, zero-downtime deployment, .env.example templates, startup order with `depends_on` conditions, multi-model routing (cost/quality selection, provider fallbacks, rate limiting, failover)
+- **⚠️ Security Warning:** Provider API keys must be set via environment variables only — never hardcoded in config files or agent frontmatter. See `instructions/mcp-security.instructions.md`.
 
 ### Iris (GitHub Operations)
 
@@ -248,13 +232,11 @@ graph TB
     subgraph T1["Planning & Discovery"]
         A1["Athena<br/>Strategic Planner"]:::tier1
         A2["Apollo<br/>Codebase Scout"]:::tier1
-        ARGUS["Argus<br/>Visual Analysis<br/>Screenshot & PDF"]:::discovery
     end
 
     subgraph AI["AI Infrastructure"]
         H["Hephaestus<br/>AI Pipelines"]:::tier1b
-        Q["Chiron<br/>Model Routing"]:::tier1b
-        E["Echo<br/>Conversational AI"]:::tier1b
+
     end
 
     subgraph T2["Implementation"]
@@ -279,7 +261,7 @@ graph TB
         G["Gaia<br/>Remote Sensing"]:::tier6
     end
 
-    O --> A1 & A2 & ARGUS & H & Q & E & I1 & I2 & I3 & T1a & N & R & I & M
+    O --> A1 & A2 & H & I1 & I2 & I3 & T1a & N & R & I & M
     O -.-> T & G
     A1 --> A2
 
@@ -300,16 +282,17 @@ graph TB
 | Orchestrate a full feature | Zeus | `@zeus: Implement [feature]` |
 | Plan architecture with TDD phases | Athena | `@athena: Plan [feature]` |
 | Discover codebase patterns | Apollo | `@apollo: Find all [pattern]` |
-| Visual analysis (screenshots, PDFs, diagrams) | Argus | `@argus: Analyze this screenshot` |
-| Build RAG / LangChain pipelines | Hephaestus | `@hephaestus: Build RAG pipeline for [use case]` |
-| Configure model routing / providers | Chiron | `@chiron: Configure [provider] routing` |
-| Design chatbot / conversational flows | Echo | `@echo: Design chatbot for [flow]` |
+
+| Build RAG / LangChain pipelines / conversational AI | Hephaestus | `@hephaestus: Build RAG pipeline for [use case]` |
+| Chat / NLU / dialogue management | Hephaestus | _(also covers Echo's former role)_ |
+
 | Create backend API endpoints | Hermes | `@hermes: Create POST /[endpoint]` |
 | Build frontend React components | Aphrodite | `@aphrodite: Build [component]` |
 | Design or optimize database schema | Demeter | `@demeter: Optimize [query]` |
 | Review code for quality & security | Themis | `@themis: Review this code` |
 | Set up OpenTelemetry / cost tracking | Nyx | `@nyx: Set up monitoring for [service]` |
-| Configure Docker / CI/CD / deploy | Prometheus | `@prometheus: Set up [infrastructure]` |
+| Configure Docker / CI/CD / model provider routing | Prometheus | `@prometheus: Set up [infrastructure]` |
+| Model provider routing / cost optimization | Prometheus | _(also covers Chiron's former role)_ |
 | Open PR / manage releases / issues | Iris | `@iris: Create release v[version]` |
 | Close sprint or document decisions | Mnemosyne | `@mnemosyne: Close sprint [summary]` |
 | Fix small bugs / CSS / typos fast | Talos | `@talos: Fix [bug]` |

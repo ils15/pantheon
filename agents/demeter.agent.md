@@ -4,7 +4,7 @@ color: "#4A90D9"
 hidden: true
 description: "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention, TDD migrations, modern DB libs. Calls apollo for discovery, sends to themis."
 # mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
-mode: primary
+mode: subagent
 tools:
   - agent
   - search/codebase
@@ -15,8 +15,6 @@ tools:
   - execute/runInTerminal
   - execute/testFailure
   - execute/getTerminalOutput
-  - context7_resolve-library-id
-  - context7_query-docs
 permission:
   edit: allow
   bash: allow
@@ -30,16 +28,11 @@ user-invocable: true
 temperature: 0.2
 steps: 20
 skills:
+  - cache-strategy
+  - code-discipline
   - database-migration
   - database-optimization
-  - cache-strategy
   - simplify
-mcpServers:
-  - name: context7
-    tools:
-      - context7_resolve-library-id
-      - context7_query-docs
-    when: "resolving SQLAlchemy/Alembic documentation"
 ---
 
 ## 🎯 Role & Boundaries
@@ -66,10 +59,7 @@ You are a database specialist. You design schemas, write migrations, and optimiz
 3. Plan migration: what changes, impact on existing data, rollback strategy
 
 ### Migration Development (TDD)
-1. RED: Write test that validates the new schema state
-2. GREEN: Write migration script (upgrade + downgrade)
-3. Verify: `alembic upgrade head && pytest` passes, `alembic downgrade -1 && pytest` passes
-4. REFACTOR: Optimize indexes, constraints, defaults
+See `instructions/tdd-standards.instructions.md` for the full TDD cycle.
 
 ### Post-Migration
 1. Run EXPLAIN on new queries to verify index usage

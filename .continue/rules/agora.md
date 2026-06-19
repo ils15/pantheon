@@ -24,10 +24,10 @@ Select 2-4 specialist agents that best match the question:
 | Architecture / system design | @hermes (backend), @demeter (data), @athena (strategy) |
 | Security / threat model | @themis (security), @prometheus (infra), @nyx (observability) |
 | Database design / performance | @demeter (data), @hermes (backend), @nyx (observability) |
-| AI pipeline / RAG | @hephaestus (AI), @chiron (models), @athena (strategy) |
+| AI pipeline / RAG | @hephaestus (AI), @athena (strategy) |
 | Infrastructure / scaling | @prometheus (infra), @themis (security), @nyx (observability) |
 | Frontend / UX | @aphrodite (frontend), @themis (security), @hermes (backend) |
-| Observability / cost | @nyx (observability), @chiron (models), @hermes (backend) |
+| Observability / cost | @nyx (observability), @hermes (backend) |
 | General / unknown | @athena (strategy), @themis (security), @hermes (backend) |
 
 ### 2. Research (Optional — MAX 1 TURN)
