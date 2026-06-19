@@ -26,8 +26,7 @@ Route tasks to optimized agents based on category instead of specifying agents m
 |----------|-------|---------|
 | **Deep** | Athena, Hephaestus | Complex planning, AI pipelines |
 | **Quick** | Talos, Apollo | Fast fixes, codebase search |
-| **Visual** | Aphrodite | UI components and visual analysis |
-| **Ultrabrain** | Zeus, Hephaestus | Multi-agent orchestration, model routing |
+| **Ultrabrain** | Zeus | Multi-agent orchestration, model routing |
 
 ---
 

@@ -143,6 +143,7 @@ When a delegated agent does not respond in time, enforce the timeout policy from
 | Infrastructure (prometheus) | 300s | 2 retries, exponential backoff | hermes | ❌ No |
 | Hotfix (talos) | 30s | 1 retry, no backoff | hermes | ✅ Yes — one-liner fix OK |
 
+
 ### Timeout Parcial (Partial Results)
 
 Timeout parcial is **only** allowed for read-only, independent agents:

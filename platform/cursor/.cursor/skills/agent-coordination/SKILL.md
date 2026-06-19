@@ -26,7 +26,6 @@ Route tasks to optimized agents based on category instead of specifying agents m
 |----------|-------|---------|
 | **Deep** | Athena, Hephaestus | Complex planning, AI pipelines |
 | **Quick** | Talos, Apollo | Fast fixes, codebase search |
-| **Visual** | Aphrodite | UI components, visual analysis |
 | **Ultrabrain** | Zeus | Multi-agent orchestration, model routing |
 
 ---
@@ -73,6 +72,15 @@ All phase outputs go to `docs/memory-bank/.tmp/`. See `instructions/artifact-pro
 | **GATE 1** | After PLAN | User confirms scope |
 | **GATE 2** | After Themis review | User sees changes |
 | **GATE 3** | Before git commit | User controls history |
+
+---
+
+## Model Selection (via Chiron)
+
+- **Deep tasks** → High-quality models (Claude, GPT-4)
+- **Quick tasks** → Fast/cheap models (Haiku, 4o-mini)
+- **Visual tasks** → Multimodal models (GPT-4V, Claude Vision)
+- **Cost optimization** → Route to cheapest model that meets quality bar
 
 ---
 

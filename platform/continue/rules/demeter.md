@@ -29,10 +29,7 @@ You are a database specialist. You design schemas, write migrations, and optimiz
 3. Plan migration: what changes, impact on existing data, rollback strategy
 
 ### Migration Development (TDD)
-1. RED: Write test that validates the new schema state
-2. GREEN: Write migration script (upgrade + downgrade)
-3. Verify: `alembic upgrade head && pytest` passes, `alembic downgrade -1 && pytest` passes
-4. REFACTOR: Optimize indexes, constraints, defaults
+See `instructions/tdd-standards.instructions.md` for the full TDD cycle.
 
 ### Post-Migration
 1. Run EXPLAIN on new queries to verify index usage
