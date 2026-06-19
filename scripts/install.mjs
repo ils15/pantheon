@@ -16,6 +16,7 @@ import { installCursor } from './install/cursor.mjs';
 import { installWindsurf } from './install/windsurf.mjs';
 import { installContinue } from './install/continue.mjs';
 import { installCopilot } from './install/copilot.mjs';
+import { installCline } from './install/cline.mjs';
 
 function main() {
   const args = parseArgs(process.argv);
@@ -35,13 +36,13 @@ function main() {
   let platforms = args.platforms;
 
   if (platforms && platforms.includes('all')) {
-    platforms = ['opencode', 'claude', 'cursor', 'windsurf', 'copilot', 'continue'];
-  } else if (!platforms) {
+      platforms = ['opencode', 'claude', 'cursor', 'windsurf', 'copilot', 'continue', 'cline'];
+    } else if (!platforms) {
     const detected = detectPlatforms(target);
     if (detected.length === 0) {
       console.log(`🔍 No Pantheon platform config detected in ${target}`);
       console.log('   Installing all platforms.\n');
-      platforms = ['opencode', 'claude', 'cursor', 'windsurf', 'copilot', 'continue'];
+    platforms = ['opencode', 'claude', 'cursor', 'windsurf', 'copilot', 'continue', 'cline'];
     } else {
       console.log(`🔍 Detected platforms in ${target}: ${detected.join(', ')}\n`);
       platforms = detected;
@@ -70,36 +71,24 @@ function main() {
     process.exit(1);
   }
 
+  const INSTALLERS = {
+    opencode: { label: 'OpenCode', fn: (a) => installOpenCode(target, a.dryRun, a.clean, a.components || undefined) },
+    claude: { label: 'Claude Code', fn: (a) => installClaude(target, a.dryRun, a.clean) },
+    cursor: { label: 'Cursor', fn: (a) => installCursor(target, a.dryRun, a.clean) },
+    windsurf: { label: 'Windsurf', fn: (a) => installWindsurf(target, a.dryRun, a.clean) },
+    copilot: { label: 'VS Code / Copilot', fn: (a) => installCopilot(target, a.dryRun, a.clean) },
+    continue: { label: 'Continue.dev', fn: (a) => installContinue(target, a.dryRun, a.clean) },
+    cline: { label: 'Cline', fn: (a) => installCline(target, a.dryRun, a.clean) },
+  };
+
   for (const platform of platforms) {
-    switch (platform) {
-      case 'opencode':
-        console.log(`🔧 OpenCode`);
-        installOpenCode(target, args.dryRun, args.clean, args.components || undefined);
-        break;
-      case 'claude':
-        console.log(`🔧 Claude Code`);
-        installClaude(target, args.dryRun, args.clean);
-        break;
-      case 'cursor':
-        console.log(`🔧 Cursor`);
-        installCursor(target, args.dryRun, args.clean);
-        break;
-      case 'windsurf':
-        console.log(`🔧 Windsurf`);
-        installWindsurf(target, args.dryRun, args.clean);
-        break;
-      case 'copilot':
-        console.log(`🔧 VS Code / Copilot`);
-        installCopilot(target, args.dryRun, args.clean);
-        break;
-      case 'continue':
-        console.log(`🔧 Continue.dev`);
-        installContinue(target, args.dryRun, args.clean);
-        break;
-      default:
-        console.warn(`  ⚠️  Unknown platform: ${platform} — skipping`);
-        break;
+    const installer = INSTALLERS[platform];
+    if (!installer) {
+      console.warn(`  ⚠️  Unknown platform: ${platform} — skipping`);
+      continue;
     }
+    console.log(`🔧 ${installer.label}`);
+    installer.fn(args);
   }
 
   printSummary(target, platforms);

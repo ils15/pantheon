@@ -134,9 +134,7 @@ Versions follow [Semantic Versioning 2.0.0](https://semver.org/):
 
 **Theme:** Agent count expansion and model configuration flexibility.
 
-- **Argus agent** — visual analysis specialist for screenshots, PDFs, diagrams
 - **No hardcoded models** — removed from `opencode.json` root
 - **Cline `skipFrontmatter` fix** — resolved frontmatter wrapper bug
-- **17 agents** (pre-Argus was 16)
 
 > Full changelog: [CHANGELOG.md](CHANGELOG.md)

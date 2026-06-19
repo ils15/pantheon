@@ -142,14 +142,12 @@ When a delegated agent does not respond in time, enforce the timeout policy from
 | Reviewer (themis) | 120s | 2 retries, exponential backoff | zeus | ❌ No — must produce verdict |
 | Infrastructure (prometheus) | 300s | 2 retries, exponential backoff | hermes | ❌ No |
 | Hotfix (talos) | 30s | 1 retry, no backoff | hermes | ✅ Yes — one-liner fix OK |
-| Visual (argus) | 60s | 2 retries, exponential backoff | zeus | ✅ Yes — partial observations OK |
 
 ### Timeout Parcial (Partial Results)
 
 Timeout parcial is **only** allowed for read-only, independent agents:
 - ✅ @apollo (codebase search) — can return partial file list
 - ✅ @gaia (literature review) — can return partial findings
-- ✅ @argus (visual analysis) — can return partial observations
 - ✅ @talos (hotfix confirmation) — can return without fix if timeout
 - ❌ Never for implementers (@hermes, @aphrodite, @demeter) — must complete or fail
 - ❌ Never for reviewers (@themis) — must produce a verdict

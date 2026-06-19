@@ -5,6 +5,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join } from 'path';
+import { readCanonicalAgents, generateAgentsMd, generateAgentsTable } from './agents-md.mjs';
 import { PLATFORM_DIR, summary, sourceDirValid, copyFiles, writeIfChanged } from './shared.mjs';
 
 export function installClaude(target, dryRun, clean = false) {
@@ -49,6 +50,10 @@ export function installClaude(target, dryRun, clean = false) {
   if (settingsStatus === 'created') stats.created++;
   else stats.skipped++;
 
+  // Read canonical agents
+  const agents = readCanonicalAgents();
+  const agentTable = generateAgentsTable(agents);
+
   // Create CLAUDE.md bridge with rich instructions
   const claudeMdPath = join(target, 'CLAUDE.md');
   const claudeMdContent = `# Pantheon Agent System
@@ -61,24 +66,7 @@ Always check AGENTS.md for shared project conventions and architecture decisions
 
 ## Available Agents
 
-| Agent | Role | When to use |
-|-------|------|-------------|
-| @zeus | Central orchestrator | Full feature orchestration, multi-agent coordination |
-| @athena | Strategic planner | Architecture decisions, implementation plans |
-| @apollo | Codebase discovery | Research, finding files, exploring patterns |
-| @hermes | Backend (FastAPI) | API endpoints, services, business logic |
-| @aphrodite | Frontend (React) | UI components, responsive design |
-| @demeter | Database | Schema design, migrations, query optimization |
-| @themis | Quality & security | Code review, OWASP audit, coverage check |
-| @prometheus | Infrastructure | Docker, CI/CD, deployment |
-| @hephaestus | AI pipelines | RAG, LangChain, vector search |
-| @chiron | Model routing | Provider configuration, cost optimization |
-| @echo | Conversational AI | NLU, dialogue flows, chatbots |
-| @nyx | Observability | Monitoring, tracing, cost tracking |
-| @gaia | Remote sensing | LULC analysis, satellite imagery |
-| @iris | GitHub operations | Branches, PRs, issues, releases |
-| @mnemosyne | Documentation | Memory bank, ADRs, progress logging |
-| @talos | Hotfixes | Rapid bug fixes, CSS corrections |
+${agentTable}
 
 ## Workflow
 
@@ -92,29 +80,7 @@ Skills are in .opencode/skills/ (or globally at ~/.config/opencode/skills/).
 
   // Create/sync AGENTS.md
   const agentsMdPath = join(target, 'AGENTS.md');
-  const agentsMdContent = `# Pantheon Agent System
-
-This project uses the Pantheon multi-agent framework.
-
-## Commands
-
-- Build: \`npm run build\`
-- Test: \`npm test\`
-- Lint: \`npm run lint\`
-
-## Conventions
-
-- TDD: Write failing test first, then implement
-- Minimum 80% test coverage
-- Async/await on all I/O operations
-- Type hints on all functions
-- OWASP Top 10 compliance required
-
-## Architecture
-
-18 specialized agents coordinated by Zeus (orchestrator).
-See .claude/agents/ for definitions and CLAUDE.md for agent descriptions.
-`;
+  const agentsMdContent = generateAgentsMd(agents, 'Claude');
   const agentsStatus = writeIfChanged(agentsMdPath, agentsMdContent, dryRun);
   if (agentsStatus === 'created') stats.created++;
   else stats.skipped++;

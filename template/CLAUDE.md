@@ -27,10 +27,7 @@ For shared project conventions, architecture decisions, and coding standards, **
 | `mnemosyne` | Memory & documentation | `@mnemosyne Save this ADR` |
 | `gaia` | Remote sensing domain expert | `@gaia Analyze LULC agreement` |
 | `hephaestus` | AI pipelines (RAG, LangChain) | `@hephaestus Build a RAG pipeline` |
-| `chiron` | Model providers (routing, costs) | `@chiron Configure Bedrock provider` |
-| `echo` | Conversational AI (chatbots) | `@echo Design the NLU pipeline` |
 | `nyx` | Observability (tracing, costs) | `@nyx Set up OpenTelemetry` |
-| `argus` | Visual analysis | `@argus Analyze this screenshot/PDF` |
 | `agora` | Council synthesis | `@agora Compare architecture options X vs Y` |
 
 ### Notes

@@ -10,9 +10,9 @@ This document covers the **3 MCPs we actively use** across Pantheon agents.
 
 | MCP | What it does | Who uses it | Setup |
 |-----|-------------|-------------|-------|
-| **context7** | Fetches up-to-date, version-specific library documentation | 13 agents (zeus, athena, apollo, hermes, aphrodite, demeter, themis, hephaestus, chiron, echo, nyx, talos, gaia) | `npx -y @upstash/context7-mcp` — free, no API key needed |
+| **context7** | Fetches up-to-date, version-specific library documentation | 11 agents (zeus, athena, apollo, hermes, aphrodite, demeter, themis, hephaestus, nyx, talos, gaia) | `npx -y @upstash/context7-mcp` — free, no API key needed |
 | **exa** | Web search + content fetching (structured results) | apollo | `npx -y exa-mcp-server` — requires `EXA_API_KEY` |
-| **playwright** | Browser automation — screenshots, accessibility snapshots | aphrodite, themis, hermes, argus | `npx -y @playwright/mcp@latest` — free, requires Playwright browsers installed |
+| **playwright** | Browser automation — screenshots, accessibility snapshots | aphrodite, themis, hermes | `npx -y @playwright/mcp@latest` — free, requires Playwright browsers installed |
 
 ---
 
@@ -81,7 +81,7 @@ npx playwright install chromium
 - `browser/snapshot` — Accessibility/structured content tree
 - Navigation, click, type, and other browser interaction tools
 
-**Used by:** Aphrodite (visual review pipeline), Themis (visual regression checking), Argus (external screenshot analysis).
+**Used by:** Aphrodite (visual review pipeline), Themis (visual regression checking).
 
 ---
 
@@ -140,13 +140,10 @@ mcpServers:
 | @themis | context7, playwright |
 | @prometheus | context7 |
 | @hephaestus | context7 |
-| @chiron | context7 |
-| @echo | context7 |
 | @nyx | context7 |
 | @iris | — |
 | @talos | context7 |
 | @gaia | context7 |
-| @argus | playwright |
 | @mnemosyne | — (built-in memory) |
 
 ---

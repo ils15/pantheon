@@ -8,25 +8,25 @@
   "toolsFormat": "object",
   "frontmatter": {
     "include": [
-      "name",
       "description",
       "mode",
+      "permission",
+      "temperature",
+      "steps"
+    ],
+    "exclude": [
+      "model",
+      "disable-model-invocation",
+      "name",
       "tools",
       "skills",
       "instructions",
       "handoffs",
       "agents",
       "user-invocable",
-      "permission",
       "hooks",
-      "temperature",
-      "steps",
       "globs",
       "mcpServers"
-    ],
-    "exclude": [
-      "model",
-      "disable-model-invocation"
     ],
     "transform": {
       "tools": {
@@ -77,16 +77,13 @@
     "demeter": "subagent",
     "prometheus": "subagent",
     "hephaestus": "subagent",
-    "chiron": "subagent",
-    "echo": "subagent",
     "gaia": "subagent",
     "themis": "subagent",
     "apollo": "subagent",
     "iris": "subagent",
     "mnemosyne": "subagent",
     "nyx": "subagent",
-    "talos": "subagent",
-    "argus": "subagent"
+    "talos": "subagent"
   },
   "capabilityFlags": {
     "orchestration": true,

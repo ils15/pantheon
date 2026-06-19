@@ -5,6 +5,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync, unlinkSync } from 'fs';
 import { join } from 'path';
+import { readCanonicalAgents, generateAgentsMd } from './agents-md.mjs';
 import { PLATFORM_DIR, summary, sourceDirValid, copyFiles, writeIfChanged } from './shared.mjs';
 
 export function installWindsurf(target, dryRun, clean = false) {
@@ -70,43 +71,13 @@ Use this workflow to run a code review and security audit.
   // -----------------------------------------------------------------------
   // 4. Create/update AGENTS.md
   // -----------------------------------------------------------------------
+  const agents = readCanonicalAgents();
   const agentsMdPath = join(target, 'AGENTS.md');
-  const agentsMdContent = `# Pantheon Agent System — Windsurf (Cascade)
-
-This project uses the Pantheon multi-agent framework with 18 specialized agents.
-
-## Available Agents
-
-| Agent | Role | How to invoke |
-|-------|------|---------------|
-| @zeus | Central orchestrator | Full feature orchestration |
-| @athena | Strategic planner | Architecture & planning |
-| @apollo | Codebase discovery | Research & exploration |
-| @hermes | Backend (FastAPI) | API implementation |
-| @aphrodite | Frontend (React) | UI components |
-| @demeter | Database | Schema & optimization |
-| @themis | Quality & security | Code review |
-| @prometheus | Infrastructure | Docker & deployment |
-| @hephaestus | AI pipelines | RAG & LangChain |
-| @chiron | Model routing | Provider configuration |
-| @echo | Conversational AI | NLU & dialogue |
-| @nyx | Observability | Monitoring & tracing |
-| @gaia | Remote sensing | LULC analysis |
-| @iris | GitHub operations | PRs & releases |
-| @mnemosyne | Documentation | Memory bank |
-| @talos | Hotfixes | Rapid repairs |
-
-## Workflows
+  const extraSections = `## Workflows
 
 - \`/orchestrate\` — Full feature orchestration
-- \`/code-review\` — Code review with Themis
-
-## Commands
-
-- Build: \`npm run build\`
-- Test: \`npm test\`
-- Lint: \`npm run lint\`
-`;
+- \`/code-review\` — Code review with Themis`;
+  const agentsMdContent = generateAgentsMd(agents, 'Windsurf (Cascade)', extraSections);
   const agentsStatus = writeIfChanged(agentsMdPath, agentsMdContent, dryRun);
   if (agentsStatus === 'created') stats.created++;
   else stats.skipped++;

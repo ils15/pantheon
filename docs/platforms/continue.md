@@ -89,8 +89,6 @@ your-project/
 │   │   ├── themis.md
 │   │   ├── prometheus.md
 │   │   ├── hephaestus.md
-│   │   ├── chiron.md
-│   │   ├── echo.md
 │   │   ├── nyx.md
 │   │   ├── gaia.md
 │   │   ├── iris.md
@@ -125,8 +123,6 @@ Each rule teaches Continue about a specific agent role:
 | `apollo.md` | Codebase discovery, parallel search, evidence gathering |
 | `prometheus.md` | Docker multi-stage builds, deployment, health checks |
 | `hephaestus.md` | RAG pipelines, vector search, LangChain chain composition |
-| `chiron.md` | Multi-model routing, cost optimization, provider abstraction |
-| `echo.md` | Conversational AI, intent/entity design, dialogue management |
 | `nyx.md` | Observability, OpenTelemetry, cost tracking, structured logging |
 | `gaia.md` | Remote sensing, LULC analysis, inter-product agreement |
 | `iris.md` | GitHub operations, conventional commits, PR workflows |

@@ -1,6 +1,6 @@
 ---
 name: zeus
-description: "Central orchestrator — never implements. Delegates to: athena, apollo, hermes, aphrodite, demeter, prometheus, themis, iris, mnemosyne, talos, hephaestus, chiron, echo, nyx, argus"
+description: "Central orchestrator — never implements. Delegates to: athena, apollo, hermes, aphrodite, demeter, prometheus, themis, iris, mnemosyne, talos, hephaestus, nyx)"
 mode: primary
 tools: Agent, AskUserQuestion, Bash, Read, Grep, Grep, WebFetch
 skills: agent-coordination, orchestration-workflow, session-goal, artifact-management, internet-search
@@ -16,10 +16,7 @@ agents:
   - mnemosyne
   - talos
   - hephaestus
-  - chiron
-  - echo
   - nyx
-  - argus
 user-invocable: true
 permission:
   edit: deny
@@ -132,10 +129,10 @@ Send ALL `task()` calls in a single message. Each specialist must respond concis
 | Architecture | hermes, demeter, themis, athena |
 | Security | themis, hermes, prometheus, nyx |
 | Database | demeter, hermes, prometheus |
-| AI/RAG | hephaestus, chiron, nyx |
+| AI/RAG | hephaestus, nyx |
 | Infrastructure | prometheus, hermes, themis |
 | Frontend/UX | aphrodite, themis, hermes |
-| Observability | nyx, chiron, hermes |
+| Observability | nyx, hermes |
 | General | athena, themis, hermes |
 
 ### Synthesis Output Template
@@ -180,7 +177,6 @@ When reviewing implementation results, route validation to the right specialist 
 - **Security-sensitive changes** → @themis (OWASP, secret scanning, injection)
 - **Infrastructure changes** → @prometheus (Docker, CI/CD, deployment)
 - **AI/ML pipeline changes** → @hephaestus (RAG, embeddings, chains)
-- **Visual content analysis** → @argus (screenshots, PDFs, diagrams)
 - **General code quality** → @themis (coverage, style, dead code)
 - **System configuration changes** → @talos (small: 1-2 files, < 10 lines) or @hermes (medium: multi-file, structured changes)
 
@@ -613,8 +609,6 @@ This routing table is auto-generated from `routing.yml` — the canonical routin
 | Frontend / UI | @aphrodite | default | hermes, demeter |
 | Database / Schema | @demeter | default | hermes, aphrodite |
 | AI pipelines / RAG | @hephaestus | default | — |
-| Model providers / routing | @chiron | default | — |
-| Conversational AI | @echo | default | — |
 | Remote sensing / geospatial | @gaia | default | — |
 | Docker / deployment | @prometheus | default | — |
 | CI/CD pipelines | @prometheus | default | — |
@@ -624,7 +618,6 @@ This routing table is auto-generated from `routing.yml` — the canonical routin
 | Documentation / memory | @mnemosyne | fast | — |
 | Observability / monitoring | @nyx | fast | — |
 | Hotfix / bug fix | @talos | fast | — |
-| Visual analysis | @argus | fast | — |
 | Orchestration | @zeus | default | — |
 
 ### Agent Quick Reference
@@ -639,14 +632,11 @@ This routing table is auto-generated from `routing.yml` — the canonical routin
 | @themis | Quality & security gate — ruff/Biome linting, dead/legacy code dete... | premium | ✅ |
 | @prometheus | Infrastructure specialist — Docker multi-stage builds, docker-compo... | default | ✅ |
 | @hephaestus | AI tooling & pipelines specialist — LangChain/LangGraph chains, RAG... | default | ✅ |
-| @chiron | Model provider hub — multi-model routing, AWS Bedrock, cost optimiz... | default | ✅ |
-| @echo | Conversational AI specialist — Rasa NLU pipelines, dialogue managem... | default | ✅ |
 | @nyx | Observability & monitoring specialist — OpenTelemetry tracing, toke... | fast | ✅ |
 | @gaia | Remote sensing domain specialist — satellite image processing, spec... | default | ✅ |
 | @iris | GitHub operations specialist — branches, pull requests, issues, rel... | fast | ✅ |
 | @mnemosyne | Memory bank quality owner — initializes docs/memory-bank/, writes A... | fast | ✅ |
 | @talos | Hotfix express lane — direct fixes for small bugs, CSS, typos, mino... | fast | ✅ |
-| @argus | Visual analysis specialist — interprets screenshots, images, PDFs, ... | fast | ✅ |
 
 *See `routing.yml` for full delegation rules and handoff definitions.*
 

@@ -39,7 +39,7 @@ See [docs/INSTALLATION.md](INSTALLATION.md) for detailed platform-specific setup
 | **Echo** | Conversational AI — Rasa NLU, dialogue management | Default |
 | **Gaia** | Remote sensing — LULC analysis, geospatial pipelines | Default |
 | **Apollo** | Investigation scout — parallel codebase searches (read-only) | Fast |
-| **Argus** | Visual analysis — screenshots, images, PDFs, UI mockups | Fast |
+| **Nyx** | Observability — tracing, monitoring, cost tracking | Fast |
 | **Iris** | GitHub ops — branches, PRs, issues, releases | Fast |
 | **Mnemosyne** | Memory bank — ADRs, project.md, atomic facts | Fast |
 | **Talos** | Hotfix express — small bugs, CSS, typos (no TDD) | Fast |
@@ -65,7 +65,7 @@ Full details: [agents/README.md](../agents/README.md)
 
 | Change | Description |
 |---|---|
-| **Argus agent added** | Visual analysis specialist (screenshots, images, PDFs) — was missing from AGENTS.md, causing CI failures |
+
 
 
 ## Architecture

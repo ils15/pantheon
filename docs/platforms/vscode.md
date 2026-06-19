@@ -254,8 +254,6 @@ your-project/
 │   │   ├── mnemosyne.agent.md
 │   │   ├── talos.agent.md
 │   │   ├── hephaestus.agent.md
-│   │   ├── chiron.agent.md
-│   │   ├── echo.agent.md
 │   │   ├── nyx.agent.md
 │   │   └── gaia.agent.md
 │   └── copilot-instructions.md       # Auto-loaded on every interaction

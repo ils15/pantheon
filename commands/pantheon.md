@@ -18,10 +18,10 @@ Choose 2-3 agents based on domain:
 | Architecture | hermes, demeter, themis, athena |
 | Security | themis, hermes, prometheus, nyx |
 | Database | demeter, hermes, prometheus |
-| AI/RAG | hephaestus, chiron, nyx |
+| AI/RAG | hephaestus, nyx |
 | Infrastructure | prometheus, hermes, themis |
 | Frontend/UX | aphrodite, themis, hermes |
-| Observability | nyx, chiron, hermes |
+| Observability | nyx, hermes |
 | General | athena, themis, hermes |
 
 Send ALL `task()` calls in a single message. Each must return: Recommendation · Reasoning · Trade-offs · Risks · Confidence.

@@ -88,8 +88,6 @@ OpenCode uses `opencode.json` (or `opencode.jsonc`) in your project root. Create
     "talos":     { "source": ".opencode/agents/talos.md" },
     "gaia":      { "source": ".opencode/agents/gaia.md" },
     "hephaestus":   { "source": ".opencode/agents/hephaestus.md" },
-    "chiron":    { "source": ".opencode/agents/chiron.md" },
-    "echo":       { "source": ".opencode/agents/echo.md" },
     "nyx":       { "source": ".opencode/agents/nyx.md" }
   }
 }

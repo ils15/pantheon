@@ -1,8 +1,12 @@
 {
   "name": "pantheon",
-  "version": "3.12.0",
+  "version": "3.12.2",
   "description": "Multi-agent orchestration platform with 18 specialized agents, 37 skills, TDD enforcement, RAG pipelines, multi-model routing, conversational AI, observability, and multi-platform support (VS Code, OpenCode, Claude Code, Cursor, Windsurf).",
   "private": true,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "prepare": "husky",
     "version:recommend": "node scripts/versioning.mjs recommend",
@@ -29,13 +33,22 @@
     "sync:all": "node scripts/sync-platforms.mjs all",
     "changelog:dry": "npx changelogen --dry-run --output /dev/stdout",
     "changelog:gitcliff": "git-cliff --config cliff.toml -o CHANGELOG.md",
-    "release:preview": "git-cliff --config cliff.toml -o /dev/stdout"
+    "release:preview": "git-cliff --config cliff.toml -o /dev/stdout",
+    "install": "node scripts/install.mjs",
+    "install:all": "node scripts/install.mjs --platforms all",
+    "uninstall": "node scripts/uninstall.mjs",
+    "doctor": "node scripts/doctor.mjs"
+  },
+  "bin": {
+    "pantheon": "./scripts/install.mjs"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
-    "husky": "^9.1.7",
-    "js-yaml": "^4.1.1"
+    "husky": "^9.1.7"
   },
   "repository": {
     "type": "git",
@@ -53,5 +66,6 @@
   "license": "MIT",
   "engines": {
     "node": ">=18"
-  }
+  },
+  "preferGlobal": true
 }

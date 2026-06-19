@@ -41,7 +41,7 @@ Produce EXACTLY this structure:
 | @echo | Conversational AI | default | ✅ |
 | @nyx | Observability | fast | ✅ |
 | @gaia | Remote sensing | fast | ✅ |
-| @argus | Visual analysis | fast | ✅ |
+ | @gaia | Remote sensing | fast | ✅ |
 
 ### Commands Available
 

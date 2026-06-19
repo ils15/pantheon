@@ -21,8 +21,6 @@
         "demeter",
         "prometheus",
         "hephaestus",
-        "chiron",
-        "echo",
         "gaia"
       ]
     },
@@ -44,8 +42,7 @@
         "iris",
         "mnemosyne",
         "talos",
-        "nyx",
-        "argus"
+        "nyx"
       ]
     }
   },
@@ -94,9 +91,6 @@
         },
         "talos": {
           "model": "opencode-go/deepseek-v4-flash"
-        },
-        "chiron": {
-          "model": "opencode-go/minimax-m2.7"
         },
         "gaia": {
           "model": "opencode-go/minimax-m2.7"

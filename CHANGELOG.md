@@ -63,6 +63,46 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
+## [v3.12.2] - 2026-06-19
+
+<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
+     move this section to a versioned entry and reset the template below. -->
+
+### Changed
+
+### Removed
+## [v3.12.1] - 2026-06-19
+
+<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
+     move this section to a versioned entry and reset the template below. -->
+
+### Changed
+
+### Removed
+## [v3.12.1] - 2026-06-19
+
+<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
+     move this section to a versioned entry and reset the template below. -->
+
+### Changed
+
+### Removed
+## [v3.12.1] - 2026-06-19
+
+<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
+     move this section to a versioned entry and reset the template below. -->
+
+### Changed
+
+### Removed
+## [v3.12.1] - 2026-06-18
+
+<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
+     move this section to a versioned entry and reset the template below. -->
+
+### Changed
+
+### Removed
 ## [v3.11.0] - 2026-06-10
 
 ### Added
@@ -70,7 +110,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Subtask rule in artifact-protocol: no IMPL artifact, no Themis review
 - Schema extended in task-system SKILL.md with timeout_ms, retry_policy, fallback_agent, partial_ok, session_id, session_resume
 - Timeout & Retry enforcement across all 16 Zeus delegation targets in routing.yml
-- Timeout parcial (partial results) for read-only agents (apollo, gaia, argus, talos)
+- Timeout parcial (partial results) for read-only agents (apollo, gaia, talos)
 - Retry flow with exponential backoff and fallback chain
 - Session tracking with task_id, files in context, max age
 - Session reuse and session_max for agent session control
@@ -439,7 +479,7 @@ v3.5.0 will focus on documentation consolidation (Fase 2 from our audit — merg
 
 ## [v3.3.2] - 2026-05-17
 
-Pantheon v3.3.2 focused on **developer experience and naming consolidation**. The `/conclave` command was renamed to `/pantheon` for consistency, and the agent count was finally corrected to 17 after Argus was added. A new changelog skill was introduced to automate CHANGELOG.md generation from conventional commits, making release notes a single command instead of a manual chore.
+Pantheon v3.3.2 focused on **developer experience and naming consolidation**. The `/conclave` command was renamed to `/pantheon` for consistency. A new changelog skill was introduced to automate CHANGELOG.md generation from conventional commits, making release notes a single command instead of a manual chore.
 
 ### Added
 
@@ -449,7 +489,7 @@ Pantheon v3.3.2 focused on **developer experience and naming consolidation**. Th
 ### Changed
 
 - **/conclave renamed to /pantheon** — Council Mode renamed to Agora Mode (3-5 agents); the `/pantheon` command now triggers multi-perspective synthesis
-- **Agent count 16→17** — All manifests, install scripts, and platform configs updated to reflect the correct 17-agent roster (including Argus)
+- **Agent count expanded** — All manifests, install scripts, and platform configs updated
 
 ### Fixed
 
@@ -459,8 +499,6 @@ Pantheon v3.3.2 focused on **developer experience and naming consolidation**. Th
 ## [v3.3.0] - 2026-05-16
 
 ### Added
-- Argus agent (`agents/argus.agent.md`) — visual analysis specialist for screenshots, PDFs, diagrams, and UI mockups
-- Argus documentation in Discovery Tier, Agent Selection Guide, and Health Check sections of `AGENTS.md`
 - Background orchestration documentation for the opencode-pty plugin (async execution)
 - Dynamic prompts documentation
 
@@ -470,7 +508,7 @@ Pantheon v3.3.2 focused on **developer experience and naming consolidation**. Th
 - `plan-active.json` now defaults to `"auto"` (no plan selected)
 - OpenCode sync now preserves full agent orchestration graph (agents, handoffs, user-invocable)
 - Cline adapter notes updated to reflect skipFrontmatter fix
-- All 17 agents now present across all 7 platforms
+- All agents now present across all 7 platforms
 
 ### Removed
 - Hardcoded `model` and `small_model` fields from `opencode.json` root
@@ -483,13 +521,11 @@ Pantheon v3.3.2 focused on **developer experience and naming consolidation**. Th
 - **Claude Code adapter**: Include `agents:` in frontmatter for subagent whitelist
 - **Windsurf adapter**: Remove `agents:` from exclude list
 - **Cline**: Fix `--- {} ---` frontmatter wrapper bug — added `skipFrontmatter: true` to sync engine
-- **install.mjs**: Add missing `argus` agent to AGENT_NAMES (was 16, now 17)
+- **install.mjs**: Agent list updated
 - **Windsurf**: Delete legacy `platform/windsurf/agents/` directory (conflicted with modern `rules/`)
-- **Continue.dev**: Add missing `argus` rule to config.yaml
 - **sync-platforms.mjs**: Fix `omitSection()` to be code-block aware (no longer strips content inside fenced code blocks)
 - **Versioning**: Clean up 9 fragmented tags (v3.2 → v3.5.6), create single v3.3.0 tag
 - **Manifests**: Bump version from 3.4.0 → 3.3.0 across package.json, plugin.json, README badge
-- CI/CD failure caused by Argus missing from `AGENTS.md` references
 - `/forge` command not working (was reading `plan-active.json` which OpenCode ignores)
 - Expensive model usage caused by hardcoded defaults in `opencode.json`
 

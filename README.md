@@ -107,7 +107,7 @@ flowchart TD
 
         Athena["Athena<br/>Strategic Planner"]:::planner
         Apollo["Apollo<br/>Codebase Scout"]:::planner
-        Argus["Argus<br/>Visual Analysis"]:::planner
+        Nyx["Nyx<br/>Observability"]:::planner
     end
 
     subgraph AI["AI Infrastructure"]
@@ -312,7 +312,7 @@ Planning & Discovery
 
   ├── Athena — strategic planner, TDD roadmap generation
   ├── Apollo — parallel codebase & web research (read-only)
-  └── Argus — visual analysis: screenshots, images, PDFs, UI mockups
+  └── Nyx — observability, tracing, monitoring
 
 AI Infrastructure (v3)
   ├── Hephaestus — AI pipelines: RAG, LangChain/LangGraph, vector stores
@@ -368,7 +368,7 @@ graph TB
 
         A1["Athena<br/>Strategic Planner"]:::tier1
         A2["Apollo<br/>Codebase Scout"]:::tier1
-        A3["Argus<br/>Visual Analysis"]:::tier1
+        A3["Nyx<br/>Observability"]:::tier1
     end
 
     subgraph AI["AI Infrastructure"]
@@ -451,7 +451,7 @@ subscription (OpenCode Go, Copilot Pro, Claude Pro, etc.).
 | `premium` | Deep reasoning, critical | Zeus, Athena, Themis | DeepSeek V4 Pro, Claude Opus, o3 |
 | `default` | Balanced quality/speed | Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Chiron, Echo, Gaia | Kimi K2.6, Claude Sonnet, GPT-4o |
 | `coding` | Heavy coding tasks | Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Talos | DeepSeek V4 Flash, Claude Sonnet |
-| `fast` | Quick, cheap ops | Apollo, Iris, Mnemosyne, Talos, Nyx, Argus | DeepSeek V4 Flash, MiniMax M2.7, Gemini Flash |
+| `fast` | Quick, cheap ops | Apollo, Iris, Mnemosyne, Talos, Nyx | DeepSeek V4 Flash, MiniMax M2.7, Gemini Flash |
 
 ### /forge — Model Presets
 
@@ -578,7 +578,7 @@ pantheon/
 │   ├── athena.agent.md        — strategic planner
 
 │   ├── apollo.agent.md        — codebase & web discovery
-│   ├── argus.agent.md         — visual analysis
+│   ├── nyx.agent.md           — observability
 │   ├── hermes.agent.md        — backend APIs
 │   ├── aphrodite.agent.md     — frontend UI
 │   ├── demeter.agent.md       — database
@@ -589,8 +589,6 @@ pantheon/
 │   ├── talos.agent.md         — hotfixes
 │   ├── gaia.agent.md          — remote sensing
 │   ├── hephaestus.agent.md    — AI pipelines
-│   ├── chiron.agent.md        — model routing
-│   ├── echo.agent.md          — conversational AI
 │   ├── nyx.agent.md           — observability
 │   └── README.md
 │
@@ -761,8 +759,6 @@ Agents can also be invoked directly for focused tasks:
 @aphrodite: Refactor ProductCard for WCAG AA compliance
 @demeter: Analyze and fix N+1 queries on orders table
 @hephaestus: Build a RAG pipeline with pgvector for product docs
-@chiron: Configure AWS Bedrock with Claude fallback
-@echo: Design an NLU pipeline for customer support chatbot
 @nyx: Set up OpenTelemetry tracing for the payment service
 @themis: Review this PR for security vulnerabilities
 @iris: Create branch feat/search and open a draft PR
@@ -967,4 +963,4 @@ Pantheon draws from the broader multi-agent landscape while diverging in key way
 
 **License:** MIT  
 **Architecture Pattern:** Conductor-Delegate  
-**Mythology:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Themis, Mnemosyne, Gaia, Hephaestus, Chiron, Echo, Nyx, Prometheus, Demeter, Iris, Argus)
+**Mythology:** Greek (Zeus, Athena, Apollo, Hermes, Aphrodite, Talos, Themis, Mnemosyne, Gaia, Hephaestus, Chiron, Echo, Nyx, Prometheus, Demeter, Iris)

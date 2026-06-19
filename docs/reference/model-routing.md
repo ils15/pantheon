@@ -47,8 +47,8 @@ All unique models across 17 plans (23 total):
 | Tier | Purpose | Agents | Model Strategy |
 |------|---------|--------|----------------|
 | **1. Premium** | Reasoning, planning, delegation | zeus, athena, themis | Best ELO available in plan |
-| **2. Default** | Analysis, advanced tasks | gaia, hephaestus, prometheus, chiron | Balance quality + cost |
-| **3. Coding** | Day-to-day code generation | hermes, aphrodite, demeter, echo | Cost-efficient, SWE ≥ 73% |
+| **2. Default** | Analysis, advanced tasks | gaia, hephaestus, prometheus | Balance quality + cost |
+| **3. Coding** | Day-to-day code generation | hermes, aphrodite, demeter | Cost-efficient, SWE ≥ 73% |
 | **4. Fast** | Research, ops, docs, hotfixes | apollo, nyx, iris, mnemosyne, talos | Cheapest, fastest |
 
 ## Per-Plan Deep Analysis
@@ -72,9 +72,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3-flash` | `N/A` | $45.0000 |
 | apollo | fast | `gemini-3-flash` | `claude-sonnet-4-6` | `claude-opus-4-7` | `N/A` | $1.5000 |
 | athena | premium | `claude-opus-4-7` | `claude-sonnet-4-6` | `gemini-3-flash` | `N/A` | $150.0000 |
-| chiron | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3-flash` | `N/A` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3-flash` | `N/A` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3-flash` | `N/A` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3-flash` | `N/A` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3-flash` | `N/A` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3-flash` | `N/A` | $45.0000 |
@@ -125,9 +123,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `N/A` | $45.0000 |
 | apollo | fast | `claude-haiku-4-5` | `claude-sonnet-4-6` | `claude-opus-4-7` | `N/A` | $2.5000 |
 | athena | premium | `claude-opus-4-7` | `claude-sonnet-4-6` | `claude-haiku-4-5` | `N/A` | $150.0000 |
-| chiron | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `N/A` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `N/A` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `N/A` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `N/A` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `N/A` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `N/A` | $45.0000 |
@@ -177,9 +173,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `gemini-3-flash` | `gemini-3-pro` | `N/A` | `N/A` | $9.0000 |
 | apollo | fast | `gemini-3-flash` | `gemini-3-pro` | `N/A` | `N/A` | $1.5000 |
 | athena | premium | `gemini-3-pro` | `gemini-3-flash` | `N/A` | `N/A` | $24.0000 |
-| chiron | default | `gemini-3-flash` | `gemini-3-pro` | `N/A` | `N/A` | $4.5000 |
 | demeter | coding | `gemini-3-flash` | `gemini-3-pro` | `N/A` | `N/A` | $4.5000 |
-| echo | coding | `gemini-3-flash` | `gemini-3-pro` | `N/A` | `N/A` | $4.5000 |
 | gaia | default | `gemini-3-flash` | `gemini-3-pro` | `N/A` | `N/A` | $6.0000 |
 | hephaestus | default | `gemini-3-flash` | `gemini-3-pro` | `N/A` | `N/A` | $9.0000 |
 | hermes | coding | `gemini-3-flash` | `gemini-3-pro` | `N/A` | `N/A` | $9.0000 |
@@ -229,9 +223,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $45.0000 |
 | apollo | fast | `claude-haiku-4-5-20250514` | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `N/A` | $2.5000 |
 | athena | premium | `claude-opus-4-7-20250514` | `claude-sonnet-4-6-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $150.0000 |
-| chiron | default | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $45.0000 |
@@ -282,9 +274,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $45.0000 |
 | apollo | fast | `claude-haiku-4-5-20250514` | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `N/A` | $2.5000 |
 | athena | premium | `claude-opus-4-7-20250514` | `claude-sonnet-4-6-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $150.0000 |
-| chiron | default | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-7-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $45.0000 |
@@ -335,9 +325,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-6-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $45.0000 |
 | apollo | fast | `claude-haiku-4-5-20250514` | `claude-opus-4-6-20250514` | `claude-sonnet-4-6-20250514` | `N/A` | $2.5000 |
 | athena | premium | `claude-opus-4-6-20250514` | `claude-sonnet-4-6-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $50.0000 |
-| chiron | default | `claude-sonnet-4-6-20250514` | `claude-opus-4-6-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-6-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-6-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6-20250514` | `claude-opus-4-6-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6-20250514` | `claude-opus-4-6-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6-20250514` | `claude-opus-4-6-20250514` | `claude-haiku-4-5-20250514` | `N/A` | $45.0000 |
@@ -391,9 +379,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `gemini-3.1-pro` | `claude-opus-4-6` | `claude-sonnet-4-6` | `claude-haiku-4-5` | $60.0000 |
 | apollo | fast | `gpt-5-mini` | `claude-opus-4-6` | `claude-sonnet-4-6` | `claude-haiku-4-5` | $1.0000 |
 | athena | premium | `claude-opus-4-6` | `claude-sonnet-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $50.0000 |
-| chiron | default | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $45.0000 |
@@ -447,9 +433,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `gemini-3.1-pro` | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | $60.0000 |
 | apollo | fast | `gpt-5-mini` | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | $1.0000 |
 | athena | premium | `claude-opus-4-7` | `claude-sonnet-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $150.0000 |
-| chiron | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3.1-pro` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3.1-pro` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3.1-pro` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3.1-pro` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3.1-pro` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3.1-pro` | $45.0000 |
@@ -500,9 +484,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `gpt-5-mini` | `claude-sonnet-4-6` | `gpt-5-nano` | `N/A` | $6.0000 |
 | apollo | fast | `gpt-5-mini` | `claude-sonnet-4-6` | `gpt-5-nano` | `N/A` | $1.0000 |
 | athena | premium | `gpt-5-mini` | `claude-sonnet-4-6` | `gpt-5-nano` | `N/A` | $4.0000 |
-| chiron | default | `gpt-5-mini` | `claude-sonnet-4-6` | `gpt-5-nano` | `N/A` | $3.0000 |
 | demeter | coding | `gpt-5-mini` | `claude-sonnet-4-6` | `gpt-5-nano` | `N/A` | $3.0000 |
-| echo | coding | `gpt-5-mini` | `claude-sonnet-4-6` | `gpt-5-nano` | `N/A` | $3.0000 |
 | gaia | default | `gpt-5-mini` | `claude-sonnet-4-6` | `gpt-5-nano` | `N/A` | $4.0000 |
 | hephaestus | default | `gpt-5-mini` | `claude-sonnet-4-6` | `gpt-5-nano` | `N/A` | $6.0000 |
 | hermes | coding | `gpt-5-mini` | `claude-sonnet-4-6` | `gpt-5-nano` | `N/A` | $6.0000 |
@@ -555,9 +537,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `gemini-3.1-pro` | `claude-sonnet-4-6` | `claude-opus-4-7` | `gpt-5.4-mini` | $60.0000 |
 | apollo | fast | `gpt-5-mini` | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3.1-pro` | $1.0000 |
 | athena | premium | `claude-opus-4-7` | `claude-sonnet-4-6` | `gemini-3.1-pro` | `gpt-5.4-mini` | $150.0000 |
-| chiron | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3.1-pro` | `gpt-5.4-mini` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3.1-pro` | `gpt-5.4-mini` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3.1-pro` | `gpt-5.4-mini` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3.1-pro` | `gpt-5.4-mini` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3.1-pro` | `gpt-5.4-mini` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `gemini-3.1-pro` | `gpt-5.4-mini` | $45.0000 |
@@ -611,9 +591,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `gemini-3.1-pro` | `claude-opus-4-6` | `claude-sonnet-4-6` | `claude-haiku-4-5` | $60.0000 |
 | apollo | fast | `gpt-5-mini` | `claude-opus-4-6` | `claude-sonnet-4-6` | `claude-haiku-4-5` | $1.0000 |
 | athena | premium | `claude-opus-4-6` | `claude-sonnet-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $50.0000 |
-| chiron | default | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gemini-3.1-pro` | $45.0000 |
@@ -666,9 +644,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gpt-5.4-mini` | $45.0000 |
 | apollo | fast | `gpt-5-mini` | `claude-opus-4-6` | `claude-sonnet-4-6` | `claude-haiku-4-5` | $1.0000 |
 | athena | premium | `claude-opus-4-6` | `claude-sonnet-4-6` | `claude-haiku-4-5` | `gpt-5.4-mini` | $50.0000 |
-| chiron | default | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gpt-5.4-mini` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gpt-5.4-mini` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gpt-5.4-mini` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gpt-5.4-mini` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gpt-5.4-mini` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6` | `claude-opus-4-6` | `claude-haiku-4-5` | `gpt-5.4-mini` | $45.0000 |
@@ -718,9 +694,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `gpt-5-mini` | `gpt-5-nano` | `N/A` | `N/A` | $6.0000 |
 | apollo | fast | `gpt-5-mini` | `gpt-5-nano` | `N/A` | `N/A` | $1.0000 |
 | athena | premium | `gpt-5-mini` | `gpt-5-nano` | `N/A` | `N/A` | $4.0000 |
-| chiron | default | `gpt-5-mini` | `gpt-5-nano` | `N/A` | `N/A` | $3.0000 |
 | demeter | coding | `gpt-5-mini` | `gpt-5-nano` | `N/A` | `N/A` | $3.0000 |
-| echo | coding | `gpt-5-mini` | `gpt-5-nano` | `N/A` | `N/A` | $3.0000 |
 | gaia | default | `gpt-5-mini` | `gpt-5-nano` | `N/A` | `N/A` | $4.0000 |
 | hephaestus | default | `gpt-5-mini` | `gpt-5-nano` | `N/A` | `N/A` | $6.0000 |
 | hermes | coding | `gpt-5-mini` | `gpt-5-nano` | `N/A` | `N/A` | $6.0000 |
@@ -774,9 +748,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `gemini-3-pro` | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | $36.0000 |
 | apollo | fast | `gpt-5-mini` | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | $1.0000 |
 | athena | premium | `claude-opus-4-7` | `claude-sonnet-4-6` | `claude-haiku-4-5` | `gemini-3-pro` | $150.0000 |
-| chiron | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $45.0000 |
@@ -830,9 +802,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `gemini-3-pro` | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | $36.0000 |
 | apollo | fast | `gpt-5-mini` | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | $1.0000 |
 | athena | premium | `claude-opus-4-7` | `claude-sonnet-4-6` | `claude-haiku-4-5` | `gemini-3-pro` | $150.0000 |
-| chiron | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $22.5000 |
 | demeter | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $22.5000 |
-| echo | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $22.5000 |
 | gaia | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $30.0000 |
 | hephaestus | default | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $45.0000 |
 | hermes | coding | `claude-sonnet-4-6` | `claude-opus-4-7` | `claude-haiku-4-5` | `gemini-3-pro` | $45.0000 |
@@ -886,9 +856,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `qwen3.6-plus` | `deepseek-v4-pro` | `kimi-k2.6` | `deepseek-v4-flash` | $12.0000 |
 | apollo | fast | `deepseek-v4-flash` | `deepseek-v4-pro` | `kimi-k2.6` | `qwen3.6-plus` | $0.1400 |
 | athena | premium | `kimi-k2.6` | `deepseek-v4-pro` | `qwen3.6-plus` | `deepseek-v4-flash` | $15.0000 |
-| chiron | default | `kimi-k2.5` | `deepseek-v4-pro` | `kimi-k2.6` | `qwen3.6-plus` | $3.7500 |
 | demeter | coding | `kimi-k2.5` | `deepseek-v4-pro` | `kimi-k2.6` | `qwen3.6-plus` | $3.7500 |
-| echo | coding | `kimi-k2.5` | `deepseek-v4-pro` | `kimi-k2.6` | `qwen3.6-plus` | $3.7500 |
 | gaia | default | `deepseek-v4-pro` | `kimi-k2.6` | `qwen3.6-plus` | `deepseek-v4-flash` | $6.9600 |
 | hephaestus | default | `kimi-k2.5` | `deepseek-v4-pro` | `kimi-k2.6` | `qwen3.6-plus` | $7.5000 |
 | hermes | coding | `kimi-k2.5` | `deepseek-v4-pro` | `kimi-k2.6` | `qwen3.6-plus` | $7.5000 |
@@ -939,9 +907,7 @@ All unique models across 17 plans (23 total):
 | aphrodite | coding | `minimax-m2.5-free` | `kimi-k2.5` | `gpt-5-nano` | `N/A` | $0.0000 |
 | apollo | fast | `gpt-5-nano` | `kimi-k2.5` | `minimax-m2.5-free` | `N/A` | $0.2000 |
 | athena | premium | `kimi-k2.5` | `minimax-m2.5-free` | `gpt-5-nano` | `N/A` | $5.0000 |
-| chiron | default | `minimax-m2.5-free` | `kimi-k2.5` | `gpt-5-nano` | `N/A` | $0.0000 |
 | demeter | coding | `minimax-m2.5-free` | `kimi-k2.5` | `gpt-5-nano` | `N/A` | $0.0000 |
-| echo | coding | `minimax-m2.5-free` | `kimi-k2.5` | `gpt-5-nano` | `N/A` | $0.0000 |
 | gaia | default | `minimax-m2.5-free` | `kimi-k2.5` | `gpt-5-nano` | `N/A` | $0.0000 |
 | hephaestus | default | `minimax-m2.5-free` | `kimi-k2.5` | `gpt-5-nano` | `N/A` | $0.0000 |
 | hermes | coding | `minimax-m2.5-free` | `kimi-k2.5` | `gpt-5-nano` | `N/A` | $0.0000 |
