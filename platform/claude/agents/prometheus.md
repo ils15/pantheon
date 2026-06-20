@@ -2,6 +2,7 @@
 name: prometheus
 description: Infrastructure + model provider specialist — Docker, CI/CD, multi-model routing, cost optimization, provider abstraction
 mode: subagent
+tools: Agent, AskUserQuestion, Grep, Grep, Read, Edit, Bash, Bash, Bash, WebFetch
 skills: docker-best-practices, multi-model-routing, agent-observability
 permission:
   edit: allow

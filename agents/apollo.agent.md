@@ -6,6 +6,19 @@ description: 'Read-only investigation scout — 3–10 parallel searches across 
 permission:
   edit: deny
   bash: deny
+
+tools:
+  - search/codebase
+  - search/usages
+  - search/fileSearch
+  - search/textSearch
+  - search/listDirectory
+  - read/readFile
+  - web/fetch
+  - browser/openBrowserPage
+  - browser/navigatePage
+  - browser/readPage
+  - browser/screenshotPage
 mode: subagent
 temperature: 0.1
 steps: 15

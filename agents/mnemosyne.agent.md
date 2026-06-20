@@ -7,6 +7,13 @@ mode: primary
 permission:
   edit: allow
   bash: deny
+
+tools:
+  - agent
+  - search/codebase
+  - search/usages
+  - read/readFile
+  - edit/editFiles
 temperature: 0.1
 steps: 10
 skills:

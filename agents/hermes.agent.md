@@ -7,6 +7,18 @@ mode: primary
 permission:
   edit: allow
   bash: allow
+
+tools:
+  - agent
+  - search/codebase
+  - search/usages
+  - read/readFile
+  - read/problems
+  - edit/editFiles
+  - execute/runInTerminal
+  - execute/testFailure
+  - execute/getTerminalOutput
+  - search/changes
 skills:
 - api-design-patterns
 - cache-strategy

@@ -9,6 +9,17 @@ permission:
   bash: allow
   task:
     '*': allow
+
+tools:
+  - agent
+  - vscode/askQuestions
+  - vscode/runCommand
+  - execute/runInTerminal
+  - read/readFile
+  - search/codebase
+  - search/usages
+  - web/fetch
+  - search/changes
 temperature: 0.2
 steps: 25
 skills:

@@ -7,6 +7,17 @@ mode: primary
 permission:
   edit: deny
   bash: deny
+
+tools:
+  - agent
+  - vscode/askQuestions
+  - search/codebase
+  - search/usages
+  - search/fileSearch
+  - search/textSearch
+  - search/listDirectory
+  - read/readFile
+  - web/fetch
 temperature: 0.1
 steps: 15
 skills:

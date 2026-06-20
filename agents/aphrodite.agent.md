@@ -7,6 +7,27 @@ mode: subagent
 permission:
   edit: allow
   bash: allow
+
+tools:
+  - agent
+  - vscode/askQuestions
+  - search/codebase
+  - search/usages
+  - read/readFile
+  - read/problems
+  - edit/editFiles
+  - execute/runInTerminal
+  - execute/testFailure
+  - execute/getTerminalOutput
+  - search/changes
+  - browser/openBrowserPage
+  - browser/navigatePage
+  - browser/readPage
+  - browser/clickElement
+  - browser/typeInPage
+  - browser/hoverElement
+  - browser/dragElement
+  - browser/handleDialog
 temperature: 0.5
 steps: 25
 skills:

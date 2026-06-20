@@ -10,6 +10,15 @@ permission:
     git add *: allow
     npx prettier *: allow
     git *: allow
+
+tools:
+  - search/codebase
+  - search/usages
+  - read/readFile
+  - read/problems
+  - edit/editFiles
+  - execute/runInTerminal
+  - execute/testFailure
 temperature: 0.3
 steps: 30
 skills:

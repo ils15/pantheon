@@ -13,6 +13,23 @@ permission:
     npx vitest *: allow
     pip-audit *: allow
     dep-audit *: allow
+
+tools:
+  - agent
+  - vscode/askQuestions
+  - search/codebase
+  - search/usages
+  - read/readFile
+  - read/problems
+  - search/changes
+  - execute/runInTerminal
+  - execute/testFailure
+  - edit/editFiles
+  - browser/openBrowserPage
+  - browser/navigatePage
+  - browser/readPage
+  - browser/clickElement
+  - browser/screenshotPage
 temperature: 0.1
 steps: 20
 skills:

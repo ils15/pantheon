@@ -9,6 +9,17 @@ permission:
   bash:
     git *: allow
     gh *: allow
+
+tools:
+  - agent
+  - vscode/askQuestions
+  - vscode/runCommand
+  - read/readFile
+  - search/codebase
+  - search/changes
+  - execute/runInTerminal
+  - execute/getTerminalOutput
+  - web/fetch
 temperature: 0.2
 steps: 15
 skills:

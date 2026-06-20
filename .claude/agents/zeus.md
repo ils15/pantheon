@@ -2,6 +2,7 @@
 name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena, apollo, hermes, aphrodite, demeter, prometheus, themis, iris, mnemosyne, talos, hephaestus, nyx"
 mode: primary
+tools: Agent, AskUserQuestion, Bash, Read, Grep, Grep, WebFetch
 skills: agent-coordination, artifact-management, auto-continue, context-compression, internet-search, orchestration-workflow, session-goal
 permission:
   edit: deny
