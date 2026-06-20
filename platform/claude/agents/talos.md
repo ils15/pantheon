@@ -2,9 +2,7 @@
 name: talos
 description: Hotfix express lane — direct fixes for small bugs, CSS, typos, minor logic. No TDD ceremony, no orchestration overhead. Standalone, no subagents. Escalates complex issues to zeus.
 mode: subagent
-tools: Grep, Grep, Read, Edit, Bash, Bash
-skills: code-discipline, simplify
-user-invocable: true
+skills: simplify
 permission:
   edit: allow
   bash:
@@ -13,12 +11,6 @@ permission:
     git *: allow
 temperature: 0.3
 steps: 30
-mcpServers:
-  - name: context7
-    tools:
-      - context7_resolve-library-id
-      - context7_query-docs
-    when: resolving library documentation
 ---
 
 # Talos - Hotfix Express Lane

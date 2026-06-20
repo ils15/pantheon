@@ -273,6 +273,7 @@ This routing table is auto-generated from `routing.yml` — the canonical routin
 | Code review / quality gate | @themis | — | — |
 | Security audit | @themis | — | — |
 | GitHub operations | @iris | — | — |
+| Context compression / artifact archival | @mnemosyne | — | — |
 | Documentation / memory | @mnemosyne | — | — |
 | Observability / monitoring | @nyx | — | — |
 | Hotfix / bug fix | @talos | — | — |

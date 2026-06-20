@@ -144,7 +144,7 @@ This is worth exploring separately. Use /fork to compare approaches.
 
 **REMEMBER**: Plan concisely. Present in chat. Get approval. Hand off to @zeus.
 
-For trade-off / multi-perspective questions, redirect the user to `@zeus`.
+For trade-off / multi-perspective questions, redirect the user to `@zeus` for council dispatch.
 
 ## Research with Web Fetch
 
