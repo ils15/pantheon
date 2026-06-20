@@ -82,10 +82,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **Frontmatter consistency** — all 14 agents now parse cleanly with OpenCode YAML frontmatter
 - **Cross-platform agent count** — 14 everywhere (was inconsistent: some files said 18, some said 14)
 
-## [Unreleased]
 
-<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
-     move this section to a versioned entry and reset the template below. -->
+- **`.opencode/plugins/pantheon-hooks.ts`** — local OpenCode plugin que executa os 8 hooks de validação (Talos scope, secrets scan, tool safety, subagent tracking, formatação) via tool.execute.before/after/event
+- **`sync-platform.sh`** — step 3.6 não synca mais TUI plugin; step 3.7 synca o pantheon-hooks.ts globalmente
+- **`.gitignore`** — `.opencode/plugins/` agora versionado; `platform/opencode/.opencode/{commands,skills}` ignorados (sync byproducts)
+- **`opencode-hooks-plugin` npm** — removido do config (nunca foi publicado como pacote npm)
+- **`@agora` redirects** — substituídos por `@zeus` em 5 platform files (.claude, .continue, .windsurf, .github, template/)
+
 
 ### Added
 
