@@ -7,6 +7,17 @@ mode: subagent
 permission:
   edit: allow
   bash: allow
+
+tools:
+  - agent
+  - search/codebase
+  - search/usages
+  - read/readFile
+  - read/problems
+  - edit/editFiles
+  - execute/runInTerminal
+  - execute/testFailure
+  - execute/getTerminalOutput
 temperature: 0.2
 steps: 20
 skills:

@@ -2,6 +2,7 @@
 name: themis
 description: Quality & security gate — ruff/Biome linting, dead/legacy code detection, OWASP Top 10, coverage >80%, correctness, deprecation audit. Called by implementers; escalates blockers to zeus.
 mode: primary
+tools: Agent, AskUserQuestion, Grep, Grep, Read, Bash, Bash, Edit
 skills: code-review-checklist, security-audit-pro, tdd-with-agents, mcp-security
 permission:
   edit: ask

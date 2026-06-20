@@ -7,6 +7,16 @@ mode: subagent
 permission:
   edit: deny
   bash: deny
+
+tools:
+  - search/codebase
+  - search/usages
+  - search/fileSearch
+  - search/textSearch
+  - search/listDirectory
+  - read/readFile
+  - web/fetch
+  - vscode/askQuestions
 temperature: 0.2
 steps: 20
 skills:
