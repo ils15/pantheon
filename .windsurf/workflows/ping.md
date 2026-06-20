@@ -16,7 +16,7 @@ Start with the version badge, then the agent table:
 ## 🏛️ Pantheon vX.Y.Z — Agent Health Check
 
 **Platform:** <opencode | claude | cursor | windsurf | vscode>
-**Agents:** N of 17 responding
+**Agents:** N of 14 responding
 
 | Agent | Role | Tier | Status |
 |-------|------|------|--------|

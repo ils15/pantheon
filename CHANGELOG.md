@@ -50,6 +50,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Ils15 ([@ils15](https://github.com/ils15))
 
+
+## [v3.13.0] - 2026-06-20
+
+### Added
+- **Level 2 Context Compression** — priority scoring engine (5 deterministic dimensions: Impact, Risk, Novelty, Blockers, Downstream relevance), semantic summarization templates per agent-pair, budget allocation (100-line cap, priority-greedy), cross-reference mechanism (D/E/M/C IDs with auto-generated `_xref/index.md`), ZZ artifact format for phase-to-phase context injection, `context-compression` skill (Level 2)
+- **New prompts**: `prompts/semantic-summarize.md` for agent-pair aware semantic summarization
+- **New scripts**: `scripts/scrub-secrets.py` for security scrubbing of compressed content
+- **Missing infra**: `docs/memory-bank/_xref/_next_id.json` with full key names (decisions/entities/milestones/tasks)
+- **Safety preflight**: `can_compress()` guard prevents compression of in-progress/escalated/blocked/NEEDS_REVISION artifacts
+- **Atomic write protocol**: .tmp + fsync + rename with validation for corruption prevention
+
+### Changed
+- **14 agent `.agent.md` files** — stripped non-OpenCode frontmatter (`tools:`, `handoffs:`, `agents:`, `color:`, `hidden:`, `mcpServers:`). All agents now use only OpenCode-recognized fields
+- **Agent count unified** — all files consistently say "14 agents" (removed chiron, echo, argus from counts)
+- **`instructions/artifact-protocol.instructions.md`** — updated with ZZ artifact format, compression lifecycle, atomic write protocol, budget guardrails
+- **`instructions/memory-bank-standards.instructions.md`** — updated with compression and recovery section, cross-reference docs
+- **Context compression** — Level 1 replaced entirely by Level 2 (priority-scored summaries with downstream-aware field masks)
+- **All 7 platforms regenerated** — commands (pantheon-status, ping) and agents synced across OpenCode, Claude Code, Cursor, Windsurf, Cline, Continue, Copilot
+
+### Removed
+- **TUI Plugin** — moved to `plugins-disabled/`, removed from OpenCode config (temporary removal)
+- **`packages/tui-plugin/`** — source files removed from active tree
+- **`plugins/pantheon-tui-plugin/`** — secondary plugin source removed
+- **`platform/opencode/.opencode/package.json`** — stale TUI config removed
+- **Stale agent references** — chiron, echo, argus, agora references cleaned from 40+ files across platforms, docs, tests, commands
+- **Missing skill references** — `code-discipline`, `architecture-diagrams` removed from agent references (never existed as skills)
+
+### Fixed
+- **CHANGELOG.md** — removed 4 duplicate v3.12.1 entries and empty v3.12.2 section
+- **Frontmatter consistency** — all 14 agents now parse cleanly with OpenCode YAML frontmatter
+- **Cross-platform agent count** — 14 everywhere (was inconsistent: some files said 18, some said 14)
+
 ## [Unreleased]
 
 <!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
@@ -63,46 +95,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Removed
 
-## [v3.12.2] - 2026-06-19
-
-<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
-     move this section to a versioned entry and reset the template below. -->
-
-### Changed
-
-### Removed
-## [v3.12.1] - 2026-06-19
-
-<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
-     move this section to a versioned entry and reset the template below. -->
-
-### Changed
-
-### Removed
-## [v3.12.1] - 2026-06-19
-
-<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
-     move this section to a versioned entry and reset the template below. -->
-
-### Changed
-
-### Removed
-## [v3.12.1] - 2026-06-19
-
-<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
-     move this section to a versioned entry and reset the template below. -->
-
-### Changed
-
-### Removed
-## [v3.12.1] - 2026-06-18
-
-<!-- Add new changes here. Running `node scripts/versioning.mjs apply` will
-     move this section to a versioned entry and reset the template below. -->
-
-### Changed
-
-### Removed
 ## [v3.11.0] - 2026-06-10
 
 ### Added

@@ -1,45 +1,17 @@
 ---
 name: prometheus
-color: "#4A90D9"
-hidden: true
-description: "Infrastructure + model provider specialist — Docker, CI/CD, multi-model routing, cost optimization, provider abstraction"
-# mode: platform-specific — used by OpenCode (primary=agent selector, subagent=hidden, only via @mention/task)
+description: Infrastructure + model provider specialist — Docker, CI/CD, multi-model
+  routing, cost optimization, provider abstraction
 mode: subagent
-tools:
-  - agent
-  - vscode/askQuestions
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
-  - search/changes
-  - web/fetch
 permission:
   edit: allow
   bash: allow
-agents: ['apollo']
-handoffs:
-  - label: "➡️ Validate Infrastructure"
-    agent: themis
-    prompt: "Validate these infrastructure changes for best practices, security, and correctness."
-    send: false
-user-invocable: true
 temperature: 0.2
 steps: 20
 skills:
-  - docker-best-practices
-  - multi-model-routing
-  - agent-observability
-mcpServers:
-  - name: context7
-    tools:
-      - context7_resolve-library-id
-      - context7_query-docs
-    when: "resolving Docker/CI documentation"
+- docker-best-practices
+- multi-model-routing
+- agent-observability
 ---
 
 # Prometheus - Infrastructure Specialist

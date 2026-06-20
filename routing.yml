@@ -31,6 +31,7 @@ agents:
       - orchestration
       - delegation
       - context_conservation
+      - context_compression
       - phase_management
       - quality_gate_enforcement
     subagent_can_delegate_to:
@@ -51,6 +52,7 @@ agents:
       - agent-coordination
       - session-goal
       - artifact-management
+      - context-compression
 
   athena:
     role: "Strategic planner & architect — TDD-driven plans, research-first approach"
@@ -270,11 +272,13 @@ agents:
       - adr_writing
       - project_initialization
       - sprint_documentation
+      - context_compression
     subagent_can_delegate_to: []
     skills:
       - artifact-management
       - handoff
       - task-system
+      - context-compression
 
   talos:
     role: "Hotfix express lane — direct fixes for small bugs, CSS, typos. No TDD"
@@ -409,6 +413,11 @@ delegation:
         - adr_creation
         - sprint_close
       prompt_hint: "Document the completed work and decisions in the Memory Bank."
+
+    - target: mnemosyne
+      when:
+        - context_compression
+      prompt_hint: "Compress completed phase artifacts and archive to memory bank."
 
     - target: talos
       when:
@@ -575,6 +584,12 @@ handoffs:
       description: "Re-delegate visual fixes to Aphrodite (self-review loop)"
       agent: aphrodite
       prompt: "Fix these visual issues identified in self-review: [issues]"
+
+    compress_context:
+      label: "🗜️ Compress Context"
+      description: "Compress completed subtask_summaries and archive IMPL/REVIEW artifacts after Themis approval"
+      agent: mnemosyne
+      prompt: "Compress completed phase artifacts (Level 2): create ZZ-phase{N}-context.md with priority-scored entries, write compressed entries to 01-active-context.md (priority-aware, budget-allocated), archive IMPL/REVIEW to 02-progress-log.md, update _xref/index.md cross-references."
 
   athena:
     validate_plan:
@@ -944,6 +959,10 @@ routing_matrix:
 
   - category: "GitHub operations"
     primary_agent: iris
+
+  - category: "Context compression / artifact archival"
+    primary_agent: mnemosyne
+    notes: "Called by Zeus after Themis APPROVED — compresses subtask_summaries, archives IMPL/REVIEW"
 
   - category: "Documentation / memory"
     primary_agent: mnemosyne

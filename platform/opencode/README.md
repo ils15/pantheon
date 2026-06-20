@@ -94,7 +94,7 @@ pantheon/
 │       ├── agents/          # OpenCode-adapted agent definitions
 │       └── .opencode/
 │           ├── plugins/
-│           │   └── pantheon-tui.ts   # TUI sidebar plugin (version + agents)
+│           │   └── pantheon-tui.ts   # TUI sidebar plugin — temporarily disabled (source files removed)
 │           ├── package.json           # Plugin dependencies
 │           └── tsconfig.json          # TypeScript config for plugins
 ├── agents/                   # Canonical VS Code agent definitions  
@@ -104,17 +104,16 @@ pantheon/
 └── opencode.json             # Configuration
 ```
 
-### TUI Sidebar Plugin
+### TUI Sidebar Plugin (Temporarily Disabled)
 
-Pantheon includes a TUI plugin that renders a **sidebar panel** in the OpenCode terminal UI, showing:
+Pantheon previously included a TUI plugin that rendered a **sidebar panel** in the OpenCode terminal UI. The plugin source files have been removed pending a rewrite.
 
+**What it showed (for reference):**
 - **Version badge** — `Pantheon v3.11.0` (reads `plugin.json` / `package.json`)
 - **Model tier** — `Pro` (premium agents: athena, themis) or `Free`
 - **Agent registry** — all 14 agents with role and tier
 
-This mirrors the sidebar display from oh-my-opencode-slim.
-
-**Setup:**
+**Setup (when re-enabled):**
 
 ```bash
 # 1. Copy the plugin to your project or global config
@@ -128,7 +127,7 @@ cd ~/.config/opencode && npm install
 
 The plugin is auto-loaded from `.opencode/plugins/*.ts` (project-level) or `~/.config/opencode/plugins/*.ts` (global). No `opencode.json` registration needed — OpenCode discovers plugins in these directories at startup.
 
-**Dependencies:**
+**Dependencies (when re-enabled):**
 - `@opencode-ai/plugin` (TUI plugin API)
 - `@opentui/solid` (JSX rendering — optional, bundled with OpenCode)
 

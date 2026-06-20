@@ -2,7 +2,7 @@
 
 ## What is Pantheon
 
-A multi-agent framework for VS Code Copilot, OpenCode, Claude Code, Cursor, Windsurf, Cline, and Continue.dev using the Conductor-Delegate pattern. 17 specialized agents coordinate through Zeus (orchestrator) to implement features with TDD enforcement and mandatory quality gates.
+A multi-agent framework for VS Code Copilot, OpenCode, Claude Code, Cursor, Windsurf, Cline, and Continue.dev using the Conductor-Delegate pattern. 14 specialized agents coordinate through Zeus (orchestrator) to implement features with TDD enforcement and mandatory quality gates.
 
 ## Installation
 
@@ -23,7 +23,7 @@ cd pantheon
 
 See [docs/INSTALLATION.md](INSTALLATION.md) for detailed platform-specific setup.
 
-## Available Agents (17)
+## Available Agents (14)
 
 | Agent | Role | Tier |
 |---|---|---|
