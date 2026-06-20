@@ -348,32 +348,24 @@ sync_opencode() {
     echo "    ⚠️  No commands/ directory found — skipping"
   fi
 
-  # Step 3.6: Sync TUI plugins
-  echo "=== 3.6. Syncing TUI plugins -> ~/.config/opencode/plugins/ ==="
-  local tui_src="$SCRIPT_DIR/platform/opencode/.opencode/plugins"
+  # Step 3.6: Syncing Pantheon plugins -> ~/.config/opencode/plugins/
+  echo "=== 3.6. Syncing Pantheon plugins -> ~/.config/opencode/plugins/ ==="
   local tui_dest="$HOME/.config/opencode/plugins"
-  if [ -d "$tui_src" ]; then
-    mkdir -p "$tui_dest"
-    if [ "$DRY_RUN" = false ]; then
-      cp "$tui_src"/*.ts "$tui_dest/" 2>/dev/null || true
-      # Copy package.json and tsconfig.json if present
-      [ -f "$SCRIPT_DIR/platform/opencode/.opencode/package.json" ] && \
-        cp "$SCRIPT_DIR/platform/opencode/.opencode/package.json" "$HOME/.config/opencode/"
-      [ -f "$SCRIPT_DIR/platform/opencode/.opencode/tsconfig.json" ] && \
-        cp "$SCRIPT_DIR/platform/opencode/.opencode/tsconfig.json" "$HOME/.config/opencode/"
-    fi
-    echo "    ✅ $(ls "$tui_src"/*.ts 2>/dev/null | wc -l) TUI plugins synced"
-  else
-    echo "    ⚠️  No TUI plugins found — skipping"
-  fi
+  mkdir -p "$tui_dest"
+  echo "    ℹ️  TUI plugin temporarily disabled — hooks plugin synced in step 3.7" 
 
-  # Step 3.7: Ensure opencode.json has hooks plugin listed
-  # (OpenCode auto-installs plugins from the "plugin" array on startup)
-  echo "=== 3.7. opencode-hooks-plugin (auto-installed by OpenCode via opencode.json) ==="
-  if grep -q '"opencode-hooks-plugin"' "$HOME/.config/opencode/opencode.json" 2>/dev/null; then
-    echo "    ✅ opencode-hooks-plugin listed in opencode.json — OpenCode will install on startup"
+  # Step 3.7: Sync Pantheon hooks plugin (local OpenCode plugin)
+  echo "=== 3.7. Pantheon hooks plugin (local .opencode/plugins/pantheon-hooks.ts) ==="
+  local hooks_src="$SCRIPT_DIR/.opencode/plugins/pantheon-hooks.ts"
+  local hooks_dest="$HOME/.config/opencode/plugins/pantheon-hooks.ts"
+  if [ -f "$hooks_src" ]; then
+    mkdir -p "$HOME/.config/opencode/plugins"
+    if [ "$DRY_RUN" = false ]; then
+      cp "$hooks_src" "$hooks_dest"
+    fi
+    echo "    ✅ Pantheon hooks plugin synced to global plugins directory"
   else
-    echo "    ⚠️  opencode-hooks-plugin not found in opencode.json — add \"opencode-hooks-plugin\" to the plugin array"
+    echo "    ⚠️  pantheon-hooks.ts not found at $hooks_src — skipping"
   fi
 
   # Step 4: Apply active plan model overrides

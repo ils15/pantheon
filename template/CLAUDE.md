@@ -28,7 +28,7 @@ For shared project conventions, architecture decisions, and coding standards, **
 | `gaia` | Remote sensing domain expert | `@gaia Analyze LULC agreement` |
 | `hephaestus` | AI pipelines (RAG, LangChain) | `@hephaestus Build a RAG pipeline` |
 | `nyx` | Observability (tracing, costs) | `@nyx Set up OpenTelemetry` |
-| `agora` | Council synthesis | `@agora Compare architecture options X vs Y` |
+| `agora` | Council synthesis | `@zeus (for council dispatch) Compare architecture options X vs Y` |
 
 ### Notes
 - `AGENTS.md` contains shared cross-platform conventions (also read by Cursor, Windsurf, Copilot, Codex)
