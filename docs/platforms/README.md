@@ -45,7 +45,7 @@ Configuração `steps` por agente — controla quantas tool calls o agente pode 
 | Hephaestus | 25 | RAG pipelines + embeddings + chains |
 | Themis | 20 | Revisão multi-arquivo: lint + cobertura + OWASP |
 | Athena | 20 | Planejamento + pesquisa + Agora synthesis |
-| Chiron, Echo, Gaia | 20 | Configuração multi-provedor |
+| Gaia | 20 | Configuração multi-provedor |
 | **Mnemosyne** | **20** | ADR: ler código → escrever → verificar → commitar |
 | Apollo | 15 | Pesquisa paralela (3-10 buscas) |
 | Nyx | 15 | Observabilidade |

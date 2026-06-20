@@ -19,7 +19,7 @@ Pantheon's 14 agents are authored once in `agents/` (VS Code `.agent.md` format)
 | **Agent format** | `.agent.md` | `.md` + frontmatter | `.md` + comma-separated tools | `.mdc` rules | `.md` (stub) | `.clinerules` plain md | **`.md` rule files** |
 | **Agent loading** | Built-in agent system | `opencode/agents/` | `.claude/agents/` | `.cursor/rules/` | TBD | `.clinerules/` directory | **`.continue/rules/`** |
 | **Skill support** | `skill` tool in frontmatter | Skill registry config | Comma-separated skills in frontmatter | Limited (body prepend) | TBD | ❌ Not supported | **❌ Rules only** |
-| **Hook/automation** | ✅ Full (.github/hooks/) | ⚠️ Partial (opencode.json) | ❌ Not supported | ❌ Not supported | ❌ Not supported | ❌ Not supported | **❌ Not supported** |
+| **Hook/automation** | ✅ Full (scripts/hooks/) | ⚠️ Partial (opencode.json + plugin) | ❌ Not supported | ❌ Not supported | ❌ Not supported | ❌ Not supported | **❌ Not supported** |
 | **Subagent delegation** | `runSubagent` | Task tool | Task tool | Native subagents | Cascade | ❌ Single agent | **❌ Not supported** |
 | **Parallel execution** | ✅ Yes | ✅ Yes | ⚠️ Sequential | ✅ Yes | ❌ | ❌ Single agent | **❌ Single-threaded** |
 | **Model routing** | Per-agent model field | Per-agent model field + profiles | Per-agent model field | Per-rule model | TBD | ❌ Settings only | **❌ Single model per session** |
