@@ -2,20 +2,12 @@
 name: hermes
 description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection. Calls apollo for discovery, sends to themis.
 mode: primary
-tools: Agent, Grep, Grep, Read, Edit, Bash, Bash, Bash
-skills: api-design-patterns, cache-strategy, code-discipline, database-optimization, fastapi-async-patterns, simplify, tdd-with-agents, test-architecture
-agents:
-  - apollo
-user-invocable: true
+skills: api-design-patterns, cache-strategy, database-optimization, fastapi-async-patterns, simplify, tdd-with-agents, test-architecture
 permission:
   edit: allow
   bash: allow
 temperature: 0.3
 steps: 20
-globs:
-  - "**/*.py"
-  - "**/routers/**/*.py"
-  - "**/services/**/*.py"
 ---
 
 

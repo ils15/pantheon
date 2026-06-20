@@ -48,6 +48,7 @@ docs/memory-bank/
 | `@agora` council / `@apollo` | **Agora / Apollo** | `DISC-<topic>.md` |
 | `@any` agent via subtask | **The worker** | No artifact — returns `subtask_summary` inline |
 | Architectural decision (any agent) | **Any → Mnemosyne** | `ADR-<topic>.md` (permanent) |
+| Zeus (cognitive) → Mnemosyne (writer) | **Zeus → Mnemosyne** | `ZZ-phase<N>-context.md` — compressed context artifact |
 
 > [!IMPORTANT]
 > **Zeus does NOT generate artifacts.** He orchestrates agents that generate them.
@@ -64,6 +65,7 @@ docs/memory-bank/
 | `REVIEW-` | `.tmp/` | ✅ Deleted on sprint close | Themis |
 | `DISC-` | `.tmp/` | ✅ Deleted on sprint close | Agora (council) / Apollo (delegated discovery) |
 | `SUB-` (inline) | inline response | ✅ No persistence | Any agent (via subtask) |
+| `ZZ-` | `.tmp/` | ✅ Deleted on sprint close | Zeus → Mnemosyne (compression) | Compressed phase context — priority-scored summaries passed to next phase |
 | `ADR-` | `_notes/` | ❌ Permanent, never deleted | Any agent |
 
 ---
@@ -122,6 +124,19 @@ Agent produces phase output
     ├─ Mnemosyne writes to docs/memory-bank/.tmp/PLAN-<feature>.md
     │
     ├─ ⏸️ Human reads the file and approves
+    │
+    ├─ Agent implements → IMPL artifact
+    │
+    ├─ @themis reviews → REVIEW artifact
+    │
+    ├─ After Themis APPROVES:
+    │   1. Zeus scores + summarizes + budgets (cognitive, no file I/O)
+    │   2. Zeus delegates compression to Mnemosyne
+    │   3. Mnemosyne writes ZZ-phase{N}-context.md with priority-scored entries
+    │   4. Mnemosyne updates 01-active-context.md (priority-aware)
+    │   5. Mnemosyne archives IMPL → 02-progress-log.md
+    │   6. Mnemosyne updates _xref/ cross-references
+    │   7. Zeus injects ZZ artifact wisdom → next phase
     │
     └─ On sprint close:
         "@mnemosyne Close sprint" → wipes entire .tmp/ folder
@@ -235,6 +250,44 @@ Running simultaneously:
 - @demeter     → migrations      → .tmp/IMPL-phase2-demeter.md
 Themis reviews all three after completion.
 ```
+
+---
+
+## Archive Step — Context Compression
+
+After Themis APPROVES a phase, the compression pipeline fires:
+
+1. **Zeus validates**: Themis verdict is APPROVED, no blockers active
+2. **Zeus scores**: Priority scores each subtask_summary (deterministic, no LLM)
+3. **Zeus summarizes**: Generates semantic summaries for CRITICAL/HIGH entries
+4. **Zeus budgets**: Runs priority-greedy budget allocation
+5. **Zeus delegates**: Sends `compress_context` handoff to Mnemosyne
+6. **Mnemosyne scrubs**: Runs `scripts/scrub-secrets.py` on any free-text
+7. **Mnemosyne writes ZZ artifact**: `ZZ-phase{N}-context.md` in .tmp/
+8. **Mnemosyne updates**: 01-active-context.md with priority-aware compressed entries
+9. **Mnemosyne archives**: IMPL → 02-progress-log.md
+10. **Mnemosyne cross-refs**: Updates _xref/index.md, increments _next_id.json
+11. **Mnemosyne cleans**: Deletes archived artifacts from `.tmp/`
+12. **Zeus injects**: ZZ artifact into next phase agent prompts
+
+### Safety
+- NEVER archive REVIEW with NEEDS_REVISION or FAILED
+- NEVER compress subtask_summary with in_progress/escalated/blocked status
+- NEVER touch ADR notes (`_notes/` — permanent)
+- PLAN artifacts compress only after the LAST phase of a feature completes
+
+### Rollback
+Git preserves all pre-compression state. Recovery:
+```bash
+git show HEAD~1:docs/memory-bank/01-active-context.md
+```
+
+### Write Protocol
+All writes to `01-active-context.md` and `02-progress-log.md` use atomic write:
+1. Write to `.tmp` file in same directory
+2. `fsync()` the file descriptor
+3. Validate minimum structure (>0 bytes, has heading)
+4. `os.rename(.tmp, target)` — POSIX atomic on same filesystem
 
 ---
 

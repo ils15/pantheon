@@ -2,11 +2,7 @@
 name: hephaestus
 description: AI tooling & pipelines specialist — LangChain/LangGraph chains, RAG architecture, vector stores, embedding strategies. Forges AI infrastructure. Calls apollo, sends to themis.
 mode: subagent
-tools: Agent, AskUserQuestion, Grep, Grep, Read, Edit, Bash, Bash, Bash, WebFetch
 skills: rag-pipelines, mcp-server-development, agent-evaluation, conversational-ai-design, prompt-improver
-agents:
-  - apollo
-user-invocable: true
 permission:
   edit: allow
   bash: allow

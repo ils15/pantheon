@@ -75,7 +75,9 @@ All phase outputs go to `docs/memory-bank/.tmp/`. See `instructions/artifact-pro
 
 ---
 
-## Model Selection (via Chiron)
+## Model Selection
+
+Model routing is handled by Prometheus and the platform configuration. Zeus delegates model selection to the tier system (`fast` / `default` / `coding` / `premium`).
 
 - **Deep tasks** → High-quality models (Claude, GPT-4)
 - **Quick tasks** → Fast/cheap models (Haiku, 4o-mini)

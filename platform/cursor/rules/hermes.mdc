@@ -1,11 +1,8 @@
 ---
 name: hermes
 description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection. Calls apollo for discovery, sends to themis.
-globs:
-  - "**/*.py"
-  - "**/routers/**/*.py"
-  - "**/services/**/*.py"
 alwaysApply: false
+globs: []
 ---
 
 > Pantheon agent for Cursor. Invoke with @<name> in Agent mode.

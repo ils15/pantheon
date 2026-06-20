@@ -2,22 +2,7 @@
 name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena, apollo, hermes, aphrodite, demeter, prometheus, themis, iris, mnemosyne, talos, hephaestus, nyx"
 mode: primary
-tools: Agent, AskUserQuestion, Bash, Read, Grep, Grep, WebFetch
-skills: agent-coordination, artifact-management, auto-continue, internet-search, orchestration-workflow, session-goal
-agents:
-  - athena
-  - apollo
-  - hermes
-  - aphrodite
-  - demeter
-  - themis
-  - prometheus
-  - iris
-  - mnemosyne
-  - talos
-  - hephaestus
-  - nyx
-user-invocable: true
+skills: agent-coordination, artifact-management, auto-continue, context-compression, internet-search, orchestration-workflow, session-goal
 permission:
   edit: deny
   bash: allow
@@ -25,12 +10,6 @@ permission:
     "*": allow
 temperature: 0.2
 steps: 25
-mcpServers:
-  - name: context7
-    tools:
-      - context7_resolve-library-id
-      - context7_query-docs
-    when: resolving library documentation
 ---
 
 ## 📑 Table of Contents
@@ -296,6 +275,7 @@ This routing table is auto-generated from `routing.yml` — the canonical routin
 | Code review / quality gate | @themis | — | — |
 | Security audit | @themis | — | — |
 | GitHub operations | @iris | — | — |
+| Context compression / artifact archival | @mnemosyne | — | — |
 | Documentation / memory | @mnemosyne | — | — |
 | Observability / monitoring | @nyx | — | — |
 | Hotfix / bug fix | @talos | — | — |
