@@ -88,4 +88,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **`@agora` redirects** — substituídos por `@zeus` em 5 platform files
 - **Stale docs references** — Chiron, Echo removidos de README.md, QUICKSTART.md, platforms docs; TUI marcado como desativado; hooks docs atualizados de `.github/hooks/` para `scripts/hooks/`; skill count corrigido para 42
 - **Canonical skills** — referências a Chiron em agent-coordination e database-optimization atualizadas para "Model Selection" e "model tier"
+- **`tools:` field restored to all 14 canonical agents** — re-adicionado de v3.12.2 para o sync engine + conformance tests validarem toolMap keys
+- **Stale skills removed** — `relentless-mode`, `review-work` (sem fonte canônica) removidos de .clinerules/skills, platform/claude, platform/cline, platform/continue, platform/cursor
+- **Stale commands removed** — `cancel-relentless`, `token-audit` (sem fonte canônica em commands/) removidos de .clinerules/commands, .continue/commands, .cursor/commands e platform sources
+- **wisdom-accumulation cleaned from platforms** — nenhum agente referenciava o skill; removido de platform dirs via sync --clean
+- **All platforms sync:check** — 0 stale files across 7 platforms
 
+### CI
+- **Platform Conformance Matrix** — 6/6 plataformas passando com 0 falhas
+- **CI validate** — passing
+- **Sync Check** — passing
+- **Auto Release** — published at v3.13.0
