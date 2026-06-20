@@ -9,7 +9,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-14-purple" alt="Agents"></a>
-  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-41-orange" alt="Skills"></a>
+   <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-42-orange" alt="Skills"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf|cline|continue-8250DF" alt="Built with"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/ci.yml?branch=main&label=CI" alt="CI"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/release.yml?branch=main&label=release" alt="Release"></a>
@@ -369,8 +369,6 @@ graph TB
 
     subgraph AI["AI Infrastructure"]
         H["Hephaestus<br/>AI Pipelines"]:::tier1b
-        Q["Chiron<br/>Model Routing"]:::tier1b
-        E["Echo<br/>Conversational AI"]:::tier1b
     end
 
     subgraph T2["Implementation"]
@@ -415,21 +413,21 @@ graph TB
 
 ## Skill Ecosystem
 
-Pantheon bundles **40 cross-platform skills** — modular instruction sets that agents load
+Pantheon bundles **42 cross-platform skills** — modular instruction sets that agents load
 on demand to perform specialized tasks. Skills are organized into domains:
 
 | Domain | Skills |
 |---|---|
-| **Orchestration** | agent-coordination, artifact-management, tdd-with-agents, auto-continue, session-goal, task-system, handoff |
+| **Orchestration** | agent-coordination, artifact-management, tdd-with-agents, auto-continue, session-goal, task-system, handoff, orchestration-workflow |
 | **Backend & API** | api-design-patterns, fastapi-async-patterns, database-migration, database-optimization |
 | **Frontend** | frontend-analyzer, nextjs-seo-optimization |
 | **AI Pipelines** | rag-pipelines, multi-model-routing, conversational-ai-design, mcp-server-development |
 | **Infrastructure** | docker-best-practices, streaming-patterns, cache-strategy |
-| **Security & Quality** | security-audit-pro, code-review-checklist, prompt-injection-security |
+| **Security & Quality** | security-audit-pro, code-review-checklist, prompt-injection-security, mcp-security |
 | **Planning & Design** | plan-architecture, codemap, init-deep, interview, metis-gap-analysis |
-| **Memory & Context** | memory-bank, token-audit, file-prompts |
+| **Memory & Context** | memory-bank, token-audit, file-prompts, context-compression |
 | **Domain** | remote-sensing-analysis, internet-search |
-| **Utilities** | prompt-improver, agent-evaluation, agent-observability, wisdom-accumulation |
+| **Utilities** | prompt-improver, agent-evaluation, agent-observability, wisdom-accumulation, simplify, test-architecture |
 
 > See [skills/README.md](skills/README.md) for the complete reference with descriptions
 > and usage patterns.
@@ -445,7 +443,7 @@ subscription (OpenCode Go, Copilot Pro, Claude Pro, etc.).
 | Tier | Purpose | Agents | Typical Models |
 |------|---------|--------|----------------|
 | `premium` | Deep reasoning, critical | Zeus, Athena, Themis | DeepSeek V4 Pro, Claude Opus, o3 |
-| `default` | Balanced quality/speed | Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Chiron, Echo, Gaia | Kimi K2.6, Claude Sonnet, GPT-4o |
+| `default` | Balanced quality/speed | Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Gaia | Kimi K2.6, Claude Sonnet, GPT-4o |
 | `coding` | Heavy coding tasks | Hermes, Aphrodite, Demeter, Prometheus, Hephaestus, Talos | DeepSeek V4 Flash, Claude Sonnet |
 | `fast` | Quick, cheap ops | Apollo, Iris, Mnemosyne, Talos, Nyx | DeepSeek V4 Flash, MiniMax M2.7, Gemini Flash |
 
@@ -553,64 +551,9 @@ Pantheon provides slash commands via OpenCode. On other platforms (Copilot, Curs
 
 > **Multi-platform note:** Commands are native to OpenCode. On VS Code Copilot, use `@agent-name` in chat. On Cursor/Claude Code, describe the task in natural language.
 
-### TUI Sidebar Plugin (OpenCode)
+### TUI Sidebar Plugin (OpenCode) — Temporarily Disabled
 
-Pantheon ships a sidebar plugin for OpenCode that shows the full agent registry with role, tier, and mode:
-
-```
-★ @zeus       Central orchestrator      [default]
-· @apollo     Codebase discovery         [fast]
-· @hermes     Backend (FastAPI)          [default]
-...
-```
-
-**Features:**
-- ★ **Primary agents** (zeus, athena) — visible in the agent selector
-- · **Subagents** — invoked via `@mention` or `task` delegation
-- Version badge + Pro/Free tier indicator
-- 14 agents listed with role and model tier
-
-**Dependencies:**
-
-The plugin imports from `@opentui/solid` (TUI rendering), `@opentui/core` (terminal primitives), and `solid-js` (signals). These are **internal packages bundled with OpenCode's binary** — not on the public npm registry. They live in `~/.config/opencode/node_modules/` and are placed there by OpenCode during its startup bootstrap. The only npm dependency declared in `package.json` is `@opencode-ai/plugin` for plugin API types.
-
-**Install:**
-```bash
-./sync-platform.sh opencode                  # copia plugin + package.json
-```
-
-The sync copies the plugin to `~/.config/opencode/plugins/` and `package.json` to `~/.config/opencode/`. OpenCode automatically runs `bun install` on next startup.
-
-**Troubleshooting — plugin não carrega em outro cliente:**
-
-Se o plugin não carrega, o motivo mais provável é que `@opentui/solid` não está em `~/.config/opencode/node_modules/`. Siga estes passos:
-
-1. **Verifique se o OpenCode já foi iniciado pelo menos uma vez** no cliente:
-   ```bash
-   opencode --version
-   ```
-   Isso força o OpenCode a inicializar e popular seus pacotes internos.
-
-2. **Verifique se os pacotes existem:**
-   ```bash
-   ls ~/.config/opencode/node_modules/@opentui/solid/index.js
-   ls ~/.config/opencode/node_modules/@opentui/core/index.js
-   ls ~/.config/opencode/node_modules/solid-js/package.json
-   ```
-   Se faltar qualquer um, o plugin não carrega.
-
-3. **Se os pacotes não estão lá**, o OpenCode não os instalou automaticamente. Tente:
-   ```bash
-   cd ~/.config/opencode && bun install
-   ```
-   Se falhar, é porque o `@opentui/solid` não está disponível no registro npm (ele é interno). Neste caso:
-   - Verifique a versão do OpenCode: `opencode --version` (precisa ser uma versão recente que inclua os pacotes TUI)
-   - Reinstale o OpenCode: `npm install -g @opencode-ai/opencode` ou baixe do site oficial
-   - Após reinstalar, rode `opencode --version` e depois `ls ~/.config/opencode/node_modules/@opentui/solid/`
-
-4. **Se ainda falhar**, o cliente pode não suportar plugins TUI (ex: OpenCode versão web ou headless). O plugin é exclusivo do OpenCode TUI.
-
-> **Note:** For VS Code, Cursor, and other platforms, use the agent list in `AGENTS.md` or `agents/README.md` instead.
+The TUI Sidebar Plugin is currently disabled. It will be re-enabled in a future release once the TUI package compatibility is resolved. For agent discovery, use `AGENTS.md`, `agents/README.md`, or the command `/ping` to list all agents.
 
 ---
 
@@ -646,7 +589,7 @@ pantheon/
 │   ├── hephaestus.agent.md    — AI pipelines
 │   └── README.md
 │
-├── skills/                    — 41 cross-platform skill modules
+├── skills/                    — 42 cross-platform skill modules
 │   ├── README.md
 │   ├── agent-coordination/    * orchestration & coordination
 │   ├── artifact-management/
@@ -724,10 +667,21 @@ pantheon/
 │   ├── examples/              * usage examples
 │   └── _template/             * template for new platforms
 │
-├── scripts/                   — tooling & automation
+├── scripts/                   — tooling, automation & lifecycle hooks
 │   ├── install.mjs            * multi-platform installer
 │   ├── sync-platforms.mjs     * agent format sync engine
-│   └── validate-sync.mjs      * sync integrity check
+│   ├── validate-sync.mjs      * sync integrity check
+│   └── hooks/                 * agent lifecycle hooks (10 .sh scripts)
+│       ├── validate-talos-scope.sh
+│       ├── scan-secrets.sh
+│       ├── validate-tool-safety.sh
+│       ├── format-multi-language.sh
+│       ├── log-session-start.sh
+│       ├── on-subagent-delegation-start.sh
+│       ├── on-subagent-delegation-stop.sh
+│       ├── validate-post-conditions.sh
+│       ├── audit-imports.sh
+│       └── run-type-check.sh
 │
 ├── docs/
 │   ├── INSTALLATION.md        — generic installation guide
@@ -758,16 +712,6 @@ pantheon/
 │
 ├── .github/
 │   ├── copilot-instructions.md
-│   ├── hooks/                 * agent lifecycle hooks (8 hooks)
-│   │   ├── security.json      * PreToolUse: blocks destructive ops
-│   │   ├── format.json        * PostToolUse: auto-format (Biome)
-│   │   ├── logging.json       * SessionStart: audit trail
-│   │   ├── import-audit.json  * import validation
-│   │   ├── type-check.json    * type checking enforcement
-│   │   ├── secret-scan.json   * secret/credential detection
-│   │   ├── delegation-start.json * agent delegation tracking
-│   │   ├── delegation-stop.json  * agent delegation cleanup
-│   │   └── README.md
 │   └── workflows/             * CI/CD workflows (9 workflows)
 │       ├── ci.yml             * main CI pipeline
 │       ├── auto-release.yml   * automated release creation
@@ -929,14 +873,19 @@ Create IMPLEMENTATION_SUMMARY.md with what we did
 - Hardcoded secret detection
 - Minimum 80% test coverage (hard block)
 
-**Agent hooks enforce at runtime (`.github/hooks/`):**
-- `security.json` — blocks destructive operations (rm -rf, DROP TABLE, TRUNCATE)
-- `format.json` — auto-formats modified files (Biome)
-- `logging.json` — audit trail of all agent sessions
-- `import-audit.json` — validates import hygiene
-- `type-check.json` — enforces type checking on modified files
-- `secret-scan.json` — detects hardcoded secrets and credentials
-- `delegation-start.json` / `delegation-stop.json` — tracks agent delegation lifecycle
+**Agent hooks enforce at runtime (`scripts/hooks/` + `.opencode/plugins/pantheon-hooks.ts`):**
+- `scan-secrets.sh` — detects hardcoded secrets and credentials (PreToolUse)
+- `validate-tool-safety.sh` — blocks destructive operations (PreToolUse)
+- `validate-talos-scope.sh` — restricts Talos hotfix scope (PreToolUse)
+- `on-subagent-delegation-start.sh` — tracks delegation start (PreToolUse)
+- `format-multi-language.sh` — auto-formats modified files (PostToolUse)
+- `log-session-start.sh` — audit trail of sessions (PostToolUse)
+- `on-subagent-delegation-stop.sh` — delegation cleanup (PostToolUse)
+- `validate-post-conditions.sh` — post-condition validation (event)
+- `audit-imports.sh` — import hygiene validation (event)
+- `run-type-check.sh` — type checking enforcement (event)
+
+The `.opencode/plugins/pantheon-hooks.ts` plugin bridges these shell scripts to OpenCode events. OpenCode auto-discovers plugins from `.opencode/plugins/` when running from the project directory.
 
 ---
 
@@ -1009,7 +958,7 @@ Pantheon draws from the broader multi-agent landscape while diverging in key way
 | [agents/README.md](agents/README.md) | Agent directory |
 | [skills/README.md](skills/README.md) | Skill directory |
 | [docs/platforms/](docs/platforms/) | Per-platform setup guides |
-| [.github/hooks/](.github/hooks/) | Agent lifecycle hooks |
+| [scripts/hooks/](scripts/hooks/) | Agent lifecycle hooks |
 | [skills/agent-coordination/SKILL.md](skills/agent-coordination/SKILL.md) | When to use which agent |
 | [skills/tdd-with-agents/SKILL.md](skills/tdd-with-agents/SKILL.md) | TDD standards and rules |
 

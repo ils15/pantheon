@@ -54,7 +54,7 @@ All agents live as **canonical `.agent.md` files** in `agents/` and are auto-gen
 | Standards & instructions | `instructions/*.instructions.md` |
 | Prompt templates | `prompts/*.prompt.md` |
 | GitHub Actions workflows | `.github/workflows/` |
-| CI/CD hooks | `.github/hooks/` |
+| CI/CD hooks | `scripts/hooks/` |
 | Project memory (sprints, decisions) | `docs/memory-bank/` |
 | Plugin manifests | `plugin.json`, `.github/plugin/plugin.json` |
 

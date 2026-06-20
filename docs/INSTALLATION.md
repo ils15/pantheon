@@ -81,6 +81,8 @@
 | **Cline** | ✅ | — | ✅ | ✅ | — |
 | **Continue.dev** | ✅ | — | ✅ | ✅ | — |
 
+The sync script also deploys the Pantheon hooks plugin to `~/.config/opencode/plugins/` (step 3.7) for OpenCode. Claude Code hooks are configured via `.claude/settings.json`. Other platforms don't support pre/post tool hooks.
+
 ---
 
 ## Legacy Sync Scripts

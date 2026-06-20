@@ -24,6 +24,8 @@ OpenCode is available in three form factors:
 | **Desktop app** | Download from [opencode.ai/download](https://opencode.ai/download) — macOS, Linux, Windows |
 | **IDE extension** | Available for VS Code, JetBrains, and Zed |
 
+Pantheon ships a hooks plugin at `.opencode/plugins/pantheon-hooks.ts`. OpenCode auto-discovers plugins from `.opencode/plugins/` when running from the project directory. To make it available globally, run: `./sync-platform.sh opencode` (step 3.7 copies it to `~/.config/opencode/plugins/`). The plugin bridges 10 shell scripts from `scripts/hooks/` to OpenCode events: PreToolUse (validate-talos-scope, scan-secrets, validate-tool-safety, on-subagent-delegation-start), PostToolUse (format-multi-language, log-session-start, on-subagent-delegation-stop), and event (validate-post-conditions, audit-imports, run-type-check).
+
 The fastest way to set up Pantheon in any project is with the universal install script:
 
 ```bash

@@ -356,21 +356,13 @@ Use `#codebase` in any prompt to perform semantic codebase search. The agent can
 
 ### Agent Hooks (Pre/Post Tool Use)
 
-VS Code supports lifecycle hooks via `.github/hooks/`:
+VS Code supports lifecycle hooks via `scripts/hooks/` shell scripts, bridged by the `.opencode/plugins/pantheon-hooks.ts` plugin for OpenCode. For VS Code Copilot, hooks are configured in `.claude/settings.json` (Claude Code-compatible hooks).
 
-| Hook | File | Fires | Use Case |
+| Hook | Script | Fires | Use Case |
 |---|---|---|---|
-| PreToolUse | `.github/hooks/pre-tool-use.json` | Before every tool call | Security gates, destructive operation blocking |
-| SubagentStart | `.github/hooks/subagent-start.json` | On subagent delegation | Audit logging, approval prompts |
-| SubagentStop | `.github/hooks/subagent-stop.json` | On subagent completion | Result capture, failure escalation |
-
-Example security gate (`pre-tool-use.json`):
-```json
-{
-  "blockedCommands": ["rm -rf", "DROP TABLE", "TRUNCATE"],
-  "logPath": "logs/agent-sessions/delegations.log"
-}
-```
+| PreToolUse | `validate-tool-safety.sh` | Before every tool call | Security gates, destructive operation blocking |
+| PreToolUse | `on-subagent-delegation-start.sh` | On subagent delegation | Audit logging, approval prompts |
+| PostToolUse | `on-subagent-delegation-stop.sh` | On subagent completion | Result capture, failure escalation |
 
 Hooks can also be **agent-scoped** via the `hooks` frontmatter field (Preview). When `chat.useCustomAgentHooks` is enabled, hooks defined in an agent's frontmatter only fire when that agent is active:
 
@@ -381,7 +373,7 @@ hooks:
       command: "./scripts/format-changed-files.sh"
 ```
 
-See `.github/hooks/` in the Pantheon repo for complete examples.
+See `scripts/hooks/` in the Pantheon repo for complete examples.
 
 ### Claude Agent Compatibility
 

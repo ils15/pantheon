@@ -35,8 +35,6 @@ See [docs/INSTALLATION.md](INSTALLATION.md) for detailed platform-specific setup
 | **Demeter** | Database — SQLAlchemy, Alembic, query optimization | Default |
 | **Prometheus** | Infrastructure — Docker, docker-compose, CI/CD | Default |
 | **Hephaestus** | AI pipelines — RAG, LangChain, vector stores | Default |
-| **Chiron** | Model routing — multi-provider, AWS Bedrock, cost optimization | Default |
-| **Echo** | Conversational AI — Rasa NLU, dialogue management | Default |
 | **Gaia** | Remote sensing — LULC analysis, geospatial pipelines | Default |
 | **Apollo** | Investigation scout — parallel codebase searches (read-only) | Fast |
 | **Nyx** | Observability — tracing, monitoring, cost tracking | Fast |
