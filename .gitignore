@@ -43,6 +43,8 @@ docs/memory-bank/
 platform/cline/.clinerules/commands/
 platform/continue/.continue/commands/
 platform/cursor/.cursor/commands/
+platform/opencode/.opencode/commands/
+platform/opencode/.opencode/skills/
 
 # Project-level generated artifacts (use --global instead)
 .github/agents/
@@ -74,7 +76,9 @@ __pycache__/
 scripts/model_data.json
 
 # OpenCode workspace agents (copied from agents/)
-.opencode/
+.opencode/*
+!.opencode/plugins/
+!.opencode/plugins/**
 # Keep Pantheon TUI plugin source (versioned, not generated)
 !platform/opencode/.opencode/plugins/
 !platform/opencode/.opencode/plugins/**

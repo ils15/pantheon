@@ -4,7 +4,7 @@ Reference documentation for the Pantheon multi-agent framework.
 
 ## Contents
 
-- **[model-routing.md](reference/model-routing.md)** — Deep analysis of model assignments per plan with per-plan fallback chains, cost optimization, and benchmark data (LMSYS Arena, SWE-bench, Artificial Analysis). Covers all 17 plans and 24 unique models.
+- **[model-routing.md](reference/model-routing.md)** — Deep analysis of model assignments per plan with per-plan fallback chains, cost optimization, and benchmark data (LMSYS Arena, SWE-bench, Artificial Analysis). Covers all 14 agents and 24 unique models.
 
 ## Structure
 
