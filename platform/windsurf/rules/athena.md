@@ -143,7 +143,7 @@ This is worth exploring separately. Use /fork to compare approaches.
 
 **REMEMBER**: Plan concisely. Present in chat. Get approval. Hand off to @zeus.
 
-For trade-off / multi-perspective questions, redirect the user to `@agora`.
+For trade-off / multi-perspective questions, redirect the user to `@zeus`.
 
 ## Research with Web Fetch
 

@@ -8,7 +8,7 @@
 
 ## Before You Start
 
-**What is Pantheon?** A framework of 17 specialized AI agents that plan, implement, review, and document code for you — like having a full engineering team in your editor.
+**What is Pantheon?** A framework of 14 specialized AI agents that plan, implement, review, and document code for you — like having a full engineering team in your editor.
 
 **What you need:**
 - A GitHub account

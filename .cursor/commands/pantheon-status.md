@@ -19,7 +19,7 @@ Produce EXACTLY this structure:
 **Version:** vX.Y.Z
 **Model Tier:** Pro (premium models) | Free (default models)
 **Platform:** <detect: opencode | claude | cursor | windsurf | vscode>
-**Agents loaded:** N of 17
+**Agents loaded:** N of 14
 
 ### Agent Registry
 
@@ -37,11 +37,8 @@ Produce EXACTLY this structure:
 | @mnemosyne | Memory bank | fast | ✅ |
 | @talos | Hotfixes | fast | ✅ |
 | @hephaestus | AI pipelines | default | ✅ |
-| @chiron | Model routing | default | ✅ |
-| @echo | Conversational AI | default | ✅ |
 | @nyx | Observability | fast | ✅ |
 | @gaia | Remote sensing | fast | ✅ |
- | @gaia | Remote sensing | fast | ✅ |
 
 ### Commands Available
 

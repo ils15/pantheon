@@ -1,45 +1,20 @@
 ---
 name: hermes
-color: "#4A90D9"
-hidden: true
-description: "Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection. Calls apollo for discovery, sends to themis."
-# subagent+user-invocable — can be invoked by Zeus or user directly
+description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR),
+  modern Python stdlib, obsolete lib detection. Calls apollo for discovery, sends
+  to themis.
 mode: primary
-tools:
-    - agent
-    - search/codebase
-    - search/usages
-    - read/readFile
-    - read/problems
-    - edit/editFiles
-    - execute/runInTerminal
-    - execute/testFailure
-    - execute/getTerminalOutput
-    - search/changes
 permission:
   edit: allow
   bash: allow
-handoffs:
-    - label: "Send to Themis"
-      agent: themis
-      description: "Code review and security audit"
-      prompt: "Please perform a code review and security audit on these backend changes according to your instructions."
-      send: true
-agents: ['apollo']
-globs:
-  - "**/*.py"
-  - "**/routers/**/*.py"
-  - "**/services/**/*.py"
 skills:
-  - api-design-patterns
-  - cache-strategy
-  - code-discipline
-  - database-optimization
-  - fastapi-async-patterns
-  - simplify
-  - tdd-with-agents
-  - test-architecture
-user-invocable: true
+- api-design-patterns
+- cache-strategy
+- database-optimization
+- fastapi-async-patterns
+- simplify
+- tdd-with-agents
+- test-architecture
 temperature: 0.3
 steps: 20
 ---
