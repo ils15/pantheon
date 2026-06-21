@@ -129,6 +129,7 @@ agents:
     skills:
       - api-design-patterns
       - fastapi-async-patterns
+      - quality-gate
       - tdd-with-agents
       - database-optimization
       - cache-strategy
@@ -149,6 +150,7 @@ agents:
       - apollo
     skills:
       - frontend-analyzer
+      - quality-gate
       - tdd-with-agents
       - nextjs-seo-optimization
 
@@ -169,6 +171,7 @@ agents:
     skills:
       - database-migration
       - database-optimization
+      - quality-gate
       - cache-strategy
       - simplify
 
@@ -189,6 +192,7 @@ agents:
       - mnemosyne
     skills:
       - code-review-checklist
+      - quality-gate
       - security-audit-pro
       - tdd-with-agents
       - mcp-security
@@ -228,6 +232,7 @@ agents:
     skills:
       - rag-pipelines
       - mcp-server-development
+      - quality-gate
       - agent-evaluation
 
   nyx:

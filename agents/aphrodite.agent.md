@@ -33,6 +33,7 @@ steps: 25
 skills:
 - frontend-analyzer
 - nextjs-seo-optimization
+- quality-gate
 - simplify
 - tdd-with-agents
 ---

@@ -26,6 +26,7 @@ steps: 20
 skills:
 - rag-pipelines
 - mcp-server-development
+- quality-gate
 - agent-evaluation
 - conversational-ai-design
 - prompt-improver
