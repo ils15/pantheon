@@ -176,9 +176,3 @@ For external docs/specs, use `web/fetch` (see `internet-search` skill for patter
 - RFCs, official documentation, GitHub issues/PRs
 - Synthesize findings into plan recommendations
 
-## Context Self-Management
-
-You have access to `pantheon-context` MCP tools — see `instructions/pantheon-context-usage.instructions.md` for usage.
-
-
-

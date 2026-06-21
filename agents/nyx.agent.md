@@ -53,7 +53,3 @@ You are the **OBSERVABILITY SPECIALIST** (Nyx) for OpenTelemetry tracing, token/
 - **@apollo**: For observability research
 - **@themis**: For code review after implementation
 
-## Context Self-Management
-
-You have access to `pantheon-context` MCP tools — see `instructions/pantheon-context-usage.instructions.md` for usage.
-

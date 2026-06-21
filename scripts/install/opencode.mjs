@@ -59,29 +59,34 @@ function mergeMissing(target, source) {
 }
 
 /**
- * Detect whether `target` is the user's global OpenCode config directory
- * (~/.config/opencode or $XDG_CONFIG_HOME/opencode).
- * Global installs use a flat layout: agents/ skills/ commands/
+ * Detect whether `target` is the user's global OpenCode installation directory
+ * (~/.opencode or $XDG_CONFIG_HOME/opencode).
+ * Global installs use a flat layout: agents/ skills/ commands/ plugins/
  * Project installs use the .opencode/ sub-directory layout.
  */
 function isGlobalConfigDir(target) {
+	// Primary: ~/.opencode (actual OpenCode installation)
+	const homeDir = resolve(join(homedir(), ".opencode"));
+	if (resolve(target) === homeDir) return true;
+
+	// Fallback: $XDG_CONFIG_HOME/opencode (legacy/alternative)
 	const xdgConfig = process.env.XDG_CONFIG_HOME || join(homedir(), ".config");
-	const globalDir = resolve(join(xdgConfig, "opencode"));
-	return resolve(target) === globalDir;
+	const xdgDir = resolve(join(xdgConfig, "opencode"));
+	return resolve(target) === xdgDir;
 }
 
 export function installOpenCode(
 	target,
 	dryRun,
 	clean = false,
-	components = ["agents", "skills", "instructions", "commands"],
+	components = ["agents", "skills", "instructions", "commands", "plugins"],
 ) {
 	const componentSet = new Set(components);
 	const stats = summary.opencode;
 
 	// Determine layout based on install scope.
-	// Global config dir (~/.config/opencode) uses a flat layout:
-	//   agents/   skills/   commands/
+	// Global config dir (~/.opencode or ~/.config/opencode) uses a flat layout:
+	//   agents/   skills/   commands/   plugins/
 	// Project installs use the .opencode/ sub-directory layout:
 	//   .opencode/agents/   .opencode/skills/   .opencode/commands/
 	const isGlobal = isGlobalConfigDir(target);
@@ -199,6 +204,49 @@ export function installOpenCode(
 			stats.skipped += cmdResult.skipped;
 		}
 	}
+
+	// -----------------------------------------------------------------------
+	// 2.8 Install TUI plugins (--components plugins)
+	// -----------------------------------------------------------------------
+	if (componentSet.has("plugins")) {
+		const srcPluginDir = join(PLATFORM_DIR, "opencode", ".opencode", "plugins", "pantheon-tui");
+		const dstPluginDir = isGlobal
+			? join(target, "plugins", "pantheon-tui")
+			: join(target, ".opencode", "plugins", "pantheon-tui");
+		if (!dryRun) mkdirSync(dstPluginDir, { recursive: true });
+		if (clean && existsSync(dstPluginDir) && !dryRun) {
+			rmSync(dstPluginDir, { recursive: true, force: true });
+			mkdirSync(dstPluginDir, { recursive: true });
+		}
+		const { created, skipped } = syncDir(srcPluginDir, dstPluginDir, dryRun, false);
+		stats.created += created;
+		stats.skipped += skipped;
+	}
+
+	// -----------------------------------------------------------------------
+	// 2.9 Create/update tui.json with plugin registration
+	// -----------------------------------------------------------------------
+	const targetTuiConfigPath = isGlobal
+		? join(target, "tui.json")
+		: join(target, ".opencode", "tui.json");
+	let tuiConfig = { plugin: [] };
+	if (existsSync(targetTuiConfigPath)) {
+		try {
+			tuiConfig = JSON.parse(readFileSync(targetTuiConfigPath, "utf8"));
+		} catch { /* use default */ }
+	}
+	if (!Array.isArray(tuiConfig.plugin)) {
+		tuiConfig.plugin = [];
+	}
+	// Add our plugin if not already present
+	const pluginRef = "plugins/pantheon-tui/dist/tui.tsx";
+	if (!tuiConfig.plugin.includes(pluginRef)) {
+		tuiConfig.plugin.push(pluginRef);
+	}
+	const tuiContent = `${JSON.stringify(tuiConfig, null, 2)}\n`;
+	const tuiStatus = writeIfChanged(targetTuiConfigPath, tuiContent, dryRun);
+	if (tuiStatus === "created") stats.created++;
+	else stats.skipped++;
 
 	// -----------------------------------------------------------------------
 	// 3. Create/update opencode.json (always runs)

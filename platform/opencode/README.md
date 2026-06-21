@@ -94,7 +94,11 @@ pantheon/
 │       ├── agents/          # OpenCode-adapted agent definitions
 │       └── .opencode/
 │           ├── plugins/
-│           │   └── pantheon-tui.ts   # TUI sidebar plugin — temporarily disabled (source files removed)
+│           │   └── pantheon-tui/
+│           │       ├── index.tsx    # TUI sidebar plugin (JSX + createMemo, reactive)
+│           │       ├── package.json # Plugin manifest
+│           │       └── dist/
+│           │           └── tui.tsx  # Built entrypoint (loaded by OpenCode)
 │           ├── package.json           # Plugin dependencies
 │           └── tsconfig.json          # TypeScript config for plugins
 ├── agents/                   # Canonical VS Code agent definitions  
@@ -104,32 +108,24 @@ pantheon/
 └── opencode.json             # Configuration
 ```
 
-### TUI Sidebar Plugin (Temporarily Disabled)
+### TUI Sidebar Plugin
 
-Pantheon previously included a TUI plugin that rendered a **sidebar panel** in the OpenCode terminal UI. The plugin source files have been removed pending a rewrite.
+Pantheon includes a TUI sidebar plugin for OpenCode that renders a status panel showing:
 
-**What it showed (for reference):**
-- **Version badge** — `Pantheon v3.11.0` (reads `plugin.json` / `package.json`)
-- **Model tier** — `Pro` (premium agents: athena, themis) or `Free`
-- **Agent registry** — all 14 agents with role and tier
+| Field | Source | Reactive |
+|-------|--------|----------|
+| **Pantheon version** | `meta.version` (from `tui.json`) | Static (loaded once) |
+| **Git branch** | `api.state.vcs?.branch` | ✅ Reactive |
+| **MCP server status** | `api.state.mcp()` | ✅ Reactive (`createMemo`) |
+| **Session count** | `api.state.session.count()` | ✅ Reactive |
+| **Agent summary** | Static list (14 agents × 3 tiers) | Static |
+| **OpenCode version** | `api.app.version` | Static |
 
-**Setup (when re-enabled):**
+**Stack:** JSX with `@opentui/solid` (`createMemo` for reactive reads), `@opencode-ai/plugin/tui` (`sidebar_content` slot, `order: 900`), `Show` for conditional rendering.
 
-```bash
-# 1. Copy the plugin to your project or global config
-cp -r platform/opencode/.opencode/plugins ~/.config/opencode/
+**Registration:** Explicit via `tui.json` — TUI plugins require `{"plugin": ["plugins/pantheon-tui/dist/tui.tsx"]}` in `.opencode/tui.json`. Unlike server/hooks plugins, TUI plugins do NOT auto-discover from the plugins directory.
 
-# 2. Install dependencies (in your config dir)
-cd ~/.config/opencode && npm install
-
-# 3. Restart OpenCode — the sidebar panel appears automatically
-```
-
-The plugin is auto-loaded from `.opencode/plugins/*.ts` (project-level) or `~/.config/opencode/plugins/*.ts` (global). No `opencode.json` registration needed — OpenCode discovers plugins in these directories at startup.
-
-**Dependencies (when re-enabled):**
-- `@opencode-ai/plugin` (TUI plugin API)
-- `@opentui/solid` (JSX rendering — optional, bundled with OpenCode)
+**Auto-install:** The `scripts/install/opencode.mjs` script copies plugin files (step 2.8) and creates/merges `tui.json` (step 2.9) during `npm run setup` or `node scripts/install/opencode.mjs`.
 
 ### Compatibility
 | Platform | Status |

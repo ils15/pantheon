@@ -106,7 +106,3 @@ After review, create artifact: `@mnemosyne Create artifact: REVIEW-<feature>`
 - ISSUES: List with file:line, severity, description, recommendation
 - VERDICT: APPROVED | NEEDS_REVISION | FAILED
 
-## Context Self-Management
-
-You have access to `pantheon-context` MCP tools — see `instructions/pantheon-context-usage.instructions.md` for usage.
-

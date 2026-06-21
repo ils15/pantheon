@@ -104,7 +104,3 @@ After implementing UI components:
 - Use Context7 only for React/Next.js/TypeScript library docs
 - Run `npm test` after every component, not just at the end
 - Never read more than 3 files for context without delegating to @apollo
-
-## Context Self-Management
-
-You have access to `pantheon-context` MCP tools — see `instructions/pantheon-context-usage.instructions.md` for usage.

@@ -7,10 +7,6 @@
     "gh_grep": {
       "command": "npx",
       "args": ["-y", "@anthropic/grep-mcp-server"]
-    },
-    "pantheon-context": {
-      "command": "python3",
-      "args": ["scripts/pantheon-context-mcp/server.py"]
     }
   }
 }

@@ -158,7 +158,3 @@ Document each chain in routing.yml under the agent's delegation entry.
 - One routing decision is better than perfect indecision — models change weekly
 - Document cost estimates with date stamps — "As of 2026-06, [provider] charges $X/1M tokens"
 
-## Context Self-Management
-
-You have access to `pantheon-context` MCP tools — see `instructions/pantheon-context-usage.instructions.md` for usage.
-

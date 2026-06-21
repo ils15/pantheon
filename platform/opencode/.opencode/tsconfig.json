@@ -11,5 +11,5 @@
     "lib": ["ESNext"],
     "noEmit": true
   },
-  "include": ["plugins/**/*.ts"]
+  "include": ["plugins/**/*.ts", "plugins/**/*.tsx"]
 }

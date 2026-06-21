@@ -87,7 +87,3 @@ See `instructions/tdd-standards.instructions.md` for the full TDD cycle.
 - Always write the rollback BEFORE testing the upgrade
 - Never read more than 3 model files without delegating to @apollo
 - Batch multiple related schema changes into ONE migration (not one per column)
-
-## Context Self-Management
-
-You have access to `pantheon-context` MCP tools — see `instructions/pantheon-context-usage.instructions.md` for usage.

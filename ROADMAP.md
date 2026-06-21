@@ -23,7 +23,6 @@
 | **Frontend Scaffolding** | `biome.json`, `tsconfig.json` (strict mode), npm scripts (test, lint, typecheck, build, dev) | Downstream frontend projects have reference configs |
 | **Docker Infrastructure** | Multi-stage Dockerfile, docker-compose.yml (PostgreSQL 16 + API), `.env.example` | One-command dev environment |
 | **Token Waste Elimination** | Removed `.github/instructions/` (~1.6K lines) and `.github/skills/` (~10K lines) — pure duplication | **~11.7K lines saved** (~23K tokens) |
-| **Context Self-Management Consolidation** | 12× identical 13-line blocks → single shared `instructions/pantheon-context-usage.instructions.md` | ~168 lines saved, single source of truth |
 | **Mermaid Diagrams** | 5 new diagrams: TDD cycle, Artifact Lifecycle, Council Synthesis, Architecture, Delegation Flow | Visual clarity for core workflows |
 | **Documentation Quality** | All Portuguese→English, "When NOT to Use" on 7 agents, duplicate Nyx removed, ADR consistency | Documentation now consistent and bilingualism-free |
 | **Database Standards** | Async SQLAlchemy 2.0 patterns, connection pooling, migration testing, disaster recovery + Mermaid diagrams | Complete database development guide |
