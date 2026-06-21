@@ -1,12 +1,64 @@
 # 🗺️ Pantheon Roadmap
 
-> **Last updated:** v3.7.2 (2026-05-21)
+> **Last updated:** v3.14.0 (2026-06-20)
 >
 > This document tracks what was delivered, what's coming next, and how you
 > can influence priorities. The roadmap is a living document — PRs and issues
 > can change it.
 
 ---
+
+## v3.14.0 — Codebase Audit, Documentation & Optimization (June 2026)
+
+**Theme:** Comprehensive codebase health improvement, dead code removal, documentation overhaul.
+
+### Delivered
+
+| Area | What changed | Impact |
+|------|-------------|--------|
+| **Dead Agent Purge** | Removed ~150+ references to Echo, Chiron, Argus, Agora across 67+ files | Clean codebase — no more confusion from merged/removed agents |
+| **Python Infrastructure** | Added `[build-system]`, project dependencies (FastAPI, SQLAlchemy, Alembic, Pydantic), ruff expanded 5→11 rule groups, coverage (`fail_under=80`), mypy strict mode | Project can now be `pip install`ed; linting matches Themis enforcement |
+| **Alembic Scaffolding** | `alembic.ini`, `async env.py`, models base with `AsyncAttrs` + `TimestampMixin`, async engine factory with `DatabaseSettings` | Ready for database migrations out of the box |
+| **SQLAlchemy 2.0 Mixins** | `UUIDPrimaryKeyMixin`, `IntegerPrimaryKeyMixin`, `SoftDeleteMixin`, `ActivatableMixin` | Reusable model patterns for downstream projects |
+| **Frontend Scaffolding** | `biome.json`, `tsconfig.json` (strict mode), npm scripts (test, lint, typecheck, build, dev) | Downstream frontend projects have reference configs |
+| **Docker Infrastructure** | Multi-stage Dockerfile, docker-compose.yml (PostgreSQL 16 + API), `.env.example` | One-command dev environment |
+| **Token Waste Elimination** | Removed `.github/instructions/` (~1.6K lines) and `.github/skills/` (~10K lines) — pure duplication | **~11.7K lines saved** (~23K tokens) |
+| **Context Self-Management Consolidation** | 12× identical 13-line blocks → single shared `instructions/pantheon-context-usage.instructions.md` | ~168 lines saved, single source of truth |
+| **Mermaid Diagrams** | 5 new diagrams: TDD cycle, Artifact Lifecycle, Council Synthesis, Architecture, Delegation Flow | Visual clarity for core workflows |
+| **Documentation Quality** | All Portuguese→English, "When NOT to Use" on 7 agents, duplicate Nyx removed, ADR consistency | Documentation now consistent and bilingualism-free |
+| **Database Standards** | Async SQLAlchemy 2.0 patterns, connection pooling, migration testing, disaster recovery + Mermaid diagrams | Complete database development guide |
+| **OpenCode Tool Alignment** | All agent tool names converted from VS Code to OpenCode conventions | Agents work correctly on OpenCode platform |
+
+### Stats
+
+- **81 files changed** — 442 insertions, 1,795 deletions
+- **14 agents** — all with "When NOT to Use" sections
+- **~11.7K lines** of pure duplication removed
+- **5 new Mermaid diagrams** across key documentation
+- **150+ dead references** to Echo, Chiron, Argus, Agora eliminated
+
+---
+
+## v3.13.0 — Context Compression & Agent Cleanup (June 2026)
+
+**Theme:** Token optimization, agent frontmatter standardization, memory infrastructure.
+
+### Delivered
+
+| Area | What changed | Impact |
+|------|-------------|--------|
+| **Level 2 Context Compression** | Priority scoring engine, semantic summarization, budget allocation, cross-reference mechanism | ~50% context savings between phases |
+| **Agent Frontmatter Cleanup** | Stripped non-OpenCode fields from all 14 agents | All agents parse cleanly with OpenCode YAML |
+| **Agent Count Unified** | 14 everywhere (was inconsistent: some files said 18) | No more confusion about agent count |
+| **Stale Agent References** | Chiron, Echo, Argus, Agora cleaned from 40+ files | Cleaner codebase |
+| **TUI Plugin Deactivation** | Moved to plugins-disabled/ | Simplified active tree |
+| **CI Platform Conformance** | 6/6 platforms passing with 0 failures | Reliable cross-platform sync |
+
+---
+
+## v3.4.0 → v3.7.2 — Platform Infrastructure & Skills (May 2026)
+
+[Previous entries preserved below]
 
 ## v3.4.0 — Platform Infrastructure (May 2026)
 

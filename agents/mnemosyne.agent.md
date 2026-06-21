@@ -100,3 +100,7 @@ Mnemosyne executes the expanded compression pipeline. When Zeus delegates compre
 - Called explicitly by @zeus for memory tasks
 - Called by any agent for artifact creation
 
+## Context Self-Management
+
+You have access to `pantheon-context` MCP tools — see `instructions/pantheon-context-usage.instructions.md` for usage.
+

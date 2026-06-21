@@ -4,54 +4,35 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## v3.12.0
-
-[compare changes](https://github.com/ils15/pantheon/compare/v3.11.0...v3.12.0)
+## [v3.14.0] - 2026-06-20
 
 ### 🚀 Enhancements
 
-- **agents:** Add anti-stall resilience and orchestration improvements ([7a61b69](https://github.com/ils15/pantheon/commit/7a61b69))
-- **agents:** Add /pantheon-status command with version badge + agent registry ([984ec65](https://github.com/ils15/pantheon/commit/984ec65))
-- **platform:** Add Pantheon TUI sidebar plugin for OpenCode ([09253c1](https://github.com/ils15/pantheon/commit/09253c1))
+- **Codebase Audit:** Comprehensive 5-agent scan — 48 issues found, all resolved
+- **Mermaid Diagrams:** 5 new diagrams — TDD Cycle (stateDiagram-v2), Artifact Lifecycle (flowchart), Council Synthesis (sequenceDiagram), Architecture (flowchart), Delegation Flow (flowchart)
+- **Python Infrastructure:** Added `[build-system]`, project deps (FastAPI 0.110+, SQLAlchemy 2.0+, Alembic 1.13+, Pydantic 2.7+), ruff expanded to 11 rule groups, coverage (`fail_under=80`), mypy strict
+- **Alembic Scaffolding:** `alembic.ini` with env var interpolation, async `env.py`, Mako template, models base with `AsyncAttrs` + `TimestampMixin`
+- **SQLAlchemy 2.0 Mixins:** `UUIDPrimaryKeyMixin`, `IntegerPrimaryKeyMixin`, `SoftDeleteMixin`, `ActivatableMixin`
+- **Frontend Scaffolding:** `biome.json` (1.9.4), `tsconfig.json` (strict mode, ES2022), npm scripts (test, lint, typecheck, build, dev)
+- **Docker Infrastructure:** Multi-stage Dockerfile (build + runtime, non-root), docker-compose.yml (PostgreSQL 16 + API), `.env.example`
+- **Database Standards:** Async SQLAlchemy 2.0 patterns, connection pooling, migration testing, disaster recovery + 2 Mermaid diagrams
+- **Documentation Quality:** "When NOT to Use" sections on all 7 main agents, English-only throughout, ROADMAP.md updated
 
 ### 🩹 Fixes
 
-- **ci:** Sync platform files and add mcp-security skill to pass CI ([a27a245](https://github.com/ils15/pantheon/commit/a27a245))
+- **Dead Agent Purge:** Removed ~150+ references to Echo, Chiron, Argus, Agora across 67+ files (agents, platforms, instructions, skills)
+- **Portuguese→English:** `docs/platforms/README.md` fully translated, `agents/prometheus.agent.md` mixed-language fixed
+- **QUICKSTART.md:** Removed duplicate Nyx entry in agent table
+- **`00-project.md`:** Fixed Argus in architecture diagram, corrected skill path, fixed Portuguese text
+- **Prometheus Self-Contradiction:** Fixed "MUST NOT deploy (that's @prometheus)" — copy-paste bug from Chiron merge
+- **Hephaestus Echo Dead Code:** Removed 25-line Echo section that was copy-pasted verbatim
+- **`seo-config.ts`:** Renamed to `.md` (was Markdown disguised as TypeScript)
+- **`agent-return-format.instructions.md`:** Fixed Agora reference in artifact table
+- **`skills/README.md`:** Count corrected from 37→42, stale Chiron/Echo refs updated
 
 ### 🏡 Chore
 
-- **release:** Sync version to v3.11.0 ([1a9fb64](https://github.com/ils15/pantheon/commit/1a9fb64))
-
-### ❤️ Contributors
-
-- Ils15 ([@ils15](https://github.com/ils15))
-
-## [v3.9.0] - 2026-05-28
-
-[compare changes](https://github.com/ils15/pantheon/compare/v3.8.4...v3.9.0)
-
-### 🚀 Enhancements
-
-- Setup changelogen + git-cliff for auto-releases ([ce4ee22](https://github.com/ils15/pantheon/commit/ce4ee22))
-
-### 🩹 Fixes
-
-- Add missing closing brace for github configuration in opencode.json ([a63c522](https://github.com/ils15/pantheon/commit/a63c522))
-- Address PR review sync and mapping feedback ([c550049](https://github.com/ils15/pantheon/commit/c550049))
-- Sync version to 3.8.4, fix versioning.mjs apply bug, add version check script ([141a6b1](https://github.com/ils15/pantheon/commit/141a6b1))
-- Add CHANGELOG entry for v3.8.4 to fix CI validate failure ([58cc0f5](https://github.com/ils15/pantheon/commit/58cc0f5))
-- **ci:** Auto-release cria PR com auto-merge ao invés de push direto pra main ([e4f78c9](https://github.com/ils15/pantheon/commit/e4f78c9))
-
-### 🏡 Chore
-
-- Cleanup commands, fix subtask agent, add Context7 tools, improve sync script ([da6ed7c](https://github.com/ils15/pantheon/commit/da6ed7c))
-
-### ❤️ Contributors
-
-- Ils15 ([@ils15](https://github.com/ils15))
-
-
-## [v3.13.0] - 2026-06-20
+```## [v3.13.0] - 2026-06-20
 
 ### Added
 - **Level 2 Context Compression** — priority scoring engine (5 deterministic dimensions: Impact, Risk, Novelty, Blockers, Downstream relevance), semantic summarization templates per agent-pair, budget allocation (100-line cap, priority-greedy), cross-reference mechanism (D/E/M/C IDs with auto-generated `_xref/index.md`), ZZ artifact format for phase-to-phase context injection, `context-compression` skill (Level 2)
@@ -99,3 +80,68 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **CI validate** — passing
 - **Sync Check** — passing
 - **Auto Release** — published at v3.13.0
+
+
+
+
+## v3.12.0
+
+[compare changes](https://github.com/ils15/pantheon/compare/v3.11.0...v3.12.0)
+
+### 🚀 Enhancements
+
+- **agents:** Add anti-stall resilience and orchestration improvements ([7a61b69](https://github.com/ils15/pantheon/commit/7a61b69))
+- **agents:** Add /pantheon-status command with version badge + agent registry ([984ec65](https://github.com/ils15/pantheon/commit/984ec65))
+- **platform:** Add Pantheon TUI sidebar plugin for OpenCode ([09253c1](https://github.com/ils15/pantheon/commit/09253c1))
+
+### 🩹 Fixes
+
+- **ci:** Sync platform files and add mcp-security skill to pass CI ([a27a245](https://github.com/ils15/pantheon/commit/a27a245))
+
+### 🏡 Chore
+
+- **release:** Sync version to v3.11.0 ([1a9fb64](https://github.com/ils15/pantheon/commit/1a9fb64))
+
+## [v3.9.0] - 2026-05-28
+
+[compare changes](https://github.com/ils15/pantheon/compare/v3.8.4...v3.9.0)
+
+### 🚀 Enhancements
+
+- Setup changelogen + git-cliff for auto-releases ([ce4ee22](https://github.com/ils15/pantheon/commit/ce4ee22))
+
+### 🩹 Fixes
+
+- Add missing closing brace for github configuration in opencode.json ([a63c522](https://github.com/ils15/pantheon/commit/a63c522))
+- Address PR review sync and mapping feedback ([c550049](https://github.com/ils15/pantheon/commit/c550049))
+- Sync version to 3.8.4, fix versioning.mjs apply bug, add version check script ([141a6b1](https://github.com/ils15/pantheon/commit/141a6b1))
+- Add CHANGELOG entry for v3.8.4 to fix CI validate failure ([58cc0f5](https://github.com/ils15/pantheon/commit/58cc0f5))
+- **ci:** Auto-release cria PR com auto-merge ao invés de push direto pra main ([e4f78c9](https://github.com/ils15/pantheon/commit/e4f78c9))
+
+### 🏡 Chore
+
+- Cleanup commands, fix subtask agent, add Context7 tools, improve sync script ([da6ed7c](https://github.com/ils15/pantheon/commit/da6ed7c))
+
+
+
+## [v3.9.0] - 2026-05-28
+
+[compare changes](https://github.com/ils15/pantheon/compare/v3.8.4...v3.9.0)
+
+### 🚀 Enhancements
+
+- Setup changelogen + git-cliff for auto-releases ([ce4ee22](https://github.com/ils15/pantheon/commit/ce4ee22))
+
+### 🩹 Fixes
+
+- Add missing closing brace for github configuration in opencode.json ([a63c522](https://github.com/ils15/pantheon/commit/a63c522))
+- Address PR review sync and mapping feedback ([c550049](https://github.com/ils15/pantheon/commit/c550049))
+- Sync version to 3.8.4, fix versioning.mjs apply bug, add version check script ([141a6b1](https://github.com/ils15/pantheon/commit/141a6b1))
+- Add CHANGELOG entry for v3.8.4 to fix CI validate failure ([58cc0f5](https://github.com/ils15/pantheon/commit/58cc0f5))
+- **ci:** Auto-release cria PR com auto-merge ao invés de push direto pra main ([e4f78c9](https://github.com/ils15/pantheon/commit/e4f78c9))
+
+### 🏡 Chore
+
+- Cleanup commands, fix subtask agent, add Context7 tools, improve sync script ([da6ed7c](https://github.com/ils15/pantheon/commit/da6ed7c))
+
+

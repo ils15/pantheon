@@ -36,8 +36,9 @@ agents/coupon.agent.md
 instructions/vault-secrets-access.instructions.md
 
 # Artifact temp folder (ephemeral — wiped on sprint close, never committed)
-# Memory bank (project-specific context — not tracked in framework repo)
-docs/memory-bank/
+# Memory bank temp files only — ADR notes (_notes/) and task records (_tasks/) are committed
+docs/memory-bank/.tmp/
+docs/memory-bank/__pycache__
 
 # Generated platform command artifacts (sync byproduct)
 platform/cline/.clinerules/commands/
@@ -67,6 +68,11 @@ dist/
 # Platform template — reference only, not generated
 platforms/_template/agents/
 
+# Environment files (secrets, never commit)
+.env
+.env.local
+.env.production
+
 # Python cache
 __pycache__/
 *.pyc
@@ -95,3 +101,16 @@ site/
 # Local routing tests (not committed)
 .tests/
 test-results/
+
+# Stale/backup files
+opencode.json.backup
+
+# Cache directories (some may have local .gitignore but ensure parent coverage)
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+*.egg-info/

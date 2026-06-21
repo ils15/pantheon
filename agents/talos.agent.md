@@ -54,3 +54,7 @@ Escalate to @zeus if:
 - Return subtask_summary format
 - If complexity exceeds threshold, escalate immediately
 
+## Context Self-Management
+
+If you notice duplicate tool outputs, call `pantheon-context_prune_stale()`.
+

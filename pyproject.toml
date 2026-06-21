@@ -1,7 +1,22 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
 [project]
 name = "pantheon"
-version = "0.1.0"
+version = "3.14.0"
+description = "Multi-agent orchestration framework"
 requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "asyncpg>=0.29",
+    "httpx>=0.27",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -13,16 +28,21 @@ line-length = 88
 target-version = "py311"
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "C901", "UP"]
-ignore = ["E501"]  # Let black handle line length
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "PL", "RUF", "C901"]
+ignore = ["E501"]  # Let ruff format handle line length
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
 
-[tool.black]
-line-length = 88
-target-version = ["py311"]
+[tool.coverage.run]
+source = ["backend"]
+omit = ["tests/*", "**/test_*", "**/migrations/*"]
 
-[tool.isort]
-profile = "black"
-line_length = 88
+[tool.coverage.report]
+fail_under = 80
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
+disallow_untyped_defs = true

@@ -701,7 +701,7 @@ OpenCode prompts are static templates (e.g., `{{input}}`). For dynamic prompt ge
 2. Store them in `prompts/dynamic/` directory
 3. Reference them in `opencode.json` commands
 
-### Example: Dynamic Agora Prompt
+### Example: Dynamic Council Prompt (/pantheon)
 
 Create `prompts/dynamic/agora-architecture.txt`:
 ```

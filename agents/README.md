@@ -33,20 +33,20 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 | Agent | Tier | Role | Delegates to | Skills Used |
 |---|---|---|---|---|---|
 | Zeus | Orchestrator | Central coordinator | All 14 agents | agent-coordination, artifact-management, auto-continue, internet-search, orchestration-workflow, session-goal |
-| Athena | Planning & Discovery | Strategic planner | Apollo, Themis | architecture-diagrams, codemap, init-deep, interview, metis-gap-analysis |
+| Athena | Planning & Discovery | Strategic planner | Apollo, Themis | codemap, codemap, init-deep, interview, metis-gap-analysis |
 | Apollo | Planning & Discovery | Read-only codebase scout | Zeus, Athena | internet-search, codemap |
 
 | Hephaestus | AI Infrastructure | AI pipelines + conversational AI | Apollo, Themis, Prometheus | rag-pipelines, mcp-server-development, agent-evaluation, conversational-ai-design, prompt-improver |
 
-| Hermes | Implementation | Backend (FastAPI) | Apollo, Themis | api-design-patterns, fastapi-async-patterns, tdd-with-agents, database-optimization, cache-strategy, code-discipline, simplify, test-architecture |
-| Aphrodite | Implementation | Frontend (React) | Apollo, Themis | frontend-analyzer, tdd-with-agents, nextjs-seo-optimization, code-discipline, simplify |
-| Demeter | Implementation | Database | Apollo, Themis | database-migration, database-optimization, cache-strategy, code-discipline, simplify |
+| Hermes | Implementation | Backend (FastAPI) | Apollo, Themis | api-design-patterns, fastapi-async-patterns, tdd-with-agents, database-optimization, cache-strategy, simplify, test-architecture |
+| Aphrodite | Implementation | Frontend (React) | Apollo, Themis | frontend-analyzer, tdd-with-agents, nextjs-seo-optimization, simplify |
+| Demeter | Implementation | Database | Apollo, Themis | database-migration, database-optimization, cache-strategy, simplify |
 | Themis | Quality & Observability | Security & review gate | Mnemosyne, Zeus | code-review-checklist, security-audit-pro, tdd-with-agents, mcp-security |
 | Nyx | Quality & Observability | Tracing & cost tracking | Apollo, Zeus | agent-observability, agent-evaluation |
 | Prometheus | Infrastructure & Release | Docker + model provider hub | Apollo, Themis | docker-best-practices, multi-model-routing, agent-observability |
 | Iris | Infrastructure & Release | GitHub Ops | Mnemosyne, Zeus | artifact-management |
-| Mnemosyne | Infrastructure & Release | Memory bank & ADRs | (none) | architecture-diagrams, artifact-management, handoff, task-system |
-| Talos | Express & Specialist | Rapid direct fixes | Zeus | code-discipline, simplify |
+| Mnemosyne | Infrastructure & Release | Memory bank & ADRs | (none) | codemap, artifact-management, handoff, task-system |
+| Talos | Express & Specialist | Rapid direct fixes | Zeus | simplify |
 | Gaia | Express & Specialist | Remote sensing | Athena, Apollo, Hermes, Themis | remote-sensing-analysis, internet-search |
 
 ---
@@ -102,7 +102,7 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 - **Model:** default
 - **Description:** Backend FastAPI implementation specialist. Async endpoints, Pydantic schemas, service layer, dependency injection, TDD enforced.
 - **Delegates to:** Apollo (nested for pattern discovery), Themis (code review + security audit)
-- **Skills:** fastapi-async-patterns, api-design-patterns, security-audit, tdd-with-agents
+- **Skills:** fastapi-async-patterns, api-design-patterns, security-audit-pro, tdd-with-agents
 - **Tools:** agent, search, read, problems, edit, runInTerminal, testFailure, getTerminalOutput, changes
 - **Usage:** `@hermes: Create [endpoint]`
 - **Key Responsibilities:** RESTful endpoints (GET/POST/PUT/PATCH/DELETE), JWT auth with httpOnly cookies, CSRF protection, rate limiting, N+1 prevention, max 300 lines per file, async/await on all I/O, type hints on all functions
@@ -135,7 +135,7 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 - **Model:** premium
 - **Description:** Quality & security gate enforcer. Reviews only changed files (lightweight). OWASP Top 10, >80% coverage, correctness validation. Returns APPROVED / NEEDS_REVISION / FAILED.
 - **Delegates to:** Mnemosyne (artifact persistence), Zeus (fix escalation)
-- **Skills:** code-review-checklist, security-audit, tdd-with-agents, prompt-injection-security
+- **Skills:** code-review-checklist, security-audit-pro, tdd-with-agents, prompt-injection-security
 - **Tools:** agent, askQuestions, search, read, problems, changes, runInTerminal, testFailure, edit, browser
 - **Usage:** `: Review this code`
 - **Key Responsibilities:** Trailing whitespace/hard tab/wild import detection (BLOCKER), OWASP Top 10 audit, test coverage gate (>80% hard block), AI review contract (What/Why, Proof, Risk tier, Review focus), integrated browser validation for UI, severity levels (CRITICAL/HIGH/MEDIUM/LOW)
