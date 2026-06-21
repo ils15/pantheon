@@ -4,7 +4,18 @@ import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from "@opencode-ai/plug
 
 // ── Static Data ──────────────────────────────────────────────────────────────
 const PYTHON_VERSION = "3.12.3"
-const PANTHEON_VERSION = "3.14.0"
+
+async function readPantheonVersion(api: TuiPluginApi): Promise<string> {
+  try {
+    const result = await api.client.file.read({
+      query: { path: "pyproject.toml" },
+    })
+    const match = (result.content as string).match(/^version\s*=\s*"([^"]+)"/m)
+    return match?.[1] ?? "dev"
+  } catch {
+    return "dev"
+  }
+}
 
 const COMMANDS = [
   { name: "/pantheon", desc: "Council synthesis" },
@@ -84,7 +95,7 @@ function handleCompress(api: TuiPluginApi) {
 }
 
 // ── View ─────────────────────────────────────────────────────────────────────
-function View(props: { api: TuiPluginApi; sessionID: string }) {
+function View(props: { api: TuiPluginApi; sessionID: string; version: string }) {
   const [showAgents, setShowAgents] = createSignal(false)
   const [showCommands, setShowCommands] = createSignal(false)
 
@@ -92,8 +103,6 @@ function View(props: { api: TuiPluginApi; sessionID: string }) {
   const branch = createMemo(() =>
     props.api.state.vcs?.branch ? `⎇ ${props.api.state.vcs.branch}` : null,
   )
-  const sCount = createMemo(() => props.api.state.session.count())
-
   // Session context usage (from last assistant message)
   const usage = createMemo(() => {
     const msgs = props.api.state.session.messages(props.sessionID) as any[]
@@ -158,7 +167,7 @@ function View(props: { api: TuiPluginApi; sessionID: string }) {
           ⚡ Pantheon
         </text>
         <text fg={theme().textMuted}>
-          {" "}{PANTHEON_VERSION} · Python {PYTHON_VERSION}
+          {" "}{props.version} · Python {PYTHON_VERSION}
         </text>
       </box>
 
@@ -260,25 +269,18 @@ function View(props: { api: TuiPluginApi; sessionID: string }) {
         </For>
       </Show>
 
-      {/* ══ Sessions ══ */}
-      <box marginTop={1}>
-        <text fg={theme().text} attributes={{ bold: true }}>
-          Sessions
-        </text>
-        <text fg={theme().textMuted}> {sCount()}</text>
-      </box>
-
     </box>
   )
 }
 
 // ── Plugin ───────────────────────────────────────────────────────────────────
 const tui: TuiPlugin = async (api, _options, _meta) => {
+  const version = await readPantheonVersion(api)
   api.slots.register({
     order: 900,
     slots: {
       sidebar_content(_ctx, props) {
-        return <View api={api} sessionID={props.session_id} />
+        return <View api={api} sessionID={props.session_id} version={version} />
       },
     },
   })
