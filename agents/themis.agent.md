@@ -34,6 +34,7 @@ temperature: 0.1
 steps: 20
 skills:
 - code-review-checklist
+- quality-gate
 - security-audit-pro
 - tdd-with-agents
 - mcp-security

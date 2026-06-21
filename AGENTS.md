@@ -52,6 +52,37 @@ For details, see `docs/mcp-recommendations.md`.
 
 If you are unsure how to do something, use `gh_grep` to search code examples from GitHub.
 
+## Deepwork Workflow
+
+Para sessões de deepwork focadas (features complexas ou multi-fase), o Pantheon oferece um workflow estruturado:
+
+### Estrutura de Diretórios
+```
+.pantheon/deepwork/<task-slug>/
+├── PLAN.md          # Escopo + fases + critérios de aceitação
+├── DISCOVERY.md     # Mapeamento do codebase (por Apollo)
+├── REVIEW.md        # Revisão final (por Themis)
+├── STATUS.md        # Progresso atual
+└── phase-*.md       # Artefatos por fase (opcional)
+```
+
+### Gatilhos de Qualidade
+- **Themis review obrigatório** após cada fase de implementação
+- Build + testes completos antes de marcar como completo
+- 1-2 commits por deepwork com changelog segmentado
+
+### Anti-Stall
+- 3 turns sem progresso → escalar para Zeus
+- Checkpoint a cada 5 turns
+- Timeout de 120s em comandos de build/teste
+
+### Apollo Discovery Pattern
+1. Apollo retorna descobertas inline (read-only)
+2. Zeus copia resultado + instrução de save para @talos
+3. @talos escreve DISCOVERY.md em `.pantheon/deepwork/<task-slug>/`
+
+> Nota: Para a v2, planeja-se dar a Apollo permissão de write restrita a `.pantheon/deepwork/*/DISCOVERY.md` para eliminar esse handoff.
+
 ## Glossary
 
 - **handoff**: A formal named contract (with label, description, prompt) that routes work from one agent to another. Defined in `routing.yml`. Example: `📋 Plan Feature` (Zeus → Athena).

@@ -24,6 +24,7 @@ skills:
 - cache-strategy
 - database-optimization
 - fastapi-async-patterns
+- quality-gate
 - simplify
 - tdd-with-agents
 - test-architecture

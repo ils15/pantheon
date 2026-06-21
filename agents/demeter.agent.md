@@ -24,6 +24,7 @@ skills:
 - cache-strategy
 - database-migration
 - database-optimization
+- quality-gate
 - simplify
 ---
 
