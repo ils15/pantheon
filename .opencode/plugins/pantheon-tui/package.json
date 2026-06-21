@@ -1,0 +1,22 @@
+{
+  "name": "pantheon-tui",
+  "version": "1.0.0",
+  "description": "Pantheon agent framework TUI sidebar plugin for OpenCode",
+  "type": "module",
+  "exports": {
+    ".": "./dist/tui.tsx",
+    "./tui": "./dist/tui.tsx"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && mkdir -p dist && cp index.tsx dist/tui.tsx"
+  },
+  "dependencies": {
+    "@opencode-ai/plugin": "^1.4.3",
+    "@opentui/core": "^0.2.2",
+    "@opentui/solid": "^0.2.2",
+    "solid-js": "^1.9.12"
+  }
+}
