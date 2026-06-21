@@ -1,0 +1,84 @@
+# =============================================================================
+# Pantheon — Development Infrastructure
+# =============================================================================
+
+services:
+
+  # --------------------------------------------------------------------------
+  # PostgreSQL 16 database
+  # --------------------------------------------------------------------------
+  db:
+    image: postgres:16-alpine
+    container_name: pantheon-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: pantheon
+      POSTGRES_PASSWORD: pantheon_dev
+      POSTGRES_DB: pantheon
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pantheon"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - pantheon-net
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+          cpus: "1.0"
+
+  # --------------------------------------------------------------------------
+  # FastAPI application
+  # --------------------------------------------------------------------------
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pantheon-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://pantheon:pantheon_dev@db:5432/pantheon
+      PYTHONPATH: /app
+      LOG_LEVEL: INFO
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app          # Hot-reload mount for development
+    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - pantheon-net
+    deploy:
+      resources:
+        limits:
+          memory: 1g
+          cpus: "2.0"
+
+# ----------------------------------------------------------------------------
+# Named volumes
+# ----------------------------------------------------------------------------
+volumes:
+  pgdata:
+    driver: local
+
+# ----------------------------------------------------------------------------
+# Networks
+# ----------------------------------------------------------------------------
+networks:
+  pantheon-net:
+    name: pantheon-dev
+    driver: bridge

@@ -41,7 +41,7 @@ See [docs/INSTALLATION.md](INSTALLATION.md) for detailed platform-specific setup
 | **Iris** | GitHub ops — branches, PRs, issues, releases | Fast |
 | **Mnemosyne** | Memory bank — ADRs, project.md, atomic facts | Fast |
 | **Talos** | Hotfix express — small bugs, CSS, typos (no TDD) | Fast |
-| **Nyx** | Observability — OpenTelemetry, LangSmith, cost tracking | Fast |
+
 
 Full details: [agents/README.md](../agents/README.md)
 

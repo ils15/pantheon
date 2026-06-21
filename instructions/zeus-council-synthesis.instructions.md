@@ -17,6 +17,36 @@ When a question requires multiple expert perspectives on a trade-off or architec
 - Cost vs quality decisions
 - Multi-stakeholder concerns (frontend + backend + infra)
 
+```mermaid
+---
+config:
+  look: classic
+  theme: dark
+---
+sequenceDiagram
+    participant U as User
+    participant Z as Zeus
+    participant S1 as Specialist 1
+    participant S2 as Specialist 2
+    participant S3 as Specialist 3
+
+    U->>Z: /pantheon question
+    Note over Z: Detect multi-perspective trigger
+    Z->>Z: Select 2-4 specialists
+    par Dispatch all specialists
+        Z->>S1: Domain-specific query
+        Z->>S2: Domain-specific query
+        Z->>S3: Domain-specific query
+    end
+    par Collect responses
+        S1-->>Z: Position + trade-offs
+        S2-->>Z: Position + trade-offs
+        S3-->>Z: Position + trade-offs
+    end
+    Note over Z: Synthesize agreements + divergences + recommendation
+    Z->>U: 🏛️ Council Synthesis
+```
+
 ## Dispatch with Timeout
 
 Send ALL `task()` calls in a single message. Each specialist must respond concisely (2-4 sentences).

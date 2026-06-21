@@ -45,7 +45,7 @@ docs/memory-bank/
 | `@athena` plans (with or without Zeus) | **Athena** | `PLAN-<feature>.md` |
 | `@hermes` / `@aphrodite` / `@demeter` implement | **The worker** | `IMPL-phase<N>-<agent>.md` |
 | `@themis` reviews | **Themis** | `REVIEW-<feature>.md` |
-| `@agora` council / `@apollo` | **Agora / Apollo** | `DISC-<topic>.md` |
+| `@apollo` | **Apollo** | `DISC-<topic>.md` |
 | `@any` agent via subtask | **The worker** | No artifact — returns `subtask_summary` inline |
 | Architectural decision (any agent) | **Any → Mnemosyne** | `ADR-<topic>.md` (permanent) |
 | Zeus (cognitive) → Mnemosyne (writer) | **Zeus → Mnemosyne** | `ZZ-phase<N>-context.md` — compressed context artifact |
@@ -63,7 +63,7 @@ docs/memory-bank/
 | `PLAN-` | `.tmp/` | ✅ Deleted on sprint close | Athena |
 | `IMPL-` | `.tmp/` | ✅ Deleted on sprint close | Hermes / Aphrodite / Demeter |
 | `REVIEW-` | `.tmp/` | ✅ Deleted on sprint close | Themis |
-| `DISC-` | `.tmp/` | ✅ Deleted on sprint close | Agora (council) / Apollo (delegated discovery) |
+| `DISC-` | `.tmp/` | ✅ Deleted on sprint close | Apollo (delegated discovery) |
 | `SUB-` (inline) | inline response | ✅ No persistence | Any agent (via subtask) |
 | `ZZ-` | `.tmp/` | ✅ Deleted on sprint close | Zeus → Mnemosyne (compression) | Compressed phase context — priority-scored summaries passed to next phase |
 | `ADR-` | `_notes/` | ❌ Permanent, never deleted | Any agent |
@@ -116,30 +116,25 @@ Mnemosyne writes `docs/memory-bank/.tmp/PLAN-<feature>.md`.
 
 ## Artifact Lifecycle
 
-```
-Agent produces phase output
-    │
-    ├─ "@mnemosyne Create artifact: PLAN-<feature>"
-    │
-    ├─ Mnemosyne writes to docs/memory-bank/.tmp/PLAN-<feature>.md
-    │
-    ├─ ⏸️ Human reads the file and approves
-    │
-    ├─ Agent implements → IMPL artifact
-    │
-    ├─ @themis reviews → REVIEW artifact
-    │
-    ├─ After Themis APPROVES:
-    │   1. Zeus scores + summarizes + budgets (cognitive, no file I/O)
-    │   2. Zeus delegates compression to Mnemosyne
-    │   3. Mnemosyne writes ZZ-phase{N}-context.md with priority-scored entries
-    │   4. Mnemosyne updates 01-active-context.md (priority-aware)
-    │   5. Mnemosyne archives IMPL → 02-progress-log.md
-    │   6. Mnemosyne updates _xref/ cross-references
-    │   7. Zeus injects ZZ artifact wisdom → next phase
-    │
-    └─ On sprint close:
-        "@mnemosyne Close sprint" → wipes entire .tmp/ folder
+```mermaid
+---
+config:
+  look: classic
+  theme: dark
+---
+flowchart TD
+    START([Agent produces output]) --> PLAN["@mnemosyne Create PLAN artifact"]
+    PLAN --> PAUSE1{⏸️ Human approves?}
+    PAUSE1 -->|No| REVISE[Revise plan]
+    REVISE --> PLAN
+    PAUSE1 -->|Yes| IMPL["Worker implements → IMPL artifact"]
+    IMPL --> THEMIS["@themis reviews → REVIEW artifact"]
+    THEMIS --> PAUSE2{⏸️ Human validates?}
+    PAUSE2 -->|Fixes needed| FIX[Fix issues]
+    FIX --> IMPL
+    PAUSE2 -->|Approved| ARCHIVE[Zeus scores → Mnemosyne compresses + archives]
+    ARCHIVE --> DONE((✅ Phase complete))
+    DONE --> CLOSE["@mnemosyne Close sprint → wipes .tmp/"]
 ```
 
 ---
@@ -200,7 +195,7 @@ Agent produces phase output
 2. [Item 2]
 ```
 
-### DISC (Agora → `.tmp/`)
+### DISC (Apollo → `.tmp/`)
 
 ```markdown
 # DISC-<topic>

@@ -271,3 +271,7 @@ Enable continuous execution only when the user **explicitly** requests "relentle
 | Code review | `instructions/code-review-standards.instructions.md` |
 | Communication rules | `instructions/zeus-communication-rules.instructions.md` |
 | Documentation | `instructions/documentation-standards.instructions.md` |
+
+## Context Self-Management
+
+You have access to `pantheon-context` MCP tools — see `instructions/pantheon-context-usage.instructions.md` for usage.

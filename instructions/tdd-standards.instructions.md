@@ -6,6 +6,24 @@ applyTo: "**/*.py,**/*.{ts,tsx}"
 
 # TDD Standards
 
+```mermaid
+---
+config:
+  look: classic
+  theme: dark
+---
+stateDiagram-v2
+    [*] --> RED: Write failing test
+    RED --> GREEN: Write minimal code
+    GREEN --> REFACTOR: Improve code
+    REFACTOR --> RED: Next feature/test
+    REFACTOR --> [*]: All tests pass
+
+    note right of RED: Test must fail first
+    note right of GREEN: Minimum pass only
+    note right of REFACTOR: Optimize + clean up
+```
+
 ## TDD Cycle (RED → GREEN → REFACTOR)
 
 All implementation agents (Hermes, Aphrodite, Demeter) follow the same cycle:

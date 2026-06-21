@@ -10,9 +10,27 @@ version: 1.0
 # =============================================================================
 # Quick Reference — Primary Delegation Flow
 # =============================================================================
-# Zeus → athena (planning) → apollo (research) → hermes/aphrodite/demeter (implement)
-#       → themis (review) → iris (github) → prometheus (deploy) → mnemosyne (docs)
-#       → talos (hotfix) → hephaestus (AI systems) → gaia (geospatial) → nyx (observe)
+# ```mermaid
+# ---
+# config:
+#   look: classic
+#   theme: dark
+# ---
+# flowchart LR
+#     Z[Zeus] --> A[Athena] --> AP[Apollo]
+#     Z --> H[Hermes] --> T[Themis]
+#     Z --> PH[Aphrodite] --> T
+#     Z --> D[Demeter] --> T
+#     Z --> R[Prometheus]
+#     Z --> HE[Hephaestus]
+#     Z --> N[Nyx]
+#     Z --> G[Gaia]
+#     Z --> I[Iris] --> M[Mnemosyne]
+#     Z --> M
+#     Z -.-> TA[Talos]
+#     T --> I
+#     T --> M
+# ```
 # =============================================================================
 # Removed agents: argus, chiron, echo (merged/deprecated)
 # =============================================================================
@@ -53,6 +71,9 @@ agents:
       - session-goal
       - artifact-management
       - context-compression
+      - auto-continue
+      - internet-search
+      - orchestration-workflow
 
   athena:
     role: "Strategic planner & architect — TDD-driven plans, research-first approach"
@@ -149,6 +170,7 @@ agents:
       - database-migration
       - database-optimization
       - cache-strategy
+      - simplify
 
   themis:
     role: "Quality & security gate — ruff/Biome linting, OWASP Top 10, dead code, coverage >80%"
@@ -169,6 +191,7 @@ agents:
       - code-review-checklist
       - security-audit-pro
       - tdd-with-agents
+      - mcp-security
 
   prometheus:
     role: "Infrastructure specialist — Docker, docker-compose, CI/CD, health checks"

@@ -1,6 +1,6 @@
 # Pantheon Platforms
 
-Guia de instalação para todas as plataformas suportadas.
+Installation guide for all supported platforms.
 
 ---
 
@@ -35,38 +35,38 @@ node scripts/install.mjs --target /path/to/your-project
 
 ## Step Limits (opencode.json)
 
-Configuração `steps` por agente — controla quantas tool calls o agente pode fazer antes de ser forçado a responder:
+Configuration `steps` per agent — controls how many tool calls the agent can make before being forced to respond:
 
-| Agente | Steps | Justificativa |
+| Agent | Steps | Justification |
 |---|---|---|
-| Zeus | 30 | Orquestrador — delega para 5+ subagentes |
+| Zeus | 30 | Orchestrator — delegates to 5+ sub-agents |
 | Hermes, Aphrodite | 30 | TDD: test → code → test → refactor → lint |
-| Demeter | 20 | Migrações + queries + índices |
+| Demeter | 20 | Migrations + queries + indexes |
 | Hephaestus | 25 | RAG pipelines + embeddings + chains |
-| Themis | 20 | Revisão multi-arquivo: lint + cobertura + OWASP |
-| Athena | 20 | Planejamento + pesquisa + Agora synthesis |
-| Gaia | 20 | Configuração multi-provedor |
-| **Mnemosyne** | **20** | ADR: ler código → escrever → verificar → commitar |
-| Apollo | 15 | Pesquisa paralela (3-10 buscas) |
-| Nyx | 15 | Observabilidade |
+| Themis | 20 | Multi-file review: lint + coverage + OWASP |
+| Athena | 20 | Planning + research + Zeus council synthesis |
+| Gaia | 20 | Multi-provider configuration |
+| **Mnemosyne** | **20** | ADR: read code → write → verify → commit |
+| Apollo | 15 | Parallel search (3-10 searches) |
+| Nyx | 15 | Observability |
 | Iris | 12 | GitHub: branch → commit → push → PR |
 | Prometheus | 15 | Docker + CI/CD |
-| **Talos** | **5** | Hotfix rápido (1 arquivo, sem TDD) |
+| **Talos** | **5** | Fast hotfix (1 file, no TDD) |
 
-> Ajuste `steps` em `opencode.json` conforme necessário. Cada tool call conta como 1 step.
+> Adjust `steps` in `opencode.json` as needed. Each tool call counts as 1 step.
 
 ---
 
 ## File Structure (after install)
 
 ```
-seu-projeto/
-├── agents/              # (copiado de pantheon/agents/)
+your-project/
+├── agents/              # (copied from pantheon/agents/)
 │   ├── zeus.agent.md
 │   ├── athena.agent.md
 │   └── ...
-├── skills/              # (copiado de pantheon/skills/)
-├── instructions/        # (copiado de pantheon/instructions/)
-├── prompts/             # (copiado de pantheon/prompts/)
-└── opencode.json        # Config principal (OpenCode) ou platform config
+├── skills/              # (copied from pantheon/skills/)
+├── instructions/        # (copied from pantheon/instructions/)
+├── prompts/             # (copied from pantheon/prompts/)
+└── opencode.json        # Main config (OpenCode) or platform config
 ```
