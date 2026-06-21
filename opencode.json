@@ -30,16 +30,6 @@
       "url": "https://mcp.grep.app",
       "enabled": true
     },
-    "pantheon-context": {
-      "type": "local",
-      "command": [
-        "bash",
-        "-c",
-        "cd scripts/pantheon-context-mcp && pip3 install -q --break-system-packages -r requirements.txt 2>/dev/null && python3 server.py"
-      ],
-      "enabled": true,
-      "timeout": 10000
-    },
     "playwright": {
       "type": "local",
       "command": [

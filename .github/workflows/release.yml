@@ -21,6 +21,11 @@ on:
         required: true
         type: boolean
         default: true
+      dry_run:
+        description: 'Dry run — no commits, tags, releases, or PRs'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -91,16 +96,28 @@ jobs:
           git tag "${NEW_VERSION}"
 
           # Push tag (tags bypass branch protection)
-          git push origin "${NEW_VERSION}"
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            echo "⏸️ DRY RUN — skipping tag push"
+          else
+            git push origin "${NEW_VERSION}"
+            echo "✅ Tag ${NEW_VERSION} pushed"
+          fi
 
-          echo "✅ Tag ${NEW_VERSION} pushed"
+      - name: Verify bundle exists
+        run: |
+          if [ ! -f "dist/pantheon-${NEW_VERSION}.tar.gz" ]; then
+            echo "❌ Bundle missing at dist/pantheon-${NEW_VERSION}.tar.gz"
+            echo "   Run 'npm run bundle' locally and retry"
+            exit 1
+          fi
+          echo "✅ Bundle verified: $(du -h dist/pantheon-${NEW_VERSION}.tar.gz | cut -f1)"
 
       - name: Create GitHub Release
+        if: inputs.dry_run != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           TAG="${NEW_VERSION}"
-          gh release delete "${TAG}" --yes 2>/dev/null || true
 
           gh release create "${TAG}" \
             --title "Pantheon ${TAG}" \
@@ -110,7 +127,7 @@ jobs:
           echo "✅ Published Pantheon ${TAG}"
 
       - name: Create PR to main
-        if: inputs.create_pr == true
+        if: inputs.create_pr == true && inputs.dry_run != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -121,18 +138,17 @@ jobs:
           git checkout -b "${BRANCH}"
           git push origin "${BRANCH}"
 
-          # Create PR and enable auto-merge
+          # Create PR — no auto-merge (manual review required)
           PR_URL=$(gh pr create \
             --base main \
             --head "${BRANCH}" \
             --title "chore(release): ${TAG}" \
-            --body "Automated release PR for Pantheon **${TAG}**.\n\nThe GitHub Release has already been published. Merging this PR syncs main with the version bump and changelog update." \
+            --body "Release PR for Pantheon **${TAG}**.\n\nThe GitHub Release has already been published. Merging this PR syncs main with the version bump and changelog update." \
             --json url --jq '.url' 2>/dev/null || \
           gh pr create \
             --base main \
             --head "${BRANCH}" \
             --title "chore(release): ${TAG}" \
-            --body "Automated release PR for Pantheon **${TAG}**.\n\nThe GitHub Release has already been published. Merging this PR syncs main with the version bump and changelog update.")
+            --body "Release PR for Pantheon **${TAG}**.\n\nThe GitHub Release has already been published. Merging this PR syncs main with the version bump and changelog update.")
 
           echo "PR created: $PR_URL"
-          gh pr merge "${BRANCH}" --auto --squash && echo "✅ Auto-merge enabled"

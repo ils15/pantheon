@@ -32,7 +32,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### 🏡 Chore
 
-```## [v3.13.0] - 2026-06-20
+## [v3.14.1] - 2026-06-21
+
+### 🗑️ Removed
+
+- **Pantheon-Context MCP Experiment:** Removed entire `scripts/pantheon-context-mcp/` directory (server.py, scoring.py, summarizer.py, tests — 12 files, ~1,200 lines)
+- **Stale Agent References:** Stripped `pantheon-context` tool references from all 14 agent files, `.mcp.json`, `opencode.json`, `ROADMAP.md`
+- **Auto-Release CI:** Removed `.github/workflows/auto-release.yml` (triggered broken v3.14.0 release on every push to main)
+
+### ✨ Enhanced
+
+- **TUI Sidebar Plugin:** Rewrote from flat file to npm-style directory (`plugins/pantheon-tui/` with `index.tsx`, `package.json`, `dist/tui.tsx`). New features: real context usage bar (color thresholds 70%/90%), collapsible command guide (16 `/pantheon` commands), manual compress button, Python version display, collapsible agent registry
+
+### 🔧 Fixed
+
+- **Install Script:** `scripts/install/opencode.mjs` now correctly copies npm-style plugin directory and registers in `tui.json` (not `opencode.json` — TUI plugins use separate registration)
+- **CI Release Pipeline:** Added `dry_run` input to manual release workflow, removed auto-merge from release PRs, fixed duplicate steps
+
+## [v3.13.0] - 2026-06-20
 
 ### Added
 - **Level 2 Context Compression** — priority scoring engine (5 deterministic dimensions: Impact, Risk, Novelty, Blockers, Downstream relevance), semantic summarization templates per agent-pair, budget allocation (100-line cap, priority-greedy), cross-reference mechanism (D/E/M/C IDs with auto-generated `_xref/index.md`), ZZ artifact format for phase-to-phase context injection, `context-compression` skill (Level 2)

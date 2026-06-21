@@ -245,6 +245,3 @@ When completing a task, provide:
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
 
-## Context Self-Management
-
-You have access to `pantheon-context` MCP tools — see `instructions/pantheon-context-usage.instructions.md` for usage.

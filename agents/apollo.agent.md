@@ -71,7 +71,3 @@ Return structured findings with:
 - **summary:** What was found
 - **confidence:** high | medium | low
 
-## Context Self-Management
-
-If you notice duplicate tool outputs, call `pantheon-context_prune_stale()`.
-
