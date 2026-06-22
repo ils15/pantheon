@@ -32,40 +32,34 @@ code should now delegate to `@themis` or use the `task()` subagent mechanism.
 **Impact:** Low — `search/changes` was primarily used by Themis and Zeus for
 code review. Both now use `task()` delegation instead.
 
-### 2. Agora is now a hidden subagent
+### 2. Agora removed
 
 **What changed:** Agora was a primary agent in v3.3.x (`agents/agora.agent.md`
-with `user-invocable: true`). It is now:
-- `mode: subagent`
-- `hidden: true`
-- `user-invocable: false`
+with `user-invocable: true`). It has been fully removed from the agent roster.
 
 **Action required:**
-- If you were invoking Agora directly via `@agora`, this still works — but
-  through a different routing path.
-- If you had Agora in your `opencode.json` or platform config, verify it's
-  still reachable via `/pantheon` command or Zeus delegation.
-- Remove any custom `agents:` entries for Agora from your platform configs
-  (it's now routed through `opencode.json` `commands` section).
+- If you were invoking Agora directly via `@agora`, migrate to using
+  `/pantheon` command or Zeus delegation instead.
+- Remove any custom `agents:` entries for Agora from your platform configs.
+- Remove any references to Agora in handoff configurations.
 
-**Impact:** Medium — Agora still works the same way, but configuration paths
-changed.
+**Impact:** Low — functionality is covered by Zeus and `/pantheon` council synthesis.
 
 ### 3. Athena "Agora Mode" section removed
 
 **What changed:** Athena's canonical agent previously had an "Agora Mode"
 section describing when to route to Agora. This was removed — trade-off
-questions now route to Agora directly.
+questions now route to `/pantheon` council synthesis directly.
 
 **Action required:** None — this was internal cleanup. If you had custom
 Athena instructions referencing "Agora Mode," update them to reference
-`@agora` or `/pantheon` directly.
+`/pantheon` directly.
 
 **Impact:** Low — affects only users who extended Athena's agent definition.
 
 ### 4. 7 new frontmatter fields required on canonical agents
 
-**What changed:** All 18 canonical agents now have 7 new frontmatter fields:
+**What changed:** All 14 canonical agents now have 7 new frontmatter fields:
 `permission`, `hooks`, `mcpServers`, `temperature`, `steps`, `globs`, `skills`.
 
 **Action required:** If you maintain custom canonical agents, add these fields.
@@ -105,7 +99,7 @@ loaded on demand.
 
 | Path | What |
 |------|------|
-| `agents/*.agent.md` | All 18 canonical agents — 7 new frontmatter fields, handoff routes section, skill assignments |
+| `agents/*.agent.md` | All 14 canonical agents — 7 new frontmatter fields, handoff routes section, skill assignments |
 | `platform/*/adapter.json` | All 6 platform adapters — new fields: `skillsOutputDir`, `deploySkills`, `handoffStrategy`, `ensureAgentTool` |
 | `platform/plans/*` | 16+ plan configurations added |
 | `platform/select-plan.sh` | New — plan selection script |
@@ -125,7 +119,7 @@ loaded on demand.
 
 | Path | Change |
 |------|--------|
-| `AGENTS.md` | Agora routing matrix updated, Hermes handoff fix, quality gate section restored |
+| `AGENTS.md` | Agora routing removed, Hermes handoff fix, quality gate section restored |
 | `README.md` | Architecture diagram updated, platform comparison table, memory system docs |
 | `CHANGELOG.md` | v3.4.0 release notes added |
 | `opencode.json` | Agora routing via `commands` section instead of `agents:` |
@@ -183,7 +177,7 @@ node scripts/validate-sync.mjs       # check sync integrity
 
 Expected output:
 ```
-✅ All 18 canonical agents parsed
+✅ All 14 canonical agents parsed
 ✅ All 6 platform adapters loaded
 ✅ 174 skills deployed (29 skills × 6 platforms)
 ✅ No stale tool references detected

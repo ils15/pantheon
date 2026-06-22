@@ -425,7 +425,7 @@ on demand to perform specialized tasks. Skills are organized into domains:
 | **Infrastructure** | docker-best-practices, streaming-patterns, cache-strategy |
 | **Security & Quality** | security-audit-pro, code-review-checklist, prompt-injection-security, mcp-security |
 | **Planning & Design** | plan-architecture, codemap, init-deep, interview, metis-gap-analysis |
-| **Memory & Context** | memory-bank, token-audit, file-prompts, context-compression |
+| **Memory & Context** | memory-bank, file-prompts, context-compression |
 | **Domain** | remote-sensing-analysis, internet-search |
 | **Utilities** | prompt-improver, agent-evaluation, agent-observability, wisdom-accumulation, simplify, test-architecture |
 
@@ -615,7 +615,6 @@ pantheon/
 │   ├── code-review-checklist/
 │   ├── prompt-injection-security/
 │   ├── memory-bank/           * memory & context
-│   ├── token-audit/
 │   ├── codemap/
 │   ├── init-deep/
 │   ├── file-prompts/
@@ -671,7 +670,7 @@ pantheon/
 │   ├── install.mjs            * multi-platform installer
 │   ├── sync-platforms.mjs     * agent format sync engine
 │   ├── validate-sync.mjs      * sync integrity check
-│   └── hooks/                 * agent lifecycle hooks (10 .sh scripts)
+│   └── hooks/                 * agent lifecycle hooks (8 .sh scripts)
 │       ├── validate-talos-scope.sh
 │       ├── scan-secrets.sh
 │       ├── validate-tool-safety.sh
@@ -679,9 +678,7 @@ pantheon/
 │       ├── log-session-start.sh
 │       ├── on-subagent-delegation-start.sh
 │       ├── on-subagent-delegation-stop.sh
-│       ├── validate-post-conditions.sh
-│       ├── audit-imports.sh
-│       └── run-type-check.sh
+│       └── validate-post-conditions.sh
 │
 ├── docs/
 │   ├── INSTALLATION.md        — generic installation guide
@@ -882,8 +879,6 @@ Create IMPLEMENTATION_SUMMARY.md with what we did
 - `log-session-start.sh` — audit trail of sessions (PostToolUse)
 - `on-subagent-delegation-stop.sh` — delegation cleanup (PostToolUse)
 - `validate-post-conditions.sh` — post-condition validation (event)
-- `audit-imports.sh` — import hygiene validation (event)
-- `run-type-check.sh` — type checking enforcement (event)
 
 The `.opencode/plugins/pantheon-hooks.ts` plugin bridges these shell scripts to OpenCode events. OpenCode auto-discovers plugins from `.opencode/plugins/` when running from the project directory.
 
