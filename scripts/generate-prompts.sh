@@ -203,8 +203,8 @@ cat >> "$HANDOFF_FILE" << EOF
 | Any → Zeus | premium | Complex orchestration decisions |
 | Athena → Zeus | premium | Plan handoff needs careful execution |
 | Any → Mnemosyne | fast | Simple documentation writes |
-| Hephaestus/Chiron → Prometheus | default | Infrastructure config generation |
-| Echo → Talos | fast | Quick hotfix dispatch |
+| Hephaestus → Prometheus | default | Infrastructure config generation |
+| Hephaestus | fast | Conversational AI dispatch |
 
 ## Cost Cap Rule
 The requested model tier cannot exceed the cost tier of the main conversation model.

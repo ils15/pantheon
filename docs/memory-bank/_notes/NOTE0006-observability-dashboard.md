@@ -35,7 +35,7 @@ Define the telemetry schema and dashboard layout for cross-platform observabilit
 |--------|--------|--------|------------|
 | `routing.checks_passed` | `validate-routing.mjs` | >= 120 | CI ci.yml |
 | `routing.checks_failed` | `validate-routing.mjs` | 0 | CI ci.yml |
-| `routing.agents_count` | `validate-routing.mjs` | 18 | CI ci.yml |
+| `routing.agents_count` | `validate-routing.mjs` | 14 | CI ci.yml |
 | `routing.valid` | `validate-routing.mjs` (exit code) | 0 | CI ci.yml |
 
 ## Dimension Labels
@@ -113,14 +113,14 @@ All metrics use the following label convention:
 ├─────────────────────────────────────────────────────────────┤
 │  ┌──────────────────────────────────────────────────────┐   │
 │  │ Checks passed: 122 / 122    ✅ Fully valid           │   │
-│  │ Agents: 18 / 18             ✅ All registered         │   │
+│  │ Agents: 14 / 14             ✅ All registered         │   │
 │  │ Handoffs: 100%              ✅ All reference valid    │   │
 │  └──────────────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 - **Checks passed/total**: Routing validation checks
-- **Agent count**: Expected 18 agents present
+- **Agent count**: Expected 14 agents present
 - **Handoff validity**: Percentage of valid handoff references
 
 ### Section 4: Release Readiness

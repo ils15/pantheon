@@ -395,19 +395,9 @@ function uninstallOpenCode(target, dryRun) {
 				}
 			}
 
-			// Remove Pantheon plugin entry
-			if (Array.isArray(config.plugin)) {
-				const filtered = config.plugin.filter(
-					(p) => p !== "opencode-hooks-plugin",
-				);
-				if (filtered.length !== config.plugin.length) {
-					changed = true;
-				}
-				if (filtered.length === 0) {
-					delete config.plugin;
-				} else {
-					config.plugin = filtered;
-				}
+			// Remove Pantheon plugin entry (stub — reserved for future plugin cleanup)
+			if (Array.isArray(config.plugin) && config.plugin.length === 0) {
+				delete config.plugin;
 			}
 
 			// Remove default_agent if it points to zeus

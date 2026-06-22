@@ -555,7 +555,6 @@ All Pantheon commands are available as `/pantheon-*` in VS Code Copilot Chat. Th
 |---|---|---|
 | `/pantheon-metamorphosis` | Intelligent refactoring with LSP analysis, gap analysis, TDD, and verification | Zeus |
 | `/pantheon-optimize` | Compress, deduplicate, and consolidate the memory bank | Zeus |
-| `/pantheon-token-audit` | Scan for token waste and compression opportunities | Athena |
 | `/pantheon-focus` | Pin a session goal to prevent scope creep | Zeus |
 | `/pantheon-mirrordeps` | Mirror a dependency source locally for agent access | Apollo |
 
@@ -565,7 +564,6 @@ All Pantheon commands are available as `/pantheon-*` in VS Code Copilot Chat. Th
 |---|---|---|
 | `/pantheon-forge` | Configure models by preset (`fast`, `default`, `premium`) | Zeus |
 | `/pantheon-ping` | Ping all 14 agents to verify availability | System |
-| `/pantheon-cancel-relentless` | Stop relentless mode only | System |
 | `/pantheon-stop-continuation` | Stop all auto-continuation mechanisms | System |
 
 ### Regular Workflow Prompts

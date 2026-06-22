@@ -1,7 +1,12 @@
 # Agent Hooks Implementation
 
-**Status**: All Phases Complete (8 hooks across 5 lifecycle events)  
-**Date**: May 2026  
+> **⚠️ DEPRECATED** — This directory contains legacy Claude Code hook configurations.
+> The Pantheon hook system has moved to `scripts/hooks/` with `pantheon-hooks.ts` as the
+> active implementation. These files are retained for reference only and will be removed
+> in a future cleanup pass.
+
+**Status**: Deprecated (legacy Claude Code hooks)  
+**Date**: May 2026 (deprecated June 2026)  
 **Framework**: Pantheon Multi-Agent System
 
 ---

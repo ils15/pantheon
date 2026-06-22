@@ -38,7 +38,7 @@ There are **37 skills** divided into **9 domains**.
 
 7. **multi-model-routing** — `skills/multi-model-routing/SKILL.md`
    - Model routing strategies (fallback, latency-based, cost-based, capability-based), provider abstraction layer, AWS Bedrock integration, local inference (Ollama, vLLM), cost attribution and tracking, rate limiting, and guardrails.
-   - Used by: Chiron, Hephaestus
+   - Used by: Prometheus, Hephaestus
 
 8. **streaming-patterns** — `skills/streaming-patterns/SKILL.md`
    - Server-Sent Events (SSE), WebSocket connections, LLM token streaming, chunked transfer encoding, backpressure handling, reconnection strategies, and real-time update patterns for observability pipelines.
@@ -50,11 +50,11 @@ There are **37 skills** divided into **9 domains**.
 
 10. **prompt-injection-security** — `skills/prompt-injection-security/SKILL.md`
    - Prompt injection attack taxonomy (direct, indirect, jailbreaking, leakage), detection strategies (classifier-based, LLM-as-judge, pattern matching), input sanitization, output guardrails, content filters, rate limiting on LLM calls, and red-teaming methodologies.
-   - Used by: Themis, Echo
+   - Used by: Themis, Hephaestus
 
 11. **conversational-ai-design** — `skills/conversational-ai-design/SKILL.md`
     - NLU pipeline design (intent classification, entity extraction, slot filling), dialogue state management, Rasa framework integration, multi-turn conversation patterns, context windowing, fallback handling, and conversation testing strategies.
-    - Used by: Echo
+    - Used by: Hephaestus
 
 ### Domain 3: Backend Development
 
@@ -106,11 +106,11 @@ There are **37 skills** divided into **9 domains**.
 
 22. **mcp-server-development** — `skills/mcp-server-development/SKILL.md`
     - Model Context Protocol (MCP) architecture, server creation with FastMCP/ Python SDK, tool definition and registration, resource exposure, prompt templates, transport layer configuration (stdio, SSE), authentication, error handling, and testing MCP servers.
-    - Used by: Hephaestus, Chiron, Nyx
+    - Used by: Hephaestus, Prometheus, Nyx
 
 23. **agent-observability** — `skills/agent-observability/SKILL.md`
     - OpenTelemetry instrumentation (traces, metrics, logs), LangSmith integration for LLM call tracing, Prometheus metric exposition, Grafana dashboard design, cost tracking per agent/feature, token usage attribution, structured JSON logging with correlation IDs, and alerting rules.
-    - Used by: Nyx, Chiron
+    - Used by: Nyx, Prometheus
 
 24. **cache-strategy** — `skills/cache-strategy/SKILL.md`
     - Cache architecture patterns — Redis (read-through, write-through, write-behind), CDN, TTL strategies, invalidation patterns, session stores.
@@ -213,11 +213,11 @@ The `SKILL.md` file contains YAML frontmatter with `name`, `description`, and pl
 | 7 | session-goal | Orchestration | Zeus, Athena |
 | 8 | task-system | Orchestration | Zeus, Athena |
 | 9 | rag-pipelines | AI & Machine Learning | Hephaestus |
-| 10 | multi-model-routing | AI & Machine Learning | Chiron, Hephaestus |
+| 10 | multi-model-routing | AI & Machine Learning | Prometheus, Hephaestus |
 | 11 | streaming-patterns | AI & Machine Learning | Nyx |
 | 12 | agent-evaluation | AI & Machine Learning | Hephaestus, Themis |
-| 13 | prompt-injection-security | AI & Machine Learning | Themis, Echo |
-| 14 | conversational-ai-design | AI & Machine Learning | Echo |
+| 13 | prompt-injection-security | AI & Machine Learning | Themis, Hephaestus |
+| 14 | conversational-ai-design | AI & Machine Learning | Hephaestus |
 | 15 | fastapi-async-patterns | Backend Development | Hermes |
 | 16 | api-design-patterns | Backend Development | Hermes |
 | 17 | frontend-analyzer | Frontend Development | Aphrodite |
@@ -229,8 +229,8 @@ The `SKILL.md` file contains YAML frontmatter with `name`, `description`, and pl
 | 23 | security-audit-pro | Quality & Security | Themis, Hermes, Demeter |
 | 24 | tdd-with-agents | Quality & Security | Hermes, Aphrodite, Demeter, Themis |
 | 25 | docker-best-practices | Infrastructure & DevOps | Prometheus |
-| 26 | mcp-server-development | Infrastructure & DevOps | Hephaestus, Chiron, Nyx |
-| 27 | agent-observability | Infrastructure & DevOps | Nyx, Chiron |
+| 26 | mcp-server-development | Infrastructure & DevOps | Hephaestus, Prometheus, Nyx |
+| 27 | agent-observability | Infrastructure & DevOps | Nyx, Prometheus |
 | 28 | remote-sensing-analysis | Domain Specialists | Gaia |
 | 29 | internet-search | Domain Specialists | Athena, Apollo, Gaia, Zeus |
 | 30 | prompt-improver | Domain Specialists | All agents |
