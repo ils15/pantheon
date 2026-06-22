@@ -96,8 +96,8 @@ function handleCompress(api: TuiPluginApi) {
 
 // ── View ─────────────────────────────────────────────────────────────────────
 function View(props: { api: TuiPluginApi; sessionID: string; version: string }) {
-  const [showAgents, setShowAgents] = createSignal(false)
-  const [showCommands, setShowCommands] = createSignal(false)
+  const [showAgents, setShowAgents] = createSignal(true)
+  const [showCommands, setShowCommands] = createSignal(true)
 
   const theme = () => props.api.theme.current
   const branch = createMemo(() =>
@@ -221,7 +221,7 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
       <Show when={showCommands()}>
         <For each={COMMANDS}>
           {(cmd) => (
-            <box marginLeft={1} flexDirection="row">
+            <box marginLeft={1}>
               <text
                 fg={
                   cmd.name === "/pantheon"
@@ -252,7 +252,7 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
       <Show when={showAgents()}>
         <For each={AGENTS}>
           {(agent) => (
-            <box marginLeft={1} flexDirection="row">
+            <box marginLeft={1}>
               <text
                 fg={
                   agent.tier === "premium"
