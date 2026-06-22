@@ -5,7 +5,6 @@ description: Hotfix express lane — direct fixes for small bugs, CSS, typos, mi
   complex issues to zeus.
 mode: subagent
 permission:
-  edit: allow
   bash:
     git add *: allow
     npx prettier *: allow

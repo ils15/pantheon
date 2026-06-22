@@ -2,7 +2,6 @@
 description: Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention, TDD migrations, modern DB libs. Calls apollo for discovery, sends to themis.
 mode: subagent
 permission:
-  edit: allow
   bash: allow
 temperature: 0.2
 steps: 20

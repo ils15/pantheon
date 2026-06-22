@@ -5,7 +5,6 @@ description: Memory bank quality owner — initializes docs/memory-bank/, writes
   after phases.
 mode: primary
 permission:
-  edit: allow
   bash: deny
 
 tools:

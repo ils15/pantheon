@@ -4,7 +4,6 @@ description: Infrastructure + model provider specialist — Docker, CI/CD, multi
   routing, cost optimization, provider abstraction
 mode: subagent
 permission:
-  edit: allow
   bash: allow
 
 tools:

@@ -5,7 +5,6 @@ mode: subagent
 tools: Agent, AskUserQuestion, Grep, Grep, Read, Edit, Bash, Bash, Bash, WebFetch
 skills: rag-pipelines, mcp-server-development, agent-evaluation, conversational-ai-design, prompt-improver
 permission:
-  edit: allow
   bash: allow
 temperature: 0.3
 steps: 20

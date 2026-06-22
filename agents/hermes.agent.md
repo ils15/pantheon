@@ -5,7 +5,6 @@ description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→R
   to themis.
 mode: primary
 permission:
-  edit: allow
   bash: allow
 
 tools:

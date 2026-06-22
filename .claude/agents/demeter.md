@@ -5,7 +5,6 @@ mode: subagent
 tools: Agent, Grep, Grep, Read, Edit, Bash, Bash, Bash
 skills: cache-strategy, database-migration, database-optimization, simplify
 permission:
-  edit: allow
   bash: allow
 temperature: 0.2
 steps: 20

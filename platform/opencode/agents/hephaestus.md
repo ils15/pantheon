@@ -2,7 +2,6 @@
 description: AI tooling & pipelines specialist — LangChain/LangGraph chains, RAG architecture, vector stores, embedding strategies. Forges AI infrastructure. Calls apollo, sends to themis.
 mode: subagent
 permission:
-  edit: allow
   bash: allow
 temperature: 0.3
 steps: 20

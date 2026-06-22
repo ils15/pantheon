@@ -5,7 +5,6 @@ mode: subagent
 tools: Agent, AskUserQuestion, Grep, Grep, Read, Edit, Bash, Bash, Bash
 skills: frontend-analyzer, nextjs-seo-optimization, simplify, tdd-with-agents
 permission:
-  edit: allow
   bash: allow
 temperature: 0.5
 steps: 25

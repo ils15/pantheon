@@ -2,7 +2,6 @@
 description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection. Calls apollo for discovery, sends to themis.
 mode: subagent
 permission:
-  edit: allow
   bash: allow
 temperature: 0.3
 steps: 20

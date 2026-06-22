@@ -5,7 +5,6 @@ description: Frontend specialist — React 19, TypeScript strict, WCAG accessibi
   for discovery, sends to themis for review.
 mode: subagent
 permission:
-  edit: allow
   bash: allow
 
 tools:
