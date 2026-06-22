@@ -5,7 +5,6 @@ description: AI tooling & pipelines specialist — LangChain/LangGraph chains, R
   to themis.
 mode: subagent
 permission:
-  edit: allow
   bash: allow
 
 tools:

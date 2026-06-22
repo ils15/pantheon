@@ -5,7 +5,6 @@ mode: subagent
 tools: Grep, Grep, Read, Edit, Bash, Bash
 skills: simplify
 permission:
-  edit: allow
   bash:
     git add *: allow
     npx prettier *: allow

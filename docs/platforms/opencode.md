@@ -120,7 +120,7 @@ In OpenCode adapter v2, permissions are declared in **frontmatter** rather than 
 ---
 name: hermes
 permission:
-  edit: allow
+  edit: N/A (ferramenta nao existe neste runtime)
   bash: allow
   read: allow
   search: allow

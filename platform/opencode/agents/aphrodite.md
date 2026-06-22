@@ -2,7 +2,6 @@
 description: Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD, modern API patterns, deprecated npm detection. Calls apollo for discovery, sends to themis for review.
 mode: subagent
 permission:
-  edit: allow
   bash: allow
 temperature: 0.5
 steps: 25

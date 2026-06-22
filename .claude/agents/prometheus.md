@@ -5,7 +5,6 @@ mode: subagent
 tools: Agent, AskUserQuestion, Grep, Grep, Read, Edit, Bash, Bash, Bash, WebFetch
 skills: docker-best-practices, multi-model-routing, agent-observability
 permission:
-  edit: allow
   bash: allow
 temperature: 0.2
 steps: 20

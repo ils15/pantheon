@@ -5,7 +5,6 @@ mode: primary
 tools: Agent, Grep, Grep, Read, Edit, Bash, Bash, Bash
 skills: api-design-patterns, cache-strategy, database-optimization, fastapi-async-patterns, simplify, tdd-with-agents, test-architecture
 permission:
-  edit: allow
   bash: allow
 temperature: 0.3
 steps: 20

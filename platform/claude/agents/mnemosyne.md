@@ -5,7 +5,6 @@ mode: primary
 tools: Agent, Grep, Grep, Read, Edit
 skills: artifact-management, handoff, task-system, context-compression
 permission:
-  edit: allow
   bash: deny
 temperature: 0.1
 steps: 10

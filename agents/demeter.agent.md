@@ -5,7 +5,6 @@ description: Database specialist — SQLAlchemy 2.0, Alembic, query optimization
   themis.
 mode: subagent
 permission:
-  edit: allow
   bash: allow
 
 tools:
