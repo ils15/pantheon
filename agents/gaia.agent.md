@@ -9,14 +9,14 @@ permission:
   bash: deny
 
 tools:
-  - search/codebase
-  - search/usages
-  - search/fileSearch
-  - search/textSearch
-  - search/listDirectory
-  - read/readFile
-  - web/fetch
-  - vscode/askQuestions
+  search/codebase: true
+  search/usages: true
+  search/fileSearch: true
+  search/textSearch: true
+  search/listDirectory: true
+  read/readFile: true
+  web/fetch: true
+  vscode/askQuestions: true
 temperature: 0.2
 steps: 20
 skills:

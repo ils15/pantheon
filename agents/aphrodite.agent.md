@@ -8,25 +8,25 @@ permission:
   bash: allow
 
 tools:
-  - agent
-  - vscode/askQuestions
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
-  - search/changes
-  - browser/openBrowserPage
-  - browser/navigatePage
-  - browser/readPage
-  - browser/clickElement
-  - browser/typeInPage
-  - browser/hoverElement
-  - browser/dragElement
-  - browser/handleDialog
+  agent: true
+  vscode/askQuestions: true
+  search/codebase: true
+  search/usages: true
+  read/readFile: true
+  read/problems: true
+  edit/editFiles: true
+  execute/runInTerminal: true
+  execute/testFailure: true
+  execute/getTerminalOutput: true
+  search/changes: true
+  browser/openBrowserPage: true
+  browser/navigatePage: true
+  browser/readPage: true
+  browser/clickElement: true
+  browser/typeInPage: true
+  browser/hoverElement: true
+  browser/dragElement: true
+  browser/handleDialog: true
 temperature: 0.5
 steps: 25
 skills:
@@ -82,7 +82,13 @@ See `instructions/tdd-standards.instructions.md` for the full TDD cycle.
 | CSS spiral | Tweaking same CSS property repeatedly | Stop. Inspect the full layout. Is the issue in a parent component? Delegate layout question to @apollo. |
 | Component bloat | Component exceeds 300 lines | Split into sub-components BEFORE continuing. |
 | Stuck on API shape | Unsure of backend response format | Do NOT guess. Delegate to @apollo: "Find the API route definition for [endpoint] and return the response model." |
-| 3 turns no progress | No new code or test in 3 turns | Output `[APHRODITE_STALL]`. Escalate to @zeus with: "Stuck on [component]. Last progress: [description]." |
+| 3 turns no progress | No new code or test in 3 turns | Output \`[APHRODITE_STALL]\`. Escalate to @zeus with: "Stuck on [component]. Last progress: [description]." |
+
+## 🔍 Pre-Implementation Recall
+Before implementing a frontend feature:
+1. Run: @mnemosyne Recall "<feature>" --top-k 3 --agent aphrodite
+2. Review past UI patterns and component decisions
+3. Check for existing similar implementations
 
 ## 🧪 Visual Review Pipeline
 

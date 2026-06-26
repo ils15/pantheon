@@ -9,15 +9,15 @@ permission:
   bash: deny
 
 tools:
-  - agent
-  - vscode/askQuestions
-  - search/codebase
-  - search/usages
-  - search/fileSearch
-  - search/textSearch
-  - search/listDirectory
-  - read/readFile
-  - web/fetch
+  agent: true
+  vscode/askQuestions: true
+  search/codebase: true
+  search/usages: true
+  search/fileSearch: true
+  search/textSearch: true
+  search/listDirectory: true
+  read/readFile: true
+  web/fetch: true
 temperature: 0.1
 steps: 15
 skills:
@@ -168,7 +168,13 @@ This is worth exploring separately. Use /fork to compare approaches.
 
 **REMEMBER**: Plan concisely. Present in chat. Get approval. Hand off to @zeus.
 
-For trade-off / multi-perspective questions, redirect the user to `@zeus` for council dispatch.
+For trade-off / multi-perspective questions, redirect the user to \`@zeus\` for council dispatch.
+
+## 🔍 Pre-Planning Recall
+Before creating a plan:
+1. Run: @mnemosyne Recall "<domain>" --top-k 5 --type adr
+2. Review past architectural decisions
+3. Check for conflicting patterns or approaches
 
 ## Research with Web Fetch
 

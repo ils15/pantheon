@@ -22,3 +22,25 @@ v3.14.0 — quality-gate skill, deepwork workflow
 
 ## Blockers
 None
+
+## What Changed (2026-06-26) — Deepwork v3.15
+- **Stream A: Exa Cleanup** — `exa-mcp-server` removido de `opencode.json` (redundante com Exa nativo do OpenCode). `apollo.agent.md` atualizado para usar `websearch` nativo.
+- **Stream B: Context Compressor Trigger** — Seção "Context Compression Trigger" adicionada ao `zeus.agent.md`. Script de teste `scripts/test-context-compression.sh` criado e validado.
+- **Naming Fix** — "relentless mode" renomeado para "auto-continue" em 43 arquivos (skills, commands, agent files, platform copies). Único termo padronizado.
+- **Roadmap NOTE0010** — Documento de visão de longo prazo com 5 fases: do básico ao plugin architecture.
+- **Level 3 Vector Memory Phase 1** — Core infra implementada: `scripts/vector_memory/schema.py` (FTS5 + sqlite-vec híbrido), `index.py` (indexação dupla com idempotência + quick_index()), `query.py` (fallback chain: vector KNN → FTS5 BM25 → grep), `test_memory.py` (8 testes passando).
+- **Two-Tier Persistence Model** — Auto-index (Tier 1) para resultados de background agents via `quick_index()`, compressão completa (Tier 2) só no Themis APPROVED. Documentado em `zeus.agent.md`, `context-compression/SKILL.md`, `orchestration-workflow/SKILL.md`.
+
+## Key Decisions
+- "auto-continue" é o nome canônico — "relentless" removido completamente
+- Level 3 usa arquitetura híbrida: sqlite-vec (semântico) como primário, FTS5 (keyword) como fallback sempre disponível
+- TASK-016 documenta o plano completo de implementação do Level 3 (5 fases, 24 tasks)
+- Two-Tier: background agents sempre persistem no Vector Memory (Tier 1), compressão completa só com Themis APPROVED (Tier 2)
+- quick_index() registra subtask_summary inline sem escanear arquivos — idempotente por content_hash
+
+## Next
+- ✅ Two-Tier Persistence Model (background auto-index + full compression)
+- Level 3 Phase 2: Mnemosyne integration (done: @mnemosyne Recall + compress_context wiring)
+- Level 3 Phase 3: Agent pre-action hooks (done: 6 agents with recall hooks)
+- Level 3 Phase 4: Plugin V2 API — aguardar Plugin V2 API estabilizar
+- Level 3 Phase 4: Auto-tagging + rebuild

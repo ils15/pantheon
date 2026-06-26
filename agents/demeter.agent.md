@@ -8,15 +8,15 @@ permission:
   bash: allow
 
 tools:
-  - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
+  agent: true
+  search/codebase: true
+  search/usages: true
+  read/readFile: true
+  read/problems: true
+  edit/editFiles: true
+  execute/runInTerminal: true
+  execute/testFailure: true
+  execute/getTerminalOutput: true
 temperature: 0.2
 steps: 20
 skills:
@@ -63,6 +63,12 @@ See `instructions/tdd-standards.instructions.md` for the full TDD cycle.
 2. Check for N+1 patterns in any new relationships
 3. Send to @themis for quality gate review
 4. Report: "Migration complete. Tables: [list]. Indexes: [list]. Rollback tested: ✅."
+
+## 🔍 Pre-Migration Recall
+Before creating a new migration:
+1. Run: @mnemosyne Recall "<schema change>" --top-k 3 --agent demeter
+2. Review past migration patterns and rollback strategies
+3. Check for existing schema decisions in ADRs
 
 ## 🛑 Anti-Stall Rules
 

@@ -221,10 +221,10 @@ New task: add refresh token rotation.
 
 ## ⚡ AUTO-CONTINUE PATTERN
 
-Enable continuous execution only when the user **explicitly** requests "relentless mode" or "run without stopping". Do NOT self-activate.
+Enable continuous execution only when the user **explicitly** requests "auto-continue mode" or "run without stopping". Do NOT self-activate.
 
 **Enable when (ALL true):**
-- User explicitly requests relentless mode
+- User explicitly requests auto-continue mode
 - Every step has clear, unambiguous requirements
 - The plan has been approved at Gate 1
 

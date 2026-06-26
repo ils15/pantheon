@@ -1,5 +1,5 @@
 ---
-description: "Redirect — use /cancel instead. Stop auto-continuation. Use --relentless to stop only relentless mode."
+description: "Redirect — use /cancel instead. Stop auto-continuation."
 ---
 # /stop-continuation → /cancel
 
@@ -7,7 +7,5 @@ description: "Redirect — use /cancel instead. Stop auto-continuation. Use --re
 
 ## Migration
 - `/stop-continuation` → `/cancel` (same behavior)
-- `/stop-continuation --relentless` → `/cancel --relentless`
-- `/cancel-relentless` → `/cancel --relentless`
 
 All functionality is preserved. Only the command name changed.

@@ -5,7 +5,7 @@
 <h1 align="center">Pantheon</h1>
 
 <p align="center">
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.12.2-blue" alt="Version"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.15.0-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-14-purple" alt="Agents"></a>
@@ -547,7 +547,7 @@ Pantheon provides slash commands via OpenCode. On other platforms (Copilot, Curs
 | `/mirrordeps` | apollo | Clone dependency source locally |
 | `/praxis` | zeus | Execute plan via task system |
 | `/metamorphosis` | zeus | Intelligent refactoring with TDD |
-| `/cancel` | zeus | Stop auto-continuation (use `--relentless` to stop only relentless mode) |
+| `/cancel` | zeus | Stop auto-continuation |
 
 > **Multi-platform note:** Commands are native to OpenCode. On VS Code Copilot, use `@agent-name` in chat. On Cursor/Claude Code, describe the task in natural language.
 

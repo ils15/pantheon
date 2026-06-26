@@ -11,15 +11,15 @@ permission:
     gh *: allow
 
 tools:
-  - agent
-  - vscode/askQuestions
-  - vscode/runCommand
-  - read/readFile
-  - search/codebase
-  - search/changes
-  - execute/runInTerminal
-  - execute/getTerminalOutput
-  - web/fetch
+  agent: true
+  vscode/askQuestions: true
+  vscode/runCommand: true
+  read/readFile: true
+  search/codebase: true
+  search/changes: true
+  execute/runInTerminal: true
+  execute/getTerminalOutput: true
+  web/fetch: true
 temperature: 0.2
 steps: 15
 skills:

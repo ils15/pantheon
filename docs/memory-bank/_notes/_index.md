@@ -17,6 +17,7 @@
 | ADR-001 | Removal of Agora Agent — Inline Council via /pantheon | 2026-05-25 | Accepted |
 | ADR-002 | Single Source of Truth — agents/*.agent.md | 2026-05-25 | Accepted |
 | NOTE0009 | Level 3 — Vector Memory (sqlite-vec + sentence-transformers) | 2026-06-20 | Proposed |
+| NOTE0010 | Pantheon v3 Roadmap | 2026-06-26 | Active |
 
 ## Rules
 - **Immutable:** Never edit — create new ADR that supersedes

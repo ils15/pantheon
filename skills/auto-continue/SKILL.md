@@ -6,9 +6,9 @@ globs: []
 alwaysApply: false
 ---
 
-# Auto-Continue & Relentless Mode
+# Auto-Continue Mode
 
-Disciplined automatic continuation through multi-step tasks. Eliminates unnecessary pauses while preserving mandatory safety gates. Includes aggressive relentless mode for autonomous execution.
+Disciplined automatic continuation through multi-step tasks. Eliminates unnecessary pauses while preserving mandatory safety gates.
 
 ---
 
@@ -27,7 +27,7 @@ Disciplined automatic continuation through multi-step tasks. Eliminates unnecess
 | **GATE 2 — Phase Review** | Themis reviews implementation | User sees changes before next phase |
 | **GATE 3 — Git Commit** | After each phase is approved | User controls git history; no auto-commit |
 
-> **Agora is always GATE 0**: any response containing `AWAITING_APPROVAL` or a `## 🏛️ Agora Council` block overrides all auto-continue rules, including relentless mode.
+> **Agora is always GATE 0**: any response containing `AWAITING_APPROVAL` or a `## 🏛️ Agora Council` block overrides all auto-continue rules.
 
 ---
 
@@ -46,33 +46,6 @@ Disciplined automatic continuation through multi-step tasks. Eliminates unnecess
 - A task would exceed remaining `steps` budget
 
 ---
-
-## Relentless Mode (Aggressive Auto-Continue)
-
-**Activation:** Type `relentless-mode "task description"` in chat (text activation, not a registered command)
-
-**When to use:** Complex multi-step tasks (5+ todos), autonomous execution needed.
-
-**How it works:**
-```
-User invokes relentless mode
-  ↓
-Agent creates todos and starts working
-  ↓
-Agent goes idle with incomplete todos
-  ↓
-Hook injects: "[SYSTEM REMINDER] Complete ALL todos before responding"
-  ↓
-Agent resumes work
-  ↓
-Loop ends when: <promise>DONE</promise> detected OR user cancels
-```
-
-**DONE Detection:** Loop ends only when `<promise>DONE</promise>` appears in response.
-
-**Cancellation:** `/stop-continuation` (all) or `/stop-continuation --relentless` (relentless only), or `Esc×2`
-
-**Relentless respects all 4 safety gates** — auto-continues BETWEEN gates, not THROUGH them.
 
 ---
 
@@ -120,8 +93,8 @@ Phase N complete. Summary:
 3. **After Themis review (GATE 2):** Cooldown is mandatory — review findings may change the plan
 4. **Session reuse check:** Before starting next phase, check if a specialist session from a previous phase can be reused (see session-goal skill)
 
-### Relentless Mode Cooldown
-In relentless mode, the cooldown is abbreviated to one line:
+### Abbreviated Cooldown
+When auto-continuing between sequential non-gated phases, the cooldown is abbreviated to one line:
 ```
 → Phase N done. Next: Phase N+1. [auto-continuing]
 ```

@@ -7,18 +7,18 @@ permission:
   bash: allow
 
 tools:
-  - agent
-  - vscode/askQuestions
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
-  - search/changes
-  - web/fetch
+  agent: true
+  vscode/askQuestions: true
+  search/codebase: true
+  search/usages: true
+  read/readFile: true
+  read/problems: true
+  edit/editFiles: true
+  execute/runInTerminal: true
+  execute/testFailure: true
+  execute/getTerminalOutput: true
+  search/changes: true
+  web/fetch: true
 temperature: 0.2
 steps: 20
 skills:

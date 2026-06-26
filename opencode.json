@@ -1,28 +1,19 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [],
+  "plugin": [
+    "pantheon-tui-plugin"
+  ],
   "default_agent": "zeus",
   "command": {},
   "mcp": {
     "context7": {
       "type": "local",
+      "cwd": ".",
       "command": [
         "npx",
         "-y",
         "@upstash/context7-mcp"
       ],
-      "enabled": true
-    },
-    "exa": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "exa-mcp-server"
-      ],
-      "env": {
-        "EXA_API_KEY": "${EXA_API_KEY}"
-      },
       "enabled": true
     },
     "gh_grep": {
@@ -32,6 +23,7 @@
     },
     "playwright": {
       "type": "local",
+      "cwd": ".",
       "command": [
         "npx",
         "-y",

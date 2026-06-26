@@ -8,17 +8,17 @@ permission:
   bash: deny
 
 tools:
-  - search/codebase
-  - search/usages
-  - search/fileSearch
-  - search/textSearch
-  - search/listDirectory
-  - read/readFile
-  - web/fetch
-  - browser/openBrowserPage
-  - browser/navigatePage
-  - browser/readPage
-  - browser/screenshotPage
+  search/codebase: true
+  search/usages: true
+  search/fileSearch: true
+  search/textSearch: true
+  search/listDirectory: true
+  read/readFile: true
+  web/fetch: true
+  browser/openBrowserPage: true
+  browser/navigatePage: true
+  browser/readPage: true
+  browser/screenshotPage: true
 mode: subagent
 temperature: 0.1
 steps: 15
@@ -44,7 +44,7 @@ You are the **READ-ONLY INVESTIGATOR** (Apollo) called by other agents to explor
 - Generate structured summaries (not raw dumps)
 
 ### 2. External Research
-- Web search via exa MCP for documentation, blog posts, GitHub repos
+- Web search via native OpenCode websearch for documentation, blog posts, GitHub repos
 - Context7 for library documentation
 - Read URLs with webfetch for known resource URLs
 
@@ -56,7 +56,7 @@ You are the **READ-ONLY INVESTIGATOR** (Apollo) called by other agents to explor
 ## ⛔ TOOLS NOT AVAILABLE
 - bash - forbidden (cannot run commands)
 - edit - forbidden (read-only agent)
-- websearch - use exa MCP instead
+- websearch - use native OpenCode websearch tool
 
 ## MCP Security
 - Never embed credentials in URLs (grep for token=, key=, secret=)
