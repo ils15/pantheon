@@ -18,6 +18,8 @@
 | TASK-012 | Wave 6 — Corrigir Handoffs, Skills, Delegação | 2026-05-25 | Planned |
 | TASK-013 | Wave 7 — Configurar Hooks | 2026-05-25 | Planned |
 | TASK-014 | Wave 8 — Documentar Timeout + ADRs | 2026-05-25 | Planned |
+| TASK-015 | Cleanup Commands, MCPs & Agent Invocation Fixes | 2026-05-28 | In progress |
+| TASK-016 | Level 3 Vector Memory Implementation | 2026-06-26 | Planning |
 
 ## Entry format
 
