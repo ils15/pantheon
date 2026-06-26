@@ -8,11 +8,11 @@ permission:
   bash: deny
 
 tools:
-  - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - edit/editFiles
+  agent: true
+  search/codebase: true
+  search/usages: true
+  read/readFile: true
+  edit/editFiles: true
 temperature: 0.1
 steps: 10
 skills:
@@ -83,7 +83,9 @@ Mnemosyne executes the expanded compression pipeline. When Zeus delegates compre
    - Append new entries to `_xref/index.md`
    - Increment `_xref/_next_id.json`
 
-7. **Report**: Return summary: "Compressed. 2 CRITICAL, 1 HIGH, 3 STANDARD. Budget: 15/20 lines. Cross-refs: +2 entities, +1 decision."
+7. **Auto-index vector memory**: Run `scripts/vector_memory/index.index_all()` to index new entries into the Level 3 Vector Memory system. If sentence-transformers is not installed, indexes FTS5 only.
+
+8. **Report**: Return summary: "Compressed. 2 CRITICAL, 1 HIGH, 3 STANDARD. Budget: 15/20 lines. Cross-refs: +2 entities, +1 decision. Indexed X new, skipped Y duplicates."
 
 ### Write Protocol
 - Atomic write: .tmp → fsync → validate → rename
@@ -94,8 +96,74 @@ Mnemosyne executes the expanded compression pipeline. When Zeus delegates compre
 - NEVER write over existing entries (idempotency by date+phase+agent hash)
 - NEVER delete _xref/ entries (append-only)
 
+## 🧠 Semantic Recall Handler (Level 3)
+
+Mnemosyne provides semantic recall via the Level 3 Vector Memory system:
+
+**Command:** `@mnemosyne Recall "<query>" [--top-k 5] [--type adr|subtask|wisdom|impl|decision] [--agent hermes] [--since 2026-01-01] [--tags auth,jwt]`
+
+**How it works:**
+1. Calls `scripts/vector_memory/query.recall()` with the provided parameters
+2. Returns ranked, structured results with scores and source paths
+3. Uses fallback chain: vector KNN → FTS5 BM25 → flat grep
+
+**Usage examples:**
+```
+@mnemosyne Recall "auth token rotation decision"
+@mnemosyne Recall "database migration" --top-k 10 --agent demeter --type adr
+@mnemosyne Recall "docker deployment" --tags infra,deploy --since 2026-01-01
+```
+
+**Integration with compress_context:**
+After each `compress_context` run, automatically index new entries:
+1. Run `scripts/vector_memory/index.index_all()`
+2. Report: "Indexed X new memories, skipped Y duplicates"
+3. If sentence-transformers is not installed, skip vector indexing but still index FTS5
+
+**Integration with Close sprint:**
+When `Close sprint` is called, before wiping .tmp/:
+1. Run final batch: `index_all()`
+2. Report final index stats
+
 ## Invocation Rules
 - Never invoked automatically after phases
 - Called explicitly by @zeus for memory tasks
 - Called by any agent for artifact creation
 
+
+## ⚡ Quick-Index Handler (Tier 1 — Background Agent Results)
+
+Called automatically by Zeus when any agent returns a subtask_summary
+(background or foreground). Persists results into Vector Memory immediately,
+no Themis needed.
+
+**Trigger patterns:**
+- Background agent completes → Zeus calls Mnemosyne Quick-index
+- Apollo returns discovery results → auto-indexed
+- Any agent returns subtask_summary → auto-indexed
+
+**Command:** `@mnemosyne Quick-index <subtask_summary_json>`
+
+**What it does:**
+1. Calls `scripts/vector_memory/index.quick_index()` with the summary dict
+2. Auto-generates tags from keywords (no manual specification needed)
+3. Reports: "Indexed: {type} from @{agent} ({memory_id})"
+
+**Parameters (from subtask_summary):**
+| Field | Source | Required |
+|-------|--------|----------|
+| `summary` | subtask_summary.summary | ✅ |
+| `agent` | Agent name | ✅ |
+| `files_changed` | subtask_summary.files_changed | ❌ (optional) |
+| `status` | subtask_summary.status | ❌ (default: complete) |
+| `source_type` | Context: subtask_summary / impl_artifact / discovery | ❌ (default: subtask_summary) |
+| `tags` | Comma-separated | ❌ (auto-generated) |
+
+**Idempotency:** content_hash dedup — calling twice with same summary is a no-op.
+
+**Safety:**
+- ✅ Safe to call on partial results (indexes what's available)
+- ✅ Safe to call multiple times (idempotent)
+- ✅ Works without sentence-transformers (FTS5 only)
+- ❌ Does NOT generate ZZ artifact (that's Tier 2)
+- ❌ Does NOT update 01-active-context.md (that's Tier 2)

@@ -37,7 +37,7 @@ This project uses the Pantheon multi-agent framework with 14 specialized agents.
 
 ## MCP Configuration
 
-Each agent template includes a `mcpServers` frontmatter field that declares available MCP servers. This enables per-agent MCP binding with tool scoping.
+MCP servers are configured globally in `opencode.json` under the `mcpServers` key (see `.mcp.json` for the reference configuration). Per-agent MCP scoping is not used — all agents share the same MCP server pool.
 
 For details, see `docs/mcp-recommendations.md`.
 
@@ -82,6 +82,10 @@ Para sessões de deepwork focadas (features complexas ou multi-fase), o Pantheon
 3. @talos escreve DISCOVERY.md em `.pantheon/deepwork/<task-slug>/`
 
 > Nota: Para a v2, planeja-se dar a Apollo permissão de write restrita a `.pantheon/deepwork/*/DISCOVERY.md` para eliminar esse handoff.
+
+### OpenCode v1.17+ Integration
+- **Background agents**: Zeus may dispatch independent tasks in background (v1.16.2+)
+- **Session Snapshots**: OpenCode natively supports session snapshots with revert. Use `/snapshot` for manual checkpoints instead of custom deepwork checkpoint files where possible
 
 ## Glossary
 

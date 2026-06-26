@@ -4,6 +4,37 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [v3.15.0] - 2026-06-26
+
+### 🚀 Enhancements
+
+- **Level 3 Vector Memory:** 5 scripts (`schema.py`, `index.py`, `query.py`, `rebuild.py`, `cli.py`) with dual indexing (FTS5 + optional sqlite-vec embeddings), 8/8 tests passing, 120 entries indexed from memory bank
+- **Two-Tier Persistence Model:** Tier 1 auto-index (`quick_index()`) saves background agent results instantly into Vector Memory; Tier 2 full compression (ZZ artifact + memory bank update) only on Themis APPROVED
+- **Inline quick_index():** New function in `index.py` indexes subtask_summary dicts directly (no file scanning), idempotent via content_hash, auto-tags from keywords
+- **Context Compression Trigger:** Section in `zeus.agent.md` with test script `scripts/test-context-compression.sh` — validates all 5 checks (prerequisites, mocks, structure, secrets, output)
+- **Background Agent Dispatch:** Pattern documented in `zeus.agent.md` and `orchestration-workflow/SKILL.md` — OpenCode v1.16.2+ background agents with auto-persist
+
+### 🔧 Changed
+
+- **Auto-Continue Canonical Name:** "relentless" → "auto-continue" across 43 files (skills, commands, agent files, platform copies)
+- **Tools Format:** 14 agents converted from YAML array (`- tool`) to object format (`tool: true`)
+- **quick_index path fix:** Scripts now add `scripts/` (parent of vector_memory package) to sys.path instead of their own directory
+
+### 🗑️ Removed
+
+- **Platform Skill Directories:** 211 stale skill files removed from 6 platform dirs (`.clinerules/skills/`, `.claude/skills/`, `.cursor/skills/`, `.windsurf/skills/`, `.continue/skills/`, `platform/*/`) — OpenCode v1.16.0+ discovers skills natively from `~/.config/opencode/skills/`
+- **Exa MCP Server:** `exa-mcp-server` removed from `opencode.json` (redundant with OpenCode native websearch)
+- **`vector_memory` config key:** Removed from both project and global `opencode.json` (not recognized by OpenCode v1.17.x)
+
+### 🐛 Fixed
+
+- **Import Path in Vector Memory Scripts:** `sys.path` now correctly points to parent of `vector_memory/` package, enabling both direct execution and `python -m` usage
+
+### 📚 Documentation
+
+- **NOTE0010:** Pantheon v3 Roadmap — 5-phase vision from FTS5 to Plugin Architecture
+- **TASK-016:** Level 3 Implementation Plan — 24 tasks across 5 phases
+- **01-active-context.md:** Updated with deepwork v3.15 changes and Two-Tier model
 ## [v3.14.0] - 2026-06-20
 
 ### 🚀 Enhancements
@@ -141,7 +172,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 
 
-## [v3.9.0] - 2026-05-28
+ - 2026-05-28
 
 [compare changes](https://github.com/ils15/pantheon/compare/v3.8.4...v3.9.0)
 

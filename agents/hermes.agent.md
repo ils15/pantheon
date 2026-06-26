@@ -8,16 +8,16 @@ permission:
   bash: allow
 
 tools:
-  - agent
-  - search/codebase
-  - search/usages
-  - read/readFile
-  - read/problems
-  - edit/editFiles
-  - execute/runInTerminal
-  - execute/testFailure
-  - execute/getTerminalOutput
-  - search/changes
+  agent: true
+  search/codebase: true
+  search/usages: true
+  read/readFile: true
+  read/problems: true
+  edit/editFiles: true
+  execute/runInTerminal: true
+  execute/testFailure: true
+  execute/getTerminalOutput: true
+  search/changes: true
 skills:
 - api-design-patterns
 - cache-strategy
@@ -222,6 +222,12 @@ pip-audit -r requirements.txt
 - ❌ Direct .md file creation by Hermes
 
 **Artifact Protocol Reference:** `instructions/artifact-protocol.instructions.md`
+
+## 🔍 Pre-Implementation Recall
+Before implementing a backend feature:
+1. Run: @mnemosyne Recall "<feature>" --top-k 3 --agent hermes
+2. Check for past implementation patterns and decisions
+3. Avoid repeating past mistakes documented in ADRs
 
 ## When to Delegate
 
