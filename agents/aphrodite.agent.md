@@ -18,7 +18,6 @@ tools:
   execute/runInTerminal: true
   execute/testFailure: true
   execute/getTerminalOutput: true
-  search/changes: true
   browser/openBrowserPage: true
   browser/navigatePage: true
   browser/readPage: true

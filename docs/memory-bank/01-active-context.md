@@ -3,7 +3,7 @@
 > Priority file — agents read first. Keep current. Stale is worse than none.
 
 ## Current Focus
-v3.14.0 — quality-gate skill, deepwork workflow
+v3.15.0 — Level 3 Vector Memory + Two-Tier Persistence
 
 ## What Changed (2026-06-21)
 - **quality-gate skill criado** em `skills/quality-gate/SKILL.md` — skill obrigatório para agentes de implementação rodarem auto-verificação (lint, type-check, testes, build) antes de reportar conclusão a Zeus
@@ -39,8 +39,7 @@ None
 - quick_index() registra subtask_summary inline sem escanear arquivos — idempotente por content_hash
 
 ## Next
-- ✅ Two-Tier Persistence Model (background auto-index + full compression)
-- Level 3 Phase 2: Mnemosyne integration (done: @mnemosyne Recall + compress_context wiring)
-- Level 3 Phase 3: Agent pre-action hooks (done: 6 agents with recall hooks)
-- Level 3 Phase 4: Plugin V2 API — aguardar Plugin V2 API estabilizar
+- ✅ v3.15.0 released — Level 3 Vector Memory + Two-Tier Persistence + Background Agents
+- 🔜 Level 3 Phase 4: Plugin V2 API — aguardar Plugin V2 API estabilizar (NOTE0010)
+- 🔜 TUI Plugin: rebuild para OpenCode v1.17.x (incompatibilidade @opentui/core 0.2.x vs >=0.3.4)
 - Level 3 Phase 4: Auto-tagging + rebuild

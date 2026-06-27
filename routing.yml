@@ -128,17 +128,19 @@ agents:
       - apollo
     skills:
       - api-design-patterns
+      - cache-strategy
+      - database-optimization
       - fastapi-async-patterns
       - quality-gate
+      - simplify
       - tdd-with-agents
-      - database-optimization
-      - cache-strategy
+      - test-architecture
 
   aphrodite:
     role: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design"
     model_tier: default
     user_invocable: true
-    can_delegate: true
+    can_delegate: false
     can_receive_delegation: true
     capabilities:
       - frontend_implementation
@@ -150,15 +152,16 @@ agents:
       - apollo
     skills:
       - frontend-analyzer
-      - quality-gate
-      - tdd-with-agents
       - nextjs-seo-optimization
+      - quality-gate
+      - simplify
+      - tdd-with-agents
 
   demeter:
     role: "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention"
     model_tier: default
     user_invocable: true
-    can_delegate: true
+    can_delegate: false
     can_receive_delegation: true
     capabilities:
       - database_migration
@@ -201,7 +204,7 @@ agents:
     role: "Infrastructure specialist — Docker, docker-compose, CI/CD, health checks"
     model_tier: default
     user_invocable: true
-    can_delegate: true
+    can_delegate: false
     can_receive_delegation: true
     capabilities:
       - infrastructure_as_code
@@ -213,13 +216,14 @@ agents:
       - apollo
     skills:
       - docker-best-practices
-      - database-optimization
+      - multi-model-routing
+      - agent-observability
 
   hephaestus:
     role: "AI tooling & pipelines — LangChain/LangGraph, RAG, vector stores, embeddings"
     model_tier: default
     user_invocable: true
-    can_delegate: true
+    can_delegate: false
     can_receive_delegation: true
     capabilities:
       - rag_pipeline_design
@@ -234,12 +238,14 @@ agents:
       - mcp-server-development
       - quality-gate
       - agent-evaluation
+      - conversational-ai-design
+      - prompt-improver
 
   nyx:
     role: "Observability & monitoring — OpenTelemetry, token/cost tracking, LangSmith"
     model_tier: fast
     user_invocable: true
-    can_delegate: true
+    can_delegate: false
     can_receive_delegation: true
     capabilities:
       - opentelemetry_setup
@@ -257,7 +263,7 @@ agents:
     role: "Remote sensing — satellite imagery, spectral analysis, SAR, change detection, LULC"
     model_tier: default
     user_invocable: true
-    can_delegate: true
+    can_delegate: false
     can_receive_delegation: true
     capabilities:
       - satellite_imagery_analysis
@@ -275,7 +281,7 @@ agents:
     role: "GitHub operations — branches, PRs, issues, releases, tags"
     model_tier: fast
     user_invocable: true
-    can_delegate: true
+    can_delegate: false
     can_receive_delegation: true
     capabilities:
       - branch_management
@@ -292,7 +298,7 @@ agents:
     role: "Memory bank — initializes docs/memory-bank/, writes ADRs and task records on request"
     model_tier: fast
     user_invocable: true
-    can_delegate: false
+    can_delegate: true
     can_receive_delegation: true
     capabilities:
       - memory_bank_management
@@ -322,7 +328,7 @@ agents:
       - escalation_detection
     subagent_can_delegate_to: []
     skills:
-      - tdd-with-agents
+      - simplify
 
 # =============================================================================
 # DELEGATION RULES — who delegates to whom, when (task categories), how (timeout/retry/fallback)

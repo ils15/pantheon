@@ -16,7 +16,6 @@ tools:
   vscode/runCommand: true
   read/readFile: true
   search/codebase: true
-  search/changes: true
   execute/runInTerminal: true
   execute/getTerminalOutput: true
   web/fetch: true

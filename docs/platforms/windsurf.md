@@ -18,7 +18,7 @@ node scripts/install.mjs --target /path/to/your-project
 ### Manual Setup
 
 ```bash
-git clone https://github.com/anomalyco/Pantheon.git
+git clone https://github.com/ils15/Pantheon.git
 cd Pantheon
 npm install
 ```

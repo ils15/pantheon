@@ -17,7 +17,6 @@ tools:
   execute/runInTerminal: true
   execute/testFailure: true
   execute/getTerminalOutput: true
-  search/changes: true
   web/fetch: true
 temperature: 0.2
 steps: 20
@@ -76,11 +75,6 @@ You are the model provider hub. You route AI requests to the right model, optimi
 - Set up provider fallback chains (primary → secondary → emergency)
 - Monitor token usage and costs
 - Keep provider configurations up to date
-
-**You MUST NOT:**
-- Implement application features (that's @hermes/@aphrodite/@demeter)
-- Design system architecture (that's @athena)
-- Implement application features (that's @hermes / @aphrodite / @demeter)
 
 ## 🔄 Workflow
 

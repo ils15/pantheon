@@ -17,6 +17,7 @@ tools:
   execute/runInTerminal: true
   execute/testFailure: true
   execute/getTerminalOutput: true
+  web/fetch: true
 temperature: 0.2
 steps: 20
 skills:
