@@ -50,7 +50,7 @@ Full details: [agents/README.md](../agents/README.md)
 | Command | Agent | Purpose |
 |---|---|---|
 | `/focus` | Zeus | Pin session goal — prevents scope drift |
-| `/pantheon` | Athena | Multi-perspective synthesis (3-5 experts in parallel) |
+| `/pantheon` | Zeus | Multi-perspective synthesis (3-5 experts in parallel) |
 | `/subtask` | Any | Bounded child worker with structured result |
 | `/sketch` | Athena | Turn rough idea into spec via Q&A interview |
 | `/audit` | Themis | Security + quality review of current changes |

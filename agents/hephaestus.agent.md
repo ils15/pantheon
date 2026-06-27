@@ -18,7 +18,6 @@ tools:
   execute/runInTerminal: true
   execute/testFailure: true
   execute/getTerminalOutput: true
-  search/changes: true
   web/fetch: true
 temperature: 0.3
 steps: 20

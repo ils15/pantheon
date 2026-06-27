@@ -22,12 +22,12 @@ Disciplined automatic continuation through multi-step tasks. Eliminates unnecess
 
 | Gate | Trigger | What happens |
 |---|---|---|
-| **GATE 0 — Council Gate** | Zeus outputs `AWAITING_APPROVAL` OR `## 🏛️ Council Synthesis` synthesis block appears | **HARD STOP.** Do not call any tool, do not continue any todo, do not suggest next steps. Wait for user to type: APPROVE / REQUEST CHANGES / DISCARD. "ok", "yes", "sure", "continue" are NOT valid. |
+| **GATE 0 — Agora Gate** | Agora outputs `AWAITING_APPROVAL` OR `## 🏛️ Agora Council` synthesis block appears | **HARD STOP.** Do not call any tool, do not continue any todo, do not suggest next steps. Wait for user to type: APPROVE / REQUEST CHANGES / DISCARD. "ok", "yes", "sure", "continue" are NOT valid. |
 | **GATE 1 — Plan Approval** | Athena generates a plan | User confirms scope before code is written |
 | **GATE 2 — Phase Review** | Themis reviews implementation | User sees changes before next phase |
 | **GATE 3 — Git Commit** | After each phase is approved | User controls git history; no auto-commit |
 
-> **Council is always GATE 0**: any response containing `AWAITING_APPROVAL` or a `## 🏛️ Council Synthesis` block overrides all auto-continue rules.
+> **Agora is always GATE 0**: any response containing `AWAITING_APPROVAL` or a `## 🏛️ Agora Council` block overrides all auto-continue rules.
 
 ---
 
@@ -46,7 +46,6 @@ Disciplined automatic continuation through multi-step tasks. Eliminates unnecess
 - A task would exceed remaining `steps` budget
 
 ---
-
 
 ---
 

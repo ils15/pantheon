@@ -105,6 +105,9 @@ Coverage target: >80%
 
 **Themis reviews:** Coverage, security, performance, tests → APPROVED
 
+**Background dispatch for independent phases (OpenCode v1.16.2+):**
+If Phase 2 (backend) and Phase 3 (frontend) have no file dependencies, Zeus can dispatch both in **background** simultaneously and continue working while they execute. This eliminates the sequential wait.
+
 ### ⏸️ PAUSE POINT 2: Phase Review
 
 ```
@@ -291,6 +294,7 @@ Result:      10x faster queries (~2 hours)
 🎯 **Test First** — RED tests before code  
 🎯 **Coverage Matters** — <80% = blocked, no exceptions  
 🎯 **Security First** — Themis enforces OWASP compliance  
+🎯 **Background Dispatch** — Use OpenCode v1.16.2+ background agents to run independent phases in parallel without polling  
 
 ---
 

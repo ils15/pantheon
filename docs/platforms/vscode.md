@@ -34,7 +34,7 @@ Complete setup and usage guide for running Pantheon in VS Code with GitHub Copil
 
 ```bash
 # Clone the repo
-git clone https://github.com/ils15/Pantheon.git
+git clone https://github.com/ils15/pantheon.git
 cd Pantheon
 npm install
 

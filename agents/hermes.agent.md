@@ -17,7 +17,7 @@ tools:
   execute/runInTerminal: true
   execute/testFailure: true
   execute/getTerminalOutput: true
-  search/changes: true
+  web/fetch: true
 skills:
 - api-design-patterns
 - cache-strategy

@@ -1,4 +1,4 @@
-# Contributing to VSCode Agent Frameworks
+# Contributing to Pantheon
 
 Welcome to the Multi-Agent Orchestration System! This system is designed to be highly modular and extensible. Since this architecture leverages specialized VS Code Copilot agents, contributing means extending its cognitive capabilities rather than just adding code.
 

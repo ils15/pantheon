@@ -591,6 +591,7 @@ function transformFrontmatter(fm, adapter) {
     // Comma-separated serialization (e.g. Claude Code tools field)
     if (strategy === 'comma-separated' && Array.isArray(value)) {
       if (value.length === 0) continue;
+      value = [...new Set(value)];  // Dedup for comma-separated format
       value = value.join(', ');
     }
 

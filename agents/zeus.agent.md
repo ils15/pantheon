@@ -19,7 +19,6 @@ tools:
   search/codebase: true
   search/usages: true
   web/fetch: true
-  search/changes: true
 temperature: 0.2
 steps: 25
 skills:

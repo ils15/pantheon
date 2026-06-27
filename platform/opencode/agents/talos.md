@@ -3,9 +3,15 @@ description: Hotfix express lane — direct fixes for small bugs, CSS, typos, mi
 mode: subagent
 permission:
   bash:
-    git add *: allow
     npx prettier *: allow
-    git *: allow
+    git add *: allow
+    git diff *: allow
+    git log *: allow
+    git status: allow
+    git stash *: allow
+    git checkout *: allow
+    git commit *: allow
+    git branch *: allow
 temperature: 0.3
 steps: 30
 ---

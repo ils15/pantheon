@@ -46,6 +46,9 @@ platform/continue/.continue/commands/
 platform/cursor/.cursor/commands/
 platform/opencode/.opencode/commands/
 platform/opencode/.opencode/skills/
+# Generated platform skill copies (sync byproduct)
+platform/cline/.clinerules/skills/
+platform/windsurf/.windsurf/skills/
 
 # Project-level generated artifacts (use --global instead)
 .github/agents/

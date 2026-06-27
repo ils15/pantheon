@@ -180,7 +180,7 @@ cp -r pantheon/prompts     /path/to/your-project/prompts
 
 ### Prerequisites
 
-- **OpenCode** installed: `npm i -g opencode-ai` or `brew install opencode-ai`
+- **OpenCode** installed: `npm install -g @opencode/opencode` or `brew install opencode-ai`
 - An LLM provider API key (Anthropic, OpenAI, Google, or OpenCode Zen)
 
 ### Setup

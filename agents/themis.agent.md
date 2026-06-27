@@ -21,7 +21,6 @@ tools:
   search/usages: true
   read/readFile: true
   read/problems: true
-  search/changes: true
   execute/runInTerminal: true
   execute/testFailure: true
   edit/editFiles: true

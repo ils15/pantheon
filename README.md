@@ -9,7 +9,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-14-purple" alt="Agents"></a>
-   <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-42-orange" alt="Skills"></a>
+   <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-43-orange" alt="Skills"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf|cline|continue-8250DF" alt="Built with"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/ci.yml?branch=main&label=CI" alt="CI"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/release.yml?branch=main&label=release" alt="Release"></a>
@@ -28,7 +28,7 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 | Resource | Link |
 |----------|------|
 | 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 14 agents |
-| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 41 skills |
+| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 43 skills |
 | 🚀 **Installation Guide** | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
 | 🔌 **MCP Servers** | [docs/mcp-recommendations.md](docs/mcp-recommendations.md) — recommended MCP servers for each project type |
 | ⚡ **Quick Start** | [docs/QUICKSTART.md](docs/QUICKSTART.md) |
@@ -411,9 +411,39 @@ graph TB
 
 ---
 
+## 🧠 Level 3 Vector Memory (v3.15.0)
+
+Pantheon v3.15.0 introduces a persistent two-tier memory system with semantic retrieval:
+
+### Tier 1 — Auto-Indexed Memory (`/memories/repo/`)
+Agent memory is automatically indexed at zero token cost. Every agent writes atomic facts on discovery:
+- Tech stack, conventions, build commands
+- Architectural decisions and patterns
+- Cross-component relationships
+
+### Tier 2 — Compressed Context (`docs/memory-bank/`)
+On-demand compression pipeline archives completed phases into structured context:
+- **Priority scoring** — CRITICAL/HIGH/LOW budget allocation (deterministic, no LLM)
+- **ZZ artifacts** — compressed phase context for agent-to-agent handoff
+- **Cross-reference index** (`_xref/index.md`) — entity/decision lookup
+
+### Usage
+```bash
+@mnemosyne Recall "<feature description>" --top-k 5   # Retrieve past decisions
+@mnemosyne Close sprint: "<summary>"                    # Archive and compress
+```
+
+### Benefits
+- 🚫 No more lost context between phases
+- 🧩 Past decisions surface automatically before planning
+- 💾 Zero manual memory management — agents self-index
+- 🔄 Lossless recovery via git
+
+---
+
 ## Skill Ecosystem
 
-Pantheon bundles **42 cross-platform skills** — modular instruction sets that agents load
+Pantheon bundles **43 cross-platform skills** — modular instruction sets that agents load
 on demand to perform specialized tasks. Skills are organized into domains:
 
 | Domain | Skills |
@@ -423,11 +453,11 @@ on demand to perform specialized tasks. Skills are organized into domains:
 | **Frontend** | frontend-analyzer, nextjs-seo-optimization |
 | **AI Pipelines** | rag-pipelines, multi-model-routing, conversational-ai-design, mcp-server-development |
 | **Infrastructure** | docker-best-practices, streaming-patterns, cache-strategy |
-| **Security & Quality** | security-audit-pro, code-review-checklist, prompt-injection-security, mcp-security |
+| **Security & Quality** | security-audit-pro, code-review-checklist, prompt-injection-security, mcp-security, quality-gate |
 | **Planning & Design** | plan-architecture, codemap, init-deep, interview, metis-gap-analysis |
 | **Memory & Context** | memory-bank, file-prompts, context-compression |
 | **Domain** | remote-sensing-analysis, internet-search |
-| **Utilities** | prompt-improver, agent-evaluation, agent-observability, wisdom-accumulation, simplify, test-architecture |
+| **Utilities** | prompt-improver, agent-evaluation, agent-observability, wisdom-accumulation, simplify, test-architecture, token-audit |
 
 > See [skills/README.md](skills/README.md) for the complete reference with descriptions
 > and usage patterns.
@@ -568,7 +598,7 @@ pantheon/
 ├── LICENSE                    — MIT
 ├── package.json               — sync & install tooling
 ├── opencode.json              — OpenCode platform config
-├── sync-opencode.sh           — OpenCode sync script
+├── sync-platform.sh           — multi-platform sync script
 ├── plugin.json                — marketplace plugin manifest
 │
 ├── agents/                    — 14 agent definitions (.agent.md)
@@ -589,15 +619,16 @@ pantheon/
 │   ├── hephaestus.agent.md    — AI pipelines
 │   └── README.md
 │
-├── skills/                    — 42 cross-platform skill modules
+├── skills/                    — 43 cross-platform skill modules
 │   ├── README.md
 │   ├── agent-coordination/    * orchestration & coordination
 │   ├── artifact-management/
-│   ├── tdd-with-agents/
 │   ├── auto-continue/
+│   ├── handoff/
+│   ├── orchestration-workflow/
 │   ├── session-goal/
 │   ├── task-system/
-│   ├── handoff/
+│   ├── tdd-with-agents/
 │   ├── api-design-patterns/   * backend & API
 │   ├── fastapi-async-patterns/
 │   ├── database-migration/
@@ -605,33 +636,38 @@ pantheon/
 │   ├── frontend-analyzer/     * frontend
 │   ├── nextjs-seo-optimization/
 │   ├── rag-pipelines/         * AI pipelines
-│   ├── multi-model-routing/
 │   ├── conversational-ai-design/
 │   ├── mcp-server-development/
+│   ├── multi-model-routing/
 │   ├── docker-best-practices/ * infrastructure
 │   ├── streaming-patterns/
 │   ├── cache-strategy/
 │   ├── security-audit-pro/    * security & quality
 │   ├── code-review-checklist/
+│   ├── mcp-security/
 │   ├── prompt-injection-security/
+│   ├── quality-gate/
 │   ├── memory-bank/           * memory & context
 │   ├── codemap/
 │   ├── init-deep/
 │   ├── file-prompts/
+│   ├── context-compression/
+│   ├── plan-architecture/     * planning & design
+│   ├── interview/
+│   ├── metis-gap-analysis/
 │   ├── remote-sensing-analysis/ * domain
 │   ├── internet-search/
 │   ├── prompt-improver/       * utilities
 │   ├── agent-evaluation/
 │   ├── agent-observability/
-│   ├── metis-gap-analysis/
-│   ├── interview/
+│   ├── simplify/
+│   ├── test-architecture/
+│   ├── token-audit/
 │   ├── wisdom-accumulation/
 │   └── */SKILL.md
 │
-├── .opencode/skills/          — 35 OpenCode-specific skills (same as cross-platform set)
-│   └── */SKILL.md
-│
-├── instructions/              — 9 domain coding standards
+├── instructions/              — 17 domain coding standards
+│   ├── agent-return-format.instructions.md
 │   ├── artifact-protocol.instructions.md
 │   ├── backend-standards.instructions.md
 │   ├── code-quality-checks.instructions.md
@@ -640,45 +676,75 @@ pantheon/
 │   ├── documentation-standards.instructions.md
 │   ├── frontend-standards.instructions.md
 │   ├── infra-standards.instructions.md
-│   └── memory-bank-standards.instructions.md
+│   ├── memory-bank-standards.instructions.md
+│   ├── mcp-security.instructions.md
+│   ├── tdd-standards.instructions.md
+│   ├── visual-review-pipeline.instructions.md
+│   ├── zeus-anti-stall.instructions.md
+│   ├── zeus-communication-rules.instructions.md
+│   ├── zeus-council-synthesis.instructions.md
+│   └── zeus-timeout-retry.instructions.md
 │
-├── prompts/                   — 9 agent invocation prompts
-│   ├── plan-architecture.prompt.md
+├── prompts/                   — 13 agent invocation prompts
 │   ├── implement-feature.prompt.md
-│   ├── debug-issue.prompt.md
-│   ├── audit.prompt.md
-│   ├── optimize-database.prompt.md
 │   ├── orchestrate-with-zeus.prompt.md
+│   ├── subtask.prompt.md
+│   ├── debug-issue.prompt.md
+│   ├── plan-architecture.prompt.md
+│   ├── optimize-database.prompt.md
+│   ├── mirrordeps.prompt.md
+│   ├── sketch.prompt.md
+│   ├── focus.prompt.md
 │   ├── quick-discovery-large-codebase.prompt.md
 │   ├── quick-plan-large-feature.prompt.md
-│   └── README.md
+│   ├── semantic-summarize.md
+│   ├── README.md
+│   └── dynamic/                * generated prompts
 │
 ├── platform/                  — platform-specific configurations
-│   ├── plans/                 * model tier documentation
-│   │   └── README.md          * explains fast/default/premium tiers
 │   ├── optimize-context.sh    * context optimization script
+│   ├── copilot/               * VS Code Copilot configs
 │   ├── opencode/              * OpenCode configs
 │   ├── claude/                * Claude Code configs & agents
 │   ├── cursor/                * Cursor rules
 │   ├── windsurf/              * Windsurf configs
 │   ├── continue/              * Continue.dev rules
 │   ├── cline/                 * Cline configs
-│   ├── examples/              * usage examples
 │   └── _template/             * template for new platforms
 │
 ├── scripts/                   — tooling, automation & lifecycle hooks
 │   ├── install.mjs            * multi-platform installer
 │   ├── sync-platforms.mjs     * agent format sync engine
 │   ├── validate-sync.mjs      * sync integrity check
-│   └── hooks/                 * agent lifecycle hooks (8 .sh scripts)
-│       ├── validate-talos-scope.sh
-│       ├── scan-secrets.sh
-│       ├── validate-tool-safety.sh
+│       └── hooks/                 * agent lifecycle hooks (10 .sh scripts)
+│       ├── audit-imports.sh
 │       ├── format-multi-language.sh
 │       ├── log-session-start.sh
 │       ├── on-subagent-delegation-start.sh
 │       ├── on-subagent-delegation-stop.sh
-│       └── validate-post-conditions.sh
+│       ├── run-type-check.sh
+│       ├── scan-secrets.sh
+│       ├── validate-post-conditions.sh
+│       ├── validate-talos-scope.sh
+│       └── validate-tool-safety.sh
+│
+├── commands/                  # 16 interaction commands
+│   ├── audit.md
+│   ├── cancel.md
+│   ├── deepwork.md
+│   ├── focus.md
+│   ├── forge.md
+│   ├── metamorphosis.md
+│   ├── mirrordeps.md
+│   ├── optimize.md
+│   ├── pantheon-status.md
+│   ├── pantheon.md
+│   ├── ping.md
+│   ├── praxis.md
+│   ├── reflect.md
+│   ├── sketch.md
+│   ├── stop-continuation.md
+│   └── subtask.md
 │
 ├── docs/
 │   ├── INSTALLATION.md        — generic installation guide
@@ -711,7 +777,7 @@ pantheon/
 │   ├── copilot-instructions.md
 │   └── workflows/             * CI/CD workflows (9 workflows)
 │       ├── ci.yml             * main CI pipeline
-│       ├── auto-release.yml   * automated release creation
+│       ├── conformance-matrix.yml   * automated release creation
 │       ├── release.yml        * release workflow
 │       ├── release-gate.yml   * version sync enforcement
 │       ├── pr.yml             * pull request checks
@@ -895,7 +961,7 @@ Yes — 7 platforms supported (VS Code, OpenCode, Claude Code, Cursor, Windsurf,
 [Platform Setup Guides](docs/platforms/).
 
 **How are platform configs synced?**
-Edit `agents/*.agent.md` (the canonical format), then run `npm run sync-platforms.mjs`.
+Edit `agents/*.agent.md` (the canonical format), then run `npm run sync`.
 The sync engine transforms agents into every platform's native format.
 
 **Can I override Themis's code review?**
