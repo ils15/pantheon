@@ -2,7 +2,18 @@
 name: nyx
 description: Observability & monitoring specialist — OpenTelemetry tracing, token/cost tracking, agent performance analytics, LangSmith integration. Calls apollo for discovery, sends to themis.
 mode: subagent
-tools: Agent, AskUserQuestion, Grep, Grep, Read, Edit, Bash, Bash, Bash, WebFetch
+tools:
+  agent: true
+  vscode/askQuestions: true
+  search/codebase: true
+  search/usages: true
+  read/readFile: true
+  read/problems: true
+  edit/editFiles: true
+  execute/runInTerminal: true
+  execute/testFailure: true
+  execute/getTerminalOutput: true
+  web/fetch: true
 skills: agent-observability, agent-evaluation
 permission:
   edit: ask
