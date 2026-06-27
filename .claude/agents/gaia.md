@@ -2,7 +2,15 @@
 name: gaia
 description: Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification. Read-only analysis of geospatial data.
 mode: subagent
-tools: Grep, Grep, Glob, Grep, Glob, Read, WebFetch, AskUserQuestion
+tools:
+  search/codebase: true
+  search/usages: true
+  search/fileSearch: true
+  search/textSearch: true
+  search/listDirectory: true
+  read/readFile: true
+  web/fetch: true
+  vscode/askQuestions: true
 skills: remote-sensing-analysis, internet-search
 permission:
   edit: deny
