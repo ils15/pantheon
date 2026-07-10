@@ -195,7 +195,7 @@ npm install
 cp -r platform/opencode/agents /path/to/your-project/.opencode/agents
 
 # Copy the root opencode.json to your project root and edit it
-cp opencode.json /path/to/your-project/opencode.json
+cp platform/opencode/opencode.json /path/to/your-project/opencode.json
 ```
 
 ### Configure your API key

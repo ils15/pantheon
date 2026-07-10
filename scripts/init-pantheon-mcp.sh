@@ -39,7 +39,15 @@ echo "   ✅ Dependências instaladas"
 # 3. opencode.json
 if [ ! -f "opencode.json" ]; then
     echo "📝 Criando opencode.json..."
-    cat > opencode.json << 'JSONEOF'
+    cp "$SOURCE_DIR/platform/opencode/opencode.json" opencode.json
+    echo "   ✅ opencode.json copiado do template"
+  else
+    echo "   ⚠️  opencode.json já existe"
+fi
+
+# Se não existir template, cria manual
+if [ ! -f "opencode.json" ]; then
+    cat > opencode.json << .JSONEOF'
 {
   "mcp": {
     "pantheon-resources": {
