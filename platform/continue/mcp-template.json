@@ -1,0 +1,19 @@
+{
+  "mcpServers": [
+    {
+      "name": "pantheon-resources",
+      "command": "python3",
+      "args": ["scripts/mcp_resources_server.py"]
+    },
+    {
+      "name": "pantheon-code-mode",
+      "command": "python3",
+      "args": ["scripts/code_mode_server.py"]
+    },
+    {
+      "name": "pantheon-memory",
+      "command": ".venv/bin/python3",
+      "args": ["scripts/memory_mcp_server.py"]
+    }
+  ]
+}
