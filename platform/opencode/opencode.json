@@ -1,0 +1,35 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "zeus",
+  "mcp": {
+    "pantheon-resources": {
+      "type": "local",
+      "cwd": ".",
+      "command": ["python3", "scripts/mcp_resources_server.py"],
+      "enabled": true
+    },
+    "pantheon-code-mode": {
+      "type": "local",
+      "cwd": ".",
+      "command": ["python3", "scripts/code_mode_server.py"],
+      "enabled": true
+    },
+    "pantheon-memory": {
+      "type": "local",
+      "cwd": ".",
+      "command": [".venv/bin/python3", "scripts/memory_mcp_server.py"],
+      "enabled": true
+    }
+  },
+  "permission": {
+    "mcp": {
+      "pantheon-resources": "allow",
+      "pantheon-code-mode": "ask",
+      "pantheon-memory": "allow"
+    }
+  },
+  "instructions": [
+    "AGENTS.md",
+    "instructions/*.instructions.md"
+  ]
+}

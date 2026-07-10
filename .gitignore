@@ -109,7 +109,8 @@ site/
 test-results/
 
 # Stale/backup files
-opencode.json.backup
+/opencode.json
+/opencode.json.backup
 
 # Cache directories (some may have local .gitignore but ensure parent coverage)
 .mypy_cache/
