@@ -1,34 +1,28 @@
-## Description
+## 📋 Description
 
-<!-- Describe what this PR changes and why -->
+[Describe what this PR does and why]
 
-## Type of Change
+## 🎯 Branch Target
 
-- [ ] feat: new feature (→ minor version bump)
-- [ ] fix: bug fix (→ patch version bump)
-- [ ] BREAKING CHANGE (→ major version bump)
-- [ ] docs: documentation only
-- [ ] chore: maintenance, deps, CI
-- [ ] refactor: code restructuring
-- [ ] test: adding tests
+- [ ] `develop` — feature/integration (default)
+- [ ] `main` — release only
 
-## How to Test
+## ✅ Checklist
 
-<!-- Steps to verify the change works -->
+- [ ] Code follows project standards (ruff, type hints)
+- [ ] Tests added/updated and passing
+- [ ] Documentation updated (if applicable)
+- [ ] CHANGELOG.md updated (if user-facing change)
+- [ ] Version consistency: `package.json`, `plugin.json`, `.github/plugin/plugin.json`
 
-## Checklist
+## 🧪 Test Results
 
-- [ ] My commits follow [Conventional Commits](https://www.conventionalcommits.org/)
-- [ ] The CHANGELOG has been updated (if applicable)
-- [ ] Version manifests are consistent (`package.json`, `plugin.json`)
-- [ ] I ran `npm run sync:check` to verify platform sync
-- [ ] Tests pass locally
-- [ ] Docs are updated (if applicable)
+```
+<paste test output here>
+```
 
-## Breaking Changes
+## 📸 Screenshots (if visual change)
 
-<!-- If this is a breaking change, describe migration path -->
+## 🔗 Related Issues
 
-## Related Issues
-
-<!-- Closes #issue-number -->
+Closes #(issue)
