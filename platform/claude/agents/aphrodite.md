@@ -2,25 +2,7 @@
 name: aphrodite
 description: Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design, TDD, modern API patterns, deprecated npm detection. Calls apollo for discovery, sends to themis for review.
 mode: subagent
-tools:
-  agent: true
-  vscode/askQuestions: true
-  search/codebase: true
-  search/usages: true
-  read/readFile: true
-  read/problems: true
-  edit/editFiles: true
-  execute/runInTerminal: true
-  execute/testFailure: true
-  execute/getTerminalOutput: true
-  browser/openBrowserPage: true
-  browser/navigatePage: true
-  browser/readPage: true
-  browser/clickElement: true
-  browser/typeInPage: true
-  browser/hoverElement: true
-  browser/dragElement: true
-  browser/handleDialog: true
+tools: Agent, AskUserQuestion, Grep, Read, Edit, Bash
 skills: frontend-analyzer, nextjs-seo-optimization, quality-gate, simplify, tdd-with-agents
 permission:
   bash: allow
@@ -101,3 +83,17 @@ After implementing UI components:
 - Use Context7 only for React/Next.js/TypeScript library docs
 - Run `npm test` after every component, not just at the end
 - Never read more than 3 files for context without delegating to @apollo
+
+## 🧠 MCP Capabilities
+
+This agent uses the following MCP servers:
+
+| MCP Server | What it provides | How to use |
+|-----------|-----------------|------------|
+| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://memory-bank/{path}` | Read resources directly via `pantheon://` URIs |
+| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
+| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+
+### Usage Guidance
+- Use `memory_store()` to persist UI implementation decisions (component architecture, styling patterns, accessibility choices)
+- Read `pantheon://memory-bank/` for design documentation and component context

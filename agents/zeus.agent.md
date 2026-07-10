@@ -4,6 +4,7 @@ description: 'Central orchestrator — never implements. Delegates to: athena, a
   hermes, aphrodite, demeter, prometheus, themis, iris, mnemosyne, talos, hephaestus,
   nyx'
 mode: primary
+reasoning_effort: medium
 permission:
   edit: deny
   bash: allow
@@ -362,3 +363,18 @@ Agent completes
 - Background Hermes endpoints persist even if Themis is pending
 - Full compression (ZZ + memory bank) only on APPROVED — no change there
 - Vector Memory is the safety net; memory bank is the curated layer
+
+## 🧠 MCP Capabilities
+
+This agent uses the following MCP servers:
+
+| MCP Server | What it provides | How to use |
+|-----------|-----------------|------------|
+| **pantheon-resources** | Agent/skills/routing/deepwork discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Read resources directly via `pantheon://` URIs |
+| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` to run automated orchestration sequences |
+| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+
+### Usage Guidance
+- Use `pantheon://deepwork/{slug}` to read deepwork status files for any active session
+- Use `execute_code_script()` from code-mode for automated orchestration sequences
+- Call `memory_recall()` with current DAG wave context at the start of each phase to retrieve relevant past orchestration patterns

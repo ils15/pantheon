@@ -545,6 +545,10 @@ function transformFrontmatter(fm, adapter) {
     let value = fm[key];
 
     // Apply tool mapping
+                    // Normalize object-format tools to array for processing
+                    if (key === 'tools' && typeof value === 'object' && !Array.isArray(value) && value !== null) {
+                        value = Object.keys(value).filter(k => value[k] === true);
+                    }
     if (key === 'tools' && Array.isArray(value)) {
       // OpenCode: ensure `agent` tool is present BEFORE mapping
       // (mapTools converts agent→task, so check must happen first)

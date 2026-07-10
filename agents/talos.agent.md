@@ -4,6 +4,7 @@ description: Hotfix express lane — direct fixes for small bugs, CSS, typos, mi
   logic. No TDD ceremony, no orchestration overhead. Standalone, no subagents. Escalates
   complex issues to zeus.
 mode: subagent
+reasoning_effort: low
 permission:
   bash:
     npx prettier *: allow
@@ -58,4 +59,14 @@ Escalate to @zeus if:
 - No Themis review needed (low-risk)
 - Return subtask_summary format
 - If complexity exceeds threshold, escalate immediately
+
+## 🧠 MCP Capabilities
+
+This agent uses the following MCP servers:
+
+| MCP Server | What it provides | How to use |
+|-----------|-----------------|------------|
+| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
+| **pantheon-code-mode** | Execute hotfix orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` for automated fix sequences |
+| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start for hotfix context |
 

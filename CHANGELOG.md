@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v3.16.0] - 2026-07-10
+
+### Added
+- MCP Resources Support: pantheon://agents, skills, routing, deepwork, memory-bank
+- Code Mode MCP Adapter: confined script execution from .pantheon/code-mode/
+- YOLO Mode / Auto-Approve: permission tiers for trusted MCP servers
+- Reasoning Effort per Agent: high / medium / low in routing.yml + 14 agent frontmatter
+- Unified Memory MCP Server: 14 tools, ChromaDB + sentence-transformers, 79 tests
+- Knowledge graph: memory_link + memory_traverse (BFS traversal)
+- RTK-style output filters: dedup, group, truncate on memory_store
+- Freshness decay (30-day half-life) + importance boost + claim verification
+- Agent MCP Integration: all 14 agents with MCP Capabilities + routing.yml capabilities
+- Documentation: MCP.md (238l), MEMORY.md (471l), AGENT-MCP.md (197l)
+
+### Changed
+- Skills audit: 5 orphan skills deleted, quality-gate skill created
+- Platform sync: pantheon-memory added as Tier 1 MCP in install-mcp.mjs
+- docs/mcp-recommendations.md expanded to 422 lines (browser MCPs, infra MCPs, 3-7 rule)
+
+### Security
+- memory_cleanup: 3-char minimum prefix guard
+- memory_export: restricted to ~/.pantheon/exports/ with path traversal check
+- Content size limit: 100KB max, 500 char category
+
+### Fixed
+- memory_sessions dead code (always returned empty results)
+- install-mcp.mjs filename: dash → underscore
+- .github/plugin/plugin.json: removed deleted streaming-patterns reference
+- memory_mcp_server.py: F821 undefined name, missing except block
+
+
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [v3.15.0] - 2026-06-26
