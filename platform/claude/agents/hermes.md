@@ -2,17 +2,7 @@
 name: hermes
 description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection. Calls apollo for discovery, sends to themis.
 mode: primary
-tools:
-  agent: true
-  search/codebase: true
-  search/usages: true
-  read/readFile: true
-  read/problems: true
-  edit/editFiles: true
-  execute/runInTerminal: true
-  execute/testFailure: true
-  execute/getTerminalOutput: true
-  web/fetch: true
+tools: Agent, Grep, Read, Edit, Bash, WebFetch
 skills: api-design-patterns, cache-strategy, database-optimization, fastapi-async-patterns, quality-gate, simplify, tdd-with-agents, test-architecture
 permission:
   bash: allow
@@ -239,4 +229,18 @@ When completing a task, provide:
 ---
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
+
+## 🧠 MCP Capabilities
+
+This agent uses the following MCP servers:
+
+| MCP Server | What it provides | How to use |
+|-----------|-----------------|------------|
+| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
+| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` to run build/test scripts |
+| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+
+### Usage Guidance
+- Use `memory_store()` to persist backend implementation decisions (API design choices, middleware config, dependency versions)
+- Use `execute_code_script()` to run build scripts (e.g., `backend_build.sh`, `run_tests.sh`) after implementation
 

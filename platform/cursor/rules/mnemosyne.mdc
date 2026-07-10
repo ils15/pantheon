@@ -153,3 +153,20 @@ no Themis needed.
 - ✅ Works without sentence-transformers (FTS5 only)
 - ❌ Does NOT generate ZZ artifact (that's Tier 2)
 - ❌ Does NOT update 01-active-context.md (that's Tier 2)
+
+## 🧠 MCP Capabilities
+
+This agent uses the following MCP servers:
+
+| MCP Server | What it provides | How to use |
+|-----------|-----------------|------------|
+| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://memory-bank/{path}` | Read resources directly via `pantheon://` URIs |
+| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
+| **pantheon-memory** | Persistent memory with semantic search, recall, export, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info; `memory_export()` for batch memory export |
+
+### Usage Guidance
+- As the **memory steward**, this agent has the deepest integration with pantheon-memory:
+  - Use `memory_store()` to persist ADRs, task records, and sprint documentation
+  - Use `memory_recall()` to retrieve context for artifact creation and memory queries
+  - Use `memory_export()` to export memory bank contents in markdown format
+- Use `pantheon://memory-bank/{path}` to read and validate memory bank files

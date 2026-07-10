@@ -1,8 +1,8 @@
 # MCP Server Recommendations for Pantheon
 
-MCP (Model Context Protocol) servers extend Pantheon agents with external capabilities — library documentation lookup, web search, content fetching, and browser automation.
+MCP (Model Context Protocol) servers extend Pantheon agents with external capabilities — library documentation lookup, web search, content fetching, browser automation, and **persistent memory**.
 
-This document covers the **3 MCPs we actively use** across Pantheon agents.
+This document covers the **6 built-in + external MCPs** available to Pantheon agents.
 
 ---
 
@@ -13,6 +13,9 @@ This document covers the **3 MCPs we actively use** across Pantheon agents.
 | **context7** | Fetches up-to-date, version-specific library documentation | 11 agents (zeus, athena, apollo, hermes, aphrodite, demeter, themis, hephaestus, nyx, talos, gaia) | `npx -y @upstash/context7-mcp` — free, no API key needed |
 | **exa** | Web search + content fetching (structured results) | apollo | `npx -y exa-mcp-server` — requires `EXA_API_KEY` |
 | **playwright** | Browser automation — screenshots, accessibility snapshots | aphrodite, themis, hermes | `npx -y @playwright/mcp@latest` — free, requires Playwright browsers installed |
+| **pantheon-resources** | Pantheon framework resources — agents, skills, routing, deepwork, memory bank | all agents | `python scripts/mcp_resources_server.py` — built-in, no setup needed |
+| **pantheon-code-mode** | Confined orchestration script execution via MCP | zeus, prometheus, hermes, talos | `python scripts/code_mode_server.py` — built-in, scripts in `.pantheon/code-mode/` |
+| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph, compression, export | all agents | `python scripts/memory_mcp_server.py` — built-in, requires `chromadb` + `sentence-transformers` |
 
 ---
 
@@ -85,6 +88,185 @@ npx playwright install chromium
 
 ---
 
+### pantheon-memory (Persistent Memory)
+
+Built-in Python MCP server providing multi-strategy memory using ChromaDB + sentence-transformers.
+
+```bash
+# In the Pantheon project directory
+python scripts/memory_mcp_server.py
+```
+
+Requires Python packages:
+```bash
+pip install chromadb sentence-transformers fastmcp
+```
+
+**What it provides (14 tools + 2 resources):**
+
+| Category | Tools |
+|----------|-------|
+| **Store & Recall** | `memory_store`, `memory_recall`, `memory_search` |
+| **Knowledge Graph** | `memory_link`, `memory_traverse` |
+| **Compression** | `memory_compress`, `memory_expand`, `memory_consolidate` |
+| **Management** | `memory_delete`, `memory_update`, `memory_verify`, `memory_cleanup`, `memory_sessions`, `memory_export` |
+| **Resources** | `pantheon://memory/sessions`, `pantheon://memory/status` |
+
+**Key features:**
+- **Fusion scoring**: dense vector similarity + 30-day freshness decay + importance boost
+- **Knowledge graph**: bidirectional links with relation labels (references, causes, supersedes)
+- **Deterministic compression**: DCP-style range compression (not LLM-based)
+- **Claim verification**: Shokunin-style freshness validation
+- **Markdown export**: formatted output for memory-bank archival
+
+**Storage:** `~/.pantheon/memory/chroma.sqlite3` (SQLite-backed ChromaDB)
+
+**Used by:** All 14 agents for persistent memory across sessions. Mnemosyne has the deepest integration (export, consolidate, compress).
+
+---
+
+## Browser MCPs
+
+For browser automation, Pantheon supports a range of MCPs from full Chrome (Playwright) to ultra-lightweight engines (Lightpanda). Pick based on your use case.
+
+| MCP | Engine | Tools | RAM | Speed vs Playwright | Best For |
+|-----|--------|-------|-----|---------------------|----------|
+| **Playwright MCP** (Microsoft) | Full Chrome | 25+ | ~400MB | 1x (baseline) | SPAs, debugging, screenshot visual review |
+| **Lightpanda** (native MCP) | Zig (zero fork) | 11 | ~50MB | **11x faster** | Scraping, docs, simple navigation |
+| **Pandabridge** (community) | Lightpanda + CDP | 23 | ~60MB | **9x faster** | Scraping + compact agent interaction |
+| **Agent-Browser** (community) | Lightpanda + Chromium fallback | 55 | 50-300MB | Auto-fallback | Production: combines speed + reliability |
+
+### Decision Guide
+
+| If you need... | Pick |
+|----------------|------|
+| Screenshots, visual review, SPA interaction | **Playwright** (~400MB, 25+ tools) |
+| Fast scraping, docs, simple nav (lightweight) | **Lightpanda** (~50MB, 11 tools) |
+| Scraping with richer interaction tools | **Pandabridge** (~60MB, 23 tools) |
+| Production dual-engine (speed + fallback) | **Agent-Browser** (50-300MB, 55 tools) |
+
+**Pantheon default:** Playwright MCP — required by Aphrodite's visual review pipeline and Themis for visual regression checking.
+
+---
+
+## Documentation & Knowledge MCPs
+
+For library docs, web search, and content extraction — these MCPs overlap in capability but differ in focus:
+
+| MCP | Benchmark Score | Setup | Best For |
+|-----|----------------|-------|----------|
+| **context7** | **🥇 89** | `npx -y @upstash/context7-mcp` — free, no API key | Library docs, version-pinned APIs |
+| **mcp-fetch** (official) | **🥈 86** | Zero config (built-in to Claude) | Simple webpage fetching |
+| **Exa Search** | — | `EXA_API_KEY` required | Semantic web search for agents |
+| **Firecrawl** | — | API key required | Web-to-markdown, clean content extraction |
+
+### Which One to Use
+
+| Task | Use |
+|------|-----|
+| "How do I use FastAPI's `Annotated` dependency injection?" | **context7** — version-pinned library docs |
+| "Find recent blog posts about RAG evaluation techniques" | **Exa** — semantic web search |
+| "Read this specific article and summarize it" | **mcp-fetch** — zero config, just works |
+| "Extract clean markdown from this messy product page" | **Firecrawl** — intelligent content cleaning |
+
+**Pantheon default:** context7 for library documentation (11 agents, no API key), Exa for Apollo's web research.
+
+---
+
+## Infrastructure & DevOps MCPs
+
+Connect Pantheon agents directly to your infrastructure — databases, CI/CD, cloud services, and monitoring.
+
+| MCP | Official? | Setup | Best For |
+|-----|-----------|-------|----------|
+| **GitHub MCP** | ✅ Anthropic (official) | GitHub token | PRs, issues, code search, Actions management |
+| **Postgres MCP** | ✅ Anthropic (official) | DB credentials | Direct database queries (read-only mode) |
+| **Supabase MCP** | ✅ Supabase | API key | Full Supabase stack: DB, auth, storage |
+| **Cloudflare MCP** | ✅ Cloudflare | API token | Workers, KV, D1, R2, DNS |
+| **Sentry MCP** | ✅ Sentry | DSN | Error tracking, traces, performance in-prompt |
+| **Kubernetes MCP** | ❌ Community | kubeconfig | kubectl operations through MCP |
+| **AWS MCP** | ❌ Community | AWS credentials | EC2, S3, Lambda, CloudWatch |
+
+### Reliability Note (Galaxy/Telemetry — May 2026)
+
+A production benchmark across **140 tasks over 14 agents** (May 2026) found:
+
+- **Official Anthropic MCPs** (Filesystem, GitHub, Postgres) — **>85% reliability**
+- **Community MCPs** — **34-68% reliability**
+
+Prefer official servers when available. Community MCPs are useful but budget extra review time.
+
+---
+
+## Which MCPs Should You Install?
+
+For most Pantheon setups, start with these **3 core MCPs**:
+
+| Priority | MCP | Why |
+|----------|-----|-----|
+| **1 (required)** | **pantheon-memory** | All agents need persistent memory. Zero external dependencies. |
+| **2 (required)** | **pantheon-resources** | Framework agents, skills, routing — core Pantheon infra. |
+| **3 (recommended)** | **context7** | 11 agents benefit from library docs. Free, no API key. **Highest benchmark score (89).** |
+
+Then add based on your workflow:
+
+| If you... | Add |
+|-----------|-----|
+| Do frontend visual review | **Playwright MCP** (required by Aphrodite review pipeline) |
+| Need web research (Apollo) | **Exa Search** (requires API key) |
+| Run infrastructure tasks | **GitHub MCP** + **Cloudflare MCP** |
+| Hit databases directly | **Postgres MCP** (read-only) or **Supabase MCP** |
+| Need fast browser scraping | **Lightpanda** or **Pandabridge** (11-23x RAM savings) |
+
+---
+
+## Per-Agent Internet Access
+
+Not all agents need continuous internet. Here's the breakdown:
+
+| Agent | Internet Needed? | Why |
+|-------|----------------|------|
+| **gaia** | ✅ **Yes** | Satellite imagery (Copernicus, USGS), remote sensing data APIs |
+| **apollo** | ✅ **Yes** | Web search, external research, codebase discovery |
+| **hermes** | ⚠️ Optional | Library docs via context7 (cached), not continuous |
+| **aphrodite** | ⚠️ Optional | Library docs via context7, CDN resource fetching |
+| **demeter** | ⚠️ Optional | Library docs via context7, migration references |
+| **zeus** | ⚠️ Optional | Orchestration patterns, reference lookups |
+| **athena** | ⚠️ Optional | Planning references, architecture patterns |
+| **themis** | ⚠️ Optional | Code review references, security pattern lookups |
+| **prometheus** | ⚠️ Optional | Docker registries, package repositories |
+| **hephaestus** | ⚠️ Optional | AI model docs, research papers |
+| **nyx** | ❌ **Not needed** | All local operations (logs, traces, metrics) |
+| **iris** | ❌ **Not needed** | GitHub operations via GitHub MCP (token-based, not web) |
+| **mnemosyne** | ❌ **Not needed** | Memory bank operations — all local |
+| **talos** | ❌ **Not needed** | Hotfix patches — all local code changes |
+
+**Key insight:** Only **gaia** and **apollo** require continuous internet. The rest work offline with context7 for cached docs.
+
+---
+
+## The 3-7 Rule
+
+Every MCP server adds tools to the agent's context window. Beyond 7 servers, tool selection accuracy degrades significantly.
+
+| MCP Count | Tool Selection Accuracy | Notes |
+|-----------|------------------------|-------|
+| 1-3 | Excellent | Zero overhead, fast tool discovery |
+| 4-5 | Good | Manageable, small prompt overhead |
+| 6-7 | Acceptable | Push the limit — works with disciplined scoping |
+| 8+ | **Degraded** | Tool call failures, wrong tool selection, context waste |
+
+### Guidelines
+
+1. **Start with 2-3** — memory + resources + one domain MCP (e.g., context7)
+2. **Never exceed 7** — beyond this, agents start picking the wrong tool
+3. **Scoped per-agent** — not every agent needs every MCP. Use frontmatter binding (see below)
+4. **Review quarterly** — remove unused MCPs, add ones you actually use
+
+Pantheon enforces **max 5 MCPs per agent** via frontmatter constraints (see below).
+
+---
+
 ## MCP Configuration via Frontmatter
 
 Each agent template includes an `mcpServers` field in its frontmatter that declares which MCP servers the agent can use. This enables per-agent MCP binding with tool scoping.
@@ -131,20 +313,20 @@ mcpServers:
 
 | Agent | MCPs |
 |-------|------|
-| @zeus | context7 |
-| @athena | context7 |
-| @apollo | context7, exa |
-| @hermes | context7, playwright |
-| @aphrodite | context7, playwright |
-| @demeter | context7 |
-| @themis | context7, playwright |
-| @prometheus | context7 |
-| @hephaestus | context7 |
-| @nyx | context7 |
-| @iris | — |
-| @talos | context7 |
-| @gaia | context7 |
-| @mnemosyne | — (built-in memory) |
+| @zeus | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @athena | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @apollo | context7, exa, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @hermes | context7, playwright, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @aphrodite | context7, playwright, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @demeter | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @themis | context7, playwright, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @prometheus | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @hephaestus | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @nyx | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @iris | pantheon-resources, pantheon-memory |
+| @talos | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @gaia | context7, pantheon-resources, pantheon-memory |
+| @mnemosyne | pantheon-resources, pantheon-code-mode, pantheon-memory |
 
 ---
 
@@ -204,6 +386,10 @@ These constraints are enforced by @themis during code review.
 | "Authentication failed" | Missing env var | Set `EXA_API_KEY` if using exa |
 | "Command not found: npx" | Node.js not installed | Install Node.js 18+ from nodejs.org |
 | "Browser not found" | Playwright browsers not installed | Run `npx playwright install chromium` |
+| "pantheon-memory not connecting" | Missing Python deps | Run `pip install chromadb sentence-transformers fastmcp` |
+| "memory_recall returns empty" | No entries stored | First call `memory_store` to seed the database |
+| "Code-mode script not found" | Wrong directory | Scripts must live in `.pantheon/code-mode/` |
+| "ChromaDB import error" | out-of-date package | Run `pip install --upgrade chromadb` |
 
 ### Platform-Specific Issues
 

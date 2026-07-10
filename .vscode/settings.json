@@ -4,7 +4,6 @@
     "ils15/pantheon"
   ],
   "chat.subagents.allowInvocationsFromSubagents": true,
-
   "github.copilot.chat.agent.skills": [
     "agent-coordination",
     "agent-evaluation",
@@ -46,12 +45,14 @@
     "test-architecture",
     "wisdom-accumulation"
   ],
-
   "githubPullRequests.notifications": "pullRequests",
   "githubPullRequests.fileListLayout": "tree",
   "githubPullRequests.pullPullRequestLocaleFromRemote": true,
   "githubPullRequests.createDefaultBaseBranch": "repositoryDefault",
-  "githubPullRequests.remotes": ["origin"],
+  "githubPullRequests.remotes": [
+    "origin"
+  ],
   "githubPullRequests.defaultReviewers": [],
-  "githubPullRequests.overrideRepositoryDescription": false
+  "githubPullRequests.overrideRepositoryDescription": false,
+  "opencode.excludedSkills": []
 }

@@ -22,11 +22,9 @@ There are **37 skills** divided into **9 domains**.
    - Complete guide to Pantheon memory bank — structure, rules, optimization, session→active-context graduation, and compression strategies.
    - Used by: Mnemosyne, All agents
 
-4. **token-audit** — `skills/token-audit/SKILL.md`
    - Audit a repository for token waste — find redundant context files, measure baseline, and recommend optimizations.
    - Used by: Mnemosyne, Zeus
 
-5. **file-prompts** — `skills/file-prompts/SKILL.md`
    - Load prompts from external files with path expansion so prompt content stays version-controlled and reusable.
    - Used by: All agents
 
@@ -40,7 +38,6 @@ There are **37 skills** divided into **9 domains**.
    - Model routing strategies (fallback, latency-based, cost-based, capability-based), provider abstraction layer, AWS Bedrock integration, local inference (Ollama, vLLM), cost attribution and tracking, rate limiting, and guardrails.
    - Used by: Prometheus, Hephaestus
 
-8. **streaming-patterns** — `skills/streaming-patterns/SKILL.md`
    - Server-Sent Events (SSE), WebSocket connections, LLM token streaming, chunked transfer encoding, backpressure handling, reconnection strategies, and real-time update patterns for observability pipelines.
    - Used by: Nyx
 
@@ -169,12 +166,10 @@ There are **37 skills** divided into **9 domains**.
     - Used by: Zeus, Athena
     - Domain: Orchestration
 
-36. **wisdom-accumulation** — `skills/wisdom-accumulation/SKILL.md`
     - Extract and pass learnings between implementation waves — conventions, successes, failures, gotchas, and commands. Temporary, scoped to feature, deleted after merge.
     - Used by: All agents
     - Domain: Utilities
 
-37. **plan-architecture** — `skills/plan-architecture/SKILL.md`
     - Plan feature architecture with component breakdown, data flow, and dependency mapping. Use before implementation to define contracts between layers.
     - Used by: Athena, Zeus
     - Domain: Planning
@@ -207,14 +202,11 @@ The `SKILL.md` file contains YAML frontmatter with `name`, `description`, and pl
 | 1 | agent-coordination | Orchestration & Workflow | Zeus, Athena |
 | 2 | artifact-management | Orchestration & Workflow | Zeus, Mnemosyne |
 | 3 | memory-bank | Orchestration & Workflow | Mnemosyne, All agents |
-| 4 | token-audit | Orchestration & Workflow | Mnemosyne, Zeus |
-| 5 | file-prompts | Orchestration & Workflow | All agents |
 | 6 | auto-continue | Orchestration | Zeus, Hermes, Aphrodite, Demeter |
 | 7 | session-goal | Orchestration | Zeus, Athena |
 | 8 | task-system | Orchestration | Zeus, Athena |
 | 9 | rag-pipelines | AI & Machine Learning | Hephaestus |
 | 10 | multi-model-routing | AI & Machine Learning | Prometheus, Hephaestus |
-| 11 | streaming-patterns | AI & Machine Learning | Nyx |
 | 12 | agent-evaluation | AI & Machine Learning | Hephaestus, Themis |
 | 13 | prompt-injection-security | AI & Machine Learning | Themis, Hephaestus |
 | 14 | conversational-ai-design | AI & Machine Learning | Hephaestus |
@@ -239,8 +231,6 @@ The `SKILL.md` file contains YAML frontmatter with `name`, `description`, and pl
 | 33 | codemap | Planning | Apollo, Zeus |
 | 34 | init-deep | Planning | Athena, Prometheus |
 | 35 | handoff | Utilities | All agents |
-| 36 | wisdom-accumulation | Utilities | All agents |
-| 37 | plan-architecture | Planning | Athena, Zeus |
 
 ---
 

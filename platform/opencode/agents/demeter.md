@@ -1,6 +1,7 @@
 ---
 description: Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention, TDD migrations, modern DB libs. Calls apollo for discovery, sends to themis.
 mode: subagent
+reasoning_effort: medium
 permission:
   bash: allow
 temperature: 0.2
@@ -73,3 +74,17 @@ Before creating a new migration:
 - Always write the rollback BEFORE testing the upgrade
 - Never read more than 3 model files without delegating to @apollo
 - Batch multiple related schema changes into ONE migration (not one per column)
+
+## 🧠 MCP Capabilities
+
+This agent uses the following MCP servers:
+
+| MCP Server | What it provides | How to use |
+|-----------|-----------------|------------|
+| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
+| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
+| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+
+### Usage Guidance
+- Use `memory_store()` to persist schema design decisions, migration patterns, and rollback strategies
+- Call `memory_recall()` before writing new migrations to check for past schema patterns and known pitfalls
