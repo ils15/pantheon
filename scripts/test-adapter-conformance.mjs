@@ -110,8 +110,9 @@ function collectCanonicalTools(agentFiles) {
   for (const f of agentFiles) {
     const raw = readFileSync(f, 'utf8');
     const parsed = parseFrontmatter(raw);
-    if (!parsed || !Array.isArray(parsed.fm.tools)) continue;
-    for (const t of parsed.fm.tools) tools.add(t);
+    if (!parsed || !parsed.fm.tools) continue;
+    const toolEntries = Array.isArray(parsed.fm.tools) ? parsed.fm.tools : Object.keys(parsed.fm.tools);
+    for (const t of toolEntries) tools.add(t);
   }
   return tools;
 }

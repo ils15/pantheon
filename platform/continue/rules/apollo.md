@@ -49,3 +49,17 @@ Return structured findings with:
 - **summary:** What was found
 - **confidence:** high | medium | low
 
+## 🧠 MCP Capabilities
+
+This agent uses the following MCP servers:
+
+| MCP Server | What it provides | How to use |
+|-----------|-----------------|------------|
+| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
+| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
+| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+
+### Usage Guidance
+- Use `memory_search()` to find past discoveries and patterns before initiating new investigations — avoids re-discovering what's already known
+- Read `pantheon://agents` to discover agent configurations and constraints relevant to your search context
+

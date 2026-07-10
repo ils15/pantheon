@@ -3,6 +3,7 @@ name: prometheus
 description: Infrastructure + model provider specialist — Docker, CI/CD, multi-model
   routing, cost optimization, provider abstraction
 mode: subagent
+reasoning_effort: medium
 permission:
   bash: allow
 
@@ -150,4 +151,18 @@ Document each chain in routing.yml under the agent's delegation entry.
 - Cache provider pricing data — don't re-fetch every session
 - One routing decision is better than perfect indecision — models change weekly
 - Document cost estimates with date stamps — "As of 2026-06, [provider] charges $X/1M tokens"
+
+## 🧠 MCP Capabilities
+
+This agent uses the following MCP servers:
+
+| MCP Server | What it provides | How to use |
+|-----------|-----------------|------------|
+| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
+| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` to run deploy/CI scripts |
+| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+
+### Usage Guidance
+- Use `execute_code_script()` to run deployment scripts, CI pipeline validations, and infrastructure checks
+- Use `memory_store()` to persist infrastructure decisions (Docker image tags, provider configs, deployment routes)
 

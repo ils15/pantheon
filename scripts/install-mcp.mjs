@@ -172,6 +172,65 @@ const MCPS = {
       }
     },
   },
+  'pantheon-resources': {
+    tier: 1,
+    name: 'Pantheon Resources',
+    description: 'Pantheon framework resources — agents, skills, routing, deepwork, memory bank',
+    platforms: {
+      opencode: { type: 'local', command: 'python', args: ['scripts/mcp_resources_server.py'] },
+      vscode: { type: 'stdio', command: 'python', args: ['scripts/mcp_resources_server.py'] },
+      cursor: { type: 'local', command: 'python', args: ['scripts/mcp_resources_server.py'] },
+      claude: { type: 'local', command: 'python', args: ['scripts/mcp_resources_server.py'] },
+      windsurf: { type: 'local', command: 'python', args: ['scripts/mcp_resources_server.py'] },
+    },
+    env: [],
+    validate: async () => {
+      const scriptPath = join(ROOT, 'scripts', 'mcp_resources_server.py');
+      if (existsSync(scriptPath)) {
+        return { ok: true, message: 'server script present' };
+      }
+      return { ok: false, message: 'scripts/mcp_resources_server.py not found' };
+    },
+  },
+  'pantheon-code-mode': {
+    tier: 2,
+    name: 'Pantheon Code Mode',
+    description: 'Execute orchestration scripts from .pantheon/code-mode/ directory',
+    platforms: {
+      opencode: { type: 'local', command: 'python', args: ['scripts/code_mode_server.py'] },
+      vscode: { type: 'stdio', command: 'python', args: ['scripts/code_mode_server.py'] },
+      cursor: { type: 'local', command: 'python', args: ['scripts/code_mode_server.py'] },
+      claude: { type: 'local', command: 'python', args: ['scripts/code_mode_server.py'] },
+      windsurf: { type: 'local', command: 'python', args: ['scripts/code_mode_server.py'] },
+    },
+    env: [],
+    validate: async () => {
+      const scriptPath = join(ROOT, 'scripts', 'code_mode_server.py');
+      if (existsSync(scriptPath)) {
+        return { ok: true, message: 'server script present' };
+      }
+      return { ok: false, message: 'scripts/code_mode_server.py not found' };
+    },
+  },
+  'pantheon-memory': {
+    tier: 1,
+    name: 'Pantheon Memory',
+    description: 'Pantheon Memory MCP Server — persistent memory with semantic search, recall, knowledge graph, compression, and verification',
+    platforms: {
+      opencode: { type: 'local', command: '.venv/bin/python3', args: ['scripts/memory_mcp_server.py'] },
+      claude: { type: 'local', command: '.venv/bin/python3', args: ['scripts/memory_mcp_server.py'] },
+      cursor: { type: 'local', command: '.venv/bin/python3', args: ['scripts/memory_mcp_server.py'] },
+      windsurf: { type: 'local', command: '.venv/bin/python3', args: ['scripts/memory_mcp_server.py'] },
+    },
+    env: [],
+    validate: async () => {
+      const scriptPath = join(ROOT, 'scripts', 'memory_mcp_server.py');
+      if (existsSync(scriptPath)) {
+        return { ok: true, message: 'server script present' };
+      }
+      return { ok: false, message: 'scripts/memory_mcp_server.py not found' };
+    },
+  },
   docker: {
     tier: 2,
     name: 'Docker MCP',

@@ -2,18 +2,7 @@
 name: apollo
 description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, demeter. No edits, no commands."
 mode: subagent
-tools:
-  search/codebase: true
-  search/usages: true
-  search/fileSearch: true
-  search/textSearch: true
-  search/listDirectory: true
-  read/readFile: true
-  web/fetch: true
-  browser/openBrowserPage: true
-  browser/navigatePage: true
-  browser/readPage: true
-  browser/screenshotPage: true
+tools: Grep, Glob, Read, WebFetch
 skills: internet-search, codemap
 permission:
   edit: deny
@@ -65,4 +54,18 @@ Return structured findings with:
 - **files_changed:** [paths]
 - **summary:** What was found
 - **confidence:** high | medium | low
+
+## 🧠 MCP Capabilities
+
+This agent uses the following MCP servers:
+
+| MCP Server | What it provides | How to use |
+|-----------|-----------------|------------|
+| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
+| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
+| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+
+### Usage Guidance
+- Use `memory_search()` to find past discoveries and patterns before initiating new investigations — avoids re-discovering what's already known
+- Read `pantheon://agents` to discover agent configurations and constraints relevant to your search context
 

@@ -10,14 +10,14 @@ When a delegated agent does not respond in time, enforce the timeout policy from
 
 ## Timeout Behavior by Agent Role
 
-| Agent Role | Timeout | Retry Policy | Fallback | Partial Results OK? |
-|------------|---------|-------------|----------|---------------------|
-| Explorer (@apollo) | 60s | 2 retries, exponential backoff | @athena | ✅ Yes |
-| Implementer (@hermes, @aphrodite, @demeter) | 180s | 3 retries, exponential backoff | @talos | ❌ No |
-| Reviewer (@themis) | 120s | 2 retries, exponential backoff | @zeus | ❌ No |
-| Infrastructure (@prometheus) | 300s | 2 retries, exponential backoff | @hermes | ❌ No |
-| Hotfix (@talos) | 30s | 1 retry, no backoff | @hermes | ✅ Yes |
-| Remote Sensing (@gaia) | 120s | 2 retries, exponential backoff | @hermes | ✅ Yes |
+| Agent Role | Timeout | Retry Policy | Fallback | Partial Results OK? | Reasoning Effort |
+|------------|---------|-------------|----------|---------------------|------------------|
+| Explorer (@apollo) | 60s | 2 retries, exponential backoff | @athena | ✅ Yes | low |
+| Implementer (@hermes, @aphrodite, @demeter) | 180s | 3 retries, exponential backoff | @talos | ❌ No | medium |
+| Reviewer (@themis) | 120s | 2 retries, exponential backoff | @zeus | ❌ No | high |
+| Infrastructure (@prometheus) | 300s | 2 retries, exponential backoff | @hermes | ❌ No | medium |
+| Hotfix (@talos) | 30s | 1 retry, no backoff | @hermes | ✅ Yes | low |
+| Remote Sensing (@gaia) | 120s | 2 retries, exponential backoff | @hermes | ✅ Yes | high |
 
 ## Retry Flow
 

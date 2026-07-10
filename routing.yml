@@ -42,6 +42,7 @@ agents:
   zeus:
     role: "Central orchestrator — delegates to specialists, never implements"
     model_tier: default
+    reasoning_effort: medium
     user_invocable: true
     can_delegate: true
     can_receive_delegation: true
@@ -52,6 +53,10 @@ agents:
       - context_compression
       - phase_management
       - quality_gate_enforcement
+      - memory_recall
+      - pantheon_resources
+      - pantheon_code_mode
+      - pantheon_deepwork
     subagent_can_delegate_to:
       - athena
       - apollo
@@ -78,6 +83,7 @@ agents:
   athena:
     role: "Strategic planner & architect — TDD-driven plans, research-first approach"
     model_tier: premium
+    reasoning_effort: high
     user_invocable: true
     can_delegate: true
     can_receive_delegation: true
@@ -87,6 +93,8 @@ agents:
       - architectural_design
       - root_cause_analysis
       - risk_assessment
+      - memory_recall
+      - pantheon_resources
     subagent_can_delegate_to:
       - apollo
     skills:
@@ -98,6 +106,7 @@ agents:
   apollo:
     role: "Read-only investigation scout — parallel searches across codebase, docs, GitHub"
     model_tier: fast
+    reasoning_effort: low
     user_invocable: false
     can_delegate: false
     can_receive_delegation: true
@@ -107,6 +116,8 @@ agents:
       - dependency_research
       - parallel_search
       - codemap_generation
+      - memory_search
+      - pantheon_resources
     subagent_can_delegate_to: []
     skills:
       - internet-search
@@ -115,6 +126,7 @@ agents:
   hermes:
     role: "Backend specialist — FastAPI, Python async, TDD, modern stdlib"
     model_tier: default
+    reasoning_effort: medium
     user_invocable: true
     can_delegate: true
     can_receive_delegation: true
@@ -124,6 +136,8 @@ agents:
       - service_layer
       - async_programming
       - obsolete_lib_detection
+      - memory_store
+      - pantheon_code_mode
     subagent_can_delegate_to:
       - apollo
     skills:
@@ -139,6 +153,7 @@ agents:
   aphrodite:
     role: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design"
     model_tier: default
+    reasoning_effort: medium
     user_invocable: true
     can_delegate: false
     can_receive_delegation: true
@@ -148,6 +163,8 @@ agents:
       - accessibility_audit
       - responsive_design
       - deprecated_npm_detection
+      - memory_store
+      - pantheon_resources_memory_bank
     subagent_can_delegate_to:
       - apollo
     skills:
@@ -160,6 +177,7 @@ agents:
   demeter:
     role: "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention"
     model_tier: default
+    reasoning_effort: medium
     user_invocable: true
     can_delegate: false
     can_receive_delegation: true
@@ -169,6 +187,8 @@ agents:
       - query_optimization
       - n_plus_one_prevention
       - index_strategy
+      - memory_store
+      - memory_recall
     subagent_can_delegate_to:
       - apollo
     skills:
@@ -181,6 +201,7 @@ agents:
   themis:
     role: "Quality & security gate — ruff/Biome linting, OWASP Top 10, dead code, coverage >80%"
     model_tier: premium
+    reasoning_effort: high
     user_invocable: true
     can_delegate: true
     can_receive_delegation: true
@@ -191,6 +212,8 @@ agents:
       - quality_gate
       - dead_code_detection
       - deprecation_audit
+      - memory_search
+      - pantheon_resources
     subagent_can_delegate_to:
       - mnemosyne
     skills:
@@ -203,6 +226,7 @@ agents:
   prometheus:
     role: "Infrastructure specialist — Docker, docker-compose, CI/CD, health checks"
     model_tier: default
+    reasoning_effort: medium
     user_invocable: true
     can_delegate: false
     can_receive_delegation: true
@@ -212,6 +236,8 @@ agents:
       - ci_cd_pipelines
       - deployment_strategy
       - container_optimization
+      - pantheon_code_mode
+      - memory_store
     subagent_can_delegate_to:
       - apollo
     skills:
@@ -222,6 +248,7 @@ agents:
   hephaestus:
     role: "AI tooling & pipelines — LangChain/LangGraph, RAG, vector stores, embeddings"
     model_tier: default
+    reasoning_effort: medium
     user_invocable: true
     can_delegate: false
     can_receive_delegation: true
@@ -231,6 +258,8 @@ agents:
       - vector_store_integration
       - embedding_strategy
       - ai_workflow_composition
+      - memory_search
+      - memory_link
     subagent_can_delegate_to:
       - apollo
     skills:
@@ -244,6 +273,7 @@ agents:
   nyx:
     role: "Observability & monitoring — OpenTelemetry, token/cost tracking, LangSmith"
     model_tier: fast
+    reasoning_effort: low
     user_invocable: true
     can_delegate: false
     can_receive_delegation: true
@@ -253,6 +283,8 @@ agents:
       - agent_performance_analytics
       - alerting
       - monitoring_dashboards
+      - pantheon_resources_routing
+      - memory_sessions
     subagent_can_delegate_to:
       - apollo
     skills:
@@ -262,6 +294,7 @@ agents:
   gaia:
     role: "Remote sensing — satellite imagery, spectral analysis, SAR, change detection, LULC"
     model_tier: default
+    reasoning_effort: high
     user_invocable: true
     can_delegate: false
     can_receive_delegation: true
@@ -271,6 +304,7 @@ agents:
       - land_cover_classification
       - change_detection
       - scientific_literature_review
+      - pantheon_resources
     subagent_can_delegate_to:
       - apollo
     skills:
@@ -280,6 +314,7 @@ agents:
   iris:
     role: "GitHub operations — branches, PRs, issues, releases, tags"
     model_tier: fast
+    reasoning_effort: low
     user_invocable: true
     can_delegate: false
     can_receive_delegation: true
@@ -289,6 +324,7 @@ agents:
       - issue_tracking
       - release_management
       - changelog_generation
+      - pantheon_resources
     subagent_can_delegate_to:
       - mnemosyne
     skills:
@@ -297,6 +333,7 @@ agents:
   mnemosyne:
     role: "Memory bank — initializes docs/memory-bank/, writes ADRs and task records on request"
     model_tier: fast
+    reasoning_effort: low
     user_invocable: true
     can_delegate: true
     can_receive_delegation: true
@@ -307,6 +344,10 @@ agents:
       - project_initialization
       - sprint_documentation
       - context_compression
+      - memory_store
+      - memory_recall
+      - memory_export
+      - pantheon_resources_memory_bank
     subagent_can_delegate_to: []
     skills:
       - artifact-management
@@ -317,6 +358,7 @@ agents:
   talos:
     role: "Hotfix express lane — direct fixes for small bugs, CSS, typos. No TDD"
     model_tier: fast
+    reasoning_effort: low
     user_invocable: true
     can_delegate: false
     can_receive_delegation: true
@@ -326,6 +368,7 @@ agents:
       - typo_correction
       - minor_bug_fix
       - escalation_detection
+      - pantheon_code_mode
     subagent_can_delegate_to: []
     skills:
       - simplify

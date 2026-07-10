@@ -80,3 +80,17 @@ After review, create artifact: `@mnemosyne Create artifact: REVIEW-<feature>`
 - ISSUES: List with file:line, severity, description, recommendation
 - VERDICT: APPROVED | NEEDS_REVISION | FAILED
 
+## 🧠 MCP Capabilities
+
+This agent uses the following MCP servers:
+
+| MCP Server | What it provides | How to use |
+|-----------|-----------------|------------|
+| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
+| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
+| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+
+### Usage Guidance
+- Use `memory_search()` to retrieve past review findings on similar code components — avoids re-raising the same issues
+- Read `pantheon://agents` to verify the agent under review has the correct tools, permissions, and skills for the task
+

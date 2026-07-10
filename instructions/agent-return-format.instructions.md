@@ -20,3 +20,7 @@ For investigation agents (Apollo, Athena), return structured findings with:
 - Key findings as bullet points
 - File paths with line numbers
 - Relevant code snippets (max 3 lines each)
+
+## Memory Context
+If this agent used `memory_recall` or `memory_search`, include the relevant memory entries
+used as context for the response.

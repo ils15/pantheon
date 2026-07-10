@@ -123,3 +123,4 @@ venv/
 
 # Vector Memory DB (derived data, rebuilt from memory bank files)
 docs/memory-bank/.vectordb/
+.coverage

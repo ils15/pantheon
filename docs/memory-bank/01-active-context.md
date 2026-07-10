@@ -3,43 +3,29 @@
 > Priority file — agents read first. Keep current. Stale is worse than none.
 
 ## Current Focus
-v3.15.0 — Level 3 Vector Memory + Two-Tier Persistence
+v3.17.0 — Unified Memory MCP Server: ChromaDB + sentence-transformers + FastMCP. Substitui Vector Memory + auto-index + compressão.
 
-## What Changed (2026-06-21)
-- **quality-gate skill criado** em `skills/quality-gate/SKILL.md` — skill obrigatório para agentes de implementação rodarem auto-verificação (lint, type-check, testes, build) antes de reportar conclusão a Zeus
-- **Skills atualizados em 5 agentes** — quality-gate adicionado em routing.yml e .agent.md de hermes, aphrodite, demeter, hephaestus, themis
-- **Deepwork Workflow documentado** em `AGENTS.md` — estrutura `.pantheon/deepwork/`, gatilhos de qualidade, anti-stall, padrão Apollo Discovery
+## What Changed (2026-07-09)
+- **Memory MCP Server** — `scripts/memory_mcp_server.py`: 10 tools + 2 resources em ChromaDB. Multi-strategy search (dense + freshness + importance). Freshness decay (30-day half-life). Range compression (DCP-style). Claim verification. Markdown export. 40 testes, ruff clean.
+- **3 MCPs total**: pantheon-resources, pantheon-code-mode, pantheon-memory
+- **Permissões**: pantheon-resources + pantheon-memory = allow, code-mode = ask
+- **Storage**: `~/.pantheon/memory/chroma.sqlite3` (ChromaDB PersistentClient)
+- **Embeddings**: all-MiniLM-L6-v2 via sentence-transformers (~80MB, offline, download único)
 
 ## Key Decisions
-- Agentes implementadores agora se auto-verificam via quality-gate skill antes de chamar Themis
-- Zeus não verifica qualidade manualmente — skill quality-gate é o pré-filtro
-- Deepwork workflow documentado em AGENTS.md (não em docs/ separado para maior visibilidade)
+- **ChromaDB como base** — vector + BM25-ready + SQLite nativo. Substitui bifrost_persistence.
+- **Não plugin OpenCode** — MCP server standalone (Pantheon-native). Funciona com qualquer MCP client.
+- **sentence-transformers local** — zero API cost, offline, modelo ~80MB (download único).
+- **Freshness decay 30-dias** — half-life exponencial. Shokunin-inspired.
+- **Range compression (DCP-style)** — não LLM-based. Determinístico, previsível.
+- **Inspirações:** Shokunin (9 tools, freshness, verify), DCP (compress/expand), Magic Context (cross-session), RTK (output filtering), LCM (auto-recall), ACP (cache hit reference).
 
 ## Next
-- quality-gate skill, deepwork workflow ✅ (v3.14.0)
-- Considerar Apollo write permission restrita a `.pantheon/deepwork/*/DISCOVERY.md`
-- Consider vector memory (Level 3) when LLM providers support dynamic-prefix caching
+- ✅ Memory MCP Server — implementado (v3.17.0)
+- ✅ P1-P4 Julho 2026 — implementados (v3.16.0)
+- 🔜 TUI Plugin — rebuild para OpenCode v1.17.x
+- 🔜 Auto-index migrado do bifrost para memory_store
+- 🔜 Themis review do Memory Server (para finalizar)
 
 ## Blockers
 None
-
-## What Changed (2026-06-26) — Deepwork v3.15
-- **Stream A: Exa Cleanup** — `exa-mcp-server` removido de `opencode.json` (redundante com Exa nativo do OpenCode). `apollo.agent.md` atualizado para usar `websearch` nativo.
-- **Stream B: Context Compressor Trigger** — Seção "Context Compression Trigger" adicionada ao `zeus.agent.md`. Script de teste `scripts/test-context-compression.sh` criado e validado.
-- **Naming Fix** — "relentless mode" renomeado para "auto-continue" em 43 arquivos (skills, commands, agent files, platform copies). Único termo padronizado.
-- **Roadmap NOTE0010** — Documento de visão de longo prazo com 5 fases: do básico ao plugin architecture.
-- **Level 3 Vector Memory Phase 1** — Core infra implementada: `scripts/vector_memory/schema.py` (FTS5 + sqlite-vec híbrido), `index.py` (indexação dupla com idempotência + quick_index()), `query.py` (fallback chain: vector KNN → FTS5 BM25 → grep), `test_memory.py` (8 testes passando).
-- **Two-Tier Persistence Model** — Auto-index (Tier 1) para resultados de background agents via `quick_index()`, compressão completa (Tier 2) só no Themis APPROVED. Documentado em `zeus.agent.md`, `context-compression/SKILL.md`, `orchestration-workflow/SKILL.md`.
-
-## Key Decisions
-- "auto-continue" é o nome canônico — "relentless" removido completamente
-- Level 3 usa arquitetura híbrida: sqlite-vec (semântico) como primário, FTS5 (keyword) como fallback sempre disponível
-- TASK-016 documenta o plano completo de implementação do Level 3 (5 fases, 24 tasks)
-- Two-Tier: background agents sempre persistem no Vector Memory (Tier 1), compressão completa só com Themis APPROVED (Tier 2)
-- quick_index() registra subtask_summary inline sem escanear arquivos — idempotente por content_hash
-
-## Next
-- ✅ v3.15.0 released — Level 3 Vector Memory + Two-Tier Persistence + Background Agents
-- 🔜 Level 3 Phase 4: Plugin V2 API — aguardar Plugin V2 API estabilizar (NOTE0010)
-- 🔜 TUI Plugin: rebuild para OpenCode v1.17.x (incompatibilidade @opentui/core 0.2.x vs >=0.3.4)
-- Level 3 Phase 4: Auto-tagging + rebuild
