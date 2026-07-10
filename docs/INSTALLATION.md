@@ -446,3 +446,99 @@ Once setup is complete:
 ---
 
 > **Need help?** Open an issue at [github.com/ils15/pantheon/issues](https://github.com/ils15/pantheon/issues)
+
+## 🧩 Configurar MCP Servers
+
+Para usar os 3 MCP servers do Pantheon em um novo projeto:
+
+### 1. Copiar os scripts
+
+```bash
+# No diretório do novo projeto
+mkdir -p scripts .pantheon/code-mode
+
+# Copia os MCP servers
+cp /caminho/pantheon/scripts/mcp_resources_server.py scripts/
+cp /caminho/pantheon/scripts/code_mode_server.py scripts/  
+cp /caminho/pantheon/scripts/memory_mcp_server.py scripts/
+
+# Copia o script de exemplo do code-mode
+cp /caminho/pantheon/.pantheon/code-mode/example-sync.sh .pantheon/code-mode/
+chmod +x .pantheon/code-mode/example-sync.sh
+
+# Copia os testes (opcional)
+cp /caminho/pantheon/tests/test_mcp_resources_server.py tests/
+cp /caminho/pantheon/tests/test_code_mode_server.py tests/
+cp /caminho/pantheon/tests/test_memory_mcp_server.py tests/
+cp /caminho/pantheon/tests/conftest.py tests/
+```
+
+### 2. Dependências
+
+```bash
+# Cria virtualenv e instala dependências
+python3 -m venv .venv
+source .venv/bin/activate
+pip install chromadb>=0.6.0 sentence-transformers fastmcp>=3.4.0 pyyaml
+```
+
+### 3. Adicionar ao `opencode.json`
+
+```json
+{
+  "mcp": {
+    "pantheon-resources": {
+      "type": "local",
+      "cwd": ".",
+      "command": ["python3", "scripts/mcp_resources_server.py"],
+      "enabled": true
+    },
+    "pantheon-code-mode": {
+      "type": "local",
+      "cwd": ".",
+      "command": ["python3", "scripts/code_mode_server.py"],
+      "enabled": true
+    },
+    "pantheon-memory": {
+      "type": "local",
+      "cwd": ".",
+      "command": [".venv/bin/python3", "scripts/memory_mcp_server.py"],
+      "enabled": true
+    }
+  },
+  "permission": {
+    "mcp": {
+      "pantheon-resources": "allow",
+      "pantheon-code-mode": "ask",
+      "pantheon-memory": "allow"
+    }
+  }
+}
+```
+
+### 4. Verificar instalação
+
+```bash
+# Testa se os servidores importam sem erro
+python3 -c "from scripts.mcp_resources_server import mcp; print('✅ resources OK')"
+python3 -c "from scripts.code_mode_server import mcp; print('✅ code-mode OK')"
+.venv/bin/python3 -c "from scripts.memory_mcp_server import mcp; print('✅ memory OK')"
+
+# Roda os testes
+.venv/bin/python3 -m pytest tests/test_mcp_resources_server.py \
+  tests/test_code_mode_server.py \
+  tests/test_memory_mcp_server.py -v
+```
+
+### ⚠️ Notas
+
+- `pantheon-resources` e `pantheon-code-mode` usam `python3` (sistema)
+- `pantheon-memory` usa `.venv/bin/python3` (chromadb + sentence-transformers)
+- O modelo `all-MiniLM-L6-v2` (~80MB) baixa automático na primeira execução
+- Depois de baixado, pode usar `HF_HUB_OFFLINE=1` pra evitar requests
+
+Para detalhes sobre cada servidor, veja:
+- `docs/MCP.md` — Visão geral dos 3 servidores
+- `docs/MEMORY.md` — Guia do sistema de memória
+- `docs/AGENT-MCP.md` — Capacidades MCP por agente
+- `docs/mcp-recommendations.md` — Comparação com MCPs externos
