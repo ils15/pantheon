@@ -298,3 +298,106 @@ PR: https://github.com/ils15/pantheon/pull/14
 - **CHANGELOG cleaned**: 4 duplicate v3.12.1 entries and empty v3.12.2 removed
 - **105 routing checks PASSED**
 - **Release**: https://github.com/ils15/pantheon/releases/tag/v3.13.0
+
+## [2026-07-09] — July 2026 OpenCode Changelog Features (P1-P4)
+
+**Status:** ✅ Implemented (54 tests, Themis APPROVED)
+
+### Features Delivered
+
+**P1 — MCP Resources Support**
+- `scripts/mcp_resources_server.py` — FastMCP server exposing Pantheon data as MCP resources
+- Recursos: `pantheon://agents`, `pantheon://agents/{name}`, `pantheon://skills`, `pantheon://skills/{name}`, `pantheon://routing`, `pantheon://deepwork/{slug}`, `pantheon://deepwork/{slug}/status`, `pantheon://memory-bank/{path}`
+- Path traversal security: resolved path must start with `docs/memory-bank/`
+- **30 testes, ruff clean**
+
+**P2 — Code Mode MCP Adapter**
+- `scripts/code_mode_server.py` — FastMCP server com `execute_code_script` tool
+- Scripts confinados em `.pantheon/code-mode/`, apenas `.sh` e `.py`, timeout 30s
+- Path traversal bloqueado, extensões não permitidas bloqueadas, nomes começando com `.` bloqueados
+- **24 testes, ruff clean**
+
+**P3 — YOLO Mode / Auto-Approve**
+- `permission.mcp` adicionado ao `opencode.json` (pantheon-resources: allow, code-mode: ask, *: ask)
+- Seção YOLO Security Boundaries documentada em `instructions/mcp-security.instructions.md`
+- **Config validado, boundaries definidas**
+
+**P4 — Reasoning Effort per Agent**
+- `reasoning_effort: high|medium|low` adicionado nos 14 agentes em `routing.yml` e frontmatter `.agent.md`
+- high: athena, gaia, themis | medium: zeus, hermes, aphrodite, demeter, prometheus, hephaestus | low: apollo, nyx, iris, mnemosyne, talos
+- `adapter.json`, `validate-agent-frontmatter.py`, `zeus-timeout-retry.instructions.md` atualizados
+
+### Config Changes
+- `opencode.json` — MCPs simplificados: só pantheon-resources + pantheon-code-mode (context7/gh_grep/playwright removidos — bifrost cobre)
+- `python` → `python3` nos comandos MCP (path fix)
+- `permission.mcp` com auto-approve para servidores first-party
+
+### Files Changed
+23 files across 4 features. 54 tests passing, ruff clean, Themis APPROVED (C-001 filename mismatch fixed).
+
+### Agents Involved
+- @zeus — orchestration, council on repo split decision
+- @apollo — discovery (phase 1)
+- @hermes — P1+P2+P3 implementation
+- @athena — P4 reasoning effort assignment
+- @themis — full integration review (P1+P2+P3+P4)
+- @mnemosyne — memory bank update
+
+### Decision Log
+- Monorepo mantido (council decidiu contra split OpenCode-only)
+- Filename: `mcp_resources_server.py` (underscores, compatível com Python import)
+- YOLO renomeado para `allow` (compatibilidade com OpenCode config)
+
+## [2026-07-09] — Unified Memory MCP Server (v3.17.0)
+
+**Status:** ✅ Implemented (40 tests, ruff clean)
+
+### Descrição
+Substitui o sistema split (Vector Memory + auto-index + compressão) por um único MCP server de memória usando ChromaDB + sentence-transformers + FastMCP. Tudo local, zero API cost, zero dependência externa.
+
+### Features
+- **9 MCP tools**: memory_store, memory_search, memory_recall, memory_compress, memory_expand, memory_sessions, memory_verify, memory_consolidate, memory_export
+- **2 MCP resources**: pantheon://memory/status, pantheon://memory/sessions
+- **Multi-strategy search**: dense vector + freshness decay (30-day half-life) + importance boost
+- **Freshness decay**: exponential decay time-weighted recall (Shokunin-inspired)
+- **Claim verification**: staleness check (Shokunin-inspired)
+- **Range compression**: DCP-style summarization of oldest entries
+- **Markdown export**: memory-bank compatible output
+- **Test isolation**: _reset_test_state + _set_memory_dir for temp dir per test
+
+### Inspirações Incorporadas
+- **Shokunin** (102⭐): 9 MCP tools, freshness decay, claim verify, session management
+- **DCP** (19.3K weekly): range compression, compress/expand pattern
+- **Magic Context** (1.2K⭐): cross-session memory, cache-aware (conceito)
+- **RTK** (69.7K⭐): output filtering philosophy, dedup/grouping/truncation patterns
+- **LCM**: auto-recall, deterministic budgets (conceito)
+- **ACP**: model-managed compression (87% cache hit — referência)
+
+### Arquitetura
+```
+ChromaDB PersistentClient (~/.pantheon/memory/)
+├── Collection: pantheon_memory
+├── Embedding: all-MiniLM-L6-v2 (sentence-transformers, ~80MB, offline)
+├── Filter: category, session_id, timestamp, importance, verified
+└── Search: dense vector + freshness decay + importance boost
+```
+
+### Config
+- `opencode.json`: pantheon-memory MCP server registrado
+- `.mcp.json`: para compatibilidade com Claude
+- `permission.mcp`: pantheon-memory = allow
+- Storage: `~/.pantheon/memory/chroma.sqlite3` + vector index files
+- Download único: ~80MB (all-MiniLM-L6-v2 model)
+
+### Files Changed
+- `scripts/memory_mcp_server.py` — NEW (972 lines)
+- `tests/test_memory_mcp_server.py` — NEW (676 lines, 40 tests)
+- `opencode.json` — MODIFIED (added pantheon-memory)
+- `.mcp.json` — MODIFIED (added pantheon-memory)
+- `tests/conftest.py` — EXISTING (reused import path)
+
+### Custo
+- RAM: ~300-400MB
+- Disco: ~80MB (modelo, download único) + dados
+- API: R$ 0,00 (tudo local)
+- CPU: ~50ms/embedding, ~10ms/search

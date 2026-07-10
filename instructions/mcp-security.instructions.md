@@ -51,3 +51,28 @@ These rules are enforced by **@themis** during code review:
 | Credentials in fetch URLs | grep for `token=`, `key=`, `secret=` in URLs | HIGH — block review |
 
 > **Reference:** `instructions/mcp-security.instructions.md`
+---
+
+## 3. MCP Auto-Approve — Permission Tiers
+
+Pantheon supports three permission tiers for MCP servers (valid values: `allow`, `ask`, `deny`):
+
+| Tier | Behavior | When to Use |
+|------|----------|-------------|
+| `allow` | Auto-approve all tool calls | Trusted first-party servers (read-only resources) |
+| `ask` | Prompt user for each tool call | Third-party servers or servers with write capabilities |
+| `deny` | Block all tool calls | Untrusted or experimental servers |
+
+### Rules
+
+1. **Only pantheon-resources gets `allow` by default** — it's read-only, same trust boundary as the repo
+2. **pantheon-code-mode starts at `ask`** — execution needs explicit confirmation
+3. **Wildcard `*` is always `ask`** — unknown MCP servers never auto-approve
+4. **`allow` is NOT a security bypass** — server-level access controls still apply (file permissions, path traversal protection)
+5. **`allow` only covers MCP tool calls** — bash, websearch, and skill permissions are independent
+
+### Audit
+- Themis MUST verify `allow` is never set on external/untrusted MCP servers
+- Any PR changing an MCP server from `ask` to `allow` requires explicit security review
+
+> **Reference:** `opencode.json` permission.mcp block

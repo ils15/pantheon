@@ -6,7 +6,7 @@ import yaml
 from pathlib import Path
 
 VALID_FIELDS = {
-    "description", "mode", "permission", "temperature",
+    "description", "mode", "reasoning_effort", "permission", "temperature",
     "steps", "color", "hidden", "task_budget", "source",
 }
 VALID_MODES = {"primary", "subagent"}

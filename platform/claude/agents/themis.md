@@ -2,21 +2,7 @@
 name: themis
 description: Quality & security gate — ruff/Biome linting, dead/legacy code detection, OWASP Top 10, coverage >80%, correctness, deprecation audit. Called by implementers; escalates blockers to zeus.
 mode: primary
-tools:
-  agent: true
-  vscode/askQuestions: true
-  search/codebase: true
-  search/usages: true
-  read/readFile: true
-  read/problems: true
-  execute/runInTerminal: true
-  execute/testFailure: true
-  edit/editFiles: true
-  browser/openBrowserPage: true
-  browser/navigatePage: true
-  browser/readPage: true
-  browser/clickElement: true
-  browser/screenshotPage: true
+tools: Agent, AskUserQuestion, Grep, Read, Bash, Edit
 skills: code-review-checklist, quality-gate, security-audit-pro, tdd-with-agents, mcp-security
 permission:
   edit: ask
@@ -103,4 +89,18 @@ After review, create artifact: `@mnemosyne Create artifact: REVIEW-<feature>`
 ## Output
 - ISSUES: List with file:line, severity, description, recommendation
 - VERDICT: APPROVED | NEEDS_REVISION | FAILED
+
+## 🧠 MCP Capabilities
+
+This agent uses the following MCP servers:
+
+| MCP Server | What it provides | How to use |
+|-----------|-----------------|------------|
+| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
+| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
+| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+
+### Usage Guidance
+- Use `memory_search()` to retrieve past review findings on similar code components — avoids re-raising the same issues
+- Read `pantheon://agents` to verify the agent under review has the correct tools, permissions, and skills for the task
 
