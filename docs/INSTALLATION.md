@@ -451,6 +451,20 @@ Once setup is complete:
 
 Para usar os 3 MCP servers do Pantheon em um novo projeto:
 
+### 🚀 Automatizado (recomendado)
+
+```bash
+bash /caminho/pantheon/scripts/init-pantheon-mcp.sh .
+```
+
+O script faz tudo:
+1. ✅ Copia os 3 scripts MCP + testes
+2. ✅ Cria virtualenv com dependências
+3. ✅ Cria opencode.json configurado
+4. ✅ Verifica instalação
+
+---
+
 ### 1. Copiar os scripts
 
 ```bash
