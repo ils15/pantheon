@@ -1,22 +1,19 @@
 {
   "mcpServers": {
-    "context7": {
+    "pantheon-resources": {
       "type": "local",
       "cwd": ".",
-      "command": [
-        "npx",
-        "-y",
-        "@upstash/context7-mcp"
-      ]
+      "command": ["python3", "scripts/mcp_resources_server.py"]
     },
-    "gh_grep": {
+    "pantheon-code-mode": {
       "type": "local",
       "cwd": ".",
-      "command": [
-        "npx",
-        "-y",
-        "grep-mcp"
-      ]
+      "command": ["python3", "scripts/code_mode_server.py"]
+    },
+    "pantheon-memory": {
+      "type": "local",
+      "cwd": ".",
+      "command": [".venv/bin/python3", "scripts/memory_mcp_server.py"]
     }
   }
 }

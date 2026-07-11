@@ -180,8 +180,8 @@ async def get_memory_bank(path: str) -> str:
     Security: resolves absolute path and verifies it stays within
     .pantheon/memory-bank/ to prevent directory traversal attacks.
     """
-    resolved = (RESOURCE_BASE_DIR / "docs" / "memory-bank" / path).resolve()
-    mb_dir = (RESOURCE_BASE_DIR / "docs" / "memory-bank").resolve()
+    resolved = (RESOURCE_BASE_DIR / ".pantheon" / "memory-bank" / path).resolve()
+    mb_dir = (RESOURCE_BASE_DIR / ".pantheon" / "memory-bank").resolve()
 
     if not str(resolved).startswith(str(mb_dir)):
         return "Path traversal blocked: access denied."
