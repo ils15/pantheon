@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+<!-- Add new changes here -->
+
+### Added
+
+### Changed
+
+### Fixed
+
+## [v3.17.0] - 2026-07-11
+
+### Added
+- Pantheon TUI Plugin overhaul: sidebar modernization, clickable commands, dynamic Python version
+- MCP Config section in TUI: list active plugins, MCP status, auto-compaction toggle
+- Memory section in TUI: show memory entries count
+- MCP templates for 6 platforms (Claude, Cline, Cursor, Windsurf, Continue, Copilot)
+- `scripts/init-pantheon-mcp.sh` — automated MCP setup
+- `docs/INSTALLATION.md` — MCP installation guide
+- `docs/MIGRATION-MEMORY-BANK.md` — migration guide for memory bank to .pantheon/
+
+### Changed
+- Memory bank moved from `docs/memory-bank/` → `.pantheon/memory-bank/` (fully local, gitignored)
+- `.pantheon/` is now the standard for all local/generated artifacts
+- OpenCode MCP format fixed: command as array + cwd
+- All platform templates updated with pantheon-code-mode MCP
+- `.mcp.json` moved from root to `platform/mcp/mcp-template.json`
+- Version synchronization: `versioning.mjs` now handles all manifests (package.json, plugin.json, pyproject.toml, forge.json)
+- Updated 65+ source files with new .pantheon/ paths
+
+### Fixed
+- TUI plugin path in tui.json (was pointing to non-existent file)
+- OpenCode MCP config format (command must be array + cwd)
+- Release pipeline: version mismatch between package.json and plugin.json
+- `mcp_resources_server.py` memory-bank path resolution
+
+### Removed
+- `docs/memory-bank/` from git history (fully purged via filter-repo)
+
 ## [v3.16.0] - 2026-07-10
 
 ### Added
