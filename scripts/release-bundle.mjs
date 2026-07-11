@@ -83,7 +83,7 @@ copy('images');
 copy('.vscode');
 copy('.cursor');
 copy('.claude');
-copy('.mcp.json');
+copy('platform/mcp/mcp-template.json');
 
 // ── Write a minimal package.json so install.mjs can resolve it ────────────────
 const minPkg = {
