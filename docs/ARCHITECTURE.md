@@ -215,7 +215,7 @@ Both execute simultaneously. Wave 3 starts after both complete.
 
 ### Problem
 
-Project memory was a single bucket: everything went into `docs/memory-bank/`. But not all
+Project memory was a single bucket: everything went into `.pantheon/memory-bank/`. But not all
 knowledge has the same access pattern. Permanent facts (stack, commands) should always be
 available at zero token cost. Sprint narratives should be read only when needed.
 
@@ -232,7 +232,7 @@ Tier 1: Native Memory (Facts)
   Written by: Any agent, automatically
 
 Tier 2: Reference Memory (Narrative)
-  Location:  docs/memory-bank/              ← committed to repo
+  Location:  .pantheon/memory-bank/              ← committed to repo
   Content:   Project overview (00), architecture (01), components (02),
              tech context (03), active sprint (04), progress log (05),
              ADRs (_notes/), task records (_tasks/)

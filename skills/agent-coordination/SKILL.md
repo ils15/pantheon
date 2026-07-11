@@ -61,7 +61,7 @@ Themis reviews all three after completion.
 
 ## Artifact Protocol
 
-All phase outputs go to `docs/memory-bank/.tmp/`. See `instructions/artifact-protocol.instructions.md` for the complete protocol (who generates what, templates, lifecycle).
+All phase outputs go to `.pantheon/memory-bank/.tmp/`. See `instructions/artifact-protocol.instructions.md` for the complete protocol (who generates what, templates, lifecycle).
 
 ---
 

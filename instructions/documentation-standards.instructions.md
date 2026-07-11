@@ -10,7 +10,7 @@ description: 'Documentation Standards — Where, what, and how to document in Pa
 
 | System | Where | Owner | Lifetime | Purpose |
 |--------|-------|-------|----------|---------|
-| **Memory Bank** | `docs/memory-bank/` | You (the team) | Permanent, versioned | Project context: architecture, patterns, progress |
+| **Memory Bank** | `.pantheon/memory-bank/` | You (the team) | Permanent, versioned | Project context: architecture, patterns, progress |
 | **Copilot Memory** | GitHub Cloud (server-side) | Copilot | 28 days, auto-expires | What the agent learned from PRs, code review, CLI |
 | **Native `/memories/`** | VS Code Copilot Chat | Any agent | Repo/session/user scoped | Atomic facts and conversation-scoped plans |
 
@@ -22,9 +22,9 @@ For full details on Memory Bank structure, see `instructions/memory-bank-standar
 
 ## The Golden Rule
 
-**Never create `.md` files outside of `docs/memory-bank/` or the explicitly allowed locations below.**
+**Never create `.md` files outside of `.pantheon/memory-bank/` or the explicitly allowed locations below.**
 
-What is allowed outside `docs/memory-bank/`:
+What is allowed outside `.pantheon/memory-bank/`:
 - `README.md` — project overview (only if explicitly requested)
 - `CONTRIBUTING.md` — contribution guidelines (only if explicitly requested)
 - `.github/` — instructions, agents, skills, prompts (config only, never session output)
@@ -100,9 +100,9 @@ Write narrative context to 00-project.md (explicit read, for humans and deep con
 ### ❌ Bypassing structure
 ```
 # Wrong
-Create docs/memory-bank/my-random-notes.md
+Create .pantheon/memory-bank/my-random-notes.md
 
 # Right
-Create docs/memory-bank/_notes/NOTE0001-topic.md
-Update docs/memory-bank/_notes/_index.md
+Create .pantheon/memory-bank/_notes/NOTE0001-topic.md
+Update .pantheon/memory-bank/_notes/_index.md
 ```

@@ -16,7 +16,7 @@ Complete guide to Pantheon memory bank — structure, rules, optimization, and m
 
 | System | Where | Owner | Lifetime | Purpose |
 |--------|-------|-------|----------|---------|
-| **Memory Bank** | `docs/memory-bank/` | Team | Permanent, versioned | Project context: architecture, patterns, progress |
+| **Memory Bank** | `.pantheon/memory-bank/` | Team | Permanent, versioned | Project context: architecture, patterns, progress |
 | **VS Code `/memories/`** | `.vscode/` or workspace | Agent | Session/repo scoped | Atomic facts, conversation plans |
 
 ---
@@ -24,7 +24,7 @@ Complete guide to Pantheon memory bank — structure, rules, optimization, and m
 ## Memory Bank Structure
 
 ```
-docs/memory-bank/
+.pantheon/memory-bank/
 ├── 00-project.md           ← What is this project? (fill once)
 ├── 00-architecture.md      ← System design and agent hierarchy
 ├── 00-components.md        ← Component breakdown and ownership
@@ -56,7 +56,7 @@ docs/memory-bank/
 
 ## Golden Rules
 
-1. **Never create `.md` files outside `docs/memory-bank/`** (except `README.md`, `CONTRIBUTING.md`)
+1. **Never create `.md` files outside `.pantheon/memory-bank/`** (except `README.md`, `CONTRIBUTING.md`)
 2. **Never create `ANALYSIS_*.md`, `SUMMARY_*.md`, `STATUS_*.md`** anywhere
 3. **`01-active-context.md` is the priority file** — keep it current
 4. **`02-progress-log.md` is append-only** — never edit history
@@ -72,8 +72,8 @@ During sprint:
   Agents track wip   → /memories/session/wip.md            (ephemeral)
 
 At sprint close:
-  @mnemosyne consolidates → docs/memory-bank/01-active-context.md
-                          → docs/memory-bank/02-progress-log.md (appended)
+  @mnemosyne consolidates → .pantheon/memory-bank/01-active-context.md
+                          → .pantheon/memory-bank/02-progress-log.md (appended)
 ```
 
 ---
@@ -154,12 +154,12 @@ At sprint close → explicit @mnemosyne invocation
 ## Adopting in a Product
 
 ```bash
-mkdir -p docs/memory-bank/_tasks docs/memory-bank/_notes
-touch docs/memory-bank/_tasks/.gitkeep docs/memory-bank/_notes/.gitkeep
+mkdir -p .pantheon/memory-bank/_tasks .pantheon/memory-bank/_notes
+touch .pantheon/memory-bank/_tasks/.gitkeep .pantheon/memory-bank/_notes/.gitkeep
 # @mnemosyne Initialize memory bank for this repository
 ```
 
 Add to `.github/copilot-instructions.md`:
 ```markdown
-Always read docs/memory-bank/01-active-context.md before answering.
+Always read .pantheon/memory-bank/01-active-context.md before answering.
 ```
