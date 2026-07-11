@@ -149,6 +149,6 @@ jobs:
             --base main \
             --head "${BRANCH}" \
             --title "chore(release): ${TAG}" \
-            --body "Release PR for Pantheon **${TAG}**.\n\nThe GitHub Release has already been published. Merging this PR syncs main with the version bump and changelog update.")
+            --body "Release PR for Pantheon **${TAG}**.\n\nThe GitHub Release has already been published. Merging this PR syncs main with the version bump and changelog update." 2>/dev/null || true)
 
           echo "PR created: $PR_URL"
