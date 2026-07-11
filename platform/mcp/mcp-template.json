@@ -1,0 +1,22 @@
+{
+  "mcpServers": {
+    "context7": {
+      "type": "local",
+      "cwd": ".",
+      "command": [
+        "npx",
+        "-y",
+        "@upstash/context7-mcp"
+      ]
+    },
+    "gh_grep": {
+      "type": "local",
+      "cwd": ".",
+      "command": [
+        "npx",
+        "-y",
+        "grep-mcp"
+      ]
+    }
+  }
+}
