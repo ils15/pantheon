@@ -116,7 +116,7 @@ See `instructions/tdd-standards.instructions.md` for the full TDD cycle.
 
 ## Project Context
 
-> **Adopt this agent for your product:** Replace this section with your project's specific routers, services, and models. Store that context in `/memories/repo/` (auto-loaded at zero token cost) or reference `docs/memory-bank/`.
+> **Adopt this agent for your product:** Replace this section with your project's specific routers, services, and models. Store that context in `/memories/repo/` (auto-loaded at zero token cost) or reference `.pantheon/memory-bank/`.
 
 ## Implementation Process
 
@@ -194,7 +194,7 @@ pip-audit -r requirements.txt
 
 **Artifact via Mnemosyne (MANDATORY for phase outputs):**
 - ✅ `@mnemosyne Create artifact: IMPL-phase<N>-hermes` after every implementation phase
-- ✅ This creates `docs/memory-bank/.tmp/IMPL-phase<N>-hermes.md` (gitignored, ephemeral)
+- ✅ This creates `.pantheon/memory-bank/.tmp/IMPL-phase<N>-hermes.md` (gitignored, ephemeral)
 - ❌ Direct .md file creation by Hermes
 
 **Artifact Protocol Reference:** `instructions/artifact-protocol.instructions.md`

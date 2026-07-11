@@ -113,7 +113,7 @@ The following subagent types are **PERMANENTLY FORBIDDEN** in Pantheon:
 **Two-tier memory strategy:**
 
 1. **Tier 1 — VS Code Native Memory** (`/memories/repo/`): Auto-loaded, zero token cost. Facts about stack, conventions, build commands are already in context.
-2. **Tier 2 — `docs/memory-bank/`**: Read `01-active-context.md` only when starting a sprint or needing current progress.
+2. **Tier 2 — `.pantheon/memory-bank/`**: Read `01-active-context.md` only when starting a sprint or needing current progress.
 
 Do NOT read the full memory bank before every task. If `01-active-context.md` is empty, proceed without reading further.
 
@@ -236,7 +236,7 @@ Full reference: `instructions/zeus-communication-rules.instructions.md`
 When Themis returns **APPROVED** on a phase review:
 1. Run the `context-compression` skill (`skills/context-compression/SKILL.md`)
 2. Delegate `compress_context` to @mnemosyne via the handoff defined in `routing.yml:616-620`
-3. Wait for the ZZ artifact to be written to `docs/memory-bank/.tmp/ZZ-phase<N>-context.md`
+3. Wait for the ZZ artifact to be written to `.pantheon/memory-bank/.tmp/ZZ-phase<N>-context.md`
 4. Inject the ZZ artifact into the next phase agent prompts
 
 **Reference:** `instructions/artifact-protocol.instructions.md:251-286` (12-step archive pipeline)
