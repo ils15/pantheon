@@ -9,7 +9,7 @@ import sqlite3
 from pathlib import Path
 
 # Storage location
-VECTOR_DIR = Path("docs/memory-bank/.vectordb")
+VECTOR_DIR = Path(".pantheon/memory-bank/.vectordb")
 VECTOR_DB = VECTOR_DIR / "pantheon-memory.db"
 SCHEMA_VERSION_FILE = VECTOR_DIR / "schema_version.txt"
 SCHEMA_VERSION = "1"

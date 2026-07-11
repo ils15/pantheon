@@ -170,7 +170,7 @@ async def get_skill(name: str) -> str:
 
 @mcp.resource(
     "pantheon://memory-bank/{path}",
-    description="Content of a file within docs/memory-bank/ by "
+    description="Content of a file within .pantheon/memory-bank/ by "
     "relative path (path traversal blocked). "
     "For nested paths use flat filename only (single segment).",
 )
@@ -178,7 +178,7 @@ async def get_memory_bank(path: str) -> str:
     """Return content of a memory-bank file.
 
     Security: resolves absolute path and verifies it stays within
-    docs/memory-bank/ to prevent directory traversal attacks.
+    .pantheon/memory-bank/ to prevent directory traversal attacks.
     """
     resolved = (RESOURCE_BASE_DIR / "docs" / "memory-bank" / path).resolve()
     mb_dir = (RESOURCE_BASE_DIR / "docs" / "memory-bank").resolve()

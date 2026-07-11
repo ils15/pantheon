@@ -10,7 +10,7 @@ This instruction defines how agents produce and consume **structured artifacts**
 
 ## Core Concept: Temp Folder
 
-All ephemeral artifacts (PLAN, IMPL, REVIEW, DISC) are written to **`docs/memory-bank/.tmp/`** — a gitignored temporary folder that is automatically wiped:
+All ephemeral artifacts (PLAN, IMPL, REVIEW, DISC) are written to **`.pantheon/memory-bank/.tmp/`** — a gitignored temporary folder that is automatically wiped:
 
 - On `@mnemosyne Close sprint`
 - On `@mnemosyne Clean tmp`
@@ -21,7 +21,7 @@ All ephemeral artifacts (PLAN, IMPL, REVIEW, DISC) are written to **`docs/memory
 Only **ADR artifacts** (`_notes/`) are permanent and committed.
 
 ```
-docs/memory-bank/
+.pantheon/memory-bank/
 ├── .tmp/                  ← GITIGNORED — ephemeral artifacts live here
 │   ├── PLAN-<feature>.md
 │   ├── IMPL-phase1-hermes.md
@@ -110,7 +110,7 @@ Agent calls Mnemosyne to write to `.tmp/`:
 [plan content here]
 ```
 
-Mnemosyne writes `docs/memory-bank/.tmp/PLAN-<feature>.md`.
+Mnemosyne writes `.pantheon/memory-bank/.tmp/PLAN-<feature>.md`.
 
 ---
 
@@ -274,7 +274,7 @@ After Themis APPROVES a phase, the compression pipeline fires:
 ### Rollback
 Git preserves all pre-compression state. Recovery:
 ```bash
-git show HEAD~1:docs/memory-bank/01-active-context.md
+git show HEAD~1:.pantheon/memory-bank/01-active-context.md
 ```
 
 ### Write Protocol

@@ -92,5 +92,5 @@ Para sessões de deepwork focadas (features complexas ou multi-fase), o Pantheon
 - **handoff**: A formal named contract (with label, description, prompt) that routes work from one agent to another. Defined in `routing.yml`. Example: `📋 Plan Feature` (Zeus → Athena).
 - **skill**: A reusable instruction set loaded via the `skill` tool. Agents declare skills in their YAML frontmatter under `skills:`. Skills provide domain-specific workflows (e.g., `tdd-with-agents`, `rag-pipelines`).
 - **subtask**: A lightweight delegation mode for bounded, low-risk work (≤2 files, <10 lines). Skips artifact generation and Themis review. Returns `subtask_summary` inline.
-- **artifact**: A structured file produced during a phase (PLAN, IMPL, REVIEW, DISC). Ephemeral artifacts live in `docs/memory-bank/.tmp/` and are deleted on sprint close. Permanent ADRs live in `docs/memory-bank/_notes/`.
+- **artifact**: A structured file produced during a phase (PLAN, IMPL, REVIEW, DISC). Ephemeral artifacts live in `.pantheon/memory-bank/.tmp/` and are deleted on sprint close. Permanent ADRs live in `.pantheon/memory-bank/_notes/`.
 - **council**: An inline multi-perspective analysis where Zeus dispatches 2-4 specialists to answer a trade-off question. Synthesized as `## 🏛️ Council Synthesis`.

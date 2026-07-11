@@ -91,7 +91,7 @@ def cmd_status():
     )
     print(
         "  Database: "
-        "docs/memory-bank/.vectordb/pantheon-memory.db"
+        ".pantheon/memory-bank/.vectordb/pantheon-memory.db"
     )
 
     conn.close()

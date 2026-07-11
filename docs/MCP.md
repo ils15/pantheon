@@ -84,7 +84,7 @@ resources and resource templates accessible via `pantheon://` URIs.
 | `pantheon://agents/{agent_name}` | Content of a single agent file by name (case-insensitive) |
 | `pantheon://deepwork/{slug}` | `PLAN.md` content for a deepwork task slug |
 | `pantheon://deepwork/{slug}/status` | `STATUS.md` content for a deepwork task (or default IN_PROGRESS) |
-| `pantheon://memory-bank/{path}` | Content of a file within `docs/memory-bank/` by relative path (path traversal blocked) |
+| `pantheon://memory-bank/{path}` | Content of a file within `.pantheon/memory-bank/` by relative path (path traversal blocked) |
 | `pantheon://skills/{name}` | Content of a skill's `SKILL.md` file by name |
 
 ### Usage

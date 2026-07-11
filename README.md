@@ -421,7 +421,7 @@ Agent memory is automatically indexed at zero token cost. Every agent writes ato
 - Architectural decisions and patterns
 - Cross-component relationships
 
-### Tier 2 — Compressed Context (`docs/memory-bank/`)
+### Tier 2 — Compressed Context (`.pantheon/memory-bank/`)
 On-demand compression pipeline archives completed phases into structured context:
 - **Priority scoring** — CRITICAL/HIGH/LOW budget allocation (deterministic, no LLM)
 - **ZZ artifacts** — compressed phase context for agent-to-agent handoff
@@ -843,14 +843,14 @@ Pantheon uses a two-tier memory architecture to maintain context across sessions
 | Tier | Location | Content | Access Cost |
 |---|---|---|---|
 | **Tier 1 — Native** | `/memories/repo/` | Atomic facts (stack, conventions, commands) | Zero (auto-loaded) |
-| **Tier 2 — Reference** | `docs/memory-bank/` | Project overview, architecture, active sprint, decisions | Read cost per file |
+| **Tier 2 — Reference** | `.pantheon/memory-bank/` | Project overview, architecture, active sprint, decisions | Read cost per file |
 | **Session** | `/memories/session/` | Current conversation plans, work-in-progress | One read per session |
 
 `01-active-context.md` is the priority file. Agents read it first when starting any task.
 It contains the current sprint focus, the most recent architectural decision, active
 blockers, and next steps.
 
-Architectural decisions are recorded as ADRs in `docs/memory-bank/_notes/` and are
+Architectural decisions are recorded as ADRs in `.pantheon/memory-bank/_notes/` and are
 permanently committed to the repository.
 
 ---
