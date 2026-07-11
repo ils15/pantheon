@@ -37,8 +37,6 @@ instructions/vault-secrets-access.instructions.md
 
 # Artifact temp folder (ephemeral — wiped on sprint close, never committed)
 # Memory bank temp files only — ADR notes (_notes/) and task records (_tasks/) are committed
-docs/memory-bank/.tmp/
-docs/memory-bank/__pycache__
 
 # Generated platform command artifacts (sync byproduct)
 platform/cline/.clinerules/commands/
@@ -98,7 +96,6 @@ scripts/model_data.json
 !platform/opencode/.opencode/tsconfig.json
 
 # Deepwork checkpoints (ephemeral session state)
-.pantheon/deepwork/
 
 # MkDocs build output
 site/
@@ -123,8 +120,11 @@ venv/
 *.egg-info/
 
 # Vector Memory DB (derived data, rebuilt from memory bank files)
-docs/memory-bank/.vectordb/
 .coverage
 
 # MCP config (local, generated from platform template)
 /.mcp.json
+
+# Pantheon local data
+.pantheon/
+

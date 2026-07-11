@@ -1,13 +1,13 @@
 ---
 applyTo: '**'
 name: "Memory Bank Standards"
-description: "Memory strategy for Pantheon: native /memories/ scopes + docs/memory-bank/ structure"
+description: "Memory strategy for Pantheon: native /memories/ scopes + .pantheon/memory-bank/ structure"
 ---
 
 # Memory Bank Standards
 
 > **Template/boilerplate** — not a prescriptive product structure.
-> When adopting Pantheon in a product, initialize your own `docs/memory-bank/` in that repo.
+> When adopting Pantheon in a product, initialize your own `.pantheon/memory-bank/` in that repo.
 
 ---
 
@@ -53,7 +53,7 @@ Apollo findings → /memories/session/apollo-findings.md
 
 ---
 
-### Secondary: `docs/memory-bank/` — Persistent Project Context
+### Secondary: `.pantheon/memory-bank/` — Persistent Project Context
 
 See `instructions/documentation-standards.instructions.md` for the structure, golden rules, agent access patterns, and who-writes-what.
 
@@ -70,8 +70,8 @@ When using Pantheon in a product repo:
 cp -r agents/ instructions/ prompts/ skills/ /path/to/your-product/
 
 # Bootstrap an empty memory bank
-mkdir -p docs/memory-bank/_tasks docs/memory-bank/_notes docs/memory-bank/decisions
-touch docs/memory-bank/_tasks/.gitkeep docs/memory-bank/_notes/.gitkeep
+mkdir -p .pantheon/memory-bank/_tasks .pantheon/memory-bank/_notes .pantheon/memory-bank/decisions
+touch .pantheon/memory-bank/_tasks/.gitkeep .pantheon/memory-bank/_notes/.gitkeep
 
 # Initialize
 # @mnemosyne Initialize the memory bank for this repository
@@ -79,11 +79,11 @@ touch docs/memory-bank/_tasks/.gitkeep docs/memory-bank/_notes/.gitkeep
 
 Add to your `.github/copilot-instructions.md`:
 ```markdown
-Always read docs/memory-bank/01-active-context.md before answering.
-Always read docs/memory-bank/00-project.md for project scope.
+Always read .pantheon/memory-bank/01-active-context.md before answering.
+Always read .pantheon/memory-bank/00-project.md for project scope.
 ```
 
-> **Do NOT copy** `docs/memory-bank/` content from Pantheon — it describes the framework itself, not your product.
+> **Do NOT copy** `.pantheon/memory-bank/` content from Pantheon — it describes the framework itself, not your product.
 
 ---
 
@@ -106,7 +106,7 @@ The `context-compression` skill automatically compresses completed phase artifac
 - **Completed subtask_summaries (CRITICAL)**: 3-line expanded entries in `01-active-context.md`
 - **Completed subtask_summaries (MEDIUM)**: 1-line table rows in `01-active-context.md`
 - **Completed subtask_summaries (LOW)**: 0.5-line (filename only) in `01-active-context.md`
-- **ZZ phase context**: Full compressed context in `docs/memory-bank/.tmp/ZZ-phase<N>-context.md`
+- **ZZ phase context**: Full compressed context in `.pantheon/memory-bank/.tmp/ZZ-phase<N>-context.md`
 - **Archived IMPL artifacts**: Structured entries in `02-progress-log.md`
 - **Cross-references**: Entity/decision index in `_xref/index.md`
 
@@ -118,8 +118,8 @@ The `context-compression` skill automatically compresses completed phase artifac
 ### Recovery
 All compression is lossless — git preserves every intermediate state:
 ```bash
-git log -p docs/memory-bank/01-active-context.md    # view all changes
-git show <sha>:docs/memory-bank/01-active-context.md  # restore specific version
+git log -p .pantheon/memory-bank/01-active-context.md    # view all changes
+git show <sha>:.pantheon/memory-bank/01-active-context.md  # restore specific version
 ```
 
 ### What NEVER gets compressed

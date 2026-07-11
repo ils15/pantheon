@@ -21,8 +21,8 @@ test -f agents/mnemosyne.agent.md || { echo "   ❌ mnemosyne.agent.md not found
 test -f agents/zeus.agent.md || { echo "   ❌ zeus.agent.md not found"; errors=$((errors + 1)); }
 test -f routing.yml || { echo "   ❌ routing.yml not found"; errors=$((errors + 1)); }
 test -f instructions/artifact-protocol.instructions.md || { echo "   ❌ artifact-protocol.instructions.md not found"; errors=$((errors + 1)); }
-test -f docs/memory-bank/01-active-context.md || { echo "   ❌ active-context.md not found"; errors=$((errors + 1)); }
-test -d docs/memory-bank/.tmp || mkdir -p docs/memory-bank/.tmp
+test -f .pantheon/memory-bank/01-active-context.md || { echo "   ❌ active-context.md not found"; errors=$((errors + 1)); }
+test -d .pantheon/memory-bank/.tmp || mkdir -p .pantheon/memory-bank/.tmp
 
 if [ -f scripts/scrub-secrets.py ]; then
     echo "   ✅ scrub-secrets.py found (217 lines, $(grep -c 'def ' scripts/scrub-secrets.py || echo 0) functions)"
@@ -64,7 +64,7 @@ echo ""
 # Step 2: Create a mock IMPL artifact for testing
 echo "[2/4] Creating mock IMPL artifact..."
 
-cat > docs/memory-bank/.tmp/IMPL-test-phase-hermes.md << 'ARTIFACT'
+cat > .pantheon/memory-bank/.tmp/IMPL-test-phase-hermes.md << 'ARTIFACT'
 # IMPL-test-phase-hermes
 **Date:** 2026-06-26  **Status:** Awaiting Compression Test
 
@@ -79,7 +79,7 @@ cat > docs/memory-bank/.tmp/IMPL-test-phase-hermes.md << 'ARTIFACT'
 This is a test artifact to validate the compression pipeline end-to-end.
 ARTIFACT
 
-cat > docs/memory-bank/.tmp/IMPL-test-phase-demeter.md << 'ARTIFACT'
+cat > .pantheon/memory-bank/.tmp/IMPL-test-phase-demeter.md << 'ARTIFACT'
 # IMPL-test-phase-demeter
 **Date:** 2026-06-26  **Status:** Awaiting Compression Test
 
@@ -100,7 +100,7 @@ echo ""
 # Step 3: Create mock subtask_summary for compression
 echo "[3/4] Creating mock subtask summaries..."
 
-cat > docs/memory-bank/.tmp/subtask-hermes.json << 'JSON'
+cat > .pantheon/memory-bank/.tmp/subtask-hermes.json << 'JSON'
 {
   "files_changed": ["test/file.py", "test/schema.py"],
   "summary": "Added JWT auth endpoint with refresh token rotation",
@@ -111,7 +111,7 @@ cat > docs/memory-bank/.tmp/subtask-hermes.json << 'JSON'
 }
 JSON
 
-cat > docs/memory-bank/.tmp/subtask-demeter.json << 'JSON'
+cat > .pantheon/memory-bank/.tmp/subtask-demeter.json << 'JSON'
 {
   "files_changed": ["backend/migrations/0013_add_refresh_tokens.py", "backend/models/token.py"],
   "summary": "Created refresh_tokens table with FK to users, hashed token, expires_at, revoked_at",
@@ -127,7 +127,7 @@ echo ""
 
 # Step 4: Verify .tmp structure is writable and correct
 echo "[4/4] Verifying .tmp structure..."
-ls -la docs/memory-bank/.tmp/
+ls -la .pantheon/memory-bank/.tmp/
 echo ""
 echo "   ✅ .tmp structure looks correct"
 echo ""
@@ -153,7 +153,7 @@ echo "Next manual step: Trigger compress_context handoff:"
 echo "  @mnemosyne Run compression pipeline with test artifacts"
 echo ""
 echo "Expected output:"
-echo "  - docs/memory-bank/.tmp/ZZ-test-context.md"
+echo "  - .pantheon/memory-bank/.tmp/ZZ-test-context.md"
 echo "  - Updated 01-active-context.md with compressed entries"
 echo "  - Updated 02-progress-log.md with archived mock artifact"
 echo ""
@@ -162,5 +162,5 @@ echo "  - subtask-hermes.json: JWT + endpoint + token keywords → HIGH (score ~
 echo "  - subtask-demeter.json: migration + new table + FK keywords → CRITICAL (score ~0.83)"
 echo ""
 echo "To clean up test artifacts:"
-echo "  rm docs/memory-bank/.tmp/IMPL-test-phase-*.md"
-echo "  rm docs/memory-bank/.tmp/subtask-*.json"
+echo "  rm .pantheon/memory-bank/.tmp/IMPL-test-phase-*.md"
+echo "  rm .pantheon/memory-bank/.tmp/subtask-*.json"

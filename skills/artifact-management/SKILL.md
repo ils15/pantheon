@@ -14,10 +14,10 @@ Structured artifact trail system for documenting feature implementations. Define
 
 ## Temp Folder
 
-All ephemeral artifacts live in `docs/memory-bank/.tmp/` — gitignored and wiped on sprint close.
+All ephemeral artifacts live in `.pantheon/memory-bank/.tmp/` — gitignored and wiped on sprint close.
 
 ```
-docs/memory-bank/
+.pantheon/memory-bank/
 ├── .tmp/                  ← GITIGNORED — ephemeral artifacts
 │   ├── PLAN-<feature>.md
 │   ├── IMPL-phase1-hermes.md

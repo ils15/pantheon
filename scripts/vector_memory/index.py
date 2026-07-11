@@ -326,7 +326,7 @@ def index_all(conn: sqlite3.Connection | None = None) -> dict:
     total = {"new": 0, "skipped": 0, "errors": 0}
 
     # Files to index
-    memory_dir = Path("docs/memory-bank")
+    memory_dir = Path(".pantheon/memory-bank")
     files_to_index = [
         memory_dir / "01-active-context.md",
         memory_dir / "02-progress-log.md",

@@ -82,7 +82,7 @@ When user runs `/handoff`:
 3. Mnemosyne generates handoff summary
 4. Mnemosyne saves to /memories/session/handoff-<timestamp>.md
 5. Mnemosyne outputs the summary in chat
-6. At sprint close, promote only durable context to docs/memory-bank via explicit @mnemosyne action
+6. At sprint close, promote only durable context to .pantheon/memory-bank via explicit @mnemosyne action
 ```
 
 ---
@@ -160,7 +160,7 @@ When starting a new session:
 | System | Scope | Duration |
 |--------|-------|----------|
 | `/memories/repo/` | Permanent facts | Forever |
-| `docs/memory-bank/` | Project context | Sprint |
+| `.pantheon/memory-bank/` | Project context | Sprint |
 | **`/memories/session/handoff-*.md`** | **Session handoff snapshot** | **Until session ends** |
 
 Handoff is the most temporary — it's a snapshot of the current session for seamless continuation.

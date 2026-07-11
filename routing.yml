@@ -331,7 +331,7 @@ agents:
       - artifact-management
 
   mnemosyne:
-    role: "Memory bank — initializes docs/memory-bank/, writes ADRs and task records on request"
+    role: "Memory bank — initializes .pantheon/memory-bank/, writes ADRs and task records on request"
     model_tier: fast
     reasoning_effort: low
     user_invocable: true
@@ -921,7 +921,7 @@ platforms:
 artifacts:
   plan:
     prefix: PLAN
-    location: "docs/memory-bank/.tmp/"
+    location: ".pantheon/memory-bank/.tmp/"
     ephemeral: true
     produced_by:
       - athena
@@ -930,7 +930,7 @@ artifacts:
 
   implementation:
     prefix: IMPL
-    location: "docs/memory-bank/.tmp/"
+    location: ".pantheon/memory-bank/.tmp/"
     ephemeral: true
     produced_by:
       - hermes
@@ -941,7 +941,7 @@ artifacts:
 
   review:
     prefix: REVIEW
-    location: "docs/memory-bank/.tmp/"
+    location: ".pantheon/memory-bank/.tmp/"
     ephemeral: true
     produced_by:
       - themis
@@ -950,7 +950,7 @@ artifacts:
 
   discussion:
     prefix: DISC
-    location: "docs/memory-bank/.tmp/"
+    location: ".pantheon/memory-bank/.tmp/"
     ephemeral: true
     produced_by:
       - apollo
@@ -959,7 +959,7 @@ artifacts:
 
   decision_record:
     prefix: ADR
-    location: "docs/memory-bank/_notes/"
+    location: ".pantheon/memory-bank/_notes/"
     ephemeral: false
     produced_by:
       - any

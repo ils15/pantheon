@@ -312,7 +312,7 @@ Auto-generated `_xref/index.md` provides persistent entity references that survi
 
 ### Cross-Reference File Location
 
-`docs/memory-bank/_xref/index.md` (created if absent; committed like `_notes/`)
+`.pantheon/memory-bank/_xref/index.md` (created if absent; committed like `_notes/`)
 
 ### Reference ID Format
 
@@ -363,11 +363,11 @@ IDs are monotonic integers pulled from `_xref/_next_id.json` and incremented.
 
 ## 8. ZZ Artifact Format
 
-A compressed context artifact `ZZ-phase{N}-context.md` is generated after each phase and injected into the next phase's agent prompt. It lives in `docs/memory-bank/.tmp/`.
+A compressed context artifact `ZZ-phase{N}-context.md` is generated after each phase and injected into the next phase's agent prompt. It lives in `.pantheon/memory-bank/.tmp/`.
 
 ### Location
 
-`docs/memory-bank/.tmp/ZZ-phase{N}-context.md`
+`.pantheon/memory-bank/.tmp/ZZ-phase{N}-context.md`
 
 ### Format
 
@@ -614,7 +614,7 @@ Same as Level 1. Zeus batches parallel phase completions into a single compressi
 
 Each entry is independently scored and budget-allocated.
 
-**Lockfile safety net:** A lockfile at `docs/memory-bank/.tmp/compress.lock` with `flock` as a safety net for the rare case of overlapping manual `/compress` and automatic compression.
+**Lockfile safety net:** A lockfile at `.pantheon/memory-bank/.tmp/compress.lock` with `flock` as a safety net for the rare case of overlapping manual `/compress` and automatic compression.
 
 ---
 
@@ -660,10 +660,10 @@ Same as Level 1.
 
 ```bash
 # View history of compressed file
-git log -p docs/memory-bank/01-active-context.md | less
+git log -p .pantheon/memory-bank/01-active-context.md | less
 
 # Restore pre-compression state
-git show HEAD~1:docs/memory-bank/01-active-context.md > docs/memory-bank/01-active-context.md
+git show HEAD~1:.pantheon/memory-bank/01-active-context.md > .pantheon/memory-bank/01-active-context.md
 
 # Or revert specific commit
 git revert <commit-sha>
@@ -768,7 +768,7 @@ When `01-active-context.md` exceeds 100 lines:
 │    C{NNNN} components | Auto-generated in _xref/index.md          │
 │                                                                    │
 │  ZZ Artifact:                                                      │
-│    docs/memory-bank/.tmp/ZZ-phase{N}-context.md                    │
+│    .pantheon/memory-bank/.tmp/ZZ-phase{N}-context.md                    │
 │    Injected into next phase agent prompt                           │
 │                                                                    │
 │  Safety: NEVER compress in_progress/escalated/                     │

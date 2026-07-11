@@ -177,7 +177,7 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 
 - **Tier:** Infrastructure & Release
 - **Model:** fast
-- **Description:** Memory bank quality owner. Initializes `docs/memory-bank/`, writes ADRs and task records on explicit request, manages artifact persistence. Never invoked automatically after phases.
+- **Description:** Memory bank quality owner. Initializes `.pantheon/memory-bank/`, writes ADRs and task records on explicit request, manages artifact persistence. Never invoked automatically after phases.
 - **Tools:** search/codebase, search/usages, readFile, edit/editFiles
 - **Usage:** `@mnemosyne: Initialize memory bank` | `@mnemosyne: Close sprint [summary]` | `@mnemosyne: Create artifact: REVIEW-[feature] [content]`
 - **Key Responsibilities:** Project initialization (00-project), sprint close (wipe `.tmp/`, update active-context, append progress-log), ADR creation (`_notes/NOTE000X-topic.md`, immutable), artifact persistence (PLAN/IMPL/REVIEW/DISC → `.tmp/`, ADR → `_notes/`), `.tmp/` cleanup, native memory graduation (`/memories/session/` → `01-active-context.md`)
