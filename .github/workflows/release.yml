@@ -48,9 +48,9 @@ jobs:
       - name: Install dependencies
         run: npm ci --ignore-scripts || npm install
 
-      - name: Bump version and generate changelog
+      - name: Bump version and sync manifests
         run: |
-          npx changelogen --bump ${{ inputs.bump }} --output CHANGELOG.md
+          node scripts/versioning.mjs apply ${{ inputs.bump }}
           NEW_VERSION=$(node -p "require('./package.json').version")
           echo "NEW_VERSION=v${NEW_VERSION}" >> $GITHUB_ENV
           echo "Bumped to v${NEW_VERSION}"

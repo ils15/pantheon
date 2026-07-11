@@ -25,6 +25,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
 const MANIFEST_FILES = [
+  'platform/forge.json',
+  'pyproject.toml',
   'package.json',
   'plugin.json',
   '.github/plugin/plugin.json',
@@ -86,10 +88,19 @@ function updateManifests(newVersion) {
   for (const file of MANIFEST_FILES) {
     const path = join(ROOT, file);
     try {
-      const content = JSON.parse(readFileSync(path, 'utf-8'));
-      content.version = newVersion;
-      writeFileSync(path, JSON.stringify(content, null, 2) + '\n');
-      console.log(`  ✓ ${file} → ${newVersion}`);
+      const raw = readFileSync(path, 'utf-8');
+      if (file.endsWith('.toml')) {
+        // TOML: replace version = "X.Y.Z"
+        const updated = raw.replace(/^(version\s*=\s*")[^"]+(")/m, `$1${newVersion}$2`);
+        writeFileSync(path, updated);
+        console.log(`  ✓ ${file} → ${newVersion}`);
+      } else {
+        // JSON
+        const content = JSON.parse(raw);
+        content.version = newVersion;
+        writeFileSync(path, JSON.stringify(content, null, 2) + '\n');
+        console.log(`  ✓ ${file} → ${newVersion}`);
+      }
     } catch {
       console.log(`  ⚠ ${file} not found — skipped`);
     }
