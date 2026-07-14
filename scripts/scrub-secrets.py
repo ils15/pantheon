@@ -33,11 +33,23 @@ def _make_redactor(pattern: str, replacement: str) -> tuple[re.Pattern, str]:
 
 
 REDACTORS: list[tuple[re.Pattern, str]] = [
+    # SSH private keys (multi-line, before generic private key)
+    _make_redactor(
+        r"-----BEGIN\s+OPENSSH\s+PRIVATE\s+KEY-----"
+        r".*?-----END\s+OPENSSH\s+PRIVATE\s+KEY-----",
+        "[SSH PRIVATE KEY REDACTED]",
+    ),
     # Private keys (multi-line, must run before Bearer/JWT)
     _make_redactor(
         r"-----BEGIN\s+.*?PRIVATE\s+KEY-----"
         r".*?-----END\s+.*?PRIVATE\s+KEY-----",
         "[PRIVATE KEY REDACTED]",
+    ),
+    # Certificates (multi-line)
+    _make_redactor(
+        r"-----BEGIN\s+CERTIFICATE-----"
+        r".*?-----END\s+CERTIFICATE-----",
+        "[CERTIFICATE REDACTED]",
     ),
     # Bearer tokens
     _make_redactor(
@@ -56,7 +68,7 @@ REDACTORS: list[tuple[re.Pattern, str]] = [
     ),
     # OpenAI keys
     _make_redactor(
-        r"sk-[A-Za-z0-9]{20,}",
+        r"sk-[A-Za-z0-9\-_]{10,}",
         "[OPENAI KEY REDACTED]",
     ),
     # API keys (api_key, api-key, apikey)
@@ -69,15 +81,62 @@ REDACTORS: list[tuple[re.Pattern, str]] = [
         r"(token|secret|password)\s*[=:]\s*['\"]?[A-Za-z0-9\-_]{8,}",
         r"\1=[REDACTED]",
     ),
+    # AWS Access Keys
+    _make_redactor(
+        r"AKIA[0-9A-Z]{16}",
+        "[AWS KEY REDACTED]",
+    ),
+    # Google API Keys
+    _make_redactor(
+        r"AIza[0-9A-Za-z\-_]{35}",
+        "[GOOGLE API KEY REDACTED]",
+    ),
+    # Slack tokens
+    _make_redactor(
+        r"xox[baprs]-[0-9a-zA-Z-]{20,}",
+        "[SLACK TOKEN REDACTED]",
+    ),
+    # Heroku API Keys (UUID format)
+    _make_redactor(
+        r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        "[HEROKU API KEY REDACTED]",
+    ),
+    # Database connection strings (non-greedy to prevent over-matching)
+    _make_redactor(
+        r"postgresql\+?:\/\/.*?:.*?@",
+        "[POSTGRESQL CONNECTION REDACTED]",
+    ),
+    _make_redactor(
+        r"mysql\+?:\/\/.*?:.*?@",
+        "[MYSQL CONNECTION REDACTED]",
+    ),
+    _make_redactor(
+        r"redis\+?:\/\/.*?:.*?@",
+        "[REDIS CONNECTION REDACTED]",
+    ),
+    # .env export statements
+    _make_redactor(
+        r"export\s+\w+=['\"]?\S+",
+        "[ENV EXPORT REDACTED]",
+    ),
 ]
 
 # Classification dispatch: prefix → label
 _CLASSIFIERS: list[tuple[str, str]] = [
+    ("-----BEGIN OPENSSH", "ssh_private_key"),
+    ("-----BEGIN CERTIFICATE", "certificate"),
     ("-----BEGIN", "private_key"),
     ("Bearer ", "bearer_token"),
     ("eyJ", "jwt"),
     ("ghp_", "github_pat"),
     ("sk-", "openai_key"),
+    ("xox", "slack_token"),
+    ("AKIA", "aws_key"),
+    ("AIza", "google_api_key"),
+    ("postgresql://", "postgresql_conn"),
+    ("mysql://", "mysql_conn"),
+    ("redis://", "redis_conn"),
+    ("export ", "env_export"),
 ]
 
 
@@ -90,6 +149,11 @@ def _classify_match(matched: str) -> str:
         return "api_key"
     if re.match(r"(token|secret|password)\s*=", matched, re.IGNORECASE):
         return "credential"
+    if re.match(
+        r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}",
+        matched,
+    ):
+        return "heroku_uuid"
     return "unknown_secret"
 
 

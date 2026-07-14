@@ -4,7 +4,7 @@ build-backend = "setuptools.backends._legacy:_Backend"
 
 [project]
 name = "pantheon"
-version = "3.17.0"
+version = "3.17.1"
 description = "Multi-agent orchestration framework"
 requires-python = ">=3.11"
 dependencies = [

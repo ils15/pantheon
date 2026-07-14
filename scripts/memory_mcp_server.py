@@ -20,6 +20,7 @@ Usage:
 from __future__ import annotations
 
 import datetime
+import importlib.util
 import json
 import logging
 import os
@@ -33,6 +34,17 @@ from chromadb import PersistentClient
 # Force offline mode for HF (model already cached)
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from mcp.server.fastmcp import FastMCP
+
+# Canonical secret scrubber — single source of truth (scripts/scrub-secrets.py).
+# scripts/scrub-secrets.py has a hyphen in its filename, so it cannot be
+# imported by a normal `import` statement. Load it explicitly via importlib.
+_scrub_secrets_path = Path(__file__).resolve().parent / "scrub-secrets.py"
+_scrub_spec = importlib.util.spec_from_file_location(
+    "scrub_secrets", _scrub_secrets_path
+)
+scrub_secrets_mod = importlib.util.module_from_spec(_scrub_spec)
+_scrub_spec.loader.exec_module(scrub_secrets_mod)
+scrub = scrub_secrets_mod.scrub
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -74,6 +86,8 @@ os.environ["TQDM_DISABLE"] = "1"
 logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
 logging.getLogger("chromadb").setLevel(logging.ERROR)
 logging.getLogger("httpx").setLevel(logging.WARNING)
+
+logger = logging.getLogger(__name__)
 
 
 def _get_collection():
@@ -299,6 +313,13 @@ def _build_markdown_entry(
     return "\n".join(lines)
 
 
+# ── Security: Inline Secret Scrubber ────────────────────────────────────────────
+# Secret scrubbing is now delegated to the canonical `scrub()` from
+# scripts/scrub-secrets.py (imported at the top of this module). The previous
+# local `_scrub_inline` / `_classify_match_inline` implementations were removed
+# to eliminate scrubber drift across the codebase.
+
+
 # ── Tools ─────────────────────────────────────────────────────────────────────
 
 
@@ -372,6 +393,13 @@ async def memory_store(  # noqa: PLR0913
         "verified": False,
         "truncated": truncate,
     }
+
+    # Security scrub before persisting to vector DB (canonical scrubber)
+    content, redactions = scrub(content)
+    if redactions:
+        logger.warning(
+            f"memory_store: redacted {len(redactions)} credential(s) from content"
+        )
 
     try:
         collection.add(

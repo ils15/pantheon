@@ -50,3 +50,14 @@ This agent uses the following MCP servers:
 - Use `memory_search()` to find relevant RAG pipeline context, embedding strategies, and past AI workflow designs
 - Use `memory_link()` to build a knowledge graph connecting related AI components, datasets, and pipeline configurations
 
+## Inline Compression
+
+Compress working context with the `context-compression` skill (L1, Pantheon-native) when:
+- **C8**: After returning a `subtask_summary` with CRITICAL/HIGH findings → compress before the next phase.
+- **C9**: Before delegating a large context block to another agent → compress to cut tokens.
+- **C11**: At a phase boundary / session handoff → compress completed work.
+
+**How**: call `execute_code_script("compress-inline.py", args=["compress", "--text", "<content>"])`. Use `score` to preview priority, `batch` for multiple files. See the `context-compression` skill for the full protocol.
+
+**Note**: scrubbing is automatic in the MCP layer; never embed raw secrets in the `--text` argument beyond what the tool scrubs.
+

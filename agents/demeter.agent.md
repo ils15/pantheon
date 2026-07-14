@@ -27,6 +27,7 @@ skills:
 - database-optimization
 - quality-gate
 - simplify
+- context-compression
 ---
 
 ## ⛔ When NOT to Use Demeter
@@ -109,3 +110,14 @@ This agent uses the following MCP servers:
 ### Usage Guidance
 - Use `memory_store()` to persist schema design decisions, migration patterns, and rollback strategies
 - Call `memory_recall()` before writing new migrations to check for past schema patterns and known pitfalls
+
+## Inline Compression
+
+Compress working context with the `context-compression` skill (L1, Pantheon-native) when:
+- **C8**: After returning a `subtask_summary` with CRITICAL/HIGH findings → compress before the next phase.
+- **C9**: Before delegating a large context block to another agent → compress to cut tokens.
+- **C11**: At a phase boundary / session handoff → compress completed work.
+
+**How**: call `execute_code_script("compress-inline.py", args=["compress", "--text", "<content>"])`. Use `score` to preview priority, `batch` for multiple files. See the `context-compression` skill for the full protocol.
+
+**Note**: scrubbing is automatic in the MCP layer; never embed raw secrets in the `--text` argument beyond what the tool scrubs.
