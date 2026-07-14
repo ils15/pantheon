@@ -28,6 +28,7 @@ skills:
 - simplify
 - tdd-with-agents
 - test-architecture
+- context-compression
 temperature: 0.3
 steps: 20
 ---
@@ -265,4 +266,15 @@ This agent uses the following MCP servers:
 ### Usage Guidance
 - Use `memory_store()` to persist backend implementation decisions (API design choices, middleware config, dependency versions)
 - Use `execute_code_script()` to run build scripts (e.g., `backend_build.sh`, `run_tests.sh`) after implementation
+
+## Inline Compression
+
+Compress working context with the `context-compression` skill (L1, Pantheon-native) when:
+- **C8**: After returning a `subtask_summary` with CRITICAL/HIGH findings → compress before the next phase.
+- **C9**: Before delegating a large context block to another agent → compress to cut tokens.
+- **C11**: At a phase boundary / session handoff → compress completed work.
+
+**How**: call `execute_code_script("compress-inline.py", args=["compress", "--text", "<content>"])`. Use `score` to preview priority, `batch` for multiple files. See the `context-compression` skill for the full protocol.
+
+**Note**: scrubbing is automatic in the MCP layer; never embed raw secrets in the `--text` argument beyond what the tool scrubs.
 

@@ -257,7 +257,7 @@ After Themis APPROVES a phase, the compression pipeline fires:
 3. **Zeus summarizes**: Generates semantic summaries for CRITICAL/HIGH entries
 4. **Zeus budgets**: Runs priority-greedy budget allocation
 5. **Zeus delegates**: Sends `compress_context` handoff to Mnemosyne
-6. **Mnemosyne scrubs**: Runs `scripts/scrub-secrets.py` on any free-text
+6. **Mnemosyne scrubs**: Automatic — MCP layer applies regex scrub before persisting content
 7. **Mnemosyne writes ZZ artifact**: `ZZ-phase{N}-context.md` in .tmp/
 8. **Mnemosyne updates**: 01-active-context.md with priority-aware compressed entries
 9. **Mnemosyne archives**: IMPL → 02-progress-log.md

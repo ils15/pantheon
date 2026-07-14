@@ -12,6 +12,22 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+## [v3.17.1] - 2026-07-14
+
+### Added
+- Inline compression triggers (C8/C9/C11): implementation agents (Hermes, Aphrodite, Demeter, Hephaestus, Prometheus) now declare `context-compression` skill and have a concise `## Inline Compression` section covering CRITICAL/HIGH subtask summaries, pre-delegation large blocks, and phase boundaries/handoffs
+- `tests/test_code_mode_args.py`: TDD coverage for the new `args` parameter forwarding
+
+### Changed
+- `context-compression` SKILL.md: real C8–C11 trigger definitions added; redundant C10 noted as OpenCode-native cross-reference; L1/L3 contradiction resolved (L1 = inline compress via MCP, L2 = batch promotion at gates)
+- Agent `.md` files: `context-compression` added to `skills:` frontmatter for all 5 implementation agents
+- `instructions/artifact-protocol.instructions.md`: scrub documented as automatic via MCP layer
+
+### Fixed
+- `execute_code_script` now forwards CLI arguments to subprocess — `compress-inline.py` is reachable via MCP (fixes argparse code 2 error)
+- Unified scrubber: 3 divergent implementations consolidated into single canonical `scripts/scrub-secrets.py`, imported by both `memory_mcp_server.py` and `compress-inline.py` via `importlib` (hyphenated filename cannot be statically imported)
+- OpenAI key regex standardized across all consumers to `sk-[A-Za-z0-9\-_]{10,}`
+
 ## [v3.17.0] - 2026-07-11
 
 ### Added

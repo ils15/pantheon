@@ -47,7 +47,7 @@ Mnemosyne executes the expanded compression pipeline. When Zeus delegates compre
    - IMPL/REVIEW artifacts to archive
    - Next phase agent info
 
-2. **Scrub**: Run `scripts/scrub-secrets.py` on any free-text
+2. **Scrub**: Automatic — `memory_store` MCP server applies regex scrub before persisting. No manual steps.
 
 3. **Write ZZ artifact**: Create `.pantheon/memory-bank/.tmp/ZZ-phase{N}-context.md` with:
    - From/To agent info
@@ -75,7 +75,7 @@ Mnemosyne executes the expanded compression pipeline. When Zeus delegates compre
 
 ### Write Protocol
 - Atomic write: .tmp → fsync → validate → rename
-- Scrubbing: run scrub-secrets.py before any write to committed files
+- Scrubbing: automatic via MCP layer on persistence
 
 ### Safety
 - NEVER compress ADR notes, active PLAN, NEEDS_REVISION/FAILED reviews

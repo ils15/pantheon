@@ -126,10 +126,18 @@ async def get_code_mode_script(script_name: str) -> str:
     name="execute_code_script",
     description="Execute a code-mode script from .pantheon/code-mode/ "
     "and return its output. Only .sh and .py files are allowed. "
+    "Optional CLI args are forwarded to the script. "
     "Timeout is 30 seconds.",
 )
-async def execute_code_script(script_name: str) -> str:
-    """Execute a code-mode script with confinement and timeout."""
+async def execute_code_script(script_name: str, args: list[str] | None = None) -> str:
+    """Execute a code-mode script with confinement and timeout.
+
+    Args:
+        script_name: Name of the script in the code-mode directory.
+        args: Optional CLI arguments forwarded to the subprocess (e.g.
+            ``["compress", "--text", "..."]``). Defaults to no args.
+    """
+    args = args or []
     try:
         script_path = _validate_script_name(script_name)
     except ValueError as e:
@@ -145,6 +153,7 @@ async def execute_code_script(script_name: str) -> str:
     try:
         proc = await asyncio.create_subprocess_exec(
             str(script_path),
+            *args,
             cwd=str(script_dir),
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
