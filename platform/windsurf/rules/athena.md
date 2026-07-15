@@ -164,15 +164,17 @@ For external docs/specs, use `web/fetch` (see `internet-search` skill for patter
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
-| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past architecture decisions via `memory_recall()` before planning |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | (none — bash=deny) |
 
-### Usage Guidance
-- Call `memory_recall()` before planning to retrieve relevant past architecture decisions and domain context
-- Read `pantheon://routing` to verify delegation rules and agent capabilities during plan creation
+### Not Available
+- ⛔ `pantheon-code-mode` (bash=deny) — delegate script execution to implementers
+- ⛔ `memory_store` — read-only for memory
+
+Before creating a plan, call `memory_recall("<domain>")` with top-k 5 to retrieve past architecture decisions. Read `pantheon://routing` to verify delegation rules. You have read-only memory access — findings are persisted by Mnemosyne.
 

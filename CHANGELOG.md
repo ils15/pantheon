@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+## [v3.18.0] - 2026-07-15
+
+### Added
+
+- No unreleased changes recorded.
+
 ## [v3.17.1] - 2026-07-14
 
 ### Added

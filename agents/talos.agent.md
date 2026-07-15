@@ -16,6 +16,9 @@ permission:
     "git checkout *": allow
     "git commit *": allow
     "git branch *": allow
+  "pantheon-resources_*": allow
+  "pantheon-memory_*": allow
+  "pantheon-code-mode_*": ask
 
 tools:
   search/codebase: true
@@ -29,6 +32,10 @@ temperature: 0.3
 steps: 30
 skills:
 - simplify
+mcp_tools:
+  pantheon-resources: all
+  pantheon-memory: [memory_recall]
+  pantheon-code-mode: [execute_code_script]
 ---
 
 # Talos - Hotfix Express Lane
@@ -62,11 +69,13 @@ Escalate to @zeus if:
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute hotfix orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` for automated fix sequences |
-| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start for hotfix context |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)` | Recall past hotfix patterns before making quick changes |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run hotfix automation scripts |
+
+Before a hotfix, `memory_recall()` for past quick-fix patterns. After fix, esculate to Zeus if persistence is needed. You are read-only for memory — Mnemosyne stores decisions.
 

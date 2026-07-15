@@ -4,8 +4,18 @@ mode: subagent
 reasoning_effort: medium
 permission:
   bash: allow
+  pantheon-resources_*: allow
+  pantheon-memory_*: allow
+  pantheon-code-mode_*: ask
 temperature: 0.3
 steps: 20
+mcp_tools:
+  pantheon-resources: all
+  pantheon-memory:
+    - memory_recall
+    - memory_store
+  pantheon-code-mode:
+    - execute_code_script
 ---
 
 
@@ -230,17 +240,15 @@ When completing a task, provide:
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` to run build/test scripts |
-| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past API decisions at session start, store implementation results |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run pytest, ruff, and build scripts |
 
-### Usage Guidance
-- Use `memory_store()` to persist backend implementation decisions (API design choices, middleware config, dependency versions)
-- Use `execute_code_script()` to run build scripts (e.g., `backend_build.sh`, `run_tests.sh`) after implementation
+Before implementing, call `memory_recall("<endpoint/domain>")` to retrieve past decisions. After completing work, call `memory_store()` to persist the outcome. Use `execute_code_script()` for test and lint automation.
 
 ## Inline Compression
 

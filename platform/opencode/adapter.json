@@ -13,7 +13,8 @@
       "reasoning_effort",
       "permission",
       "temperature",
-      "steps"
+      "steps",
+      "mcp_tools"
     ],
     "exclude": [
       "model",

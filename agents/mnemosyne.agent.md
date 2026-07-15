@@ -7,6 +7,9 @@ mode: primary
 reasoning_effort: low
 permission:
   bash: deny
+  "pantheon-resources_*": allow
+  "pantheon-memory_*": allow
+  "pantheon-code-mode_*": ask
 
 tools:
   agent: true
@@ -21,6 +24,24 @@ skills:
 - handoff
 - task-system
 - context-compression
+mcp_tools:
+  pantheon-resources: all
+  pantheon-memory:
+    - memory_recall
+    - memory_store
+    - memory_search
+    - memory_delete
+    - memory_update
+    - memory_export
+    - memory_link
+    - memory_traverse
+    - memory_compress
+    - memory_consolidate
+    - memory_verify
+    - memory_sessions
+    - memory_expand
+    - memory_cleanup
+  pantheon-code-mode: [execute_code_script]
 ---
 
 # Mnemosyne - Memory Bank Quality Owner
@@ -171,17 +192,12 @@ no Themis needed.
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://memory-bank/{path}` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
-| **pantheon-memory** | Persistent memory with semantic search, recall, export, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info; `memory_export()` for batch memory export |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | All 14 memory tools — see frontmatter `mcp_tools:` for the full list | Comprehensive memory management — store, search, delete, compress, link, export, consolidate |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run context compression scripts via `compress-inline.py` |
 
-### Usage Guidance
-- As the **memory steward**, this agent has the deepest integration with pantheon-memory:
-  - Use `memory_store()` to persist ADRs, task records, and sprint documentation
-  - Use `memory_recall()` to retrieve context for artifact creation and memory queries
-  - Use `memory_export()` to export memory bank contents in markdown format
-- Use `pantheon://memory-bank/{path}` to read and validate memory bank files
+This agent is the **memory steward** for the entire system. Use `memory_store()` for ADRs and task records, `memory_recall()` for context retrieval, `memory_export()` for batch exports, `memory_compress()` for session compaction, `memory_consolidate()` for dedup. See the context-compression skill for batch operations.

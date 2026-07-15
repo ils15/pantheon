@@ -74,14 +74,23 @@ Before creating a new migration:
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
-| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past schema decisions, store migration patterns |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run alembic migrations, pytest |
 
-### Usage Guidance
-- Use `memory_store()` to persist schema design decisions, migration patterns, and rollback strategies
-- Call `memory_recall()` before writing new migrations to check for past schema patterns and known pitfalls
+Before creating a migration, call `memory_recall("<table/schema>")` for past schema patterns. After completing, call `memory_store()` to persist the model decision. Use `execute_code_script()` for migration and test automation.
+
+## Inline Compression
+
+Compress working context with the `context-compression` skill (L1, Pantheon-native) when:
+- **C8**: After returning a `subtask_summary` with CRITICAL/HIGH findings → compress before the next phase.
+- **C9**: Before delegating a large context block to another agent → compress to cut tokens.
+- **C11**: At a phase boundary / session handoff → compress completed work.
+
+**How**: call `execute_code_script("compress-inline.py", args=["compress", "--text", "<content>"])`. Use `score` to preview priority, `batch` for multiple files. See the `context-compression` skill for the full protocol.
+
+**Note**: scrubbing is automatic in the MCP layer; never embed raw secrets in the `--text` argument beyond what the tool scrubs.

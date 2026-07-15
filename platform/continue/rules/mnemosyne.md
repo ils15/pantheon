@@ -44,7 +44,7 @@ Mnemosyne executes the expanded compression pipeline. When Zeus delegates compre
    - IMPL/REVIEW artifacts to archive
    - Next phase agent info
 
-2. **Scrub**: Run `scripts/scrub-secrets.py` on any free-text
+2. **Scrub**: Automatic — `memory_store` MCP server applies regex scrub before persisting. No manual steps.
 
 3. **Write ZZ artifact**: Create `.pantheon/memory-bank/.tmp/ZZ-phase{N}-context.md` with:
    - From/To agent info
@@ -72,7 +72,7 @@ Mnemosyne executes the expanded compression pipeline. When Zeus delegates compre
 
 ### Write Protocol
 - Atomic write: .tmp → fsync → validate → rename
-- Scrubbing: run scrub-secrets.py before any write to committed files
+- Scrubbing: automatic via MCP layer on persistence
 
 ### Safety
 - NEVER compress ADR notes, active PLAN, NEEDS_REVISION/FAILED reviews
@@ -153,17 +153,12 @@ no Themis needed.
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://memory-bank/{path}` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
-| **pantheon-memory** | Persistent memory with semantic search, recall, export, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info; `memory_export()` for batch memory export |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | All 14 memory tools — see frontmatter `mcp_tools:` for the full list | Comprehensive memory management — store, search, delete, compress, link, export, consolidate |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run context compression scripts via `compress-inline.py` |
 
-### Usage Guidance
-- As the **memory steward**, this agent has the deepest integration with pantheon-memory:
-  - Use `memory_store()` to persist ADRs, task records, and sprint documentation
-  - Use `memory_recall()` to retrieve context for artifact creation and memory queries
-  - Use `memory_export()` to export memory bank contents in markdown format
-- Use `pantheon://memory-bank/{path}` to read and validate memory bank files
+This agent is the **memory steward** for the entire system. Use `memory_store()` for ADRs and task records, `memory_recall()` for context retrieval, `memory_export()` for batch exports, `memory_compress()` for session compaction, `memory_consolidate()` for dedup. See the context-compression skill for batch operations.

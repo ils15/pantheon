@@ -12,9 +12,13 @@
 | **Quick start / Install** | [INSTALLATION.md](INSTALLATION.md) |
 | **Which platform to pick** | [PLATFORMS.md](PLATFORMS.md) |
 | **Agent reference** | [AGENTS.md](../AGENTS.md) |
+| **MCP tiers & tools** | [mcp-tools.md](mcp-tools.md), [mcp-user-guide.md](mcp-user-guide.md) |
 | **Release process** | [RELEASING.md](RELEASING.md) |
 | **Contributing** | [CONTRIBUTING.md](../CONTRIBUTING.md) |
 | **Changelog** | [CHANGELOG.md](../CHANGELOG.md) |
+| **MCP Tool Registry** | [mcp-tools.md](mcp-tools.md) |
+| **MCP User Guide** | [mcp-user-guide.md](mcp-user-guide.md) |
+| **MCP Tiers** | `.pantheon/tiers.json` |
 
 ---
 
@@ -34,13 +38,13 @@ All agents live as **canonical `.agent.md` files** in `agents/` and are auto-gen
 
 | Platform | Format | Status | Install Method |
 |---|---|---|---|
-| **VS Code Copilot** | `.agent.md` | ✅ Active | Plugin marketplace or manual copy |
-| **OpenCode** | `.md` + `opencode.json` | ✅ Active | `opencode/` config |
-| **Claude Code** | `.md` (comma-separated tools) | ✅ Active | `node scripts/install.mjs claude` |
-| **Cursor** | `.mdc` rules | ✅ Active | `node scripts/install.mjs cursor` |
-| **Windsurf** | `.md` (stub) | ✅ Active | `node scripts/install.mjs windsurf` |
-| **Cline** | `.md` | ✅ Active | `node scripts/install.mjs cline` |
-| **Continue.dev** | `.md` rules | ✅ Active | `node scripts/install.mjs continue` |
+| **VS Code Copilot** | `.agent.md` | ✅ Active | Plugin marketplace, `/pantheon-install`, or `./sync-platform.sh copilot` |
+| **OpenCode** | `.md` + `opencode.json` | ✅ Active | `/pantheon-install` or `./sync-platform.sh opencode` |
+| **Claude Code** | `.md` (comma-separated tools) | ✅ Active | `node scripts/install.mjs claude` or `./sync-platform.sh claude` |
+| **Cursor** | `.mdc` rules | ✅ Active | `node scripts/install.mjs cursor` or `./sync-platform.sh cursor` |
+| **Windsurf** | `.md` (stub) | ✅ Active | `node scripts/install.mjs windsurf` or `./sync-platform.sh windsurf` |
+| **Cline** | `.md` | ✅ Active | `node scripts/install.mjs cline` or `./sync-platform.sh cline` |
+| **Continue.dev** | `.md` rules | ✅ Active | `node scripts/install.mjs continue` or `./sync-platform.sh continue` |
 
 ---
 
@@ -55,6 +59,10 @@ All agents live as **canonical `.agent.md` files** in `agents/` and are auto-gen
 | Prompt templates | `prompts/*.prompt.md` |
 | GitHub Actions workflows | `.github/workflows/` |
 | CI/CD hooks | `scripts/hooks/` |
+| MCP tool registry (canonical) | [docs/mcp-tools.md](mcp-tools.md) |
+| MCP user guide (adding custom MCPs) | [docs/mcp-user-guide.md](mcp-user-guide.md) |
+| MCP tiers (none/essential/recommended/full) | `.pantheon/tiers.json` |
+| MCP recommendations per project type | [docs/mcp-recommendations.md](mcp-recommendations.md) |
 | Project memory (sprints, decisions) | `.pantheon/memory-bank/` |
 | Plugin manifests | `plugin.json`, `.github/plugin/plugin.json` |
 

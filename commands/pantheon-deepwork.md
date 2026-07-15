@@ -1,8 +1,8 @@
 ---
-description: "Start a heavy multi-phase task with persisted checkpoints, phased specialist dispatch, and Themis review gates. Progress saved to .pantheon/deepwork/ for resumability."
+description: "Start a heavy multi-phase task with persisted checkpoints, phased specialist dispatch, and Themis review gates. Progress saved to .pantheon/deepwork/ for resumability. Usage: /pantheon-deepwork"
 agent: "zeus"
 ---
-# /deepwork — Heavy Task Workflow
+# /pantheon-deepwork — Heavy Task Workflow
 
 **What:** Starts a structured, checkpointed workflow for complex multi-step tasks. Progress is persisted to `.pantheon/deepwork/<task-slug>/` so work can resume if interrupted. Each phase is gated by Themis review.
 
@@ -50,9 +50,9 @@ Phase FINAL: VERIFICATION
 Each phase writes a checkpoint file. If work is interrupted:
 
 ```
-/deepwork --resume <slug>    # Resume from last checkpoint
-/deepwork --status <slug>    # Show current progress
-/deepwork --list             # List all deepwork tasks
+/pantheon-deepwork --resume <slug>    # Resume from last checkpoint
+/pantheon-deepwork --status <slug>    # Show current progress
+/pantheon-deepwork --list             # List all deepwork tasks
 ```
 
 Checkpoint files:
@@ -86,11 +86,11 @@ If a phase stalls:
 ## Usage
 
 ```
-/deepwork "Add user authentication with OAuth2"     # Start new deepwork session
-/deepwork --resume auth-oauth2                       # Resume interrupted session
-/deepwork --status auth-oauth2                       # Show progress
-/deepwork --list                                     # List all tasks
-/deepwork --archive auth-oauth2                      # Archive completed task
+/pantheon-deepwork "Add user authentication with OAuth2"     # Start new deepwork session
+/pantheon-deepwork --resume auth-oauth2                       # Resume interrupted session
+/pantheon-deepwork --status auth-oauth2                       # Show progress
+/pantheon-deepwork --list                                     # List all tasks
+/pantheon-deepwork --archive auth-oauth2                      # Archive completed task
 ```
 
 ## Safety

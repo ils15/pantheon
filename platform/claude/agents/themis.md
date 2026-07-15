@@ -13,8 +13,17 @@ permission:
     npx vitest *: allow
     pip-audit *: allow
     dep-audit *: allow
+  pantheon-resources_*: allow
+  pantheon-memory_*: allow
+  pantheon-code-mode_*: ask
 temperature: 0.1
 steps: 20
+mcp_tools:
+  pantheon-resources: all
+  pantheon-memory:
+    - memory_search
+  pantheon-code-mode:
+    - execute_code_script
 ---
 
 # Themis - Quality & Security Gate
@@ -92,15 +101,13 @@ After review, create artifact: `@mnemosyne Create artifact: REVIEW-<feature>`
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
-| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Search for existing code quality patterns and security concerns |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run ruff, biome, and security audit scripts |
 
-### Usage Guidance
-- Use `memory_search()` to retrieve past review findings on similar code components — avoids re-raising the same issues
-- Read `pantheon://agents` to verify the agent under review has the correct tools, permissions, and skills for the task
+Before reviewing, call `memory_search("<area>")` for existing review findings. After review, use `execute_code_script()` for automated quality checks. You do NOT store memory (read-only for memory).
 
