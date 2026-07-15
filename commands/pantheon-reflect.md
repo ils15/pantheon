@@ -1,14 +1,14 @@
 ---
-description: "Analyze repeated work friction and suggest reusable improvements — skills, commands, agents, or playbooks. Evidence-driven: recommends nothing if evidence is weak."
+description: "Analyze repeated work friction and suggest reusable improvements — skills, commands, agents, or playbooks. Evidence-driven: recommends nothing if evidence is weak. Usage: /pantheon-reflect"
 agent: "zeus"
 ---
-# /reflect — Friction Analysis & Improvement
+# /pantheon-reflect — Friction Analysis & Improvement
 
 ## What
 Analyzes recent session history to identify patterns of repeated work friction, then recommends the smallest useful improvement: a reusable skill, a custom command, an agent prompt adjustment, a config rule, or a project playbook.
 
 ## Why
-Teams accumulate friction silently — the same manual steps, the same workarounds, the same "let me just check that again." `/reflect` surfaces these patterns and suggests the **smallest change that removes the most friction.**
+Teams accumulate friction silently — the same manual steps, the same workarounds, the same "let me just check that again." `/pantheon-reflect` surfaces these patterns and suggests the **smallest change that removes the most friction.**
 
 ## How It Works
 
@@ -38,14 +38,14 @@ Teams accumulate friction silently — the same manual steps, the same workaroun
    - **Friction found:** [count] patterns
    - **Top recommendation:** [the one change with highest impact/lowest effort]
    - **Evidence strength:** Strong / Moderate / Weak
-   - **If weak:** "Insufficient evidence to recommend changes. Continue working and run /reflect again after more sessions."
+    - **If weak:** "Insufficient evidence to recommend changes. Continue working and run /pantheon-reflect again after more sessions."
 ```
 
 ## Usage
 ```
-/reflect                  # Analyze all recent friction
-/reflect --focus=<area>   # Analyze only specific area (delegation, discovery, workflow, testing)
-/reflect --last=<N>       # Analyze only last N sessions (default: 5)
+/pantheon-reflect                  # Analyze all recent friction
+/pantheon-reflect --focus=<area>   # Analyze only specific area (delegation, discovery, workflow, testing)
+/pantheon-reflect --last=<N>       # Analyze only last N sessions (default: 5)
 ```
 
 ## Output Format
@@ -68,7 +68,7 @@ Teams accumulate friction silently — the same manual steps, the same workaroun
 
 ### Evidence Strength: [Strong / Moderate / Weak]
 
-[If Weak]: Not enough data to recommend changes. Run /reflect again after 3+ more sessions.
+[If Weak]: Not enough data to recommend changes. Run /pantheon-reflect again after 3+ more sessions.
 ```
 
 ## Safety

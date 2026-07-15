@@ -4,8 +4,18 @@ mode: subagent
 reasoning_effort: medium
 permission:
   bash: allow
+  pantheon-resources_*: allow
+  pantheon-memory_*: allow
+  pantheon-code-mode_*: ask
 temperature: 0.5
 steps: 25
+mcp_tools:
+  pantheon-resources: all
+  pantheon-memory:
+    - memory_recall
+    - memory_store
+  pantheon-code-mode:
+    - execute_code_script
 ---
 
 ## ⛔ When NOT to Use Aphrodite
@@ -84,17 +94,15 @@ After implementing UI components:
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://memory-bank/{path}` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
-| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past UI decisions, store component patterns |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run npm test, biome check |
 
-### Usage Guidance
-- Use `memory_store()` to persist UI implementation decisions (component architecture, styling patterns, accessibility choices)
-- Read `pantheon://memory-bank/` for design documentation and component context
+Before implementing, call `memory_recall("<component/page>")` to retrieve past component patterns. After completion, call `memory_store()` to persist UI decisions. Use `execute_code_script()` for test automation.
 
 ## Inline Compression
 

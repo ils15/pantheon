@@ -7,8 +7,19 @@ skills: agent-observability, agent-evaluation
 permission:
   edit: ask
   bash: allow
+  pantheon-resources_*: allow
+  pantheon-memory_*: allow
+  pantheon-code-mode_*: ask
 temperature: 0.1
 steps: 15
+mcp_tools:
+  pantheon-resources: all
+  pantheon-memory:
+    - memory_recall
+    - memory_store
+    - memory_sessions
+  pantheon-code-mode:
+    - execute_code_script
 ---
 
 # Nyx - Observability & Monitoring Specialist
@@ -38,15 +49,13 @@ You are the **OBSERVABILITY SPECIALIST** (Nyx) for OpenTelemetry tracing, token/
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
-| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_sessions(format?: "json")` | Recall past observability patterns, store monitoring configs, list sessions for audit |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run tracing and monitoring scripts |
 
-### Usage Guidance
-- Read `pantheon://routing` to verify agent model assignments and fallback chains during observability audits
-- Use `memory_sessions()` to list active memory sessions for audit and traceability purposes
+Before setting up monitoring, `memory_recall()` for existing telemetry patterns. After configuration, `memory_store()` to persist decisions. Use `memory_sessions()` to audit agent activity.
 

@@ -9,7 +9,7 @@
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import { join } from 'path';
-import { ROOT, showHelp, parseArgs, resolveTarget, detectPlatforms, printSummary, summary } from './install/shared.mjs';
+import { ROOT, showHelp, parseArgs, resolveTarget, detectPlatforms, detectAndReport, createBackup, printSummary, summary } from './install/shared.mjs';
 import { installOpenCode } from './install/opencode.mjs';
 import { installClaude } from './install/claude.mjs';
 import { installCursor } from './install/cursor.mjs';
@@ -28,9 +28,24 @@ function main() {
 
   const target = args.target;
 
+  if (args.detect) {
+    detectAndReport(target);
+    process.exit(0);
+  }
+
   if (!existsSync(target)) {
     console.error(`❌ Target directory does not exist: ${target}`);
     process.exit(1);
+  }
+
+  // Step 0: Backup before any writes
+  if (args.backup) {
+    if (args.dryRun) {
+      console.log(`\n  💾 Would create backup (skipped in dry-run)\n`);
+    } else {
+      const backupDir = createBackup(target);
+      console.log(`  📁 Backup location: ${backupDir}\n`);
+    }
   }
 
   let platforms = args.platforms;

@@ -31,6 +31,9 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 | 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 43 skills |
 | 🚀 **Installation Guide** | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
 | 🔌 **MCP Servers** | [docs/mcp-recommendations.md](docs/mcp-recommendations.md) — recommended MCP servers for each project type |
+| 🔌 **MCP Tool Registry** | [docs/mcp-tools.md](docs/mcp-tools.md) — canonical MCP tool reference |
+| 🔌 **MCP User Guide** | [docs/mcp-user-guide.md](docs/mcp-user-guide.md) — adding custom MCP servers |
+| 🗂️ **MCP Tiers** | `.pantheon/tiers.json` — 4-tier MCP selection (none/essential/recommended/full) |
 | ⚡ **Quick Start** | [docs/QUICKSTART.md](docs/QUICKSTART.md) |
 | 🖥️ **VS Code** | [docs/platforms/vscode.md](docs/platforms/vscode.md) |
 | ⚡ **OpenCode** | [docs/platforms/opencode.md](docs/platforms/opencode.md) |
@@ -203,14 +206,17 @@ Pantheon runs on 7 platforms. Here is how each supports the framework's key feat
 git clone https://github.com/ils15/pantheon.git
 cd pantheon
 
-# 2. Install for your platform (pick one)
-./sync-platform.sh copilot --global   # VS Code (global)
-./sync-platform.sh opencode           # OpenCode
-./sync-platform.sh claude             # Claude Code
-./sync-platform.sh cursor             # Cursor
-./sync-platform.sh windsurf           # Windsurf
-./sync-platform.sh cline              # Cline
-./sync-platform.sh continue           # Continue.dev
+# 2. Install with MCP tier (pick one)
+npm install
+/pantheon-install --tier essential      # 3 native MCPs + context7 + filesystem
+/pantheon-install --tier recommended    # + git + exa + playwright + memory
+/pantheon-install --tier full           # + sentry + slack + docker + notion + linear + postgresql + cloudflare
+
+# Or install via sync script for your platform
+./sync-platform.sh copilot --global     # VS Code (global)
+./sync-platform.sh opencode             # OpenCode
+./sync-platform.sh claude               # Claude Code
+./sync-platform.sh cursor               # Cursor
 
 # 3. Open your editor and test
 # VS Code: type @zeus in Copilot Chat
@@ -219,7 +225,7 @@ cd pantheon
 # Cursor: type @zeus in Agent mode
 ```
 
-> **VS Code users:** For global installation (persists across projects), add `--global` flag.
+> **VS Code users:** `--tier` auto-generates `.vscode/mcp.json` with the selected MCP server set. For global installation (persists across projects), run `./sync-platform.sh copilot --global`.
 
 ---
 
@@ -568,15 +574,23 @@ Pantheon provides slash commands via OpenCode. On other platforms (Copilot, Curs
 | Command | Agent | Description |
 |---------|-------|-------------|
 | `/pantheon` | zeus | Multi-perspective synthesis (Council) via inline agents |
-| `/focus` | zeus | Pin a session goal |
-| `/forge` | zeus | Configure models by preset (`/forge opencode-go`) or per-agent (`/forge --zeus <model>`) |
-| `/sketch` | athena | Turn rough idea into spec |
-| `/audit` | themis | Code review + security audit |
+| `/pantheon-install` | zeus | Sync + install + verify pipeline with `--tier` (none/essential/recommended/full), `--backup`, `--detect`, `--dry-run` |
+| `/pantheon-update` | iris | Version bump + changelog + git tag + GitHub Release |
+| `/pantheon-deepwork` | zeus | Heavy multi-phase task with persisted checkpoints |
+| `/pantheon-reflect` | zeus | Analyze repeated work friction, suggest improvements |
+| `/pantheon-forge` | zeus | Configure models by preset or per-agent |
+| `/pantheon-focus` | zeus | Pin a session goal |
+| `/pantheon-sketch` | athena | Turn rough idea into spec |
+| `/pantheon-audit` | themis | Code review + security audit |
+| `/pantheon-optimize` | zeus | Context optimization & token audit |
+| `/pantheon-metamorphosis` | zeus | Intelligent refactoring with TDD |
+| `/pantheon-praxis` | zeus | Execute plan via task system |
+| `/pantheon-status` | zeus | Show system health and agent status |
 | `/ping` | zeus | Ping all Pantheon agents |
 | `/subtask` | any | Bounded child task |
 | `/mirrordeps` | apollo | Clone dependency source locally |
-| `/praxis` | zeus | Execute plan via task system |
-| `/metamorphosis` | zeus | Intelligent refactoring with TDD |
+| `/pantheon-manifest` | iris | Generate manifests and exports |
+| `/stop-continuation` | zeus | Stop auto-continuation |
 | `/cancel` | zeus | Stop auto-continuation |
 
 > **Multi-platform note:** Commands are native to OpenCode. On VS Code Copilot, use `@agent-name` in chat. On Cursor/Claude Code, describe the task in natural language.
@@ -728,21 +742,24 @@ pantheon/
 │       ├── validate-talos-scope.sh
 │       └── validate-tool-safety.sh
 │
-├── commands/                  # 16 interaction commands
-│   ├── audit.md
+├── commands/                  # 19 interaction commands
 │   ├── cancel.md
-│   ├── deepwork.md
-│   ├── focus.md
-│   ├── forge.md
-│   ├── metamorphosis.md
 │   ├── mirrordeps.md
-│   ├── optimize.md
+│   ├── pantheon-audit.md
+│   ├── pantheon-deepwork.md
+│   ├── pantheon-focus.md
+│   ├── pantheon-forge.md
+│   ├── pantheon-install.md
+│   ├── pantheon-manifest.md
+│   ├── pantheon-metamorphosis.md
+│   ├── pantheon-optimize.md
+│   ├── pantheon-praxis.md
+│   ├── pantheon-reflect.md
+│   ├── pantheon-sketch.md
 │   ├── pantheon-status.md
+│   ├── pantheon-update.md
 │   ├── pantheon.md
 │   ├── ping.md
-│   ├── praxis.md
-│   ├── reflect.md
-│   ├── sketch.md
 │   ├── stop-continuation.md
 │   └── subtask.md
 │
@@ -1019,6 +1036,9 @@ Pantheon draws from the broader multi-agent landscape while diverging in key way
 | [agents/README.md](agents/README.md) | Agent directory |
 | [skills/README.md](skills/README.md) | Skill directory |
 | [docs/platforms/](docs/platforms/) | Per-platform setup guides |
+| [docs/mcp-tools.md](docs/mcp-tools.md) | Canonical MCP tool registry |
+| [docs/mcp-user-guide.md](docs/mcp-user-guide.md) | Adding custom MCP servers |
+| [docs/mcp-recommendations.md](docs/mcp-recommendations.md) | Recommended MCP servers per project type |
 | [scripts/hooks/](scripts/hooks/) | Agent lifecycle hooks |
 | [skills/agent-coordination/SKILL.md](skills/agent-coordination/SKILL.md) | When to use which agent |
 | [skills/tdd-with-agents/SKILL.md](skills/tdd-with-agents/SKILL.md) | TDD standards and rules |

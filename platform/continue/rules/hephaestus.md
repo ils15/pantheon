@@ -35,15 +35,24 @@ You are the **AI PIPELINES SPECIALIST** (Hephaestus) for LangChain/LangGraph cha
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
-| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_link(from_id, to_id, relation?)` | Recall past AI pipeline decisions, store chain configs, link related components |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run build scripts and pipeline tests |
 
-### Usage Guidance
-- Use `memory_search()` to find relevant RAG pipeline context, embedding strategies, and past AI workflow designs
-- Use `memory_link()` to build a knowledge graph connecting related AI components, datasets, and pipeline configurations
+Before building a pipeline, `memory_recall()` for existing patterns. After completion, `memory_store()` to persist the chain architecture. Use `memory_link()` to connect related components in the knowledge graph.
+
+## Inline Compression
+
+Compress working context with the `context-compression` skill (L1, Pantheon-native) when:
+- **C8**: After returning a `subtask_summary` with CRITICAL/HIGH findings → compress before the next phase.
+- **C9**: Before delegating a large context block to another agent → compress to cut tokens.
+- **C11**: At a phase boundary / session handoff → compress completed work.
+
+**How**: call `execute_code_script("compress-inline.py", args=["compress", "--text", "<content>"])`. Use `score` to preview priority, `batch` for multiple files. See the `context-compression` skill for the full protocol.
+
+**Note**: scrubbing is automatic in the MCP layer; never embed raw secrets in the `--text` argument beyond what the tool scrubs.
 

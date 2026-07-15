@@ -4,8 +4,18 @@ mode: subagent
 reasoning_effort: medium
 permission:
   bash: allow
+  pantheon-resources_*: allow
+  pantheon-memory_*: allow
+  pantheon-code-mode_*: ask
 temperature: 0.2
 steps: 20
+mcp_tools:
+  pantheon-resources: all
+  pantheon-memory:
+    - memory_recall
+    - memory_store
+  pantheon-code-mode:
+    - execute_code_script
 ---
 
 # Prometheus - Infrastructure Specialist
@@ -135,17 +145,15 @@ Document each chain in routing.yml under the agent's delegation entry.
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` to run deploy/CI scripts |
-| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)` | Recall past deployment configs, store infra decisions |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run Docker builds, deploy scripts, CI/CD pipelines |
 
-### Usage Guidance
-- Use `execute_code_script()` to run deployment scripts, CI pipeline validations, and infrastructure checks
-- Use `memory_store()` to persist infrastructure decisions (Docker image tags, provider configs, deployment routes)
+Before deploying, `memory_recall()` for existing infrastructure patterns. After setup, `memory_store()` to persist deployment decisions. Use `execute_code_script()` for automated build and deploy sequences.
 
 ## Inline Compression
 

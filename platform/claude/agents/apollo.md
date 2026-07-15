@@ -7,8 +7,15 @@ skills: internet-search, codemap
 permission:
   edit: deny
   bash: deny
+  pantheon-resources_*: allow
+  pantheon-memory_*: allow
 temperature: 0.1
 steps: 15
+mcp_tools:
+  pantheon-resources: all
+  pantheon-memory:
+    - memory_search
+  pantheon-code-mode: []
 ---
 
 # Apollo - Investigation Scout
@@ -57,15 +64,17 @@ Return structured findings with:
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` |
-| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Search past discoveries via `memory_search()` before starting new investigations |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | (none — bash=deny) |
 
-### Usage Guidance
-- Use `memory_search()` to find past discoveries and patterns before initiating new investigations — avoids re-discovering what's already known
-- Read `pantheon://agents` to discover agent configurations and constraints relevant to your search context
+### Not Available
+- ⛔ `pantheon-code-mode` (bash=deny)
+- ⛔ `memory_store` — read-only; findings indexed by Mnemosyne
+
+Before starting an investigation, call `memory_search("<topic>")` to avoid re-discovering known patterns. Read `pantheon://agents` to discover agent constraints. You are read-only — Mnemosyne handles memory persistence.
 

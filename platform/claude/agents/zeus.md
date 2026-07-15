@@ -9,8 +9,19 @@ permission:
   bash: allow
   task:
     "*": allow
+  pantheon-resources_*: allow
+  pantheon-memory_*: allow
+  pantheon-code-mode_*: ask
 temperature: 0.2
 steps: 25
+mcp_tools:
+  pantheon-resources: all
+  pantheon-memory:
+    - memory_recall
+    - memory_store
+    - memory_search
+  pantheon-code-mode:
+    - execute_code_script
 ---
 
 ## 📑 Table of Contents
@@ -347,18 +358,15 @@ Agent completes
 
 ## 🧠 MCP Capabilities
 
-This agent uses the following MCP servers:
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
-| MCP Server | What it provides | How to use |
-|-----------|-----------------|------------|
-| **pantheon-resources** | Agent/skills/routing/deepwork discovery via `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Read resources directly via `pantheon://` URIs |
-| **pantheon-code-mode** | Execute orchestration scripts from `.pantheon/code-mode/` | Call `execute_code_script("script.sh")` to run automated orchestration sequences |
-| **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph | Call `memory_recall(context)` at session start; `memory_store(content)` for important info |
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past decisions at session start, store orchestration results, search previous phases |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run sync-platforms, install, deploy, and orchestration scripts |
 
-### Usage Guidance
-- Use `pantheon://deepwork/{slug}` to read deepwork status files for any active session
-- Use `execute_code_script()` from code-mode for automated orchestration sequences
-- Call `memory_recall()` with current DAG wave context at the start of each phase to retrieve relevant past orchestration patterns
+Use `memory_recall()` at session start with feature context. After each phase, `memory_store()` to persist state. Read `pantheon://routing` to verify delegation rules. Call `execute_code_script()` for automated orchestration sequences.
 
 ## 🗺️ Task Routing Reference
 

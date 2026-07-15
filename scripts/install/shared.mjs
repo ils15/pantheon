@@ -1,9 +1,9 @@
-#!/usr/bin/env node
 /**
  * shared.mjs — Shared utilities for Pantheon platform installers
  */
 
 import {
+	cpSync,
 	existsSync,
 	mkdirSync,
 	readdirSync,
@@ -12,7 +12,7 @@ import {
 	statSync,
 	writeFileSync,
 } from "node:fs";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import yaml from "js-yaml";
 
@@ -72,14 +72,16 @@ Usage:
   node scripts/install.mjs --target /path/to/project           auto-detect, target
   node scripts/install.mjs --platforms opencode,claude         specific platforms, cwd
   node scripts/install.mjs --target /path --platforms all      all platforms
+  node scripts/install.mjs --detect                            detect platforms without installing
   node scripts/install.mjs --dry-run                           preview without writing
+  node scripts/install.mjs --backup                            create timestamped backup before writing
   node scripts/install.mjs --clean                             wipe + fresh install (all components)
   node scripts/install.mjs --clean --components agents,skills  wipe only agents+skills, reinstall
   node scripts/install.mjs --components agents                 install only agents (no skills/instructions)
   node scripts/install.mjs --help                              show this help
 
 Components (--components):
-  Comma-separated list of what to install. Default: agents,skills,instructions
+  Comma-separated list of what to install. Default: agents,skills,instructions,commands,plugins
     agents        → agent .md files
     skills        → skill definitions (.opencode/skills/)
     instructions  → AGENTS.md + instructions/*.instructions.md
@@ -114,7 +116,9 @@ export function parseArgs(argv) {
 		components: null,
 		dryRun: false,
 		clean: false,
+		backup: false,
 		help: false,
+		detect: false,
 	};
 
 	for (let i = 2; i < argv.length; i++) {
@@ -132,11 +136,17 @@ export function parseArgs(argv) {
 					.split(",")
 					.map((s) => s.trim().toLowerCase());
 				break;
+			case "--detect":
+				args.detect = true;
+				break;
 			case "--dry-run":
 				args.dryRun = true;
 				break;
 			case "--clean":
 				args.clean = true;
+				break;
+			case "--backup":
+				args.backup = true;
 				break;
 			case "--help":
 				args.help = true;
@@ -162,6 +172,99 @@ export function resolveTarget(target) {
 	if (target.startsWith("/")) return target;
 	// If it's relative, resolve from cwd
 	return join(process.cwd(), target);
+}
+
+export function createBackup(target) {
+	const timestamp = new Date()
+		.toISOString()
+		.replace(/[:.]/g, "-")
+		.slice(0, 19);
+	const backupDir = join(
+		target,
+		"..",
+		`.pantheon-bak-${basename(target)}-${timestamp}`,
+	);
+
+	console.log(`\n  💾 Creating backup: ${backupDir}`);
+	mkdirSync(backupDir, { recursive: true });
+
+	// Copy only relevant Pantheon directories/files
+	const items = [
+		"agents",
+		"skills",
+		"commands",
+		"instructions",
+		"opencode.json",
+		"tui.json",
+	];
+	let count = 0;
+	for (const item of items) {
+		const src = join(target, item);
+		try {
+			cpSync(src, join(backupDir, item), {
+				recursive: true,
+				errorOnExist: false,
+			});
+			count++;
+		} catch {
+			// File or directory doesn't exist in target — skip silently
+		}
+	}
+
+	console.log(`  ✅ Backed up ${count} items to: ${backupDir}`);
+	return backupDir;
+}
+
+export function detectAndReport(target) {
+	const PLATFORM_LABELS = {
+		opencode: "OpenCode",
+		claude: "Claude Code",
+		cursor: "Cursor",
+		windsurf: "Windsurf",
+		copilot: "VS Code / Copilot",
+		continue: "Continue.dev",
+		cline: "Cline",
+	};
+
+	const CONFIG_FILES = {
+		opencode: () => "opencode.json",
+		claude: () => ".claude/ or CLAUDE.md",
+		cursor: () => ".cursor/ or .cursorrules",
+		windsurf: () => ".windsurf/ or .windsurfrules",
+		copilot: () => ".github/copilot-instructions.md or .vscode/",
+		continue: () => ".continue/config.yaml or .continue/",
+		cline: () => ".clinerules",
+	};
+
+	console.log(`\n  🔍 Pantheon Platform Detection`);
+	console.log(`     Target: ${target}\n`);
+
+	const results = [];
+	for (const [platform, detector] of Object.entries(PLATFORM_DETECTORS)) {
+		const found = detector(target);
+		results.push({ platform, found });
+	}
+
+	// Table header
+	console.log(`  ${"Platform".padEnd(12)} ${"Detected?".padEnd(12)} Config file`);
+	console.log(`  ${"─".repeat(55)}`);
+
+	const detected = results.filter((r) => r.found);
+	for (const r of results) {
+		const status = r.found ? "✅ YES" : "❌ no";
+		const configFile = r.found ? CONFIG_FILES[r.platform]() : "(not found)";
+		console.log(
+			`  ${PLATFORM_LABELS[r.platform].padEnd(12)} ${status.padEnd(12)} ${configFile}`,
+		);
+	}
+
+	console.log(`\n  📊 ${detected.length} of ${results.length} platforms detected.`);
+	if (detected.length > 0) {
+		const names = detected.map((r) => r.platform).join(",");
+		console.log(`  → Install with: node scripts/install.mjs --platforms ${names}`);
+	}
+
+	return detected.map((r) => r.platform);
 }
 
 export function detectPlatforms(target) {

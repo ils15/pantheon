@@ -85,6 +85,117 @@ The sync script also deploys the Pantheon hooks plugin to `~/.config/opencode/pl
 
 ---
 
+## 🚀 `/pantheon-install` — Sync + Install + Verify Pipeline
+
+The **recommended installation path** for OpenCode users (also available on all platforms via `node scripts/pantheon-install.mjs`):
+
+```bash
+/pantheon-install                      # Default (opencode → ~/.config/opencode/)
+/pantheon-install --platform all       # All 7 platforms
+/pantheon-install --platform opencode,claude
+/pantheon-install --dry-run            # Preview without writing
+/pantheon-install --clean              # Fresh install (wipe + reinstall)
+```
+
+### `--tier` Flag: MCP Server Tiers
+
+The `--tier` flag selects which MCP servers to deploy alongside agents:
+
+| Tier | Servers included | When to use |
+|------|-----------------|-------------|
+| `none` | No MCP servers | Minimal install, no MCP |
+| `essential` | pantheon-resources, pantheon-code-mode, pantheon-memory, context7, filesystem | **Default** — all Pantheon agents work |
+| `recommended` | Essential + git, playwright, memory | Full development setup |
+| `full` | All the above + sentry, slack, docker, notion, linear, postgresql | Enterprise / polyglot projects |
+
+Usage:
+```bash
+/pantheon-install --tier essential          # Core Pantheon MCPs only
+/pantheon-install --tier recommended        # Full dev experience
+/pantheon-install --tier full               # Everything
+/pantheon-install --tier none --platform all # Agents only, no MCPs
+```
+
+Tier definitions are stored in **`.pantheon/tiers.json`**:
+
+```json
+{
+  "essential": ["pantheon-resources", "pantheon-code-mode", "pantheon-memory", "context7", "filesystem"],
+  "recommended": ["pantheon-resources", "pantheon-code-mode", "pantheon-memory", "context7", "filesystem", "git", "playwright", "pantheon-memory"],
+  "full": ["pantheon-resources", "pantheon-code-mode", "pantheon-memory", "context7", "filesystem", "git", "playwright", "sentry", "slack", "docker", "notion", "linear", "postgresql"]
+}
+```
+
+### `--backup` Flag
+
+Creates a timestamped backup of the target directory before writing:
+
+```bash
+/pantheon-install --backup                  # Backup before install
+/pantheon-install --tier full --backup       # Full install with backup
+```
+
+Backups are stored alongside the target directory as `.pantheon-bak-{dirname}-{timestamp}` (e.g., `.pantheon-bak-opencode-2026-07-15T10-30-00`).
+
+### `--detect` Flag
+
+Detects installed platforms without installing:
+
+```bash
+/pantheon-install --detect                  # "Which platforms are configured?"
+```
+
+Output shows detected platform configs, versions, and agent counts — useful for debugging and inventory.
+
+### VS Code `.vscode/mcp.json` Generation
+
+When installing with `--tier`, the installer auto-generates `.vscode/mcp.json` (for VS Code Copilot / Cursor) with the selected MCP servers:
+
+```json
+// .vscode/mcp.json (auto-generated with --tier essential)
+{
+  "servers": {
+    "pantheon-resources": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["scripts/mcp_resources_server.py"]
+    },
+    "pantheon-code-mode": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["scripts/code_mode_server.py"]
+    },
+    "pantheon-memory": {
+      "type": "stdio",
+      "command": ".venv/bin/python3",
+      "args": ["scripts/memory_mcp_server.py"]
+    }
+  }
+}
+```
+
+This file is written to `.vscode/mcp.json` (project-local) or `~/.config/opencode/mcp.json` (global) depending on your install mode.
+
+### Platform Paths Table
+
+| Platform | Config file | Global path | Project path |
+|----------|-------------|-------------|--------------|
+| **VS Code Copilot** | `.vscode/mcp.json` | `~/.vscode/` | `.vscode/mcp.json` |
+| **OpenCode** | `opencode.json` | `~/.config/opencode/` | `./opencode.json` |
+| **Claude Code** | `.mcp.json` | — | `.mcp.json` |
+| **Cursor** | `.cursor/mcp.json` | — | `.cursor/mcp.json` |
+| **Windsurf** | `mcp_config.json` | `~/.codeium/windsurf/` | *global only* |
+| **Cline** | VS Code globalStorage | — | *global only* |
+| **Continue.dev** | `config.json` | `~/.continue/` | — |
+
+### MCP Agent Awareness
+
+All 14 Pantheon agents now declare `mcp_tools:` in their YAML frontmatter, telling them which tools they can use. The agents also include a standardized `## 🧠 MCP Capabilities` section describing when to use each tool.
+
+See [docs/mcp-tools.md](mcp-tools.md) for the canonical tool registry and [docs/mcp-user-guide.md](mcp-user-guide.md) for adding custom MCPs.
+
+---
+
 ## Legacy Sync Scripts
 
 Individual sync scripts still work and are equivalent to `sync-platform.sh`:
@@ -394,6 +505,13 @@ See [Platforms docs](PLATFORMS.md) for target directories per platform.
 
 After installing the agents, agents declare abstract tiers (`fast`/`default`/`premium`). Configure your preferred models via your platform's own settings (e.g., `~/.config/opencode/opencode.json` for OpenCode, or your editor's model picker for Copilot/Cursor).
 
+On OpenCode, use `/pantheon-forge` to apply named presets:
+```bash
+/pantheon-forge opencode-go     ← Apply a preset (12 available)
+/pantheon-forge list            ← List all available presets
+/pantheon-forge status          ← Show current model configuration
+```
+
 ---
 
 ## Verification
@@ -447,25 +565,39 @@ Once setup is complete:
 
 > **Need help?** Open an issue at [github.com/ils15/pantheon/issues](https://github.com/ils15/pantheon/issues)
 
-## 🧩 Configurar MCP Servers
+## 🧩 MCP Server Configuration
 
-Para usar os 3 MCP servers do Pantheon em um novo projeto:
+Pantheon uses a **tiered MCP system** managed by `.pantheon/tiers.json`. Select the right tier for your project:
 
-### 🚀 Automatizado (recomendado)
+| Tier | Servers | Disk | RAM |
+|------|---------|------|-----|
+| **essential** | 3 native MCPs + context7 + filesystem | ~5MB | ~50MB |
+| **recommended** | + git + playwright + memory | ~850MB | ~400MB |
+| **full** | + sentry + slack + docker + notion + linear + postgresql | ~1.2GB | ~600MB |
+
+```bash
+# Quick automated setup with tier selection
+/pantheon-install --tier essential          # Core MCPs only
+/pantheon-install --tier recommended        # Full dev setup
+```
+
+For manual MCP setup in an existing project:
+
+### 🚀 Automated (recommended)
 
 ```bash
 bash /caminho/pantheon/scripts/init-pantheon-mcp.sh .
 ```
 
-O script faz tudo:
-1. ✅ Copia os 3 scripts MCP + testes
-2. ✅ Cria virtualenv com dependências
-3. ✅ Cria opencode.json configurado
-4. ✅ Verifica instalação
+Este script faz tudo:
+1. ✅ Copies the 3 MCP server scripts + tests
+2. ✅ Creates virtualenv with dependencies
+3. ✅ Creates `opencode.json` with MCP config
+4. ✅ Verifies installation
 
 ---
 
-### 1. Copiar os scripts
+### 1. Copy the scripts
 
 ```bash
 # No diretório do novo projeto
@@ -555,6 +687,8 @@ Para detalhes sobre cada servidor, veja:
 - `docs/MCP.md` — Visão geral dos 3 servidores
 - `docs/MEMORY.md` — Guia do sistema de memória
 - `docs/AGENT-MCP.md` — Capacidades MCP por agente
+- `docs/mcp-tools.md` — Canonical MCP tool registry (all tools + agent usage)
+- `docs/mcp-user-guide.md` — Adding custom MCP servers to agents
 - `docs/mcp-recommendations.md` — Comparação com MCPs externos
 
 ---

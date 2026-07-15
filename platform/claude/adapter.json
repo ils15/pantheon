@@ -21,7 +21,8 @@
       "temperature",
       "steps",
       "globs",
-      "mcpServers"
+      "mcpServers",
+      "mcp_tools"
     ],
     "exclude": [
       "disable-model-invocation",
