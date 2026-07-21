@@ -10,17 +10,14 @@ permission:
   "pantheon-memory_*": allow
 
 tools:
+  agent: true
   search/codebase: true
-  search/usages: true
-  search/fileSearch: true
   search/textSearch: true
-  search/listDirectory: true
+  search/fileSearch: true
+  search/usages: true
   read/readFile: true
+  read/listDirectory: true
   web/fetch: true
-  browser/openBrowserPage: true
-  browser/navigatePage: true
-  browser/readPage: true
-  browser/screenshotPage: true
 mode: subagent
 reasoning_effort: low
 temperature: 0.1
@@ -33,6 +30,14 @@ mcp_tools:
   pantheon-memory: [memory_search]
   pantheon-code-mode: []
 ---
+
+## 🧠 Memory Protocol
+
+### Pre-Work
+**Call `memory_search("<topic>")` before starting investigation.**
+
+### Post-Work
+You do NOT call memory_store. Findings are persisted by Mnemosyne or Zeus.
 
 # Apollo - Investigation Scout
 
@@ -77,6 +82,15 @@ Return structured findings with:
 - **files_changed:** [paths]
 - **summary:** What was found
 - **confidence:** high | medium | low
+
+## ⚡ Auto-Continue (Embedded: Discovery)
+
+- Auto-continue through parallel search queries (3-10 simultaneous)
+- Partial results OK on timeout — return whatever is found
+- No checkpoint needed (read-only, idempotent operations)
+- If timeout occurs, return partial findings with confidence score
+- Do NOT loop back for more searches — return what you have
+- Never auto-continue past 3 search rounds without fresh context
 
 ## 🧠 MCP Capabilities
 

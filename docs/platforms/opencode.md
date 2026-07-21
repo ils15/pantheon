@@ -705,9 +705,9 @@ OpenCode prompts are static templates (e.g., `{{input}}`). For dynamic prompt ge
 
 ### Example: Dynamic Council Prompt (/pantheon)
 
-Create `prompts/dynamic/agora-architecture.txt`:
+Create `prompts/dynamic/council-architecture.txt`:
 ```
-You are convening an agora on architecture decisions.
+You are convening a council on architecture decisions.
 Active agents: {{agents}}
 Context: {{context}}
 
@@ -724,7 +724,7 @@ Reference in `opencode.json`:
 {
   "command": {
     "pantheon": {
-      "template": "{file:./prompts/dynamic/agora-architecture.txt}"
+      "template": "{file:./prompts/dynamic/council-architecture.txt}"
     }
   }
 }
@@ -739,8 +739,8 @@ Add to `scripts/generate-prompts.sh`:
 AGENTS=$(ls platform/opencode/agents/ | sed 's/.md//' | paste -sd ', ' -)
 
 sed -e "s/{{agents}}/$AGENTS/g" \
-    prompts/templates/agora-template.txt \
-    > prompts/dynamic/agora-generated.txt
+    prompts/templates/council-template.txt \
+    > prompts/dynamic/council-generated.txt
 ```
 
 ### Limitations

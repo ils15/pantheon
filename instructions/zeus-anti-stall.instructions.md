@@ -51,3 +51,22 @@ On tasks expected to run > 5 turns:
 - After turn 5: output `[CHECKPOINT] Completed so far: [summary]. Remaining: [list].`
 - After turn 10: re-evaluate. If < 50% done, consider splitting or escalating.
 - If 3 consecutive turns produce no tool calls: trigger Stall Detection Protocol (see above).
+
+## Heartbeat & Checkpoint Integration
+
+### Heartbeat Check
+- If `.pantheon/deepwork/<slug>/heartbeat.json` exists and `last_action` is older than 300s, log a stall warning and resume
+- Write heartbeat after every anti-stall recovery action
+
+### Checkpoint Auto-Save
+Before ANY delegate dispatch, save a checkpoint:
+```bash
+python .pantheon/code-mode/checkpoint_session.py save <slug>
+```
+
+### Long-Session Progress
+Every 5 turns during a long session, update STATUS.md with:
+- Current phase
+- Completed tasks
+- Pending tasks
+- Any blockers

@@ -4,13 +4,41 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
-<!-- Add new changes here -->
+## [3.19.0] - 2026-07-21
 
 ### Added
+- Memory Persistence Protocol — agents now have mandatory `memory_recall()` pre-work and `memory_store()` post-work
+- Session-end auto-save script (`.pantheon/code-mode/session-end-save.py`) — exports Vector DB entries with importance ≥0.4 at session close
+- ADR-006: Memory Persistence Protocol decision documented
+- `session_end_save` handoff in routing.yml for Mnemosyne
+- `tools.agent: true` for Apollo, Talos, and Gaia canonical agent files
 
 ### Changed
+- All 14 agent files updated with `## 🧠 Memory Protocol` section (both canonical `/agents/` and OpenCode `.config/opencode/agents/`)
+- Zeus now auto-stores `memory_store()` directly on agent return — no Mnemosyne middleman
+- Steps optimization in opencode.json: zeus(25→35), aphrodite(25→30), hermes(20→25), themis(20→25), demeter(20→25), mnemosyne(10→8), iris(15→10), nyx(15→12), athena(15→12)
+- README.md badges updated to v3.19.0
+- `plugin.json` displayName and skills count updated
+- `.github/plugin/plugin.json` skills list updated
+- `.github/plugin/marketplace.json` version bumped
 
 ### Fixed
+- `docs/RELEASING.md` version reference — v3.8.4 → v3.19.0
+- `docs/UPGRADING.md` — removed obsolete Agora migration guide, added v3.19 Memory Protocol section
+- `docs/mcp-recommendations.md` — removed Exa MCP references (removed in v3.15.0)
+- `docs/platforms/opencode.md` — removed stale "agora" references
+- `docs/AGENT-MCP.md` — removed Exa reference
+- CHANGELOG duplicate v3.9.0 entries removed
+- README memory-bank tree path: `docs/memory-bank/` → `.pantheon/memory-bank/`
+- Skill count reconciled across all docs (actual: ~45)
+
+### Removed
+- `docs/TUTORIAL-PLUGIN-PT.md` — Portuguese tutorial for disabled plugin
+- `docs/memory-bank/` stale duplicate (was supposed to be purged in v3.17.0)
+
+### Documentation
+- Full documentation audit and cleanup across all doc files
+
 
 ## [v3.18.0] - 2026-07-15
 
@@ -262,26 +290,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - Cleanup commands, fix subtask agent, add Context7 tools, improve sync script ([da6ed7c](https://github.com/ils15/pantheon/commit/da6ed7c))
 
-
-
- - 2026-05-28
-
-[compare changes](https://github.com/ils15/pantheon/compare/v3.8.4...v3.9.0)
-
-### 🚀 Enhancements
-
-- Setup changelogen + git-cliff for auto-releases ([ce4ee22](https://github.com/ils15/pantheon/commit/ce4ee22))
-
-### 🩹 Fixes
-
-- Add missing closing brace for github configuration in opencode.json ([a63c522](https://github.com/ils15/pantheon/commit/a63c522))
-- Address PR review sync and mapping feedback ([c550049](https://github.com/ils15/pantheon/commit/c550049))
-- Sync version to 3.8.4, fix versioning.mjs apply bug, add version check script ([141a6b1](https://github.com/ils15/pantheon/commit/141a6b1))
-- Add CHANGELOG entry for v3.8.4 to fix CI validate failure ([58cc0f5](https://github.com/ils15/pantheon/commit/58cc0f5))
-- **ci:** Auto-release cria PR com auto-merge ao invés de push direto pra main ([e4f78c9](https://github.com/ils15/pantheon/commit/e4f78c9))
-
-### 🏡 Chore
-
-- Cleanup commands, fix subtask agent, add Context7 tools, improve sync script ([da6ed7c](https://github.com/ils15/pantheon/commit/da6ed7c))
-
+[3.19.0]: https://github.com/ils15/pantheon/compare/v3.18.0...v3.19.0
 

@@ -47,6 +47,14 @@ You are the **AI PIPELINES SPECIALIST** (Hephaestus) for LangChain/LangGraph cha
 - **@apollo**: For RAG research and library patterns
 - **@themis**: For code review after implementation
 
+## ⚡ Auto-Continue (Embedded: Pipeline)
+
+- Auto-continue through RAG pipeline stages (chunking → embedding → retrieval → evaluation)
+- Checkpoint after each pipeline component — run `pantheon-code-mode execute_code_script checkpoint_session.py save hephaestus`
+- Stop for evaluation before marking pipeline as production-ready
+- If a stage fails, stop and diagnose — re-run with adjusted parameters
+- Partial results NOT allowed — pipeline must be verified end-to-end
+
 ## 🧠 MCP Capabilities
 
 Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.

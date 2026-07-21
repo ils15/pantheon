@@ -374,6 +374,18 @@ agents:
       - simplify
 
 # =============================================================================
+# AUTO-CONTINUE CONFIGURATION
+# Checkpoint and heartbeat settings for autonomous sessions
+# =============================================================================
+auto_continue:
+  checkpoint_script: ".pantheon/code-mode/checkpoint-session.sh"
+  heartbeat_interval: 5
+  idle:
+    warning: 60
+    stall: 120
+    pause: 300
+
+# =============================================================================
 # DELEGATION RULES — who delegates to whom, when (task categories), how (timeout/retry/fallback)
 # Each orchestrator has its own delegation targets. Fields: target, when, prompt_hint.
 # Aspirational fields (timeout, retry_count, fallback_agent, etc.) removed — not

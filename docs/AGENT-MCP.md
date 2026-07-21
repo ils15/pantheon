@@ -7,22 +7,22 @@ pantheon-code-mode, pantheon-memory) plus the optional third-party servers.
 
 ## Overview Matrix
 
-| Agent | Resources | Code-Mode | Memory | context7 | exa | playwright |
-|-------|-----------|-----------|--------|----------|-----|------------|
-| **zeus** | ✅ routing, deepwork | ✅ orchestration | ✅ recall | — | — | — |
-| **athena** | ✅ agents, routing | ✅ research | ✅ recall | ✅ | — | — |
-| **apollo** | ✅ agents, skills | ✅ — | ✅ search | ✅ | ✅ | — |
-| **hermes** | ✅ agents, skills | ✅ build/test | ✅ store, recall | ✅ | — | ✅ |
-| **aphrodite** | ✅ memory-bank | ✅ build | ✅ store, recall | ✅ | — | ✅ |
-| **demeter** | ✅ agents, routing | ✅ — | ✅ store, recall | ✅ | — | — |
-| **themis** | ✅ agents | ✅ lint checks | ✅ search | ✅ | — | ✅ |
-| **prometheus** | ✅ agents, routing | ✅ deploy scripts | ✅ store, recall | ✅ | — | — |
-| **hephaestus** | ✅ agents, skills | ✅ — | ✅ search, link | ✅ | — | — |
-| **nyx** | ✅ routing | ✅ — | ✅ sessions | ✅ | — | — |
-| **gaia** | ✅ agents | — | minimal | ✅ | — | — |
-| **iris** | ✅ agents | — | minimal | — | — | — |
-| **mnemosyne** | ✅ memory-bank | ✅ — | ✅ full (store, recall, export) | — | — | — |
-| **talos** | ✅ agents, skills | ✅ hotfix scripts | ✅ recall | ✅ | — | — |
+| Agent | Resources | Code-Mode | Memory | context7 | playwright |
+|-------|-----------|-----------|--------|----------|------------|
+| **zeus** | ✅ routing, deepwork | ✅ orchestration | ✅ recall | — | — |
+| **athena** | ✅ agents, routing | ✅ research | ✅ recall | ✅ | — |
+| **apollo** | ✅ agents, skills | ✅ — | ✅ search | ✅ | — |
+| **hermes** | ✅ agents, skills | ✅ build/test | ✅ store, recall | ✅ | ✅ |
+| **aphrodite** | ✅ memory-bank | ✅ build | ✅ store, recall | ✅ | ✅ |
+| **demeter** | ✅ agents, routing | ✅ — | ✅ store, recall | ✅ | — |
+| **themis** | ✅ agents | ✅ lint checks | ✅ search | ✅ | ✅ |
+| **prometheus** | ✅ agents, routing | ✅ deploy scripts | ✅ store, recall | ✅ | — |
+| **hephaestus** | ✅ agents, skills | ✅ — | ✅ search, link | ✅ | — |
+| **nyx** | ✅ routing | ✅ — | ✅ sessions | ✅ | — |
+| **gaia** | ✅ agents | — | minimal | ✅ | — |
+| **iris** | ✅ agents | — | minimal | — | — |
+| **mnemosyne** | ✅ memory-bank | ✅ — | ✅ full (store, recall, export) | — | — |
+| **talos** | ✅ agents, skills | ✅ hotfix scripts | ✅ recall | ✅ | — |
 
 ---
 
@@ -131,10 +131,7 @@ Used by **11 agents** for up-to-date library docs:
 | **apollo** | General (any library during discovery) |
 | **zeus** | General (any library during orchestration) |
 
-### exa (Web Search + Content Fetching)
-
-Used by **apollo** only for external discovery, research, and documentation
-lookups that context7 doesn't cover.
+> **Note:** Exa MCP was removed in v3.15.0. Use the built-in `websearch` tool instead.
 
 ### playwright (Browser Automation)
 
@@ -191,7 +188,7 @@ mcpServers:
 | **pantheon-code-mode** | Medium | Executes scripts. Permission: `ask` (user confirms each execution) |
 | **pantheon-memory** | Low | Read/write within agent sandbox. No system access |
 | **context7** | Low | Read-only library documentation. No auth needed |
-| **exa** | Low | Read-only web search. API key managed via env var |
+| ~~exa~~ | *Removed in v3.15.0* | Use `websearch` tool instead |
 | **playwright** | Medium | Runs headless Chromium. Permission: `ask` recommended |
 
 See `instructions/mcp-security.instructions.md` for complete MCP security rules.

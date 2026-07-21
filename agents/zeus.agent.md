@@ -39,6 +39,20 @@ mcp_tools:
   pantheon-code-mode: [execute_code_script]
 ---
 
+## 🧠 Memory Protocol
+
+### Auto-Store on Agent Return
+When ANY agent returns a subtask_summary:
+1. **Call `memory_store()` DIRETO** com os campos do subtask_summary
+2. Não passa por Mnemosyne — elimina round-trip
+3. O subtask_summary já tem: summary, files_changed, tests, status
+
+### Pre-Work
+**Call `memory_recall("<feature>", top_k=3)` at session start before planning.**
+
+### Session-End
+**Call `session_end_save` handoff to @mnemosyne** at session close.
+
 ## 📑 Table of Contents
 - [CRITICAL RULE](#zeus---main-conductor)
 - [Tool Restrictions](#⚠️-tool-restrictions)

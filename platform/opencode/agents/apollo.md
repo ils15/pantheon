@@ -60,6 +60,15 @@ Return structured findings with:
 - **summary:** What was found
 - **confidence:** high | medium | low
 
+## ⚡ Auto-Continue (Embedded: Discovery)
+
+- Auto-continue through parallel search queries (3-10 simultaneous)
+- Partial results OK on timeout — return whatever is found
+- No checkpoint needed (read-only, idempotent operations)
+- If timeout occurs, return partial findings with confidence score
+- Do NOT loop back for more searches — return what you have
+- Never auto-continue past 3 search rounds without fresh context
+
 ## 🧠 MCP Capabilities
 
 Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.

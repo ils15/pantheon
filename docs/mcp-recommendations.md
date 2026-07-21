@@ -11,7 +11,7 @@ This document covers the **6 built-in + external MCPs** available to Pantheon ag
 | MCP | What it does | Who uses it | Setup |
 |-----|-------------|-------------|-------|
 | **context7** | Fetches up-to-date, version-specific library documentation | 11 agents (zeus, athena, apollo, hermes, aphrodite, demeter, themis, hephaestus, nyx, talos, gaia) | `npx -y @upstash/context7-mcp` — free, no API key needed |
-| **exa** | Web search + content fetching (structured results) | apollo | `npx -y exa-mcp-server` — requires `EXA_API_KEY` |
+| ~~exa~~ | *Removed in v3.15.0* | — | Use `websearch` tool instead |
 | **playwright** | Browser automation — screenshots, accessibility snapshots | aphrodite, themis, hermes | `npx -y @playwright/mcp@latest` — free, requires Playwright browsers installed |
 | **pantheon-resources** | Pantheon framework resources — agents, skills, routing, deepwork, memory bank | all agents | `python scripts/mcp_resources_server.py` — built-in, no setup needed |
 | **pantheon-code-mode** | Confined orchestration script execution via MCP | zeus, prometheus, hermes, talos | `python scripts/code_mode_server.py` — built-in, scripts in `.pantheon/code-mode/` |
@@ -37,35 +37,7 @@ npx -y @upstash/context7-mcp
 
 ---
 
-### exa (Web Search + Content Fetching)
-
-Provides structured web search and full-page content retrieval.
-
-```bash
-npx -y exa-mcp-server
-```
-
-Requires the `EXA_API_KEY` environment variable. Set it in your platform's MCP config:
-
-```json
-{
-  "mcpServers": {
-    "exa": {
-      "command": "npx",
-      "args": ["-y", "exa-mcp-server"],
-      "env": {
-        "EXA_API_KEY": "${EXA_API_KEY}"
-      }
-    }
-  }
-}
-```
-
-**What it provides:**
-- `exa_web_search_exa` — Search the web with natural language queries
-- `exa_web_fetch_exa` — Fetch and read full webpage content as clean markdown
-
-**Used by:** Apollo for external discovery, research, and documentation lookups.
+> **Note:** Exa MCP was removed in v3.15.0. Use the `websearch` tool instead.
 
 ---
 
@@ -157,7 +129,7 @@ For library docs, web search, and content extraction — these MCPs overlap in c
 |-----|----------------|-------|----------|
 | **context7** | **🥇 89** | `npx -y @upstash/context7-mcp` — free, no API key | Library docs, version-pinned APIs |
 | **mcp-fetch** (official) | **🥈 86** | Zero config (built-in to Claude) | Simple webpage fetching |
-| **Exa Search** | — | `EXA_API_KEY` required | Semantic web search for agents |
+| ~~Exa Search~~ | *Removed in v3.15.0* | — | Use `websearch` tool instead |
 | **Firecrawl** | — | API key required | Web-to-markdown, clean content extraction |
 
 ### Which One to Use
@@ -165,11 +137,11 @@ For library docs, web search, and content extraction — these MCPs overlap in c
 | Task | Use |
 |------|-----|
 | "How do I use FastAPI's `Annotated` dependency injection?" | **context7** — version-pinned library docs |
-| "Find recent blog posts about RAG evaluation techniques" | **Exa** — semantic web search |
+| "Find recent blog posts about RAG evaluation techniques" | **websearch** — semantic web search |
 | "Read this specific article and summarize it" | **mcp-fetch** — zero config, just works |
 | "Extract clean markdown from this messy product page" | **Firecrawl** — intelligent content cleaning |
 
-**Pantheon default:** context7 for library documentation (11 agents, no API key), Exa for Apollo's web research.
+**Pantheon default:** context7 for library documentation (11 agents, no API key). Exa was removed in v3.15.0 — use the built-in `websearch` tool instead.
 
 ---
 
@@ -213,7 +185,7 @@ Then add based on your workflow:
 | If you... | Add |
 |-----------|-----|
 | Do frontend visual review | **Playwright MCP** (required by Aphrodite review pipeline) |
-| Need web research (Apollo) | **Exa Search** (requires API key) |
+| Need web research (Apollo) | **websearch** tool (built-in) |
 | Run infrastructure tasks | **GitHub MCP** + **Cloudflare MCP** |
 | Hit databases directly | **Postgres MCP** (read-only) or **Supabase MCP** |
 | Need fast browser scraping | **Lightpanda** or **Pandabridge** (11-23x RAM savings) |
@@ -315,7 +287,7 @@ mcpServers:
 |-------|------|
 | @zeus | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
 | @athena | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @apollo | context7, exa, pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @apollo | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
 | @hermes | context7, playwright, pantheon-resources, pantheon-code-mode, pantheon-memory |
 | @aphrodite | context7, playwright, pantheon-resources, pantheon-code-mode, pantheon-memory |
 | @demeter | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
@@ -353,7 +325,6 @@ Fallback: web/fetch → unstructured, may be stale
 - **Never commit secrets** in MCP config files. Use `${VAR}` interpolation for env variables.
 - **Sandbox local MCP servers** when possible (VS Code supports `sandboxEnabled: true`).
 - **Review MCP tool permissions** before enabling. Some servers expose destructive tools.
-- **Exa API key** should be stored in an environment variable, never inlined in config.
 - **Playwright** runs headless Chromium locally — ensure it's used in a controlled environment.
 
 ---
@@ -366,7 +337,7 @@ See `instructions/mcp-security.instructions.md` for complete MCP security rules.
 
 | Constraint | Purpose | Example |
 |-----------|---------|----------|
-| `readOnly` | Prevent write operations | `true` for Apollo (exa read-only) |
+| `readOnly` | Prevent write operations | `true` for read-only agents |
 | `auditLog` | Require audit comments | `true` for certain operations |
 
 ### Enforcement
@@ -383,7 +354,7 @@ These constraints are enforced by @themis during code review.
 |---------|-------------|-----|
 | "MCP server not found" | Server not installed | Run `npx -y @upstash/context7-mcp` or install via your platform's MCP config |
 | "Tool not available" | Agent template missing mcpServers entry | Verify `agents/*.agent.md` has the MCP in frontmatter |
-| "Authentication failed" | Missing env var | Set `EXA_API_KEY` if using exa |
+| "Authentication failed" | Missing env var | Check provider credentials |
 | "Command not found: npx" | Node.js not installed | Install Node.js 18+ from nodejs.org |
 | "Browser not found" | Playwright browsers not installed | Run `npx playwright install chromium` |
 | "pantheon-memory not connecting" | Missing Python deps | Run `pip install chromadb sentence-transformers fastmcp` |

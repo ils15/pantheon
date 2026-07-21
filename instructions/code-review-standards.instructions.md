@@ -49,6 +49,20 @@ applyTo: "**"
 - README/guides accurate
 - API documentation complete
 
+## Auto-Continue & Safety Gate Review
+
+When reviewing code related to auto-continue, autonomous sessions, or safety gate configurations:
+
+1. **Check gate compliance**: Verify all Tier 1 gates (plan, commit, deploy, council, destructive operations) are respected. No auto-continue should bypass these.
+2. **Verify checkpoint saves**: Checkpoints must save before any delegate dispatch or phase transition. Gate decisions must be logged to `gate_history`.
+3. **Validate auto-approve policies**: Auto-approve must have explicit conditions (tests pass, no CRITICAL/HIGH issues, within plan scope, coverage ≥80%).
+4. **Test idle detection**: Verify the warning → stall → pause sequence works correctly with correct timeout thresholds.
+5. **Multi-platform compatibility**: Verify instructions work across all target platforms (OpenCode, VS Code Copilot, Cursor, Windsurf, Continue.dev).
+6. **Agent safety profiles**: Verify each agent's safety profile is correct — read-only agents should have no Tier 1 gates, hotfix agents should only gate on escalation.
+7. **Gate logging audit**: All gate decisions must be logged to session checkpoint with timestamp and conditions met.
+
+Reference: `instructions/auto-continue-safety-gates.instructions.md`
+
 ## Feedback Format
 - Return: APPROVED | NEEDS_REVISION | FAILED
 - Categorize: CRITICAL | HIGH | MEDIUM | LOW

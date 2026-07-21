@@ -21,13 +21,9 @@ permission:
   "pantheon-code-mode_*": ask
 
 tools:
-  search/codebase: true
-  search/usages: true
+  agent: true
   read/readFile: true
-  read/problems: true
   edit/editFiles: true
-  execute/runInTerminal: true
-  execute/testFailure: true
 temperature: 0.3
 steps: 30
 skills:
@@ -37,6 +33,14 @@ mcp_tools:
   pantheon-memory: [memory_recall]
   pantheon-code-mode: [execute_code_script]
 ---
+
+## 🧠 Memory Protocol
+
+### Pre-Work
+**Call `memory_recall("hotfix", top_k=3)` before starting work.**
+
+### Post-Work
+You do NOT call memory_store. Results are persisted by Zeus via subtask_summary auto-store.
 
 # Talos - Hotfix Express Lane
 
@@ -66,6 +70,14 @@ Escalate to @zeus if:
 - No Themis review needed (low-risk)
 - Return subtask_summary format
 - If complexity exceeds threshold, escalate immediately
+
+## ⚡ Auto-Continue (Embedded: Hotfix)
+
+- Auto-continue through quick fix cycles (identify → fix → verify)
+- No checkpoint needed (single-file fixes, low complexity)
+- Escalate to Zeus if fix takes > 3 turns or requires > 2 files / > 10 lines
+- If fix breaks existing tests, stop immediately and escalate
+- No partial results — either fix is applied or escalate
 
 ## 🧠 MCP Capabilities
 

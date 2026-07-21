@@ -167,6 +167,110 @@ Ready for Phase 2? Waiting for go-ahead.
 Should I now run the migration tests? [waiting]
 ```
 
+## Session Heartbeat
+
+Auto-save checkpoint every N turns (configurable, default 5).
+
+### Heartbeat File
+
+`.pantheon/deepwork/<slug>/heartbeat.json`
+
+### Heartbeat JSON Format
+
+```json
+{
+  "slug": "task-identifier",
+  "last_action": "2026-07-16T20:00:00Z",
+  "turn_count": 10,
+  "current_phase": 2,
+  "status": "alive | warning | stalled | paused | completed",
+  "next_action": "brief description of next planned action"
+}
+```
+
+### Heartbeat Rules
+1. Update every 5 turns minimum (by default)
+2. Contains NO context — only timestamps and counters
+3. Single file, always overwritten (not versioned)
+4. Used for quick "is this session alive?" checks
+
+---
+
+## Checkpoint Persistence
+
+### Checkpoint File Structure
+
+Each deepwork task maintains:
+
+```
+.pantheon/deepwork/<slug>/
+├── PLAN.md                 # Immutable plan (created at start)
+├── STATUS.md               # Human-readable current state (updated every phase)
+├── heartbeat.json          # Lightweight ping (updated every N turns)
+├── checkpoint-<N>.json     # Full state snapshot (created at phase boundaries)
+├── session.json            # Session metadata (created at start, updated on stop)
+└── REVIEW.md               # Final Themis review (created at end)
+```
+
+### Checkpoint JSON Schema
+
+```json
+{
+  "slug": "string — unique task identifier",
+  "phase": "integer — current phase number",
+  "turn_count": "integer — total turns elapsed",
+  "timestamp": "string — ISO 8601 timestamp",
+  "context_hash": "string — first 8 hex chars of SHA-256 of STATUS.md",
+  "version": "integer — schema version (current: 2)"
+}
+```
+
+### Checkpoint Rules
+1. Save at every phase boundary AND before any delegate dispatch
+2. Numbered sequentially (`checkpoint-1.json`, `checkpoint-2.json`, …)
+3. Keep last 10 checkpoints; archive older ones
+4. On resume: read the highest-numbered checkpoint for full state
+
+---
+
+## Safety Policy Configuration
+
+Configurable gates for different platforms and risk levels:
+
+| Gate | Default | Auto-Approval Condition |
+|------|---------|------------------------|
+| GATE 0 — Council/Plan | Always Ask | N/A — always requires human |
+| GATE 1 — Plan Approval | Always Ask | Plan matches acceptance criteria + no risks flagged |
+| GATE 2 — Themis Review | Ask by Default | Auto-approve if: Themis APPROVED + no CRITICAL/HIGH issues + coverage ≥80% |
+| GATE 3 — Git Commit | Never Auto | N/A — always manual |
+| Deploy | Always Ask | N/A — always requires human |
+| Destructive DB Ops | Always Ask | N/A — always requires human |
+
+### Configuration Format (for agents/PLAN.md)
+
+```yaml
+auto-continue:
+  checkpoint_interval: 5     # turns between checkpoints
+  idle_warning: 60           # seconds before warning
+  idle_stall: 120            # seconds before stall detection
+  idle_pause: 300            # seconds before auto-pause
+  gates:
+    plan_approval: always_ask
+    themis_review: auto_approve_if_clean
+    git_commit: never_auto
+    deploy: always_ask
+    destructive_ops: always_ask
+```
+
+### Idle Detection
+
+| Condition | Action |
+|-----------|--------|
+| No tool call for 60s | Log warning heartbeat (status: warning) |
+| No tool call for 120s | Trigger anti-stall protocol |
+| No tool call for 300s | Auto-save checkpoint and pause session |
+| Resume | User must acknowledge and restart |
+
 ---
 
 ## Scope

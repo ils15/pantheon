@@ -160,6 +160,15 @@ For external docs/specs, use `web/fetch` (see `internet-search` skill for patter
 - RFCs, official documentation, GitHub issues/PRs
 - Synthesize findings into plan recommendations
 
+## ⚡ Auto-Continue (Embedded: Planning)
+
+- Auto-continue through research → analysis → plan writing
+- Run bounded research (max 3 codebase searches or 5 min) then proceed to plan
+- STOP after PLAN.md is written — Gate 1 requires human approval
+- Never auto-implement after planning — handoff to Zeus
+- Do NOT re-plan without new information
+- Partial results NOT allowed — plan must be complete before presenting
+
 ## 🧠 MCP Capabilities
 
 Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.

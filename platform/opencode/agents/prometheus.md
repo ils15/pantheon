@@ -143,6 +143,14 @@ Document each chain in routing.yml under the agent's delegation entry.
 - One routing decision is better than perfect indecision — models change weekly
 - Document cost estimates with date stamps — "As of 2026-06, [provider] charges $X/1M tokens"
 
+## ⚡ Auto-Continue (Embedded: Deploy)
+
+- Auto-continue through Docker build → test → push pipeline
+- Checkpoint after build succeeds — run `pantheon-code-mode execute_code_script checkpoint_session.py save prometheus`
+- 🛑 STOP before deploy to production — always ask for human confirmation
+- If build fails, stop and diagnose — do not retry blindly
+- Partial results NOT allowed — must complete or fail
+
 ## 🧠 MCP Capabilities
 
 Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.

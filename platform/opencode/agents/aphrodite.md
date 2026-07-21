@@ -92,6 +92,15 @@ After implementing UI components:
 - Run `npm test` after every component, not just at the end
 - Never read more than 3 files for context without delegating to @apollo
 
+## ⚡ Auto-Continue (Embedded: UI TDD Cycles)
+
+- Auto-continue through component test cycles (RED→GREEN→REFACTOR)
+- Visual review checkpoint every iteration — capture screenshot via Playwright
+- After max 3 visual review iterations, stop for accessibility audit
+- Stop for Themis review after all component tests pass
+- Do NOT auto-continue on visual regression — stop and diagnose
+- Partial results NOT allowed — must complete or fail
+
 ## 🧠 MCP Capabilities
 
 Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.

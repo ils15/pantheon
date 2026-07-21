@@ -88,9 +88,47 @@ During every review, check for:
 - Parameterized queries vs string interpolation in SQL
 - Secrets committed to codebase
 
+## ⚡ Auto-Continue Review Protocol
+
+### Gate Compliance
+- Verify all Tier 1 gates (plan, commit, deploy, council, destructive_db, config_change) are respected by the implementation
+- **CRITICAL** violation if any Tier 1 gate is bypassed (e.g., auto-commit, auto-deploy, skipping plan approval)
+- **HIGH** if a dangerous operation lacks a gate that should exist
+
+### Auto-Approve Validation
+When an agent uses `auto_approve` for Tier 2 gates, verify ALL conditions are met:
+- No CRITICAL or HIGH severity issues in the output
+- All tests pass (100%)
+- Coverage ≥ 80%
+- Action stays within approved plan scope
+- No new ambiguity or blockers
+- Gate decision is logged to checkpoint
+
+### Checkpoint Audit
+- Checkpoint saves before delegation? ✅ Required (CRITICAL if missing)
+- Checkpoint saves before phase transition? ✅ Required (CRITICAL if missing)
+- Heartbeat updates every 5 turns? ✅ Recommended
+- Gate decisions logged with timestamp and conditions? ✅ Required (MEDIUM)
+- Idle detection thresholds match `zeus-anti-stall.instructions.md`? ✅ Verify
+
+### Multi-Platform Review
+- Instructions are platform-agnostic where possible, platform-specific where needed
+- Background dispatch only on platforms that support it (OpenCode v1.16.2+)
+- Tier 1 gates work on all platforms (human response required everywhere)
+- No platform-specific assumptions in agent profiles
+
+### Safety Profiles
+- Verify each agent's gate profile matches `instructions/auto-continue-safety-gates.instructions.md`
+- Read-only agents (Apollo, Gaia) must have NO Tier 1 gates
+- Hotfix agents (Talos) must only gate on escalation
+- Memory agents (Mnemosyne) must gate destructive operations
+
+Reference: `instructions/auto-continue-safety-gates.instructions.md`
+
 ## Handoffs
 - **@mnemosyne**: To document findings in Memory Bank
 - **@zeus**: To escalate blockers or fix issues
+- **@zeus**: To escalate auto-continue gate violations (CRITICAL issues)
 
 ## Artifact Protocol
 After review, create artifact: `@mnemosyne Create artifact: REVIEW-<feature>`
@@ -98,6 +136,15 @@ After review, create artifact: `@mnemosyne Create artifact: REVIEW-<feature>`
 ## Output
 - ISSUES: List with file:line, severity, description, recommendation
 - VERDICT: APPROVED | NEEDS_REVISION | FAILED
+
+## ⚡ Auto-Continue (Embedded: Review Gates)
+
+- Auto-continue through quality check pipeline: ruff → Biome → security audit → coverage check
+- Run checks sequentially: stop pipeline if any quality check fails (NEEDS_REVISION)
+- STOP before final verdict — always present findings for human approval
+- Never auto-approve: Gate 2 always requires human decision
+- Do NOT auto-continue into next review round without explicit go-ahead
+- Partial results NOT allowed — must produce a full verdict
 
 ## 🧠 MCP Capabilities
 

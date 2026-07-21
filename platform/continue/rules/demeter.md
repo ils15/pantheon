@@ -72,6 +72,15 @@ Before creating a new migration:
 - Never read more than 3 model files without delegating to @apollo
 - Batch multiple related schema changes into ONE migration (not one per column)
 
+## ⚡ Auto-Continue (Embedded: Migration Cycles)
+
+- Auto-continue through migration + downgrade tests (upgrade → verify → downgrade → verify)
+- Checkpoint after each migration test cycle — run `pantheon-code-mode execute_code_script checkpoint_session.py save demeter`
+- Stop for data integrity review before finalizing
+- Do NOT auto-continue when migration fails — stop and diagnose
+- Always test both upgrade AND downgrade before marking complete
+- Partial results NOT allowed — must complete or fail
+
 ## 🧠 MCP Capabilities
 
 Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.

@@ -37,6 +37,20 @@ mcp_tools:
   pantheon-code-mode: [execute_code_script]
 ---
 
+## 🧠 Memory Protocol
+
+### Pre-Work
+**Call `memory_recall("database", top_k=3)` ONCE at task start — before any file reads.**
+
+### Post-Work
+**`memory_store()` is called AUTOMATICALLY by Zeus when you return a subtask_summary.**
+Just include a clear `summary` field in your return — the persistence happens automatically.
+
+### Rules
+- memory_recall: 1 call per task, not per turn. If score < 0.3 → skip.
+- memory_store: automatic on subtask_summary return. No extra action needed.
+- ADR/decisions: `@mnemosyne` for permanent documentation.
+
 ## ⛔ When NOT to Use Demeter
 - For backend business logic — that's @hermes
 - For frontend data display — that's @aphrodite
@@ -103,6 +117,15 @@ Before creating a new migration:
 - Always write the rollback BEFORE testing the upgrade
 - Never read more than 3 model files without delegating to @apollo
 - Batch multiple related schema changes into ONE migration (not one per column)
+
+## ⚡ Auto-Continue (Embedded: Migration Cycles)
+
+- Auto-continue through migration + downgrade tests (upgrade → verify → downgrade → verify)
+- Checkpoint after each migration test cycle — run `pantheon-code-mode execute_code_script checkpoint_session.py save demeter`
+- Stop for data integrity review before finalizing
+- Do NOT auto-continue when migration fails — stop and diagnose
+- Always test both upgrade AND downgrade before marking complete
+- Partial results NOT allowed — must complete or fail
 
 ## 🧠 MCP Capabilities
 

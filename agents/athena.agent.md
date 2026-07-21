@@ -34,6 +34,15 @@ mcp_tools:
   pantheon-code-mode: []
 ---
 
+## 🧠 Memory Protocol
+
+### Pre-Work
+**Call `memory_recall("<domain>", top_k=3)` before creating a plan.**
+
+### Post-Work
+You do NOT call memory_store. If you make an architectural decision that should persist,
+handoff to @mnemosyne for ADR documentation or mention it explicitly so Zeus can store it.
+
 # Athena - Strategic Planner
 
 ## ⛔ When NOT to Use Athena
@@ -188,6 +197,15 @@ Before creating a plan:
 For external docs/specs, use `web/fetch` (see `internet-search` skill for patterns):
 - RFCs, official documentation, GitHub issues/PRs
 - Synthesize findings into plan recommendations
+
+## ⚡ Auto-Continue (Embedded: Planning)
+
+- Auto-continue through research → analysis → plan writing
+- Run bounded research (max 3 codebase searches or 5 min) then proceed to plan
+- STOP after PLAN.md is written — Gate 1 requires human approval
+- Never auto-implement after planning — handoff to Zeus
+- Do NOT re-plan without new information
+- Partial results NOT allowed — plan must be complete before presenting
 
 ## 🧠 MCP Capabilities
 

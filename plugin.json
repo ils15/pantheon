@@ -1,9 +1,9 @@
 {
   "name": "pantheon",
   "publisher": "ils15",
-  "version": "3.18.0",
-  "displayName": "Pantheon v3.8.4",
-  "description": "Conductor-Delegate orchestration platform with 14 specialized agents, 37 skills, and multi-platform support (VS Code, OpenCode, Claude Code, Cursor, Windsurf)",
+  "version": "3.19.0",
+  "displayName": "Pantheon v3.19.0",
+  "description": "Conductor-Delegate orchestration platform with 14 specialized agents, 45 skills, and multi-platform support (VS Code, OpenCode, Claude Code, Cursor, Windsurf)",
   "agents": "./agents",
   "skills": "./skills",
   "instructions": "./instructions",

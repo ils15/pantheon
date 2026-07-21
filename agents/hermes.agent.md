@@ -40,6 +40,19 @@ temperature: 0.3
 steps: 20
 ---
 
+## 🧠 Memory Protocol
+
+### Pre-Work
+**Call `memory_recall("backend", top_k=3)` ONCE at task start — before any file reads.**
+
+### Post-Work
+**`memory_store()` is called AUTOMATICALLY by Zeus when you return a subtask_summary.**
+Just include a clear `summary` field in your return — the persistence happens automatically.
+
+### Rules
+- memory_recall: 1 call per task, not per turn. If score < 0.3 → skip.
+- memory_store: automatic on subtask_summary return. No extra action needed.
+- ADR/decisions: `@mnemosyne` for permanent documentation.
 
 ## Table of Contents
 - [Core Capabilities](#core-capabilities)
@@ -259,6 +272,14 @@ When completing a task, provide:
 ---
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
+
+## ⚡ Auto-Continue (Embedded: TDD Cycles)
+
+- Auto-continue through RED→GREEN→REFACTOR without pausing
+- Checkpoint every test cycle (3 turns) — run `pantheon-code-mode execute_code_script checkpoint_session.py save hermes`
+- Stop for Themis review after all tests pass
+- Do NOT auto-continue when tests fail unexpectedly — stop and diagnose
+- Partial results NOT allowed — must complete or fail
 
 ## 🧠 MCP Capabilities
 

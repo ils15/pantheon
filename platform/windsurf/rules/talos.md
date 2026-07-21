@@ -36,6 +36,14 @@ Escalate to @zeus if:
 - Return subtask_summary format
 - If complexity exceeds threshold, escalate immediately
 
+## ⚡ Auto-Continue (Embedded: Hotfix)
+
+- Auto-continue through quick fix cycles (identify → fix → verify)
+- No checkpoint needed (single-file fixes, low complexity)
+- Escalate to Zeus if fix takes > 3 turns or requires > 2 files / > 10 lines
+- If fix breaks existing tests, stop immediately and escalate
+- No partial results — either fix is applied or escalate
+
 ## 🧠 MCP Capabilities
 
 Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.

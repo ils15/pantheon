@@ -2,7 +2,7 @@
   "name": "pantheon",
   "metadata": {
     "description": "Multi-agent orchestration platform with Conductor-Delegate pattern, TDD enforcement, and multi-platform support (VS Code, OpenCode, Claude Code).",
-    "version": "3.4.0"
+    "version": "3.19.0"
   },
   "owner": {
     "name": "ils15",
@@ -12,28 +12,50 @@
     {
       "name": "pantheon",
       "source": "./",
-      "description": "Complete multi-agent orchestration system featuring Zeus (orchestrator), Athena (planner), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Demeter (database), Prometheus (infra), Iris (GitHub), Themis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing). 24 on-demand skills for TDD, security, API design, database migration, Docker, and more.",
-      "version": "3.4.0",
+      "description": "Complete multi-agent orchestration system featuring Zeus (orchestrator), Athena (planner), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Demeter (database), Prometheus (infra), Iris (GitHub), Themis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing), Nyx (observability), Hephaestus (AI pipelines). 45 on-demand skills for TDD, security, API design, database migration, Docker, RAG, and more.",
+      "version": "3.19.0",
       "agents": [
         "./agents"
       ],
       "skills": [
         "./skills/agent-coordination",
+        "./skills/agent-evaluation",
+        "./skills/agent-observability",
         "./skills/api-design-patterns",
         "./skills/artifact-management",
+        "./skills/auto-continue",
+        "./skills/cache-strategy",
         "./skills/code-review-checklist",
+        "./skills/codemap",
+        "./skills/context-compression",
+        "./skills/conversational-ai-design",
         "./skills/database-migration",
         "./skills/database-optimization",
         "./skills/docker-best-practices",
         "./skills/fastapi-async-patterns",
         "./skills/frontend-analyzer",
+        "./skills/handoff",
+        "./skills/init-deep",
         "./skills/internet-search",
+        "./skills/interview",
+        "./skills/mcp-security",
+        "./skills/mcp-server-development",
+        "./skills/memory-bank",
+        "./skills/metis-gap-analysis",
+        "./skills/multi-model-routing",
         "./skills/nextjs-seo-optimization",
+        "./skills/orchestration-workflow",
         "./skills/prompt-improver",
+        "./skills/prompt-injection-security",
+        "./skills/quality-gate",
+        "./skills/rag-pipelines",
         "./skills/remote-sensing-analysis",
         "./skills/security-audit-pro",
+        "./skills/session-goal",
+        "./skills/simplify",
+        "./skills/task-system",
         "./skills/tdd-with-agents",
-        "./skills/simplify"
+        "./skills/test-architecture"
       ]
     }
   ]

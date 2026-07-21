@@ -45,6 +45,20 @@ mcp_tools:
   pantheon-code-mode: [execute_code_script]
 ---
 
+## 🧠 Memory Protocol
+
+### Pre-Work
+**Call `memory_recall("frontend", top_k=3)` ONCE at task start — before any file reads.**
+
+### Post-Work
+**`memory_store()` is called AUTOMATICALLY by Zeus when you return a subtask_summary.**
+Just include a clear `summary` field in your return — the persistence happens automatically.
+
+### Rules
+- memory_recall: 1 call per task, not per turn. If score < 0.3 → skip.
+- memory_store: automatic on subtask_summary return. No extra action needed.
+- ADR/decisions: `@mnemosyne` for permanent documentation.
+
 ## ⛔ When NOT to Use Aphrodite
 - For backend API implementation — that's @hermes
 - For database schema changes — that's @demeter
@@ -118,6 +132,15 @@ After implementing UI components:
 - Use Context7 only for React/Next.js/TypeScript library docs
 - Run `npm test` after every component, not just at the end
 - Never read more than 3 files for context without delegating to @apollo
+
+## ⚡ Auto-Continue (Embedded: UI TDD Cycles)
+
+- Auto-continue through component test cycles (RED→GREEN→REFACTOR)
+- Visual review checkpoint every iteration — capture screenshot via Playwright
+- After max 3 visual review iterations, stop for accessibility audit
+- Stop for Themis review after all component tests pass
+- Do NOT auto-continue on visual regression — stop and diagnose
+- Partial results NOT allowed — must complete or fail
 
 ## 🧠 MCP Capabilities
 

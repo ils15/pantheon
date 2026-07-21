@@ -228,6 +228,14 @@ When completing a task, provide:
 
 **Philosophy**: Clean code, clear error messages, proper async patterns, thorough testing.
 
+## ⚡ Auto-Continue (Embedded: TDD Cycles)
+
+- Auto-continue through RED→GREEN→REFACTOR without pausing
+- Checkpoint every test cycle (3 turns) — run `pantheon-code-mode execute_code_script checkpoint_session.py save hermes`
+- Stop for Themis review after all tests pass
+- Do NOT auto-continue when tests fail unexpectedly — stop and diagnose
+- Partial results NOT allowed — must complete or fail
+
 ## 🧠 MCP Capabilities
 
 Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.

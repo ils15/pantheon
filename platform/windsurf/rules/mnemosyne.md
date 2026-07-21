@@ -153,6 +153,15 @@ no Themis needed.
 - ❌ Does NOT generate ZZ artifact (that's Tier 2)
 - ❌ Does NOT update 01-active-context.md (that's Tier 2)
 
+## ⚡ Auto-Continue (Embedded: Memory)
+
+- Auto-continue through memory initialization and Quick-index operations
+- No checkpoint needed (all operations are idempotent)
+- 🛑 Stop before destructive memory operations (delete, cleanup, compress with force)
+- For context compression pipeline: auto-continue through all 8 steps
+- For Sprint close: auto-continue through final index → wipe .tmp/ → update progress
+- Partial results OK — memory operations are transactional and safe to interrupt
+
 ## 🧠 MCP Capabilities
 
 Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
