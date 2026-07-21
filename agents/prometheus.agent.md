@@ -26,7 +26,6 @@ temperature: 0.2
 steps: 20
 skills:
 - docker-best-practices
-- multi-model-routing
 - agent-observability
 - context-compression
 mcp_tools:

@@ -19,8 +19,11 @@ from typing import Any
 import yaml
 from mcp.server.fastmcp import FastMCP
 
-# ── Project Root ──────────────────────────────────────────────────────────────
-RESOURCE_BASE_DIR: Path = Path(__file__).resolve().parent.parent
+from _pantheon_paths import pantheon_home, pantheon_project
+
+# ── Path Resolution ──────────────────────────────────────────────────────────
+_PANTHEON_HOME: Path = pantheon_home()
+_PANTHEON_PROJECT: Path | None = pantheon_project()
 
 # ── FastMCP App ───────────────────────────────────────────────────────────────
 mcp = FastMCP(
@@ -64,7 +67,7 @@ def _get_role_from_frontmatter(frontmatter: dict[str, Any]) -> str:
 )
 async def list_agents() -> str:
     """Return a markdown list of all agents with their roles."""
-    agents_dir = RESOURCE_BASE_DIR / "agents"
+    agents_dir = _PANTHEON_HOME / "agents"
     if not agents_dir.is_dir():
         return "Agents directory not found."
 
@@ -85,7 +88,7 @@ async def list_agents() -> str:
 )
 async def list_skills() -> str:
     """Return a markdown list of all skills with descriptions."""
-    skills_dir = RESOURCE_BASE_DIR / "skills"
+    skills_dir = _PANTHEON_HOME / "skills"
     if not skills_dir.is_dir():
         return "Skills directory not found."
 
@@ -108,7 +111,7 @@ async def list_skills() -> str:
 )
 async def get_routing() -> str:
     """Return the full content of routing.yml."""
-    routing_file = RESOURCE_BASE_DIR / "routing.yml"
+    routing_file = _PANTHEON_HOME / "routing.yml"
     if not routing_file.exists():
         return "routing.yml not found."
     return routing_file.read_text(encoding="utf-8")
@@ -123,7 +126,7 @@ async def get_routing() -> str:
 )
 async def get_agent(agent_name: str) -> str:
     """Return the full content of an agent file, case-insensitively."""
-    agents_dir = RESOURCE_BASE_DIR / "agents"
+    agents_dir = _PANTHEON_HOME / "agents"
     name_lower = agent_name.lower()
     for f in agents_dir.iterdir():
         if f.suffix == ".md" and f.stem.lower() == name_lower:
@@ -137,7 +140,9 @@ async def get_agent(agent_name: str) -> str:
 )
 async def get_deepwork_plan(slug: str) -> str:
     """Return PLAN.md content for a deepwork slug."""
-    plan_file = RESOURCE_BASE_DIR / ".pantheon" / "deepwork" / slug / "PLAN.md"
+    if _PANTHEON_PROJECT is None:
+        return f"Deepwork '{slug}' not found. (PANTHEON_PROJECT not set)"
+    plan_file = _PANTHEON_PROJECT / ".pantheon" / "deepwork" / slug / "PLAN.md"
     if not plan_file.exists():
         return f"Deepwork '{slug}' not found."
     return plan_file.read_text(encoding="utf-8")
@@ -150,7 +155,9 @@ async def get_deepwork_plan(slug: str) -> str:
 )
 async def get_deepwork_status(slug: str) -> str:
     """Return STATUS.md content for a deepwork slug, or a default message."""
-    status_file = RESOURCE_BASE_DIR / ".pantheon" / "deepwork" / slug / "STATUS.md"
+    if _PANTHEON_PROJECT is None:
+        return "STATUS.md not found. (PANTHEON_PROJECT not set)"
+    status_file = _PANTHEON_PROJECT / ".pantheon" / "deepwork" / slug / "STATUS.md"
     if not status_file.exists():
         return "STATUS.md not found. Current state: IN PROGRESS"
     return status_file.read_text(encoding="utf-8")
@@ -162,7 +169,7 @@ async def get_deepwork_status(slug: str) -> str:
 )
 async def get_skill(name: str) -> str:
     """Return SKILL.md content for a skill directory."""
-    skill_file = RESOURCE_BASE_DIR / "skills" / name / "SKILL.md"
+    skill_file = _PANTHEON_HOME / "skills" / name / "SKILL.md"
     if not skill_file.exists():
         return f"Skill '{name}' not found."
     return skill_file.read_text(encoding="utf-8")
@@ -180,8 +187,10 @@ async def get_memory_bank(path: str) -> str:
     Security: resolves absolute path and verifies it stays within
     .pantheon/memory-bank/ to prevent directory traversal attacks.
     """
-    resolved = (RESOURCE_BASE_DIR / ".pantheon" / "memory-bank" / path).resolve()
-    mb_dir = (RESOURCE_BASE_DIR / ".pantheon" / "memory-bank").resolve()
+    if _PANTHEON_PROJECT is None:
+        return "Memory bank not available. (PANTHEON_PROJECT not set)"
+    resolved = (_PANTHEON_PROJECT / ".pantheon" / "memory-bank" / path).resolve()
+    mb_dir = (_PANTHEON_PROJECT / ".pantheon" / "memory-bank").resolve()
 
     if not str(resolved).startswith(str(mb_dir)):
         return "Path traversal blocked: access denied."

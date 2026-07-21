@@ -35,10 +35,14 @@ from chromadb import PersistentClient
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from mcp.server.fastmcp import FastMCP
 
+from _pantheon_paths import pantheon_home
+
+_PANTHEON_HOME: Path = pantheon_home()
+
 # Canonical secret scrubber — single source of truth (scripts/scrub-secrets.py).
 # scripts/scrub-secrets.py has a hyphen in its filename, so it cannot be
 # imported by a normal `import` statement. Load it explicitly via importlib.
-_scrub_secrets_path = Path(__file__).resolve().parent / "scrub-secrets.py"
+_scrub_secrets_path = _PANTHEON_HOME / "scripts" / "scrub-secrets.py"
 _scrub_spec = importlib.util.spec_from_file_location(
     "scrub_secrets", _scrub_secrets_path
 )
@@ -48,7 +52,7 @@ scrub = scrub_secrets_mod.scrub
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 
-MEMORY_DIR: Path = Path.home() / ".pantheon" / "memory"
+MEMORY_DIR: Path = _PANTHEON_HOME / "memory"
 COLLECTION_NAME: str = "pantheon_memory"
 DEFAULT_N_RESULTS: int = 5
 DEFAULT_IMPORTANCE: float = 0.5
@@ -1037,7 +1041,7 @@ async def memory_export(
 
     Args:
         session_id: Optional session ID to scope export.
-        filename: Optional filename to write under ~/.pantheon/exports/.
+        filename: Optional filename to write under $PANTHEON_HOME/exports/.
 
     Returns:
         Markdown string content.
@@ -1085,7 +1089,7 @@ async def memory_export(
 
     if filename:
         try:
-            exports_dir = os.path.expanduser("~/.pantheon/exports")
+            exports_dir = str(_PANTHEON_HOME / "exports")
             out = os.path.join(exports_dir, filename)
             out = os.path.realpath(out)
             if not out.startswith(os.path.realpath(exports_dir) + os.sep):

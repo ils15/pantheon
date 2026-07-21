@@ -789,9 +789,9 @@ When `01-active-context.md` exceeds 100 lines:
 ---
 
 **References:**
-- `instructions/artifact-protocol.instructions.md` — artifact lifecycle
+- `skill: artifact-management` — artifact lifecycle
 - `instructions/agent-return-format.instructions.md` — subtask_summary format
-- `instructions/memory-bank-standards.instructions.md` — memory bank structure
+- `skill: memory-bank` — memory bank structure
 - `skills/wisdom-accumulation/SKILL.md` — learning extraction
 - `skills/memory-bank/SKILL.md` — memory bank maintenance
 - `instructions/backend-standards.instructions.md` — zeus scoring reference

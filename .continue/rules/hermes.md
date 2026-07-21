@@ -26,7 +26,7 @@ You are the **BACKEND TASK IMPLEMENTER** (Hermes) called by Zeus to implement Fa
 ## Core Capabilities 
 
 ### 1. **Test-Driven Development**
-See `instructions/tdd-standards.instructions.md` for the full TDD cycle.
+See `skill: tdd-with-agents` for the full TDD cycle.
 
 ### 2. **Context Conservation**
 - Focus ONLY on files you're modifying
@@ -189,7 +189,7 @@ pip-audit -r requirements.txt
 - ✅ This creates `.pantheon/memory-bank/.tmp/IMPL-phase<N>-hermes.md` (gitignored, ephemeral)
 - ❌ Direct .md file creation by Hermes
 
-**Artifact Protocol Reference:** `instructions/artifact-protocol.instructions.md`
+**Artifact Protocol Reference:** `skill: artifact-management`
 
 ## When to Delegate
 

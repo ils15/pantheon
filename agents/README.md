@@ -43,7 +43,7 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 | Demeter | Implementation | Database | Apollo, Themis | database-migration, database-optimization, cache-strategy, simplify |
 | Themis | Quality & Observability | Security & review gate | Mnemosyne, Zeus | code-review-checklist, security-audit-pro, tdd-with-agents, mcp-security |
 | Nyx | Quality & Observability | Tracing & cost tracking | Apollo, Zeus | agent-observability, agent-evaluation |
-| Prometheus | Infrastructure & Release | Docker + model provider hub | Apollo, Themis | docker-best-practices, multi-model-routing, agent-observability |
+| Prometheus | Infrastructure & Release | Docker + model provider hub | Apollo, Themis | docker-best-practices, agent-observability |
 | Iris | Infrastructure & Release | GitHub Ops | Mnemosyne, Zeus | artifact-management |
 | Mnemosyne | Infrastructure & Release | Memory bank & ADRs | (none) | codemap, artifact-management, handoff, task-system |
 | Talos | Express & Specialist | Rapid direct fixes | Zeus | simplify |
@@ -157,11 +157,11 @@ Agents declare abstract **tiers** (`fast`/`default`/`premium`) instead of concre
 - **Model:** default
 - **Description:** Infrastructure + model provider specialist — Docker multi-stage builds, docker-compose orchestration, Traefik proxy, CI/CD workflows, health checks, multi-model routing, cost optimization, provider abstraction. Merged Chiron's model provider hub capabilities.
 - **Delegates to:** Apollo (nested for pattern discovery), Themis (infrastructure validation)
-- **Skills:** docker-best-practices, multi-model-routing, agent-observability
+- **Skills:** docker-best-practices, agent-observability
 - **Tools:** agent, askQuestions, search, read, problems, edit, runInTerminal, createAndRunTask, getTerminalOutput
 - **Usage:** `@prometheus: Set up [infrastructure]`
 - **Key Responsibilities:** Multi-stage Dockerfiles, non-root user execution, HEALTHCHECK directives, named volumes, restart policies, resource limits, Traefik routing + SSL, zero-downtime deployment, .env.example templates, startup order with `depends_on` conditions, multi-model routing (cost/quality selection, provider fallbacks, rate limiting, failover)
-- **⚠️ Security Warning:** Provider API keys must be set via environment variables only — never hardcoded in config files or agent frontmatter. See `instructions/mcp-security.instructions.md`.
+- **⚠️ Security Warning:** Provider API keys must be set via environment variables only — never hardcoded in config files or agent frontmatter. See `skill: mcp-security`.
 
 ### Iris (GitHub Operations)
 

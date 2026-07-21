@@ -36,7 +36,7 @@ You are a database specialist. You design schemas, write migrations, and optimiz
 3. Plan migration: what changes, impact on existing data, rollback strategy
 
 ### Migration Development (TDD)
-See `instructions/tdd-standards.instructions.md` for the full TDD cycle.
+See `skill: tdd-with-agents` for the full TDD cycle.
 
 ### Post-Migration
 1. Run EXPLAIN on new queries to verify index usage

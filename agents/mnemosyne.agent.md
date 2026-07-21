@@ -24,6 +24,7 @@ skills:
 - handoff
 - task-system
 - context-compression
+- memory-bank
 mcp_tools:
   pantheon-resources: all
   pantheon-memory:
@@ -46,11 +47,9 @@ mcp_tools:
 
 ## 🧠 Memory Protocol
 
-### Session-End Save
-When called via `session_end_save` handoff:
-1. Export entries from Vector DB with importance ≥ 0.4
-2. Write to `.pantheon/memory-bank/.tmp/session-save-{ts}.md`
-3. Update active deepwork STATUS.md if present
+### Session-End
+**Session persistence is automatic via Zeus Auto-Store protocol.**
+Mnemosyne is only called for permanent documentation (ADRs, TASK records).
 
 ### Sprint Close
 On `Close sprint`:

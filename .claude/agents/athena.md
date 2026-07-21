@@ -12,7 +12,12 @@ tools:
   search/listDirectory: true
   read/readFile: true
   web/fetch: true
-skills: codemap, init-deep, interview, metis-gap-analysis
+skills:
+  - codemap
+  - init-deep
+  - interview
+  - metis-gap-analysis
+  - plan-architecture
 permission:
   edit: deny
   bash: deny

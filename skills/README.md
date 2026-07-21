@@ -30,26 +30,21 @@ There are **37 skills** divided into **9 domains**.
 
 ### Domain 2: AI & Machine Learning
 
-6. **rag-pipelines** — `skills/rag-pipelines/SKILL.md`
+4. **rag-pipelines** — `skills/rag-pipelines/SKILL.md`
    - RAG architecture, chunking strategies, embedding models, vector store selection, retrieval optimization, context window management, hallucination mitigation, and evaluation frameworks (faithfulness, answer relevance).
    - Used by: Hephaestus
 
-7. **multi-model-routing** — `skills/multi-model-routing/SKILL.md`
-   - Model routing strategies (fallback, latency-based, cost-based, capability-based), provider abstraction layer, AWS Bedrock integration, local inference (Ollama, vLLM), cost attribution and tracking, rate limiting, and guardrails.
-   - Used by: Prometheus, Hephaestus
-
+5. **streaming-patterns** — `skills/streaming-patterns/SKILL.md`
    - Server-Sent Events (SSE), WebSocket connections, LLM token streaming, chunked transfer encoding, backpressure handling, reconnection strategies, and real-time update patterns for observability pipelines.
    - Used by: Nyx
 
-9. **agent-evaluation** — `skills/agent-evaluation/SKILL.md`
+6. **agent-evaluation** — `skills/agent-evaluation/SKILL.md`
    - Hallucination detection (factual consistency, faithfulness), output quality scoring (relevance, coherence, helpfulness), behavioral testing (edge cases, adversarial inputs), automated red-teaming, regression benchmarking, and human-in-the-loop evaluation workflows.
    - Used by: Hephaestus, Themis
 
-10. **prompt-injection-security** — `skills/prompt-injection-security/SKILL.md`
    - Prompt injection attack taxonomy (direct, indirect, jailbreaking, leakage), detection strategies (classifier-based, LLM-as-judge, pattern matching), input sanitization, output guardrails, content filters, rate limiting on LLM calls, and red-teaming methodologies.
    - Used by: Themis, Hephaestus
 
-11. **conversational-ai-design** — `skills/conversational-ai-design/SKILL.md`
     - NLU pipeline design (intent classification, entity extraction, slot filling), dialogue state management, Rasa framework integration, multi-turn conversation patterns, context windowing, fallback handling, and conversation testing strategies.
     - Used by: Hephaestus
 
@@ -206,10 +201,8 @@ The `SKILL.md` file contains YAML frontmatter with `name`, `description`, and pl
 | 7 | session-goal | Orchestration | Zeus, Athena |
 | 8 | task-system | Orchestration | Zeus, Athena |
 | 9 | rag-pipelines | AI & Machine Learning | Hephaestus |
-| 10 | multi-model-routing | AI & Machine Learning | Prometheus, Hephaestus |
+
 | 12 | agent-evaluation | AI & Machine Learning | Hephaestus, Themis |
-| 13 | prompt-injection-security | AI & Machine Learning | Themis, Hephaestus |
-| 14 | conversational-ai-design | AI & Machine Learning | Hephaestus |
 | 15 | fastapi-async-patterns | Backend Development | Hermes |
 | 16 | api-design-patterns | Backend Development | Hermes |
 | 17 | frontend-analyzer | Frontend Development | Aphrodite |

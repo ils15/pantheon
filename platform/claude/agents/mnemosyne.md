@@ -3,7 +3,12 @@ name: mnemosyne
 description: Memory bank quality owner — initializes .pantheon/memory-bank/, writes ADRs and task records on explicit request. Called by zeus. Never invoked automatically after phases.
 mode: primary
 tools: Agent, Grep, Read, Edit
-skills: artifact-management, handoff, task-system, context-compression
+skills:
+  - artifact-management
+  - handoff
+  - task-system
+  - context-compression
+  - memory-bank
 permission:
   bash: deny
   pantheon-resources_*: allow

@@ -100,12 +100,12 @@ When an agent uses `auto_approve` for Tier 2 gates, verify ALL conditions are me
 - No platform-specific assumptions in agent profiles
 
 ### Safety Profiles
-- Verify each agent's gate profile matches `instructions/auto-continue-safety-gates.instructions.md`
+- Verify each agent's gate profile matches `skill: auto-continue`
 - Read-only agents (Apollo, Gaia) must have NO Tier 1 gates
 - Hotfix agents (Talos) must only gate on escalation
 - Memory agents (Mnemosyne) must gate destructive operations
 
-Reference: `instructions/auto-continue-safety-gates.instructions.md`
+Reference: `skill: auto-continue`
 
 ## Handoffs
 - **@mnemosyne**: To document findings in Memory Bank

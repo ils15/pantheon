@@ -18,6 +18,20 @@ mcp_tools:
     - execute_code_script
 ---
 
+## 🧠 Memory Protocol
+
+### Pre-Work
+**Call `memory_recall("database", top_k=3)` ONCE at task start — before any file reads.**
+
+### Post-Work
+**`memory_store()` is called AUTOMATICALLY by Zeus when you return a subtask_summary.**
+Just include a clear `summary` field in your return — the persistence happens automatically.
+
+### Rules
+- memory_recall: 1 call per task, not per turn. If score < 0.3 → skip.
+- memory_store: automatic on subtask_summary return. No extra action needed.
+- ADR/decisions: `@mnemosyne` for permanent documentation.
+
 ## ⛔ When NOT to Use Demeter
 - For backend business logic — that's @hermes
 - For frontend data display — that's @aphrodite
@@ -47,7 +61,7 @@ You are a database specialist. You design schemas, write migrations, and optimiz
 3. Plan migration: what changes, impact on existing data, rollback strategy
 
 ### Migration Development (TDD)
-See `instructions/tdd-standards.instructions.md` for the full TDD cycle.
+See `skill: tdd-with-agents` for the full TDD cycle.
 
 ### Post-Migration
 1. Run EXPLAIN on new queries to verify index usage

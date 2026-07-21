@@ -246,7 +246,6 @@ agents:
       - apollo
     skills:
       - docker-best-practices
-      - multi-model-routing
       - agent-observability
 
   hephaestus:
@@ -933,7 +932,7 @@ platforms:
 # =============================================================================
 # ARTIFACT LIFECYCLE
 # Maps agent outputs to artifact types and persistence rules
-# Reference: instructions/artifact-protocol.instructions.md
+# Reference: skill: artifact-management
 # =============================================================================
 artifacts:
   plan:

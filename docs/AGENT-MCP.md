@@ -191,4 +191,4 @@ mcpServers:
 | ~~exa~~ | *Removed in v3.15.0* | Use `websearch` tool instead |
 | **playwright** | Medium | Runs headless Chromium. Permission: `ask` recommended |
 
-See `instructions/mcp-security.instructions.md` for complete MCP security rules.
+See `skill: mcp-security` for complete MCP security rules.

@@ -24,6 +24,7 @@ tools:
 temperature: 0.1
 steps: 15
 skills:
+ - plan-architecture
 - codemap
 - init-deep
 - interview

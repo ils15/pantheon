@@ -16,7 +16,7 @@ description: 'Documentation Standards — Where, what, and how to document in Pa
 
 These three systems are complementary. The Memory Bank is **yours** — you write it, it lives in git, and `copilot-instructions.md` points to it by path. The agent memory systems are automatic or ephemeral.
 
-For full details on Memory Bank structure, see `instructions/memory-bank-standards.instructions.md`.
+For full details on Memory Bank structure, see `skill: memory-bank`.
 
 ---
 

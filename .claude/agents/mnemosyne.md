@@ -8,7 +8,12 @@ tools:
   search/usages: true
   read/readFile: true
   edit/editFiles: true
-skills: artifact-management, handoff, task-system, context-compression
+skills:
+  - artifact-management
+  - handoff
+  - task-system
+  - context-compression
+  - memory-bank
 permission:
   bash: deny
 temperature: 0.1

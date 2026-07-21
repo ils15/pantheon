@@ -51,7 +51,7 @@ When ANY agent returns a subtask_summary:
 **Call `memory_recall("<feature>", top_k=3)` at session start before planning.**
 
 ### Session-End
-**Call `session_end_save` handoff to @mnemosyne** at session close.
+**Session-end persistence is automatic — Zeus calls memory_store on every subtask_summary return. No explicit handoff needed** at session close.
 
 ## 📑 Table of Contents
 - [CRITICAL RULE](#zeus---main-conductor)
@@ -186,7 +186,7 @@ Stop and wait for explicit user approval at each gate using `agent/askQuestions`
 6. Delegate with clear spec
 
 ### Search Delegation
-Route all search to @apollo (primary). @athena may self-search for planning, @hephaestus for provider research. Implementation agents never self-search. See `instructions/mcp-security.instructions.md` for credential safety.
+Route all search to @apollo (primary). @athena may self-search for planning, @hephaestus for provider research. Implementation agents never self-search. See `skill: mcp-security` for credential safety.
 
 ### Exploration Routing
 For any codebase exploration, default to @apollo. When you already know the exact file path, read it directly.
@@ -285,7 +285,7 @@ When Themis returns **APPROVED** on a phase review:
 3. Wait for the ZZ artifact to be written to `.pantheon/memory-bank/.tmp/ZZ-phase<N>-context.md`
 4. Inject the ZZ artifact into the next phase agent prompts
 
-**Reference:** `instructions/artifact-protocol.instructions.md:251-286` (12-step archive pipeline)
+**Reference:** `skill: artifact-management:251-286` (12-step archive pipeline)
 
 ## 🔍 Pre-Planning Recall
 Before planning a new feature or sprint:
@@ -327,12 +327,12 @@ Enable continuous execution only when the user **explicitly** requests "auto-con
 
 | Topic | File |
 |-------|------|
-| Artifact lifecycle | `instructions/artifact-protocol.instructions.md` |
+| Artifact lifecycle | `skill: artifact-management` |
 | Council synthesis | `instructions/zeus-council-synthesis.instructions.md` |
 | Timeout & retry | `instructions/zeus-timeout-retry.instructions.md` |
 | Stall detection | `instructions/zeus-anti-stall.instructions.md` |
 | Visual review | `instructions/visual-review-pipeline.instructions.md` |
-| Code review | `instructions/code-review-standards.instructions.md` |
+| Code review | `skill: code-review-checklist` |
 | Communication rules | `instructions/zeus-communication-rules.instructions.md` |
 | Documentation | `instructions/documentation-standards.instructions.md` |
 

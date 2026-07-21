@@ -4,6 +4,7 @@
  */
 
 import {
+	chmodSync,
 	existsSync,
 	mkdirSync,
 	readdirSync,
@@ -79,7 +80,7 @@ export function installOpenCode(
 	target,
 	dryRun,
 	clean = false,
-	components = ["agents", "skills", "instructions", "commands", "plugins"],
+	components = ["agents", "skills", "instructions", "commands", "plugins", "runtime"],
 ) {
 	const componentSet = new Set(components);
 	const stats = summary.opencode;
@@ -247,6 +248,67 @@ export function installOpenCode(
 	const tuiStatus = writeIfChanged(targetTuiConfigPath, tuiContent, dryRun);
 	if (tuiStatus === "created") stats.created++;
 	else stats.skipped++;
+
+	// -----------------------------------------------------------------------
+	// 2.10 Install runtime infrastructure (--components runtime)
+	//      MCP server scripts, code-mode scripts, tiers.json
+	// -----------------------------------------------------------------------
+	if (componentSet.has("runtime")) {
+		const runtimeTarget = isGlobal
+			? target
+			: join(target, ".opencode");
+
+		// ── MCP server scripts ──
+		const mcpScripts = [
+			"mcp_resources_server.py",
+			"code_mode_server.py",
+			"memory_mcp_server.py",
+			"scrub-secrets.py",
+			"_pantheon_paths.py",
+		];
+		const srcScriptsDir = join(ROOT, "scripts");
+		const dstScriptsDir = join(runtimeTarget, "scripts");
+		if (!dryRun) mkdirSync(dstScriptsDir, { recursive: true });
+		for (const script of mcpScripts) {
+			const src = join(srcScriptsDir, script);
+			if (!existsSync(src)) {
+				console.warn(`  ⚠️  Script not found: ${src}`);
+				stats.errors++;
+				continue;
+			}
+			const content = readFileSync(src, "utf8");
+			const dst = join(dstScriptsDir, script);
+			const status = writeIfChanged(dst, content, dryRun);
+			if (status === "created") {
+				stats.created++;
+				// Make executable
+				if (!dryRun) {
+					try {
+						chmodSync(dst, 0o755);
+					} catch { /* non-critical */ }
+				}
+			} else stats.skipped++;
+		}
+
+		// ── Code-mode scripts ──
+		const srcCodeModeDir = join(ROOT, ".pantheon", "code-mode");
+		const dstCodeModeDir = join(runtimeTarget, ".pantheon", "code-mode");
+		if (existsSync(srcCodeModeDir)) {
+			const cmResult = syncDir(srcCodeModeDir, dstCodeModeDir, dryRun, clean);
+			stats.created += cmResult.created;
+			stats.skipped += cmResult.skipped;
+		}
+
+		// ── tiers.json ──
+		const srcTiers = join(ROOT, ".pantheon", "tiers.json");
+		const dstTiers = join(runtimeTarget, ".pantheon", "tiers.json");
+		if (existsSync(srcTiers)) {
+			const content = readFileSync(srcTiers, "utf8");
+			const status = writeIfChanged(dstTiers, content, dryRun);
+			if (status === "created") stats.created++;
+			else stats.skipped++;
+		}
+	}
 
 	// -----------------------------------------------------------------------
 	// 3. Create/update opencode.json (always runs)
@@ -486,6 +548,58 @@ export function installOpenCode(
 	// Remove it from merged user config to avoid startup/config failures.
 	if (Object.hasOwn(config, "todoContinuation")) {
 		delete config.todoContinuation;
+	}
+
+	// --------------------------------------------------------------------
+	// F.5 MCP server entries (for runtime-deployed scripts)
+	// --------------------------------------------------------------------
+	if (componentSet.has("runtime")) {
+		config.mcp = config.mcp || {};
+		const runtimeTarget = isGlobal
+			? target
+			: join(target, ".opencode");
+		const pythonPath = process.platform === "win32" ? "python" : "python3";
+		const venvPython = join(runtimeTarget, ".venv", "bin", "python3");
+		const memoryPython = existsSync(venvPython) ? venvPython : pythonPath;
+
+		// Only add if not already configured by user
+		if (!config.mcp["pantheon-resources"]) {
+			config.mcp["pantheon-resources"] = {
+				type: "local",
+				cwd: runtimeTarget,
+				command: [pythonPath, "scripts/mcp_resources_server.py"],
+				enabled: true,
+			};
+		}
+		if (!config.mcp["pantheon-code-mode"]) {
+			config.mcp["pantheon-code-mode"] = {
+				type: "local",
+				cwd: runtimeTarget,
+				command: [pythonPath, "scripts/code_mode_server.py"],
+				enabled: true,
+			};
+		}
+		if (!config.mcp["pantheon-memory"]) {
+			config.mcp["pantheon-memory"] = {
+				type: "local",
+				cwd: runtimeTarget,
+				command: [memoryPython, "scripts/memory_mcp_server.py"],
+				enabled: true,
+			};
+		}
+
+		// Default MCP permissions
+		config.permission = config.permission || {};
+		config.permission.mcp = config.permission.mcp || {};
+		if (!config.permission.mcp["pantheon-resources"]) {
+			config.permission.mcp["pantheon-resources"] = "allow";
+		}
+		if (!config.permission.mcp["pantheon-code-mode"]) {
+			config.permission.mcp["pantheon-code-mode"] = "ask";
+		}
+		if (!config.permission.mcp["pantheon-memory"]) {
+			config.permission.mcp["pantheon-memory"] = "allow";
+		}
 	}
 
 	const configContent = `${JSON.stringify(config, null, 2)}\n`;

@@ -20,7 +20,7 @@ test -f skills/context-compression/SKILL.md || { echo "   ❌ SKILL.md not found
 test -f agents/mnemosyne.agent.md || { echo "   ❌ mnemosyne.agent.md not found"; errors=$((errors + 1)); }
 test -f agents/zeus.agent.md || { echo "   ❌ zeus.agent.md not found"; errors=$((errors + 1)); }
 test -f routing.yml || { echo "   ❌ routing.yml not found"; errors=$((errors + 1)); }
-test -f instructions/artifact-protocol.instructions.md || { echo "   ❌ artifact-protocol.instructions.md not found"; errors=$((errors + 1)); }
+test -f skills/artifact-management/SKILL.md || { echo "   ❌ artifact-protocol.instructions.md not found"; errors=$((errors + 1)); }
 test -f .pantheon/memory-bank/01-active-context.md || { echo "   ❌ active-context.md not found"; errors=$((errors + 1)); }
 test -d .pantheon/memory-bank/.tmp || mkdir -p .pantheon/memory-bank/.tmp
 
@@ -40,7 +40,7 @@ else
 fi
 
 # Verify ZZ artifact mention in artifact-protocol
-if grep -q "ZZ-phase" instructions/artifact-protocol.instructions.md; then
+if grep -q "ZZ-phase" skills/artifact-management/SKILL.md; then
     echo "   ✅ ZZ artifact format documented in artifact-protocol.instructions.md"
 else
     echo "   ❌ ZZ artifact format missing from artifact-protocol.instructions.md"

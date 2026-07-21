@@ -43,7 +43,7 @@ For details, see `docs/mcp-recommendations.md`.
 
 ## Conventions
 
-- TDD: RED → GREEN → REFACTOR cycle enforced. See `instructions/tdd-standards.instructions.md`.
+- TDD: RED → GREEN → REFACTOR cycle enforced. See `skill: tdd-with-agents`.
 - Coverage minimum: 80%
 - Async/await on all I/O
 - Type hints on all functions

@@ -331,7 +331,7 @@ Fallback: web/fetch → unstructured, may be stale
 
 ## Security Hardening
 
-See `instructions/mcp-security.instructions.md` for complete MCP security rules.
+See `skill: mcp-security` for complete MCP security rules.
 
 ### Constraint Types
 

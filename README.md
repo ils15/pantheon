@@ -457,9 +457,7 @@ on demand to perform specialized tasks. Skills are organized into domains:
 | **Orchestration** | agent-coordination, artifact-management, tdd-with-agents, auto-continue, session-goal, task-system, handoff, orchestration-workflow |
 | **Backend & API** | api-design-patterns, fastapi-async-patterns, database-migration, database-optimization |
 | **Frontend** | frontend-analyzer, nextjs-seo-optimization |
-| **AI Pipelines** | rag-pipelines, multi-model-routing, conversational-ai-design, mcp-server-development |
 | **Infrastructure** | docker-best-practices, streaming-patterns, cache-strategy |
-| **Security & Quality** | security-audit-pro, code-review-checklist, prompt-injection-security, mcp-security, quality-gate |
 | **Planning & Design** | plan-architecture, codemap, init-deep, interview, metis-gap-analysis |
 | **Memory & Context** | memory-bank, file-prompts, context-compression |
 | **Domain** | remote-sensing-analysis, internet-search |
@@ -650,16 +648,13 @@ pantheon/
 │   ├── frontend-analyzer/     * frontend
 │   ├── nextjs-seo-optimization/
 │   ├── rag-pipelines/         * AI pipelines
-│   ├── conversational-ai-design/
 │   ├── mcp-server-development/
-│   ├── multi-model-routing/
 │   ├── docker-best-practices/ * infrastructure
 │   ├── streaming-patterns/
 │   ├── cache-strategy/
 │   ├── security-audit-pro/    * security & quality
 │   ├── code-review-checklist/
 │   ├── mcp-security/
-│   ├── prompt-injection-security/
 │   ├── quality-gate/
 │   ├── memory-bank/           * memory & context
 │   ├── codemap/
@@ -682,17 +677,12 @@ pantheon/
 │
 ├── instructions/              — 17 domain coding standards
 │   ├── agent-return-format.instructions.md
-│   ├── artifact-protocol.instructions.md
 │   ├── backend-standards.instructions.md
 │   ├── code-quality-checks.instructions.md
-│   ├── code-review-standards.instructions.md
 │   ├── database-standards.instructions.md
 │   ├── documentation-standards.instructions.md
 │   ├── frontend-standards.instructions.md
 │   ├── infra-standards.instructions.md
-│   ├── memory-bank-standards.instructions.md
-│   ├── mcp-security.instructions.md
-│   ├── tdd-standards.instructions.md
 │   ├── visual-review-pipeline.instructions.md
 │   ├── zeus-anti-stall.instructions.md
 │   ├── zeus-communication-rules.instructions.md

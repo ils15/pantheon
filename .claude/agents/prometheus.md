@@ -14,7 +14,7 @@ tools:
   execute/testFailure: true
   execute/getTerminalOutput: true
   web/fetch: true
-skills: docker-best-practices, multi-model-routing, agent-observability
+skills: docker-best-practices, agent-observability
 permission:
   bash: allow
 temperature: 0.2

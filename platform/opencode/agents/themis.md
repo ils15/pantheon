@@ -24,6 +24,14 @@ mcp_tools:
     - execute_code_script
 ---
 
+## 🧠 Memory Protocol
+
+### Pre-Work
+**Call `memory_search("<topic>")` before starting investigation.**
+
+### Post-Work
+You do NOT call memory_store. Findings are persisted by Mnemosyne or Zeus.
+
 # Themis - Quality & Security Gate
 
 ## ⛔ When NOT to Use Themis
@@ -116,12 +124,12 @@ When an agent uses `auto_approve` for Tier 2 gates, verify ALL conditions are me
 - No platform-specific assumptions in agent profiles
 
 ### Safety Profiles
-- Verify each agent's gate profile matches `instructions/auto-continue-safety-gates.instructions.md`
+- Verify each agent's gate profile matches `skill: auto-continue`
 - Read-only agents (Apollo, Gaia) must have NO Tier 1 gates
 - Hotfix agents (Talos) must only gate on escalation
 - Memory agents (Mnemosyne) must gate destructive operations
 
-Reference: `instructions/auto-continue-safety-gates.instructions.md`
+Reference: `skill: auto-continue`
 
 ## Handoffs
 - **@mnemosyne**: To document findings in Memory Bank

@@ -9,4 +9,4 @@ globs: ["agents/*.agent.md"]
 
 Mandatory security measures for all MCP server usage in Pantheon agents.
 
-See `instructions/mcp-security.instructions.md` for the full rules.
+See `skill: mcp-security` for the full rules.

@@ -126,4 +126,4 @@ Each platform exposes MCP tools with different naming. The same tool `memory_rec
 - **pantheon-code-mode** — only `.sh`/`.py` in `.pantheon/code-mode/`, 30s timeout, no `../` escape
 - **pantheon-memory** — all data in `~/.pantheon/memory/chroma.sqlite3`, no system-level access
 
-See `instructions/mcp-security.instructions.md` for complete rules.
+See `skill: mcp-security` for complete rules.

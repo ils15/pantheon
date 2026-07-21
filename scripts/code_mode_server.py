@@ -23,11 +23,31 @@ from pathlib import Path
 
 from mcp.server.fastmcp import FastMCP
 
+from _pantheon_paths import pantheon_home, pantheon_project
+
 # ── Constants ─────────────────────────────────────────────────────────────────
 ALLOWED_EXTENSIONS: frozenset[str] = frozenset({".sh", ".py"})
 SCRIPT_TIMEOUT: int = 30
-RESOURCE_BASE_DIR: Path = Path(__file__).resolve().parent.parent
-SCRIPTS_DIR: Path = RESOURCE_BASE_DIR / ".pantheon" / "code-mode"
+
+# ── Scripts Directory Resolution ─────────────────────────────────────────────
+# Priority:
+# 1. $PANTHEON_HOME/.pantheon/code-mode/   (global install)
+# 2. $PANTHEON_PROJECT/.opencode/.pantheon/code-mode/  (project install)
+# 3. $PANTHEON_PROJECT/.pantheon/code-mode/            (legacy fallback)
+_PANTHEON_HOME: Path = pantheon_home()
+_SCRIPTS_DIR_CANDIDATES: list[Path] = [
+    _PANTHEON_HOME / ".pantheon" / "code-mode",
+]
+_proj = pantheon_project()
+if _proj is not None:
+    _SCRIPTS_DIR_CANDIDATES.append(_proj / ".opencode" / ".pantheon" / "code-mode")
+    _SCRIPTS_DIR_CANDIDATES.append(_proj / ".pantheon" / "code-mode")
+
+SCRIPTS_DIR: Path = _PANTHEON_HOME / ".pantheon" / "code-mode"  # default
+for _candidate in _SCRIPTS_DIR_CANDIDATES:
+    if _candidate.is_dir():
+        SCRIPTS_DIR = _candidate
+        break
 
 # ── FastMCP App ───────────────────────────────────────────────────────────────
 mcp = FastMCP(

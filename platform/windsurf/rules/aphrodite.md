@@ -37,7 +37,7 @@ You are a frontend implementation specialist. You BUILD UI. You do NOT design ar
 3. Plan component tree and data flow before writing code
 
 ### Implementation (TDD)
-See `instructions/tdd-standards.instructions.md` for the full TDD cycle.
+See `skill: tdd-with-agents` for the full TDD cycle.
 
 ### Post-Implementation
 1. Self-review via Playwright screenshots (max 3 iterations)

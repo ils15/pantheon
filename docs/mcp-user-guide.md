@@ -201,4 +201,4 @@ mcp_tools:
 ## Reference
 
 - [MCP Tool Registry](mcp-tools.md) — Canonical reference of built-in Pantheon MCP tools
-- [MCP Security](instructions/mcp-security.instructions.md) — Security hardening rules
+- [MCP Security](skill: mcp-security) — Security hardening rules

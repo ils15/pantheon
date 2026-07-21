@@ -3,7 +3,12 @@ name: athena
 description: Strategic planner & architect — research-first, plan-only, never implements. Plans include quality gates (ruff/Biome, dep detection, LTS policy). Calls apollo for discovery.
 mode: primary
 tools: Agent, AskUserQuestion, Grep, Glob, Read, WebFetch
-skills: codemap, init-deep, interview, metis-gap-analysis
+skills:
+  - codemap
+  - init-deep
+  - interview
+  - metis-gap-analysis
+  - plan-architecture
 permission:
   edit: deny
   bash: deny
