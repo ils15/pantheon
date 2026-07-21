@@ -79,6 +79,7 @@ agents:
       - auto-continue
       - internet-search
       - orchestration-workflow
+      - wisdom-accumulation
 
   athena:
     role: "Strategic planner & architect — TDD-driven plans, research-first approach"
@@ -98,10 +99,11 @@ agents:
     subagent_can_delegate_to:
       - apollo
     skills:
-      - interview
       - codemap
-      - metis-gap-analysis
       - init-deep
+      - interview
+      - metis-gap-analysis
+      - plan-architecture
 
   apollo:
     role: "Read-only investigation scout — parallel searches across codebase, docs, GitHub"
@@ -145,10 +147,12 @@ agents:
       - cache-strategy
       - database-optimization
       - fastapi-async-patterns
+      - file-prompts
       - quality-gate
       - simplify
-      - tdd-with-agents
+      - streaming-patterns
       - test-architecture
+      - tdd-with-agents
 
   aphrodite:
     role: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design"
@@ -288,8 +292,9 @@ agents:
     subagent_can_delegate_to:
       - apollo
     skills:
-      - agent-observability
       - agent-evaluation
+      - agent-observability
+      - token-audit
 
   gaia:
     role: "Remote sensing — satellite imagery, spectral analysis, SAR, change detection, LULC"
