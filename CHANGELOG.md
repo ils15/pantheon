@@ -7,38 +7,60 @@ All notable changes to this project will be documented in this file.
 ## [3.19.0] - 2026-07-21
 
 ### Added
-- Memory Persistence Protocol — agents now have mandatory `memory_recall()` pre-work and `memory_store()` post-work
-- Session-end auto-save script (`.pantheon/code-mode/session-end-save.py`) — exports Vector DB entries with importance ≥0.4 at session close
-- ADR-006: Memory Persistence Protocol decision documented
-- `session_end_save` handoff in routing.yml for Mnemosyne
+- Memory Persistence Protocol (ADR-006) — agents now have mandatory `memory_recall()` pre-work (top_k=3, skip if score<0.3) and `memory_store()` post-work (2 lines max, importance 0.4-0.9)
+- Session-end auto-save script (`.pantheon/code-mode/session-end-save.py`) — exports Vector DB entries with importance ≥0.4 at session close (ChromaDB direct read + client-side filtering)
+- `session_end_save` handoff in routing.yml for Mnemosyne session close trigger
 - `tools.agent: true` for Apollo, Talos, and Gaia canonical agent files
+- Recall Conflict Protocol (ADR-006 v1.1) — 5 rules for when recalled memory conflicts with current action (log, prefer freshness, escalate ADRs, score threshold, audit trail)
+- New skills synced: `file-prompts`, `plan-architecture`, `streaming-patterns`, `token-audit`, `wisdom-accumulation`
 
 ### Changed
 - All 14 agent files updated with `## 🧠 Memory Protocol` section (both canonical `/agents/` and OpenCode `.config/opencode/agents/`)
 - Zeus now auto-stores `memory_store()` directly on agent return — no Mnemosyne middleman
 - Steps optimization in opencode.json: zeus(25→35), aphrodite(25→30), hermes(20→25), themis(20→25), demeter(20→25), mnemosyne(10→8), iris(15→10), nyx(15→12), athena(15→12)
-- README.md badges updated to v3.19.0
-- `plugin.json` displayName and skills count updated
-- `.github/plugin/plugin.json` skills list updated
-- `.github/plugin/marketplace.json` version bumped
+- README.md badges updated to v3.19.0, skills count 43→40
+- 9 duplicate instructions deleted — now only skills on-demand (tdd-standards, code-quality-checks, code-review-standards, database-standards, artifact-protocol, mcp-security, memory-bank-standards, infra-standards, auto-continue-safety-gates)
+- Always-loaded instructions: 19→10 files (~5.7K→~3K tokens/session, -47%)
+- Agent platform copies updated across 6 platforms (Claude, Cursor, Windsurf, Continue, Cline — .clinerules)
+- `routing.yml` artifact paths: `docs/memory-bank/`→`.pantheon/memory-bank/`
+- 5 orphan skills linked to agents: wisdom-accumulation→zeus, plan-architecture→athena, file-prompts+streaming-patterns→hermes, token-audit→nyx
+- `prompts/orchestrate-with-zeus`: fixed 3 instances of ATHENA→APHRODITE for frontend delegation
+- `prompts/focus.prompt.md`: stale `/memories/session/` path → `.pantheon/memory-bank/.tmp/`
+- `prompts/mirrords.prompt.md`: tool names updated to current API
+- `commands/pantheon-install.md`: stale doc ref and platform count fixed
+- `commands/pantheon-update.md`: example version bumped to 3.19.0
+- `pyproject.toml`: removed all backend/fastapi/alembic dependencies (no longer maintained)
+- `platform/forge.json`: version bumped to 3.19.0
 
 ### Fixed
+- 33 dangling `docs/memory-bank/` references fixed across platform configs (`.claude/`, `.cursor/`, `.windsurf/`, `.continue/`, `.clinerules/`, `.github/`, `memories/`, `platform/`, `template/`, `.opencode/skills/`, `.tests/`)
+- `.pantheon/memory-bank/.tmp/` added to `.gitignore`
 - `docs/RELEASING.md` version reference — v3.8.4 → v3.19.0
 - `docs/UPGRADING.md` — removed obsolete Agora migration guide, added v3.19 Memory Protocol section
 - `docs/mcp-recommendations.md` — removed Exa MCP references (removed in v3.15.0)
 - `docs/platforms/opencode.md` — removed stale "agora" references
 - `docs/AGENT-MCP.md` — removed Exa reference
 - CHANGELOG duplicate v3.9.0 entries removed
-- README memory-bank tree path: `docs/memory-bank/` → `.pantheon/memory-bank/`
-- Skill count reconciled across all docs (actual: ~45)
+- `template/CLAUDE.md` — `agora`→`zeus` for council dispatch
+- `.github/instructions/auto-continue-safety-gates`: "Agora Council"→"Council"
+- `.tests/test-all.sh`: removed stale chiron.agent.md test
+- Skills count reconciled across all docs: 40
+- `docs/INDEX.md` skills count: 45→40
 
 ### Removed
+- `alembic/` — stale DB scaffolding (never completed)
+- `backend/` — stale FastAPI database engine (half-finished)
+- `docs/memory-bank/` — stale duplicate (should have been purged in v3.17.0)
 - `docs/TUTORIAL-PLUGIN-PT.md` — Portuguese tutorial for disabled plugin
-- `docs/memory-bank/` stale duplicate (was supposed to be purged in v3.17.0)
+- `plugins-disabled/` — stale pantheon-tui-plugin
+- `release_notes.md` — lowercase, redundant with CHANGELOG
+- 4 obsolete skills: `conversational-ai-design`, `multi-model-routing`, `prompt-improver`, `prompt-injection-security`
+- `__pycache__` and `.mypy_cache` build artifacts
 
 ### Documentation
-- Full documentation audit and cleanup across all doc files
-
+- Full documentation audit: 10+ doc files cleaned, versions reconciled, stale content purged
+- Memory Persistence Protocol documented as ADR-006
+- `.config/opencode/` fully synced from canonical Pantheon (14 agents + 10 instructions)
 
 ## [v3.18.0] - 2026-07-15
 
