@@ -4,7 +4,7 @@
 - Config: JSON (opencode.json)
 - CI/CD: GitHub Actions
 - Skills: SKILL.md on-demand loading
-- Memory: /memories/repo/ (facts) + docs/memory-bank/ (narrative)
+- Memory: /memories/repo/ (facts) + .pantheon/memory-bank/ (narrative)
 - Platforms: VS Code, OpenCode, Claude Code, Cursor, Windsurf, Continue.dev, Cline
 - Sync: npm run sync -- <platform> --clean
 - Commands: commands/ (canonical source, synced to all platforms)

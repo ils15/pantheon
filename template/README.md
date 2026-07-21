@@ -14,7 +14,7 @@ When you create a repo from this template:
 | **18 shared skills** | ✅ `skills/` | Add your own |
 | **9 instruction files** | ✅ `instructions/` | Edit to match your stack |
 | **6 prompt templates** | ✅ `prompts/` | Add workflow prompts |
-| **Memory bank** | ✅ `docs/memory-bank/` | Fill in for your project |
+| **Memory bank** | ✅ `.pantheon/memory-bank/` | Fill in for your project |
 | **CI/CD workflows** | ✅ `.github/workflows/` | Modify as needed |
 | **Plugin manifest** | ✅ `plugin.json` | Update version |
 
@@ -40,8 +40,8 @@ cd <your-project>
 ## Customization Checklist
 
 - [ ] Edit `.github/copilot-instructions.md` with your stack
-- [ ] Fill `docs/memory-bank/00-project.md` with project scope
-- [ ] Fill `docs/memory-bank/00-project.md` with tech details
+- [ ] Fill `.pantheon/memory-bank/00-project.md` with project scope
+- [ ] Fill `.pantheon/memory-bank/00-project.md` with tech details
 - [ ] Add project-specific skills to `skills/`
 - [ ] Update `package.json` with your project name
 - [ ] Commit and push — all agents + workflows are ready

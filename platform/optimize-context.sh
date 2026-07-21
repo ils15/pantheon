@@ -208,7 +208,7 @@ for f in "${ON_DEMAND[@]}"; do
 done
 
 # Check for missing memory bank structure
-if [ ! -f "$REPO/docs/memory-bank/00-project.md" ] && [ ! -f "$REPO/docs/memory-bank/00-overview.md" ]; then
+if [ ! -f "$REPO/.pantheon/memory-bank/00-project.md" ] && [ ! -f "$REPO/.pantheon/memory-bank/00-overview.md" ]; then
   echo -e "  ${RED}✗${NC} No memory bank project file found"
   RED_FLAGS=$((RED_FLAGS + 1))
 fi

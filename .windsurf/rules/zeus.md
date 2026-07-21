@@ -113,7 +113,7 @@ The following subagent types are **PERMANENTLY FORBIDDEN** in Pantheon:
 **Two-tier memory strategy:**
 
 1. **Tier 1 — VS Code Native Memory** (`/memories/repo/`): Auto-loaded, zero token cost. Facts about stack, conventions, build commands are already in context.
-2. **Tier 2 — `docs/memory-bank/`**: Read `01-active-context.md` only when starting a sprint or needing current progress.
+2. **Tier 2 — `.pantheon/memory-bank/`**: Read `01-active-context.md` only when starting a sprint or needing current progress.
 
 Do NOT read the full memory bank before every task. If `01-active-context.md` is empty, proceed without reading further.
 

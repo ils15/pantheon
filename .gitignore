@@ -128,3 +128,6 @@ venv/
 # Pantheon local data
 .pantheon/
 
+
+# Session save artifacts
+.pantheon/memory-bank/.tmp/

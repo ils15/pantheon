@@ -1,5 +1,16 @@
 > Pantheon rule for Cline. This content is loaded as system prompt context.
 
+## 🧠 Memory Protocol
+
+### Auto-Store on Agent Return
+When ANY agent returns a subtask_summary, call `memory_store()` DIRETO com os campos do summary.
+
+### Pre-Work
+Call `memory_recall("<feature>", top_k=3)` at session start.
+
+### Session-End
+Run session-end-save at session close.
+
 
 ## 📑 Table of Contents
 - [CRITICAL RULE](#zeus---main-conductor)
@@ -107,7 +118,7 @@ The following subagent types are **PERMANENTLY FORBIDDEN** in Pantheon:
 **Two-tier memory strategy:**
 
 1. **Tier 1 — VS Code Native Memory** (`/memories/repo/`): Auto-loaded, zero token cost. Facts about stack, conventions, build commands are already in context.
-2. **Tier 2 — `docs/memory-bank/`**: Read `01-active-context.md` only when starting a sprint or needing current progress.
+2. **Tier 2 — `.pantheon/memory-bank/`**: Read `01-active-context.md` only when starting a sprint or needing current progress.
 
 Do NOT read the full memory bank before every task. If `01-active-context.md` is empty, proceed without reading further.
 

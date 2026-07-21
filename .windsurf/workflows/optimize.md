@@ -1,5 +1,5 @@
 ---
-description: "Scan for documentation bloat and optimize. Use --dry-run for audit-only report. Covers all .md and .json files with compression applied to docs/memory-bank/."
+description: "Scan for documentation bloat and optimize. Use --dry-run for audit-only report. Covers all .md and .json files with compression applied to .pantheon/memory-bank/."
 ---
 # /optimize — Documentation Optimization
 
@@ -12,7 +12,7 @@ description: "Scan for documentation bloat and optimize. Use --dry-run for audit
 
 **Scope:**
 - All `.md` and `.json` files scanned for bloat, redundancy, and size
-- Compression and consolidation applied to `docs/memory-bank/`
+- Compression and consolidation applied to `.pantheon/memory-bank/`
 - Reports token savings and optimization opportunities
 
 **Replaces:** `/token-audit` (use `/optimize --dry-run` for audit-only reports). The previous `/optimize` behavior (memory-bank compression) is now the default mode.
