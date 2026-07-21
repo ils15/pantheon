@@ -1,6 +1,6 @@
 # Pantheon Documentation Index
 
-> **A multi-agent orchestration framework** — 14 specialized agents, 7 platforms, 45 skills.
+> **A multi-agent orchestration framework** — 14 specialized agents, 7 platforms, 40 skills.
 
 ---
 

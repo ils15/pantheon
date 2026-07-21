@@ -5,7 +5,7 @@
 <h1 align="center">Pantheon</h1>
 
 <p align="center">
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.15.0-blue" alt="Version"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.19.0-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-14-purple" alt="Agents"></a>
@@ -28,7 +28,7 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 | Resource | Link |
 |----------|------|
 | 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 14 agents |
-| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 43 skills |
+| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 40 skills |
 | 🚀 **Installation Guide** | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
 | 🔌 **MCP Servers** | [docs/mcp-recommendations.md](docs/mcp-recommendations.md) — recommended MCP servers for each project type |
 | 🔌 **MCP Tool Registry** | [docs/mcp-tools.md](docs/mcp-tools.md) — canonical MCP tool reference |
@@ -417,9 +417,9 @@ graph TB
 
 ---
 
-## 🧠 Level 3 Vector Memory (v3.15.0)
+## 🧠 Level 3 Vector Memory (v3.19.0)
 
-Pantheon v3.15.0 introduces a persistent two-tier memory system with semantic retrieval:
+Pantheon v3.19.0 introduces a persistent two-tier memory system with semantic retrieval:
 
 ### Tier 1 — Auto-Indexed Memory (`/memories/repo/`)
 Agent memory is automatically indexed at zero token cost. Every agent writes atomic facts on discovery:
