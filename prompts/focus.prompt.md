@@ -17,7 +17,7 @@ tools: ['search']
 
 1. Confirm the goal is clear and actionable. If ambiguous, ask one clarifying question.
 2. Format the goal using the 4-component structure below.
-3. Write the pinned goal to `/memories/session/current-goal.md`.
+3. Write the pinned goal to `.pantheon/memory-bank/.tmp/current-goal.md`.
 4. Announce the pinned goal in chat and confirm readiness to proceed.
 
 ---

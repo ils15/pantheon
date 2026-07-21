@@ -129,7 +129,7 @@ Wait for: Code + tests with:
 - Coverage report (must be >80%)
 ```
 
-#### When to Delegate to Athena (Frontend)
+#### When to Delegate to Aphrodite (Frontend)
 ```
 Invoke: @aphrodite: Build [component/page] following TDD
 
@@ -453,7 +453,7 @@ See complete artifact: plans/[feature]/complete.md
 | Athena | Complex feature needs planning | Feature description | plans/[feature]/plan.md |
 | Apollo | Need to understand patterns | Topic + search scope | Structured findings |
 | Hermes | Backend endpoint needed | Test requirements + AP spec | Code + tests >80% coverage |
-| Athena | Frontend component needed | Test requirements + UI spec | Component + tests >80% coverage |
+| Aphrodite | Frontend component needed | Test requirements + UI spec | Component + tests >80% coverage |
 | Demeter | Database schema needed | Schema spec + queries | Schema + migrations >80% tested |
 | Themis | Auto (after each phase) | Code to review | APPROVED ✅ or BLOCKED ❌ |
 | Prometheus | Deployment changes needed | Architecture changes | Docker + compose files |

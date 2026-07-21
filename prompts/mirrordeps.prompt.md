@@ -2,7 +2,7 @@
 name: mirrordeps
 description: "Clone a dependency's source locally so agents can read its implementation directly instead of relying on docs or stale knowledge"
 agent: apollo
-tools: ['search', 'execute/runInTerminal', 'read/readFile']
+tools: ['search', 'bash', 'read']
 ---
 
 # Mirror Deps — Clone Dependency Source (Apollo)

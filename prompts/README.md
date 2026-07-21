@@ -10,10 +10,8 @@ Reusable prompt templates for common development workflows. Each prompt specifie
 | **implement-feature** | Zeus | End-to-end feature implementation with TDD and quality gates |
 | **plan-architecture** | Athena | Strategic architecture planning with research and TDD-driven plan |
 | **debug-issue** | Apollo | Rapid debugging with parallel file discovery and analysis |
-| **audit** | Themis | Comprehensive code review with security audit and coverage analysis |
 | **optimize-database** | Demeter | Database schema, query, and performance optimization |
 | **focus** | Zeus | Pin a session goal to keep all work aligned with a single objective |
-| **pantheon** | Athena | Multi-perspective trade-off analysis — agora of specialists synthesizes one recommendation |
 | **sketch** | Athena | Interview a rough idea into a structured feature spec (3–5 questions) |
 | **subtask** | Zeus | Delegate a bounded child task to a specialist and receive a structured result |
 | **mirrordeps** | Apollo | Clone a dependency's source locally so agents can read its implementation directly |
