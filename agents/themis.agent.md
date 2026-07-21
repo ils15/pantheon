@@ -16,7 +16,7 @@ permission:
     dep-audit *: allow
   "pantheon-resources_*": allow
   "pantheon-memory_*": allow
-  "pantheon-code-mode_*": ask
+  "pantheon-persistence_*": allow
 
 tools:
   agent: true
@@ -49,11 +49,10 @@ mcp_tools:
 
 ## 🧠 Memory Protocol
 
-### Pre-Work
-**Call `memory_search("<topic>")` before starting investigation.**
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Post-Work
-You do NOT call memory_store. Findings are persisted by Mnemosyne or Zeus.
+### Override
+- `memory_search("<topic>")` before review — read-only, no store
 
 # Themis - Quality & Security Gate
 

@@ -5,11 +5,11 @@
 <h1 align="center">Pantheon</h1>
 
 <p align="center">
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.19.0-blue" alt="Version"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.19.3-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-14-purple" alt="Agents"></a>
-   <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-43-orange" alt="Skills"></a>
+   <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-44-orange" alt="Skills"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf|cline|continue-8250DF" alt="Built with"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/ci.yml?branch=main&label=CI" alt="CI"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/release.yml?branch=main&label=release" alt="Release"></a>
@@ -28,7 +28,7 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 | Resource | Link |
 |----------|------|
 | 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 14 agents |
-| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 40 skills |
+| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 44 skills |
 | 🚀 **Installation Guide** | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
 | 🔌 **MCP Servers** | [docs/mcp-recommendations.md](docs/mcp-recommendations.md) — recommended MCP servers for each project type |
 | 🔌 **MCP Tool Registry** | [docs/mcp-tools.md](docs/mcp-tools.md) — canonical MCP tool reference |
@@ -205,27 +205,23 @@ Pantheon runs on 7 platforms. Here is how each supports the framework's key feat
 # 1. Clone the repo
 git clone https://github.com/ils15/pantheon.git
 cd pantheon
-
-# 2. Install with MCP tier (pick one)
 npm install
-/pantheon-install --tier essential      # 3 native MCPs + context7 + filesystem
-/pantheon-install --tier recommended    # + git + exa + playwright + memory
-/pantheon-install --tier full           # + sentry + slack + docker + notion + linear + postgresql + cloudflare
 
-# Or install via sync script for your platform
-./sync-platform.sh copilot --global     # VS Code (global)
-./sync-platform.sh opencode             # OpenCode
-./sync-platform.sh claude               # Claude Code
-./sync-platform.sh cursor               # Cursor
+# 2. Install Pantheon (choose your mode)
+npm run install:lite        # agents + skills + instructions only (no MCP, no deps)
+npm run install:full        # everything: agents + skills + MCP servers + venv
+npm run install:runtime     # just MCP infrastructure (if agents already installed)
 
 # 3. Open your editor and test
-# VS Code: type @zeus in Copilot Chat
-# OpenCode: press Tab to cycle agents
-# Claude Code: type @zeus
-# Cursor: type @zeus in Agent mode
+# OpenCode: @zeus in chat
+# Claude Code: @zeus
+# Cursor: @zeus in Agent mode
+# VS Code: @zeus in Copilot Chat
+# Cline: @zeus
+# Windsurf: @zeus in Cascade
 ```
 
-> **VS Code users:** `--tier` auto-generates `.vscode/mcp.json` with the selected MCP server set. For global installation (persists across projects), run `./sync-platform.sh copilot --global`.
+> **Lite vs Full:** `install:lite` is fast (~5s) and installs only the agent files. `install:full` also creates a Python venv and installs MCP servers (includes `pantheon-memory` for vector search and `pantheon-persistence` for KV cache). Choose lite if you just want the agents without MCP infrastructure.
 
 ---
 
@@ -417,9 +413,9 @@ graph TB
 
 ---
 
-## 🧠 Level 3 Vector Memory (v3.19.0)
+## 🧠 Level 3 Vector Memory (v3.19.3)
 
-Pantheon v3.19.0 introduces a persistent two-tier memory system with semantic retrieval:
+Pantheon v3.19.3 introduces a persistent two-tier memory system with semantic retrieval:
 
 ### Tier 1 — Auto-Indexed Memory (`/memories/repo/`)
 Agent memory is automatically indexed at zero token cost. Every agent writes atomic facts on discovery:
@@ -631,7 +627,7 @@ pantheon/
 │   ├── hephaestus.agent.md    — AI pipelines
 │   └── README.md
 │
-├── skills/                    — 43 cross-platform skill modules
+├── skills/                    — 44 cross-platform skill modules
 │   ├── README.md
 │   ├── agent-coordination/    * orchestration & coordination
 │   ├── artifact-management/
@@ -675,7 +671,7 @@ pantheon/
 │   ├── wisdom-accumulation/
 │   └── */SKILL.md
 │
-├── instructions/              — 17 domain coding standards
+├── instructions/              — 10 domain coding standards
 │   ├── agent-return-format.instructions.md
 │   ├── backend-standards.instructions.md
 │   ├── code-quality-checks.instructions.md
@@ -683,7 +679,6 @@ pantheon/
 │   ├── documentation-standards.instructions.md
 │   ├── frontend-standards.instructions.md
 │   ├── infra-standards.instructions.md
-│   ├── visual-review-pipeline.instructions.md
 │   ├── zeus-anti-stall.instructions.md
 │   ├── zeus-communication-rules.instructions.md
 │   ├── zeus-council-synthesis.instructions.md

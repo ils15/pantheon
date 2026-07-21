@@ -17,6 +17,12 @@
       "args": ["scripts/memory_mcp_server.py"],
       "disabled": false,
       "autoApprove": ["memory_store", "memory_search", "memory_recall"]
+    },
+    "pantheon-persistence": {
+      "command": ".venv/bin/python3",
+      "args": ["scripts/mcp_persistence_server.py"],
+      "disabled": false,
+      "autoApprove": []
     }
   }
 }

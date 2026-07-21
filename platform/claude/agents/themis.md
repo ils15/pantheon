@@ -5,6 +5,9 @@ mode: primary
 tools: Agent, AskUserQuestion, Grep, Read, Bash, Edit
 skills: code-review-checklist, quality-gate, security-audit-pro, tdd-with-agents, mcp-security
 permission:
+"pantheon-memory_*": allow
+"pantheon-persistence_*": allow
+"pantheon-resources_*": allow
   edit: ask
   bash:
     pytest *: allow
@@ -155,6 +158,7 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
 | **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Search for existing code quality patterns and security concerns |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run ruff, biome, and security audit scripts |
+  "pantheon-persistence_*": allow
 
 Before reviewing, call `memory_search("<area>")` for existing review findings. After review, use `execute_code_script()` for automated quality checks. You do NOT store memory (read-only for memory).
 

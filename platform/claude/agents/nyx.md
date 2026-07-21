@@ -5,6 +5,8 @@ mode: subagent
 tools: Agent, AskUserQuestion, Grep, Read, Edit, Bash, WebFetch
 skills: agent-observability, agent-evaluation
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   edit: ask
   bash: allow
   pantheon-resources_*: allow

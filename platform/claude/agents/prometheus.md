@@ -5,6 +5,8 @@ mode: subagent
 tools: Agent, AskUserQuestion, Grep, Read, Edit, Bash, WebFetch
 skills: docker-best-practices, agent-observability, context-compression
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow

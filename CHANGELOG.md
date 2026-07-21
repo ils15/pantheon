@@ -4,6 +4,41 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [3.19.2] - 2026-07-21
+
+### Added
+- `_pantheon_paths.py` — shared path resolution (`PANTHEON_HOME`, `PANTHEON_PROJECT`)
+- `pantheon-persistence` MCP — KV store with SQLite FTS5, TTL, namespaces, 6 tools
+- `pantheon-memory` rewritten — sqlite-vec + fastembed (ONNX, ~50MB) replaces chromadb + torch (~1.4GB)
+- Hybrid semantic search: vector cosine + FTS5 BM25 via RRF fusion
+- `.pantheon/mcp-registry.yml` — canonical MCP registry + auto-propagation
+- Simplified installer: `install:lite` (agents only), `install:full` (everything), `install:runtime` (MCP infra)
+- `scripts/install/venv.mjs` — auto .venv creation + pip install of lightweight deps
+- `scripts/install/health-check.mjs` — 6 post-install validations
+- `scripts/install/migrate.mjs` — upgrade path v3.10 → v3.18 → v3.19.0 → v3.19.2
+- MCP servers patched for global install (no more `__file__.parent.parent`)
+
+### Changed
+- **Dependencies reduced from ~1.4GB to ~50MB** — removed chromadb, sentence-transformers, torch
+- `memory_mcp_server.py`: 1,344→584 lines, 14→6 tools (memory_store, memory_search, memory_recall, memory_forget, memory_list, memory_stats)
+- `routing.yml`: 1,102→482 lines (-56%), deleted 22 dead handoffs, routing_matrix
+- `internet-search` skill: 519→130 lines, tool-agnostic (context7/websearch/webfetch)
+- Memory Protocol: shared `instructions/memory-protocol.instructions.md`, 14 agents with 2-4 line overrides
+- Agent YAML frontmatter fixed across all 14 agents (broken `...` separators, skills indent)
+- All platform configs updated with persistence MCP entries
+- `opencode.json` generated with correct deploy paths (cwd = deploy target)
+
+### Fixed
+- 157 dangling instruction references across 6 platforms
+- YAML frontmatter in all 14 agents (broken by previous sed edits)
+- OpenCode platform detection (was missing `platform/opencode/opencode.json`)
+
+### Removed
+- chromadb + sentence-transformers + torch (~1.4GB dependency chain)
+- `scripts/requirements-mcp-memory.txt`
+- 9 duplicate instructions (now skills on-demand)
+- `multi-model-routing` from prometheus (deleted skill)
+
 ## [3.19.0] - 2026-07-21
 
 ### Added

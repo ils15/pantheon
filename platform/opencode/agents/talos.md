@@ -3,6 +3,8 @@ description: Hotfix express lane — direct fixes for small bugs, CSS, typos, mi
 mode: subagent
 reasoning_effort: low
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   bash:
     npx prettier *: allow
     git add *: allow

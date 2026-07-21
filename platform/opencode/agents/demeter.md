@@ -3,6 +3,8 @@ description: Database specialist — SQLAlchemy 2.0, Alembic, query optimization
 mode: subagent
 reasoning_effort: medium
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow

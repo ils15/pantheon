@@ -5,6 +5,9 @@ mode: subagent
 tools: Grep, Glob, Read, WebFetch
 skills: internet-search, codemap
 permission:
+"pantheon-memory_*": allow
+"pantheon-persistence_*": allow
+"pantheon-resources_*": allow
   edit: deny
   bash: deny
   pantheon-resources_*: allow
@@ -83,6 +86,7 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 
 ### Not Available
 - ⛔ `pantheon-code-mode` (bash=deny)
+  "pantheon-persistence_*": allow
 - ⛔ `memory_store` — read-only; findings indexed by Mnemosyne
 
 Before starting an investigation, call `memory_search("<topic>")` to avoid re-discovering known patterns. Read `pantheon://agents` to discover agent constraints. You are read-only — Mnemosyne handles memory persistence.

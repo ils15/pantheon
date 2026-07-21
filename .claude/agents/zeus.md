@@ -2,23 +2,30 @@
 name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena, apollo, hermes, aphrodite, demeter, prometheus, themis, iris, mnemosyne, talos, hephaestus, nyx"
 mode: primary
-tools:
-  agent: true
-  vscode/askQuestions: true
-  vscode/runCommand: true
-  execute/runInTerminal: true
-  read/readFile: true
-  search/codebase: true
-  search/usages: true
-  web/fetch: true
-skills: agent-coordination, artifact-management, auto-continue, context-compression, internet-search, orchestration-workflow, session-goal
+tools: Agent, AskUserQuestion, Bash, Read, Grep, WebFetch
+skills: agent-coordination, artifact-management, auto-continue, context-compression, internet-search, orchestration-workflow, session-goal, visual-review-pipeline
 permission:
+"pantheon-code-mode_*": ask
+"pantheon-memory_*": allow
+"pantheon-persistence_*": allow
+"pantheon-resources_*": allow
   edit: deny
   bash: allow
   task:
     "*": allow
+  pantheon-resources_*: allow
+  pantheon-memory_*: allow
+  pantheon-code-mode_*: ask
 temperature: 0.2
 steps: 25
+mcp_tools:
+  pantheon-resources: all
+  pantheon-memory:
+    - memory_recall
+    - memory_store
+    - memory_search
+  pantheon-code-mode:
+    - execute_code_script
 ---
 
 ## 📑 Table of Contents
@@ -249,7 +256,7 @@ Full reference: `instructions/zeus-communication-rules.instructions.md`
 
 When Themis returns **APPROVED** on a phase review:
 1. Run the `context-compression` skill (`skills/context-compression/SKILL.md`)
-2. Delegate `compress_context` to @mnemosyne via the handoff defined in `routing.yml:616-620`
+2. Delegate `compress_context` to @mnemosyne via the handoff defined in `routing.yml:387-392`
 3. Wait for the ZZ artifact to be written to `.pantheon/memory-bank/.tmp/ZZ-phase<N>-context.md`
 4. Inject the ZZ artifact into the next phase agent prompts
 
@@ -299,7 +306,7 @@ Enable continuous execution only when the user **explicitly** requests "auto-con
 | Council synthesis | `instructions/zeus-council-synthesis.instructions.md` |
 | Timeout & retry | `instructions/zeus-timeout-retry.instructions.md` |
 | Stall detection | `instructions/zeus-anti-stall.instructions.md` |
-| Visual review | `instructions/visual-review-pipeline.instructions.md` |
+| Visual review | `skill: visual-review-pipeline` |
 | Code review | `skill: code-review-checklist` |
 | Communication rules | `instructions/zeus-communication-rules.instructions.md` |
 | Documentation | `instructions/documentation-standards.instructions.md` |
@@ -353,6 +360,19 @@ Agent completes
 - Full compression (ZZ + memory bank) only on APPROVED — no change there
 - Vector Memory is the safety net; memory bank is the curated layer
 
+## 🧠 MCP Capabilities
+
+Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
+
+| Server | Tools | When to use |
+|--------|-------|-------------|
+| **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
+| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past decisions at session start, store orchestration results, search previous phases |
+| **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run sync-platforms, install, deploy, and orchestration scripts |
+  "pantheon-persistence_*": allow
+
+Use `memory_recall()` at session start with feature context. After each phase, `memory_store()` to persist state. Read `pantheon://routing` to verify delegation rules. Call `execute_code_script()` for automated orchestration sequences.
+
 ## 🗺️ Task Routing Reference
 
 This routing table is auto-generated from `routing.yml` — the canonical routing source.
@@ -397,7 +417,7 @@ This routing table is auto-generated from `routing.yml` — the canonical routin
 | @nyx | Observability & monitoring — OpenTelemetry, token/cost tracking, La... | fast | ✅ |
 | @gaia | Remote sensing — satellite imagery, spectral analysis, SAR, change ... | default | ✅ |
 | @iris | GitHub operations — branches, PRs, issues, releases, tags | fast | ✅ |
-| @mnemosyne | Memory bank — initializes .pantheon/memory-bank/, writes ADRs and task r... | fast | ✅ |
+| @mnemosyne | Memory bank — initializes .pantheon/memory-bank/, writes ADRs and t... | fast | ✅ |
 | @talos | Hotfix express lane — direct fixes for small bugs, CSS, typos. No TDD | fast | ✅ |
 
 *See `routing.yml` for full delegation rules and handoff definitions.*

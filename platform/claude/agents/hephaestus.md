@@ -5,6 +5,8 @@ mode: subagent
 tools: Agent, AskUserQuestion, Grep, Read, Edit, Bash, WebFetch
 skills: rag-pipelines, mcp-server-development, quality-gate, agent-evaluation, conversational-ai-design, prompt-improver, context-compression
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow

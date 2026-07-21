@@ -1,8 +1,8 @@
 {
   "$schema": "https://opencode.ai/forge.json",
   "name": "Pantheon Forge",
-  "description": "Model presets for Pantheon agent system — maps tiered models to 14 specialized agents across 4 tiers",
-  "version": "3.19.0",
+  "description": "Model presets for Pantheon agent system \u2014 maps tiered models to 14 specialized agents across 4 tiers",
+  "version": "3.19.3",
   "tiers": {
     "premium": {
       "description": "Deep reasoning agents: orchestration, strategic planning, review, synthesis",
@@ -24,7 +24,7 @@
       ]
     },
     "coding": {
-      "description": "Heavy coding agents: backend, frontend, database, infra, AI pipelines, hotfixes — benefit from fast, cheap coding models like DeepSeek V4 Flash",
+      "description": "Heavy coding agents: backend, frontend, database, infra, AI pipelines, hotfixes \u2014 benefit from fast, cheap coding models like DeepSeek V4 Flash",
       "agents": [
         "hermes",
         "aphrodite",
@@ -47,7 +47,7 @@
   },
   "presets": {
     "default": {
-      "description": "Account defaults — no models explicitly set. All agents use whatever your OpenCode plan provides. Zero configuration, safe fallback.",
+      "description": "Account defaults \u2014 no models explicitly set. All agents use whatever your OpenCode plan provides. Zero configuration, safe fallback.",
       "tiers": {
         "premium": {
           "model": null
@@ -66,7 +66,7 @@
       "provider_options": {}
     },
     "opencode-go": {
-      "description": "OpenCode Go — espelhando o preset opencode-go do oh-my-opencode-slim. GLM-5.1 (orquestrador), DeepSeek V4 Pro (raciocínio profundo), Kimi K2.6 (design), DeepSeek V4 Flash (implementação), MiniMax M2.7 (exploração).",
+      "description": "OpenCode Go \u2014 espelhando o preset opencode-go do oh-my-opencode-slim. GLM-5.1 (orquestrador), DeepSeek V4 Pro (racioc\u00ednio profundo), Kimi K2.6 (design), DeepSeek V4 Flash (implementa\u00e7\u00e3o), MiniMax M2.7 (explora\u00e7\u00e3o).",
       "tiers": {
         "premium": {
           "model": "opencode-go/deepseek-v4-pro"
@@ -155,7 +155,7 @@
       "provider_options": {}
     },
     "opencode-co": {
-      "description": "OpenCode Co curated mix — best-of-all-worlds from OpenCode Go. DeepSeek V4 Pro for deep reasoning, Kimi K2.6 for balanced and coding, MiniMax M2.7 for fast exploration tasks.",
+      "description": "OpenCode Co curated mix \u2014 best-of-all-worlds from OpenCode Go. DeepSeek V4 Pro for deep reasoning, Kimi K2.6 for balanced and coding, MiniMax M2.7 for fast exploration tasks.",
       "tiers": {
         "premium": {
           "model": "opencode-go/deepseek-v4-pro"
@@ -298,7 +298,7 @@
       }
     },
     "byok-best": {
-      "description": "Bring Your Own Key — best-in-class per tier using your own API keys. Claude Opus-4 (thinking) for deep reasoning, GPT-4o for balanced and coding, GPT-4o-mini for fast.",
+      "description": "Bring Your Own Key \u2014 best-in-class per tier using your own API keys. Claude Opus-4 (thinking) for deep reasoning, GPT-4o for balanced and coding, GPT-4o-mini for fast.",
       "tiers": {
         "premium": {
           "model": "anthropic/claude-opus-4-5",

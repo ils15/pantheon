@@ -14,6 +14,11 @@
       "type": "stdio",
       "command": ".venv/bin/python3",
       "args": ["scripts/memory_mcp_server.py"]
+    },
+    "pantheon-persistence": {
+      "type": "stdio",
+      "command": ".venv/bin/python3",
+      "args": ["scripts/mcp_persistence_server.py"]
     }
   }
 }

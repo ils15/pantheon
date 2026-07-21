@@ -34,7 +34,9 @@ export function getAgentNames() {
 export const AGENT_NAMES = getAgentNames();
 
 export const PLATFORM_DETECTORS = {
-	opencode: (target) => existsSync(join(target, "opencode.json")),
+	opencode: (target) =>
+		existsSync(join(target, "opencode.json")) ||
+		existsSync(join(target, "platform", "opencode", "opencode.json")),
 	claude: (target) =>
 		existsSync(join(target, ".claude")) ||
 		existsSync(join(target, "CLAUDE.md")),

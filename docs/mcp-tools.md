@@ -8,6 +8,8 @@ Canonical reference for Pantheon agents. Lists every tool across the 3 native MC
 
 ## Servers
 
+Pantheon provides 4 native MCP servers. See below for full tool registries.
+
 ### pantheon-resources (read-only)
 
 Read-only resource server. No tools — read resources directly via `pantheon://` URIs using `read_mcp_resource`.
@@ -66,6 +68,29 @@ memory_search(query="existing auth patterns", n_results=5)
 
 ---
 
+### pantheon-persistence (KV store + FTS5 search)
+
+Lightweight key-value store with SQLite FTS5, TTL-based expiration, and namespace isolation. Zero external dependencies (stdlib only).
+
+| Tool | Signature | Description | Who uses it |
+|------|-----------|-------------|-------------|
+| `kv_store` | `(namespace, key, value, ttl?, scope?)` | Store a key-value pair with optional TTL (seconds) | ALL agents — cache, session state |
+| `kv_get` | `(namespace, key, scope?)` | Retrieve a value by namespace + key (auto-filters expired) | ALL agents — read cached data |
+| `kv_delete` | `(namespace, key, scope?)` | Remove a key-value pair | zeus, talos — cleanup tasks |
+| `kv_list` | `(namespace, prefix?, scope?, limit?)` | List keys in a namespace with optional prefix filter | apollo, zeus — discovery |
+| `kv_search` | `(query, namespace?, scope?, limit?)` | FTS5 full-text search with BM25 ranking | mnemosyne, zeus — find across namespaces |
+| `purge_expired` | `(scope?, dry_run?)` | Purge expired TTL entries with deletelog audit trail | mnemosyne, zeus — maintenance |
+
+**Call pattern:**
+```
+kv_store(namespace="cache-apollo", key="api-response", value="...", ttl=3600)
+kv_get(namespace="cache-apollo", key="api-response")
+kv_search(query="auth token refresh")
+purge_expired(scope="project", dry_run=True)
+```
+
+---
+
 ### pantheon-code-mode (script execution)
 
 Confined automation scripts from `.pantheon/code-mode/`. One tool, 30s timeout, `.sh` and `.py` only.
@@ -117,6 +142,7 @@ Each platform exposes MCP tools with different naming. The same tool `memory_rec
 | pantheon-resources | `allow` | Read-only, same trust boundary as repo |
 | pantheon-code-mode | `ask` | Executes scripts — needs user confirmation |
 | pantheon-memory | `allow` | Read/write within agent sandbox, no system access |
+| pantheon-persistence | `allow` | SQLite KV, same trust boundary as repo |
 
 ---
 
@@ -125,5 +151,6 @@ Each platform exposes MCP tools with different naming. The same tool `memory_rec
 - **pantheon-resources** — path traversal protection on `memory-bank/{path}`
 - **pantheon-code-mode** — only `.sh`/`.py` in `.pantheon/code-mode/`, 30s timeout, no `../` escape
 - **pantheon-memory** — all data in `~/.pantheon/memory/chroma.sqlite3`, no system-level access
+- **pantheon-persistence** — SQLite KV in `~/.pantheon/persistence/`, TTL auto-purge, namespace isolation
 
 See `skill: mcp-security` for complete rules.

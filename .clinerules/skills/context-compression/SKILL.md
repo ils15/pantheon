@@ -39,6 +39,17 @@ Same 7 triggers as Level 1, with Level 2 behavior:
 | **C6 Explicit** | `/compress` | Per-type compression with priority scoring |
 | **C7 Size-based** | `01-active-context.md` Completed Phases > 100 lines | Priority-greedy trim: oldest LOW entries first, preserving CRITICAL and HIGH |
 
+### Inline Compression Triggers (C8-C11 — Active Session)
+
+These triggers fire DURING an active agent session. They call the Pantheon-native inline compressor (`compress-inline.py` MCP, "L1"). Scrubbing is automatic in the MCP layer — agents must NOT scrub manually.
+
+| Trigger | Fires | Layer | Action |
+|---------|-------|-------|--------|
+| **C8 CRITICAL/HIGH subtask_summary** | A returned `subtask_summary` contains CRITICAL/HIGH findings | L1 Inline | `execute_code_script("compress-inline.py", args=["compress", "--text", "<content>"])` before the next phase |
+| **C9 Pre-Delegation** | About to delegate a large context block to another agent | L1 Inline | Compress the block first to cut tokens |
+| **C10 Context Pressure** | Context near limit / platform compaction signal | — (cross-ref) | OpenCode native compaction already handles this. No separate Pantheon mechanism — see §12. |
+| **C11 Phase Boundary / Handoff** | Phase boundary or session handoff reached | L1 Inline | Compress completed work before promotion |
+
 ---
 
 ## 3. Priority Scoring Engine
@@ -285,7 +296,7 @@ Estimated_phases is the total number of phases planned for the current feature. 
    - HIGH entries: EXPANDED (2 lines) if budget allows, else STANDARD (1 line).
    - MEDIUM entries: STANDARD (1 line).
    - LOW entries: AGGRESSIVE (0.5 lines, filename only).
-4. If at any point CRITICAL entries would exceed TOTAL_BUDGET → **escalate to Zeus** (see Budget Guardrails, §17).
+4. If at any point CRITICAL entries would exceed TOTAL_BUDGET → **escalate to Zeus** (see Budget Guardrails, §18).
 
 ### Example
 
@@ -555,9 +566,65 @@ def atomic_write(path: str, content: str):
 
 ---
 
-## 12. Security Scrubbing (H1 mitigation)
+## 12. Inline Compression — Active Session Protocol
 
-Same as Level 1. Two-layer security scrubbing before any content is written.
+"Inline compression" (L1) is the Pantheon-native mechanism agents use DURING an active session to shrink working context. It is distinct from "L2" batch promotion — the file-based Memory Bank writes Mnemosyne performs at phase boundaries (see §9). These are NOT a mandatory 3-layer trigger model: agents invoke L1 only; L2 happens automatically at gates.
+
+### L1 — Inline Compression (the only agent-triggered step)
+Call the compressor via the MCP tool. Scrubbing is AUTOMATIC in the MCP layer — never scrub manually and never embed raw secrets beyond what the tool scrubs:
+
+```
+execute_code_script("compress-inline.py", args=["compress", "--text", "<content>"])
+```
+
+Modes: `score` (preview priority), `compress` (scrub + score + compress), `stats`, `batch` (multiple files).
+
+### L2 — Batch Promotion (automatic, not an agent trigger)
+At phase gates / handoffs, Mnemosyne promotes compressed entries into the file-based Memory Bank (`01-active-context.md`, etc.). Agents do NOT invoke L2 — it runs automatically. Inline compression (L1) and batch promotion (L2) are NOT a mandatory 3-layer trigger model.
+
+### Triggers (full table in §2)
+
+- **C8**: after a CRITICAL/HIGH `subtask_summary` → L1 compress before next phase.
+- **C9**: before delegating a large context block → L1 compress to cut tokens.
+- **C10**: context pressure → handled by OpenCode native compaction (cross-reference only; no Pantheon mechanism).
+- **C11**: phase boundary / handoff → L1 compress completed work.
+
+### Promotion Pipeline (context flow, not a trigger model)
+
+The Flow below shows how compressed context PROMOTES from live session → inline → batch. Agents run L1 only; L2 is automatic at gates:
+
+```
+Agent produces context (subtask_summary, large block, phase work)
+    │
+    ├─ [L1 INLINE] execute_code_script("compress-inline.py", args=["compress", "--text", "..."])
+    │     → scrubbed + scored + compressed output (MCP layer scrubs automatically)
+    │
+    └─ [L2 PROMOTE] At phase gate / handoff, Mnemosyne promotes compressed
+          entries into the file-based Memory Bank (01-active-context.md, etc.)
+          → batch promotion, NOT an agent trigger
+```
+
+### Safety Rules
+
+| Rule | Description |
+|------|-------------|
+| Scrubbing is automatic in the MCP layer | Never run a manual scrub; never embed raw secrets beyond what the tool scrubs |
+| `compress-inline.py` always scrubs before scoring | Built-in security — no agent action needed |
+| Inline compression (L1) is non-destructive to source files | Output is returned; originals untouched |
+
+### Agent Responsibilities
+
+**Implementation agents (Hermes, Aphrodite, Demeter, Hephaestus, Prometheus):**
+- After a CRITICAL/HIGH `subtask_summary` → trigger C8 (L1 compress)
+- Before delegating a large context block → trigger C9 (L1 compress)
+- At a phase boundary / handoff → trigger C11 (L1 compress)
+- Do NOT implement a separate context-pressure mechanism (C10 is OpenCode-native)
+
+---
+
+## 13. Security Scrubbing (H1 mitigation)
+
+Scrubbing is automatic — the `memory_store` MCP server applies Layer 2 regex scrub before persisting content. No manual steps required.
 
 ### Layer 1 — Structural (metadata only)
 
@@ -570,35 +637,25 @@ Only promote structured metadata. NEVER promote:
 
 Allowed fields: file paths, status, pass/fail verdicts, phase names, agent names, dates.
 
-### Layer 2 — Regex pattern scrub
+### Layer 2 — Regex pattern scrub (automatic via MCP layer)
 
-Run on any free-text summary before writing:
+**Source of truth:** `scripts/scrub-secrets.py` — the single canonical scrubber. Both `memory_mcp_server.py` and `compress-inline.py` load it via `importlib` (the filename has a hyphen and cannot be `import`ed normally). Do NOT maintain a separate inline pattern list.
+
+**Real signature:**
 
 ```python
-import re
-
-SECRET_PATTERNS = [
-    r'(?i)(api[_-]?key\s*[=:]\s*)\S+',
-    r'(?i)(token\s*[=:]\s*)\S+',
-    r'(?i)(secret\s*[=:]\s*)\S+',
-    r'(?i)(password\s*[=:]\s*)\S+',
-    r'(?i)(auth[_-]?token\s*[=:]\s*)\S+',
-    r'(?:-----BEGIN\s+(?:RSA\s+)?PRIVATE\s+KEY-----)',
-    r'(?:ghp_|gho_|github_pat_)[a-zA-Z0-9]{36,}',
-    r'(?:sk-[a-zA-Z0-9]{20,})',
-]
-
-def scrub(text: str) -> str:
-    for pattern in SECRET_PATTERNS:
-        text = re.sub(pattern, r'\1<REDACTED>', text)
-    return text
+def scrub(content: str) -> tuple[str, list[dict]]:
+    # returns (scrubbed_text, redactions)
+    # each redaction dict: {"type": str, "position": (start, end), "replacement": str}
 ```
 
-> **Note:** These patterns are illustrative. The canonical source is `scripts/scrub-secrets.py`.
+**Secret types covered** (see `scripts/scrub-secrets.py` for the actual patterns): SSH private key, private key, certificate, Bearer token, JWT, GitHub PAT (`ghp_`), OpenAI key (`sk-...`), generic `api_key`/`token`/`secret`/`password`, AWS access key (`AKIA`), Google API key (`AIza`), Slack token (`xox`), Heroku API key (UUID), PostgreSQL/MySQL/Redis connection strings, and `.env` export statements.
+
+> Scrubbing is AUTOMATIC in the MCP layer — `memory_store` and compress-inline both call `scrub()` before persistence. Agents never scrub manually.
 
 ---
 
-## 13. Concurrency (M1 mitigation)
+## 14. Concurrency (M1 mitigation)
 
 Same as Level 1. Zeus batches parallel phase completions into a single compression call. Lockfile safety net.
 
@@ -618,7 +675,7 @@ Each entry is independently scored and budget-allocated.
 
 ---
 
-## 14. Wisdom Bridge
+## 15. Wisdom Bridge
 
 Same as Level 1. Extraction BEFORE compression, non-blocking failures.
 
@@ -654,7 +711,7 @@ At feature merge or sprint close:
 
 ---
 
-## 15. Rollback (C2 — use git)
+## 16. Rollback (C2 — use git)
 
 Same as Level 1.
 
@@ -673,7 +730,7 @@ Pre-compression content is always available in git history.
 
 ---
 
-## 16. Idempotency
+## 17. Idempotency
 
 Updated for Level 2 with content hashing and cross-ref dedup.
 
@@ -702,7 +759,7 @@ When checking for duplicates, both the idempotency key AND the content hash must
 
 ---
 
-## 17. Budget Guardrails
+## 18. Budget Guardrails
 
 Prevent budget abuse and ensure CRITICAL entries are never lost.
 
@@ -779,6 +836,13 @@ When `01-active-context.md` exceeds 100 lines:
 │  Rollback: git log -p                                              │
 │  Idempotent: keyed by (date, phase, agent) + content hash          │
 │  Budget guardrails: CRITICAL floor, overflow flag, carryover       │
+│  Inline Compression (C8-C11 - Active Session, L1 = Pantheon-native): │
+│    C8: CRITICAL/HIGH subtask_summary → compress (L1)                │
+│    C9: pre-delegation large block → compress (L1)                   │
+│    C10: context pressure → OpenCode native compaction (x-ref only)   │
+│    C11: phase boundary / handoff → compress (L1)                    │
+│    L1 = compress-inline.py MCP | L2 = batch promotion (Mnemosyne)   │
+│    Scrubbing automatic in MCP layer — never scrub manually           │
 │                                                                    │
 │  Zeus: cognitive scoring + summarization + budget + cross-refs     │
 │  Mnemosyne: file I/O (write ZZ, active context, progress log,      │

@@ -11,9 +11,9 @@ Creates a new version: bumps version files, updates changelog, commits, tags, an
 
 ```
 /pantheon-update                          Auto-detect bump level (recommended)
-/pantheon-update --patch                  Force patch bump (3.19.0 → 3.17.2)
-/pantheon-update --minor                  Force minor bump (3.19.0 → 3.18.0)
-/pantheon-update --major                  Force major bump (3.19.0 → 4.0.0)
+/pantheon-update --patch                  Force patch bump (3.19.3 → 3.17.2)
+/pantheon-update --minor                  Force minor bump (3.19.3 → 3.18.0)
+/pantheon-update --major                  Force major bump (3.19.3 → 4.0.0)
 /pantheon-update --dry-run                Preview only
 ```
 

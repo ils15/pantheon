@@ -3,8 +3,12 @@ name: zeus
 description: "Central orchestrator — never implements. Delegates to: athena, apollo, hermes, aphrodite, demeter, prometheus, themis, iris, mnemosyne, talos, hephaestus, nyx"
 mode: primary
 tools: Agent, AskUserQuestion, Bash, Read, Grep, WebFetch
-skills: agent-coordination, artifact-management, auto-continue, context-compression, internet-search, orchestration-workflow, session-goal
+skills: agent-coordination, artifact-management, auto-continue, context-compression, internet-search, orchestration-workflow, session-goal, visual-review-pipeline
 permission:
+"pantheon-code-mode_*": ask
+"pantheon-memory_*": allow
+"pantheon-persistence_*": allow
+"pantheon-resources_*": allow
   edit: deny
   bash: allow
   task:
@@ -252,7 +256,7 @@ Full reference: `instructions/zeus-communication-rules.instructions.md`
 
 When Themis returns **APPROVED** on a phase review:
 1. Run the `context-compression` skill (`skills/context-compression/SKILL.md`)
-2. Delegate `compress_context` to @mnemosyne via the handoff defined in `routing.yml:616-620`
+2. Delegate `compress_context` to @mnemosyne via the handoff defined in `routing.yml:387-392`
 3. Wait for the ZZ artifact to be written to `.pantheon/memory-bank/.tmp/ZZ-phase<N>-context.md`
 4. Inject the ZZ artifact into the next phase agent prompts
 
@@ -302,7 +306,7 @@ Enable continuous execution only when the user **explicitly** requests "auto-con
 | Council synthesis | `instructions/zeus-council-synthesis.instructions.md` |
 | Timeout & retry | `instructions/zeus-timeout-retry.instructions.md` |
 | Stall detection | `instructions/zeus-anti-stall.instructions.md` |
-| Visual review | `instructions/visual-review-pipeline.instructions.md` |
+| Visual review | `skill: visual-review-pipeline` |
 | Code review | `skill: code-review-checklist` |
 | Communication rules | `instructions/zeus-communication-rules.instructions.md` |
 | Documentation | `instructions/documentation-standards.instructions.md` |
@@ -365,6 +369,7 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
 | **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past decisions at session start, store orchestration results, search previous phases |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run sync-platforms, install, deploy, and orchestration scripts |
+  "pantheon-persistence_*": allow
 
 Use `memory_recall()` at session start with feature context. After each phase, `memory_store()` to persist state. Read `pantheon://routing` to verify delegation rules. Call `execute_code_script()` for automated orchestration sequences.
 

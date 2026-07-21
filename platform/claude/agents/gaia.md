@@ -5,6 +5,8 @@ mode: subagent
 tools: Grep, Glob, Read, WebFetch, AskUserQuestion
 skills: remote-sensing-analysis, internet-search
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   edit: deny
   bash: deny
   pantheon-resources_*: allow

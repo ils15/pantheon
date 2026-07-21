@@ -10,6 +10,8 @@ skills:
   - metis-gap-analysis
   - plan-architecture
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   edit: deny
   bash: deny
   pantheon-resources_*: allow

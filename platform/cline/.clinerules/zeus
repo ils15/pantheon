@@ -279,7 +279,7 @@ Enable continuous execution only when the user **explicitly** requests "auto-con
 | Council synthesis | `instructions/zeus-council-synthesis.instructions.md` |
 | Timeout & retry | `instructions/zeus-timeout-retry.instructions.md` |
 | Stall detection | `instructions/zeus-anti-stall.instructions.md` |
-| Visual review | `instructions/visual-review-pipeline.instructions.md` |
+| Visual review | `skill: visual-review-pipeline` |
 | Code review | `skill: code-review-checklist` |
 | Communication rules | `instructions/zeus-communication-rules.instructions.md` |
 | Documentation | `instructions/documentation-standards.instructions.md` |

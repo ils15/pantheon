@@ -126,6 +126,12 @@ const CAPABILITY_TAXONOMY = {
 function loadRoutingYml() {
   const routingPath = join(ROOT, 'routing.yml');
   try {
+    // Sync MCP permissions from registry to agents
+    console.log("  → Syncing MCP permissions...");
+    const mcpResult = spawnSync("python3", ["scripts/sync-mcp-permissions.py", "--platforms"], { stdio: "inherit" });
+    if (mcpResult.status !== 0) {
+        console.log("  ⚠️ MCP permission sync had warnings");
+    }
     if (!existsSync(routingPath)) return null;
     const content = readFileSync(routingPath, 'utf8');
     return yaml.load(content);
@@ -836,6 +842,12 @@ for (const platform of platforms) {
 
   let adapter;
   try {
+    // Sync MCP permissions from registry to agents
+    console.log("  → Syncing MCP permissions...");
+    const mcpResult = spawnSync("python3", ["scripts/sync-mcp-permissions.py", "--platforms"], { stdio: "inherit" });
+    if (mcpResult.status !== 0) {
+        console.log("  ⚠️ MCP permission sync had warnings");
+    }
     adapter = JSON.parse(readFileSync(adapterPath, 'utf8'));
   } catch (err) {
     console.error(`❌ ${platform}: adapter.json parse error — ${err.message}`);

@@ -177,9 +177,8 @@ async def get_skill(name: str) -> str:
 
 @mcp.resource(
     "pantheon://memory-bank/{path}",
-    description="Content of a file within .pantheon/memory-bank/ by "
-    "relative path (path traversal blocked). "
-    "For nested paths use flat filename only (single segment).",
+    description="Content of a .pantheon/memory-bank/ file by relative path "
+    "(path traversal blocked).",
 )
 async def get_memory_bank(path: str) -> str:
     """Return content of a memory-bank file.

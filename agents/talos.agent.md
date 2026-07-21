@@ -18,7 +18,6 @@ permission:
     "git branch *": allow
   "pantheon-resources_*": allow
   "pantheon-memory_*": allow
-  "pantheon-code-mode_*": ask
 
 tools:
   agent: true
@@ -36,11 +35,10 @@ mcp_tools:
 
 ## 🧠 Memory Protocol
 
-### Pre-Work
-**Call `memory_recall("hotfix", top_k=3)` before starting work.**
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Post-Work
-You do NOT call memory_store. Results are persisted by Zeus via subtask_summary auto-store.
+### Override
+- `memory_recall("hotfix", top_k=3)` before fix — read-only, no store
 
 # Talos - Hotfix Express Lane
 

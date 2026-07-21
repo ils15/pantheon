@@ -3,6 +3,8 @@ description: AI tooling & pipelines specialist — LangChain/LangGraph chains, R
 mode: subagent
 reasoning_effort: medium
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow

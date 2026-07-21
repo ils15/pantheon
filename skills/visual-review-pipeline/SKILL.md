@@ -1,4 +1,6 @@
 ---
+name: visual-review-pipeline
+description: "Automated visual review pipeline — Playwright screenshots, self-analysis, fix loop, escalation. Used by Aphrodite for UI verification."
 applyTo: "agents/{aphrodite,zeus}.agent.md"
 ---
 
@@ -6,92 +8,59 @@ applyTo: "agents/{aphrodite,zeus}.agent.md"
 
 Automated visual review: Aphrodite captures screenshots via Playwright MCP → Self-analyzes for visual issues → Addresses findings in a loop.
 
----
-
 ## Overview
 
-This pipeline establishes a formal workflow for detecting and resolving visual regressions and design issues. It is a self-review architecture where Aphrodite captures, analyzes, and fixes in a single feedback loop:
-
-1. **Aphrodite** captures screenshots via Playwright MCP
-2. **Aphrodite** self-analyzes screenshots for visual issues (layout, contrast, responsive, accessibility)
-3. **Aphrodite** addresses findings
-4. **Zeus** escalates if issues persist after iterations
-
-The pipeline enforces structured JSON output, iteration limits, and escalation criteria to prevent infinite fix loops.
+This pipeline establishes a formal workflow for detecting and resolving visual regressions and design issues. It enforces structured JSON output, iteration limits, and escalation criteria to prevent infinite fix loops.
 
 ### Pipeline Flow
 
 ```
 Aphrodite implements UI
     ↓
-📸 Playwright screenshot (browser/screenshotPage)
+Playwright screenshot (browser/screenshotPage)
     ↓
-🧠 Aphrodite self-analyzes (layout, contrast, responsive, accessibility)
+Aphrodite self-analyzes (layout, contrast, responsive, accessibility)
     ↓
-┌─ verdict: pass → proceed to Themis review
-├─ verdict: fail + iteration < 3 → Aphrodite fix → re-capture
+├─ verdict: pass → proceed to Themis review
+├─ verdict: fail + iteration < 3 → fix → re-capture
 └─ verdict: fail + iteration = 3 → Zeus escalation
 ```
-
----
 
 ## Workflow Steps
 
 ### Step 1: Capture
-
-Aphrodite uses Playwright MCP to capture screenshots of the component or page under review.
-
-**Actions:**
+Aphrodite uses Playwright MCP to capture screenshots.
 - Navigate to target URL or render component
 - Capture full-page screenshot via `browser/screenshotPage`
 - Capture viewport-specific screenshots for responsive checks
 - Name files descriptively: `screenshot-iteration-N-component.png`
 
-**Output:** Screenshot file(s) with consistent naming
-
 ### Step 2: Analyze
-
-Aphrodite self-analyzes screenshots using visual inspection capabilities.
-
-**Actions:**
+Aphrodite self-analyzes screenshots visually.
 - Examine screenshot(s) for visual issues
 - Identify problems in layout, contrast, responsive behavior, and accessibility
-- Return findings in the structured JSON schema (see below)
+- Return findings in the structured JSON schema (below)
 - Include iteration number in findings
 - Mark issues with `pass_if_fixed` IDs
 
-**Output:** Structured JSON findings object
-
 ### Step 3: Fix
-
-Aphrodite addresses each finding from its self-analysis.
-
-**Actions:**
+Aphrodite addresses each finding from self-analysis.
 - Triage findings by severity (critical → high → medium → low)
-- Fix each issue in the component code
+- Fix each issue in component code
 - Commit changes with descriptive message
 - Re-capture screenshot for next iteration
 
-**Output:** Fixed component with updated screenshot
-
 ### Step 4: Loop
-
 Repeat Steps 1-3 for up to **3 iterations**.
-
-**Rules:**
 - Each iteration must fix at least one `pass_if_fixed` issue
 - Track iteration count in findings object
 - If no progress detected (zero fixes applied), escalate immediately
 - Compare before/after screenshots to verify fixes
 
 ### Step 5: Escalate
-
 Zeus intervenes if issues persist after 3 iterations.
-
-**Trigger:** 3 iterations exhausted or zero-progress detected
-**Action:** Zeus coordinates manual review or architectural decision
-
----
+- **Trigger:** 3 iterations exhausted or zero-progress detected
+- **Action:** Zeus coordinates manual review or architectural decision
 
 ## JSON Schema
 
@@ -121,20 +90,18 @@ Aphrodite must return findings in this exact structure:
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `verdict` | enum | `pass` = no issues, `fail` = blocking issues, `warn` = non-blocking issues |
+| `verdict` | enum | `pass` = no issues, `fail` = blocking, `warn` = non-blocking |
 | `iteration` | int | Current iteration number (1-3) |
 | `max_iterations` | int | Always 3 |
 | `issues` | array | List of visual issues found |
 | `issues[].id` | string | Unique ID in format `VIS-NNN` |
-| `issues[].category` | enum | Issue category (see Categories below) |
-| `issues[].severity` | enum | Severity level (see Severity below) |
+| `issues[].category` | enum | Issue category (see Categories) |
+| `issues[].severity` | enum | Severity level (see Severity) |
 | `issues[].description` | string | Clear description of the issue |
 | `issues[].screenshot_region` | string | Bounding box or region reference |
 | `issues[].recommendation` | string | Suggested fix |
 | `summary` | string | One-line overall assessment |
 | `pass_if_fixed` | string[] | Issue IDs that must be resolved to pass |
-
----
 
 ## Categories
 
@@ -148,8 +115,6 @@ Aphrodite must return findings in this exact structure:
 | `spacing` | Margins, padding, gaps | Uneven spacing, cramped elements |
 | `accessibility` | ARIA, focus states, keyboard nav | Missing alt text, no focus ring |
 
----
-
 ## Severity Levels
 
 | Level | Description | Action Required |
@@ -159,18 +124,15 @@ Aphrodite must return findings in this exact structure:
 | `medium` | Noticeable but not blocking | Fix in current sprint |
 | `low` | Minor polish item | Backlog, fix when convenient |
 
----
-
 ## Iteration Rules
 
-1. **Minimum progress:** Each iteration must fix at least one issue listed in `pass_if_fixed`
+1. **Minimum progress:** Each iteration fixes at least one `pass_if_fixed` issue
 2. **No regression:** Fixes must not introduce new issues
 3. **Track state:** Include iteration count in findings JSON
 4. **Early exit:** If `verdict` is `pass`, stop iterating
-5. **Immediate escalation:** If zero issues are fixed in an iteration, escalate to Zeus
+5. **Immediate escalation:** If zero issues fixed in an iteration, escalate to Zeus
 
 ### Progress Detection
-
 ```
 Iteration N:
   - Compare pass_if_fixed list to previous iteration
@@ -178,13 +140,10 @@ Iteration N:
   - If pass_if_fixed unchanged → zero progress → escalate
 ```
 
----
-
 ## Escalation Criteria
 
 Zeus must be invoked when:
-
-1. **3 iterations exhausted** — visual issues cannot be resolved within the pipeline
+1. **3 iterations exhausted** — issues cannot be resolved within the pipeline
 2. **Backend/data dependency** — issue requires API changes, data model updates, or backend fixes
 3. **Architectural issue** — problem stems from component architecture, not CSS/styling
 4. **Zero progress** — no `pass_if_fixed` issues resolved in an iteration
@@ -197,78 +156,45 @@ Remaining issues: [list of unresolved pass_if_fixed IDs]
 Root cause: [backend | architectural | conflicting]
 ```
 
----
-
 ## MCP Requirements
 
-### Playwright MCP (Required for Screenshots)
-
+### Playwright MCP (Required)
 - Use `browser/screenshotPage` for full-page captures
 - Use `browser/snapshot` for accessibility tree context
-- Fallback: If Playwright MCP is unavailable, skip screenshot capture with warning:
+- Fallback: If Playwright MCP is unavailable, skip with warning:
   ```
   ⚠️ Playwright MCP unavailable — visual review skipped.
   Install Playwright MCP server to enable visual review pipeline.
   ```
-
 For UI implementation review, Aphrodite self-reviews.
-
----
 
 ## Integration Points
 
-### With Code Review (Themis)
-
-- Visual review runs as part of frontend code review
-- Themis may invoke this pipeline when reviewing UI changes
-- Findings feed into Themis's overall review verdict
-
-### With Artifact Protocol
-
-- Visual review findings can be attached to `IMPL-` artifacts
-- Escalation decisions documented in `_notes/` if architectural
-
-### With Memory Bank
-
-- Recurring visual issues documented in `01-active-context.md`
-- Architectural visual decisions recorded as `_notes/NOTE000X-*.md`
-
----
+- **Code Review (Themis):** Visual review runs as part of frontend code review; findings feed into Themis's verdict.
+- **Artifact Protocol:** Visual review findings can attach to `IMPL-` artifacts. Escalation decisions documented in `_notes/`.
+- **Memory Bank:** Recurring visual issues documented in `01-active-context.md`. Architectural visual decisions recorded as `_notes/NOTE000X-*.md`.
 
 ## Example Workflow
 
 ```
-1. Aphrodite captures screenshot of LoginButton component
+1. Aphrodite captures screenshot of LoginButton
    → screenshot-iteration-1-login-button.png
 
-2. Aphrodite self-analyzes and returns:
+2. Self-analysis returns:
    {
-     "verdict": "fail",
-     "iteration": 1,
-     "issues": [
-       {
-         "id": "VIS-001",
-         "category": "contrast",
-         "severity": "high",
-         "description": "White text on light blue background, contrast ratio 2.1:1",
-         "screenshot_region": "button center at x:50,y:25 width:200px height:40px",
-         "recommendation": "Darken background to #1a56db or use dark text"
-       }
-     ],
+     "verdict": "fail", "iteration": 1,
+     "issues": [{
+       "id": "VIS-001", "category": "contrast", "severity": "high",
+       "description": "White text on light blue bg, contrast ratio 2.1:1",
+       "recommendation": "Darken background to #1a56db"
+     }],
      "pass_if_fixed": ["VIS-001"]
    }
 
-3. Aphrodite fixes contrast, re-captures:
-   → screenshot-iteration-2-login-button.png
+3. Fix contrast, re-capture → screenshot-iteration-2-login-button.png
 
-4. Aphrodite re-analyzes:
-   {
-     "verdict": "pass",
-     "iteration": 2,
-     "issues": [],
-     "summary": "All visual issues resolved",
-     "pass_if_fixed": []
-   }
+4. Re-analysis: { "verdict": "pass", "iteration": 2, "issues": [],
+     "summary": "All visual issues resolved", "pass_if_fixed": [] }
 
 5. Pipeline complete — 2 iterations, all issues fixed.
 ```

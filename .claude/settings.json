@@ -1,89 +1,14 @@
 {
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash|Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "scripts/hooks/validate-talos-scope.sh",
-            "timeout": 30
-          }
-        ]
-      },
-      {
-        "matcher": "Edit|Write",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "scripts/hooks/scan-secrets.sh",
-            "timeout": 30
-          }
-        ],
-        "description": "Check edited files for hardcoded secrets before saving"
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "scripts/hooks/validate-tool-safety.sh",
-            "timeout": 30
-          }
-        ],
-        "description": "Block destructive commands (rm -rf /, DROP TABLE, etc.)"
-      },
-      {
-        "matcher": "Task",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "scripts/hooks/on-subagent-delegation-start.sh",
-            "timeout": 30
-          }
-        ],
-        "description": "Track subagent delegation start"
-      }
-    ],
-    "PostToolUse": [
-      {
-        "matcher": "Edit|Write|Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "scripts/hooks/format-multi-language.sh",
-            "timeout": 45
-          },
-          {
-            "type": "command",
-            "command": "scripts/hooks/log-session-start.sh",
-            "timeout": 5000
-          }
-        ],
-        "description": "Format code and log tool failures for observability"
-      },
-      {
-        "matcher": "Task",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "scripts/hooks/on-subagent-delegation-stop.sh",
-            "timeout": 5000
-          }
-        ],
-        "description": "Track subagent delegation completion"
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "scripts/hooks/validate-post-conditions.sh",
-            "timeout": 30
-          }
-        ]
-      }
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(python *)",
+      "Bash(pip *)",
+      "Read",
+      "Grep",
+      "Glob"
     ]
   }
 }

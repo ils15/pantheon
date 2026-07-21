@@ -3,6 +3,9 @@ description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→R
 mode: subagent
 reasoning_effort: medium
 permission:
+"pantheon-memory_*": allow
+"pantheon-persistence_*": allow
+"pantheon-resources_*": allow
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow
@@ -268,6 +271,7 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
 | **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past API decisions at session start, store implementation results |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run pytest, ruff, and build scripts |
+  "pantheon-persistence_*": allow
 
 Before implementing, call `memory_recall("<endpoint/domain>")` to retrieve past decisions. After completing work, call `memory_store()` to persist the outcome. Use `execute_code_script()` for test and lint automation.
 

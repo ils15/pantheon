@@ -16,6 +16,7 @@ This document covers the **6 built-in + external MCPs** available to Pantheon ag
 | **pantheon-resources** | Pantheon framework resources — agents, skills, routing, deepwork, memory bank | all agents | `python scripts/mcp_resources_server.py` — built-in, no setup needed |
 | **pantheon-code-mode** | Confined orchestration script execution via MCP | zeus, prometheus, hermes, talos | `python scripts/code_mode_server.py` — built-in, scripts in `.pantheon/code-mode/` |
 | **pantheon-memory** | Persistent memory with semantic search, recall, knowledge graph, compression, export | all agents | `python scripts/memory_mcp_server.py` — built-in, requires `chromadb` + `sentence-transformers` |
+| **pantheon-persistence** | KV store with FTS5 search, TTL, namespace isolation | all agents | `python scripts/mcp_persistence_server.py` — built-in, zero deps |
 
 ---
 
@@ -94,6 +95,50 @@ pip install chromadb sentence-transformers fastmcp
 **Storage:** `~/.pantheon/memory/chroma.sqlite3` (SQLite-backed ChromaDB)
 
 **Used by:** All 14 agents for persistent memory across sessions. Mnemosyne has the deepest integration (export, consolidate, compress).
+
+---
+
+### pantheon-persistence (Key-Value Store)
+
+Built-in Python MCP server providing a lightweight KV store with SQLite + FTS5, TTL, and namespace isolation. Zero external dependencies.
+
+```bash
+python scripts/mcp_persistence_server.py
+```
+
+**No external dependencies required.** Uses stdlib only (sqlite3).
+
+**What it provides (6 tools):**
+
+| Tool | Signature | Description |
+|------|-----------|-------------|
+| `kv_store` | `(namespace, key, value, ttl?, scope?)` | Store a key-value pair with optional TTL |
+| `kv_get` | `(namespace, key, scope?)` | Retrieve value by namespace+key |
+| `kv_delete` | `(namespace, key, scope?)` | Remove an entry |
+| `kv_list` | `(namespace, prefix?, scope?, limit?)` | List keys with prefix filter |
+| `kv_search` | `(query, namespace?, scope?, limit?)` | FTS5 full-text search with BM25 ranking |
+| `purge_expired` | `(scope?, dry_run?)` | Remove expired TTL entries with deletelog |
+
+**Key features:**
+- **FTS5 full-text search**: BM25-ranked searches across keys and values
+- **TTL per entry**: automatic expiration filtering at read time
+- **Namespace isolation**: logical grouping with prefix listing
+- **Dual scope**: project-scoped (`.pantheon/persistence/project.db`) + global (`~/.config/opencode/persistence/global.db`)
+- **Deletelog**: audit trail for expired entry purges, rotates at 1MB (keeps last 3)
+- **Soft delete**: TTL purge marks entries as deleted instead of immediate removal
+
+**Comparison with pantheon-memory:**
+
+| Aspect | persistence | memory |
+|--------|-------------|--------|
+| Engine | SQLite KV | ChromaDB vector |
+| Search | FTS5 (keyword) | cosine similarity (semantic) |
+| TTL | ✅ per entry | ❌ |
+| Dependencies | zero (stdlib) | chromadb + sentence-transformers |
+| Startup | <0.5s | 3-8s |
+| Best for | Cache, session state, ephemeral data | Long-term semantic memory |
+
+**Used by:** All agents for cross-agent caching, session state, and ephemeral data.
 
 ---
 
@@ -178,7 +223,8 @@ For most Pantheon setups, start with these **3 core MCPs**:
 |----------|-----|-----|
 | **1 (required)** | **pantheon-memory** | All agents need persistent memory. Zero external dependencies. |
 | **2 (required)** | **pantheon-resources** | Framework agents, skills, routing — core Pantheon infra. |
-| **3 (recommended)** | **context7** | 11 agents benefit from library docs. Free, no API key. **Highest benchmark score (89).** |
+| **3 (recommended)** | **pantheon-persistence** | Lightweight KV for cache, session state, TTL — zero deps, <0.5s startup. |
+| **4 (recommended)** | **context7** | 11 agents benefit from library docs. Free, no API key. **Highest benchmark score (89).** |
 
 Then add based on your workflow:
 
@@ -285,20 +331,20 @@ mcpServers:
 
 | Agent | MCPs |
 |-------|------|
-| @zeus | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @athena | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @apollo | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @hermes | context7, playwright, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @aphrodite | context7, playwright, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @demeter | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @themis | context7, playwright, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @prometheus | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @hephaestus | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @nyx | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @iris | pantheon-resources, pantheon-memory |
-| @talos | context7, pantheon-resources, pantheon-code-mode, pantheon-memory |
-| @gaia | context7, pantheon-resources, pantheon-memory |
-| @mnemosyne | pantheon-resources, pantheon-code-mode, pantheon-memory |
+| @zeus | context7, pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
+| @athena | context7, pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
+| @apollo | context7, pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
+| @hermes | context7, playwright, pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
+| @aphrodite | context7, playwright, pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
+| @demeter | context7, pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
+| @themis | context7, playwright, pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
+| @prometheus | context7, pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
+| @hephaestus | context7, pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
+| @nyx | context7, pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
+| @iris | pantheon-resources, pantheon-memory, pantheon-persistence |
+| @talos | context7, pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
+| @gaia | context7, pantheon-resources, pantheon-memory, pantheon-persistence |
+| @mnemosyne | pantheon-resources, pantheon-code-mode, pantheon-memory, pantheon-persistence |
 
 ---
 

@@ -19,13 +19,20 @@
       "cwd": ".",
       "command": [".venv/bin/python3", "scripts/memory_mcp_server.py"],
       "enabled": true
+    },
+    "pantheon-persistence": {
+      "type": "local",
+      "cwd": ".",
+      "command": [".venv/bin/python3", "scripts/mcp_persistence_server.py"],
+      "enabled": true
     }
   },
   "permission": {
     "mcp": {
       "pantheon-resources": "allow",
       "pantheon-code-mode": "ask",
-      "pantheon-memory": "allow"
+      "pantheon-memory": "allow",
+      "pantheon-persistence": "allow"
     }
   },
   "instructions": [

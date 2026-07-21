@@ -34,11 +34,10 @@ mcp_tools:
 
 ## 🧠 Memory Protocol
 
-### Pre-Work
-**Call `memory_recall("github-operations", top_k=3)` before starting work.**
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Post-Work
-You do NOT call memory_store. Results are persisted by Zeus via subtask_summary auto-store.
+### Override
+- `memory_recall("github-operations", top_k=3)` before operations — read-only, no store
 
 # Iris - GitHub Operations Specialist
 

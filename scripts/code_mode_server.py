@@ -144,10 +144,8 @@ async def get_code_mode_script(script_name: str) -> str:
 
 @mcp.tool(
     name="execute_code_script",
-    description="Execute a code-mode script from .pantheon/code-mode/ "
-    "and return its output. Only .sh and .py files are allowed. "
-    "Optional CLI args are forwarded to the script. "
-    "Timeout is 30 seconds.",
+    description="Run a .sh/.py script from .pantheon/code-mode/ "
+    "with optional args. 30s timeout.",
 )
 async def execute_code_script(script_name: str, args: list[str] | None = None) -> str:
     """Execute a code-mode script with confinement and timeout.

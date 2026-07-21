@@ -235,7 +235,7 @@ Full reference: `instructions/zeus-communication-rules.instructions.md`
 
 When Themis returns **APPROVED** on a phase review:
 1. Run the `context-compression` skill (`skills/context-compression/SKILL.md`)
-2. Delegate `compress_context` to @mnemosyne via the handoff defined in `routing.yml:616-620`
+2. Delegate `compress_context` to @mnemosyne via the handoff defined in `routing.yml:387-392`
 3. Wait for the ZZ artifact to be written to `.pantheon/memory-bank/.tmp/ZZ-phase<N>-context.md`
 4. Inject the ZZ artifact into the next phase agent prompts
 
@@ -285,7 +285,7 @@ Enable continuous execution only when the user **explicitly** requests "auto-con
 | Council synthesis | `instructions/zeus-council-synthesis.instructions.md` |
 | Timeout & retry | `instructions/zeus-timeout-retry.instructions.md` |
 | Stall detection | `instructions/zeus-anti-stall.instructions.md` |
-| Visual review | `instructions/visual-review-pipeline.instructions.md` |
+| Visual review | `skill: visual-review-pipeline` |
 | Code review | `skill: code-review-checklist` |
 | Communication rules | `instructions/zeus-communication-rules.instructions.md` |
 | Documentation | `instructions/documentation-standards.instructions.md` |

@@ -3,6 +3,9 @@ description: Memory bank quality owner — initializes .pantheon/memory-bank/, w
 mode: subagent
 reasoning_effort: low
 permission:
+"pantheon-memory_*": allow
+"pantheon-persistence_*": allow
+"pantheon-resources_*": allow
   bash: deny
   pantheon-resources_*: allow
   pantheon-memory_*: allow
@@ -206,5 +209,6 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
 | **pantheon-memory** | All 14 memory tools — see frontmatter `mcp_tools:` for the full list | Comprehensive memory management — store, search, delete, compress, link, export, consolidate |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run context compression scripts via `compress-inline.py` |
+  "pantheon-persistence_*": allow
 
 This agent is the **memory steward** for the entire system. Use `memory_store()` for ADRs and task records, `memory_recall()` for context retrieval, `memory_export()` for batch exports, `memory_compress()` for session compaction, `memory_consolidate()` for dedup. See the context-compression skill for batch operations.

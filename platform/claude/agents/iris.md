@@ -5,6 +5,8 @@ mode: subagent
 tools: Agent, AskUserQuestion, Read, Grep, Bash, WebFetch
 skills: artifact-management
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   edit: deny
   bash:
     git *: allow

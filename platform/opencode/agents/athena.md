@@ -3,6 +3,8 @@ description: Strategic planner & architect — research-first, plan-only, never 
 mode: primary
 reasoning_effort: high
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   edit: deny
   bash: deny
   pantheon-resources_*: allow

@@ -1,6 +1,6 @@
 {
   "name": "pantheon",
-  "version": "3.19.0",
+  "version": "3.19.3",
   "description": "Multi-agent orchestration platform with 14 specialized agents, 45 skills, TDD enforcement, RAG pipelines, multi-model routing, conversational AI, observability, and multi-platform support (VS Code, OpenCode, Claude Code, Cursor, Windsurf).",
   "private": true,
   "publishConfig": {
@@ -42,7 +42,10 @@
     "lint": "biome check --write --unsafe src/",
     "typecheck": "tsc --noEmit",
     "build": "echo 'Pantheon meta-framework: no frontend build. See downstream projects for frontend builds.' && exit 0",
-    "dev": "echo 'Pantheon meta-framework: no dev server. Use downstream projects for frontend development.' && exit 0"
+    "dev": "echo 'Pantheon meta-framework: no dev server. Use downstream projects for frontend development.' && exit 0",
+    "install:lite": "node scripts/install.mjs --components agents,skills,instructions",
+    "install:full": "node scripts/install.mjs --components agents,skills,instructions,commands,plugins,runtime",
+    "install:runtime": "node scripts/install.mjs --platforms opencode --components runtime"
   },
   "bin": {
     "pantheon": "./scripts/install.mjs"

@@ -25,6 +25,9 @@ import {
 	syncDir,
 	writeIfChanged,
 } from "./shared.mjs";
+import { setupVenv } from "./venv.mjs";
+import { healthCheck } from "./health-check.mjs";
+import { detectVersion, runMigrations } from "./migrate.mjs";
 
 function deepClone(value) {
 	return JSON.parse(JSON.stringify(value));
@@ -265,6 +268,7 @@ export function installOpenCode(
 			"memory_mcp_server.py",
 			"scrub-secrets.py",
 			"_pantheon_paths.py",
+			"mcp_persistence_server.py",
 		];
 		const srcScriptsDir = join(ROOT, "scripts");
 		const dstScriptsDir = join(runtimeTarget, "scripts");
@@ -587,6 +591,14 @@ export function installOpenCode(
 				enabled: true,
 			};
 		}
+		if (!config.mcp["pantheon-persistence"]) {
+			config.mcp["pantheon-persistence"] = {
+				type: "local",
+				cwd: runtimeTarget,
+				command: [memoryPython, "scripts/mcp_persistence_server.py"],
+				enabled: true,
+			};
+		}
 
 		// Default MCP permissions
 		config.permission = config.permission || {};
@@ -600,10 +612,58 @@ export function installOpenCode(
 		if (!config.permission.mcp["pantheon-memory"]) {
 			config.permission.mcp["pantheon-memory"] = "allow";
 		}
+		if (!config.permission.mcp["pantheon-persistence"]) {
+			config.permission.mcp["pantheon-persistence"] = "allow";
+		}
 	}
 
 	const configContent = `${JSON.stringify(config, null, 2)}\n`;
 	const status = writeIfChanged(targetConfigPath, configContent, dryRun);
 	if (status === "created") stats.created++;
 	else stats.skipped++;
+
+	// -----------------------------------------------------------------------
+	// 3.5 Run migrations (--components runtime)
+	// -----------------------------------------------------------------------
+	if (componentSet.has("runtime")) {
+		const currentVersion = detectVersion(target);
+		if (currentVersion) {
+			const migration = runMigrations(target, currentVersion, { dryRun });
+			if (migration.applied > 0) {
+				console.log(`  ✅ Applied ${migration.applied} migration(s)`);
+				for (const msg of migration.messages) {
+					console.log(`     • ${msg}`);
+				}
+			}
+		}
+	}
+
+	// -----------------------------------------------------------------------
+	// 4. Setup virtual environment + health check (--components runtime)
+	// -----------------------------------------------------------------------
+	if (componentSet.has("runtime")) {
+		try {
+			setupVenv(target, { dryRun });
+			const health = healthCheck(target, { dryRun });
+
+			// Print health summary
+			console.log("\n  📊 Health Check:");
+			for (const p of health.passed)
+				console.log(`    ✅ ${p.check}: ${p.detail}`);
+			for (const w of health.warnings)
+				console.log(`    ⚠️  ${w.check}: ${w.detail}`);
+			for (const f of health.failed)
+				console.log(`    ❌ ${f.check}: ${f.detail}`);
+
+			if (health.failed.length > 0) {
+				console.log(
+					`  ⚠️  ${health.failed.length} check(s) failed — review above`,
+				);
+				stats.errors += health.failed.length;
+			}
+		} catch (err) {
+			console.error(`  ❌ Setup failed: ${err.message}`);
+			stats.errors++;
+		}
+	}
 }

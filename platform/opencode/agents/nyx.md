@@ -3,6 +3,8 @@ description: Observability & monitoring specialist — OpenTelemetry tracing, to
 mode: subagent
 reasoning_effort: low
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   edit: ask
   bash: allow
   pantheon-resources_*: allow

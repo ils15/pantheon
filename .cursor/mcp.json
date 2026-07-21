@@ -14,6 +14,10 @@
     "grep_app": {
       "type": "http",
       "url": "https://mcp.grep.app"
+    },
+    "pantheon-persistence": {
+      "command": "python3",
+      "args": ["scripts/mcp_persistence_server.py"]
     }
   }
 }

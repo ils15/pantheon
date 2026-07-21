@@ -1,21 +1,9 @@
-# =============================================================================
 # routing.yml — Canonical Routing Source for Pantheon
-# Version: 1.0
-# Purpose: Single source of truth for agent routing, delegation rules, and handoff contracts
-# Maintainer: Pantheon Agent System
-# =============================================================================
-
+# Version: 1.0 — Agent routing, delegation rules, and handoff contracts
 version: 1.0
 
-# =============================================================================
-# Quick Reference — Primary Delegation Flow
-# =============================================================================
+# Primary Delegation Flow
 # ```mermaid
-# ---
-# config:
-#   look: classic
-#   theme: dark
-# ---
 # flowchart LR
 #     Z[Zeus] --> A[Athena] --> AP[Apollo]
 #     Z --> H[Hermes] --> T[Themis]
@@ -31,16 +19,12 @@ version: 1.0
 #     T --> I
 #     T --> M
 # ```
-# =============================================================================
 # Removed agents: argus, chiron, echo (merged/deprecated)
-# =============================================================================
 
-# =============================================================================
 # AGENT REGISTRY — 14 active agents
-# =============================================================================
 agents:
   zeus:
-    role: "Central orchestrator — delegates to specialists, never implements"
+    role: "Central orchestrator"
     model_tier: default
     reasoning_effort: medium
     user_invocable: true
@@ -82,7 +66,7 @@ agents:
       - wisdom-accumulation
 
   athena:
-    role: "Strategic planner & architect — TDD-driven plans, research-first approach"
+    role: "Strategic planner"
     model_tier: premium
     reasoning_effort: high
     user_invocable: true
@@ -106,7 +90,7 @@ agents:
       - plan-architecture
 
   apollo:
-    role: "Read-only investigation scout — parallel searches across codebase, docs, GitHub"
+    role: "Investigation scout"
     model_tier: fast
     reasoning_effort: low
     user_invocable: false
@@ -126,7 +110,7 @@ agents:
       - codemap
 
   hermes:
-    role: "Backend specialist — FastAPI, Python async, TDD, modern stdlib"
+    role: "Backend specialist"
     model_tier: default
     reasoning_effort: medium
     user_invocable: true
@@ -140,8 +124,6 @@ agents:
       - obsolete_lib_detection
       - memory_store
       - pantheon_code_mode
-    subagent_can_delegate_to:
-      - apollo
     skills:
       - api-design-patterns
       - cache-strategy
@@ -155,7 +137,7 @@ agents:
       - tdd-with-agents
 
   aphrodite:
-    role: "Frontend specialist — React 19, TypeScript strict, WCAG accessibility, responsive design"
+    role: "Frontend specialist"
     model_tier: default
     reasoning_effort: medium
     user_invocable: true
@@ -169,8 +151,6 @@ agents:
       - deprecated_npm_detection
       - memory_store
       - pantheon_resources_memory_bank
-    subagent_can_delegate_to:
-      - apollo
     skills:
       - frontend-analyzer
       - nextjs-seo-optimization
@@ -179,7 +159,7 @@ agents:
       - tdd-with-agents
 
   demeter:
-    role: "Database specialist — SQLAlchemy 2.0, Alembic, query optimization, N+1 prevention"
+    role: "Database specialist"
     model_tier: default
     reasoning_effort: medium
     user_invocable: true
@@ -193,8 +173,6 @@ agents:
       - index_strategy
       - memory_store
       - memory_recall
-    subagent_can_delegate_to:
-      - apollo
     skills:
       - database-migration
       - database-optimization
@@ -203,7 +181,7 @@ agents:
       - simplify
 
   themis:
-    role: "Quality & security gate — ruff/Biome linting, OWASP Top 10, dead code, coverage >80%"
+    role: "Quality gate"
     model_tier: premium
     reasoning_effort: high
     user_invocable: true
@@ -228,7 +206,7 @@ agents:
       - mcp-security
 
   prometheus:
-    role: "Infrastructure specialist — Docker, docker-compose, CI/CD, health checks"
+    role: "Infrastructure specialist"
     model_tier: default
     reasoning_effort: medium
     user_invocable: true
@@ -242,14 +220,12 @@ agents:
       - container_optimization
       - pantheon_code_mode
       - memory_store
-    subagent_can_delegate_to:
-      - apollo
     skills:
       - docker-best-practices
       - agent-observability
 
   hephaestus:
-    role: "AI tooling & pipelines — LangChain/LangGraph, RAG, vector stores, embeddings"
+    role: "AI pipelines"
     model_tier: default
     reasoning_effort: medium
     user_invocable: true
@@ -263,8 +239,6 @@ agents:
       - ai_workflow_composition
       - memory_search
       - memory_link
-    subagent_can_delegate_to:
-      - apollo
     skills:
       - rag-pipelines
       - mcp-server-development
@@ -274,7 +248,7 @@ agents:
       - prompt-improver
 
   nyx:
-    role: "Observability & monitoring — OpenTelemetry, token/cost tracking, LangSmith"
+    role: "Observability"
     model_tier: fast
     reasoning_effort: low
     user_invocable: true
@@ -288,15 +262,13 @@ agents:
       - monitoring_dashboards
       - pantheon_resources_routing
       - memory_sessions
-    subagent_can_delegate_to:
-      - apollo
     skills:
       - agent-evaluation
       - agent-observability
       - token-audit
 
   gaia:
-    role: "Remote sensing — satellite imagery, spectral analysis, SAR, change detection, LULC"
+    role: "Remote sensing"
     model_tier: default
     reasoning_effort: high
     user_invocable: true
@@ -309,14 +281,12 @@ agents:
       - change_detection
       - scientific_literature_review
       - pantheon_resources
-    subagent_can_delegate_to:
-      - apollo
     skills:
       - remote-sensing-analysis
       - internet-search
 
   iris:
-    role: "GitHub operations — branches, PRs, issues, releases, tags"
+    role: "GitHub operations"
     model_tier: fast
     reasoning_effort: low
     user_invocable: true
@@ -335,7 +305,7 @@ agents:
       - artifact-management
 
   mnemosyne:
-    role: "Memory bank — initializes .pantheon/memory-bank/, writes ADRs and task records on request"
+    role: "Memory bank"
     model_tier: fast
     reasoning_effort: low
     user_invocable: true
@@ -360,7 +330,7 @@ agents:
       - context-compression
 
   talos:
-    role: "Hotfix express lane — direct fixes for small bugs, CSS, typos. No TDD"
+    role: "Hotfix agent"
     model_tier: fast
     reasoning_effort: low
     user_invocable: true
@@ -377,10 +347,8 @@ agents:
     skills:
       - simplify
 
-# =============================================================================
 # AUTO-CONTINUE CONFIGURATION
 # Checkpoint and heartbeat settings for autonomous sessions
-# =============================================================================
 auto_continue:
   checkpoint_script: ".pantheon/code-mode/checkpoint-session.sh"
   heartbeat_interval: 5
@@ -389,438 +357,61 @@ auto_continue:
     stall: 120
     pause: 300
 
-# =============================================================================
-# DELEGATION RULES — who delegates to whom, when (task categories), how (timeout/retry/fallback)
-# Each orchestrator has its own delegation targets. Fields: target, when, prompt_hint.
-# Aspirational fields (timeout, retry_count, fallback_agent, etc.) removed — not
-# enforced programmatically. See instructions/zeus-timeout-retry.instructions.md for defaults.
-# =============================================================================
+# DELEGATION RULES
+# Implicit default: any agent can delegate to apollo for codebase discovery.
+# Overrides are listed in agent subagent_can_delegate_to fields above.
+# See instructions/zeus-timeout-retry.instructions.md for timeout/retry defaults.
 delegation:
-  # --- ZEUS (primary orchestrator) ---
   zeus:
     - target: athena
-      when:
-        - feature_planning
-        - architectural_design
-        - root_cause_analysis
-        - deep_research
-        - risk_assessment
-      prompt_hint: "Create an implementation plan for this feature."
-
     - target: apollo
-      when:
-        - codebase_discovery
-        - dependency_research
-        - file_search
-        - pattern_discovery
-        - codemap_generation
-        - pre_planning_research
-      prompt_hint: "Find all files related to [topic] and return structured findings."
-
     - target: hermes
-      when:
-        - backend_implementation
-        - api_development
-        - service_layer
-        - async_python_code
-        - business_logic
-      prompt_hint: "Implement the backend components following TDD methodology."
-
     - target: aphrodite
-      when:
-        - frontend_implementation
-        - ui_component
-        - visual_update
-        - accessibility_improvement
-        - responsive_layout
-      prompt_hint: "Implement the frontend components following TDD methodology."
-
     - target: demeter
-      when:
-        - database_migration
-        - schema_change
-        - query_optimization
-        - n_plus_one_fix
-        - index_strategy
-      prompt_hint: "Create database migrations and schema changes for this feature."
-
     - target: themis
-      when:
-        - code_review
-        - security_audit
-        - quality_gate
-        - pre_merge_review
-        - plan_validation
-      prompt_hint: "Validate implementation for correctness, security, test coverage, and quality."
-
     - target: prometheus
-      when:
-        - infrastructure_change
-        - docker_configuration
-        - ci_cd_pipeline
-        - deployment_strategy
-        - environment_setup
-      prompt_hint: "Set up infrastructure and deployment configuration for this feature."
-
     - target: hephaestus
-      when:
-        - rag_pipeline
-        - langchain_workflow
-        - vector_search
-        - embedding_strategy
-        - ai_workflow_orchestration
-      prompt_hint: "Build AI tooling pipelines (RAG, LangChain chains, vector search)."
-
     - target: nyx
-      when:
-        - observability_setup
-        - monitoring_configuration
-        - cost_tracking
-        - opentelemetry_instrumentation
-        - alerting
-      prompt_hint: "Set up observability, tracing, and cost tracking."
-
     - target: gaia
-      when:
-        - remote_sensing_analysis
-        - satellite_imagery
-        - land_cover_classification
-        - spectral_analysis
-        - geospatial_pipeline
-      prompt_hint: "Perform remote sensing analysis and geospatial data processing."
-
     - target: iris
-      when:
-        - github_operations
-        - pull_request_creation
-        - branch_management
-        - release_publishing
-        - issue_management
-      prompt_hint: "Perform GitHub operations (branches, PRs, releases)."
-
     - target: mnemosyne
-      when:
-        - documentation
-        - memory_bank_update
-        - artifact_persistence
-        - adr_creation
-        - sprint_close
-      prompt_hint: "Document the completed work and decisions in the Memory Bank."
-
-    - target: mnemosyne
-      when:
-        - context_compression
-      prompt_hint: "Compress completed phase artifacts and archive to memory bank."
-
     - target: talos
-      when:
-        - hotfix
-        - minor_bug_fix
-        - css_repair
-        - typo_correction
-        - urgent_bounded_change
-      prompt_hint: "Fix this minor issue quickly — no TDD ceremony needed."
 
-  # --- ATHENA ---
-  athena:
-    - target: themis
-      when:
-        - plan_validation
-      prompt_hint: "Validate this plan for completeness, risk coverage, and test strategy."
+  # Delegation conventions (documentation only — not programmatically enforced):
+  # - Implementers → themis for code review
+  # - Themis → zeus (blockers/escalation) or mnemosyne (documentation)
+  # - Others → zeus or athena as appropriate
 
-    - target: zeus
-      when:
-        - handoff_to_execution
-      prompt_hint: "Implement the plan outlined above following TDD methodology."
-
-  # --- APOLLO ---
-  apollo:
-    - target: zeus
-      when:
-        - return_to_orchestrator
-      prompt_hint: "Process these discovery findings and proceed with orchestration."
-
-    - target: athena
-      when:
-        - support_planning
-      prompt_hint: "Use these findings to refine or complete the plan."
-
-  # --- HERMES ---
-  hermes:
-    - target: themis
-      when:
-        - post_implementation_review
-      prompt_hint: "Perform code review and security audit on these backend changes."
-
-  # --- APHRODITE ---
-  aphrodite:
-    - target: themis
-      when:
-        - post_implementation_review
-      prompt_hint: "Perform code review and accessibility audit on these frontend changes."
-
-  # --- DEMETER ---
-  demeter:
-    - target: themis
-      when:
-        - post_implementation_review
-      prompt_hint: "Perform code review and security audit on these database/migration changes."
-
-  # --- PROMETHEUS ---
-  prometheus:
-    - target: themis
-      when:
-        - post_implementation_validation
-      prompt_hint: "Validate these infrastructure changes for best practices, security, and correctness."
-
-  # --- THEMIS ---
-  themis:
-    - target: zeus
-      when:
-        - escalate_blockers
-        - fix_issues
-      prompt_hint: "Fix the issues identified in the code review above."
-
-    - target: mnemosyne
-      when:
-        - document_findings
-      prompt_hint: "Document the review findings in the Memory Bank."
-
-  # --- HEPHAESTUS ---
-  hephaestus:
-    - target: themis
-      when:
-        - post_implementation_review
-      prompt_hint: "Review this AI pipeline for correctness, security, and performance."
-
-    - target: prometheus
-      when:
-        - deploy_pipeline
-      prompt_hint: "Deploy this AI pipeline — consider GPU requirements and inference health checks."
-
-  # --- GAIA ---
-  gaia:
-    - target: themis
-      when:
-        - post_analysis_review
-      prompt_hint: "Review this remote sensing analysis for methodological correctness and scientific validity."
-
-    - target: athena
-      when:
-        - plan_implementation
-      prompt_hint: "Create an implementation plan based on this remote sensing analysis."
-
-  # --- NYX ---
-  nyx:
-    - target: zeus
-      when:
-        - report_anomaly
-      prompt_hint: "Observability detected anomalies. Review and decide on corrective action."
-
-  # --- IRIS ---
-  iris:
-    - target: zeus
-      when:
-        - merge_approval
-      prompt_hint: "PR awaiting merge approval. Review and reply 'merge' to proceed."
-
-    - target: mnemosyne
-      when:
-        - document_release
-      prompt_hint: "Update the memory bank with the release information."
-
-  # --- TALOS ---
-  talos:
-    - target: zeus
-      when:
-        - escalate_complex
-      prompt_hint: "This fix exceeds hotfix scope. Please take over."
-
-# =============================================================================
-# HANDOFF DEFINITIONS — named, labeled, with description and prompt
-# Structured handoff contracts that agents use for delegation
-# =============================================================================
+# HANDOFF DEFINITIONS — named contracts for delegation
 handoffs:
   zeus:
-    plan_feature:
-      label: "📋 Plan Feature"
-      description: "Strategic planning with TDD-driven implementation phases"
-      agent: athena
-      prompt: "Create an implementation plan for this feature."
-
-    validate_plan:
-      label: "🔍 Validate Plan"
-      description: "Pre-execution plan validation for risk coverage and test strategy"
-      agent: themis
-      prompt: "Validate the plan before execution: coverage, risks, test strategy."
-
-    document_progress:
-      label: "📝 Document Progress"
-      description: "Memory bank update and artifact persistence"
-      agent: mnemosyne
-      prompt: "Document the completed work and decisions in the Memory Bank."
-
-    build_ai_pipelines:
-      label: "🔧 Build AI Pipelines"
-      description: "RAG, LangChain chains, vector search implementation"
-      agent: hephaestus
-      prompt: "Build AI tooling pipelines (RAG, LangChain chains, vector search)."
-
-    setup_observability:
-      label: "👁️ Set Up Observability"
-      description: "OpenTelemetry tracing, cost tracking, monitoring"
-      agent: nyx
-      prompt: "Set up observability, tracing, and cost tracking."
-
-    visual_fix:
-      label: "🔧 Fix Visual Issues"
-      description: "Re-delegate visual fixes to Aphrodite (self-review loop)"
-      agent: aphrodite
-      prompt: "Fix these visual issues identified in self-review: [issues]"
-
     compress_context:
       label: "🗜️ Compress Context"
       description: "Compress completed subtask_summaries and archive IMPL/REVIEW artifacts after Themis approval"
       agent: mnemosyne
       prompt: "Compress completed phase artifacts (Level 2): create ZZ-phase{N}-context.md with priority-scored entries, write compressed entries to 01-active-context.md (priority-aware, budget-allocated), archive IMPL/REVIEW to 02-progress-log.md, update _xref/index.md cross-references."
 
-  athena:
-    validate_plan:
-      label: "Validate Plan"
-      description: "Plan quality validation before execution"
-      agent: themis
-      prompt: "Validate this implementation plan for completeness and risk coverage."
-
-    implement_plan:
-      label: "Implement Plan"
-      description: "Handoff approved plan to Zeus for execution"
-      agent: zeus
-      prompt: "Implement the plan outlined above following TDD methodology."
-
-  themis:
-    fix_issues:
-      label: "🔧 Fix Review Issues"
-      description: "Escalate non-trivial issues to Zeus for re-delegation"
-      agent: zeus
-      prompt: "Fix the issues identified in the code review above."
-
-    document_findings:
-      label: "📝 Document Findings"
-      description: "Persist review findings in Memory Bank"
-      agent: mnemosyne
-      prompt: "Document the review findings in the Memory Bank."
-
-  hermes:
-    send_to_themis:
-      label: "➡️ Send to Themis"
-      description: "Post-implementation code review and security audit"
-      agent: themis
-      prompt: "Perform code review and security audit on these backend changes."
-
-  aphrodite:
-    send_to_themis:
-      label: "➡️ Send to Themis"
-      description: "Post-implementation review with accessibility audit"
-      agent: themis
-      prompt: "Perform code review and accessibility audit on these frontend changes."
-
-    visual_review:
-      label: "👁️ Visual Review (Self)"
-      description: "Self-review screenshot for visual issues"
-      agent: aphrodite
-      prompt: "Analyze your own screenshot for visual issues. Return structured JSON."
-
-    visual_escalate:
-      label: "🚨 Escalate Visual Issues"
-      description: "Escalate persistent visual issues to Zeus"
-      agent: zeus
-      prompt: "Visual review pipeline failed after 3 iterations. Requires architectural changes."
-
-  demeter:
-    send_to_themis:
-      label: "➡️ Send to Themis"
-      description: "Post-implementation database review"
-      agent: themis
-      prompt: "Perform code review and security audit on these database/migration changes."
-
-  apollo:
-    return_to_zeus:
-      label: "📊 Return Findings to Zeus"
-      description: "Deliver discovery results to orchestrator"
-      agent: zeus
-      prompt: "Process these discovery findings and proceed with orchestration."
-
-    return_to_athena:
-      label: "📊 Return Findings to Athena"
-      description: "Deliver discovery results to planner"
-      agent: athena
-      prompt: "Use these findings to refine or complete the plan."
-
-  prometheus:
-    validate_infrastructure:
-      label: "➡️ Validate Infrastructure"
-      description: "Infrastructure best practices and security validation"
-      agent: themis
-      prompt: "Validate these infrastructure changes for best practices and security."
-
-  hephaestus:
-    review_pipeline:
-      label: "🔍 Review Pipeline"
-      description: "AI pipeline correctness and security review"
-      agent: themis
-      prompt: "Review this AI pipeline for correctness, security, and performance."
-
-    deploy_pipeline:
-      label: "📊 Deploy Pipeline"
-      description: "AI pipeline deployment with GPU considerations"
-      agent: prometheus
-      prompt: "Deploy this AI pipeline — consider GPU requirements and health checks."
-
-  gaia:
-    review_analysis:
-      label: "🔍 Review Analysis"
-      description: "Remote sensing methodological review"
-      agent: themis
-      prompt: "Review this remote sensing analysis for methodological correctness."
-
-    plan_implementation:
-      label: "📋 Plan Implementation"
-      description: "Plan implementation based on remote sensing analysis"
-      agent: athena
-      prompt: "Create an implementation plan based on this remote sensing analysis."
-
-  nyx:
-    report_anomaly:
-      label: "🌀 Report Anomaly"
-      description: "Escalate observability anomalies to orchestrator"
-      agent: zeus
-      prompt: "Observability detected anomalies. Review and decide on corrective action."
-
-  iris:
-    merge_pr:
-      label: "Merge PR"
-      description: "Request merge approval from orchestrator"
-      agent: zeus
-      prompt: "PR awaiting approval to merge. Review and reply 'merge' to proceed."
-
-    document_release:
-      label: "Document release"
-      description: "Persist release information in Memory Bank"
-      agent: mnemosyne
-      prompt: "Update the memory bank with the release information."
-
-  talos:
-    escalate_to_zeus:
-      label: "🚨 Escalate to Zeus"
-      description: "Escalate complex issues beyond hotfix scope"
-      agent: zeus
-      prompt: "This fix exceeds hotfix scope. Please take over."
-
-# =============================================================================
 # PLATFORM TOOL MAPPINGS
-# Tool names per platform for agent delegation
-# =============================================================================
 platforms:
+  opencode:
+    display_name: "OpenCode"
+    tools:
+      delegate_agent: "agent"
+      delegate_subagent: "task"
+      ask_user: "question"
+      search_codebase: "grep"
+      search_files: "glob"
+      read_file: "read"
+      run_bash: "bash"
+      web_fetch: "webfetch"
+      web_search: "websearch"
+    capabilities:
+      - agent_delegation
+      - subagent_delegation
+      - bash_execution
+      - web_fetch
+      - web_search
+
   vscode:
     display_name: "VS Code (GitHub Copilot)"
     tools:
@@ -857,246 +448,35 @@ platforms:
       - web_fetch
       - browser_automation
 
-  opencode:
-    display_name: "OpenCode"
-    tools:
-      delegate_agent: "agent"
-      delegate_subagent: "task"
-      ask_user: "question"
-      search_codebase: "grep"
-      search_files: "glob"
-      read_file: "read"
-      run_bash: "bash"
-      web_fetch: "webfetch"
-      web_search: "websearch"
-    capabilities:
-      - agent_delegation
-      - subagent_delegation
-      - bash_execution
-      - web_fetch
-      - web_search
-
-  cursor:
-    display_name: "Cursor"
-    tools:
-      delegate_agent: "@agent"
-      search_codebase: "search"
-      read_file: "readFile"
-      edit_file: "editFile"
-      run_terminal: "runInTerminal"
-      web_fetch: null
-    capabilities:
-      - agent_delegation
-      - file_editing
-      - terminal_execution
-
-  windsurf:
-    display_name: "Windsurf"
-    tools:
-      delegate_agent: "agent"
-      search_codebase: "Codebase Search"
-      read_file: "Read File"
-      edit_file: "Edit File"
-      run_terminal: "Run Command"
-      web_fetch: null
-    capabilities:
-      - agent_delegation
-      - file_editing
-      - terminal_execution
-
-  copilot_cli:
-    display_name: "GitHub Copilot CLI"
-    tools:
-      delegate_agent: null
-      run_terminal: "copilot-cli task"
-      web_fetch: null
-    capabilities:
-      - terminal_execution
-      - background_tasks
-
-  continue_dev:
-    display_name: "Continue.dev"
-    tools:
-      delegate_agent: "@agent"
-      search_codebase: "search"
-      read_file: "read"
-      edit_file: "edit"
-      run_terminal: "run"
-      web_fetch: "fetch"
-    capabilities:
-      - agent_delegation
-      - file_editing
-      - terminal_execution
-      - web_fetch
-
-# =============================================================================
 # ARTIFACT LIFECYCLE
-# Maps agent outputs to artifact types and persistence rules
-# Reference: skill: artifact-management
-# =============================================================================
-artifacts:
-  plan:
-    prefix: PLAN
-    location: ".pantheon/memory-bank/.tmp/"
-    ephemeral: true
-    produced_by:
-      - athena
-    persistence: "Deleted on sprint close (@mnemosyne Close sprint)"
-    gate: "Human approval required before execution"
+# See skill: artifact-management for full lifecycle rules.
+# Summary: PLAN, IMPL, REVIEW, DISC → .pantheon/memory-bank/.tmp/ (ephemeral, sprint-scoped).
+# ADR → .pantheon/memory-bank/_notes/ (permanent). Subtask → inline, no artifact.
 
-  implementation:
-    prefix: IMPL
-    location: ".pantheon/memory-bank/.tmp/"
-    ephemeral: true
-    produced_by:
-      - hermes
-      - aphrodite
-      - demeter
-    persistence: "Deleted on sprint close (@mnemosyne Close sprint)"
-    gate: "Themis review required"
-
-  review:
-    prefix: REVIEW
-    location: ".pantheon/memory-bank/.tmp/"
-    ephemeral: true
-    produced_by:
-      - themis
-    persistence: "Deleted on sprint close (@mnemosyne Close sprint)"
-    gate: "Human validation of Review Focus items required"
-
-  discussion:
-    prefix: DISC
-    location: ".pantheon/memory-bank/.tmp/"
-    ephemeral: true
-    produced_by:
-      - apollo
-    persistence: "Deleted on sprint close (@mnemosyne Close sprint)"
-    gate: "Human approval after reading synthesis"
-
-  decision_record:
-    prefix: ADR
-    location: ".pantheon/memory-bank/_notes/"
-    ephemeral: false
-    produced_by:
-      - any
-    persistence: "Permanent, never deleted"
-    gate: "Explicit user request for documentation"
-
-  subtask:
-    prefix: none
-    location: inline
-    ephemeral: true
-    produced_by:
-      - apollo
-      - talos
-    persistence: "No artifact — returned as subtask_summary inline"
-    gate: "No Themis review required. Bounded scope only: ≤2 files, <10 lines, low risk."
-    notes: "Subtask skips the standard artifact lifecycle. See commands/subtask.md and prompts/subtask.prompt.md"
-
-# =============================================================================
-# ROUTING MATRIX (QUICK REFERENCE)
-# Summary table matching task categories to primary agents
-# =============================================================================
-routing_matrix:
-  # Planning & Research
-  - category: "Strategic planning"
-    primary_agent: athena
-    parallel_with: [apollo]
-
-  - category: "Codebase discovery"
-    primary_agent: apollo
-
-  - category: "Architecture decisions"
-    primary_agent: zeus
-
-  - category: "Multi-perspective analysis"
-    primary_agent: zeus
-
-  - category: "System config (agent files, routing.yml, commands)"
-    primary_agent: talos
-    notes: "Small changes (1-2 files, <10 lines) → talos. Larger changes → hermes."
-
-  # Implementation
-  - category: "Backend / API"
-    primary_agent: hermes
-    parallel_with: [aphrodite, demeter]
-
-  - category: "Frontend / UI"
-    primary_agent: aphrodite
-    parallel_with: [hermes, demeter]
-
-  - category: "Database / Schema"
-    primary_agent: demeter
-    parallel_with: [hermes, aphrodite]
-
-  # Specialized
-  - category: "AI pipelines / RAG"
-    primary_agent: hephaestus
-
-  - category: "Remote sensing / geospatial"
-    primary_agent: gaia
-
-  # Infrastructure
-  - category: "Docker / deployment"
-    primary_agent: prometheus
-
-  - category: "CI/CD pipelines"
-    primary_agent: prometheus
-
-  # Quality & Operations
-  - category: "Code review / quality gate"
-    primary_agent: themis
-
-  - category: "Security audit"
-    primary_agent: themis
-
-  - category: "GitHub operations"
-    primary_agent: iris
-
-  - category: "Context compression / artifact archival"
-    primary_agent: mnemosyne
-    notes: "Called by Zeus after Themis APPROVED — compresses subtask_summaries, archives IMPL/REVIEW"
-
-  - category: "Documentation / memory"
-    primary_agent: mnemosyne
-
-  - category: "Observability / monitoring"
-    primary_agent: nyx
-
-  # Rapid Response
-  - category: "Hotfix / bug fix"
-    primary_agent: talos
-
-  - category: "Orchestration"
-    primary_agent: zeus
-
-# =============================================================================
 # MODEL FALLBACK CHAINS
-# =============================================================================
 # When an agent's primary model is rate-limited (429) or unavailable,
 # the platform should attempt the next model in the chain.
 # Chain pattern: Primary → Secondary → Emergency
 # These chains are advisory — the platform's model routing determines
 # actual fallback behavior at runtime.
-
 fallback_chains:
-  premium_agents:                # athena, themis
+  premium_agents:
     primary: "anthropic/claude-sonnet-4-20250514"
     secondary: "openai/gpt-5.1"
     emergency: "deepseek/deepseek-v4-pro"
 
-  default_agents:                # zeus, hermes, aphrodite, demeter, prometheus, hephaestus, gaia
+  default_agents:
     primary: "anthropic/claude-sonnet-4-20250514"
     secondary: "openai/gpt-4o"
     emergency: "deepseek/deepseek-v4-pro"
 
-  fast_agents:                   # apollo, nyx, iris, mnemosyne, talos
+  fast_agents:
     primary: "deepseek/deepseek-v4-pro"
     secondary: "anthropic/claude-haiku-4-20250514"
     emergency: "openai/gpt-4o-mini"
 
   agent_overrides:
-    gaia:                        # Remote sensing needs vision
+    gaia:
       primary: "anthropic/claude-sonnet-4-20250514"
       secondary: "openai/gpt-4o"
       emergency: "deepseek/deepseek-v4-pro"

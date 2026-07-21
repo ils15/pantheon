@@ -3,6 +3,8 @@ description: Remote sensing domain specialist — satellite image processing, sp
 mode: subagent
 reasoning_effort: high
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   edit: deny
   bash: deny
   pantheon-resources_*: allow

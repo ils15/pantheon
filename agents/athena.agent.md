@@ -24,11 +24,11 @@ tools:
 temperature: 0.1
 steps: 15
 skills:
- - plan-architecture
-- codemap
-- init-deep
-- interview
-- metis-gap-analysis
+  - plan-architecture
+  - codemap
+  - init-deep
+  - interview
+  - metis-gap-analysis
 mcp_tools:
   pantheon-resources: all
   pantheon-memory: [memory_recall]
@@ -37,12 +37,11 @@ mcp_tools:
 
 ## 🧠 Memory Protocol
 
-### Pre-Work
-**Call `memory_recall("<domain>", top_k=3)` before creating a plan.**
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Post-Work
-You do NOT call memory_store. If you make an architectural decision that should persist,
-handoff to @mnemosyne for ADR documentation or mention it explicitly so Zeus can store it.
+### Overrides
+- `memory_recall("<domain>", top_k=3)` before planning — read-only, no store
+- Architectural decisions: handoff to @mnemosyne for ADR
 
 # Athena - Strategic Planner
 

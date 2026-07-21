@@ -44,6 +44,35 @@
 
 ---
 
+## 🚀 Install Modes
+
+Pantheon offers 3 install modes — choose based on your needs:
+
+| Mode | Command | Installs | Time | Dependencies |
+|------|---------|----------|------|-------------|
+| **Lite** 🟢 | `npm run install:lite` | agents + skills + instructions | ~5s | None |
+| **Full** 🔵 | `npm run install:full` | everything + MCP servers + venv | ~60s | Python 3.11+, pip |
+| **Runtime** 🟡 | `npm run install:runtime` | only MCP servers + venv | ~30s | Python 3.11+, pip |
+
+```bash
+# Quick start — just the agents, no MCP infrastructure
+npm run install:lite
+
+# Full setup — agents + MCP servers (memory, persistence, resources)
+npm run install:full
+
+# Add MCP servers to an existing install
+npm run install:runtime
+```
+
+> **Lite** is for users who just want the agent rules without Python dependencies.
+> **Full** installs everything including `pantheon-memory` (vector search with ChromaDB) and `pantheon-persistence` (KV cache with SQLite FTS5).
+> **Runtime** adds MCP infrastructure to an existing lite install.
+
+> **Note for `install:full`:** The first install downloads ~1.5GB of ML dependencies (torch, chromadb, sentence-transformers). On slow connections, this can take 5-10 minutes. The installer handles this asynchronously and will not block.
+
+---
+
 ## 🚀 Unified Sync: `sync-platform.sh`
 
 **The recommended way to install and update Pantheon** across all platforms:

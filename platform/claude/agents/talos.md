@@ -5,6 +5,8 @@ mode: subagent
 tools: Grep, Read, Edit, Bash
 skills: simplify
 permission:
+"pantheon-memory_*": allow
+"pantheon-resources_*": allow
   bash:
     npx prettier *: allow
     git add *: allow

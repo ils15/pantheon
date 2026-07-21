@@ -13,6 +13,7 @@ permission:
   "pantheon-resources_*": allow
   "pantheon-memory_*": allow
   "pantheon-code-mode_*": ask
+  "pantheon-persistence_*": allow
 
 tools:
   agent: true
@@ -33,6 +34,7 @@ skills:
 - internet-search
 - orchestration-workflow
 - session-goal
+- visual-review-pipeline
 mcp_tools:
   pantheon-resources: all
   pantheon-memory: [memory_recall, memory_store, memory_search]
@@ -41,17 +43,14 @@ mcp_tools:
 
 ## 🧠 Memory Protocol
 
-### Auto-Store on Agent Return
-When ANY agent returns a subtask_summary:
-1. **Call `memory_store()` DIRETO** com os campos do subtask_summary
-2. Não passa por Mnemosyne — elimina round-trip
-3. O subtask_summary já tem: summary, files_changed, tests, status
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Pre-Work
-**Call `memory_recall("<feature>", top_k=3)` at session start before planning.**
-
-### Session-End
-**Session-end persistence is automatic — Zeus calls memory_store on every subtask_summary return. No explicit handoff needed** at session close.
+### Overrides
+- Auto-store triggers on EVERY agent subtask_summary return
+- Session-end: automatic via Auto-Store (no explicit handoff needed)
+- ADR documentation: delegate to @mnemosyne
+- Tier 1 Quick-index on background agent results
+- Two-tier persistence model (Tier 1 auto-index on return → Tier 2 full compression on Themis APPROVED)
 
 ## 📑 Table of Contents
 - [CRITICAL RULE](#zeus---main-conductor)
@@ -281,7 +280,7 @@ Full reference: `instructions/zeus-communication-rules.instructions.md`
 
 When Themis returns **APPROVED** on a phase review:
 1. Run the `context-compression` skill (`skills/context-compression/SKILL.md`)
-2. Delegate `compress_context` to @mnemosyne via the handoff defined in `routing.yml:616-620`
+2. Delegate `compress_context` to @mnemosyne via the handoff defined in `routing.yml:387-392`
 3. Wait for the ZZ artifact to be written to `.pantheon/memory-bank/.tmp/ZZ-phase<N>-context.md`
 4. Inject the ZZ artifact into the next phase agent prompts
 
@@ -331,7 +330,7 @@ Enable continuous execution only when the user **explicitly** requests "auto-con
 | Council synthesis | `instructions/zeus-council-synthesis.instructions.md` |
 | Timeout & retry | `instructions/zeus-timeout-retry.instructions.md` |
 | Stall detection | `instructions/zeus-anti-stall.instructions.md` |
-| Visual review | `instructions/visual-review-pipeline.instructions.md` |
+| Visual review | `skill: visual-review-pipeline` |
 | Code review | `skill: code-review-checklist` |
 | Communication rules | `instructions/zeus-communication-rules.instructions.md` |
 | Documentation | `instructions/documentation-standards.instructions.md` |
