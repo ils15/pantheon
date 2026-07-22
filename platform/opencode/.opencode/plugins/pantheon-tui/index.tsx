@@ -1,266 +1,268 @@
+// biome-ignore-all lint/suspicious/noExplicitAny: necessary for TuiPluginApi dynamic state access
+// biome-ignore-all lint/a11y/noStaticElementInteractions: TUI elements, not DOM
 /** @jsxImportSource @opentui/solid */
 
-import type {
-	TuiPlugin,
-	TuiPluginApi,
-	TuiPluginModule,
-} from "@opencode-ai/plugin/tui";
-import { createMemo, createResource, createSignal, For, Show } from "solid-js";
+import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from '@opencode-ai/plugin/tui'
+import { createMemo, createSignal, For, Show } from 'solid-js'
 
-// ── Version ──────────────────────────────────────────────────────────────────
+// ── Static Data ──────────────────────────────────────────────────────────────
 
-async function readVersion(api: TuiPluginApi): Promise<string> {
+async function readPantheonVersion(api: TuiPluginApi): Promise<string> {
+  // Try 1: package.json via worktree absolute path
   try {
-    const wt = ((api.state as any).path?.worktree ?? "") as string
-    const fp = wt ? `${wt}/package.json` : "package.json"
-    const r = await api.client.file.read({ query: { path: fp } })
-    const c = typeof r.content === "string" ? r.content : String(r.content ?? "")
-    const m = c.match(/"version":\s*"([^"]+)"/)
-    if (m?.[1]) return m[1]
-  } catch {}
-  try {
-    const p = (api as any).client?.process;
-    if (typeof p?.exec === "function") {
-      const r = await p.exec({ command: "git", args: ["describe", "--tags", "--always"] });
-      const t = (r.stdout ?? r.output ?? "").trim().replace(/^v/, "");
-      if (t) return t;
-    }
-  } catch {}
-  return "4.0.0"
-}
-
-// ── Deepwork Status ──────────────────────────────────────────────────────────
-
-type DeepworkEntry = { slug: string; status: "complete" | "active" | "paused"; age?: string };
-
-async function readDeepworks(api: TuiPluginApi): Promise<DeepworkEntry[]> {
-  const wt = ((api.state as any).path?.worktree ?? "") as string || "."
-  const slugs = ["v4.0-sprint3-themis", "tui-plugin-enhance", "agent-mcp-integration",
-    "autonomous-agent-factory", "legacy-cleanup", "pantheon-docs-v2",
-    "release-localization", "v3.16-structure-and-lcm"]
-  const result: DeepworkEntry[] = []
-  for (const slug of slugs) {
-    try {
-      await api.client.file.read({ query: { path: `${wt}/.pantheon/deepwork/${slug}/PLAN.md` } })
-      let status: DeepworkEntry["status"] = "active"
-      try {
-        const rev = await api.client.file.read({ query: { path: `${wt}/.pantheon/deepwork/${slug}/REVIEW.md` } })
-        const content = typeof rev.content === "string" ? rev.content : ""
-        if (content.toLowerCase().includes("approved")) status = "complete"
-      } catch {}
-      try {
-        const hb = await api.client.file.read({ query: { path: `${wt}/.pantheon/deepwork/${slug}/heartbeat.json` } })
-        const hbc = typeof hb.content === "string" ? hb.content : ""
-        if (hbc.includes('"status": "paused"') || hbc.includes('"status":"paused"')) status = "paused"
-      } catch {}
-      result.push({ slug, status })
-    } catch {}
-  }
-  return result
-}
-
-// ── Recent Activity (memory recall) ──────────────────────────────────────────
-
-type ActivityEntry = { key: string; summary: string; time: string };
-
-async function readActivity(api: TuiPluginApi): Promise<ActivityEntry[]> {
-  try {
-    const wt = ((api.state as any).path?.worktree ?? "") as string || "."
-    const log = await api.client.file.read({ query: { path: `${wt}/.pantheon/memory-bank/02-progress-log.md` } })
-    const content = typeof log.content === "string" ? log.content : ""
-    const lines = content.split("\n").filter(l => l.startsWith("- ") || l.startsWith("##"))
-    const entries: ActivityEntry[] = []
-    for (const line of lines.slice(-8)) {
-      if (line.startsWith("## ")) continue
-      entries.push({ key: line.slice(0, 40), summary: line.slice(0, 60), time: "" })
-    }
-    return entries.length > 0 ? entries : [{ key: "(empty)", summary: "No recent activity", time: "" }]
+    const worktree = ((api.state as any).path?.worktree ?? '') as string
+    const filePath = worktree ? `${worktree}/package.json` : 'package.json'
+    const result = await api.client.file.read({ query: { path: filePath } })
+    const content =
+      typeof result.content === 'string' ? result.content : String(result.content ?? '')
+    const match = content.match(/"version":\s*"([^"]+)"/)
+    if (match?.[1]) return match[1]
   } catch {
-    return [{ key: "(no log)", summary: "No progress log found", time: "" }]
+    /* fall through */
   }
-}
 
-// ── Constants ────────────────────────────────────────────────────────────────
+  // Try 2: git describe (tag-based version)
+  try {
+    const proc = (api as any).client?.process
+    if (typeof proc?.exec === 'function') {
+      const result = await proc.exec({ command: 'git', args: ['describe', '--tags', '--always'] })
+      const stdout = (result.stdout ?? result.output ?? '') as string
+      const tag = stdout.trim().replace(/^v/, '')
+      if (tag) return tag
+    }
+  } catch {
+    /* fall through */
+  }
+
+  return '4.0.0'
+}
 
 const COMMANDS = [
-  { n: "/pantheon", d: "Council" }, { n: "/pantheon-status", d: "Status" },
-  { n: "/pantheon-audit", d: "Audit v2" }, { n: "/pantheon-cancel", d: "Cancel" },
-  { n: "/pantheon-deepwork", d: "Deep work" }, { n: "/pantheon-focus", d: "Focus" },
-  { n: "/pantheon-optimize", d: "Optimize" }, { n: "/pantheon-sketch", d: "Sketch" },
-  { n: "/pantheon-install", d: "Install" }, { n: "/pantheon-update", d: "Update" },
-  { n: "/pantheon-remember", d: "Remember" }, { n: "/pantheon-search", d: "Search" },
-  { n: "/pantheon-consolidate", d: "Merge" }, { n: "/pantheon-forget", d: "Compress" },
-];
+  { name: '/pantheon', desc: 'Council synthesis' },
+  { name: '/pantheon-status', desc: 'System status' },
+  { name: '/pantheon-audit', desc: 'Full audit (v2)' },
+  { name: '/pantheon-cancel', desc: 'Cancel task' },
+  { name: '/pantheon-deepwork', desc: 'Deep work mode' },
+  { name: '/pantheon-focus', desc: 'Focus on scope' },
+
+  { name: '/pantheon-optimize', desc: 'Optimize + archive' },
+
+  { name: '/pantheon-sketch', desc: 'Quick prototype' },
+  { name: '/pantheon-install', desc: 'Install agents' },
+  { name: '/pantheon-update', desc: 'Create release' },
+  { name: '/pantheon-remember', desc: 'Memory store/recall' },
+  { name: '/pantheon-search', desc: 'Memory search' },
+  { name: '/pantheon-consolidate', desc: 'Merge memories' },
+  { name: '/pantheon-forget', desc: 'Compress memories' },
+] as const
 
 const AGENTS = [
-  { n: "zeus", t: "d", r: "Orchestrator" }, { n: "athena", t: "p", r: "Planner" },
-  { n: "apollo", t: "f", r: "Discovery" }, { n: "hermes", t: "d", r: "Backend" },
-  { n: "aphrodite", t: "d", r: "Frontend" }, { n: "demeter", t: "d", r: "Database" },
-  { n: "themis", t: "p", r: "Quality" }, { n: "prometheus", t: "d", r: "Infra" },
-  { n: "hephaestus", t: "d", r: "AI pipelines" }, { n: "nyx", t: "f", r: "Observability" },
-  { n: "gaia", t: "f", r: "Remote sensing" }, { n: "iris", t: "f", r: "GitHub ops" },
-  { n: "mnemosyne", t: "f", r: "Memory bank" }, { n: "talos", t: "f", r: "Hotfixes" },
-];
+  { name: 'zeus', tier: 'default' as const, role: 'Orchestrator' },
+  { name: 'athena', tier: 'premium' as const, role: 'Strategic planner' },
+  { name: 'apollo', tier: 'fast' as const, role: 'Codebase discovery' },
+  { name: 'hermes', tier: 'default' as const, role: 'Backend' },
+  { name: 'aphrodite', tier: 'default' as const, role: 'Frontend' },
+  { name: 'demeter', tier: 'default' as const, role: 'Database' },
+  { name: 'themis', tier: 'premium' as const, role: 'Quality & security' },
+  { name: 'prometheus', tier: 'default' as const, role: 'Infrastructure' },
+  { name: 'hephaestus', tier: 'default' as const, role: 'AI pipelines' },
+  { name: 'nyx', tier: 'fast' as const, role: 'Observability' },
+  { name: 'gaia', tier: 'fast' as const, role: 'Remote sensing' },
+  { name: 'iris', tier: 'fast' as const, role: 'GitHub operations' },
+  { name: 'mnemosyne', tier: 'fast' as const, role: 'Memory bank' },
+  { name: 'talos', tier: 'fast' as const, role: 'Hotfixes' },
+] as const
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function _fmt(v: number): string {
+  return new Intl.NumberFormat('en-US').format(Math.max(0, Math.round(v)))
+}
+
+function safeNum(v: unknown): number {
+  return typeof v === 'number' && Number.isFinite(v) ? v : 0
+}
 
 // ── View ─────────────────────────────────────────────────────────────────────
-
 function View(props: { api: TuiPluginApi; sessionID: string; version: string }) {
-  const [sDeep, setSDeep] = createSignal(true);
-  const [sAct, setSAct] = createSignal(false);
-  const [sAgent, setSAgent] = createSignal(false);
-  const [sCmd, setSCmd] = createSignal(false);
-  const theme = () => props.api.theme.current;
-  const branch = createMemo(() => props.api.state.vcs?.branch ? `⎇ ${props.api.state.vcs.branch}` : null);
+  const [showCommands, setShowCommands] = createSignal(false)
+  const [showAgents, setShowAgents] = createSignal(false)
+  const [showConfig, setShowConfig] = createSignal(false)
+  const [showMemory, setShowMemory] = createSignal(false)
 
-  const [dws] = createResource(() => readDeepworks(props.api));
-  const [act] = createResource(() => readActivity(props.api));
+  const theme = () => props.api.theme.current
 
-  const statusIcon = (s: string) => s === "complete" ? "✅" : s === "paused" ? "⏸️" : "⏳";
+  const branch = createMemo(() =>
+    props.api.state.vcs?.branch ? `\u2387 ${props.api.state.vcs.branch}` : null,
+  )
+
+  // Config info
+  const configInfo = createMemo(() => {
+    const cfg = (props.api.state as any).config
+    if (!cfg) return null
+    return {
+      plugins: Array.isArray(cfg.plugin) ? cfg.plugin : [],
+      mcpCount: cfg.mcp ? Object.keys(cfg.mcp).length : 0,
+      autoCompaction: cfg.compaction?.auto === true,
+    }
+  })
+
+  // Memory info
+  const memoryInfo = createMemo(() => {
+    const mem = (props.api.state as any).memory
+    if (mem) {
+      const entries = safeNum(mem?.entries) || safeNum(mem?.count)
+      return entries > 0 ? { entries } : null
+    }
+    return null
+  })
 
   return (
     <box flexDirection="column" width="100%">
-      <text fg={theme().accent} attributes={{ bold: true }}>⚡ Pantheon · {props.version}</text>
-      <Show when={branch()}>{(b) => <box marginTop={1}><text fg={theme().textMuted}>{b()}</text></box>}</Show>
+      {/* ══ Header ══ */}
+      <text fg={theme().accent} attributes={{ bold: true }}>
+        ⚡ Pantheon · {props.version}
+      </text>
 
-      {/* ══ Deepwork ══ */}
-      <box marginTop={1} onMouseDown={() => setSDeep((x) => !x)}>
-        <text fg={theme().text} attributes={{ bold: true }}>{sDeep() ? "▼" : "▶"} Memory</text>
-      </box>
-      <Show when={sDeep()}>
-        <Show when={dws()} fallback={<box marginLeft={1}><text fg={theme().textMuted}>⏳</text></box>}>
-          {(list) => (
-            <box marginLeft={1} flexDirection="column">
-              <Show when={list().length > 0}
-                fallback={<text fg={theme().textMuted}>  (no active deepwork)</text>}>
-                <For each={list()}>
-                  {(dw) => <text fg={dw.status === "complete" ? "green" : theme().textMuted}>
-                    {statusIcon(dw.status)} {dw.slug}
-                  </text>}
-                </For>
-              </Show>
-            </box>
-          )}
-        </Show>
+      {/* ══ Branch (conditional) ══ */}
+      <Show when={branch()}>
+        {(b) => (
+          <box marginTop={1}>
+            <text fg={theme().textMuted}>{b()}</text>
+          </box>
+        )}
       </Show>
 
-      {/* ══ Activity ══ */}
-      <box marginTop={0} onMouseDown={() => setSAct((x) => !x)}>
-        <text fg={theme().text} attributes={{ bold: true }}>{sAct() ? "▼" : "▶"} Activity</text>
+      {/* ══ Commands (collapsible) ══ */}
+      <box marginTop={0} onMouseDown={() => setShowCommands((x) => !x)}>
+        <text fg={theme().text} attributes={{ bold: true }}>
+          {showCommands() ? '\u25bc' : '\u25b6'} Commands
+        </text>
+        <text fg={theme().textMuted}> ({COMMANDS.length})</text>
       </box>
-      <Show when={sAct()}>
-        <Show when={act()} fallback={<box marginLeft={1}><text fg={theme().textMuted}>⏳</text></box>}>
-          {(list) => (
-            <box marginLeft={1} flexDirection="column">
-              <For each={list()}>
-                {(e) => <text fg={theme().textMuted}>  {e.summary}</text>}
-              </For>
-            </box>
-          )}
-        </Show>
-      </Show>
 
-      {/* ══ Agents ══ */}
-      <box marginTop={0} onMouseDown={() => setSAgent((x) => !x)}>
-        <text fg={theme().text} attributes={{ bold: true }}>{sAgent() ? "▼" : "▶"} Agents ({AGENTS.length})</text>
-      </box>
-      <Show when={sAgent()}>
-        <box marginLeft={1} flexDirection="column">
-          <For each={AGENTS}>
-            {(a) => <text fg={a.t === "p" ? theme().accent : theme().textMuted}>
-              {a.t === "p" ? "✦" : "·"} {a.n} — {a.r}
-            </text>}
-          </For>
-        </box>
-      </Show>
-
-      {/* ══ Commands ══ */}
-      <box marginTop={0} onMouseDown={() => setSCmd((x) => !x)}>
-        <text fg={theme().text} attributes={{ bold: true }}>{sCmd() ? "▼" : "▶"} Commands ({COMMANDS.length})</text>
-      </box>
-      <Show when={sCmd()}>
+      <Show when={showCommands()}>
         <For each={COMMANDS}>
-          {(c) => <box marginLeft={1} onMouseDown={(e) => {
-            e.stopPropagation();
-            props.api.ui?.toast?.({ title: "Cmd", message: `Type ${c.n}` });
-          }}>
-            <text fg={theme().textMuted}>{c.n} — {c.d}</text>
-          </box>}
+          {(cmd) => (
+            <box
+              marginLeft={1}
+              onMouseDown={(e) => {
+                e.stopPropagation()
+                try {
+                  const cmdApi = (props.api as any).command
+                  const cmdName = cmd.name.replace('/', '')
+                  if (cmdApi?.trigger?.(cmdName)) return
+                } catch {}
+                // Fallback: show toast with the command
+                props.api.ui?.toast?.({
+                  title: 'Command',
+                  message: `Type ${cmd.name} in chat`,
+                })
+              }}
+            >
+              <text fg={cmd.name === '/pantheon' ? theme().accent : theme().textMuted}>
+                {cmd.name}
+              </text>
+              <text fg={theme().textMuted}> — {cmd.desc}</text>
+            </box>
+          )}
         </For>
       </Show>
+
+      {/* ══ Agents (collapsible) ══ */}
+      <box marginTop={0} onMouseDown={() => setShowAgents((x) => !x)}>
+        <text fg={theme().text} attributes={{ bold: true }}>
+          {showAgents() ? '\u25bc' : '\u25b6'} Agents
+        </text>
+        <text fg={theme().textMuted}> ({AGENTS.length})</text>
+      </box>
+
+      <Show when={showAgents()}>
+        <For each={AGENTS}>
+          {(agent) => (
+            <box marginLeft={1}>
+              <text fg={agent.tier === 'premium' ? theme().accent : theme().textMuted}>
+                {agent.tier === 'premium' ? '\u2726 ' : '\u00b7 '}
+                {agent.name}
+              </text>
+              <text fg={theme().textMuted}> — {agent.role}</text>
+            </box>
+          )}
+        </For>
+      </Show>
+
+      {/* ══ Config (collapsible) ══ */}
+      <box marginTop={0} onMouseDown={() => setShowConfig((x) => !x)}>
+        <text fg={theme().text} attributes={{ bold: true }}>
+          {showConfig() ? '\u25bc' : '\u25b6'} Config
+        </text>
+      </box>
+
+      <Show when={showConfig()}>
+        <Show
+          when={configInfo()}
+          fallback={
+            <box marginLeft={1}>
+              <text fg={theme().textMuted}>(no config data)</text>
+            </box>
+          }
+        >
+          {(cfg) => (
+            <box marginLeft={1} flexDirection="column">
+              <text fg={theme().textMuted}>
+                Plugins: {cfg().plugins.length > 0 ? cfg().plugins.join(', ') : '(none)'}
+              </text>
+              <text fg={theme().textMuted}>MCP servers configured: {cfg().mcpCount}</text>
+              <text fg={theme().textMuted}>
+                Auto-compaction: {cfg().autoCompaction ? 'ON' : 'OFF'}
+              </text>
+            </box>
+          )}
+        </Show>
+      </Show>
+
+      {/* ══ Memory (collapsible) ══ */}
+      <box marginTop={0} onMouseDown={() => setShowMemory((x) => !x)}>
+        <text fg={theme().text} attributes={{ bold: true }}>
+          {showMemory() ? '\u25bc' : '\u25b6'} Memory
+        </text>
+      </box>
+
+      <Show when={showMemory()}>
+        <Show
+          when={memoryInfo()}
+          fallback={
+            <box marginLeft={1}>
+              <text fg={theme().textMuted}>(no memory data)</text>
+            </box>
+          }
+        >
+          {(mem) => (
+            <box marginLeft={1} flexDirection="column">
+              <text fg={theme().textMuted}>Entries: {mem().entries}</text>
+            </box>
+          )}
+        </Show>
+      </Show>
     </box>
-  );
+  )
 }
 
 // ── Plugin ───────────────────────────────────────────────────────────────────
-
-const tui: TuiPlugin = async (api, _o, _m) => {
-  const version = await readVersion(api);
-
-  // Register sidebar
+const tui: TuiPlugin = async (api, _options, _meta) => {
+  const version = await readPantheonVersion(api)
   api.slots.register({
     order: 900,
     slots: {
-      sidebar_content(_ctx, p) {
-        return <View api={api} sessionID={p.session_id} version={version} />;
+      sidebar_content(_ctx, props) {
+        return <View api={api} sessionID={props.session_id} version={version} />
       },
     },
-  });
+  })
+}
 
-  // Listen for session events → toast notifications
-  api.event.on("session.status", (ev: any) => {
-    const s = ev?.data?.status;
-    if (s === "completed" || s === "error") {
-      const msg = s === "completed" ? "✅ Session completed" : "❌ Session error";
-      props?.api?.ui?.toast?.({ title: "Pantheon", message: msg, variant: s === "completed" ? "success" : "error" });
-    }
-  });
+const plugin: TuiPluginModule & { id: string } = {
+  id: 'pantheon.tui',
+  tui,
+}
 
-  // Listen for message completions → show subagent done toast
-  api.event.on("message.updated", (ev: any) => {
-    try {
-      const parts = ev?.data?.parts ?? [];
-      for (const part of parts) {
-        if (part.type === "subagent" && part.status === "completed") {
-          const name = part.agent ?? "subagent";
-          api.ui?.toast?.({ title: "Agent Done", message: `${name} completed task`, variant: "info" });
-        }
-      }
-    } catch {}
-  });
-};
-
-// Fix: the event handlers reference api, not props
-// Let me fix the closure
-const tuiFixed: TuiPlugin = async (api, _o, _m) => {
-  const version = await readVersion(api);
-
-  api.slots.register({
-    order: 900,
-    slots: {
-      sidebar_content(_ctx, p) {
-        return <View api={api} sessionID={p.session_id} version={version} />;
-      },
-    },
-  });
-
-  api.event.on("session.status", (ev: any) => {
-    const s = ev?.data?.status;
-    if (s === "completed" || s === "error") {
-      const msg = s === "completed" ? "Session completed" : "Session error";
-      api.ui?.toast?.({ title: "Pantheon", message: msg, variant: s === "completed" ? "success" : "error" });
-    }
-  });
-
-  api.event.on("message.updated", (ev: any) => {
-    try {
-      const parts = ev?.data?.parts ?? [];
-      for (const part of parts) {
-        if (part.type === "subagent" && part.status === "completed") {
-          api.ui?.toast?.({ title: "Agent Done", message: `${part.agent ?? "subagent"} completed`, variant: "info" });
-        }
-      }
-    } catch {}
-  });
-};
-
-export default { id: "pantheon.tui", tui: tuiFixed };
+export default plugin

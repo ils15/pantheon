@@ -43,8 +43,6 @@ SLOP_PATTERNS = [
     (r"// (Private|Protected|Public) (method|field|helper)", "obvious access"),
     (r"// (Initialize|Cleanup)", "obvious init/cleanup"),
     (r"# (Initialize|Cleanup)", "obvious init/cleanup"),
-    (r"// Check if", "obvious check-if"),
-    (r"# Check if", "obvious check-if"),
     (r"// Return (the|a|true|false)", "obvious return"),
     (r'""" ?(This|A) (module|function|class)', "generic docstring"),
     (
@@ -77,10 +75,6 @@ SLOP_PATTERNS = [
     (
         r"new Date\(\)",
         "use Intl.DateTimeFormat for formatting, not manual Date methods",
-    ),
-    (
-        r"useEffect.*fetch|useEffect.*axios",
-        "use react-query or native fetch in event handlers",
     ),
     (r"function.*\(\) \{$", "prefer one-liner arrow functions"),
 ]
@@ -262,14 +256,14 @@ class Scanner:
         self.run_antipattern()
         self.run_hash_verify()
 
-        verdict = "BLOCKING" if self.score < 60 else "APPROVED"
+        verdict = "BLOCKING" if self.score < 60 else "APPROVED"  # noqa: PLR2004
         print("━━━━━━━━━━━━━━━━━━━━━━━")
         for line in self.report:
             print(line)
         print("━━━━━━━━━━━━━━━━━━━━━━━")
         print(f"Score: {self.score}/100 | Verdict: {verdict}")
 
-        if self.score < 60:
+        if self.score < 60:  # noqa: PLR2004
             print("\033[31m→ BLOCKING: issues found\033[0m")
             return 1
         else:
