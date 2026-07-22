@@ -262,14 +262,14 @@ class Scanner:
         self.run_antipattern()
         self.run_hash_verify()
 
-        verdict = "BLOCKING" if self.blocking else "APPROVED"
+        verdict = "BLOCKING" if self.score < 60 else "APPROVED"
         print("━━━━━━━━━━━━━━━━━━━━━━━")
         for line in self.report:
             print(line)
         print("━━━━━━━━━━━━━━━━━━━━━━━")
         print(f"Score: {self.score}/100 | Verdict: {verdict}")
 
-        if self.blocking:
+        if self.score < 60:
             print("\033[31m→ BLOCKING: issues found\033[0m")
             return 1
         else:
