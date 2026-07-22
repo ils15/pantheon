@@ -24,6 +24,21 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 
 ---
 
+## 📋 v4.0 Changelog
+
+| Sprint | Feature |
+|--------|--------|
+| 1 | Memory Commands (/pantheon-remember, search, consolidate, forget) |
+| 2 | @pantheon/cli npm package |
+| 3 | Themis 2.0 (3-layer review + IntentGate) |
+| 4 | Background Agents + TODO Enforcer + Hash Edits |
+| 5 | Memory Simplification (agents read-only, WAL) |
+| 6 | YAGNI + Anti-overengineering (12 patterns) |
+
+**🏆 Themis audit: 100/100**  
+**🗑️ 9 commands removed:** ping, stop-continuation, subtask, manifest, forge, mirrordeps, praxis, metamorphosis, reflect  
+**✨ 14 commands total** — all `/pantheon-*`
+
 ## Quick Links
 
 | Resource | Link |
