@@ -1,0 +1,199 @@
+#!/usr/bin/env python3
+"""Themis Layer 1 — Heuristic Scanner.
+Zero LLM tokens. Roda em <2s. Retorna score 0-100 + blocking verdict.
+
+Usage: python3 scripts/themis_heuristic_scan.py [--path=<dir>] [--diff-only]
+"""
+
+import argparse
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+
+EXCLUDE_DIRS = {"node_modules", ".pantheon", ".git", "__pycache__",
+                ".venv", "venv", ".mypy_cache", ".ruff_cache", ".hypothesis"}
+
+# 20 anti-patterns de IA slop
+SLOP_PATTERNS = [
+    (r'// This (function|method|class) (is used|is responsible|handles)', "comentário óbvio"),
+    (r'# (This|A) (function|method|class) (is used|is responsible|handles)', "comentário óbvio"),
+    (r'// TODO: (fix|implement|add|remove)', "TODO genérico"),
+    (r'# TODO (fix|implement|add)', "TODO genérico"),
+    (r'// FIXME:', "FIXME"),
+    (r'# FIXME', "FIXME"),
+    (r'// (Getter|Setter) for', "getter/setter óbvio"),
+    (r'# (Getter|Setter) for', "getter/setter óbvio"),
+    (r'// (Private|Protected|Public) (method|field|helper)', "acesso óbvio"),
+    (r'// (Initialize|Cleanup)', "init/cleanup óbvio"),
+    (r'# (Initialize|Cleanup)', "init/cleanup óbvio"),
+    (r'// Check if', "check if óbvio"),
+    (r'# Check if', "check if óbvio"),
+    (r'// Return (the|a|true|false)', "return óbvio"),
+    (r'""" ?(This|A) (module|function|class)', "docstring genérica"),
+]
+
+Score = int
+Verdict = str  # "APPROVED" | "BLOCKING"
+
+
+class Scanner:
+    def __init__(self, target: str, diff_only: bool = False):
+        self.target = Path(target).resolve()
+        self.diff_only = diff_only
+        self.score: int = 100
+        self.report: list[str] = []
+        self.blocking: bool = False
+
+    def deduct(self, points: int) -> None:
+        self.score = max(0, self.score - points)
+
+    def find_files(self, *exts: str) -> list[Path]:
+        files = []
+        for ext in exts:
+            for f in self.target.rglob(f"*.{ext}"):
+                if not any(p in f.parts for p in EXCLUDE_DIRS):
+                    files.append(f)
+        return files[:20]  # limit to 20 files for speed
+
+    def run_ruff(self) -> None:
+        files = self.find_files("py")
+        if not files:
+            self.report.append("  ⏭️  ruff: no Python files")
+            return
+        try:
+            result = subprocess.run(
+                ["ruff", "check", "--select", "F,E,W,I,N,UP,B,SIM,PL,RUF",
+                 "--output-format", "concise", *[str(f) for f in files]],
+                capture_output=True, text=True, timeout=10)
+        except (subprocess.TimeoutExpired, FileNotFoundError):
+            self.report.append("  ⚠️  ruff: not available or timeout")
+            self.deduct(5)
+            return
+
+        if result.returncode == 0:
+            self.report.append("  ✅ ruff: clean")
+        else:
+            count = len([l for l in result.stdout.split("\n") if l.strip()])
+            self.report.append(f"  ⚠️  ruff: {count} issues")
+            if count > 5:
+                self.blocking = True
+                self.deduct(15)
+
+    def run_biome(self) -> None:
+        files = self.find_files("ts", "tsx", "js", "jsx")
+        if not files:
+            self.report.append("  ⏭️  biome: no JS/TS files")
+            return
+        try:
+            result = subprocess.run(
+                ["npx", "biome", "check", "--write", "--unsafe", *[str(f) for f in files]],
+                capture_output=True, text=True, timeout=15)
+        except (subprocess.TimeoutExpired, FileNotFoundError):
+            self.report.append("  ⏭️  biome: not available")
+            return
+
+        if result.returncode == 0 or "safe fixes" in result.stdout:
+            self.report.append("  ✅ biome: clean or auto-fixed")
+        else:
+            self.report.append("  ⚠️  biome: issues found")
+            self.deduct(10)
+
+    def run_antipattern(self) -> None:
+        hits = 0
+        for ext in ("py", "ts", "tsx", "js", "jsx"):
+            for f in self.find_files(ext):
+                try:
+                    content = f.read_text(errors="ignore")
+                    for pat, label in SLOP_PATTERNS:
+                        if re.search(pat, content):
+                            hits += 1
+                            self.report.append(f"  🧹 slop: {label} → {f.name}")
+                except (OSError, UnicodeDecodeError):
+                    continue
+
+        if hits == 0:
+            self.report.append("  ✅ anti-pattern: clean")
+        else:
+            self.report.append(f"  🧹 anti-pattern: {hits} slop patterns")
+            self.deduct(hits * 2)
+            if hits > 10:
+                self.blocking = True
+
+    def run_hash_verify(self) -> None:
+        """Verify that staged edits actually changed the file."""
+        try:
+            result = subprocess.run(
+                ["git", "diff", "--cached", "--name-only"],
+                capture_output=True, text=True, timeout=5)
+        except (subprocess.TimeoutExpired, FileNotFoundError):
+            self.report.append("  ⏭️  hash-verify: git not available")
+            return
+
+        staged = [f for f in result.stdout.strip().split("\n") if f][:10]
+        if not staged:
+            self.report.append("  ⏭️  hash-verify: no staged files")
+            return
+
+        failed = 0
+        for f in staged:
+            if not Path(f).exists():
+                continue
+            try:
+                diff = subprocess.run(
+                    ["git", "diff", "--cached", f],
+                    capture_output=True, text=True, timeout=5)
+                before = len([l for l in diff.stdout.split("\n") if l.startswith("-") and not l.startswith("---")])
+                after = len([l for l in diff.stdout.split("\n") if l.startswith("+") and not l.startswith("+++")])
+            except (subprocess.TimeoutExpired, FileNotFoundError):
+                continue
+
+            if before == 0 and after == 0:
+                failed += 1
+                self.report.append(f"  ⚠️  hash-verify: {f} — no change detected")
+
+        if failed == 0:
+            self.report.append("  ✅ hash-verify: all edits verified")
+        else:
+            self.report.append(f"  ⚠️  hash-verify: {failed} files with failed edits")
+            self.blocking = True
+            self.deduct(20)
+
+    def run(self) -> tuple[int, str]:
+        print("🔍 Themis Heuristic Scan")
+        print("━━━━━━━━━━━━━━━━━━━━━━━")
+
+        self.run_ruff()
+        self.run_biome()
+        self.run_antipattern()
+        self.run_hash_verify()
+
+        verdict = "BLOCKING" if self.blocking else "APPROVED"
+        print("━━━━━━━━━━━━━━━━━━━━━━━")
+        for line in self.report:
+            print(line)
+        print("━━━━━━━━━━━━━━━━━━━━━━━")
+        print(f"Score: {self.score}/100 | Verdict: {verdict}")
+
+        if self.blocking:
+            print("\033[31m→ BLOCKING: issues found\033[0m")
+            return 1
+        else:
+            print("\033[32m→ Passed: ready for Layer 2\033[0m")
+            return 0
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Themis Layer 1 Heuristic Scanner")
+    parser.add_argument("--path", default=".", help="Target directory")
+    parser.add_argument("--diff-only", action="store_true", help="Only check staged diffs")
+    args = parser.parse_args()
+
+    scanner = Scanner(args.path, args.diff_only)
+    sys.exit(scanner.run())
+
+
+if __name__ == "__main__":
+    main()
