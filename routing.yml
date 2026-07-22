@@ -361,6 +361,26 @@ auto_continue:
 # Implicit default: any agent can delegate to apollo for codebase discovery.
 # Overrides are listed in agent subagent_can_delegate_to fields above.
 # See instructions/zeus-timeout-retry.instructions.md for timeout/retry defaults.
+# INTENT GATE — Heuristic request classification (zero LLM)
+# Zeus classifies the request BEFORE delegating to the correct agent.
+# Patterns are matched by keyword, not LLM call.
+intent_gate:
+  fix:
+    patterns: ["bug", "error", "crash", "broken", "fail", "wrong", "incorrect"]
+    target: talos
+  research:
+    patterns: ["how", "what", "why", "where", "find", "search", "lookup", "documentation"]
+    target: apollo
+  investigate:
+    patterns: ["compare", "vs", "trade.?off", "should", "which", "risk", "impact"]
+    target: athena
+  plan:
+    patterns: ["plan", "roadmap", "architecture", "design", "proposal", "strategy"]
+    target: athena
+  implement:
+    patterns: []
+    target: hermes  # default fallback
+
 delegation:
   zeus:
     - target: athena
