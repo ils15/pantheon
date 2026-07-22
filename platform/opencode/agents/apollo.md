@@ -10,6 +10,7 @@ permission:
   bash: deny
   pantheon-resources_*: allow
   pantheon-memory_*: allow
+  pantheon-persistence_*: allow
 temperature: 0.1
 steps: 15
 mcp_tools:
@@ -21,11 +22,10 @@ mcp_tools:
 
 ## 🧠 Memory Protocol
 
-### Pre-Work
-**Call `memory_search("<topic>")` before starting investigation.**
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Post-Work
-You do NOT call memory_store. Findings are persisted by Mnemosyne or Zeus.
+### Override
+- `memory_search("<topic>")` before investigation — read-only, no store
 
 # Apollo - Investigation Scout
 
@@ -92,7 +92,6 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 
 ### Not Available
 - ⛔ `pantheon-code-mode` (bash=deny)
-  "pantheon-persistence_*": allow
 - ⛔ `memory_store` — read-only; findings indexed by Mnemosyne
 
 Before starting an investigation, call `memory_search("<topic>")` to avoid re-discovering known patterns. Read `pantheon://agents` to discover agent constraints. You are read-only — Mnemosyne handles memory persistence.

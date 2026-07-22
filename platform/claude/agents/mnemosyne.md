@@ -3,12 +3,7 @@ name: mnemosyne
 description: Memory bank quality owner — initializes .pantheon/memory-bank/, writes ADRs and task records on explicit request. Called by zeus. Never invoked automatically after phases.
 mode: primary
 tools: Agent, Grep, Read, Edit
-skills:
-  - artifact-management
-  - handoff
-  - task-system
-  - context-compression
-  - memory-bank
+skills: artifact-management, handoff, task-system, context-compression, memory-bank
 permission:
 "pantheon-memory_*": allow
 "pantheon-persistence_*": allow
@@ -16,7 +11,7 @@ permission:
   bash: deny
   pantheon-resources_*: allow
   pantheon-memory_*: allow
-  pantheon-code-mode_*: ask
+  pantheon-persistence_*: allow
 temperature: 0.1
 steps: 10
 mcp_tools:
@@ -39,6 +34,17 @@ mcp_tools:
   pantheon-code-mode:
     - execute_code_script
 ---
+
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Overrides
+- Session-end: automatic via Zeus Auto-Store; Mnemosyne handles permanent docs (ADRs, TASK records)
+- Sprint close: graduate importance ≥ 0.6 to Memory Bank, MEDIUM/LOW (0.4-0.59) stay in Vector DB, run compress_context if ≥ 50 lines
+- Quick-Index handler (Tier 1): indexes subtask_summaries from any agent into Vector Memory
+- Context Compression (Level 2): full pipeline on Themis APPROVED (ZZ artifact → 01-active-context.md → 02-progress-log.md)
+- Semantic Recall (Level 3): `@mnemosyne Recall "<query>"` for vector memory queries
 
 # Mnemosyne - Memory Bank Quality Owner
 
@@ -204,6 +210,5 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
 | **pantheon-memory** | All 14 memory tools — see frontmatter `mcp_tools:` for the full list | Comprehensive memory management — store, search, delete, compress, link, export, consolidate |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run context compression scripts via `compress-inline.py` |
-  "pantheon-persistence_*": allow
 
 This agent is the **memory steward** for the entire system. Use `memory_store()` for ADRs and task records, `memory_recall()` for context retrieval, `memory_export()` for batch exports, `memory_compress()` for session compaction, `memory_consolidate()` for dedup. See the context-compression skill for batch operations.

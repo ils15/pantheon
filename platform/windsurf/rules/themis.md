@@ -7,6 +7,13 @@ trigger: model_decision
 > Pantheon agent for Windsurf Cascade. Invoke with @<name>.
 
 
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_search("<topic>")` before review — read-only, no store
+
 # Themis - Quality & Security Gate
 
 ## ⛔ When NOT to Use Themis

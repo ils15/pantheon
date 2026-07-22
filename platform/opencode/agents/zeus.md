@@ -14,6 +14,7 @@ permission:
   pantheon-resources_*: allow
   pantheon-memory_*: allow
   pantheon-code-mode_*: ask
+  pantheon-persistence_*: allow
 temperature: 0.2
 steps: 25
 mcp_tools:
@@ -28,17 +29,14 @@ mcp_tools:
 
 ## 🧠 Memory Protocol
 
-### Auto-Store on Agent Return
-When ANY agent returns a subtask_summary:
-1. **Call `memory_store()` DIRETO** com os campos do subtask_summary
-2. Não passa por Mnemosyne — elimina round-trip
-3. O subtask_summary já tem: summary, files_changed, tests, status
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Pre-Work
-**Call `memory_recall("<feature>", top_k=3)` at session start before planning.**
-
-### Session-End
-**Session-end persistence is automatic — Zeus calls memory_store on every subtask_summary return. No explicit handoff needed** at session close.
+### Overrides
+- Auto-store triggers on EVERY agent subtask_summary return
+- Session-end: automatic via Auto-Store (no explicit handoff needed)
+- ADR documentation: delegate to @mnemosyne
+- Tier 1 Quick-index on background agent results
+- Two-tier persistence model (Tier 1 auto-index on return → Tier 2 full compression on Themis APPROVED)
 
 ## 📑 Table of Contents
 - [CRITICAL RULE](#zeus---main-conductor)
@@ -381,7 +379,6 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
 | **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past decisions at session start, store orchestration results, search previous phases |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run sync-platforms, install, deploy, and orchestration scripts |
-  "pantheon-persistence_*": allow
 
 Use `memory_recall()` at session start with feature context. After each phase, `memory_store()` to persist state. Read `pantheon://routing` to verify delegation rules. Call `execute_code_script()` for automated orchestration sequences.
 
@@ -393,44 +390,24 @@ This routing table is auto-generated from `routing.yml` — the canonical routin
 
 | Task Category | Primary Agent | Model Tier | Parallel Agents |
 |--------------|--------------|-----------|----------------|
-| Strategic planning | @athena | — | apollo |
-| Codebase discovery | @apollo | — | — |
-| Architecture decisions | @zeus | — | — |
-| Multi-perspective analysis | @zeus | — | — |
-| System config (agent files, routing.yml, commands) | @talos | — | — |
-| Backend / API | @hermes | — | aphrodite, demeter |
-| Frontend / UI | @aphrodite | — | hermes, demeter |
-| Database / Schema | @demeter | — | hermes, aphrodite |
-| AI pipelines / RAG | @hephaestus | — | — |
-| Remote sensing / geospatial | @gaia | — | — |
-| Docker / deployment | @prometheus | — | — |
-| CI/CD pipelines | @prometheus | — | — |
-| Code review / quality gate | @themis | — | — |
-| Security audit | @themis | — | — |
-| GitHub operations | @iris | — | — |
-| Context compression / artifact archival | @mnemosyne | — | — |
-| Documentation / memory | @mnemosyne | — | — |
-| Observability / monitoring | @nyx | — | — |
-| Hotfix / bug fix | @talos | — | — |
-| Orchestration | @zeus | — | — |
 
 ### Agent Quick Reference
 
 | Agent | Role | Model Tier | Direct Invocable |
 |-------|------|-----------|-----------------|
-| @athena | Strategic planner & architect — TDD-driven plans, research-first ap... | premium | ✅ |
-| @apollo | Read-only investigation scout — parallel searches across codebase, ... | fast | ❌ |
-| @hermes | Backend specialist — FastAPI, Python async, TDD, modern stdlib | default | ✅ |
-| @aphrodite | Frontend specialist — React 19, TypeScript strict, WCAG accessibili... | default | ✅ |
-| @demeter | Database specialist — SQLAlchemy 2.0, Alembic, query optimization, ... | default | ✅ |
-| @themis | Quality & security gate — ruff/Biome linting, OWASP Top 10, dead co... | premium | ✅ |
-| @prometheus | Infrastructure specialist — Docker, docker-compose, CI/CD, health c... | default | ✅ |
-| @hephaestus | AI tooling & pipelines — LangChain/LangGraph, RAG, vector stores, e... | default | ✅ |
-| @nyx | Observability & monitoring — OpenTelemetry, token/cost tracking, La... | fast | ✅ |
-| @gaia | Remote sensing — satellite imagery, spectral analysis, SAR, change ... | default | ✅ |
-| @iris | GitHub operations — branches, PRs, issues, releases, tags | fast | ✅ |
-| @mnemosyne | Memory bank — initializes .pantheon/memory-bank/, writes ADRs and t... | fast | ✅ |
-| @talos | Hotfix express lane — direct fixes for small bugs, CSS, typos. No TDD | fast | ✅ |
+| @athena | Strategic planner | premium | ✅ |
+| @apollo | Investigation scout | fast | ❌ |
+| @hermes | Backend specialist | default | ✅ |
+| @aphrodite | Frontend specialist | default | ✅ |
+| @demeter | Database specialist | default | ✅ |
+| @themis | Quality gate | premium | ✅ |
+| @prometheus | Infrastructure specialist | default | ✅ |
+| @hephaestus | AI pipelines | default | ✅ |
+| @nyx | Observability | fast | ✅ |
+| @gaia | Remote sensing | default | ✅ |
+| @iris | GitHub operations | fast | ✅ |
+| @mnemosyne | Memory bank | fast | ✅ |
+| @talos | Hotfix agent | fast | ✅ |
 
 *See `routing.yml` for full delegation rules and handoff definitions.*
 

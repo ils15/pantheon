@@ -11,6 +11,7 @@
  *   node scripts/sync-platforms.mjs --dry-run    # print diff without writing
  */
 
+import { spawnSync } from 'child_process';
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, existsSync, rmSync } from 'fs';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';

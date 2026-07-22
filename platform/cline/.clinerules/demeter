@@ -1,6 +1,13 @@
 > Pantheon rule for Cline. This content is loaded as system prompt context.
 
 
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_recall("database", top_k=3)` at task start
+
 ## ⛔ When NOT to Use Demeter
 - For backend business logic — that's @hermes
 - For frontend data display — that's @aphrodite

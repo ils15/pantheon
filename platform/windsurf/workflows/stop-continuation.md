@@ -1,11 +1,9 @@
 ---
-description: "Redirect — use /cancel instead. Stop auto-continuation."
+description: "Alias for /cancel. Stops auto-continuation."
 ---
-# /stop-continuation → /cancel
+# /stop-continuation — Alias for /cancel
 
-> **⚠️ REDIRECT:** This command has been renamed. Use `/cancel` instead.
+This command is an alias for `/cancel`. Both do the same thing.
 
-## Migration
-- `/stop-continuation` → `/cancel` (same behavior)
-
-All functionality is preserved. Only the command name changed.
+**Usage:** `/stop-continuation` or `/cancel`
+**See:** `commands/cancel.md` for full documentation.

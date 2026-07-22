@@ -2,7 +2,7 @@
 name: talos
 description: Hotfix express lane — direct fixes for small bugs, CSS, typos, minor logic. No TDD ceremony, no orchestration overhead. Standalone, no subagents. Escalates complex issues to zeus.
 mode: subagent
-tools: Grep, Read, Edit, Bash
+tools: Agent, Read, Edit
 skills: simplify
 permission:
 "pantheon-memory_*": allow
@@ -19,7 +19,6 @@ permission:
     git branch *: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow
-  pantheon-code-mode_*: ask
 temperature: 0.3
 steps: 30
 mcp_tools:
@@ -29,6 +28,13 @@ mcp_tools:
   pantheon-code-mode:
     - execute_code_script
 ---
+
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_recall("hotfix", top_k=3)` before fix — read-only, no store
 
 # Talos - Hotfix Express Lane
 

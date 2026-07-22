@@ -7,6 +7,17 @@ trigger: model_decision
 > Pantheon agent for Windsurf Cascade. Invoke with @<name>.
 
 
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Overrides
+- Auto-store triggers on EVERY agent subtask_summary return
+- Session-end: automatic via Auto-Store (no explicit handoff needed)
+- ADR documentation: delegate to @mnemosyne
+- Tier 1 Quick-index on background agent results
+- Two-tier persistence model (Tier 1 auto-index on return → Tier 2 full compression on Themis APPROVED)
+
 ## 📑 Table of Contents
 - [CRITICAL RULE](#zeus---main-conductor)
 - [Tool Restrictions](#⚠️-tool-restrictions)

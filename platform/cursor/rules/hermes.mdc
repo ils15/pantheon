@@ -8,6 +8,12 @@ globs: []
 > Pantheon agent for Cursor. Invoke with @<name> in Agent mode.
 
 
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_recall("backend", top_k=3)` at task start
 
 ## Table of Contents
 - [Core Capabilities](#core-capabilities)

@@ -98,3 +98,11 @@ If a phase stalls:
 - Each phase gated by Themis — quality enforced at every step
 - Explicit resume required — won't auto-continue without user intent
 - `.pantheon/deepwork/` is gitignored — no accidental commits
+
+---
+
+## Related: `/pantheon-praxis` (merged)
+
+`/pantheon-praxis` was merged into `/pantheon-deepwork` in v4.0. Use `/pantheon-deepwork` for all multi-phase execution.
+
+For ad-hoc single-phase execution, use normal agent delegation (`@hermes`, `@aphrodite`, etc.) directly.

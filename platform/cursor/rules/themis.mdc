@@ -8,6 +8,13 @@ globs: []
 > Pantheon agent for Cursor. Invoke with @<name> in Agent mode.
 
 
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_search("<topic>")` before review — read-only, no store
+
 # Themis - Quality & Security Gate
 
 ## ⛔ When NOT to Use Themis

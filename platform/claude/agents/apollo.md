@@ -2,7 +2,7 @@
 name: apollo
 description: "Read-only investigation scout — 3–10 parallel searches across codebase, external docs, and GitHub. Called by: athena, zeus, hermes, aphrodite, demeter. No edits, no commands."
 mode: subagent
-tools: Grep, Glob, Read, WebFetch
+tools: Agent, Grep, Glob, Read, WebFetch
 skills: internet-search, codemap
 permission:
 "pantheon-memory_*": allow
@@ -12,6 +12,7 @@ permission:
   bash: deny
   pantheon-resources_*: allow
   pantheon-memory_*: allow
+  pantheon-persistence_*: allow
 temperature: 0.1
 steps: 15
 mcp_tools:
@@ -20,6 +21,13 @@ mcp_tools:
     - memory_search
   pantheon-code-mode: []
 ---
+
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_search("<topic>")` before investigation — read-only, no store
 
 # Apollo - Investigation Scout
 
@@ -86,7 +94,6 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 
 ### Not Available
 - ⛔ `pantheon-code-mode` (bash=deny)
-  "pantheon-persistence_*": allow
 - ⛔ `memory_store` — read-only; findings indexed by Mnemosyne
 
 Before starting an investigation, call `memory_search("<topic>")` to avoid re-discovering known patterns. Read `pantheon://agents` to discover agent constraints. You are read-only — Mnemosyne handles memory persistence.

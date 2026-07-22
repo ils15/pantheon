@@ -2,7 +2,7 @@
 name: gaia
 description: Remote sensing domain specialist — satellite image processing, spectral analysis, SAR, change detection, time series, ML/DL classification. Read-only analysis of geospatial data.
 mode: subagent
-tools: Grep, Glob, Read, WebFetch, AskUserQuestion
+tools: Agent, Read, Grep
 skills: remote-sensing-analysis, internet-search
 permission:
 "pantheon-memory_*": allow
@@ -19,6 +19,13 @@ mcp_tools:
     - memory_recall
   pantheon-code-mode: []
 ---
+
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_recall("remote-sensing", top_k=3)` before analysis — read-only, no store
 
 # Gaia - Remote Sensing Domain Specialist
 

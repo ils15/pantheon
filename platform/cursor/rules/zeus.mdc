@@ -8,6 +8,17 @@ globs: []
 > Pantheon agent for Cursor. Invoke with @<name> in Agent mode.
 
 
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Overrides
+- Auto-store triggers on EVERY agent subtask_summary return
+- Session-end: automatic via Auto-Store (no explicit handoff needed)
+- ADR documentation: delegate to @mnemosyne
+- Tier 1 Quick-index on background agent results
+- Two-tier persistence model (Tier 1 auto-index on return → Tier 2 full compression on Themis APPROVED)
+
 ## 📑 Table of Contents
 - [CRITICAL RULE](#zeus---main-conductor)
 - [Tool Restrictions](#⚠️-tool-restrictions)
@@ -236,7 +247,7 @@ Full reference: `instructions/zeus-communication-rules.instructions.md`
 
 When Themis returns **APPROVED** on a phase review:
 1. Run the `context-compression` skill (`skills/context-compression/SKILL.md`)
-2. Delegate `compress_context` to @mnemosyne via the handoff defined in `routing.yml:616-620`
+2. Delegate `compress_context` to @mnemosyne via the handoff defined in `routing.yml:387-392`
 3. Wait for the ZZ artifact to be written to `.pantheon/memory-bank/.tmp/ZZ-phase<N>-context.md`
 4. Inject the ZZ artifact into the next phase agent prompts
 

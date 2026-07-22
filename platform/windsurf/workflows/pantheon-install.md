@@ -12,7 +12,7 @@ Runs the 3-phase pipeline: **SYNC → INSTALL → VERIFY**
 
 ```
 /pantheon-install                      # Default (opencode → ~/.config/opencode/)
-/pantheon-install --platform all       # All 7 platforms
+/pantheon-install --platform all       # All 8 platforms
 /pantheon-install --platform opencode,claude
 /pantheon-install --check-only         # Verify only (no changes)
 /pantheon-install --dry-run            # Preview without writing

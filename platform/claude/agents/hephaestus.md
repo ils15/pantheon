@@ -10,7 +10,6 @@ permission:
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow
-  pantheon-code-mode_*: ask
 temperature: 0.3
 steps: 20
 mcp_tools:
@@ -22,6 +21,13 @@ mcp_tools:
   pantheon-code-mode:
     - execute_code_script
 ---
+
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_recall("ai-pipelines", top_k=3)` at task start
 
 # Hephaestus - AI Tooling & Pipelines Specialist
 

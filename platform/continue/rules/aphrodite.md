@@ -5,6 +5,13 @@
 > Pantheon agent rule for Continue.dev. This rule is injected into the system prompt as context. Reference: https://github.com/ils15/pantheon
 
 
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_recall("frontend", top_k=3)` at task start
+
 ## ⛔ When NOT to Use Aphrodite
 - For backend API implementation — that's @hermes
 - For database schema changes — that's @demeter

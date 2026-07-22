@@ -11,7 +11,6 @@ permission:
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow
-  pantheon-code-mode_*: ask
 temperature: 0.1
 steps: 15
 mcp_tools:
@@ -23,6 +22,13 @@ mcp_tools:
   pantheon-code-mode:
     - execute_code_script
 ---
+
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_recall("observability", top_k=3)` at task start
 
 # Nyx - Observability & Monitoring Specialist
 

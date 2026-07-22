@@ -9,7 +9,7 @@ permission:
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow
-  pantheon-code-mode_*: ask
+  pantheon-persistence_*: allow
 temperature: 0.3
 steps: 20
 mcp_tools:
@@ -23,17 +23,10 @@ mcp_tools:
 
 ## 🧠 Memory Protocol
 
-### Pre-Work
-**Call `memory_recall("backend", top_k=3)` ONCE at task start — before any file reads.**
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Post-Work
-**`memory_store()` is called AUTOMATICALLY by Zeus when you return a subtask_summary.**
-Just include a clear `summary` field in your return — the persistence happens automatically.
-
-### Rules
-- memory_recall: 1 call per task, not per turn. If score < 0.3 → skip.
-- memory_store: automatic on subtask_summary return. No extra action needed.
-- ADR/decisions: `@mnemosyne` for permanent documentation.
+### Override
+- `memory_recall("backend", top_k=3)` at task start
 
 ## Table of Contents
 - [Core Capabilities](#core-capabilities)
@@ -271,7 +264,6 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
 | **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past API decisions at session start, store implementation results |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run pytest, ruff, and build scripts |
-  "pantheon-persistence_*": allow
 
 Before implementing, call `memory_recall("<endpoint/domain>")` to retrieve past decisions. After completing work, call `memory_store()` to persist the outcome. Use `execute_code_script()` for test and lint automation.
 

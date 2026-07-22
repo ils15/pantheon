@@ -8,7 +8,6 @@ permission:
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow
-  pantheon-code-mode_*: ask
 temperature: 0.2
 steps: 20
 mcp_tools:
@@ -22,17 +21,10 @@ mcp_tools:
 
 ## 🧠 Memory Protocol
 
-### Pre-Work
-**Call `memory_recall("infrastructure", top_k=3)` ONCE at task start — before any file reads.**
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Post-Work
-**`memory_store()` is called AUTOMATICALLY by Zeus when you return a subtask_summary.**
-Just include a clear `summary` field in your return — the persistence happens automatically.
-
-### Rules
-- memory_recall: 1 call per task, not per turn. If score < 0.3 → skip.
-- memory_store: automatic on subtask_summary return. No extra action needed.
-- ADR/decisions: `@mnemosyne` for permanent documentation.
+### Override
+- `memory_recall("infrastructure", top_k=3)` at task start
 
 # Prometheus - Infrastructure Specialist
 

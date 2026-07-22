@@ -572,18 +572,14 @@ Pantheon provides slash commands via OpenCode. On other platforms (Copilot, Curs
 | `/pantheon-update` | iris | Version bump + changelog + git tag + GitHub Release |
 | `/pantheon-deepwork` | zeus | Heavy multi-phase task with persisted checkpoints |
 | `/pantheon-reflect` | zeus | Analyze repeated work friction, suggest improvements |
-| `/pantheon-forge` | zeus | Configure models by preset or per-agent |
 | `/pantheon-focus` | zeus | Pin a session goal |
 | `/pantheon-sketch` | athena | Turn rough idea into spec |
 | `/pantheon-audit` | themis | Code review + security audit |
 | `/pantheon-optimize` | zeus | Context optimization & token audit |
 | `/pantheon-metamorphosis` | zeus | Intelligent refactoring with TDD |
-| `/pantheon-praxis` | zeus | Execute plan via task system |
 | `/pantheon-status` | zeus | Show system health and agent status |
 | `/ping` | zeus | Ping all Pantheon agents |
 | `/subtask` | any | Bounded child task |
-| `/mirrordeps` | apollo | Clone dependency source locally |
-| `/pantheon-manifest` | iris | Generate manifests and exports |
 | `/stop-continuation` | zeus | Stop auto-continuation |
 | `/cancel` | zeus | Stop auto-continuation |
 
@@ -691,7 +687,6 @@ pantheon/
 │   ├── debug-issue.prompt.md
 │   ├── plan-architecture.prompt.md
 │   ├── optimize-database.prompt.md
-│   ├── mirrordeps.prompt.md
 │   ├── sketch.prompt.md
 │   ├── focus.prompt.md
 │   ├── quick-discovery-large-codebase.prompt.md
@@ -729,16 +724,12 @@ pantheon/
 │
 ├── commands/                  # 19 interaction commands
 │   ├── cancel.md
-│   ├── mirrordeps.md
 │   ├── pantheon-audit.md
 │   ├── pantheon-deepwork.md
 │   ├── pantheon-focus.md
-│   ├── pantheon-forge.md
 │   ├── pantheon-install.md
-│   ├── pantheon-manifest.md
 │   ├── pantheon-metamorphosis.md
 │   ├── pantheon-optimize.md
-│   ├── pantheon-praxis.md
 │   ├── pantheon-reflect.md
 │   ├── pantheon-sketch.md
 │   ├── pantheon-status.md

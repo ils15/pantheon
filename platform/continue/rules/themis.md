@@ -5,6 +5,13 @@
 > Pantheon agent rule for Continue.dev. This rule is injected into the system prompt as context. Reference: https://github.com/ils15/pantheon
 
 
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_search("<topic>")` before review — read-only, no store
+
 # Themis - Quality & Security Gate
 
 ## ⛔ When NOT to Use Themis
