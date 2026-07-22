@@ -5,11 +5,12 @@
 <h1 align="center">Pantheon</h1>
 
 <p align="center">
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v3.19.3-blue" alt="Version"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v4.0.0-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-14-purple" alt="Agents"></a>
-   <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-44-orange" alt="Skills"></a>
+  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-44-orange" alt="Skills"></a>
+  <a href="commands/"><img src="https://img.shields.io/badge/commands-14-red" alt="Commands"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf|cline|continue-8250DF" alt="Built with"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/ci.yml?branch=main&label=CI" alt="CI"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/release.yml?branch=main&label=release" alt="Release"></a>
@@ -22,6 +23,21 @@ Stop settling for generalist single-agent coding. Pantheon's conductor-delegate 
 Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Windsurf**, **Cline**, and **Continue.dev**.
 
 ---
+
+## 📋 v4.0 Changelog
+
+| Sprint | Feature |
+|--------|--------|
+| 1 | Memory Commands (/pantheon-remember, search, consolidate, forget) |
+| 2 | @pantheon/cli npm package |
+| 3 | Themis 2.0 (3-layer review + IntentGate) |
+| 4 | Background Agents + TODO Enforcer + Hash Edits |
+| 5 | Memory Simplification (agents read-only, WAL) |
+| 6 | YAGNI + Anti-overengineering (12 patterns) |
+
+**🏆 Themis audit: 100/100**  
+**🗑️ 9 commands removed:** ping, stop-continuation, subtask, manifest, forge, mirrordeps, praxis, metamorphosis, reflect  
+**✨ 14 commands total** — all `/pantheon-*`
 
 ## Quick Links
 
@@ -413,9 +429,9 @@ graph TB
 
 ---
 
-## 🧠 Level 3 Vector Memory (v3.19.3)
+## 🧠 Level 3 Vector Memory (v4.0)
 
-Pantheon v3.19.3 introduces a persistent two-tier memory system with semantic retrieval:
+Pantheon v4.0.0 introduces a persistent two-tier memory system with semantic retrieval:
 
 ### Tier 1 — Auto-Indexed Memory (`/memories/repo/`)
 Agent memory is automatically indexed at zero token cost. Every agent writes atomic facts on discovery:
@@ -572,26 +588,19 @@ Pantheon provides slash commands via OpenCode. On other platforms (Copilot, Curs
 | `/pantheon-update` | iris | Version bump + changelog + git tag + GitHub Release |
 | `/pantheon-deepwork` | zeus | Heavy multi-phase task with persisted checkpoints |
 | `/pantheon-reflect` | zeus | Analyze repeated work friction, suggest improvements |
-| `/pantheon-forge` | zeus | Configure models by preset or per-agent |
 | `/pantheon-focus` | zeus | Pin a session goal |
 | `/pantheon-sketch` | athena | Turn rough idea into spec |
 | `/pantheon-audit` | themis | Code review + security audit |
 | `/pantheon-optimize` | zeus | Context optimization & token audit |
 | `/pantheon-metamorphosis` | zeus | Intelligent refactoring with TDD |
-| `/pantheon-praxis` | zeus | Execute plan via task system |
 | `/pantheon-status` | zeus | Show system health and agent status |
-| `/ping` | zeus | Ping all Pantheon agents |
-| `/subtask` | any | Bounded child task |
-| `/mirrordeps` | apollo | Clone dependency source locally |
-| `/pantheon-manifest` | iris | Generate manifests and exports |
-| `/stop-continuation` | zeus | Stop auto-continuation |
 | `/cancel` | zeus | Stop auto-continuation |
 
 > **Multi-platform note:** Commands are native to OpenCode. On VS Code Copilot, use `@agent-name` in chat. On Cursor/Claude Code, describe the task in natural language.
 
 ### TUI Sidebar Plugin (OpenCode) — Temporarily Disabled
 
-The TUI Sidebar Plugin is currently disabled. It will be re-enabled in a future release once the TUI package compatibility is resolved. For agent discovery, use `AGENTS.md`, `agents/README.md`, or the command `/ping` to list all agents.
+The TUI Sidebar Plugin is currently disabled. It will be re-enabled in a future release once the TUI package compatibility is resolved. For agent discovery, use `AGENTS.md`, `agents/README.md`, or `/pantheon-status` to list all agents.
 
 ---
 
@@ -606,7 +615,6 @@ pantheon/
 ├── LICENSE                    — MIT
 ├── package.json               — sync & install tooling
 ├── opencode.json              — OpenCode platform config
-├── sync-platform.sh           — multi-platform sync script
 ├── plugin.json                — marketplace plugin manifest
 │
 ├── agents/                    — 14 agent definitions (.agent.md)
@@ -687,11 +695,9 @@ pantheon/
 ├── prompts/                   — 13 agent invocation prompts
 │   ├── implement-feature.prompt.md
 │   ├── orchestrate-with-zeus.prompt.md
-│   ├── subtask.prompt.md
 │   ├── debug-issue.prompt.md
 │   ├── plan-architecture.prompt.md
 │   ├── optimize-database.prompt.md
-│   ├── mirrordeps.prompt.md
 │   ├── sketch.prompt.md
 │   ├── focus.prompt.md
 │   ├── quick-discovery-large-codebase.prompt.md
@@ -729,24 +735,17 @@ pantheon/
 │
 ├── commands/                  # 19 interaction commands
 │   ├── cancel.md
-│   ├── mirrordeps.md
 │   ├── pantheon-audit.md
 │   ├── pantheon-deepwork.md
 │   ├── pantheon-focus.md
-│   ├── pantheon-forge.md
 │   ├── pantheon-install.md
-│   ├── pantheon-manifest.md
 │   ├── pantheon-metamorphosis.md
 │   ├── pantheon-optimize.md
-│   ├── pantheon-praxis.md
 │   ├── pantheon-reflect.md
 │   ├── pantheon-sketch.md
 │   ├── pantheon-status.md
 │   ├── pantheon-update.md
 │   ├── pantheon.md
-│   ├── ping.md
-│   ├── stop-continuation.md
-│   └── subtask.md
 │
 ├── docs/
 │   ├── INSTALLATION.md        — generic installation guide

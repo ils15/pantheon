@@ -537,34 +537,41 @@ For direct API access (beyond CLI), configure `.vscode/mcp.json`:
 
 ## Pantheon Commands Reference
 
-All Pantheon commands are available as `/pantheon-*` in VS Code Copilot Chat. They are synced from `commands/` to your VS Code prompts folder via `sync-platform.sh copilot`.
+All Pantheon commands are available as `/pantheon-*` in VS Code Copilot Chat. They are synced from `commands/` to your VS Code prompts folder via `npm run sync copilot`.
 
-### Execution Commands
-
-| Command | What it does | Target Agent |
-|---|---|---|
-| `/pantheon-praxis` | Execute an Athena plan with dependency ordering and mandatory gates | Zeus |
-| `/pantheon-pantheon` | Dispatch a question to 2–4 specialist agents in parallel, synthesizes response | Zeus |
-| `/pantheon-subtask` | Spawn a bounded child worker for a specific sub-task | Auto |
-| `/pantheon-audit` | Run lint, format, coverage (>80%), and OWASP checks | Themis |
-| `/pantheon-sketch` | Turn a rough idea into a structured spec via Q&A | Athena |
-
-### Optimization & Maintenance
+### All 14 Commands (v4.0)
 
 | Command | What it does | Target Agent |
 |---|---|---|
-| `/pantheon-metamorphosis` | Intelligent refactoring with LSP analysis, gap analysis, TDD, and verification | Zeus |
-| `/pantheon-optimize` | Compress, deduplicate, and consolidate the memory bank | Zeus |
+| `/pantheon` | Dispatch a question to 2–4 specialist agents in parallel, synthesizes response (Council) | Zeus |
+| `/pantheon-status` | Show system health and agent registry status | Zeus |
+| `/pantheon-audit` | Code review + security audit (--light/--full/--plan) | Themis |
+| `/pantheon-cancel` | Stop auto-continuation | Zeus |
+| `/pantheon-deepwork` | Heavy multi-phase task with persisted checkpoints and Themis review gates | Zeus |
 | `/pantheon-focus` | Pin a session goal to prevent scope creep | Zeus |
-| `/pantheon-mirrordeps` | Mirror a dependency source locally for agent access | Apollo |
+| `/pantheon-optimize` | Compress, deduplicate, and consolidate the memory bank | Zeus |
+| `/pantheon-sketch` | Turn a rough idea into a structured spec via Q&A | Athena |
+| `/pantheon-install` | Sync + install + verify pipeline (--tier, --backup, --detect) | Zeus |
+| `/pantheon-update` | Version bump + changelog + git tag + GitHub Release | Iris |
+| `/pantheon-remember` | Store a fact or decision in memory | Mnemosyne |
+| `/pantheon-search` | Search memory using semantic or FTS queries | Mnemosyne |
+| `/pantheon-consolidate` | Consolidate and deduplicate memory entries | Mnemosyne |
+| `/pantheon-forget` | Remove a memory entry by ID or key | Mnemosyne |
 
-### Configuration & Utilities
+### Removed Commands (v4.0)
 
-| Command | What it does | Target Agent |
-|---|---|---|
-| `/pantheon-forge` | Configure models by preset (`fast`, `default`, `premium`) | Zeus |
-| `/pantheon-ping` | Ping all 14 agents to verify availability | System |
-| `/pantheon-stop-continuation` | Stop all auto-continuation mechanisms | System |
+The following commands were removed in v4.0. Use their replacements:
+
+| Removed | Replacement |
+|---|---|
+| `/pantheon-praxis` | `/pantheon-deepwork` (merged) |
+| `/pantheon-subtask` | Normal agent delegation (`@hermes`, etc.) |
+| `/pantheon-metamorphosis` | Use `@zeus: Refactor X with TDD` |
+| `/pantheon-forge` | Use `opencode.json` model configuration |
+| `/pantheon-mirrordeps` | Use `@apollo: Mirror dependency X` |
+| `/ping` / `/pantheon-ping` | `/pantheon-status` |
+| `/stop-continuation` / `/pantheon-stop-continuation` | `/pantheon-cancel` |
+| `/subtask` | Normal agent delegation |
 
 ### Regular Workflow Prompts
 
@@ -578,24 +585,21 @@ These are simpler prompts (no `pantheon-` prefix) available as `/name`:
 | `/orchestrate-with-zeus` | Full multi-agent orchestration |
 | `/focus` | Pin a session goal (simpler version) |
 | `/sketch` | Turn idea into structured spec |
-| `/subtask` | Delegate a bounded child task |
 | `/quick-discovery-large-codebase` | Rapid codebase discovery (8 min max) |
 | `/quick-plan-large-feature` | Rapid planning for large features (5 min max) |
 | `/optimize-database` | Analyze and optimize database schema/queries |
-| `/mirrordeps` | Clone dependency source locally |
 
 ### Usage in VS Code
 
 ```
 # In Copilot Chat, just type:
-/pantheon-praxis Implement user authentication
+/pantheon-deepwork Implement user authentication
 /pantheon-audit Changes in src/auth/
-/pantheon-pantheon Should we use Redis or PostgreSQL?
-/pantheon-forge premium
-/pantheon-ping
+/pantheon Should we use Redis or PostgreSQL?
+/pantheon-status
 ```
 
-> **Sync tip:** Run `VSCODE_USER_PROMPTS_FOLDER=/path ./sync-platform.sh copilot` after adding/editing commands to redeploy them to VS Code.
+> **Sync tip:** Run `npm run sync copilot` after adding/editing commands to redeploy them to VS Code.
 
 ---
 

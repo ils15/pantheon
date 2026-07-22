@@ -17,9 +17,8 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from mcp.server.fastmcp import FastMCP
-
 from _pantheon_paths import pantheon_home, pantheon_project
+from mcp.server.fastmcp import FastMCP
 
 # ── Path Resolution ──────────────────────────────────────────────────────────
 _PANTHEON_HOME: Path = pantheon_home()

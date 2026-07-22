@@ -14,7 +14,6 @@ Reusable prompt templates for common development workflows. Each prompt specifie
 | **focus** | Zeus | Pin a session goal to keep all work aligned with a single objective |
 | **sketch** | Athena | Interview a rough idea into a structured feature spec (3–5 questions) |
 | **subtask** | Zeus | Delegate a bounded child task to a specialist and receive a structured result |
-| **mirrordeps** | Apollo | Clone a dependency's source locally so agents can read its implementation directly |
 
 ## Usage
 
@@ -29,7 +28,6 @@ Reusable prompt templates for common development workflows. Each prompt specifie
 /pantheon Should we use Redis or PostgreSQL for session storage?
 /sketch Add a notification system for order shipments
 /subtask @hermes Implement POST /products endpoint
-/mirrordeps langchain
 ```
 
 ### Claude Code (project-scoped)
@@ -39,7 +37,6 @@ Reusable prompt templates for common development workflows. Each prompt specifie
 /project:focus Implement email verification end-to-end
 /project:pantheon Redis vs PostgreSQL for session storage?
 /project:sketch Add notification system
-/project:mirrordeps langchain
 ```
 
 

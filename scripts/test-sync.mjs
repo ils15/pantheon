@@ -9,25 +9,24 @@
  * Run: node scripts/test-sync.mjs
  */
 
-import { spawnSync } from 'child_process';
-import { readFileSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import yaml from 'js-yaml';
+import { spawnSync } from 'node:child_process'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import yaml from 'js-yaml'
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(__dirname, '..');
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const ROOT = join(__dirname, '..')
 
-let passed = 0;
-let failed = 0;
+let passed = 0
+let failed = 0
 
 function assert(condition, message) {
   if (condition) {
-    console.log(`  ✅ ${message}`);
-    passed++;
+    console.log(`  ✅ ${message}`)
+    passed++
   } else {
-    console.error(`  ❌ ${message}`);
-    failed++;
+    console.error(`  ❌ ${message}`)
+    failed++
   }
 }
 
@@ -37,12 +36,12 @@ function assert(condition, message) {
 // ===========================================================================
 
 function parseFrontmatter(content) {
-  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
-  if (!match) return null;
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/)
+  if (!match) return null
   return {
     fm: yaml.load(match[1]) ?? {},
     body: match[2],
-  };
+  }
 }
 
 function serializeFm(fm) {
@@ -51,138 +50,134 @@ function serializeFm(fm) {
     quotingType: '"',
     forceQuotes: false,
     noRefs: true,
-  });
+  })
 }
 
 function mapTools(tools, toolMap) {
-  if (!tools || !Array.isArray(tools)) return tools;
-  if (!toolMap || Object.keys(toolMap).length === 0) return [...tools];
+  if (!tools || !Array.isArray(tools)) return tools
+  if (!toolMap || Object.keys(toolMap).length === 0) return [...tools]
 
-  const seen = new Set();
-  const result = [];
+  const seen = new Set()
+  const result = []
   for (const tool of tools) {
     if (tool in toolMap) {
-      const mapped = toolMap[tool];
+      const mapped = toolMap[tool]
       if (!seen.has(mapped)) {
-        seen.add(mapped);
-        result.push(mapped);
+        seen.add(mapped)
+        result.push(mapped)
       }
     }
   }
-  return result;
+  return result
 }
 
 function transformFrontmatter(fm, adapter) {
-  const {
-    include = [],
-    exclude = [],
-    transform = {},
-  } = adapter.frontmatter;
-  const toolMap = adapter.toolMap ?? {};
+  const { include = [], exclude = [], transform = {} } = adapter.frontmatter
+  const toolMap = adapter.toolMap ?? {}
 
-  const result = {};
+  const result = {}
 
   for (const key of include) {
-    if (exclude.includes(key)) continue;
-    if (!(key in fm)) continue;
+    if (exclude.includes(key)) continue
+    if (!(key in fm)) continue
 
-    const strategy = transform[key]?.strategy ?? 'identity';
-    if (strategy === 'omit') continue;
+    const strategy = transform[key]?.strategy ?? 'identity'
+    if (strategy === 'omit') continue
 
-    let value = fm[key];
+    let value = fm[key]
 
     if (key === 'tools' && Array.isArray(value)) {
       if (adapter.excludeTools && adapter.excludeTools.length > 0) {
-        const excluded = new Set(adapter.excludeTools);
-        value = value.filter(t => !excluded.has(t));
+        const excluded = new Set(adapter.excludeTools)
+        value = value.filter((t) => !excluded.has(t))
       }
-      value = mapTools(value, toolMap);
+      value = mapTools(value, toolMap)
 
       if (adapter.ensureAgentTool && !value.includes('agent')) {
-        value = ['agent', ...value];
+        value = ['agent', ...value]
       }
 
-      if (value.length === 0) continue;
+      if (value.length === 0) continue
 
       if (adapter.toolsFormat === 'permission') {
-        const perm = {};
+        const perm = {}
         for (const tool of value) {
-          perm[tool] = 'allow';
+          perm[tool] = 'allow'
         }
-        result.permission = perm;
-        continue;
+        result.permission = perm
+        continue
       }
 
       if (adapter.toolsFormat === 'object') {
-        const obj = {};
+        const obj = {}
         for (const tool of value) {
-          obj[tool] = true;
+          obj[tool] = true
         }
-        value = obj;
+        value = obj
       }
     }
 
     if (strategy === 'comma-separated' && Array.isArray(value)) {
-      if (value.length === 0) continue;
-      value = value.join(', ');
+      if (value.length === 0) continue
+      value = value.join(', ')
     }
 
-    result[key] = value;
+    result[key] = value
   }
 
   if (adapter.frontmatter.addFields) {
     for (const [key, value] of Object.entries(adapter.frontmatter.addFields)) {
       if (!(key in result)) {
-        result[key] = JSON.parse(JSON.stringify(value));
+        result[key] = JSON.parse(JSON.stringify(value))
       }
     }
   }
 
-  return result;
+  return result
 }
 
 function omitSection(text, pattern) {
-  const lines = text.split('\n');
-  const result = [];
-  let inSection = false;
-  let sectionDepth = 0;
-  let inCodeBlock = false;
+  const lines = text.split('\n')
+  const result = []
+  let inSection = false
+  let sectionDepth = 0
+  let inCodeBlock = false
 
   for (const line of lines) {
     if (line.trimStart().startsWith('```')) {
-      inCodeBlock = !inCodeBlock;
+      inCodeBlock = !inCodeBlock
     }
 
-    const headingMatch = line.match(/^(#{1,6})\s+(.*)/);
+    const headingMatch = line.match(/^(#{1,6})\s+(.*)/)
     if (headingMatch && !inCodeBlock) {
-      const depth = headingMatch[1].length;
-      const title = headingMatch[2].trim();
+      const depth = headingMatch[1].length
+      const title = headingMatch[2].trim()
       if (title.startsWith(pattern)) {
-        inSection = true;
-        sectionDepth = depth;
-        continue;
+        inSection = true
+        sectionDepth = depth
+        continue
       } else if (inSection && depth <= sectionDepth) {
-        inSection = false;
+        inSection = false
       }
     }
-    if (!inSection) result.push(line);
+    if (!inSection) result.push(line)
   }
 
-  return result.join('\n');
+  return result.join('\n')
 }
 
 function buildOutputFile(fm, body, skipFrontmatter = false) {
-  if (skipFrontmatter) return body;
-  const fmStr = serializeFm(fm);
-  const normalizedBody = body.startsWith('\n') ? body : '\n' + body;
-  return `---\n${fmStr}---\n${normalizedBody}`;
+  if (skipFrontmatter) return body
+  const fmStr = serializeFm(fm)
+  const normalizedBody = body.startsWith('\n') ? body : `\n${body}`
+  return `---\n${fmStr}---\n${normalizedBody}`
 }
 
 // ===========================================================================
 // Test 1: parseFrontmatter
 // ===========================================================================
 
-console.log('\n📋 Test 1: parseFrontmatter');
+console.log('\n📋 Test 1: parseFrontmatter')
 
 const sampleContent = `---
 name: test-agent
@@ -201,41 +196,47 @@ const x = 42;
 \`\`\`
 
 More content after the code block.
-`;
+`
 
-const parsed = parseFrontmatter(sampleContent);
+const parsed = parseFrontmatter(sampleContent)
 
-assert(parsed !== null, 'parseFrontmatter returns non-null for valid frontmatter');
-assert(parsed.fm.name === 'test-agent', `fm.name === 'test-agent' (got '${parsed.fm.name}')`);
-assert(parsed.fm.description === 'A test agent for smoke testing', 'fm.description matches');
-assert(Array.isArray(parsed.fm.tools), 'fm.tools is an array');
-assert(parsed.fm.tools.length === 3, `fm.tools has 3 items (got ${parsed.fm.tools.length})`);
-assert(parsed.fm.tools[0] === 'read/readFile', 'fm.tools[0] === read/readFile');
-assert(parsed.fm.agents[0] === 'apollo', 'fm.agents[0] === apollo');
-assert(parsed.fm['user-invocable'] === true, 'fm.user-invocable === true');
-assert(parsed.body.includes('# Test Agent Body'), 'body contains heading');
-assert(parsed.body.includes('Some content here'), 'body contains text');
-assert(parsed.body.includes('```javascript'), 'body preserves code blocks');
+assert(parsed !== null, 'parseFrontmatter returns non-null for valid frontmatter')
+assert(parsed.fm.name === 'test-agent', `fm.name === 'test-agent' (got '${parsed.fm.name}')`)
+assert(parsed.fm.description === 'A test agent for smoke testing', 'fm.description matches')
+assert(Array.isArray(parsed.fm.tools), 'fm.tools is an array')
+assert(parsed.fm.tools.length === 3, `fm.tools has 3 items (got ${parsed.fm.tools.length})`)
+assert(parsed.fm.tools[0] === 'read/readFile', 'fm.tools[0] === read/readFile')
+assert(parsed.fm.agents[0] === 'apollo', 'fm.agents[0] === apollo')
+assert(parsed.fm['user-invocable'] === true, 'fm.user-invocable === true')
+assert(parsed.body.includes('# Test Agent Body'), 'body contains heading')
+assert(parsed.body.includes('Some content here'), 'body contains text')
+assert(parsed.body.includes('```javascript'), 'body preserves code blocks')
 
 // No frontmatter case
-const noFm = parseFrontmatter('# Just a heading\nNo frontmatter here.');
-assert(noFm === null, 'parseFrontmatter returns null for content without frontmatter');
+const noFm = parseFrontmatter('# Just a heading\nNo frontmatter here.')
+assert(noFm === null, 'parseFrontmatter returns null for content without frontmatter')
 
 // ===========================================================================
 // Test 2: transformFrontmatter (include/exclude logic)
 // ===========================================================================
 
-console.log('\n📋 Test 2: transformFrontmatter');
+console.log('\n📋 Test 2: transformFrontmatter')
 
 const sampleFm = {
   name: 'hermes',
   description: 'Backend specialist',
-  tools: ['read/readFile', 'edit/editFiles', 'execute/runInTerminal', 'read/problems', 'browser/openBrowserPage'],
+  tools: [
+    'read/readFile',
+    'edit/editFiles',
+    'execute/runInTerminal',
+    'read/problems',
+    'browser/openBrowserPage',
+  ],
   agents: ['apollo'],
   model: ['GPT-5'],
   'user-invocable': false,
   handoffs: ['themis'],
-};
+}
 
 // 2a: OpenCode-style adapter (toolsFormat: 'object', exclude model/handoffs)
 const opencodeAdapter = {
@@ -253,20 +254,23 @@ const opencodeAdapter = {
   },
   excludeTools: ['read/problems', 'browser/openBrowserPage'],
   toolsFormat: 'object',
-};
+}
 
-const opencodeResult = transformFrontmatter(sampleFm, opencodeAdapter);
+const opencodeResult = transformFrontmatter(sampleFm, opencodeAdapter)
 
-assert(opencodeResult.name === 'hermes', 'OpenCode: name preserved');
-assert(opencodeResult.description === 'Backend specialist', 'OpenCode: description preserved');
-assert(!('model' in opencodeResult), 'OpenCode: model excluded');
-assert(!('handoffs' in opencodeResult), 'OpenCode: handoffs not in include list → excluded');
-assert(typeof opencodeResult.tools === 'object', 'OpenCode: tools converted to object format');
-assert(opencodeResult.tools['read'] === true, 'OpenCode: read/readFile mapped to read');
-assert(opencodeResult.tools['edit'] === true, 'OpenCode: edit/editFiles mapped to edit');
-assert(opencodeResult.tools['bash'] === true, 'OpenCode: execute/runInTerminal mapped to bash');
-assert(!('problems' in opencodeResult.tools), 'OpenCode: excluded tool read/problems not in output');
-assert(!('browser' in opencodeResult.tools), 'OpenCode: excluded tool browser/openBrowserPage not in output');
+assert(opencodeResult.name === 'hermes', 'OpenCode: name preserved')
+assert(opencodeResult.description === 'Backend specialist', 'OpenCode: description preserved')
+assert(!('model' in opencodeResult), 'OpenCode: model excluded')
+assert(!('handoffs' in opencodeResult), 'OpenCode: handoffs not in include list → excluded')
+assert(typeof opencodeResult.tools === 'object', 'OpenCode: tools converted to object format')
+assert(opencodeResult.tools.read === true, 'OpenCode: read/readFile mapped to read')
+assert(opencodeResult.tools.edit === true, 'OpenCode: edit/editFiles mapped to edit')
+assert(opencodeResult.tools.bash === true, 'OpenCode: execute/runInTerminal mapped to bash')
+assert(!('problems' in opencodeResult.tools), 'OpenCode: excluded tool read/problems not in output')
+assert(
+  !('browser' in opencodeResult.tools),
+  'OpenCode: excluded tool browser/openBrowserPage not in output',
+)
 
 // 2b: Claude Code-style adapter (comma-separated tools)
 const claudeAdapter = {
@@ -283,16 +287,16 @@ const claudeAdapter = {
     'browser/openBrowserPage': 'Browser',
   },
   excludeTools: ['read/problems', 'browser/openBrowserPage'],
-};
+}
 
-const claudeResult = transformFrontmatter(sampleFm, claudeAdapter);
+const claudeResult = transformFrontmatter(sampleFm, claudeAdapter)
 
-assert(typeof claudeResult.tools === 'string', 'Claude: tools is comma-separated string');
-assert(claudeResult.tools.includes('Read'), 'Claude: Read tool present');
-assert(claudeResult.tools.includes('Edit'), 'Claude: Edit tool present');
-assert(claudeResult.tools.includes('Bash'), 'Claude: Bash tool present');
-assert(!claudeResult.tools.includes('Problems'), 'Claude: excluded Problems not present');
-assert(!('handoffs' in claudeResult), 'Claude: handoffs excluded');
+assert(typeof claudeResult.tools === 'string', 'Claude: tools is comma-separated string')
+assert(claudeResult.tools.includes('Read'), 'Claude: Read tool present')
+assert(claudeResult.tools.includes('Edit'), 'Claude: Edit tool present')
+assert(claudeResult.tools.includes('Bash'), 'Claude: Bash tool present')
+assert(!claudeResult.tools.includes('Problems'), 'Claude: excluded Problems not present')
+assert(!('handoffs' in claudeResult), 'Claude: handoffs excluded')
 
 // 2c: Empty toolMap → passthrough
 const passthroughAdapter = {
@@ -302,12 +306,15 @@ const passthroughAdapter = {
     transform: {},
   },
   toolMap: {},
-};
+}
 
-const passthroughResult = transformFrontmatter(sampleFm, passthroughAdapter);
+const passthroughResult = transformFrontmatter(sampleFm, passthroughAdapter)
 
-assert(Array.isArray(passthroughResult.tools), 'Passthrough: tools remains array');
-assert(passthroughResult.tools.length === 5, `Passthrough: all 5 tools preserved (got ${passthroughResult.tools.length})`);
+assert(Array.isArray(passthroughResult.tools), 'Passthrough: tools remains array')
+assert(
+  passthroughResult.tools.length === 5,
+  `Passthrough: all 5 tools preserved (got ${passthroughResult.tools.length})`,
+)
 
 // 2d: Omit strategy
 const omitAdapter = {
@@ -317,47 +324,47 @@ const omitAdapter = {
     transform: { description: { strategy: 'omit' } },
   },
   toolMap: {},
-};
+}
 
-const omitResult = transformFrontmatter(sampleFm, omitAdapter);
+const omitResult = transformFrontmatter(sampleFm, omitAdapter)
 
-assert(omitResult.name === 'hermes', 'Omit: name preserved');
-assert(!('description' in omitResult), 'Omit: description omitted via strategy');
+assert(omitResult.name === 'hermes', 'Omit: name preserved')
+assert(!('description' in omitResult), 'Omit: description omitted via strategy')
 
 // ===========================================================================
 // Test 3: buildOutputFile
 // ===========================================================================
 
-console.log('\n📋 Test 3: buildOutputFile');
+console.log('\n📋 Test 3: buildOutputFile')
 
-const testFm = { name: 'test', description: 'Test agent' };
-const testBody = '# Hello\n\nSome body content.';
+const testFm = { name: 'test', description: 'Test agent' }
+const testBody = '# Hello\n\nSome body content.'
 
 // 3a: Normal mode (with frontmatter)
-const normalOutput = buildOutputFile(testFm, testBody);
+const normalOutput = buildOutputFile(testFm, testBody)
 
-assert(normalOutput.startsWith('---\n'), 'Normal: starts with ---');
-assert(normalOutput.includes('name: test'), 'Normal: contains name field');
-assert(normalOutput.includes('description: Test agent'), 'Normal: contains description field');
-assert(normalOutput.includes('# Hello'), 'Normal: contains body heading');
-assert(normalOutput.includes('Some body content.'), 'Normal: contains body text');
+assert(normalOutput.startsWith('---\n'), 'Normal: starts with ---')
+assert(normalOutput.includes('name: test'), 'Normal: contains name field')
+assert(normalOutput.includes('description: Test agent'), 'Normal: contains description field')
+assert(normalOutput.includes('# Hello'), 'Normal: contains body heading')
+assert(normalOutput.includes('Some body content.'), 'Normal: contains body text')
 
 // Verify round-trip: parse the output back
-const roundTrip = parseFrontmatter(normalOutput);
-assert(roundTrip !== null, 'Normal: round-trip parse succeeds');
-assert(roundTrip.fm.name === 'test', 'Normal: round-trip name matches');
-assert(roundTrip.body.includes('# Hello'), 'Normal: round-trip body preserved');
+const roundTrip = parseFrontmatter(normalOutput)
+assert(roundTrip !== null, 'Normal: round-trip parse succeeds')
+assert(roundTrip.fm.name === 'test', 'Normal: round-trip name matches')
+assert(roundTrip.body.includes('# Hello'), 'Normal: round-trip body preserved')
 
 // Verify structure: opening ---, YAML, closing ---, body
-assert(normalOutput.startsWith('---\n'), 'Normal: starts with opening ---');
-const closingIndex = normalOutput.indexOf('\n---\n');
-assert(closingIndex > 0, 'Normal: has closing --- delimiter after YAML');
+assert(normalOutput.startsWith('---\n'), 'Normal: starts with opening ---')
+const closingIndex = normalOutput.indexOf('\n---\n')
+assert(closingIndex > 0, 'Normal: has closing --- delimiter after YAML')
 
 // ===========================================================================
 // Test 4: omitSection — code-block awareness
 // ===========================================================================
 
-console.log('\n📋 Test 4: omitSection code-block awareness');
+console.log('\n📋 Test 4: omitSection code-block awareness')
 
 const sectionWithCodeBlock = `# Introduction
 
@@ -380,16 +387,25 @@ def hello():
 ## Final Section
 
 This should also be preserved.
-`;
+`
 
-const omitResult1 = omitSection(sectionWithCodeBlock, 'VS Code Integration');
+const omitResult1 = omitSection(sectionWithCodeBlock, 'VS Code Integration')
 
-assert(!omitResult1.includes('This section should be removed entirely.'), 'omitSection: removes targeted section content');
-assert(omitResult1.includes('## This is NOT a heading'), 'omitSection: preserves heading-like text inside code blocks');
-assert(omitResult1.includes('def hello()'), 'omitSection: preserves code block content');
-assert(omitResult1.includes('# Introduction'), 'omitSection: preserves preceding sections');
-assert(omitResult1.includes('## After Removed Section'), 'omitSection: preserves content after removed section');
-assert(omitResult1.includes('## Final Section'), 'omitSection: preserves sections after code block');
+assert(
+  !omitResult1.includes('This section should be removed entirely.'),
+  'omitSection: removes targeted section content',
+)
+assert(
+  omitResult1.includes('## This is NOT a heading'),
+  'omitSection: preserves heading-like text inside code blocks',
+)
+assert(omitResult1.includes('def hello()'), 'omitSection: preserves code block content')
+assert(omitResult1.includes('# Introduction'), 'omitSection: preserves preceding sections')
+assert(
+  omitResult1.includes('## After Removed Section'),
+  'omitSection: preserves content after removed section',
+)
+assert(omitResult1.includes('## Final Section'), 'omitSection: preserves sections after code block')
 
 // 4b: Multiple code blocks outside the removed section
 const multiCodeBlock = `## Section A
@@ -418,67 +434,83 @@ const x = 1;
 ## Section D
 
 Content D.
-`;
+`
 
-const omitResult2 = omitSection(multiCodeBlock, 'Section B');
+const omitResult2 = omitSection(multiCodeBlock, 'Section B')
 
-assert(!omitResult2.includes('Content B'), 'omitSection: removes Section B content');
-assert(omitResult2.includes('Content A.'), 'omitSection: preserves Section A');
-assert(omitResult2.includes('Content C.'), 'omitSection: preserves Section C');
-assert(omitResult2.includes('Content D.'), 'omitSection: preserves Section D');
-assert(omitResult2.includes('## Fake heading in code block 1'), 'omitSection: preserves fake heading in first code block');
-assert(omitResult2.includes('## Fake heading in code block 2'), 'omitSection: preserves fake heading in second code block');
+assert(!omitResult2.includes('Content B'), 'omitSection: removes Section B content')
+assert(omitResult2.includes('Content A.'), 'omitSection: preserves Section A')
+assert(omitResult2.includes('Content C.'), 'omitSection: preserves Section C')
+assert(omitResult2.includes('Content D.'), 'omitSection: preserves Section D')
+assert(
+  omitResult2.includes('## Fake heading in code block 1'),
+  'omitSection: preserves fake heading in first code block',
+)
+assert(
+  omitResult2.includes('## Fake heading in code block 2'),
+  'omitSection: preserves fake heading in second code block',
+)
 
 // 4c: No matching section → text unchanged
-const noMatch = omitSection('# Hello\n\nWorld.', 'Nonexistent');
-assert(noMatch === '# Hello\n\nWorld.', 'omitSection: returns unchanged text when no match');
+const noMatch = omitSection('# Hello\n\nWorld.', 'Nonexistent')
+assert(noMatch === '# Hello\n\nWorld.', 'omitSection: returns unchanged text when no match')
 
 // ===========================================================================
 // Test 5: Full sync dry-run
 // ===========================================================================
 
-console.log('\n📋 Test 5: Full sync dry-run');
+console.log('\n📋 Test 5: Full sync dry-run')
 
 const result = spawnSync('node', ['scripts/sync-platforms.mjs', '--dry-run'], {
   cwd: ROOT,
   stdio: 'pipe',
   encoding: 'utf8',
-});
+})
 
-assert(result.status === 0 || result.status === 1,
-  `sync-platforms.mjs --dry-run exits with 0 or 1 (got ${result.status})`);
+assert(
+  result.status === 0 || result.status === 1,
+  `sync-platforms.mjs --dry-run exits with 0 or 1 (got ${result.status})`,
+)
 
 // Exit code 1 in dry-run means "files would be updated" — that's expected behavior
 // Exit code 0 means "all files up-to-date" — also valid
-const isExpectedExit = result.status === 0 || result.status === 1;
-assert(isExpectedExit, `dry-run exit code is expected (0=up-to-date, 1=would-update)`);
+const isExpectedExit = result.status === 0 || result.status === 1
+assert(isExpectedExit, `dry-run exit code is expected (0=up-to-date, 1=would-update)`)
 
 // Verify output contains expected markers
-const stdout = result.stdout || '';
-const stderr = result.stderr || '';
-const combined = stdout + stderr;
+const stdout = result.stdout || ''
+const stderr = result.stderr || ''
+const combined = stdout + stderr
 
-assert(combined.includes('Dry-run') || combined.includes('dry-run') || combined.includes('🔍'),
-  'dry-run output mentions dry-run mode');
+assert(
+  combined.includes('Dry-run') || combined.includes('dry-run') || combined.includes('🔍'),
+  'dry-run output mentions dry-run mode',
+)
 
 // Verify no crash / unhandled exception
-assert(!combined.includes('TypeError') && !combined.includes('SyntaxError') && !combined.includes('ReferenceError'),
-  'dry-run: no runtime errors in output');
+assert(
+  !combined.includes('TypeError') &&
+    !combined.includes('SyntaxError') &&
+    !combined.includes('ReferenceError'),
+  'dry-run: no runtime errors in output',
+)
 
 // Verify it processes at least one platform
-assert(combined.includes('opencode') || combined.includes('claude') || combined.includes('cursor'),
-  'dry-run: processes at least one known platform');
+assert(
+  combined.includes('opencode') || combined.includes('claude') || combined.includes('cursor'),
+  'dry-run: processes at least one known platform',
+)
 
 // ===========================================================================
 // Summary
 // ===========================================================================
 
-console.log(`\n${'='.repeat(50)}`);
-console.log(`Results: ${passed} passed, ${failed} failed`);
-console.log(`${'='.repeat(50)}\n`);
+console.log(`\n${'='.repeat(50)}`)
+console.log(`Results: ${passed} passed, ${failed} failed`)
+console.log(`${'='.repeat(50)}\n`)
 
 if (failed > 0) {
-  process.exit(1);
+  process.exit(1)
 } else {
-  console.log('🎉 All smoke tests passed!');
+  console.log('🎉 All smoke tests passed!')
 }

@@ -11,25 +11,20 @@ permission:
   pantheon-memory_*: allow
 temperature: 0.1
 steps: 15
-skills:
-  - codemap
-  - internet-search
-  - plan-architecture
 mcp_tools:
   pantheon-resources: all
   pantheon-memory:
-    - memory_recall
+    - memory_search
   pantheon-code-mode: []
 ---
 
 ## 🧠 Memory Protocol
 
-### Pre-Work
-**Call `memory_recall("<domain>", top_k=3)` before creating a plan.**
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Post-Work
-You do NOT call memory_store. If you make an architectural decision that should persist,
-handoff to @mnemosyne for ADR documentation or mention it explicitly so Zeus can store it.
+### Overrides
+- `memory_search("<domain>", top_k=3)` before planning — read-only
+- Architectural decisions: handoff to @mnemosyne for ADR
 
 # Athena - Strategic Planner
 
@@ -202,12 +197,11 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | Server | Tools | When to use |
 |--------|-------|-------------|
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
-| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past architecture decisions via `memory_recall()` before planning |
+| **pantheon-memory** | `memory_search(query, n_results?)` | Read-only memory — search past architecture decisions before planning |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | (none — bash=deny) |
 
 ### Not Available
 - ⛔ `pantheon-code-mode` (bash=deny) — delegate script execution to implementers
-- ⛔ `memory_store` — read-only for memory
 
-Before creating a plan, call `memory_recall("<domain>")` with top-k 5 to retrieve past architecture decisions. Read `pantheon://routing` to verify delegation rules. You have read-only memory access — findings are persisted by Mnemosyne.
+Before creating a plan, call `memory_search("<domain>")` with top-k 5 to retrieve past architecture decisions. Read `pantheon://routing` to verify delegation rules. Results are persisted by Zeus on subtask_summary return.
 

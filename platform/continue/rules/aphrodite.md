@@ -5,6 +5,13 @@
 > Pantheon agent rule for Continue.dev. This rule is injected into the system prompt as context. Reference: https://github.com/ils15/pantheon
 
 
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_recall("frontend", top_k=3)` at task start
+
 ## ⛔ When NOT to Use Aphrodite
 - For backend API implementation — that's @hermes
 - For database schema changes — that's @demeter
@@ -95,10 +102,10 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | Server | Tools | When to use |
 |--------|-------|-------------|
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
-| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past UI decisions, store component patterns |
+| **pantheon-memory** | `memory_search(query, n_results?)` | Read-only memory — search past UI decisions and component patterns |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run npm test, biome check |
 
-Before implementing, call `memory_recall("<component/page>")` to retrieve past component patterns. After completion, call `memory_store()` to persist UI decisions. Use `execute_code_script()` for test automation.
+Before implementing, call `memory_search("<component/page>")` to retrieve past component patterns. Results are persisted by Zeus on subtask_summary return.
 
 ## Inline Compression
 

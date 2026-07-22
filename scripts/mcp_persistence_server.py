@@ -86,11 +86,16 @@ def _init_db(db_path: Path) -> sqlite3.Connection:
     # Check BEFORE schema creation. kv_search uses FTS5, which isn't on all systems.
     row = conn.execute("PRAGMA compile_options").fetchall()
     if not any("ENABLE_FTS5" in r[0] for r in row):
-        print("WARNING: SQLite FTS5 not available. kv_search will fail.", file=sys.stderr)
-        import re as _re
+        print(
+            "WARNING: SQLite FTS5 not available. kv_search will fail.", file=sys.stderr
+        )
+        import re as _re  # noqa: PLC0415
+
         _no_fts = _re.sub(
             r"CREATE VIRTUAL TABLE IF NOT EXISTS kv_store_fts.*?;",
-            "", CREATE_SQL, flags=_re.DOTALL,
+            "",
+            CREATE_SQL,
+            flags=_re.DOTALL,
         )
         conn.executescript(_no_fts)
     else:
@@ -155,7 +160,9 @@ parser.add_argument("--global-db", default=None)
 parser.add_argument("--project-db", default=None)
 args = parser.parse_args()
 
-_global_root = Path(args.global_db) if args.global_db else pantheon_home() / "persistence"
+_global_root = (
+    Path(args.global_db) if args.global_db else pantheon_home() / "persistence"
+)
 _global_db = _init_db(_global_root / "global.db")
 
 _project_db_instance = None
@@ -164,7 +171,9 @@ if args.project_db:
 else:
     _proj = pantheon_project()
     if _proj:
-        _project_db_instance = _init_db(_proj / ".pantheon" / "persistence" / "project.db")
+        _project_db_instance = _init_db(
+            _proj / ".pantheon" / "persistence" / "project.db"
+        )
 _project_db = _project_db_instance
 
 

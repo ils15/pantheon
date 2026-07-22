@@ -6,43 +6,19 @@
   "tiers": {
     "premium": {
       "description": "Deep reasoning agents: orchestration, strategic planning, review, synthesis",
-      "agents": [
-        "zeus",
-        "athena",
-        "themis"
-      ]
+      "agents": ["zeus", "athena", "themis"]
     },
     "default": {
       "description": "Balanced agents: backend, frontend, database, infra, AI pipelines, model routing, conversational AI, remote sensing",
-      "agents": [
-        "hermes",
-        "aphrodite",
-        "demeter",
-        "prometheus",
-        "hephaestus",
-        "gaia"
-      ]
+      "agents": ["hermes", "aphrodite", "demeter", "prometheus", "hephaestus", "gaia"]
     },
     "coding": {
       "description": "Heavy coding agents: backend, frontend, database, infra, AI pipelines, hotfixes \u2014 benefit from fast, cheap coding models like DeepSeek V4 Flash",
-      "agents": [
-        "hermes",
-        "aphrodite",
-        "demeter",
-        "prometheus",
-        "hephaestus",
-        "talos"
-      ]
+      "agents": ["hermes", "aphrodite", "demeter", "prometheus", "hephaestus", "talos"]
     },
     "fast": {
       "description": "Fast/cheap agents: codebase discovery, GitHub ops, memory, hotfixes, observability, visual analysis",
-      "agents": [
-        "apollo",
-        "iris",
-        "mnemosyne",
-        "talos",
-        "nyx"
-      ]
+      "agents": ["apollo", "iris", "mnemosyne", "talos", "nyx"]
     }
   },
   "presets": {

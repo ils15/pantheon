@@ -23,9 +23,7 @@
   },
   "repository": "https://github.com/ils15/pantheon",
   "license": "MIT",
-  "agents": [
-    "./agents"
-  ],
+  "agents": ["./agents"],
   "platforms": {
     "opencode": "./platform/opencode",
     "claude": "./platform/claude",

@@ -7,11 +7,7 @@
   "outputDir": "rules",
   "fileExtension": ".mdc",
   "frontmatter": {
-    "include": [
-      "name",
-      "description",
-      "globs"
-    ],
+    "include": ["name", "description", "globs"],
     "exclude": [
       "model",
       "tools",

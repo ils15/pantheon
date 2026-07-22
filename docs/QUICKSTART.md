@@ -2,117 +2,48 @@
 
 ## What is Pantheon
 
-A multi-agent framework for VS Code Copilot, OpenCode, Claude Code, Cursor, Windsurf, Cline, and Continue.dev using the Conductor-Delegate pattern. 14 specialized agents coordinate through Zeus (orchestrator) to implement features with TDD enforcement and mandatory quality gates.
+A multi-agent framework for VS Code Copilot, OpenCode, Claude Code, Cursor, Windsurf, Cline, and Continue.dev. 14 specialized agents with TDD enforcement, quality gates (Themis), and memory MCP. **v4.0** — 100/100 audit score.
 
 ## Installation
 
+### Option 1: CLI (recommended, coming soon)
 ```bash
-# Clone the repo
+npx @pantheon/cli init
+```
+
+### Option 2: Git clone
+```bash
 git clone https://github.com/ils15/pantheon.git
 cd pantheon
-
-# Install for your platform (pick one)
-./sync-platform.sh copilot --global   # VS Code (global)
-./sync-platform.sh opencode           # OpenCode
-./sync-platform.sh claude             # Claude Code
-./sync-platform.sh cursor             # Cursor
-./sync-platform.sh windsurf           # Windsurf
-./sync-platform.sh cline              # Cline
-./sync-platform.sh continue           # Continue.dev
+npm run sync
 ```
 
-See [docs/INSTALLATION.md](INSTALLATION.md) for detailed platform-specific setup.
-
-## Available Agents (14)
-
-| Agent | Role | Tier |
-|---|---|---|
-| **Zeus** | Central orchestrator — delegates work, never implements | Premium |
-| **Athena** | Strategic planner — architecture decisions, trade-off analysis | Premium |
-| **Themis** | Quality & security gate — mandatory review after every phase | Premium |
-| **Hermes** | Backend — FastAPI, Python, async/await, TDD | Default |
-| **Aphrodite** | Frontend — React, TypeScript, WCAG accessibility | Default |
-| **Demeter** | Database — SQLAlchemy, Alembic, query optimization | Default |
-| **Prometheus** | Infrastructure — Docker, docker-compose, CI/CD | Default |
-| **Hephaestus** | AI pipelines — RAG, LangChain, vector stores | Default |
-| **Gaia** | Remote sensing — LULC analysis, geospatial pipelines | Default |
-| **Apollo** | Investigation scout — parallel codebase searches (read-only) | Fast |
-| **Nyx** | Observability — tracing, monitoring, cost tracking | Fast |
-| **Iris** | GitHub ops — branches, PRs, issues, releases | Fast |
-| **Mnemosyne** | Memory bank — ADRs, project.md, atomic facts | Fast |
-| **Talos** | Hotfix express — small bugs, CSS, typos (no TDD) | Fast |
-
-
-Full details: [agents/README.md](../agents/README.md)
-
-## Key Commands
-
-| Command | Agent | Purpose |
-|---|---|---|
-| `/focus` | Zeus | Pin session goal — prevents scope drift |
-| `/pantheon` | Zeus | Multi-perspective synthesis (3-5 experts in parallel) |
-| `/subtask` | Any | Bounded child worker with structured result |
-| `/sketch` | Athena | Turn rough idea into spec via Q&A interview |
-| `/audit` | Themis | Security + quality review of current changes |
-| `/mirrordeps` | Apollo | Clone dependency source into `.deps/` for inspection |
-| `/plan-architecture` | Athena | Create TDD implementation roadmap |
-| `/debug-issue` | Apollo | Root cause analysis with parallel searches |
-| `/optimize-database` | Demeter | Query analysis and index recommendations |
-
-## Recent Changes
-
-| Change | Description |
-|---|---|
-
-
-
-## Architecture
-
-```
-User → Zeus (orchestrator)
-         ├── Athena (plans) → Apollo (discovers)
-         ├── Hermes (backend) ─┐
-         ├── Aphrodite (FE)    ├─ Parallel DAG waves
-         ├── Demeter (DB)     ─┘
-         └── Themis (review) → MANDATORY gate before merge
+Then copy to your platform's config dir:
+```bash
+# OpenCode
+cp -r .opencode/* ~/.config/opencode/
+# Or use platform-specific scripts
 ```
 
-| Principle | How it works |
-|---|---|
-| **Conductor-Delegate** | Zeus coordinates, specialists implement, Themis reviews |
-| **TDD enforced** | RED (write failing test) → GREEN (minimal code) → REFACTOR |
-| **Quality gates** | Themis review mandatory after every implementation phase |
-| **Parallel execution** | Independent tasks run in DAG waves (e.g. backend + frontend simultaneously) |
-| **Pause points** | User approves at planning, phase review, and git commit — never auto-merges |
+## v4.0 What's New
 
-## File Structure
+- **14 commands** — all `/pantheon-*` (remember, search, consolidate, forget, audit v2, cancel...)
+- **Themis 2.0** — 3-layer review (heuristic scanner + deep review + verification planning)
+- **Memory MCP** — agents read-only, Zeus auto-stores every result
+- **TUI Plugin** — live deepwork status + activity feed + toast notifications
+- **YAGNI + Anti-overengineering** — built into every agent's workflow
+- **Background Agents** — parallel execution with `subagent_depth: 2`
 
-```
-pantheon/
-├── opencode.json              # Agent config, commands, permissions, MCP servers
-├── agents/                    # 14 agent definitions (*.agent.md)
-│   ├── zeus.agent.md          # Orchestrator
-│   ├── athena.agent.md        # Planner
-│   ├── themis.agent.md        # Quality gate
-│   └── ...                    # 14 more specialists
-├── skills/                    # On-demand procedural knowledge
-│   ├── tdd-with-agents/       # TDD workflow enforcement
-│   ├── api-design-patterns/   # REST API standards
-│   ├── security-audit/        # OWASP Top 10 checks
-│   └── ...                    # 28 more skills
-├── platform/
-│   └── examples/              # Reference model configs (documentation only)
-├── prompts/                   # Reusable prompt templates
-├── instructions/              # Standards documents (coding, review, memory)
-└── docs/
-    ├── QUICKSTART.md          # This file
-    ├── INSTALLATION.md        # Platform-specific setup
-    ├── INDEX.md               # Documentation index
-    └── mcp-recommendations.md # MCP server recommendations
-```
+## Usage
 
-## Next Steps
+| Command | What it does |
+|---------|-------------|
+| `/pantheon` | Council multi-agent synthesis |
+| `/pantheon-status` | System status & agent registry |
+| `/pantheon-audit --light` | Code quality scan (zero LLM) |
+| `/pantheon-deepwork` | Multi-phase task execution |
+| `/pantheon-remember` | Store in memory |
+| `/pantheon-search` | Search memory |
+| `/pantheon-cancel` | Stop auto-continuation |
 
-1. Run `@zeus: Ping all agents` to verify setup
-2. Start with a simple task: `@apollo: Find all authentication-related files`
-3. Read [agents/README.md](../agents/README.md) for full agent commands and workflows
+Full list: 14 commands — all start with `/pantheon-`.

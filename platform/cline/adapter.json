@@ -8,9 +8,7 @@
   "fileExtension": "",
   "frontmatter": {
     "include": [],
-    "exclude": [
-      "*"
-    ],
+    "exclude": ["*"],
     "transform": {},
     "addFields": {},
     "skipFrontmatter": true

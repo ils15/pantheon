@@ -8,31 +8,22 @@ permission:
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow
-  pantheon-code-mode_*: ask
 temperature: 0.2
 steps: 20
 mcp_tools:
   pantheon-resources: all
   pantheon-memory:
-    - memory_recall
-    - memory_store
+    - memory_search
   pantheon-code-mode:
     - execute_code_script
 ---
 
 ## 🧠 Memory Protocol
 
-### Pre-Work
-**Call `memory_recall("database", top_k=3)` ONCE at task start — before any file reads.**
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Post-Work
-**`memory_store()` is called AUTOMATICALLY by Zeus when you return a subtask_summary.**
-Just include a clear `summary` field in your return — the persistence happens automatically.
-
-### Rules
-- memory_recall: 1 call per task, not per turn. If score < 0.3 → skip.
-- memory_store: automatic on subtask_summary return. No extra action needed.
-- ADR/decisions: `@mnemosyne` for permanent documentation.
+### Override
+- `memory_search("database", top_k=3)` at task start — read-only
 
 ## ⛔ When NOT to Use Demeter
 - For backend business logic — that's @hermes
@@ -117,10 +108,10 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | Server | Tools | When to use |
 |--------|-------|-------------|
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
-| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past schema decisions, store migration patterns |
+| **pantheon-memory** | `memory_search(query, n_results?)` | Read-only memory — search past schema decisions and migration patterns |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run alembic migrations, pytest |
 
-Before creating a migration, call `memory_recall("<table/schema>")` for past schema patterns. After completing, call `memory_store()` to persist the model decision. Use `execute_code_script()` for migration and test automation.
+Before creating a migration, call `memory_search("<table/schema>")` for past schema patterns. Results are persisted by Zeus on subtask_summary return.
 
 ## Inline Compression
 

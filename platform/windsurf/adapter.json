@@ -6,10 +6,7 @@
   "outputDir": "rules",
   "fileExtension": ".md",
   "frontmatter": {
-    "include": [
-      "name",
-      "description"
-    ],
+    "include": ["name", "description"],
     "exclude": [
       "model",
       "tools",

@@ -8,32 +8,22 @@ permission:
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow
-  pantheon-code-mode_*: ask
 temperature: 0.3
 steps: 20
 mcp_tools:
   pantheon-resources: all
   pantheon-memory:
-    - memory_recall
-    - memory_store
-    - memory_link
+    - memory_search
   pantheon-code-mode:
     - execute_code_script
 ---
 
 ## 🧠 Memory Protocol
 
-### Pre-Work
-**Call `memory_recall("ai-pipelines", top_k=3)` ONCE at task start — before any file reads.**
+See `instructions/memory-protocol.instructions.md` for universal rules.
 
-### Post-Work
-**`memory_store()` is called AUTOMATICALLY by Zeus when you return a subtask_summary.**
-Just include a clear `summary` field in your return — the persistence happens automatically.
-
-### Rules
-- memory_recall: 1 call per task, not per turn. If score < 0.3 → skip.
-- memory_store: automatic on subtask_summary return. No extra action needed.
-- ADR/decisions: `@mnemosyne` for permanent documentation.
+### Override
+- `memory_search("ai-pipelines", top_k=3)` at task start — read-only
 
 # Hephaestus - AI Tooling & Pipelines Specialist
 
@@ -78,10 +68,10 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | Server | Tools | When to use |
 |--------|-------|-------------|
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
-| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_link(from_id, to_id, relation?)` | Recall past AI pipeline decisions, store chain configs, link related components |
+| **pantheon-memory** | `memory_search(query, n_results?)` | Read-only memory — search past AI pipeline decisions and chain configs |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run build scripts and pipeline tests |
 
-Before building a pipeline, `memory_recall()` for existing patterns. After completion, `memory_store()` to persist the chain architecture. Use `memory_link()` to connect related components in the knowledge graph.
+Before building a pipeline, `memory_search()` for existing patterns. Results are persisted by Zeus on subtask_summary return.
 
 ## Inline Compression
 

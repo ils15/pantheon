@@ -3,17 +3,7 @@ name: hermes
 description: Backend specialist — FastAPI, Python, async, TDD (RED→GREEN→REFACTOR), modern Python stdlib, obsolete lib detection. Calls apollo for discovery, sends to themis.
 mode: primary
 tools: Agent, Grep, Read, Edit, Bash, WebFetch
-skills:
-  - api-design-patterns
-  - cache-strategy
-  - database-optimization
-  - fastapi-async-patterns
-  - quality-gate
-  - simplify
-  - tdd-with-agents
-  - test-architecture
-  - context-compression
-  - streaming-patterns
+skills: streaming-patterns, api-design-patterns, cache-strategy, database-optimization, fastapi-async-patterns, quality-gate, simplify, tdd-with-agents, test-architecture, context-compression
 permission:
 "pantheon-memory_*": allow
 "pantheon-persistence_*": allow
@@ -21,18 +11,23 @@ permission:
   bash: allow
   pantheon-resources_*: allow
   pantheon-memory_*: allow
-  pantheon-code-mode_*: ask
+  pantheon-persistence_*: allow
 temperature: 0.3
 steps: 20
 mcp_tools:
   pantheon-resources: all
   pantheon-memory:
-    - memory_recall
-    - memory_store
+    - memory_search
   pantheon-code-mode:
     - execute_code_script
 ---
 
+## 🧠 Memory Protocol
+
+See `instructions/memory-protocol.instructions.md` for universal rules.
+
+### Override
+- `memory_search("backend", top_k=3)` at task start — read-only
 
 ## Table of Contents
 - [Core Capabilities](#core-capabilities)
@@ -268,11 +263,10 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | Server | Tools | When to use |
 |--------|-------|-------------|
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
-| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_search(query, n_results?)` | Recall past API decisions at session start, store implementation results |
+| **pantheon-memory** | `memory_search(query, n_results?)` | Read-only memory — search past decisions and patterns before implementing |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run pytest, ruff, and build scripts |
-  "pantheon-persistence_*": allow
 
-Before implementing, call `memory_recall("<endpoint/domain>")` to retrieve past decisions. After completing work, call `memory_store()` to persist the outcome. Use `execute_code_script()` for test and lint automation.
+Before implementing, call `memory_search("<endpoint/domain>")` to retrieve past decisions. Results are persisted by Zeus on subtask_summary return.
 
 ## Inline Compression
 

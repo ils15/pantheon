@@ -14,9 +14,7 @@
       "source": "./",
       "description": "Complete multi-agent orchestration system featuring Zeus (orchestrator), Athena (planner), Apollo (discovery), Hermes (backend), Aphrodite (frontend), Demeter (database), Prometheus (infra), Iris (GitHub), Themis (review), Talos (hotfix), Mnemosyne (memory), Gaia (remote sensing), Nyx (observability), Hephaestus (AI pipelines). 45 on-demand skills for TDD, security, API design, database migration, Docker, RAG, and more.",
       "version": "3.19.0",
-      "agents": [
-        "./agents"
-      ],
+      "agents": ["./agents"],
       "skills": [
         "./skills/agent-coordination",
         "./skills/agent-evaluation",
@@ -42,7 +40,7 @@
         "./skills/mcp-server-development",
         "./skills/memory-bank",
         "./skills/metis-gap-analysis",
-            "./skills/nextjs-seo-optimization",
+        "./skills/nextjs-seo-optimization",
         "./skills/orchestration-workflow",
         "./skills/prompt-improver",
         "./skills/prompt-injection-security",

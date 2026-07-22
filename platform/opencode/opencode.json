@@ -35,8 +35,5 @@
       "pantheon-persistence": "allow"
     }
   },
-  "instructions": [
-    "AGENTS.md",
-    "instructions/*.instructions.md"
-  ]
+  "instructions": ["AGENTS.md", "instructions/*.instructions.md"]
 }

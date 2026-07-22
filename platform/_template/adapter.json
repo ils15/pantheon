@@ -7,14 +7,7 @@
   "fileExtension": ".md",
 
   "frontmatter": {
-    "include": [
-      "name",
-      "description",
-      "tools",
-      "skills",
-      "instructions",
-      "mcpServers"
-    ],
+    "include": ["name", "description", "tools", "skills", "instructions", "mcpServers"],
     "exclude": [
       "handoffs",
       "disable-model-invocation",

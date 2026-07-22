@@ -16,7 +16,7 @@ agent: "zeus"
 ## When NOT to Use
 
 - Simple fixes (use @talos)
-- Single-file changes (use /subtask)
+- Single-file changes (use normal agent delegation)
 - Tasks completable in < 5 turns (use normal delegation)
 
 ## Workflow
@@ -69,6 +69,23 @@ Checkpoint files:
 └── STATUS.md                # Current state (phase, progress, blockers)
 ```
 
+## ⚡ Full-Auto Mode (`--full-auto`)
+
+> ⚠️ **WARNING:** This bypasses human review gates. Only for experienced operators. Tier 1 gates (plan, commit, deploy) still require human approval.
+
+New in v4.0 — **Ultrawork-style execution**. When `--full-auto` is passed:
+
+- **All gates auto-approve** — no waiting for Themis approval between phases
+- Only stops if Themis returns a **BLOCKING** verdict
+- Equivalent to the "ultrawork" paradigm from OMO (one-minute-optimization)
+- Checkpoints still saved at every phase boundary
+- Use for: high-confidence tasks, batch processing, experienced operators
+
+```
+/pantheon-deepwork --full-auto "Refactor auth service to use JWT"   # Full auto mode
+/pantheon-deepwork --full-auto --resume auth-jwt                     # Resume in full-auto
+```
+
 ## Anti-Stall Integration
 
 Deepwork automatically applies:
@@ -86,16 +103,20 @@ If a phase stalls:
 ## Usage
 
 ```
-/pantheon-deepwork "Add user authentication with OAuth2"     # Start new deepwork session
-/pantheon-deepwork --resume auth-oauth2                       # Resume interrupted session
-/pantheon-deepwork --status auth-oauth2                       # Show progress
-/pantheon-deepwork --list                                     # List all tasks
-/pantheon-deepwork --archive auth-oauth2                      # Archive completed task
+/pantheon-deepwork "Add user authentication with OAuth2"         # Start new deepwork session
+/pantheon-deepwork --resume auth-oauth2                           # Resume interrupted session
+/pantheon-deepwork --status auth-oauth2                           # Show progress
+/pantheon-deepwork --list                                         # List all tasks
+/pantheon-deepwork --archive auth-oauth2                          # Archive completed task
+/pantheon-deepwork --full-auto "Refactor auth service"            # Full auto (ultrawork mode)
+/pantheon-deepwork --full-auto --resume auth-refactor             # Resume full-auto session
 ```
 
 ## Safety
 
 - All progress persisted — work is never lost
 - Each phase gated by Themis — quality enforced at every step
-- Explicit resume required — won't auto-continue without user intent
+- Explicit resume required — won't auto-continue without user intent (unless `--full-auto`)
 - `.pantheon/deepwork/` is gitignored — no accidental commits
+
+For ad-hoc single-phase execution, use normal agent delegation (`@hermes`, `@aphrodite`, etc.) directly.
