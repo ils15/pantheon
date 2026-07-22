@@ -24,7 +24,7 @@ OpenCode is available in three form factors:
 | **Desktop app** | Download from [opencode.ai/download](https://opencode.ai/download) — macOS, Linux, Windows |
 | **IDE extension** | Available for VS Code, JetBrains, and Zed |
 
-Pantheon ships a hooks plugin at `.opencode/plugins/pantheon-hooks.ts`. OpenCode auto-discovers plugins from `.opencode/plugins/` when running from the project directory. To make it available globally, run: `./sync-platform.sh opencode` (step 3.7 copies it to `~/.config/opencode/plugins/`). The plugin bridges 8 shell scripts from `scripts/hooks/` to OpenCode events: PreToolUse (validate-talos-scope, scan-secrets, validate-tool-safety, on-subagent-delegation-start), PostToolUse (format-multi-language, log-session-start, on-subagent-delegation-stop), and event (validate-post-conditions).
+Pantheon ships a hooks plugin at `.opencode/plugins/pantheon-hooks.ts`. OpenCode auto-discovers plugins from `.opencode/plugins/` when running from the project directory. To make it available globally, run `npm run sync opencode` (copies it to `~/.config/opencode/plugins/`). The plugin bridges 8 shell scripts from `scripts/hooks/` to OpenCode events: PreToolUse (validate-talos-scope, scan-secrets, validate-tool-safety, on-subagent-delegation-start), PostToolUse (format-multi-language, log-session-start, on-subagent-delegation-stop), and event (validate-post-conditions).
 
 The fastest way to set up Pantheon in any project is with the universal install script:
 
@@ -266,6 +266,31 @@ The OpenCode adapter v2 (2.0.0) maps canonical VS Code tool names to OpenCode-na
 ---
 
 ## OpenCode-Specific Features
+
+### TUI Plugin (v4.0)
+
+Pantheon v4.0 ships a **TUI plugin** for OpenCode that provides:
+- **Live deepwork status** — see active phases, progress, and checkpoints
+- **Activity feed** — real-time agent delegation events
+- **Toast notifications** — phase completion, review results, gate approvals
+
+The plugin auto-discovers from `.opencode/plugins/` when running from the project directory. It's also synced globally to `~/.config/opencode/plugins/` via `npm run sync opencode`.
+
+### Themis 2.0
+
+Pantheon v4.0 introduces **Themis 2.0** — a 3-layer review pipeline:
+1. **Heuristic Scanner** — zero-LLM static analysis (ruff, biome, anti-pattern detection, hash verification)
+2. **Deep Review** — LLM-powered code review with OWASP Top 10, coverage enforcement, and correctness checks
+3. **Verification Planning** — structured verification plan with test gap analysis
+
+Run via `/pantheon-audit` with `--light` (layer 1 only), `--full` (layers 1-3), or `--plan` (layer 3 only).
+
+### YAGNI Ladder
+
+Built into every agent's workflow, the **YAGNI Ladder** prevents overengineering:
+- **Step 1**: Solve the problem directly (no abstraction)
+- **Step 2**: Extract only if duplication appears 3+ times
+- **Step 3**: Abstract only when the pattern is proven stable
 
 ### Model Configuration
 

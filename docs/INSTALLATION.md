@@ -34,13 +34,13 @@
 
 | Platform | Install Time | Method |
 |---|---|---|
-| **VS Code Copilot** | 1 min | Marketplace plugin or `./sync-platform.sh copilot` |
-| **OpenCode** | 2 min | Config file + agents or `./sync-platform.sh opencode` |
-| **Claude Code** | 1 min | `./sync-platform.sh claude` |
-| **Cursor** | 1 min | `./sync-platform.sh cursor` |
-| **Windsurf** | 1 min | `./sync-platform.sh windsurf` |
-| **Cline** | 1 min | `./sync-platform.sh cline` |
-| **Continue.dev** | 1 min | `./sync-platform.sh continue` |
+| **VS Code Copilot** | 1 min | Marketplace plugin or `npm run sync copilot` |
+| **OpenCode** | 2 min | Config file + agents or `npm run sync opencode` |
+| **Claude Code** | 1 min | `npm run sync claude` |
+| **Cursor** | 1 min | `npm run sync cursor` |
+| **Windsurf** | 1 min | `npm run sync windsurf` |
+| **Cline** | 1 min | `npm run sync cline` |
+| **Continue.dev** | 1 min | `npm run sync continue` |
 
 ---
 
@@ -73,44 +73,53 @@ npm run install:runtime
 
 ---
 
-## 🚀 Unified Sync: `sync-platform.sh`
+## 🚀 Sync via `npm run sync`
 
 **The recommended way to install and update Pantheon** across all platforms:
 
 ```bash
-# Install everything for your platform
-./sync-platform.sh <platform>          # project-local (default)
-./sync-platform.sh <platform> --global # global (~/.copilot/, ~/.config/opencode/, etc.)
+# Sync all platforms
+npm run sync
+
+# Sync a specific platform
+npm run sync <platform>   # e.g., npm run sync claude
+
+# Sync + verify
+npm run sync && npm run sync:check
 ```
 
 | Platform | Command | Destination |
 |----------|---------|-------------|
-| **VS Code** | `./sync-platform.sh copilot --global` | `~/.copilot/agents/`, `~/.copilot/instructions/`, `~/.copilot/skills/` |
-| **OpenCode** | `./sync-platform.sh opencode` | `~/.config/opencode/` |
-| **Claude Code** | `./sync-platform.sh claude` | `.claude/agents/`, `.claude/commands/` |
-| **Cursor** | `./sync-platform.sh cursor` | `.cursor/rules/`, `.cursor/commands/` |
-| **Windsurf** | `./sync-platform.sh windsurf` | `.windsurf/rules/`, `.windsurf/workflows/` |
-| **Cline** | `./sync-platform.sh cline` | `.clinerules/`, `.clinerules/commands/` |
-| **Continue.dev** | `./sync-platform.sh continue` | `.continue/rules/`, `.continue/commands/` |
+| **VS Code** | `npm run sync copilot` | `.github/agents/`, `.github/copilot-instructions.md` |
+| **OpenCode** | `npm run sync opencode` | `platform/opencode/` |
+| **Claude Code** | `npm run sync claude` | `.claude/agents/` |
+| **Cursor** | `npm run sync cursor` | `.cursor/rules/` |
+| **Windsurf** | `npm run sync windsurf` | `.windsurf/rules/` |
+| **Cline** | `npm run sync cline` | `.clinerules/` |
+| **Continue.dev** | `npm run sync continue` | `.continue/rules/` |
 
-**Flags:**
-- `--global` — Install to user-global directories (persists across projects)
-- `--dry-run` — Preview what would be copied
-- `--clean` — Remove stale files from destination
+The sync engine (`scripts/sync-platforms.mjs`) transforms canonical `.agent.md` files into every platform's native format — applying tool name mapping, frontmatter conversion, and platform-specific transformations.
 
 **What it deploys per platform:**
 
-| | Agents | Instructions | Skills | Commands | Prompts |
-|---|:---:|:---:|:---:|:---:|:---:|
-| **VS Code** | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **OpenCode** | ✅ | ✅ | ✅ | ✅ | — |
-| **Claude Code** | ✅ | — | ✅ | ✅ | — |
-| **Cursor** | ✅ | — | ✅ | ✅ | — |
-| **Windsurf** | ✅ | — | ✅ | ✅ | — |
-| **Cline** | ✅ | — | ✅ | ✅ | — |
-| **Continue.dev** | ✅ | — | ✅ | ✅ | — |
+| | Agents | Instructions | Skills | Commands |
+|---|:---:|:---:|:---:|:---:|
+| **VS Code** | ✅ | ✅ | ✅ | ✅ |
+| **OpenCode** | ✅ | ✅ | ✅ | ✅ |
+| **Claude Code** | ✅ | — | ✅ | ✅ |
+| **Cursor** | ✅ | — | ✅ | ✅ |
+| **Windsurf** | ✅ | — | ✅ | ✅ |
+| **Cline** | ✅ | — | ✅ | ✅ |
+| **Continue.dev** | ✅ | — | ✅ | ✅ |
 
-The sync script also deploys the Pantheon hooks plugin to `~/.config/opencode/plugins/` (step 3.7) for OpenCode. Claude Code hooks are configured via `.claude/settings.json`. Other platforms don't support pre/post tool hooks.
+### `npx @pantheon/cli init` (CLI v4.0)
+
+> **Coming soon.** The Pantheon CLI (`@pantheon/cli`) provides a single-command setup:
+> ```bash
+> npx @pantheon/cli init
+> ```
+
+The CLI will auto-detect your platform, copy agent files, configure MCP servers, and verify the installation — no manual steps needed.
 
 ---
 
@@ -222,24 +231,6 @@ This file is written to `.vscode/mcp.json` (project-local) or `~/.config/opencod
 All 14 Pantheon agents now declare `mcp_tools:` in their YAML frontmatter, telling them which tools they can use. The agents also include a standardized `## 🧠 MCP Capabilities` section describing when to use each tool.
 
 See [docs/mcp-tools.md](mcp-tools.md) for the canonical tool registry and [docs/mcp-user-guide.md](mcp-user-guide.md) for adding custom MCPs.
-
----
-
-## Legacy Sync Scripts
-
-Individual sync scripts still work and are equivalent to `sync-platform.sh`:
-
-| Script | Platform | What it deploys |
-|--------|----------|----------------|
-| `./sync-copilot.sh` | VS Code Copilot | `instructions/` → `.github/instructions/` · `prompts/` + commands → `VSCODE_USER_PROMPTS_FOLDER` |
-| `./sync-claude.sh` | Claude Code | agents + commands → `.claude/agents/` + `.claude/commands/` |
-| `./sync-opencode.sh` | OpenCode | agents + skills + commands → `~/.config/opencode/` |
-| `./sync-cursor.sh` | Cursor | rules → `.cursor/rules/` |
-| `./sync-windsurf.sh` | Windsurf | rules → `.windsurf/rules/` |
-| `./sync-continue.sh` | Continue | rules → `.continue/rules/` |
-| `./sync-cline.sh` | Cline | rules → `.clinerules/` |
-
-> **Recommendation:** Use `sync-platform.sh` instead — it handles all platforms with a single command and supports `--global` for persistent installation.
 
 ---
 
@@ -442,7 +433,7 @@ git clone https://github.com/ils15/pantheon.git
 cd pantheon
 
 # Install Windsurf rules and workflows
-./sync-platform.sh windsurf
+npm run sync windsurf
 ```
 
 This creates `.windsurf/rules/` with all agents and `.windsurf/workflows/` with commands.
@@ -474,7 +465,7 @@ git clone https://github.com/ils15/pantheon.git
 cd pantheon
 
 # Install Cline rules and commands
-./sync-platform.sh cline
+npm run sync cline
 ```
 
 This creates `.clinerules/` with all agents and `.clinerules/commands/` with commands.
@@ -502,7 +493,7 @@ git clone https://github.com/ils15/pantheon.git
 cd pantheon
 
 # Install Continue rules and commands
-./sync-platform.sh continue
+npm run sync continue
 ```
 
 This creates `.continue/rules/` with all agents and `.continue/commands/` with commands.
@@ -589,6 +580,13 @@ Once setup is complete:
 3. **Explore** skills: `@hermes: Load skill agent-coordination`
 4. **Customize** instructions in `instructions/` for your stack
 5. **Add** your own agents by creating new `.agent.md` files in `agents/`
+
+### v4.0 Highlights
+
+- **14 commands** — all `/pantheon-*` commands (`/pantheon`, `/pantheon-status`, `/pantheon-audit`, `/pantheon-cancel`, `/pantheon-deepwork`, `/pantheon-focus`, `/pantheon-optimize`, `/pantheon-sketch`, `/pantheon-install`, `/pantheon-update`, `/pantheon-remember`, `/pantheon-search`, `/pantheon-consolidate`, `/pantheon-forget`)
+- **Themis 2.0** — 3-layer review pipeline (heuristic scanner + deep review + verification planning)
+- **YAGNI Ladder** — anti-overengineering built into every agent workflow
+- **TUI Plugin** — live deepwork status, activity feed, toast notifications (OpenCode)
 
 ---
 
