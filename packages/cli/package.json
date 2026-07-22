@@ -1,0 +1,12 @@
+{
+  "name": "@pantheon/cli",
+  "version": "4.0.0",
+  "description": "Pantheon — Multi-agent orchestration platform. 14 agents, 44 skills, 7 platforms.",
+  "bin": {
+    "pantheon": "./bin/pantheon.js"
+  },
+  "keywords": ["opencode", "multi-agent", "orchestration", "ai-coding"],
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=18" }
+}
