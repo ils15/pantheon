@@ -1,191 +1,188 @@
 # 🗺️ Pantheon Roadmap
 
-> **Last updated:** v3.14.0 (2026-06-20)
+> **Last updated:** v4.0-dev (2026-07-22)
 >
-> This document tracks what was delivered, what's coming next, and how you
-> can influence priorities. The roadmap is a living document — PRs and issues
-> can change it.
+> Roadmap atualizado com base em pesquisa competitiva do ecossistema
+> awesome-opencode e decisões de sprint alinhadas com o usuário.
 
 ---
 
-## v3.14.0 — Codebase Audit, Documentation & Optimization (June 2026)
+## ✅ v3.19.3 — Atual (Julho 2026)
 
-**Theme:** Comprehensive codebase health improvement, dead code removal, documentation overhaul.
+### Entregue desde v3.14.0
 
-### Delivered
-
-| Area | What changed | Impact |
-|------|-------------|--------|
-| **Dead Agent Purge** | Removed ~150+ references to Echo, Chiron, Argus, Agora across 67+ files | Clean codebase — no more confusion from merged/removed agents |
-| **Python Infrastructure** | Added `[build-system]`, project dependencies (FastAPI, SQLAlchemy, Alembic, Pydantic), ruff expanded 5→11 rule groups, coverage (`fail_under=80`), mypy strict mode | Project can now be `pip install`ed; linting matches Themis enforcement |
-| **Alembic Scaffolding** | `alembic.ini`, `async env.py`, models base with `AsyncAttrs` + `TimestampMixin`, async engine factory with `DatabaseSettings` | Ready for database migrations out of the box |
-| **SQLAlchemy 2.0 Mixins** | `UUIDPrimaryKeyMixin`, `IntegerPrimaryKeyMixin`, `SoftDeleteMixin`, `ActivatableMixin` | Reusable model patterns for downstream projects |
-| **Frontend Scaffolding** | `biome.json`, `tsconfig.json` (strict mode), npm scripts (test, lint, typecheck, build, dev) | Downstream frontend projects have reference configs |
-| **Docker Infrastructure** | Multi-stage Dockerfile, docker-compose.yml (PostgreSQL 16 + API), `.env.example` | One-command dev environment |
-| **Token Waste Elimination** | Removed `.github/instructions/` (~1.6K lines) and `.github/skills/` (~10K lines) — pure duplication | **~11.7K lines saved** (~23K tokens) |
-| **Mermaid Diagrams** | 5 new diagrams: TDD cycle, Artifact Lifecycle, Council Synthesis, Architecture, Delegation Flow | Visual clarity for core workflows |
-| **Documentation Quality** | All Portuguese→English, "When NOT to Use" on 7 agents, duplicate Nyx removed, ADR consistency | Documentation now consistent and bilingualism-free |
-| **Database Standards** | Async SQLAlchemy 2.0 patterns, connection pooling, migration testing, disaster recovery + Mermaid diagrams | Complete database development guide |
-| **OpenCode Tool Alignment** | All agent tool names converted from VS Code to OpenCode conventions | Agents work correctly on OpenCode platform |
-
-### Stats
-
-- **81 files changed** — 442 insertions, 1,795 deletions
-- **14 agents** — all with "When NOT to Use" sections
-- **~11.7K lines** of pure duplication removed
-- **5 new Mermaid diagrams** across key documentation
-- **150+ dead references** to Echo, Chiron, Argus, Agora eliminated
+| Versão | O que foi entregue |
+|--------|-------------------|
+| **v3.15.0** | Memory MCP com sqlite-vec + fastembed (substituiu ChromaDB, ~50MB vs ~1.4GB) |
+| **v3.16.0** | Level 2 Context Compression, agent frontmatter cleanup, sync engine |
+| **v3.17.0** | MCP Resources Server (pantheon:// URIs), Code Mode Server |
+| **v3.18.0** | Themis formal review gate, routing.yml com handoffs, reasoning effort por agente |
+| **v3.19.0** | Memory Persistence Protocol, ADR-006, doc audit, 44 skills |
+| **v3.19.1-3** | Patches: sync engine fixes, opencode.json tuning |
 
 ---
 
-## v3.13.0 — Context Compression & Agent Cleanup (June 2026)
+## 🔜 v4.0 — Próximo Release
 
-**Theme:** Token optimization, agent frontmatter standardization, memory infrastructure.
+**Tema:** Comandos consolidados, qualidade implacável, distribuição npm, background agents.
 
-### Delivered
+### Sprint 1 ✅ — Memory Commands & Limpeza (Concluído)
 
-| Area | What changed | Impact |
-|------|-------------|--------|
-| **Level 2 Context Compression** | Priority scoring engine, semantic summarization, budget allocation, cross-reference mechanism | ~50% context savings between phases |
-| **Agent Frontmatter Cleanup** | Stripped non-OpenCode fields from all 14 agents | All agents parse cleanly with OpenCode YAML |
-| **Agent Count Unified** | 14 everywhere (was inconsistent: some files said 18) | No more confusion about agent count |
-| **Stale Agent References** | Chiron, Echo, Argus, Agora cleaned from 40+ files | Cleaner codebase |
-| **TUI Plugin Deactivation** | Moved to plugins-disabled/ | Simplified active tree |
-| **CI Platform Conformance** | 6/6 platforms passing with 0 failures | Reliable cross-platform sync |
+| Item | Status |
+|------|--------|
+| `/pantheon-remember` — memory_store + recall interativo | ✅ |
+| `/pantheon-search` — memory_search com filtros | ✅ |
+| `/pantheon-consolidate` — merge de duplicatas | ✅ |
+| `/pantheon-forget` — range compression | ✅ |
+| Consolidar 23→14 comandos (todos `/pantheon-*`) | ✅ |
+| Remover 9 comandos obsoletos (manifest, forge, mirrordeps, praxis, ping, stop-continuation, subtask, metamorphosis, reflect) | ✅ |
+| `/pantheon-optimize` melhorado (archive + cache + dry-run) | ✅ |
+| Deepwork archive (20→9 ativos, 7 arquivados, 4 deletados) | ✅ |
+| Sync engine consertado (spawnSync import faltando) | ✅ |
+| MCP servers corrigidos (FastMCP description→instructions) | ✅ |
+
+### Sprint 2 🔜 — NPM + CLI Installer (3-5d)
+
+**Prioridade #1 — Adoção.** OMO e weisser-dev provaram que npm publish é o que move adoção.
+
+```
+@pantheon/cli (npm)
+├── npx pantheon init          → detecta plataforma, copia configs, setup MCPs
+├── npx pantheon update        → sync latest agents/skills/commands
+├── npx pantheon doctor        → valida instalação, corrige problemas
+├── npx pantheon status        → versão + agentes carregados
+└── TUI interativo de setup    → perguntas → config (weisser-dev style)
+
+Plugin OpenCode oficial
+├── contributes.agents → 14 agentes
+├── contributes.skills → 44 skills (on-demand)
+├── contributes.commands → 14 comandos /pantheon-*
+└── contributes.mcpServers → memory + resources + code-mode
+```
+
+### Sprint 3 🔜 — Themis 2.0 + IntentGate (4-5d)
+
+**Diferencial competitivo mais forte.** Nenhum concorrente tem revisão de qualidade real.
+
+```
+Layer 1 — Heuristic Scanner (zero LLM, pré-commit)
+├── Anti-pattern scanner: 50+ padrões de IA slop
+│   ├── Comentários óbvios ("// This function increments x")
+│   ├── Boilerplate genérico, nomes placeholder
+│   ├── Error handling genérico ("except: pass")
+│   └── Código morto detectado por ruff (F401, F841)
+│
+├── Hash-anchored edit verification
+│   ├── Antes: hash do arquivo
+│   ├── Depois: compara hash + diff mínimo esperado
+│   └── Se não mudou → edição falhou (retry)
+│
+├── Ruff + Biome + coverage delta → tudo 0 tokens, <2s
+└── Score consolidado (0-100) → blocking? sim/não
+
+Layer 2 — Themis Review Otimizado (LLM leve, ~500 tokens)
+├── Só roda se Layer 1 passar
+├── Prompt minimalista com confidence score por arquivo
+└── Regression prediction (diff analysis)
+
+Layer 3 — Verification Planning (pré-mudança)
+├── Antes de mudanças complexas (N>5 files)
+├── Themis sugere: "Para mudar X, preciso verificar Y"
+└── Executa verificações automaticamente
+
+IntentGate Heurístico (zero LLM)
+├── routing.yml: classifica request antes de delegar
+├── "bug|error|crash" → FIX
+├── "how|what|compare" → RESEARCH/INVESTIGATE
+├── "plan|architecture" → PLAN
+├── "implement|create|add" → IMPLEMENT
+└── fallback → IMPLEMENT
+```
+
+### Sprint 4 🔜 — Background Agents + Qualidade (4-6d)
+
+```
+├── Background agents first-class
+│   ├── Paralelo real: dispatch 5+ agents simultaneamente
+│   ├── Scheduler nativo do OpenCode v1.16.2+
+│   └── Sem polling — push notification
+│
+├── TODO Enforcer
+│   ├── Se agente ficar ocioso >N turns → força continuar
+│   ├── Não para até tarefa completar
+│   └── Idle detection + retry automático
+│
+├── Hash-anchored edits (validação de edição)
+│
+└── /pantheon-deepwork --full-auto
+    ├── Modo autônomo: assume aprovado em gates
+    └── Equivalente ao "ultrawork" do OMO
+```
+
+### Sprint 5 🔜 — Pruning + Cache (2-3d)
+
+```
+├── Tool Output Pruning (Level 2 Compression v2)
+│   ├── Poda outputs obsoletos do histórico (>5 turns)
+│   ├── Relevance scoring por idade/tamanho/tipo
+│   └── Auto-tagging de relevância
+│
+└── /pantheon-optimize --cache
+    ├── Script memory-cache.py
+    ├── Lê memory-bank flat files → memory_store() no MCP
+    └── Archive opcional dos originais
+```
 
 ---
 
-## v3.4.0 → v3.7.2 — Platform Infrastructure & Skills (May 2026)
+## 📊 Comparação Competitiva
 
-[Previous entries preserved below]
-
-## v3.4.0 — Platform Infrastructure (May 2026)
-
-**Theme:** Agents that work the same way on every platform.
-
-### Delivered
-
-| Area | What changed | Impact |
-|------|-------------|--------|
-| **Canonical Agent Redesign** | 7 new frontmatter fields: `permission`, `hooks`, `mcpServers`, `temperature`, `steps`, `globs`, `skills` | Per-agent tool permissions, lifecycle hooks, MCP bindings, skill-based capability loading |
-| **Canonical → Adapter → Sync** | 3-layer architecture replacing 6 parallel agent files | Change once in canonical agent, sync to all 6 platforms |
-| **Sync Engine** | `scripts/sync-platforms.mjs` with body validation, tool reference transformation, dedup | Catching stale references at sync time, not runtime |
-| **Skill Deployments** | 174 skills deployed (29 skills × 6 platforms) | Consistent domain expertise across all platforms |
-| **Agora Subagent** | Hidden multi-perspective synthesis agent (`/pantheon` or `@agora`) | Trade-off analysis without cluttering the agent list |
-| **Platform Select** | ~~`platform/select-plan.sh`~~ (removed in v3.6.0 — model tiers now resolved via platform settings) | — |
-| **Security Fix** | `search/changes` removed from toolMap (was mapped to unrestricted bash on 3 platforms) | Eliminated shell injection vector |
-
-### Stats
-
-- **416 files changed** — 119 modified + 297 new
-- **14 agents** (2 primary + 12 subagents)
-- **37 skills** across 9 domains
-- **16+ plan configurations** for different subscriptions
-- **7 platforms** supported
+| Feature | Pantheon v4.0 | Oh My OpenCode | weisser-dev |
+|---------|---------------|----------------|-------------|
+| **Plataformas** | 7 | 2 | 1 |
+| **Agentes** | 14 | 11 | 108 |
+| **Skills** | 44 | ~8 | 15 |
+| **TDD enforcement** | ✅ | ❌ | ❌ |
+| **Themis review gate** | ✅ | ❌ | ❌ |
+| **npm publish** | 🔜 Sprint 2 | ✅ | ✅ |
+| **Memory MCP** | ✅ | básico | ❌ |
+| **Background agents** | 🔜 Sprint 4 | ✅ | ❌ |
+| **AI Slop detection** | 🔜 Sprint 3 | comment checker | ❌ |
+| **Multi-model** | ❌ (deliberado) | council | ❌ |
 
 ---
 
-## v3.5.0 — Documentation & Skills
+## 🧠 Decisões de Arquitetura (v4.0)
 
-**Focus areas:** Documentation consolidation, skill gap closure, developer experience.
-
-### Delivered
-
-| Area | What | Status |
-|------|------|--------|
-| **docs/ARCHITECTURE.md** | Architecture rationale doc (Conductor-Delegate, Canonical→Adapter→Sync, DAG Waves, Memory, Platform Adapters) | ✅ Delivered |
-| **ROADMAP.md** | This file — version history, upcoming themes, contribution guide | ✅ Delivered |
-| **`plan-architecture` skill** | Feature architecture planning with component breakdown and data flow mapping | ✅ Delivered |
-
-### Future / Not Yet Delivered
-
-| Area | What | Status |
-|------|------|--------|
-| **Documentation consolidation** | Merge SETUP into INSTALLATION, split README/AGENTS, add tutorial and troubleshooting | 🔜 Planned |
-| **docs/UPGRADING.md** | Migration guide between major versions (v3.3.x → v3.4.0) | 🔜 Planned |
-| **Platform setup polish** | Verify all 7 platform guides are current and consistent | 🔜 Planned |
-| **Tutorial** | "Build your first feature with Pantheon" walkthrough | 🔜 Proposed |
+1. **Sem multi-model council** — Custo alto, benefício nicho. Foco em qualidade (Themis 2.0) em vez de quantidade de modelos.
+2. **Sem "ultrawork" keyword** — `/pantheon-deepwork --full-auto` já cobre o caso de uso sem criar jargão novo.
+3. **IntentGate heurístico** — Zero LLM, zero latência. Regex no routing.yml em vez de chamada de modelo.
+4. **Themis 2.0 é o diferencial real** — Nenhum concorrente tem gate de qualidade. Enquanto eles competem em número de agentes, a gente compete em qualidade de entrega.
+5. **npm primeiro** — Sem adoção, não importa o quão bom é o produto. OMO tem 25.3k+ downloads no npm.
 
 ---
 
-## v3.6.0+ — Themes (Future)
+## Como Contribuir
 
-These are directional. Specific items will be scoped as we approach each release.
+### Prioridades definidas por:
 
-### Theme: Observability & Telemetry
-
-- Complete Nyx instrumentation across all agents
-- Pre-built Grafana dashboards for agent performance
-- Token/cost tracking per feature lifecycle
-- LangSmith integration examples and documentation
-
-### Theme: Testing & Quality Automation
-
-- Automated regression test suite for the framework itself
-- Agent output quality scoring (hallucination detection, faithfulness)
-- End-to-end orchestration tests that simulate real feature implementations
-- Sync engine validation in CI (auto-check that canonical sources are synced)
-
-### Theme: Community & Ecosystem
-
-- Plugin marketplace packaging for OpenCode and VS Code
-- Published agent packs for non-Googlers (Cursor, Windsurf, Cline)
-- Template repository for quick-start adoption
-- Community skill contributions (database-specific, cloud-provider-specific)
-- Pantheon user group / discussion forum
-
-### Theme: Performance & Cost
-
-- Context window optimization (progressive loading strategies)
-- Model routing cost analysis tooling
-- Caching layer for repeated agent invocations
-- Parallel execution timeout and recovery improvements
-
-### Theme: Model Provider Expansion
-
-- Additional plan configurations for new model providers
-- Provider benchmarking suite (cost vs. quality per agent role)
-- Local-first model support (Ollama, vLLM, LocalAI)
-
----
-
-## How to Contribute
-
-### Influence priorities
-
-1. **Open an issue** with the `roadmap` label describing what you need
-2. **Vote on existing issues** — we prioritize by community demand
-3. **Submit a PR** with the change you want to see
-
-### Framework contributions
-
-| Contribution | Where to start |
-|---|---|
-| New agent | Create `agents/<name>.agent.md`, add to Zeus's delegation list |
-| New skill | Create `skills/<name>/SKILL.md` with YAML frontmatter |
-| New platform | Create `platform/<name>/adapter.json`, add setup guide to `docs/platforms/` |
-| Bug fix | Open a PR with the fix — see `CONTRIBUTING.md` for standards |
+1. **Issues** com label `roadmap`
+2. **Votação** nas issues existentes
+3. **PRs** com a mudança desejada
 
 ### Release cadence
 
-| Type | Frequency | Example |
+| Tipo | Frequência | Exemplo |
 |------|-----------|---------|
-| Major | Every 3–6 months | v3.4.0, v4.0.0 |
-| Minor | As needed (1–2 months) | v3.5.0, v3.6.0 |
-| Patch | Immediate for critical fixes | v3.4.1 (security), v3.4.2 (bug) |
-
-Versions follow [Semantic Versioning 2.0.0](https://semver.org/):
-- **BREAKING** change → MAJOR version bump
-- **feat:** (backward compatible) → MINOR version bump
-- **fix:** or other → PATCH version bump
+| Major | A cada 3-6 meses | v4.0.0 |
+| Minor | 1-2 meses | v4.1.0 |
+| Patch | Imediato para fixes críticos | v4.0.1 |
 
 ---
 
-## Previously: v3.3.0 (May 16, 2026)
+## Changelog do Roadmap
 
-**Theme:** Agent count expansion and model configuration flexibility.
-
-- **No hardcoded models** — removed from `opencode.json` root
-- **Cline `skipFrontmatter` fix** — resolved frontmatter wrapper bug
-
-> Full changelog: [CHANGELOG.md](CHANGELOG.md)
+| Data | Mudança |
+|------|---------|
+| 2026-07-22 | Roadmap reescrito para v4.0 com base em pesquisa awesome-opencode |
+| 2026-06-20 | Última atualização v3.14.0 |
