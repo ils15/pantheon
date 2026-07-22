@@ -42,7 +42,7 @@ Produce EXACTLY this structure:
 
 ### Commands Available
 
-`/pantheon` `/pantheon-status` `/ping` `/praxis` `/audit` `/forge` `/focus` `/deepwork` `/reflect` `/optimize` `/sketch` `/subtask` `/metamorphosis` `/mirrordeps` `/cancel`
+`/pantheon` `/pantheon-status` `/ping` `/praxis` `/audit` `/forge` `/focus` `/deepwork` `/reflect` `/optimize` `/sketch` `/subtask` `/metamorphosis` `/mirrordeps` `/cancel` `/pantheon-remember` `/pantheon-search` `/pantheon-consolidate` `/pantheon-forget`
 
 ### Health
 
