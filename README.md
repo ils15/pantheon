@@ -414,9 +414,9 @@ graph TB
 
 ---
 
-## 🧠 Level 3 Vector Memory (v3.19.3)
+## 🧠 Level 3 Vector Memory (v4.0)
 
-Pantheon v3.19.3 introduces a persistent two-tier memory system with semantic retrieval:
+Pantheon v4.0.0 introduces a persistent two-tier memory system with semantic retrieval:
 
 ### Tier 1 — Auto-Indexed Memory (`/memories/repo/`)
 Agent memory is automatically indexed at zero token cost. Every agent writes atomic facts on discovery:
@@ -579,16 +579,13 @@ Pantheon provides slash commands via OpenCode. On other platforms (Copilot, Curs
 | `/pantheon-optimize` | zeus | Context optimization & token audit |
 | `/pantheon-metamorphosis` | zeus | Intelligent refactoring with TDD |
 | `/pantheon-status` | zeus | Show system health and agent status |
-| `/ping` | zeus | Ping all Pantheon agents |
-| `/subtask` | any | Bounded child task |
-| `/stop-continuation` | zeus | Stop auto-continuation |
 | `/cancel` | zeus | Stop auto-continuation |
 
 > **Multi-platform note:** Commands are native to OpenCode. On VS Code Copilot, use `@agent-name` in chat. On Cursor/Claude Code, describe the task in natural language.
 
 ### TUI Sidebar Plugin (OpenCode) — Temporarily Disabled
 
-The TUI Sidebar Plugin is currently disabled. It will be re-enabled in a future release once the TUI package compatibility is resolved. For agent discovery, use `AGENTS.md`, `agents/README.md`, or the command `/ping` to list all agents.
+The TUI Sidebar Plugin is currently disabled. It will be re-enabled in a future release once the TUI package compatibility is resolved. For agent discovery, use `AGENTS.md`, `agents/README.md`, or `/pantheon-status` to list all agents.
 
 ---
 
@@ -603,7 +600,6 @@ pantheon/
 ├── LICENSE                    — MIT
 ├── package.json               — sync & install tooling
 ├── opencode.json              — OpenCode platform config
-├── sync-platform.sh           — multi-platform sync script
 ├── plugin.json                — marketplace plugin manifest
 │
 ├── agents/                    — 14 agent definitions (.agent.md)
@@ -684,7 +680,6 @@ pantheon/
 ├── prompts/                   — 13 agent invocation prompts
 │   ├── implement-feature.prompt.md
 │   ├── orchestrate-with-zeus.prompt.md
-│   ├── subtask.prompt.md
 │   ├── debug-issue.prompt.md
 │   ├── plan-architecture.prompt.md
 │   ├── optimize-database.prompt.md
@@ -736,9 +731,6 @@ pantheon/
 │   ├── pantheon-status.md
 │   ├── pantheon-update.md
 │   ├── pantheon.md
-│   ├── ping.md
-│   ├── stop-continuation.md
-│   └── subtask.md
 │
 ├── docs/
 │   ├── INSTALLATION.md        — generic installation guide
