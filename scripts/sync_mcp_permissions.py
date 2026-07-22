@@ -53,9 +53,9 @@ def _perm_line(filepath: Path) -> tuple[str, str] | None:
     with open(filepath) as f:
         first = f.read(200)
     if "permission:" in first:
-        return ("yaml", "  \"{mcp}_*\": {level}")
+        return ("yaml", '  "{mcp}_*": {level}')
     # Could add inline format detection here
-    return ("yaml", "  \"{mcp}_*\": {level}")
+    return ("yaml", '  "{mcp}_*": {level}')
 
 
 def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) -> bool:
@@ -71,10 +71,19 @@ def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) ->
         stripped = line.strip()
         if stripped == "permission:":
             perm_start_line = i
-        elif perm_start_line is not None and stripped.startswith("tools:") or perm_start_line is not None and stripped.startswith("skills:") or perm_start_line is not None and stripped.startswith("---"):
+        elif (
+            (perm_start_line is not None
+            and stripped.startswith("tools:"))
+            or (perm_start_line is not None
+            and stripped.startswith("skills:"))
+            or (perm_start_line is not None
+            and stripped.startswith("---"))
+        ):
             perm_end_line = i
             break
-        elif perm_start_line is not None and (stripped.startswith('"pantheon-') or stripped.startswith("'pantheon-")):
+        elif perm_start_line is not None and (
+            stripped.startswith('"pantheon-') or stripped.startswith("'pantheon-")
+        ):
             last_mcp_line = i
 
     if perm_start_line is None:
@@ -98,7 +107,9 @@ def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) ->
         line = lines[i]
         stripped = line.strip()
         if stripped.startswith('"pantheon-') or stripped.startswith("'pantheon-"):
-            mcp_name = stripped.split('"')[1] if '"' in stripped else stripped.split("'")[1]
+            mcp_name = (
+                stripped.split('"')[1] if '"' in stripped else stripped.split("'")[1]
+            )
             mcp_name = mcp_name.replace("_*", "")
             perm_section_lines.add(i)
             mcp_keys_in_file[mcp_name] = i
@@ -106,7 +117,9 @@ def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) ->
     # Remove MCPS that agent should NOT have
     for mcp_name, line_idx in mcp_keys_in_file.items():
         if mcp_name not in agent_mcps:
-            indent = lines[line_idx][:len(lines[line_idx]) - len(lines[line_idx].lstrip())]
+            indent = lines[line_idx][
+                : len(lines[line_idx]) - len(lines[line_idx].lstrip())
+            ]
             if not dry_run:
                 lines[line_idx] = None  # mark for deletion
             changed = True
@@ -119,12 +132,21 @@ def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) ->
             perm_key = f'"{mcp_name}_*"'
 
             # Insert after the last MCP permission line, or after "permission:" line
-            insert_after = last_mcp_line if last_mcp_line is not None else perm_start_line
+            insert_after = (
+                last_mcp_line if last_mcp_line is not None else perm_start_line
+            )
             indent = "  "  # default indent for YAML
-            if insert_after is not None and insert_after > 0 and insert_after < len(lines) and lines[insert_after] is not None:
-                indent = lines[insert_after][:len(lines[insert_after]) - len(lines[insert_after].lstrip())]
+            if (
+                insert_after is not None
+                and insert_after > 0
+                and insert_after < len(lines)
+                and lines[insert_after] is not None
+            ):
+                indent = lines[insert_after][
+                    : len(lines[insert_after]) - len(lines[insert_after].lstrip())
+                ]
 
-            new_line = f'{indent}{perm_key}: {mcp_config["permission"]}\n'
+            new_line = f"{indent}{perm_key}: {mcp_config['permission']}\n"
             if not dry_run:
                 lines.insert(insert_after + 1, new_line)
             changed = True

@@ -7,13 +7,30 @@ from pathlib import Path
 import yaml
 
 VALID_FIELDS = {
-    "description", "mode", "reasoning_effort", "permission", "temperature",
-    "steps", "color", "hidden", "task_budget", "source",
+    "description",
+    "mode",
+    "reasoning_effort",
+    "permission",
+    "temperature",
+    "steps",
+    "color",
+    "hidden",
+    "task_budget",
+    "source",
 }
 VALID_MODES = {"primary", "subagent"}
 VALID_PERMISSION_KEYS = {
-    "edit", "bash", "task", "skill", "read", "glob",
-    "grep", "webfetch", "websearch", "question", "lsp",
+    "edit",
+    "bash",
+    "task",
+    "skill",
+    "read",
+    "glob",
+    "grep",
+    "webfetch",
+    "websearch",
+    "question",
+    "lsp",
 }
 VALID_PERMISSION_VALUES = {"allow", "deny", "ask"}
 
@@ -38,14 +55,20 @@ def warn(filename, field, msg):
 def validate_permission_value(val, path_ctx, filename):
     if isinstance(val, str):
         if val not in VALID_PERMISSION_VALUES:
-            err(filename, f"permission.{path_ctx}",
-                f"invalid value '{val}'; must be one of {sorted(VALID_PERMISSION_VALUES)}")
+            err(
+                filename,
+                f"permission.{path_ctx}",
+                f"invalid value '{val}'; must be one of {sorted(VALID_PERMISSION_VALUES)}",
+            )
     elif isinstance(val, dict):
         for key, subval in val.items():
             validate_permission_value(subval, f"{path_ctx}.{key}", filename)
     else:
-        err(filename, f"permission.{path_ctx}",
-            f"unexpected type '{type(val).__name__}'; expected string or dict")
+        err(
+            filename,
+            f"permission.{path_ctx}",
+            f"unexpected type '{type(val).__name__}'; expected string or dict",
+        )
 
 
 def validate_file(filepath):
@@ -88,8 +111,11 @@ def validate_file(filepath):
     if "mode" not in data:
         err(filename, "mode", "mode field is required")
     elif data["mode"] not in VALID_MODES:
-        err(filename, "mode",
-            f"invalid value '{data['mode']}'; must be one of {sorted(VALID_MODES)}")
+        err(
+            filename,
+            "mode",
+            f"invalid value '{data['mode']}'; must be one of {sorted(VALID_MODES)}",
+        )
 
     # permission: validate keys and values
     if "permission" in data:
@@ -97,29 +123,36 @@ def validate_file(filepath):
         if isinstance(perm, dict):
             for key in perm:
                 if key not in VALID_PERMISSION_KEYS:
-                    err(filename, f"permission.{key}",
-                        f"invalid permission key '{key}'; valid: {sorted(VALID_PERMISSION_KEYS)}")
+                    err(
+                        filename,
+                        f"permission.{key}",
+                        f"invalid permission key '{key}'; valid: {sorted(VALID_PERMISSION_KEYS)}",
+                    )
                 validate_permission_value(perm[key], key, filename)
         else:
-            err(filename, "permission",
-                f"unexpected type '{type(perm).__name__}'; expected mapping")
+            err(
+                filename,
+                "permission",
+                f"unexpected type '{type(perm).__name__}'; expected mapping",
+            )
 
     # temperature: between 0.0 and 2.0
     if "temperature" in data:
         t = data["temperature"]
         if not isinstance(t, (int, float)):
-            err(filename, "temperature",
-                f"expected a number, got '{type(t).__name__}'")
+            err(filename, "temperature", f"expected a number, got '{type(t).__name__}'")
         elif t < 0.0 or t > 2.0:
-            err(filename, "temperature",
-                f"value {t} is out of range [0.0, 2.0]")
+            err(filename, "temperature", f"value {t} is out of range [0.0, 2.0]")
 
     # steps: must be a positive integer
     if "steps" in data:
         s = data["steps"]
         if not isinstance(s, int) or isinstance(s, bool):
-            err(filename, "steps",
-                f"expected a positive integer, got '{type(s).__name__}'")
+            err(
+                filename,
+                "steps",
+                f"expected a positive integer, got '{type(s).__name__}'",
+            )
         elif s < 1:
             err(filename, "steps", f"value {s} is not a positive integer")
 
@@ -132,11 +165,17 @@ def validate_file(filepath):
 
     if bash_value == "deny":
         if "⛔ TOOLS NOT AVAILABLE" not in body:
-            err(filename, "body",
-                "permission.bash is 'deny' but body is missing '## ⛔ TOOLS NOT AVAILABLE' section")
+            err(
+                filename,
+                "body",
+                "permission.bash is 'deny' but body is missing '## ⛔ TOOLS NOT AVAILABLE' section",
+            )
         elif "bash" not in body.split("⛔ TOOLS NOT AVAILABLE")[1].split("\n")[0:20]:
-            warn(filename, "body",
-                 "permission.bash is 'deny' but 'bash' may not be listed as unavailable in the section")
+            warn(
+                filename,
+                "body",
+                "permission.bash is 'deny' but 'bash' may not be listed as unavailable in the section",
+            )
 
     edit_value = None
     if isinstance(data.get("permission"), dict):
@@ -145,8 +184,11 @@ def validate_file(filepath):
     if edit_value == "deny":
         edit_mentions = body.lower().count("edit")
         if edit_mentions > 0:
-            warn(filename, "body",
-                 f"permission.edit is 'deny' but 'edit' appears {edit_mentions} time(s) in body")
+            warn(
+                filename,
+                "body",
+                f"permission.edit is 'deny' but 'edit' appears {edit_mentions} time(s) in body",
+            )
 
     valid_count += 1
 
@@ -172,9 +214,7 @@ def main():
         print(msg, file=sys.stderr)
 
     print(
-        f"✅ {valid_count} files valid, "
-        f"{len(warnings)} warnings, "
-        f"{len(errors)} errors"
+        f"✅ {valid_count} files valid, {len(warnings)} warnings, {len(errors)} errors"
     )
 
     if errors:

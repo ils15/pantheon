@@ -87,7 +87,11 @@ class TodoEnforcer:
                 state.setdefault("warnings_sent", []).append("warn")
 
         self._save(state)
-        return {"status": "idle" if idle > 0 else "active", "idle": idle, "action": action}
+        return {
+            "status": "idle" if idle > 0 else "active",
+            "idle": idle,
+            "action": action,
+        }
 
     def reset(self) -> dict:
         """Reset idle timer and unpause."""
@@ -166,14 +170,37 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="TODO Enforcer — idle detection and recovery for Pantheon agents."
     )
-    parser.add_argument("task", nargs="?", default="", help="Task description for force-continue prompt")
-    parser.add_argument("--timeout-warn", type=int, default=60, help="Idle seconds before warning (default: 60)")
-    parser.add_argument("--timeout-force", type=int, default=120, help="Idle seconds before force continue (default: 120)")
-    parser.add_argument("--timeout-pause", type=int, default=300, help="Idle seconds before auto-pause (default: 300)")
-    parser.add_argument("--status", action="store_true", help="Show current enforcer state")
+    parser.add_argument(
+        "task", nargs="?", default="", help="Task description for force-continue prompt"
+    )
+    parser.add_argument(
+        "--timeout-warn",
+        type=int,
+        default=60,
+        help="Idle seconds before warning (default: 60)",
+    )
+    parser.add_argument(
+        "--timeout-force",
+        type=int,
+        default=120,
+        help="Idle seconds before force continue (default: 120)",
+    )
+    parser.add_argument(
+        "--timeout-pause",
+        type=int,
+        default=300,
+        help="Idle seconds before auto-pause (default: 300)",
+    )
+    parser.add_argument(
+        "--status", action="store_true", help="Show current enforcer state"
+    )
     parser.add_argument("--reset", action="store_true", help="Reset idle timer")
-    parser.add_argument("--tick", action="store_true", help="Record a heartbeat (tool call)")
-    parser.add_argument("--check", action="store_true", help="Check idle status and return action")
+    parser.add_argument(
+        "--tick", action="store_true", help="Record a heartbeat (tool call)"
+    )
+    parser.add_argument(
+        "--check", action="store_true", help="Check idle status and return action"
+    )
     parser.add_argument("--pause", action="store_true", help="Pause the enforcer")
     args = parser.parse_args()
 

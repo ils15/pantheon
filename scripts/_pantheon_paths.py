@@ -23,12 +23,12 @@ from pathlib import Path
 
 def pantheon_home() -> Path:
     """Return the Pantheon global installation directory.
-    
+
     Resolution priority:
     1. $PANTHEON_HOME env var (explicit user override)
     2. $XDG_CONFIG_HOME/opencode (XDG Base Directory spec)
     3. ~/.config/opencode (POSIX default)
-    
+
     Returns:
         Absolute Path to the Pantheon global config directory.
     """
@@ -45,11 +45,11 @@ def pantheon_home() -> Path:
 
 def pantheon_project() -> Path | None:
     """Return the Pantheon project root directory.
-    
+
     Resolution priority:
     1. $PANTHEON_PROJECT env var (explicit override)
     2. Current working directory (set by MCP client's cwd in opencode.json)
-    
+
     Returns:
         Absolute Path to the project root, or None if neither is available
         (project-scoped resources like deepwork/memory-bank are unavailable).
@@ -67,7 +67,7 @@ def pantheon_project() -> Path | None:
 
 def pantheon_venv_python() -> str | None:
     """Return the Python interpreter from the Pantheon venv, if available.
-    
+
     Checks $PANTHEON_HOME/.venv/bin/python3 first, then falls back to
     the system python3. Returns None only if python3 is not found at all.
     """
@@ -79,4 +79,5 @@ def pantheon_venv_python() -> str | None:
             return str(candidate)
     # Fallback: system python3
     import shutil
+
     return shutil.which("python3")

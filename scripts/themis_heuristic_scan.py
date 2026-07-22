@@ -11,40 +11,77 @@ import subprocess
 import sys
 from pathlib import Path
 
-EXCLUDE_DIRS = {"node_modules", ".pantheon", ".git", "__pycache__",
-                ".venv", "venv", ".mypy_cache", ".ruff_cache", ".hypothesis"}
+EXCLUDE_DIRS = {
+    "node_modules",
+    ".pantheon",
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".hypothesis",
+}
 
 RUFF_ISSUE_THRESHOLD = 5
 SLOP_PATTERN_THRESHOLD = 10
 
 # 20 anti-patterns de IA slop
 SLOP_PATTERNS = [
-    (r'// This (function|method|class) (is used|is responsible|handles)', "comentário óbvio"),
-    (r'# (This|A) (function|method|class) (is used|is responsible|handles)', "comentário óbvio"),
-    (r'// TODO: (fix|implement|add|remove)', "TODO genérico"),
-    (r'# TODO (fix|implement|add)', "TODO genérico"),
-    (r'// FIXME:', "FIXME"),
-    (r'# FIXME', "FIXME"),
-    (r'// (Getter|Setter) for', "getter/setter óbvio"),
-    (r'# (Getter|Setter) for', "getter/setter óbvio"),
-    (r'// (Private|Protected|Public) (method|field|helper)', "acesso óbvio"),
-    (r'// (Initialize|Cleanup)', "init/cleanup óbvio"),
-    (r'# (Initialize|Cleanup)', "init/cleanup óbvio"),
-    (r'// Check if', "check if óbvio"),
-    (r'# Check if', "check if óbvio"),
-    (r'// Return (the|a|true|false)', "return óbvio"),
-    (r'""" ?(This|A) (module|function|class)', "docstring genérica"),
-    (r'<input.*type=["](text|number)["].*/>', "native input type available (datetime, color, etc.)"),
+    (
+        r"// This (function|method|class) (is used|is responsible|handles)",
+        "obvious comment",
+    ),
+    (
+        r"# (This|A) (function|method|class) (is used|is responsible|handles)",
+        "obvious comment",
+    ),
+    (r"// TODO: (fix|implement|add|remove)", "generic TODO"),
+    (r"# TODO (fix|implement|add)", "generic TODO"),
+    (r"// (Getter|Setter) for", "obvious getter/setter"),
+    (r"# (Getter|Setter) for", "obvious getter/setter"),
+    (r"// (Private|Protected|Public) (method|field|helper)", "obvious access"),
+    (r"// (Initialize|Cleanup)", "obvious init/cleanup"),
+    (r"# (Initialize|Cleanup)", "obvious init/cleanup"),
+    (r"// Check if", "obvious check-if"),
+    (r"# Check if", "obvious check-if"),
+    (r"// Return (the|a|true|false)", "obvious return"),
+    (r'""" ?(This|A) (module|function|class)', "generic docstring"),
+    (
+        r'<input.*type=["](text|number)["].*/>',
+        "native input type available (datetime, color, etc.)",
+    ),
     (r"import (date-fns|moment|dayjs|luxon)", "Intl.DateTimeFormat natively available"),
-    (r'import (react-datepicker|flatpickr|react-calendar)', '<input type="date"> natively available'),
-    (r'import (react-color|react-colorful|color-picker)', '<input type="color"> natively available'),
-    (r'import (react-slider|rc-slider)', '<input type="range"> natively available'),
+    (
+        r"import (react-datepicker|flatpickr|react-calendar)",
+        '<input type="date"> natively available',
+    ),
+    (
+        r"import (react-color|react-colorful|color-picker)",
+        '<input type="color"> natively available',
+    ),
+    (r"import (react-slider|rc-slider)", '<input type="range"> natively available'),
     (r"import (axios|superagent|got)", "fetch() natively available"),
-    (r"import (lodash|underscore)", "modern JS stdlib covers this (Array.toSorted, Object.groupBy, etc.)"),
-    (r"import (clsx|classnames)", "`template literals` or className join natively available"),
-    (r".css$|.scss$|.less$", "Tailwind or CSS Modules already available — avoid new CSS files"),
-    (r"new Date\(\)", "use Intl.DateTimeFormat for formatting, not manual Date methods"),
-    (r"useEffect.*fetch|useEffect.*axios", "use react-query or native fetch in event handlers"),
+    (
+        r"import (lodash|underscore)",
+        "modern JS stdlib covers this (Array.toSorted, Object.groupBy, etc.)",
+    ),
+    (
+        r"import (clsx|classnames)",
+        "`template literals` or className join natively available",
+    ),
+    (
+        r".css$|.scss$|.less$",
+        "Tailwind or CSS Modules already available — avoid new CSS files",
+    ),
+    (
+        r"new Date\(\)",
+        "use Intl.DateTimeFormat for formatting, not manual Date methods",
+    ),
+    (
+        r"useEffect.*fetch|useEffect.*axios",
+        "use react-query or native fetch in event handlers",
+    ),
     (r"function.*\(\) \{$", "prefer one-liner arrow functions"),
 ]
 
@@ -78,9 +115,20 @@ class Scanner:
             return
         try:
             result = subprocess.run(
-                ["ruff", "check", "--select", "F,E,W,I,N,UP,B,SIM,PL,RUF",
-                 "--output-format", "concise", *[str(f) for f in files]],
-                capture_output=True, text=True, timeout=10, check=False)
+                [
+                    "ruff",
+                    "check",
+                    "--select",
+                    "F,E,W,I,N,UP,B,SIM,PL,RUF",
+                    "--output-format",
+                    "concise",
+                    *[str(f) for f in files],
+                ],
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=False,
+            )
         except (subprocess.TimeoutExpired, FileNotFoundError):
             self.report.append("  ⚠️  ruff: not available or timeout")
             self.deduct(5)
@@ -102,8 +150,19 @@ class Scanner:
             return
         try:
             result = subprocess.run(
-                ["npx", "biome", "check", "--write", "--unsafe", *[str(f) for f in files]],
-                capture_output=True, text=True, timeout=15, check=False)
+                [
+                    "npx",
+                    "biome",
+                    "check",
+                    "--write",
+                    "--unsafe",
+                    *[str(f) for f in files],
+                ],
+                capture_output=True,
+                text=True,
+                timeout=15,
+                check=False,
+            )
         except (subprocess.TimeoutExpired, FileNotFoundError):
             self.report.append("  ⏭️  biome: not available")
             return
@@ -140,7 +199,11 @@ class Scanner:
         try:
             result = subprocess.run(
                 ["git", "diff", "--cached", "--name-only"],
-                capture_output=True, text=True, timeout=5, check=False)
+                capture_output=True,
+                text=True,
+                timeout=5,
+                check=False,
+            )
         except (subprocess.TimeoutExpired, FileNotFoundError):
             self.report.append("  ⏭️  hash-verify: git not available")
             return
@@ -157,9 +220,25 @@ class Scanner:
             try:
                 diff = subprocess.run(
                     ["git", "diff", "--cached", f],
-                    capture_output=True, text=True, timeout=5, check=False)
-                before = len([line for line in diff.stdout.split("\n") if line.startswith("-") and not line.startswith("---")])
-                after = len([line for line in diff.stdout.split("\n") if line.startswith("+") and not line.startswith("+++")])
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
+                    check=False,
+                )
+                before = len(
+                    [
+                        line
+                        for line in diff.stdout.split("\n")
+                        if line.startswith("-") and not line.startswith("---")
+                    ]
+                )
+                after = len(
+                    [
+                        line
+                        for line in diff.stdout.split("\n")
+                        if line.startswith("+") and not line.startswith("+++")
+                    ]
+                )
             except (subprocess.TimeoutExpired, FileNotFoundError):
                 continue
 
@@ -201,7 +280,9 @@ class Scanner:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Themis Layer 1 Heuristic Scanner")
     parser.add_argument("--path", default=".", help="Target directory")
-    parser.add_argument("--diff-only", action="store_true", help="Only check staged diffs")
+    parser.add_argument(
+        "--diff-only", action="store_true", help="Only check staged diffs"
+    )
     args = parser.parse_args()
 
     scanner = Scanner(args.path, args.diff_only)

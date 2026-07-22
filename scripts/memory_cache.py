@@ -2,12 +2,14 @@
 """memory_cache.py — Migrate memory-bank flat files to MCP memory_store.
 Usage: python3 scripts/memory_cache.py [--dry-run] [--path=<dir>]
 """
+
 import argparse
 import hashlib
 import sys
 from pathlib import Path
 
 EXCLUDE = {"_index.md", "_notes", ".tmp", "archive"}
+
 
 def chunk_by_headings(content: str, source: str) -> list[dict]:
     chunks = []
@@ -17,14 +19,27 @@ def chunk_by_headings(content: str, source: str) -> list[dict]:
     for line in lines:
         if line.startswith("## "):
             if current_lines:
-                chunks.append({"source": source, "heading": current_h2, "content": "\n".join(current_lines).strip()})
+                chunks.append(
+                    {
+                        "source": source,
+                        "heading": current_h2,
+                        "content": "\n".join(current_lines).strip(),
+                    }
+                )
             current_h2 = line.strip("# ")
             current_lines = [line]
         else:
             current_lines.append(line)
     if current_lines:
-        chunks.append({"source": source, "heading": current_h2, "content": "\n".join(current_lines).strip()})
+        chunks.append(
+            {
+                "source": source,
+                "heading": current_h2,
+                "content": "\n".join(current_lines).strip(),
+            }
+        )
     return chunks
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -54,7 +69,10 @@ def main():
                 key = f"memory-cache:{rel}:{hashlib.md5(c['content'].encode()).hexdigest()[:8]}"
                 print(f"    stored {key}")
 
-    print(f"\n{'🔍 DRY RUN' if args.dry_run else '✅ DONE'}: {len(files)} files, {total_chunks} chunks")
+    print(
+        f"\n{'🔍 DRY RUN' if args.dry_run else '✅ DONE'}: {len(files)} files, {total_chunks} chunks"
+    )
+
 
 if __name__ == "__main__":
     main()

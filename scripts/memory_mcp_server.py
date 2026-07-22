@@ -95,6 +95,7 @@ mcp = FastMCP(
 
 # ── Database ──────────────────────────────────────────────────────────────────
 
+
 @functools.cache
 def _get_db() -> sqlite3.Connection:
     """Get or create the SQLite connection singleton.
@@ -109,7 +110,8 @@ def _get_db() -> sqlite3.Connection:
     conn.execute("PRAGMA busy_timeout=5000")
     conn.execute("PRAGMA foreign_keys=ON")
     # Register sqlite-vec extension
-    import sqlite_vec  # noqa: F811
+    import sqlite_vec
+
     sqlite_vec.load(conn)
     conn.executescript(SCHEMA_SQL)
     return conn
@@ -121,6 +123,7 @@ def _get_conn() -> sqlite3.Connection:
 
 
 # ── Embedding ─────────────────────────────────────────────────────────────────
+
 
 @functools.cache
 def _get_embedder() -> TextEmbedding:
@@ -138,10 +141,11 @@ def _get_embedder() -> TextEmbedding:
 
 def _embed(text: str) -> list[float]:
     """Generate a 384-dim embedding vector for the given text."""
-    return list(_get_embedder().embed(text))[0].tolist()
+    return next(iter(_get_embedder().embed(text))).tolist()
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def _dict_from_row(row: sqlite3.Row | None) -> dict[str, Any] | None:
     """Convert a sqlite3.Row to a plain dict, or return None."""
@@ -230,7 +234,9 @@ def memory_store(
 
     try:
         # Validate metadata is valid JSON
-        md_obj: dict[str, Any] = json.loads(metadata) if metadata and metadata != "{}" else {}
+        md_obj: dict[str, Any] = (
+            json.loads(metadata) if metadata and metadata != "{}" else {}
+        )
         metadata_str = json.dumps(md_obj)
 
         cur = db.execute(
@@ -324,9 +330,7 @@ def memory_search(
     # 3. FTS5 keyword search
     try:
         # Build FTS query: escape special chars, use prefix matching
-        fts_query = " OR ".join(
-            f'"{word}"*' for word in query_stripped.split() if word
-        )
+        fts_query = " OR ".join(f'"{word}"*' for word in query_stripped.split() if word)
         if namespace:
             fts_rows = db.execute(
                 """SELECT rowid FROM memories_fts
@@ -421,7 +425,7 @@ def memory_recall(
     "via CASCADE / triggers.",
 )
 def memory_forget(
-    id: int | None = None,  # noqa: A002
+    id: int | None = None,
     key: str | None = None,
     namespace: str = "default",
 ) -> dict[str, Any]:
@@ -550,7 +554,9 @@ def memory_stats() -> dict[str, Any]:
             "SELECT namespace, COUNT(*) AS c FROM memories GROUP BY namespace "
             "ORDER BY c DESC"
         ).fetchall()
-        stats["namespaces"] = [{"namespace": r["namespace"], "count": r["c"]} for r in ns_rows]
+        stats["namespaces"] = [
+            {"namespace": r["namespace"], "count": r["c"]} for r in ns_rows
+        ]
     except Exception:
         stats["namespaces"] = []
 

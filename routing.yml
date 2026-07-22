@@ -238,7 +238,6 @@ agents:
       - embedding_strategy
       - ai_workflow_composition
       - memory_search
-      - memory_link
     skills:
       - rag-pipelines
       - mcp-server-development
@@ -261,7 +260,6 @@ agents:
       - alerting
       - monitoring_dashboards
       - pantheon_resources_routing
-      - memory_sessions
     skills:
       - agent-evaluation
       - agent-observability
@@ -320,7 +318,6 @@ agents:
       - context_compression
       - memory_store
       - memory_recall
-      - memory_export
       - pantheon_resources_memory_bank
     subagent_can_delegate_to: []
     skills:

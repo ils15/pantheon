@@ -31,14 +31,29 @@ def compute_diff_size(file: Path) -> int:
     try:
         result = subprocess.run(
             ["git", "diff", "--", str(file)],
-            capture_output=True, text=True, timeout=5, check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
         )
     except (subprocess.TimeoutExpired, FileNotFoundError):
         return 0
 
     diff = result.stdout
-    added = len([line for line in diff.split("\n") if line.startswith("+") and not line.startswith("+++")])
-    removed = len([line for line in diff.split("\n") if line.startswith("-") and not line.startswith("---")])
+    added = len(
+        [
+            line
+            for line in diff.split("\n")
+            if line.startswith("+") and not line.startswith("+++")
+        ]
+    )
+    removed = len(
+        [
+            line
+            for line in diff.split("\n")
+            if line.startswith("-") and not line.startswith("---")
+        ]
+    )
     return added + removed
 
 
@@ -92,7 +107,10 @@ def check_staged_files(diff_min_lines: int) -> list[dict]:
     try:
         result = subprocess.run(
             ["git", "diff", "--cached", "--name-only"],
-            capture_output=True, text=True, timeout=5, check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=False,
         )
     except (subprocess.TimeoutExpired, FileNotFoundError):
         return [{"status": "error", "message": "Git not available"}]
@@ -111,11 +129,21 @@ def main() -> None:
         description="Hash-anchored edit verification — ensures file edits actually changed content."
     )
     parser.add_argument("files", nargs="*", help="File(s) to verify")
-    parser.add_argument("--before-hash", help="Expected SHA-256 hash before edit (for single-file mode)")
-    parser.add_argument("--diff-min-lines", type=int, default=3,
-                        help="Minimum diff lines to consider edit meaningful (default: 3)")
-    parser.add_argument("--staged", action="store_true", help="Verify all staged files instead")
-    parser.add_argument("--batch", action="store_true", help="Treat positional args as batch file list")
+    parser.add_argument(
+        "--before-hash", help="Expected SHA-256 hash before edit (for single-file mode)"
+    )
+    parser.add_argument(
+        "--diff-min-lines",
+        type=int,
+        default=3,
+        help="Minimum diff lines to consider edit meaningful (default: 3)",
+    )
+    parser.add_argument(
+        "--staged", action="store_true", help="Verify all staged files instead"
+    )
+    parser.add_argument(
+        "--batch", action="store_true", help="Treat positional args as batch file list"
+    )
     args = parser.parse_args()
 
     if args.staged:
@@ -123,7 +151,9 @@ def main() -> None:
     elif args.batch or len(args.files) > 1:
         results = [verify_file(Path(f), None, args.diff_min_lines) for f in args.files]
     elif args.files:
-        results = [verify_file(Path(args.files[0]), args.before_hash, args.diff_min_lines)]
+        results = [
+            verify_file(Path(args.files[0]), args.before_hash, args.diff_min_lines)
+        ]
     else:
         print("Usage: python3 scripts/hash_verify.py <file> [--before-hash=<sha256>]")
         print("       python3 scripts/hash_verify.py --staged")
@@ -135,7 +165,12 @@ def main() -> None:
     any_warning = False
 
     for r in results:
-        status_tag = {"verified": "✅", "warning": "⚠️", "failed": "❌", "error": "❌"}.get(r["status"], "❓")
+        status_tag = {
+            "verified": "✅",
+            "warning": "⚠️",
+            "failed": "❌",
+            "error": "❌",
+        }.get(r["status"], "❓")
         print(f"{status_tag} {r['file']}: {r['message']}")
         if r["status"] == "failed" or r["status"] == "error":
             any_failed = True

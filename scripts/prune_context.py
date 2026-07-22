@@ -3,6 +3,7 @@
 Flags obsolete tool outputs in conversation history for pruning.
 Usage: python3 scripts/prune_context.py [--dry-run] [--turns=5]
 """
+
 import argparse
 
 HIGH_AGE_TURNS = 10
@@ -31,6 +32,7 @@ def score_output(lines: int, age_turns: int, output_type: str) -> float:
         score += 0.1
     return max(0.0, min(1.0, score))
 
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
@@ -51,13 +53,20 @@ def main():
         status = "🗑️ PRUNE" if s < PRUNE_THRESHOLD else "✅ KEEP"
         if s < PRUNE_THRESHOLD:
             prunable.append(c)
-        print(f"  {status} | score: {s:.2f} | {c['file']} ({c['lines']}L, {c['age']}turns, {c['type']})")
+        print(
+            f"  {status} | score: {s:.2f} | {c['file']} ({c['lines']}L, {c['age']}turns, {c['type']})"
+        )
 
     print("━" * 50)
     if args.dry_run:
-        print(f"🔍 DRY RUN: {len(prunable)} candidates to prune (estimated ~{sum(c['lines'] for c in prunable)} lines)")
+        print(
+            f"🔍 DRY RUN: {len(prunable)} candidates to prune (estimated ~{sum(c['lines'] for c in prunable)} lines)"
+        )
     else:
-        print(f"✅ {len(prunable)} outputs pruned (freed ~{sum(c['lines'] for c in prunable)} lines)")
+        print(
+            f"✅ {len(prunable)} outputs pruned (freed ~{sum(c['lines'] for c in prunable)} lines)"
+        )
+
 
 if __name__ == "__main__":
     main()
