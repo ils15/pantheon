@@ -89,7 +89,7 @@ def _init_db(db_path: Path) -> sqlite3.Connection:
         print(
             "WARNING: SQLite FTS5 not available. kv_search will fail.", file=sys.stderr
         )
-        import re as _re
+        import re as _re  # noqa: PLC0415
 
         _no_fts = _re.sub(
             r"CREATE VIRTUAL TABLE IF NOT EXISTS kv_store_fts.*?;",

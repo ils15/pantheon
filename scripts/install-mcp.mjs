@@ -20,21 +20,15 @@
 // ---------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------
-import { execSync } from 'node:child_process';
-import {
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  writeFileSync,
-  copyFileSync,
-} from 'node:fs';
-import { homedir } from 'node:os';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { createInterface } from 'node:readline';
+import { execSync } from 'node:child_process'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { homedir } from 'node:os'
+import { dirname, join } from 'node:path'
+import { createInterface } from 'node:readline'
+import { fileURLToPath } from 'node:url'
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(__dirname, '..');
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const ROOT = join(__dirname, '..')
 
 // ---------------------------------------------------------------------------
 // MCP Definitions
@@ -87,10 +81,10 @@ const MCPS = {
         execSync('npx --yes @upstash/context7-mcp --help 2>&1', {
           stdio: 'pipe',
           timeout: 15000,
-        });
-        return { ok: true };
+        })
+        return { ok: true }
       } catch {
-        return { ok: true, message: 'package resolved (npx)' };
+        return { ok: true, message: 'package resolved (npx)' }
       }
     },
   },
@@ -111,10 +105,10 @@ const MCPS = {
         execSync('npx --yes @playwright/mcp@latest --help 2>&1', {
           stdio: 'pipe',
           timeout: 15000,
-        });
-        return { ok: true };
+        })
+        return { ok: true }
       } catch {
-        return { ok: true, message: 'package resolved (npx)' };
+        return { ok: true, message: 'package resolved (npx)' }
       }
     },
   },
@@ -132,16 +126,16 @@ const MCPS = {
     env: ['DATABASE_URL'],
     validate: async () => {
       if (!process.env.DATABASE_URL) {
-        return { ok: false, message: 'DATABASE_URL not set' };
+        return { ok: false, message: 'DATABASE_URL not set' }
       }
       try {
         execSync('npx --yes @anthropic/postgres-mcp --help 2>&1', {
           stdio: 'pipe',
           timeout: 15000,
-        });
-        return { ok: true, message: 'package resolved (requires DATABASE_URL at runtime)' };
+        })
+        return { ok: true, message: 'package resolved (requires DATABASE_URL at runtime)' }
       } catch {
-        return { ok: true, message: 'package resolved (npx)' };
+        return { ok: true, message: 'package resolved (npx)' }
       }
     },
   },
@@ -159,16 +153,16 @@ const MCPS = {
     env: ['BRAVE_API_KEY'],
     validate: async () => {
       if (!process.env.BRAVE_API_KEY) {
-        return { ok: false, message: 'BRAVE_API_KEY not set' };
+        return { ok: false, message: 'BRAVE_API_KEY not set' }
       }
       try {
         execSync('npx --yes @anthropic/brave-search-mcp --help 2>&1', {
           stdio: 'pipe',
           timeout: 15000,
-        });
-        return { ok: true, message: 'package resolved (requires BRAVE_API_KEY at runtime)' };
+        })
+        return { ok: true, message: 'package resolved (requires BRAVE_API_KEY at runtime)' }
       } catch {
-        return { ok: true, message: 'package resolved (npx)' };
+        return { ok: true, message: 'package resolved (npx)' }
       }
     },
   },
@@ -185,11 +179,11 @@ const MCPS = {
     },
     env: [],
     validate: async () => {
-      const scriptPath = join(ROOT, 'scripts', 'mcp_resources_server.py');
+      const scriptPath = join(ROOT, 'scripts', 'mcp_resources_server.py')
       if (existsSync(scriptPath)) {
-        return { ok: true, message: 'server script present' };
+        return { ok: true, message: 'server script present' }
       }
-      return { ok: false, message: 'scripts/mcp_resources_server.py not found' };
+      return { ok: false, message: 'scripts/mcp_resources_server.py not found' }
     },
   },
   'pantheon-code-mode': {
@@ -205,30 +199,47 @@ const MCPS = {
     },
     env: [],
     validate: async () => {
-      const scriptPath = join(ROOT, 'scripts', 'code_mode_server.py');
+      const scriptPath = join(ROOT, 'scripts', 'code_mode_server.py')
       if (existsSync(scriptPath)) {
-        return { ok: true, message: 'server script present' };
+        return { ok: true, message: 'server script present' }
       }
-      return { ok: false, message: 'scripts/code_mode_server.py not found' };
+      return { ok: false, message: 'scripts/code_mode_server.py not found' }
     },
   },
   'pantheon-memory': {
     tier: 1,
     name: 'Pantheon Memory',
-    description: 'Pantheon Memory MCP Server — persistent memory with semantic search, recall, knowledge graph, compression, and verification',
+    description:
+      'Pantheon Memory MCP Server — persistent memory with semantic search, recall, knowledge graph, compression, and verification',
     platforms: {
-      opencode: { type: 'local', command: '.venv/bin/python3', args: ['scripts/memory_mcp_server.py'] },
-      claude: { type: 'local', command: '.venv/bin/python3', args: ['scripts/memory_mcp_server.py'] },
-      cursor: { type: 'local', command: '.venv/bin/python3', args: ['scripts/memory_mcp_server.py'] },
-      windsurf: { type: 'local', command: '.venv/bin/python3', args: ['scripts/memory_mcp_server.py'] },
+      opencode: {
+        type: 'local',
+        command: '.venv/bin/python3',
+        args: ['scripts/memory_mcp_server.py'],
+      },
+      claude: {
+        type: 'local',
+        command: '.venv/bin/python3',
+        args: ['scripts/memory_mcp_server.py'],
+      },
+      cursor: {
+        type: 'local',
+        command: '.venv/bin/python3',
+        args: ['scripts/memory_mcp_server.py'],
+      },
+      windsurf: {
+        type: 'local',
+        command: '.venv/bin/python3',
+        args: ['scripts/memory_mcp_server.py'],
+      },
     },
     env: [],
     validate: async () => {
-      const scriptPath = join(ROOT, 'scripts', 'memory_mcp_server.py');
+      const scriptPath = join(ROOT, 'scripts', 'memory_mcp_server.py')
       if (existsSync(scriptPath)) {
-        return { ok: true, message: 'server script present' };
+        return { ok: true, message: 'server script present' }
       }
-      return { ok: false, message: 'scripts/memory_mcp_server.py not found' };
+      return { ok: false, message: 'scripts/memory_mcp_server.py not found' }
     },
   },
   docker: {
@@ -248,14 +259,14 @@ const MCPS = {
         execSync('docker info --format "{{.ServerVersion}}" 2>&1', {
           stdio: 'pipe',
           timeout: 10000,
-        });
-        return { ok: true, message: 'Docker daemon reachable' };
+        })
+        return { ok: true, message: 'Docker daemon reachable' }
       } catch {
-        return { ok: false, message: 'Docker daemon not reachable or not installed' };
+        return { ok: false, message: 'Docker daemon not reachable or not installed' }
       }
     },
   },
-};
+}
 
 // ---------------------------------------------------------------------------
 // Platform Metadata
@@ -280,10 +291,7 @@ const PLATFORMS = {
   vscode: {
     label: 'VS Code',
     configFile: '.vscode/mcp.json',
-    configPaths: [
-      join(ROOT, '.vscode', 'mcp.json'),
-      join(process.cwd(), '.vscode', 'mcp.json'),
-    ],
+    configPaths: [join(ROOT, '.vscode', 'mcp.json'), join(process.cwd(), '.vscode', 'mcp.json')],
     // VS Code uses "servers" key
     configKey: 'servers',
     detect: () =>
@@ -293,10 +301,7 @@ const PLATFORMS = {
   cursor: {
     label: 'Cursor',
     configFile: '.cursor/mcp.json',
-    configPaths: [
-      join(ROOT, '.cursor', 'mcp.json'),
-      join(process.cwd(), '.cursor', 'mcp.json'),
-    ],
+    configPaths: [join(ROOT, '.cursor', 'mcp.json'), join(process.cwd(), '.cursor', 'mcp.json')],
     configKey: 'mcpServers',
     detect: () =>
       existsSync(join(ROOT, '.cursor', 'mcp.json')) ||
@@ -319,14 +324,11 @@ const PLATFORMS = {
   windsurf: {
     label: 'Windsurf',
     configFile: '~/.codeium/windsurf/mcp_config.json',
-    configPaths: [
-      join(homedir(), '.codeium', 'windsurf', 'mcp_config.json'),
-    ],
+    configPaths: [join(homedir(), '.codeium', 'windsurf', 'mcp_config.json')],
     configKey: 'mcpServers',
-    detect: () =>
-      existsSync(join(homedir(), '.codeium', 'windsurf', 'mcp_config.json')),
+    detect: () => existsSync(join(homedir(), '.codeium', 'windsurf', 'mcp_config.json')),
   },
-};
+}
 
 // ---------------------------------------------------------------------------
 // Platform Config Writers
@@ -341,17 +343,17 @@ const PLATFORMS = {
  * @returns {object|null}       - The config entry, or null if unsupported
  */
 function buildMcpEntry(mcpKey, platformName) {
-  const mcp = MCPS[mcpKey];
-  if (!mcp) return null;
-  const platform = mcp.platforms[platformName];
-  if (!platform) return null;
+  const mcp = MCPS[mcpKey]
+  if (!mcp) return null
+  const platform = mcp.platforms[platformName]
+  if (!platform) return null
 
   // Collect env vars that are set for inclusion in config
-  const env = {};
+  const env = {}
   for (const key of mcp.env) {
-    const val = process.env[key];
+    const val = process.env[key]
     if (val) {
-      env[key] = `\${${key}}`;
+      env[key] = `\${${key}}`
     }
   }
 
@@ -364,14 +366,14 @@ function buildMcpEntry(mcpKey, platformName) {
           type: 'remote',
           url: platform.url,
           enabled: true,
-        };
+        }
       }
       // VS Code http format: { type: "http", url }
       if (platformName === 'vscode') {
-        return { type: 'http', url: platform.url };
+        return { type: 'http', url: platform.url }
       }
       // Cursor/Claude/Windsurf http format
-      return { type: 'http', url: platform.url };
+      return { type: 'http', url: platform.url }
     }
 
     case 'local': {
@@ -381,21 +383,21 @@ function buildMcpEntry(mcpKey, platformName) {
           type: 'local',
           command: [platform.command, ...(platform.args || [])],
           enabled: true,
-        };
-        if (Object.keys(env).length > 0) {
-          entry.environment = env;
         }
-        return entry;
+        if (Object.keys(env).length > 0) {
+          entry.environment = env
+        }
+        return entry
       }
       // Cursor/Claude/Windsurf format: { command, args?, env? }
       const entry = {
         command: platform.command,
         ...(platform.args ? { args: platform.args } : {}),
-      };
-      if (Object.keys(env).length > 0) {
-        entry.env = env;
       }
-      return entry;
+      if (Object.keys(env).length > 0) {
+        entry.env = env
+      }
+      return entry
     }
 
     case 'stdio': {
@@ -404,11 +406,11 @@ function buildMcpEntry(mcpKey, platformName) {
         type: 'stdio',
         command: platform.command,
         ...(platform.args ? { args: platform.args } : {}),
-      };
+      }
     }
 
     default:
-      return null;
+      return null
   }
 }
 
@@ -418,13 +420,13 @@ function buildMcpEntry(mcpKey, platformName) {
 function readConfig(filePath) {
   try {
     if (existsSync(filePath)) {
-      const raw = readFileSync(filePath, 'utf8');
-      return JSON.parse(raw);
+      const raw = readFileSync(filePath, 'utf8')
+      return JSON.parse(raw)
     }
   } catch (err) {
-    console.warn(`  ⚠️  Could not parse ${filePath}: ${err.message}`);
+    console.warn(`  ⚠️  Could not parse ${filePath}: ${err.message}`)
   }
-  return {};
+  return {}
 }
 
 /**
@@ -437,34 +439,34 @@ function readConfig(filePath) {
  * @returns {{ status: string, path?: string, reason?: string, entry?: object }}
  */
 function writeMcpConfig(platformName, mcpKey, dryRun, force) {
-  const platform = PLATFORMS[platformName];
-  const mcp = MCPS[mcpKey];
+  const platform = PLATFORMS[platformName]
+  const mcp = MCPS[mcpKey]
   if (!platform || !mcp) {
-    return { status: 'error', reason: 'unknown platform or mcp' };
+    return { status: 'error', reason: 'unknown platform or mcp' }
   }
 
   // Find the best config path (first existing, or first fallback)
-  let configPath = null;
+  let configPath = null
   for (const p of platform.configPaths) {
     if (existsSync(p)) {
-      configPath = p;
-      break;
+      configPath = p
+      break
     }
   }
   if (!configPath) {
-    configPath = platform.configPaths[0];
+    configPath = platform.configPaths[0]
   }
 
   // Read existing config
-  const config = readConfig(configPath);
-  const configExisted = Object.keys(config).length > 0;
+  const config = readConfig(configPath)
+  const configExisted = Object.keys(config).length > 0
 
   // The key under which MCP servers are stored (e.g. 'mcp', 'servers', 'mcpServers')
-  const key = platform.configKey;
+  const key = platform.configKey
 
   // Ensure the section exists
   if (!config[key]) {
-    config[key] = {};
+    config[key] = {}
   }
 
   // Check if the MCP already has an entry
@@ -472,28 +474,28 @@ function writeMcpConfig(platformName, mcpKey, dryRun, force) {
     return {
       status: 'skipped',
       reason: `Already exists in ${platform.configFile} (use --force to overwrite)`,
-    };
+    }
   }
 
   // Build the platform-specific entry
-  const entry = buildMcpEntry(mcpKey, platformName);
+  const entry = buildMcpEntry(mcpKey, platformName)
   if (!entry) {
     return {
       status: 'error',
       reason: `${mcp.name} does not support ${platform.label}`,
-    };
+    }
   }
 
   if (dryRun) {
-    return { status: 'dry-run', entry };
+    return { status: 'dry-run', entry }
   }
 
   // Backup existing config before modifying
   if (configExisted) {
-    const backupPath = `${configPath}.backup`;
+    const backupPath = `${configPath}.backup`
     if (!existsSync(backupPath)) {
       try {
-        copyFileSync(configPath, backupPath);
+        copyFileSync(configPath, backupPath)
       } catch {
         // Non-fatal: continue even if backup fails
       }
@@ -501,17 +503,17 @@ function writeMcpConfig(platformName, mcpKey, dryRun, force) {
   }
 
   // Write the MCP entry
-  config[key][mcpKey] = entry;
+  config[key][mcpKey] = entry
 
   // Ensure directory exists
-  const dir = dirname(configPath);
+  const dir = dirname(configPath)
   if (!existsSync(dir)) {
-    mkdirSync(dir, { recursive: true });
+    mkdirSync(dir, { recursive: true })
   }
 
-  writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n', 'utf8');
+  writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`, 'utf8')
 
-  return { status: 'installed', path: configPath };
+  return { status: 'installed', path: configPath }
 }
 
 // ---------------------------------------------------------------------------
@@ -527,60 +529,60 @@ function parseArgs(argv) {
     dryRun: false,
     force: false,
     help: false,
-  };
+  }
 
   for (let i = 2; i < argv.length; i++) {
     switch (argv[i]) {
       case '--platform':
-        args.platforms = argv[++i].split(',').map((s) => s.trim().toLowerCase());
-        break;
+        args.platforms = argv[++i].split(',').map((s) => s.trim().toLowerCase())
+        break
       case '--tier':
-        args.tier = parseInt(argv[++i], 10);
-        break;
+        args.tier = parseInt(argv[++i], 10)
+        break
       case '--mcp':
-        args.mcp = argv[++i].toLowerCase();
-        break;
+        args.mcp = argv[++i].toLowerCase()
+        break
       case '--list':
-        args.list = true;
-        break;
+        args.list = true
+        break
       case '--dry-run':
-        args.dryRun = true;
-        break;
+        args.dryRun = true
+        break
       case '--force':
-        args.force = true;
-        break;
+        args.force = true
+        break
       case '--help':
       case '-h':
-        args.help = true;
-        break;
+        args.help = true
+        break
       default:
-        console.warn(`⚠️  Unknown option: ${argv[i]}`);
-        break;
+        console.warn(`⚠️  Unknown option: ${argv[i]}`)
+        break
     }
   }
 
   // If no platforms specified and not --list, auto-detect
   if (args.platforms.length === 0 && !args.list && !args.help) {
-    const detected = detectPlatforms();
+    const detected = detectPlatforms()
     if (detected.length > 0) {
-      args.platforms = detected;
+      args.platforms = detected
     } else {
       // Default to all platforms if none detected
-      args.platforms = Object.keys(PLATFORMS);
+      args.platforms = Object.keys(PLATFORMS)
     }
   }
 
-  return args;
+  return args
 }
 
 function detectPlatforms() {
-  const detected = [];
+  const detected = []
   for (const [name, platform] of Object.entries(PLATFORMS)) {
     if (platform.detect()) {
-      detected.push(name);
+      detected.push(name)
     }
   }
-  return detected;
+  return detected
 }
 
 // ---------------------------------------------------------------------------
@@ -589,29 +591,29 @@ function detectPlatforms() {
 
 function askQuestion(query) {
   return new Promise((resolve) => {
-    const rl = createInterface({ input: process.stdin, output: process.stdout });
+    const rl = createInterface({ input: process.stdin, output: process.stdout })
     rl.question(query, (answer) => {
-      rl.close();
-      resolve(answer.trim().toLowerCase());
-    });
-  });
+      rl.close()
+      resolve(answer.trim().toLowerCase())
+    })
+  })
 }
 
 async function promptForTier2Mcps() {
-  const selected = [];
-  const tier2Mcps = Object.entries(MCPS).filter(([, mcp]) => mcp.tier === 2);
+  const selected = []
+  const tier2Mcps = Object.entries(MCPS).filter(([, mcp]) => mcp.tier === 2)
 
-  console.log('\nDomain (Tier 2) — ? [y/N]:');
+  console.log('\nDomain (Tier 2) — ? [y/N]:')
 
   for (const [key, mcp] of tier2Mcps) {
-    const envHints = mcp.env.length > 0 ? ` (needs: ${mcp.env.join(', ')})` : '';
-    const answer = await askQuestion(`  ${mcp.name}${envHints}? [y/N] `);
+    const envHints = mcp.env.length > 0 ? ` (needs: ${mcp.env.join(', ')})` : ''
+    const answer = await askQuestion(`  ${mcp.name}${envHints}? [y/N] `)
     if (answer === 'y' || answer === 'yes') {
-      selected.push(key);
+      selected.push(key)
     }
   }
 
-  return selected;
+  return selected
 }
 
 // ---------------------------------------------------------------------------
@@ -619,12 +621,12 @@ async function promptForTier2Mcps() {
 // ---------------------------------------------------------------------------
 
 async function validateMcp(mcpKey) {
-  const mcp = MCPS[mcpKey];
-  if (!mcp) return { ok: false, message: 'unknown MCP' };
+  const mcp = MCPS[mcpKey]
+  if (!mcp) return { ok: false, message: 'unknown MCP' }
   try {
-    return await mcp.validate();
+    return await mcp.validate()
   } catch (err) {
-    return { ok: false, message: err.message };
+    return { ok: false, message: err.message }
   }
 }
 
@@ -633,22 +635,22 @@ async function validateMcp(mcpKey) {
 // ---------------------------------------------------------------------------
 
 function listMcps() {
-  console.log('\nAvailable MCP Servers:\n');
-  console.log('Essential (Tier 1):');
+  console.log('\nAvailable MCP Servers:\n')
+  console.log('Essential (Tier 1):')
   for (const [key, mcp] of Object.entries(MCPS)) {
     if (mcp.tier === 1) {
-      console.log(`  ${key.padEnd(16)} ${mcp.name.padEnd(20)} ${mcp.description}`);
+      console.log(`  ${key.padEnd(16)} ${mcp.name.padEnd(20)} ${mcp.description}`)
     }
   }
-  console.log('\nDomain (Tier 2):');
+  console.log('\nDomain (Tier 2):')
   for (const [key, mcp] of Object.entries(MCPS)) {
     if (mcp.tier === 2) {
-      const envInfo = mcp.env.length > 0 ? ` [env: ${mcp.env.join(', ')}]` : '';
-      console.log(`  ${key.padEnd(16)} ${mcp.name.padEnd(20)} ${mcp.description}${envInfo}`);
+      const envInfo = mcp.env.length > 0 ? ` [env: ${mcp.env.join(', ')}]` : ''
+      console.log(`  ${key.padEnd(16)} ${mcp.name.padEnd(20)} ${mcp.description}${envInfo}`)
     }
   }
-  console.log('\nPlatforms supported: ' + Object.keys(PLATFORMS).join(', '));
-  console.log('');
+  console.log(`\nPlatforms supported: ${Object.keys(PLATFORMS).join(', ')}`)
+  console.log('')
 }
 
 // ---------------------------------------------------------------------------
@@ -695,7 +697,7 @@ Examples:
   node scripts/install-mcp.mjs --platform opencode --tier 2 OpenCode + interactive Tier 2
   node scripts/install-mcp.mjs --mcp docker                 Install only Docker MCP
   node scripts/install-mcp.mjs --platform vscode --dry-run  Preview VS Code changes
-`);
+`)
 }
 
 // ---------------------------------------------------------------------------
@@ -707,45 +709,45 @@ const progress = {
   skipped: [],
   errors: [],
   validations: {},
-};
+}
 
 function logResult(platformLabel, mcpKey, result) {
-  const mcp = MCPS[mcpKey];
-  const label = mcp ? mcp.name : mcpKey;
+  const mcp = MCPS[mcpKey]
+  const label = mcp ? mcp.name : mcpKey
   switch (result.status) {
     case 'installed':
-      console.log(`  ✅ ${label} — config written to ${result.path}`);
-      progress.installed.push({ platform: platformLabel, mcp: mcpKey });
-      break;
+      console.log(`  ✅ ${label} — config written to ${result.path}`)
+      progress.installed.push({ platform: platformLabel, mcp: mcpKey })
+      break
     case 'skipped':
-      console.log(`  ⏭️  ${label} — ${result.reason}`);
-      progress.skipped.push({ platform: platformLabel, mcp: mcpKey, reason: result.reason });
-      break;
+      console.log(`  ⏭️  ${label} — ${result.reason}`)
+      progress.skipped.push({ platform: platformLabel, mcp: mcpKey, reason: result.reason })
+      break
     case 'dry-run': {
       const desc =
         result.entry?.type === 'remote' || result.entry?.type === 'http'
           ? `remote → ${result.entry.url}`
-          : `local → ${result.entry.command} ${(result.entry.args || []).join(' ')}`;
-      console.log(`  📋 ${label} — would install (${desc})`);
-      break;
+          : `local → ${result.entry.command} ${(result.entry.args || []).join(' ')}`
+      console.log(`  📋 ${label} — would install (${desc})`)
+      break
     }
     default:
-      console.log(`  ❌ ${label} — ${result.reason}`);
-      progress.errors.push({ platform: platformLabel, mcp: mcpKey, reason: result.reason });
+      console.log(`  ❌ ${label} — ${result.reason}`)
+      progress.errors.push({ platform: platformLabel, mcp: mcpKey, reason: result.reason })
   }
 }
 
 function logValidation(mcpKey, result) {
-  const mcp = MCPS[mcpKey];
-  const label = mcp ? mcp.name : mcpKey;
+  const mcp = MCPS[mcpKey]
+  const label = mcp ? mcp.name : mcpKey
   if (result.ok) {
-    const extra = result.message ? ` — ${result.message}` : '';
-    console.log(`  ✅ ${label}${extra}`);
+    const extra = result.message ? ` — ${result.message}` : ''
+    console.log(`  ✅ ${label}${extra}`)
   } else {
-    const extra = result.message ? ` — ${result.message}` : '';
-    console.log(`  ❌ ${label}${extra}`);
+    const extra = result.message ? ` — ${result.message}` : ''
+    console.log(`  ❌ ${label}${extra}`)
   }
-  progress.validations[mcpKey] = result;
+  progress.validations[mcpKey] = result
 }
 
 // ---------------------------------------------------------------------------
@@ -753,133 +755,131 @@ function logValidation(mcpKey, result) {
 // ---------------------------------------------------------------------------
 
 async function main() {
-  const args = parseArgs(process.argv);
+  const args = parseArgs(process.argv)
 
   if (args.help) {
-    showHelp();
-    process.exit(0);
+    showHelp()
+    process.exit(0)
   }
 
   if (args.list) {
-    listMcps();
-    process.exit(0);
+    listMcps()
+    process.exit(0)
   }
 
   // Determine which MCPs to install
-  let mcpKeys = [];
+  let mcpKeys = []
 
   if (args.mcp) {
     // Specific MCP(s) requested
-    mcpKeys = args.mcp.split(',').map((s) => s.trim().toLowerCase());
+    mcpKeys = args.mcp.split(',').map((s) => s.trim().toLowerCase())
     for (const key of mcpKeys) {
       if (!MCPS[key]) {
-        console.error(`❌ Unknown MCP: "${key}". Use --list to see available MCPs.`);
-        process.exit(1);
+        console.error(`❌ Unknown MCP: "${key}". Use --list to see available MCPs.`)
+        process.exit(1)
       }
     }
   } else {
     // Tier 1 — always included
     const tier1Mcps = Object.entries(MCPS)
       .filter(([, mcp]) => mcp.tier === 1)
-      .map(([key]) => key);
-    mcpKeys.push(...tier1Mcps);
+      .map(([key]) => key)
+    mcpKeys.push(...tier1Mcps)
 
     // Tier 2 — interactive prompt
     if (args.tier >= 2) {
-      const tier2Selected = await promptForTier2Mcps();
-      mcpKeys.push(...tier2Selected);
+      const tier2Selected = await promptForTier2Mcps()
+      mcpKeys.push(...tier2Selected)
     }
   }
 
   if (mcpKeys.length === 0) {
-    console.log('No MCPs selected. Nothing to install.\n');
-    process.exit(0);
+    console.log('No MCPs selected. Nothing to install.\n')
+    process.exit(0)
   }
 
   // Determine target platforms
-  const platforms = args.platforms;
-  const platformLabels = platforms.map((p) => PLATFORMS[p]?.label || p);
+  const platforms = args.platforms
+  const platformLabels = platforms.map((p) => PLATFORMS[p]?.label || p)
 
   if (args.dryRun) {
-    console.log('\n🔍 Dry-run mode — no files will be written\n');
+    console.log('\n🔍 Dry-run mode — no files will be written\n')
   }
 
   console.log(
     `\n🔍 ${platforms.length === 1 ? 'Platform' : 'Platforms'}: ${platformLabels.join(', ')}`,
-  );
+  )
   console.log(
     `📦 Installing ${mcpKeys.length} MCP(s): ${mcpKeys.map((k) => MCPS[k]?.name || k).join(', ')}\n`,
-  );
+  )
 
   // Install per platform
   for (const platformName of platforms) {
-    const platform = PLATFORMS[platformName];
+    const platform = PLATFORMS[platformName]
     if (!platform) {
-      console.warn(`  ⚠️  Unknown platform: ${platformName} — skipping`);
-      continue;
+      console.warn(`  ⚠️  Unknown platform: ${platformName} — skipping`)
+      continue
     }
 
-    console.log(`🔧 ${platform.label} (${platform.configFile}):`);
+    console.log(`🔧 ${platform.label} (${platform.configFile}):`)
 
     for (const mcpKey of mcpKeys) {
-      const result = writeMcpConfig(platformName, mcpKey, args.dryRun, args.force);
-      logResult(platform.label, mcpKey, result);
+      const result = writeMcpConfig(platformName, mcpKey, args.dryRun, args.force)
+      logResult(platform.label, mcpKey, result)
     }
 
-    console.log('');
+    console.log('')
   }
 
   // Validation
   if (!args.dryRun) {
-    console.log('🔍 Validating MCPs...\n');
+    console.log('🔍 Validating MCPs...\n')
     for (const key of mcpKeys) {
-      const result = await validateMcp(key);
-      logValidation(key, result);
+      const result = await validateMcp(key)
+      logValidation(key, result)
     }
-    console.log('');
+    console.log('')
   } else {
-    console.log('🔍 Validation skipped in dry-run mode\n');
+    console.log('🔍 Validation skipped in dry-run mode\n')
   }
 
   // Summary
-  console.log('='.repeat(60));
-  console.log('📋 Installation Summary');
-  console.log('='.repeat(60));
-  console.log(`  Platforms:  ${platformLabels.join(', ')}`);
-  console.log(`  MCPs:       ${mcpKeys.length} requested`);
-  console.log(`  Installed:  ${progress.installed.length}`);
-  console.log(`  Skipped:    ${progress.skipped.length}`);
-  console.log(`  Errors:     ${progress.errors.length}`);
+  console.log('='.repeat(60))
+  console.log('📋 Installation Summary')
+  console.log('='.repeat(60))
+  console.log(`  Platforms:  ${platformLabels.join(', ')}`)
+  console.log(`  MCPs:       ${mcpKeys.length} requested`)
+  console.log(`  Installed:  ${progress.installed.length}`)
+  console.log(`  Skipped:    ${progress.skipped.length}`)
+  console.log(`  Errors:     ${progress.errors.length}`)
 
   if (progress.installed.length > 0) {
-    console.log('\n  ✅ Installed:');
+    console.log('\n  ✅ Installed:')
     for (const item of progress.installed) {
-      console.log(`     - ${item.mcp} → ${item.platform}`);
+      console.log(`     - ${item.mcp} → ${item.platform}`)
     }
   }
 
   if (progress.skipped.length > 0 && !args.dryRun) {
-    console.log('\n  ⏭️  Skipped:');
+    console.log('\n  ⏭️  Skipped:')
     for (const item of progress.skipped) {
-      console.log(`     - ${item.mcp} (${item.platform}): ${item.reason}`);
+      console.log(`     - ${item.mcp} (${item.platform}): ${item.reason}`)
     }
   }
 
   if (progress.errors.length > 0) {
-    console.log('\n  ❌ Errors:');
+    console.log('\n  ❌ Errors:')
     for (const item of progress.errors) {
-      console.log(`     - ${item.mcp} (${item.platform}): ${item.reason}`);
+      console.log(`     - ${item.mcp} (${item.platform}): ${item.reason}`)
     }
   }
 
-  console.log(
-    '\n⚠️  Reminder: Restart your editor/CLI tool for MCP changes to take effect.',
-  );
-  console.log('   For VS Code: Cmd+Shift+P → "Developer: Reload Window"');
-  console.log('   For OpenCode: Just restart the session');
-  console.log('');
+  console.log('\n⚠️  Reminder: Restart your editor/CLI tool for MCP changes to take effect.')
+  console.log('   For VS Code: Cmd+Shift+P → "Developer: Reload Window"')
+  console.log('   For OpenCode: Just restart the session')
+  console.log('')
 
-  process.exit(progress.errors.length > 0 ? 1 : 0);
+  process.exit(progress.errors.length > 0 ? 1 : 0)
 }
 
-main();
+main()

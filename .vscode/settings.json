@@ -1,8 +1,6 @@
 {
   "chat.plugins.enabled": true,
-  "chat.plugins.marketplaces": [
-    "ils15/pantheon"
-  ],
+  "chat.plugins.marketplaces": ["ils15/pantheon"],
   "chat.subagents.allowInvocationsFromSubagents": true,
   "github.copilot.chat.agent.skills": [
     "agent-coordination",
@@ -48,9 +46,7 @@
   "githubPullRequests.fileListLayout": "tree",
   "githubPullRequests.pullPullRequestLocaleFromRemote": true,
   "githubPullRequests.createDefaultBaseBranch": "repositoryDefault",
-  "githubPullRequests.remotes": [
-    "origin"
-  ],
+  "githubPullRequests.remotes": ["origin"],
   "githubPullRequests.defaultReviewers": [],
   "githubPullRequests.overrideRepositoryDescription": false,
   "opencode.excludedSkills": []

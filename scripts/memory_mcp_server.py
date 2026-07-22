@@ -110,7 +110,7 @@ def _get_db() -> sqlite3.Connection:
     conn.execute("PRAGMA busy_timeout=5000")
     conn.execute("PRAGMA foreign_keys=ON")
     # Register sqlite-vec extension
-    import sqlite_vec
+    import sqlite_vec  # noqa: PLC0415
 
     sqlite_vec.load(conn)
     conn.executescript(SCHEMA_SQL)
@@ -270,7 +270,7 @@ def memory_store(
     "Combines vector cosine similarity and FTS5 BM25 keyword search "
     "via Reciprocal Rank Fusion (RRF).",
 )
-def memory_search(
+def memory_search(  # noqa: C901, PLR0912
     query: str,
     namespace: str | None = None,
     top_k: int = 5,
@@ -571,7 +571,7 @@ def memory_stats() -> dict[str, Any]:
         db_size = DB_PATH.stat().st_size if DB_PATH.exists() else 0
         stats["db_size_bytes"] = db_size
         for unit in ("B", "KB", "MB", "GB"):
-            if db_size < 1024:
+            if db_size < 1024:  # noqa: PLR2004
                 stats["db_size_human"] = f"{db_size:.2f} {unit}"
                 break
             db_size /= 1024.0

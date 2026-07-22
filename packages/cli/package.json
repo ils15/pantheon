@@ -5,8 +5,15 @@
   "bin": {
     "pantheon": "./bin/pantheon.js"
   },
-  "keywords": ["opencode", "multi-agent", "orchestration", "ai-coding"],
+  "keywords": [
+    "opencode",
+    "multi-agent",
+    "orchestration",
+    "ai-coding"
+  ],
   "license": "MIT",
   "type": "module",
-  "engines": { "node": ">=18" }
+  "engines": {
+    "node": ">=18"
+  }
 }

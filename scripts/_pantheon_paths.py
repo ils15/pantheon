@@ -78,6 +78,6 @@ def pantheon_venv_python() -> str | None:
         if candidate.exists():
             return str(candidate)
     # Fallback: system python3
-    import shutil
+    import shutil  # noqa: PLC0415
 
     return shutil.which("python3")

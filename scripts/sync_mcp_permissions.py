@@ -44,7 +44,7 @@ def get_agent_files(platforms: bool = False) -> list[Path]:
 
 
 def _line_idx(content: str, pos: int) -> int:
-    """Convert character position to 0-based line index."""
+    """Convert character position to 0-based item index."""
     return content[:pos].count("\n")
 
 
@@ -58,7 +58,7 @@ def _perm_line(filepath: Path) -> tuple[str, str] | None:
     return ("yaml", '  "{mcp}_*": {level}')
 
 
-def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) -> bool:
+def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) -> bool:  # noqa: C901, PLR0912, PLR0915
     with open(filepath) as f:
         lines = f.readlines()
 
@@ -67,8 +67,8 @@ def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) ->
     perm_end_line = None
     last_mcp_line = None
 
-    for i, line in enumerate(lines):
-        stripped = line.strip()
+    for i, item in enumerate(lines):
+        stripped = item.strip()
         if stripped == "permission:":
             perm_start_line = i
         elif (
@@ -104,8 +104,8 @@ def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) ->
     perm_section_lines = set()
     mcp_keys_in_file = {}
     for i in range(perm_start_line + 1, perm_end_line):
-        line = lines[i]
-        stripped = line.strip()
+        item = lines[i]
+        stripped = item.strip()
         if stripped.startswith('"pantheon-') or stripped.startswith("'pantheon-"):
             mcp_name = (
                 stripped.split('"')[1] if '"' in stripped else stripped.split("'")[1]
@@ -123,7 +123,7 @@ def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) ->
             if not dry_run:
                 lines[line_idx] = None  # mark for deletion
             changed = True
-            print(f"  ➖ {agent_name}: removed {mcp_name}_*")
+            print(f"  - {agent_name}: removed {mcp_name}_*")
 
     # Add MCPS that agent SHOULD have but doesn't
     for mcp_name in sorted(agent_mcps):
@@ -131,7 +131,7 @@ def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) ->
             mcp_config = registry["mcps"][mcp_name]
             perm_key = f'"{mcp_name}_*"'
 
-            # Insert after the last MCP permission line, or after "permission:" line
+            # Insert after the last MCP permission item, or after "permission:" item
             insert_after = (
                 last_mcp_line if last_mcp_line is not None else perm_start_line
             )
@@ -151,10 +151,10 @@ def update_permissions(filepath: Path, registry: dict, dry_run: bool = False) ->
                 lines.insert(insert_after + 1, new_line)
             changed = True
             last_mcp_line = insert_after + 1
-            print(f"  ➕ {agent_name}: added {mcp_name}_* ({mcp_config['permission']})")
+            print(f"  + {agent_name}: added {mcp_name}_* ({mcp_config['permission']})")
 
     # Remove None placeholders
-    lines = [l for l in lines if l is not None]
+    lines = [item for item in lines if item is not None]
 
     if changed and not dry_run:
         with open(filepath, "w") as f:

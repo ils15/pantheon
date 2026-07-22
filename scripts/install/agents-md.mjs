@@ -18,18 +18,18 @@
  *   writeFileSync('/path/AGENTS.md', md);
  */
 
-import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import yaml from "js-yaml";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import yaml from 'js-yaml'
 
 // ---------------------------------------------------------------------------
 // Paths
 // ---------------------------------------------------------------------------
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-export const ROOT = join(__dirname, "..", "..");
-export const AGENTS_DIR = join(ROOT, "agents");
+const __dirname = dirname(fileURLToPath(import.meta.url))
+export const ROOT = join(__dirname, '..', '..')
+export const AGENTS_DIR = join(ROOT, 'agents')
 
 // ---------------------------------------------------------------------------
 // Frontmatter parsing
@@ -43,20 +43,20 @@ export const AGENTS_DIR = join(ROOT, "agents");
  *   Parsed agent metadata, or null if no valid frontmatter with a `name` field.
  */
 function parseAgentFrontmatter(content) {
-	const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-	if (!match) return null;
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)
+  if (!match) return null
 
-	try {
-		const fm = yaml.load(match[1]);
-		if (!fm || typeof fm !== "object" || !fm.name) return null;
-		return {
-			name: String(fm.name),
-			description: fm.description ? String(fm.description) : "",
-			color: fm.color ? String(fm.color) : undefined,
-		};
-	} catch {
-		return null;
-	}
+  try {
+    const fm = yaml.load(match[1])
+    if (!fm || typeof fm !== 'object' || !fm.name) return null
+    return {
+      name: String(fm.name),
+      description: fm.description ? String(fm.description) : '',
+      color: fm.color ? String(fm.color) : undefined,
+    }
+  } catch {
+    return null
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -73,29 +73,29 @@ function parseAgentFrontmatter(content) {
  * @returns {Array<{ name: string, description: string, color?: string }>}
  */
 export function readCanonicalAgents() {
-	if (!existsSync(AGENTS_DIR)) return [];
+  if (!existsSync(AGENTS_DIR)) return []
 
-	const files = readdirSync(AGENTS_DIR)
-		.filter((f) => f.endsWith(".agent.md"))
-		.sort();
+  const files = readdirSync(AGENTS_DIR)
+    .filter((f) => f.endsWith('.agent.md'))
+    .sort()
 
-	const agents = [];
-	for (const file of files) {
-		const filePath = join(AGENTS_DIR, file);
-		let content;
-		try {
-			content = readFileSync(filePath, "utf8");
-		} catch {
-			continue; // skip unreadable files
-		}
+  const agents = []
+  for (const file of files) {
+    const filePath = join(AGENTS_DIR, file)
+    let content
+    try {
+      content = readFileSync(filePath, 'utf8')
+    } catch {
+      continue // skip unreadable files
+    }
 
-		const parsed = parseAgentFrontmatter(content);
-		if (parsed) {
-			agents.push(parsed);
-		}
-	}
+    const parsed = parseAgentFrontmatter(content)
+    if (parsed) {
+      agents.push(parsed)
+    }
+  }
 
-	return agents.sort((a, b) => a.name.localeCompare(b.name));
+  return agents.sort((a, b) => a.name.localeCompare(b.name))
 }
 
 /**
@@ -111,12 +111,12 @@ export function readCanonicalAgents() {
  *   | @hermes | Backend (FastAPI) |
  */
 export function generateAgentsTable(agents) {
-	const rows = ["| Agent | Role |", "|-------|------|"];
-	for (const agent of agents) {
-		const role = (agent.description || "").replace(/\n/g, " ");
-		rows.push(`| @${agent.name} | ${role} |`);
-	}
-	return rows.join("\n");
+  const rows = ['| Agent | Role |', '|-------|------|']
+  for (const agent of agents) {
+    const role = (agent.description || '').replace(/\n/g, ' ')
+    rows.push(`| @${agent.name} | ${role} |`)
+  }
+  return rows.join('\n')
 }
 
 /**
@@ -136,49 +136,45 @@ export function generateAgentsTable(agents) {
  *   const md = generateAgentsMd(agents, 'Cline', '## Cline Setup\n...');
  *   writeFileSync('AGENTS.md', md);
  */
-export function generateAgentsMd(
-	agents,
-	platformName = "",
-	extraSections = "",
-) {
-	const agentCount = agents.length;
-	const title = platformName
-		? `# Pantheon Agent System — ${platformName}`
-		: "# Pantheon Agent System";
-	const agentTable = generateAgentsTable(agents);
+export function generateAgentsMd(agents, platformName = '', extraSections = '') {
+  const agentCount = agents.length
+  const title = platformName
+    ? `# Pantheon Agent System — ${platformName}`
+    : '# Pantheon Agent System'
+  const agentTable = generateAgentsTable(agents)
 
-	const sections = [
-		title,
-		"",
-		`This project uses the Pantheon multi-agent framework with ${agentCount} specialized agents.`,
-		"",
-		"## Available Agents",
-		"",
-		agentTable,
-	];
+  const sections = [
+    title,
+    '',
+    `This project uses the Pantheon multi-agent framework with ${agentCount} specialized agents.`,
+    '',
+    '## Available Agents',
+    '',
+    agentTable,
+  ]
 
-	if (extraSections) {
-		sections.push("", extraSections.trimEnd());
-	}
+  if (extraSections) {
+    sections.push('', extraSections.trimEnd())
+  }
 
-	sections.push(
-		"",
-		"## Commands",
-		"",
-		"- Build: `npm run build`",
-		"- Test: `npm test`",
-		"- Lint: `npm run lint`",
-		"",
-		"## Conventions",
-		"",
-		"- TDD: Write failing test first, then implement",
-		"- Coverage minimum: 80%",
-		"- Async/await on all I/O",
-		"- Type hints on all functions",
-		"",
-	);
+  sections.push(
+    '',
+    '## Commands',
+    '',
+    '- Build: `npm run build`',
+    '- Test: `npm test`',
+    '- Lint: `npm run lint`',
+    '',
+    '## Conventions',
+    '',
+    '- TDD: Write failing test first, then implement',
+    '- Coverage minimum: 80%',
+    '- Async/await on all I/O',
+    '- Type hints on all functions',
+    '',
+  )
 
-	return sections.join("\n");
+  return sections.join('\n')
 }
 
 /**
@@ -190,16 +186,12 @@ export function generateAgentsMd(
  * @param {string} [extraSections=''] - Optional extra sections to include.
  * @returns {string} The generated content (also written to disk).
  */
-export function generateAgentsMdForPlatform(
-	targetDir,
-	platformName = "",
-	extraSections = "",
-) {
-	const agents = readCanonicalAgents();
-	const content = generateAgentsMd(agents, platformName, extraSections);
-	const outputPath = join(targetDir, "AGENTS.md");
-	writeFileSync(outputPath, content, "utf8");
-	return content;
+export function generateAgentsMdForPlatform(targetDir, platformName = '', extraSections = '') {
+  const agents = readCanonicalAgents()
+  const content = generateAgentsMd(agents, platformName, extraSections)
+  const outputPath = join(targetDir, 'AGENTS.md')
+  writeFileSync(outputPath, content, 'utf8')
+  return content
 }
 
 // ---------------------------------------------------------------------------
@@ -207,22 +199,16 @@ export function generateAgentsMdForPlatform(
 // ---------------------------------------------------------------------------
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
-	const targetDir = process.argv[2] || process.cwd();
-	const platformName = process.argv[3] || "";
-	const extraSections = process.argv[4] || "";
+  const targetDir = process.argv[2] || process.cwd()
+  const platformName = process.argv[3] || ''
+  const extraSections = process.argv[4] || ''
 
-	try {
-		const content = generateAgentsMdForPlatform(
-			targetDir,
-			platformName,
-			extraSections,
-		);
-		const agentCount = (content.match(/^\| @/gm) || []).length;
-		console.log(
-			`✅ Generated AGENTS.md in ${targetDir} (${agentCount} agents)`,
-		);
-	} catch (err) {
-		console.error(`❌ Failed to generate AGENTS.md: ${err.message}`);
-		process.exit(1);
-	}
+  try {
+    const content = generateAgentsMdForPlatform(targetDir, platformName, extraSections)
+    const agentCount = (content.match(/^\| @/gm) || []).length
+    console.log(`✅ Generated AGENTS.md in ${targetDir} (${agentCount} agents)`)
+  } catch (err) {
+    console.error(`❌ Failed to generate AGENTS.md: ${err.message}`)
+    process.exit(1)
+  }
 }

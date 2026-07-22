@@ -24,10 +24,7 @@
       "mcpServers",
       "mcp_tools"
     ],
-    "exclude": [
-      "disable-model-invocation",
-      "argument-hint"
-    ],
+    "exclude": ["disable-model-invocation", "argument-hint"],
     "transform": {
       "tools": {
         "strategy": "comma-separated"

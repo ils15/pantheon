@@ -1,5 +1,3 @@
 {
-  "plugin": [
-    "plugins/pantheon-tui/dist/tui.js"
-  ]
+  "plugin": ["plugins/pantheon-tui/dist/tui.js"]
 }

@@ -71,8 +71,8 @@ def validate_permission_value(val, path_ctx, filename):
         )
 
 
-def validate_file(filepath):
-    global valid_count
+def validate_file(filepath):  # noqa: C901, PLR0912, PLR0915
+    global valid_count  # noqa: PLW0603
     filename = filepath.name
     text = filepath.read_text(encoding="utf-8")
 
@@ -81,7 +81,7 @@ def validate_file(filepath):
         return
 
     parts = text.split("---")
-    if len(parts) < 3:
+    if len(parts) < 3:  # noqa: PLR2004
         err(filename, "frontmatter", "missing closing '---' delimiter")
         return
 
@@ -141,7 +141,7 @@ def validate_file(filepath):
         t = data["temperature"]
         if not isinstance(t, (int, float)):
             err(filename, "temperature", f"expected a number, got '{type(t).__name__}'")
-        elif t < 0.0 or t > 2.0:
+        elif t < 0.0 or t > 2.0:  # noqa: PLR2004
             err(filename, "temperature", f"value {t} is out of range [0.0, 2.0]")
 
     # steps: must be a positive integer
