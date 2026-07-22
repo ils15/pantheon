@@ -6,15 +6,16 @@ Usage: python3 scripts/themis_heuristic_scan.py [--path=<dir>] [--diff-only]
 """
 
 import argparse
-import os
 import re
 import subprocess
 import sys
 from pathlib import Path
 
-
 EXCLUDE_DIRS = {"node_modules", ".pantheon", ".git", "__pycache__",
                 ".venv", "venv", ".mypy_cache", ".ruff_cache", ".hypothesis"}
+
+RUFF_ISSUE_THRESHOLD = 5
+SLOP_PATTERN_THRESHOLD = 10
 
 # 20 anti-patterns de IA slop
 SLOP_PATTERNS = [
@@ -33,6 +34,18 @@ SLOP_PATTERNS = [
     (r'# Check if', "check if óbvio"),
     (r'// Return (the|a|true|false)', "return óbvio"),
     (r'""" ?(This|A) (module|function|class)', "docstring genérica"),
+    (r"<input.*type="(text|number)".*/>", "native input type available (datetime, color, etc.)"),
+    (r"import (date-fns|moment|dayjs|luxon)", "Intl.DateTimeFormat natively available"),
+    (r"import (react-datepicker|flatpickr|react-calendar)", "<input type="date"> natively available"),
+    (r"import (react-color|react-colorful|color-picker)", "<input type="color"> natively available"),
+    (r"import (react-slider|rc-slider)", "<input type="range"> natively available"),
+    (r"import (axios|superagent|got)", "fetch() natively available"),
+    (r"import (lodash|underscore)", "modern JS stdlib covers this (Array.toSorted, Object.groupBy, etc.)"),
+    (r"import (clsx|classnames)", "`template literals` or className join natively available"),
+    (r".css$|.scss$|.less$", "Tailwind or CSS Modules already available — avoid new CSS files"),
+    (r"new Date\(\)", "use Intl.DateTimeFormat for formatting, not manual Date methods"),
+    (r"useEffect.*fetch|useEffect.*axios", "use react-query or native fetch in event handlers"),
+    (r"function.*\(\) \{$", "prefer one-liner arrow functions"),
 ]
 
 Score = int
@@ -67,7 +80,7 @@ class Scanner:
             result = subprocess.run(
                 ["ruff", "check", "--select", "F,E,W,I,N,UP,B,SIM,PL,RUF",
                  "--output-format", "concise", *[str(f) for f in files]],
-                capture_output=True, text=True, timeout=10)
+                capture_output=True, text=True, timeout=10, check=False)
         except (subprocess.TimeoutExpired, FileNotFoundError):
             self.report.append("  ⚠️  ruff: not available or timeout")
             self.deduct(5)
@@ -76,9 +89,9 @@ class Scanner:
         if result.returncode == 0:
             self.report.append("  ✅ ruff: clean")
         else:
-            count = len([l for l in result.stdout.split("\n") if l.strip()])
+            count = len([line for line in result.stdout.split("\n") if line.strip()])
             self.report.append(f"  ⚠️  ruff: {count} issues")
-            if count > 5:
+            if count > RUFF_ISSUE_THRESHOLD:
                 self.blocking = True
                 self.deduct(15)
 
@@ -90,7 +103,7 @@ class Scanner:
         try:
             result = subprocess.run(
                 ["npx", "biome", "check", "--write", "--unsafe", *[str(f) for f in files]],
-                capture_output=True, text=True, timeout=15)
+                capture_output=True, text=True, timeout=15, check=False)
         except (subprocess.TimeoutExpired, FileNotFoundError):
             self.report.append("  ⏭️  biome: not available")
             return
@@ -119,7 +132,7 @@ class Scanner:
         else:
             self.report.append(f"  🧹 anti-pattern: {hits} slop patterns")
             self.deduct(hits * 2)
-            if hits > 10:
+            if hits > SLOP_PATTERN_THRESHOLD:
                 self.blocking = True
 
     def run_hash_verify(self) -> None:
@@ -127,7 +140,7 @@ class Scanner:
         try:
             result = subprocess.run(
                 ["git", "diff", "--cached", "--name-only"],
-                capture_output=True, text=True, timeout=5)
+                capture_output=True, text=True, timeout=5, check=False)
         except (subprocess.TimeoutExpired, FileNotFoundError):
             self.report.append("  ⏭️  hash-verify: git not available")
             return
@@ -144,9 +157,9 @@ class Scanner:
             try:
                 diff = subprocess.run(
                     ["git", "diff", "--cached", f],
-                    capture_output=True, text=True, timeout=5)
-                before = len([l for l in diff.stdout.split("\n") if l.startswith("-") and not l.startswith("---")])
-                after = len([l for l in diff.stdout.split("\n") if l.startswith("+") and not l.startswith("+++")])
+                    capture_output=True, text=True, timeout=5, check=False)
+                before = len([line for line in diff.stdout.split("\n") if line.startswith("-") and not line.startswith("---")])
+                after = len([line for line in diff.stdout.split("\n") if line.startswith("+") and not line.startswith("+++")])
             except (subprocess.TimeoutExpired, FileNotFoundError):
                 continue
 
