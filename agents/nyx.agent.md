@@ -30,7 +30,7 @@ skills:
 - agent-evaluation
 mcp_tools:
   pantheon-resources: all
-  pantheon-memory: [memory_recall, memory_store, memory_sessions]
+  pantheon-memory: [memory_search]
   pantheon-code-mode: [execute_code_script]
 ---
 
@@ -39,7 +39,7 @@ mcp_tools:
 See `instructions/memory-protocol.instructions.md` for universal rules.
 
 ### Override
-- `memory_recall("observability", top_k=3)` at task start
+- `memory_search("observability", top_k=3)` at task start — read-only
 
 # Nyx - Observability & Monitoring Specialist
 
@@ -81,8 +81,8 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 | Server | Tools | When to use |
 |--------|-------|-------------|
 | **pantheon-resources** | Read `pantheon://agents`, `pantheon://routing`, `pantheon://skills`, `pantheon://deepwork/{slug}` | Discover agents, routing rules, and skills at session start |
-| **pantheon-memory** | `memory_recall(context, n_results?)`, `memory_store(content, category?, importance?)`, `memory_sessions(format?: "json")` | Recall past observability patterns, store monitoring configs, list sessions for audit |
+| **pantheon-memory** | `memory_search(query, n_results?)` | Read-only memory — search past observability patterns and monitoring configs |
 | **pantheon-code-mode** | `execute_code_script(script_name, args?)` | Run tracing and monitoring scripts |
 
-Before setting up monitoring, `memory_recall()` for existing telemetry patterns. After configuration, `memory_store()` to persist decisions. Use `memory_sessions()` to audit agent activity.
+Before setting up monitoring, `memory_search()` for existing telemetry patterns. Results are persisted by Zeus on subtask_summary return.
 
