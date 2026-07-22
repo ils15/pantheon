@@ -12,11 +12,9 @@ Usage:
 
 import argparse
 import hashlib
-import os
 import subprocess
 import sys
 from pathlib import Path
-
 
 EXIT_SUCCESS = 0
 EXIT_FAILURE = 1
@@ -33,14 +31,14 @@ def compute_diff_size(file: Path) -> int:
     try:
         result = subprocess.run(
             ["git", "diff", "--", str(file)],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True, text=True, timeout=5, check=False,
         )
     except (subprocess.TimeoutExpired, FileNotFoundError):
         return 0
 
     diff = result.stdout
-    added = len([l for l in diff.split("\n") if l.startswith("+") and not l.startswith("+++")])
-    removed = len([l for l in diff.split("\n") if l.startswith("-") and not l.startswith("---")])
+    added = len([line for line in diff.split("\n") if line.startswith("+") and not line.startswith("+++")])
+    removed = len([line for line in diff.split("\n") if line.startswith("-") and not line.startswith("---")])
     return added + removed
 
 
@@ -94,7 +92,7 @@ def check_staged_files(diff_min_lines: int) -> list[dict]:
     try:
         result = subprocess.run(
             ["git", "diff", "--cached", "--name-only"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True, text=True, timeout=5, check=False,
         )
     except (subprocess.TimeoutExpired, FileNotFoundError):
         return [{"status": "error", "message": "Git not available"}]

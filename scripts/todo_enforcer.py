@@ -14,11 +14,9 @@ Usage:
 
 import argparse
 import json
-import os
-import time
 import sys
+import time
 from pathlib import Path
-
 
 ENFORCER_DIR = Path(".pantheon/todo-enforcer")
 STATE_FILE = ENFORCER_DIR / "state.json"

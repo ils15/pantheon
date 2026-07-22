@@ -1,15 +1,11 @@
 ---
-description: "Stop auto-continuation. Aliases: /stop-continuation"
+description: "Stop auto-continuation and task system execution. Usage: /pantheon-cancel"
 ---
-# /cancel — Stop Auto-Continuation
+# /pantheon-cancel — Stop Auto-Continuation
 
 **What:** Stops auto-continuation and any task system execution.
 
-**Usage:**
-- `/cancel` — Stop auto-continuation (default)
-- `/stop-continuation` — Alias: same as `/cancel`
-
-**Alias:** `/stop-continuation` also works and does the same thing.
+**Usage:** `/pantheon-cancel`
 
 **Preserves:** Manual tools, agent delegation, hooks, safety gates.
 **Safety:** Does NOT discard changes, close session, or delete tasks.

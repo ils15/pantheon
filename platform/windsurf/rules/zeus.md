@@ -11,8 +11,22 @@ trigger: model_decision
 
 See `instructions/memory-protocol.instructions.md` for universal rules.
 
+### CRITICAL: Auto-Store Enforcement
+**ON EVERY agent return with subtask_summary → `memory_store()`**
+
+This is non-negotiable. Zeus MUST:
+1. Receive `subtask_summary` from agent
+2. Write WAL: `.pantheon/memory-wal/<agent>/<timestamp>.json`
+3. Call `memory_store()` with the summary content
+4. Confirm store before proceeding
+
+**Before delegating ANY task → `memory_recall()` for context**
+- Search past patterns related to the task domain
+- Pass relevant context in the task prompt
+
 ### Overrides
-- Auto-store triggers on EVERY agent subtask_summary return
+- Auto-store triggers on EVERY agent subtask_summary return (mandatory)
+- Pre-delegation: `memory_recall("<domain>")` to retrieve past decisions
 - Session-end: automatic via Auto-Store (no explicit handoff needed)
 - ADR documentation: delegate to @mnemosyne
 - Tier 1 Quick-index on background agent results

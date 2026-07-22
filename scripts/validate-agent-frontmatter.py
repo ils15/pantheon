@@ -2,8 +2,9 @@
 """Validate all OpenCode agent .md files for correct frontmatter."""
 
 import sys
-import yaml
 from pathlib import Path
+
+import yaml
 
 VALID_FIELDS = {
     "description", "mode", "reasoning_effort", "permission", "temperature",

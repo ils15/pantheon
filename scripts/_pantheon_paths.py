@@ -35,11 +35,11 @@ def pantheon_home() -> Path:
     env = os.environ.get("PANTHEON_HOME")
     if env:
         return Path(env).expanduser().resolve()
-    
+
     xdg = os.environ.get("XDG_CONFIG_HOME")
     if xdg:
         return Path(xdg).expanduser().resolve() / "opencode"
-    
+
     return Path.home() / ".config" / "opencode"
 
 
@@ -57,11 +57,11 @@ def pantheon_project() -> Path | None:
     env = os.environ.get("PANTHEON_PROJECT")
     if env:
         return Path(env).expanduser().resolve()
-    
+
     cwd = os.getcwd()
     if cwd:
         return Path(cwd).resolve()
-    
+
     return None
 
 

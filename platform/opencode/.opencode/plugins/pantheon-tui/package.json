@@ -11,7 +11,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist && mkdir -p dist && cp index.tsx dist/tui.tsx"
+    "build": "rm -rf dist && mkdir -p dist && npx esbuild index.tsx --bundle --outfile=dist/tui.js --format=esm --platform=browser --external:@opencode-ai/* --external:@opentui/* --external:solid-js*"
   },
   "dependencies": {
     "@opencode-ai/plugin": "^1.17.8",

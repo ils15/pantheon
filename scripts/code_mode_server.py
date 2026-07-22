@@ -21,9 +21,8 @@ import stat
 from contextlib import suppress
 from pathlib import Path
 
-from mcp.server.fastmcp import FastMCP
-
 from _pantheon_paths import pantheon_home, pantheon_project
+from mcp.server.fastmcp import FastMCP
 
 # ── Constants ─────────────────────────────────────────────────────────────────
 ALLOWED_EXTENSIONS: frozenset[str] = frozenset({".sh", ".py"})

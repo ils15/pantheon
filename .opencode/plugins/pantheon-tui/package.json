@@ -1,18 +1,7 @@
 {
   "name": "pantheon-tui",
-  "version": "1.0.0",
-  "description": "Pantheon agent framework TUI sidebar plugin for OpenCode",
-  "type": "module",
-  "exports": {
-    ".": "./dist/tui.js",
-    "./tui": "./dist/tui.js"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "rm -rf dist && mkdir -p dist && npx esbuild index.tsx --bundle --outfile=dist/tui.js --format=esm --platform=browser --external:@opencode-ai/* --external:@opentui/*"
-  },
+  "version": "4.0.0",
+  "private": true,
   "dependencies": {
     "@opencode-ai/plugin": "^1.17.8",
     "@opentui/core": "^0.2.2",

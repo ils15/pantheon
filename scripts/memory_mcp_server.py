@@ -28,9 +28,9 @@ import time
 from pathlib import Path
 from typing import Any
 
+from _pantheon_paths import pantheon_home
 from fastembed import TextEmbedding
 from mcp.server.fastmcp import FastMCP
-from _pantheon_paths import pantheon_home
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 

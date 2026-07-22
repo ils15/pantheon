@@ -2,7 +2,9 @@
 """memory_cache.py — Migrate memory-bank flat files to MCP memory_store.
 Usage: python3 scripts/memory_cache.py [--dry-run] [--path=<dir>]
 """
-import argparse, json, hashlib, os, sys, time
+import argparse
+import hashlib
+import sys
 from pathlib import Path
 
 EXCLUDE = {"_index.md", "_notes", ".tmp", "archive"}
