@@ -3,7 +3,7 @@
 > **Last updated:** v4.0-dev (2026-07-22)
 >
 > Roadmap atualizado com base em pesquisa competitiva do ecossistema
-> awesome-opencode e decisões de sprint alinhadas com o usuário.
+> awesome-opencode, análise do OpenCode v1.18, e decisões alinhadas com o usuário.
 
 ---
 
@@ -35,15 +35,18 @@
 | `/pantheon-consolidate` — merge de duplicatas | ✅ |
 | `/pantheon-forget` — range compression | ✅ |
 | Consolidar 23→14 comandos (todos `/pantheon-*`) | ✅ |
-| Remover 9 comandos obsoletos (manifest, forge, mirrordeps, praxis, ping, stop-continuation, subtask, metamorphosis, reflect) | ✅ |
+| Remover 9 comandos obsoletos | ✅ |
 | `/pantheon-optimize` melhorado (archive + cache + dry-run) | ✅ |
 | Deepwork archive (20→9 ativos, 7 arquivados, 4 deletados) | ✅ |
 | Sync engine consertado (spawnSync import faltando) | ✅ |
 | MCP servers corrigidos (FastMCP description→instructions) | ✅ |
+| ROADMAP.md reescrito com análise competitiva | ✅ |
+| Research awesome-opencode (OMO, OMO-slim, weisser-dev) | ✅ |
+| Research OpenCode v1.18 (subagent_depth, auto-compact) | ✅ |
 
 ### Sprint 2 🔜 — NPM + CLI Installer (3-5d)
 
-**Prioridade #1 — Adoção.** OMO e weisser-dev provaram que npm publish é o que move adoção.
+**Prioridade #1 — Adoção.** OMO (25.3k+ downloads npm) e weisser-dev provaram que npm publish é o que move adoção.
 
 ```
 @pantheon/cli (npm)
@@ -62,7 +65,7 @@ Plugin OpenCode oficial
 
 ### Sprint 3 🔜 — Themis 2.0 + IntentGate (4-5d)
 
-**Diferencial competitivo mais forte.** Nenhum concorrente tem revisão de qualidade real.
+**Diferencial competitivo mais forte.** Nenhum concorrente tem revisão de qualidade real. Enquanto OMO e weisser competem em número de agentes, a gente compete em qualidade de entrega.
 
 ```
 Layer 1 — Heuristic Scanner (zero LLM, pré-commit)
@@ -101,10 +104,13 @@ IntentGate Heurístico (zero LLM)
 
 ### Sprint 4 🔜 — Background Agents + Qualidade (4-6d)
 
+**Nota:** OpenCode v1.18.2 (Jul 2026) introduziu `subagent_depth` — subagentes não lançam subagentes aninhados por padrão. Pantheon deve respeitar `subagent_depth: 2` (Zeus → Hermes, mas Hermes não → sub-sub-agent).
+
 ```
 ├── Background agents first-class
 │   ├── Paralelo real: dispatch 5+ agents simultaneamente
 │   ├── Scheduler nativo do OpenCode v1.16.2+
+│   ├── Respeitar subagent_depth: 2 (OpenCode v1.18.2)
 │   └── Sem polling — push notification
 │
 ├── TODO Enforcer
@@ -119,13 +125,21 @@ IntentGate Heurístico (zero LLM)
     └── Equivalente ao "ultrawork" do OMO
 ```
 
-### Sprint 5 🔜 — Pruning + Cache (2-3d)
+### Sprint 5 🔜 — Pruning + Cache + Memory (3-4d)
+
+**Nota:** OpenCode v1.18 tem `auto-compact` nativo — compressão automática de histórico quando bate no limite de contexto. Pantheon deve integrar com isso, não duplicar.
 
 ```
 ├── Tool Output Pruning (Level 2 Compression v2)
 │   ├── Poda outputs obsoletos do histórico (>5 turns)
 │   ├── Relevance scoring por idade/tamanho/tipo
-│   └── Auto-tagging de relevância
+│   ├── Auto-tagging de relevância
+│   └── Integrar com auto-compact do OpenCode (não recompactar)
+│
+├── Memory recall tuning
+│   ├── Importance scoring (0.0-1.0) por entrada
+│   ├── Anti-junk filter aprimorado
+│   └── memory_search com reranking
 │
 └── /pantheon-optimize --cache
     ├── Script memory-cache.py
@@ -133,22 +147,35 @@ IntentGate Heurístico (zero LLM)
     └── Archive opcional dos originais
 ```
 
+### Contínuo — Memory & Qualidade (sem sprint dedicado)
+
+Melhorias incrementais na memory ao longo de todos os sprints:
+
+| Item | Quando |
+|------|--------|
+| Memory recall tuning (top_k dinâmico, score threshold) | Contínuo |
+| memory_search reranking (cross-encoder leve) | Sprint 5 |
+| Importância decay (entradas velhas perdem peso) | Sprint 5 |
+| memory_consolidate automático semanal | Pós-v4.0 |
+
 ---
 
 ## 📊 Comparação Competitiva
 
-| Feature | Pantheon v4.0 | Oh My OpenCode | weisser-dev |
-|---------|---------------|----------------|-------------|
-| **Plataformas** | 7 | 2 | 1 |
-| **Agentes** | 14 | 11 | 108 |
-| **Skills** | 44 | ~8 | 15 |
-| **TDD enforcement** | ✅ | ❌ | ❌ |
-| **Themis review gate** | ✅ | ❌ | ❌ |
-| **npm publish** | 🔜 Sprint 2 | ✅ | ✅ |
-| **Memory MCP** | ✅ | básico | ❌ |
-| **Background agents** | 🔜 Sprint 4 | ✅ | ❌ |
-| **AI Slop detection** | 🔜 Sprint 3 | comment checker | ❌ |
-| **Multi-model** | ❌ (deliberado) | council | ❌ |
+| Feature | Pantheon v4.0 | Oh My OpenCode | weisser-dev | OMO-slim |
+|---------|---------------|----------------|-------------|----------|
+| **Plataformas** | 7 | 2 | 1 | 1 |
+| **Agentes** | 14 | 11 | 108 | 7 |
+| **Skills** | 44 | ~8 | 15 | 8 |
+| **TDD enforcement** | ✅ | ❌ | ❌ | ❌ |
+| **Themis review gate** | ✅ | ❌ | ❌ | ❌ |
+| **npm publish** | 🔜 Sprint 2 | ✅ | ✅ | ✅ |
+| **Memory MCP** | ✅ | básico | ❌ | ❌ |
+| **Background agents** | 🔜 Sprint 4 | ✅ | ❌ | ✅ |
+| **AI Slop detection** | 🔜 Sprint 3 | comment checker | ❌ | ❌ |
+| **Multi-model** | ❌ (deliberado) | council | ❌ | council |
+| **subagent_depth limit** | 🔜 Sprint 4 | configurável | ❌ | configurável |
+| **Auto-compact nativo** | integração 🔜 S5 | nativo OpenCode | nativo | nativo |
 
 ---
 
@@ -156,9 +183,26 @@ IntentGate Heurístico (zero LLM)
 
 1. **Sem multi-model council** — Custo alto, benefício nicho. Foco em qualidade (Themis 2.0) em vez de quantidade de modelos.
 2. **Sem "ultrawork" keyword** — `/pantheon-deepwork --full-auto` já cobre o caso de uso sem criar jargão novo.
-3. **IntentGate heurístico** — Zero LLM, zero latência. Regex no routing.yml em vez de chamada de modelo.
+3. **IntentGate heurístico** — Zero LLM, zero latência. Regex no routing.yml em vez de chamada de modelo. OMO gasta tokens pra classificar; a gente não.
 4. **Themis 2.0 é o diferencial real** — Nenhum concorrente tem gate de qualidade. Enquanto eles competem em número de agentes, a gente compete em qualidade de entrega.
-5. **npm primeiro** — Sem adoção, não importa o quão bom é o produto. OMO tem 25.3k+ downloads no npm.
+5. **npm primeiro** — Sem adoção, não importa o quão bom é o produto.
+6. **Integrar com OpenCode, não competir** — OpenCode v1.18 já tem auto-compact, subagent_depth, background dispatch. A gente usa e estende, não recria.
+7. **subagent_depth: 2** — Zeus → Especialista, nunca Especialista → sub-sub. Respeita limite do OpenCode v1.18.2.
+8. **Memory improvements contínuos** — Memory não é sprint único, é melhoria contínua.
+
+---
+
+## 🔬 Referências da Pesquisa
+
+| Fonte | Insights |
+|-------|----------|
+| [awesome-opencode/awesome-opencode](https://github.com/awesome-opencode/awesome-opencode) | Lista curada central do ecossistema |
+| [weisser-dev/awesome-opencode](https://github.com/weisser-dev/awesome-opencode) | 108 agentes, CLI interativo, Docker sandbox |
+| [opensoft/oh-my-opencode](https://github.com/opensoft/oh-my-opencode) | Sisyphus orchestrator, background agents, LSP |
+| [alvinunreal/oh-my-opencode-slim](https://github.com/alvinunreal/oh-my-opencode-slim) | 7 agentes, council, verification-planning skill |
+| [code-yeongyu/oh-my-openagent](https://github.com/code-yeongyu/oh-my-openagent) | 11 agentes, 54 hooks, ultrawork, IntentGate |
+| [OpenCode v1.18 Changelog](https://opencode.ai/changelog) | subagent_depth, auto-compact, Desktop v2 |
+| [OpenCode Context Management](https://deepwiki.com/sst/opencode/2.4-context-management-and-compaction) | Auto-compact, overflow detection, tool output pruning |
 
 ---
 
@@ -184,5 +228,6 @@ IntentGate Heurístico (zero LLM)
 
 | Data | Mudança |
 |------|---------|
-| 2026-07-22 | Roadmap reescrito para v4.0 com base em pesquisa awesome-opencode |
+| 2026-07-22 v2 | Adicionado: OpenCode v1.18 insights (subagent_depth, auto-compact), memory improvements contínuos, referências da pesquisa, decisão de arquitetura #6-8 |
+| 2026-07-22 v1 | Roadmap reescrito para v4.0 com 4 sprints, análise competitiva |
 | 2026-06-20 | Última atualização v3.14.0 |
