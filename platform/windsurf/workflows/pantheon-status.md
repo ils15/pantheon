@@ -41,7 +41,7 @@ Produce EXACTLY this structure:
 
 ### Commands Available
 
-`/pantheon` `/pantheon-status` `/audit` `/focus` `/deepwork` `/optimize` `/sketch` `/subtask` `/cancel` `/pantheon-install` `/pantheon-update` `/pantheon-remember` `/pantheon-search` `/pantheon-consolidate` `/pantheon-forget`
+`/pantheon` `/pantheon-status` `/audit` `/focus` `/deepwork` `/optimize` `/sketch` `/cancel` `/pantheon-install` `/pantheon-update` `/pantheon-remember` `/pantheon-search` `/pantheon-consolidate` `/pantheon-forget`
 
 ### Health
 
