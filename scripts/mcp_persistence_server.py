@@ -63,7 +63,7 @@ END;
 
 mcp = FastMCP(
     "pantheon-persistence",
-    description="Key-Value store with FTS5 full-text search, "
+    instructions="Key-Value store with FTS5 full-text search, "
     "TTL-based expiration, and namespace isolation.",
 )
 
@@ -348,7 +348,7 @@ async def kv_search(
     fts_query = " OR ".join(f'"{t}"' for t in terms)
 
     sql: str = (
-        "SELECT kv.namespace, kv.key, kv.value, kv.created_at, "
+        "SELECT kv_store.namespace, kv_store.key, kv_store.value, kv_store.created_at, "
         "BM25(kv_store_fts) AS score "
         "FROM kv_store_fts "
         "JOIN kv_store ON kv_store_fts.rowid = kv_store.id "
