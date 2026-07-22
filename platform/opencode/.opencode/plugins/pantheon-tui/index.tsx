@@ -10,19 +10,17 @@ import { createMemo, createSignal, For, Show } from "solid-js";
 // ── Static Data ──────────────────────────────────────────────────────────────
 
 async function readPantheonVersion(api: TuiPluginApi): Promise<string> {
-  // Try 1: pyproject.toml via worktree absolute path
   try {
     const worktree = ((api.state as any).path?.worktree ?? "") as string
-    const filePath = worktree ? `${worktree}/pyproject.toml` : "pyproject.toml"
+    const filePath = worktree ? `${worktree}/package.json` : "package.json"
     const result = await api.client.file.read({ query: { path: filePath } })
     const content = typeof result.content === "string" 
       ? result.content 
       : String(result.content ?? "")
-    const match = content.match(/^version\s*=\s*"([^"]+)"/m)
+    const match = content.match(/"version":\s*"([^"]+)"/)
     if (match?.[1]) return match[1]
   } catch { /* fall through */ }
 
-  // Try 2: git describe (tag-based version)
   try {
     const proc = (api as any).client?.process;
     if (typeof proc?.exec === "function") {
@@ -33,26 +31,24 @@ async function readPantheonVersion(api: TuiPluginApi): Promise<string> {
     }
   } catch { /* fall through */ }
 
-  return "dev"
+  return "4.0.0"
 }
 
 const COMMANDS = [
 	{ name: "/pantheon", desc: "Council synthesis" },
 	{ name: "/pantheon-status", desc: "System status" },
-	{ name: "/audit", desc: "Full audit" },
-	{ name: "/cancel", desc: "Cancel task" },
-	{ name: "/deepwork", desc: "Deep work mode" },
-	{ name: "/focus", desc: "Focus on scope" },
-	{ name: "/forge", desc: "Forge ahead" },
-	{ name: "/metamorphosis", desc: "Code migration" },
-	{ name: "/mirrordeps", desc: "Mirror dependencies" },
-	{ name: "/optimize", desc: "Optimize code" },
-	{ name: "/ping", desc: "Health check" },
-	{ name: "/praxis", desc: "Practice mode" },
-	{ name: "/reflect", desc: "Reflect on state" },
-	{ name: "/sketch", desc: "Quick prototype" },
-	{ name: "/stop-continuation", desc: "Stop auto-continue" },
-	{ name: "/subtask", desc: "Lightweight task" },
+	{ name: "/pantheon-audit", desc: "Full audit (v2)" },
+	{ name: "/pantheon-cancel", desc: "Cancel task" },
+	{ name: "/pantheon-deepwork", desc: "Deep work mode" },
+	{ name: "/pantheon-focus", desc: "Focus on scope" },
+	{ name: "/pantheon-optimize", desc: "Optimize + archive" },
+	{ name: "/pantheon-sketch", desc: "Quick prototype" },
+	{ name: "/pantheon-install", desc: "Install agents" },
+	{ name: "/pantheon-update", desc: "Create release" },
+	{ name: "/pantheon-remember", desc: "Memory store/recall" },
+	{ name: "/pantheon-search", desc: "Memory search" },
+	{ name: "/pantheon-consolidate", desc: "Merge memories" },
+	{ name: "/pantheon-forget", desc: "Compress memories" },
 ] as const;
 
 const AGENTS = [
@@ -73,10 +69,6 @@ const AGENTS = [
 ] as const;
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
-function fmt(v: number): string {
-	return new Intl.NumberFormat("en-US").format(Math.max(0, Math.round(v)));
-}
-
 function safeNum(v: unknown): number {
 	return typeof v === "number" && Number.isFinite(v) ? v : 0;
 }
@@ -90,13 +82,21 @@ function View(props: {
 	const [showCommands, setShowCommands] = createSignal(false);
 	const [showAgents, setShowAgents] = createSignal(false);
 	const [showConfig, setShowConfig] = createSignal(false);
-	const [showMemory, setShowMemory] = createSignal(false);
+	const [showMcp, setShowMcp] = createSignal(false);
+	const [showSession, setShowSession] = createSignal(false);
 
 	const theme = () => props.api.theme.current;
 
 	const branch = createMemo(() =>
-		props.api.state.vcs?.branch ? `\u2387 ${props.api.state.vcs.branch}` : null,
+		props.api.state.vcs?.branch ? `⎇ ${props.api.state.vcs.branch}` : null,
 	);
+
+	// MCP server status (from OpenCode state — real-time)
+	const mcpServers = createMemo(() => {
+		try {
+			return (props.api.state as any).mcp?.() ?? [];
+		} catch { return []; }
+	});
 
 	// Config info
 	const configInfo = createMemo(() => {
@@ -109,14 +109,14 @@ function View(props: {
 		};
 	});
 
-	// Memory info
-	const memoryInfo = createMemo(() => {
-		const mem = (props.api.state as any).memory;
-		if (mem) {
-			const entries = safeNum(mem?.entries) || safeNum(mem?.count);
-			return entries > 0 ? { entries } : null;
-		}
-		return null;
+	// Session tokens estimate
+	const sessionTokens = createMemo(() => {
+		try {
+			const sess = props.api.state.session?.get?.(props.sessionID);
+			if (!sess) return null;
+			const msgs = props.api.state.session?.messages?.(props.sessionID) ?? [];
+			return { messages: msgs.length, status: sess.status ?? "unknown" };
+		} catch { return null; }
 	});
 
 	return (
@@ -126,7 +126,7 @@ function View(props: {
 				⚡ Pantheon · {props.version}
 			</text>
 
-			{/* ══ Branch (conditional) ══ */}
+			{/* ══ Branch ══ */}
 			<Show when={branch()}>
 				{(b) => (
 					<box marginTop={1}>
@@ -135,10 +135,84 @@ function View(props: {
 				)}
 			</Show>
 
-			{/* ══ Commands (collapsible) ══ */}
+			{/* ══ Agents ══ */}
+			<box marginTop={0} onMouseDown={() => setShowAgents((x) => !x)}>
+				<text fg={theme().text} attributes={{ bold: true }}>
+					{showAgents() ? "▼" : "▶"} Agents
+				</text>
+				<text fg={theme().textMuted}> ({AGENTS.length})</text>
+			</box>
+
+			<Show when={showAgents()}>
+				<For each={AGENTS}>
+					{(agent) => (
+						<box marginLeft={1}>
+							<text fg={agent.tier === "premium" ? theme().accent : theme().textMuted}>
+								{agent.tier === "premium" ? "✦ " : "· "}{agent.name}
+							</text>
+							<text fg={theme().textMuted}> — {agent.role}</text>
+						</box>
+					)}
+				</For>
+			</Show>
+
+			{/* ══ MCP Status ══ */}
+			<box marginTop={0} onMouseDown={() => setShowMcp((x) => !x)}>
+				<text fg={theme().text} attributes={{ bold: true }}>
+					{showMcp() ? "▼" : "▶"} MCP Status
+				</text>
+			</box>
+
+			<Show when={showMcp()}>
+				<Show
+					when={mcpServers().length > 0}
+					fallback={
+						<box marginLeft={1}>
+							<text fg={theme().textMuted}>(no MCP data)</text>
+						</box>
+					}
+				>
+					<box marginLeft={1} flexDirection="column">
+						<For each={mcpServers()}>
+							{(mcp) => (
+								<text fg={mcp.status === "connected" ? "green" : mcp.status === "error" ? "red" : theme().textMuted}>
+									{mcp.status === "connected" ? "✅" : mcp.status === "error" ? "❌" : "⏳"} {mcp.name}
+								</text>
+							)}
+						</For>
+					</box>
+				</Show>
+			</Show>
+
+			{/* ══ Session ══ */}
+			<box marginTop={0} onMouseDown={() => setShowSession((x) => !x)}>
+				<text fg={theme().text} attributes={{ bold: true }}>
+					{showSession() ? "▼" : "▶"} Session
+				</text>
+			</box>
+
+			<Show when={showSession()}>
+				<Show
+					when={sessionTokens()}
+					fallback={
+						<box marginLeft={1}>
+							<text fg={theme().textMuted}>(no session data)</text>
+						</box>
+					}
+				>
+					{(s) => (
+						<box marginLeft={1} flexDirection="column">
+							<text fg={theme().textMuted}>Messages: {s().messages}</text>
+							<text fg={theme().textMuted}>Status: {s().status}</text>
+						</box>
+					)}
+				</Show>
+			</Show>
+
+			{/* ══ Commands ══ */}
 			<box marginTop={0} onMouseDown={() => setShowCommands((x) => !x)}>
 				<text fg={theme().text} attributes={{ bold: true }}>
-					{showCommands() ? "\u25bc" : "\u25b6"} Commands
+					{showCommands() ? "▼" : "▶"} Commands
 				</text>
 				<text fg={theme().textMuted}> ({COMMANDS.length})</text>
 			</box>
@@ -155,56 +229,20 @@ function View(props: {
 									const cmdName = cmd.name.replace("/", "")
 									if (cmdApi?.trigger?.(cmdName)) return
 								} catch {}
-								// Fallback: show toast with the command
-								props.api.ui?.toast?.({ 
-									title: "Command", 
-									message: `Type ${cmd.name} in chat` 
-								})
+								props.api.ui?.toast?.({ title: "Command", message: `Type ${cmd.name} in chat` })
 							}}
 						>
-							<text
-								fg={
-									cmd.name === "/pantheon" ? theme().accent : theme().textMuted
-								}
-							>
-								{cmd.name}
-							</text>
+							<text fg={theme().textMuted}>{cmd.name}</text>
 							<text fg={theme().textMuted}> — {cmd.desc}</text>
 						</box>
 					)}
 				</For>
 			</Show>
 
-			{/* ══ Agents (collapsible) ══ */}
-			<box marginTop={0} onMouseDown={() => setShowAgents((x) => !x)}>
-				<text fg={theme().text} attributes={{ bold: true }}>
-					{showAgents() ? "\u25bc" : "\u25b6"} Agents
-				</text>
-				<text fg={theme().textMuted}> ({AGENTS.length})</text>
-			</box>
-
-			<Show when={showAgents()}>
-				<For each={AGENTS}>
-					{(agent) => (
-						<box marginLeft={1}>
-							<text
-								fg={
-									agent.tier === "premium" ? theme().accent : theme().textMuted
-								}
-							>
-								{agent.tier === "premium" ? "\u2726 " : "\u00b7 "}
-								{agent.name}
-							</text>
-							<text fg={theme().textMuted}> — {agent.role}</text>
-						</box>
-					)}
-				</For>
-			</Show>
-
-			{/* ══ Config (collapsible) ══ */}
+			{/* ══ Config ══ */}
 			<box marginTop={0} onMouseDown={() => setShowConfig((x) => !x)}>
 				<text fg={theme().text} attributes={{ bold: true }}>
-					{showConfig() ? "\u25bc" : "\u25b6"} Config
+					{showConfig() ? "▼" : "▶"} Config
 				</text>
 			</box>
 
@@ -219,40 +257,9 @@ function View(props: {
 				>
 					{(cfg) => (
 						<box marginLeft={1} flexDirection="column">
-							<text fg={theme().textMuted}>
-								Plugins:{" "}
-								{cfg().plugins.length > 0 ? cfg().plugins.join(", ") : "(none)"}
-							</text>
-							<text fg={theme().textMuted}>
-								MCP servers configured: {cfg().mcpCount}
-							</text>
-							<text fg={theme().textMuted}>
-								Auto-compaction: {cfg().autoCompaction ? "ON" : "OFF"}
-							</text>
-						</box>
-					)}
-				</Show>
-			</Show>
-
-			{/* ══ Memory (collapsible) ══ */}
-			<box marginTop={0} onMouseDown={() => setShowMemory((x) => !x)}>
-				<text fg={theme().text} attributes={{ bold: true }}>
-					{showMemory() ? "\u25bc" : "\u25b6"} Memory
-				</text>
-			</box>
-
-			<Show when={showMemory()}>
-				<Show
-					when={memoryInfo()}
-					fallback={
-						<box marginLeft={1}>
-							<text fg={theme().textMuted}>(no memory data)</text>
-						</box>
-					}
-				>
-					{(mem) => (
-						<box marginLeft={1} flexDirection="column">
-							<text fg={theme().textMuted}>Entries: {mem().entries}</text>
+							<text fg={theme().textMuted}>Plugins: {cfg().plugins.length > 0 ? cfg().plugins.join(", ") : "(none)"}</text>
+							<text fg={theme().textMuted}>MCP configured: {cfg().mcpCount}</text>
+							<text fg={theme().textMuted}>Auto-compaction: {cfg().autoCompaction ? "ON" : "OFF"}</text>
 						</box>
 					)}
 				</Show>
@@ -280,7 +287,7 @@ const tui: TuiPlugin = async (api, _options, _meta) => {
 	});
 };
 
-const plugin: TuiPluginModule & { id: string } = {
+const plugin: TuiPluginModule = {
 	id: "pantheon.tui",
 	tui,
 };
