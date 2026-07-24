@@ -20,7 +20,7 @@ function main() {
   console.log(`Target: ${target}${dryRun ? " (DRY RUN)" : ""}`);
 
   installOpenCode(target, dryRun, clean);
-  console.log("\n✅ Done. Run 'npx pantheon init' to verify.");
+  console.log("\n✅ Done. Run 'npx pantheon-orchestrator init' to verify.");
 }
 
 main();
