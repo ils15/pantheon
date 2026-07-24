@@ -15,7 +15,7 @@
     "start": "OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true opencode"
   },
   "bin": {
-    "pantheon": "./bin/pantheon-init.mjs"
+    "pantheon-orchestrator": "./bin/pantheon-init.mjs"
   },
   "files": [
     "src/agents/*.md",
