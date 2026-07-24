@@ -42,7 +42,8 @@
     "docs/*.md",
     "scripts/*.txt",
     "src/mcp/*.sh",
-    "src/routing.yml"
+    "src/routing.yml",
+    "src/mcp/requirements*"
   ],
   "dependencies": {
     "js-yaml": "^4.3.0"
