@@ -74,12 +74,11 @@ NENHUMA das acima? -> E descoberta? @apollo. E planejamento? @athena.
 Ainda assim sem match? -> Pergunte ao usuario qual agente usar. NUNCA use general.
 ```
 
-## Background Delegation (Nativo OpenCode)
+## Background Delegation (PADRAO: background=true)
 
 **Requer:** `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true` (env var)
 
-### Mecanismo
-Com o env var ativo, o `task()` ganha o parametro `background` e surge o tool `task_status()`:
+**REGRA: Todo dispatch usa `background=true` por padrao.** So use sincrono quando NAO houver alternativa.
 
 ```
 task(background=true, subagent_type="apollo", prompt="...")
@@ -89,39 +88,34 @@ task_status(task_id="ses_xxx", wait=true)
   -> bloqueia ate completar: { state: "completed", task_result: "..." }
 ```
 
-### Workflow Paralelo (limite: 2 concorrentes)
+### Background (sempre usar)
+- **Apollo, Hermes, Aphrodite, Demeter, Hephaestus, Prometheus**
+- Dispare em waves paralelas: ate 5 concorrentes
+- Recolha com `task_status(wait=true)` quando todos estiverem prontos
 
-Tasks INDEPENDENTES podem rodar em paralelo. Tasks DEPENDENTES aguardam.
+### Sincrono (excecoes — so quando necessario)
+- **Athena, Themis** -> precisam de contexto completo da sessao
+- **Talos** -> hotfix é rapido, overhead de background nao compensa
+- **Iris, Nyx, Mnemosyne, Gaia** -> operacoes curtas
+
+### Workflow Padrao (SEMPRE background)
 
 ```
-# Wave 1 — ate 2 tasks paralelas
-task(background=true, apollo, "investigar X")     -> task_1 (imediato)
-task(background=true, demeter, "esquema Y")       -> task_2 (imediato)
+Wave 1 — ate 5 em paralelo
+  task(background=true, apollo, "discovery")
+  task(background=true, demeter, "schema")
+  → task_status(apollo_id, wait=true)
+  → task_status(demeter_id, wait=true)
 
-# Reconciliar
-task_status(task_1, wait=true)  -> resultado
-task_status(task_2, wait=true)  -> resultado
+Wave 2 — ate 5 em paralelo (depende da Wave 1)
+  task(background=true, hermes, "backend")
+  task(background=true, aphrodite, "frontend")
+  → task_status(hermes_id, wait=true)
+  → task_status(aphrodite_id, wait=true)
 
-# Wave 2 — depende dos resultados da Wave 1
-task(background=true, hermes, "implementar Z")    -> task_3 (imediato)
-task_status(task_3, wait=true)  -> resultado
-
-# Wave N — revisao
-task(themis, "revisar tudo")    -> sincrono (Themis NUNCA em background)
+Wave N — revisao (SEMPRE sincrono)
+  task(themis, "review")
 ```
-
-### Regras
-- **Apollo, Hermes, Aphrodite, Demeter, Hephaestus, Prometheus** -> podem ser background
-- **Athena, Themis** -> NUNCA em background (planejamento/revisao precisam de contexto completo)
-- **Talos** -> sempre sincrono (hotfix é rapido, overhead de background nao compensa)
-- **Iris, Nyx, Mnemosyne, Gaia** -> sincrono (operacoes curtas ou que precisam de contexto)
-- Maximo 5 tasks concorrentes. Se tiver 6+ tasks independentes, faca em lotes de 5.
-
-## DAG Waves
-
-**Wave 1:** demeter schema + apollo discovery (paralelo, background)
-**Wave 2:** hermes backend + aphrodite frontend (paralelo, background)
-**Wave N:** themis review (sincrono)
 
 Wave announcement obrigatorio.
 
