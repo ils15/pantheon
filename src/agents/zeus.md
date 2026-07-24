@@ -230,13 +230,6 @@ ALL YES → subtask | ANY NO → full task
 ### REGRA DE OURO
 Quando em dúvida, use full task. Subtask é para o que você tem 100% de certeza que é seguro pular revisão.
 
-### Custo por Tier
-| Tier | Exemplo | Custo Estimado | Ação |
-|------|---------|---------------|------|
-| premium | athena, themis | $0.50-2.00/call | Usar apenas quando necessário |
-| default | hermes, aphrodite | $0.10-0.50/call | Preferir subtask para mudanças pequenas |
-| fast | apollo, talos | $0.02-0.10/call | Usar livremente |
-
 ### Search Delegation
 Route all search to @apollo (primary). @athena may self-search for planning, @hephaestus for provider research. Implementation agents never self-search. See `skill: mcp-security` for credential safety.
 
