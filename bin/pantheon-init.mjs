@@ -9,51 +9,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const CFG = path.join(homedir(), '.config', 'opencode');
 
-const FILES = {
-  agents: { src: 'src/agents', dst: 'agents', list: [
-    'zeus','athena','apollo','hermes','aphrodite','demeter',
-    'themis','prometheus','hephaestus','nyx','gaia','iris',
-    'mnemosyne','talos'
-  ]},
-  skills: { src: 'src/skills', dst: 'skills' },
-  instructions: { src: 'src/instructions', dst: 'instructions' },
-  commands: { src: 'commands', dst: 'commands' },
-  tui: { src: 'src/plugins/tui', dst: 'plugins/pantheon-tui' },
-  mcp: { src: 'src/mcp', dst: 'scripts' },
-};
-
-function copy(srcRel, dstRel, isDryRun) {
-  const src = path.resolve(ROOT, srcRel);
-  const dst = path.resolve(CFG, dstRel);
-  if (isDryRun) return `[DRY-RUN] Would copy: ${srcRel} → ${dstRel}`;
-
-  fs.mkdirSync(path.dirname(dst), { recursive: true });
-  try {
-    fs.cpSync(src, dst, { recursive: true, force: true });
-    return `✅ ${srcRel} → ${dstRel}`;
-  } catch (e) {
-    return `⚠️  ${srcRel}: ${e.message}`;
-  }
-}
-
-function copyDir(srcRel, dstRel, isDryRun) {
-  const src = path.resolve(ROOT, srcRel);
-  const dst = path.resolve(CFG, dstRel);
-  if (isDryRun) return `[DRY-RUN] Would copy directory: ${srcRel} → ${dstRel}`;
-
-  fs.mkdirSync(dst, { recursive: true });
-  try {
-    for (const item of fs.readdirSync(src)) {
-      const s = path.join(src, item);
-      const d = path.join(dst, item);
-      fs.cpSync(s, d, { recursive: true, force: true });
-    }
-    return `✅ ${srcRel}/* → ${dstRel}/`;
-  } catch (e) {
-    return `⚠️  ${srcRel}: ${e.message}`;
-  }
-}
-
 function printUsage() {
   console.log('Pantheon Orchestrator — Multi-agent orchestration platform');
   console.log('');

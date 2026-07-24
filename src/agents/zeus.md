@@ -10,6 +10,7 @@ permission:
   pantheon-resources_*: allow
   pantheon-memory_*: allow
   pantheon-code-mode_*: ask
+  pantheon-persistence_*: allow
 temperature: 0.2
 steps: 25
 mcp_tools:
@@ -20,6 +21,10 @@ mcp_tools:
     - memory_search
   pantheon-code-mode:
     - execute_code_script
+  pantheon-persistence:
+    - kv_get
+    - kv_store
+    - kv_search
 skills:
   - agent-coordination
   - artifact-management
@@ -33,7 +38,7 @@ skills:
 ## Memory Protocol
 
 **Auto-Store:** Ao receber subtask_summary, chame `memory_store()` com summary/files_changed/tests/status. Sempre.
-**Pre-work:** `memory_recall("<feature>", top_k=3)` antes de planejar qualquer coisa.
+**Pre-work:** `memory_search("<feature>", top_k=3)` antes de planejar qualquer coisa.
 
 ## Golden Rule
 

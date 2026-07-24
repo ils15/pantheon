@@ -55,7 +55,10 @@ export function setupVenv(target, { dryRun = false, skipInstall = false } = {}) 
     if (existsSync(coreReq)) {
       console.log('  Installing core MCP dependencies...')
       if (!dryRun) {
-        spawnSync(pip, ['install', '-r', coreReq], { stdio: 'inherit' })
+        const r = spawnSync(pip, ['install', '-r', coreReq], { stdio: 'inherit' })
+        if (r.status !== 0) {
+          throw new Error('Failed to install core MCP dependencies')
+        }
       }
     }
 

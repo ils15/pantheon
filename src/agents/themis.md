@@ -38,10 +38,8 @@ temperature: 0.1
 steps: 20
 skills:
 - code-review-checklist
-- quality-gate
-- security-audit-pro
+- security-hardening
 - tdd-with-agents
-- mcp-security
 mcp_tools:
   pantheon-resources: all
   pantheon-memory: [memory_search]
@@ -144,7 +142,7 @@ BLOCK_INTENT: IntentGate falhou — codigo nao resolve o requisito
     {"layer": 2, "severity": "low|medium|high", "description": "..."}
   ],
   "intent_match": true/false,
-  "coverage_percent": 85,
-  "recommendation": "approve | changes-requested | blocked"
+  "coverage_percent": null,  # null quando nao verificado
+  "recommendation": "approve | changes-requested | blocked | intent-mismatch"
 }
 ```

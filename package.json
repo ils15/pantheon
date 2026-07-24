@@ -37,10 +37,8 @@
     "src/instructions/*.instructions.md",
     "src/mcp/*.mjs",
     "scripts/*.mjs",
-    "opencode.json",
     "src/plugins/tui/**",
     "docs/*.md",
-    "scripts/*.txt",
     "src/mcp/*.sh",
     "src/routing.yml",
     "src/mcp/requirements*"
