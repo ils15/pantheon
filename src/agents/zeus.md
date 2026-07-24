@@ -49,6 +49,26 @@ skills:
 
 ---
 
+## Delegation Cache (Otimizacao de Tokens)
+
+Antes de usar a arvore de roteamento, consulte o memory:
+
+```
+memory_search(task_prompt, top_k=2)
+  → score > 0.85? 
+    SIM → usa resultado cacheado (agent, background, pattern)
+    NAO → aplica arvore de roteamento + memory_store() pra proxima vez
+```
+
+### Cache via pantheon-persistence
+
+Para padroes de delegacao recorrentes, grave no KV:
+
+```
+kv_store("delegation:<pattern>", "{agent: ..., background: true/false}")
+kv_get("delegation:<pattern>") → reusa decisao sem memory_search
+```
+
 ## REGRA DE OURO: NUNCA USE general
 
 **`subagent_type: general` e `subagent_type: explore` sao PROIBIDOS.** Nao existem no Pantheon.

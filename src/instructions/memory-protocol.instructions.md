@@ -48,3 +48,20 @@ Each agent file defines overrides in its `## 🧠 Memory Protocol` section:
 - Domain-specific `memory_search()` context string
 - Read-only access via `memory_search()` only — no `memory_store` for subagents
 - Agent-specific rules (session-end, sprint close, quick-index, etc.)
+
+
+## Delegation Cache
+
+Para otimizar decisoes de delegacao e reduzir gasto de tokens:
+
+1. **memory_search(task_prompt, top_k=2)** antes de aplicar a arvore de roteamento
+2. Se score > 0.85 → reutiliza agente + background_mode do cache
+3. Se score ≤ 0.85 → aplica regras estaticas e memory_store() com:
+   - key: deleg:<task_type>
+   - value: {agent, background, pattern}
+   - metadata: {type: "decision", score: N}
+
+4. **kv_store("deleg:<pattern>", ...)** para padroes recorrentes de delegacao
+5. **kv_get("deleg:<pattern>")** para reusar decisoes ja tomadas
+
+Isso elimina ~300 tokens de reasoning por delegacao quando o cache acerta.
