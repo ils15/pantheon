@@ -552,7 +552,7 @@ export function installOpenCode(
       config.mcp['pantheon-resources'] = {
         type: 'local',
         cwd: runtimeTarget,
-        command: [pythonPath, 'scripts/mcp_resources_server.py'],
+        command: [memoryPython, 'scripts/mcp_resources_server.py'],
         enabled: true,
       }
     }
@@ -560,7 +560,7 @@ export function installOpenCode(
       config.mcp['pantheon-code-mode'] = {
         type: 'local',
         cwd: runtimeTarget,
-        command: [pythonPath, 'scripts/code_mode_server.py'],
+        command: [memoryPython, 'scripts/code_mode_server.py'],
         enabled: true,
       }
     }
