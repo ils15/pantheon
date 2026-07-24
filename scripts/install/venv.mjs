@@ -45,23 +45,33 @@ export function setupVenv(target, { dryRun = false, skipInstall = false } = {}) 
     console.log('  ⏭️  .venv already exists')
   }
 
-  // Step 2: Install dependencies
-  if (!skipInstall && existsSync(requirementsFile)) {
+  // Step 2: Install core dependencies first (essential), then full
+  if (!skipInstall) {
     const pip = join(venvPath, 'bin', 'pip')
-    console.log('  Installing MCP dependencies...')
-    if (!dryRun) {
-      const result = spawnSync(pip, ['install', '-r', requirementsFile], {
-        stdio: 'inherit',
-      })
-      if (result.status !== 0) {
-        throw new Error('Failed to install MCP dependencies')
+    const coreReq = join(ROOT, 'src', 'mcp', 'requirements-mcp-core.txt')
+    const fullReq = join(ROOT, 'src', 'mcp', 'requirements-mcp.txt')
+
+    // Core first (mcp, fastmcp, sqlite-vec, fastembed — always needed)
+    if (existsSync(coreReq)) {
+      console.log('  Installing core MCP dependencies...')
+      if (!dryRun) {
+        spawnSync(pip, ['install', '-r', coreReq], { stdio: 'inherit' })
+      }
+    }
+
+    // Full (chromadb, sentence-transformers — optional, can fail)
+    if (existsSync(fullReq)) {
+      console.log('  Installing optional MCP dependencies...')
+      if (!dryRun) {
+        const r = spawnSync(pip, ['install', '-r', fullReq], { stdio: 'inherit' })
+        if (r.status !== 0) {
+          console.log('  ⚠️  Some optional packages failed (non-essential)')
+        }
       }
     }
     console.log('  ✅ Dependencies installed')
-  } else if (skipInstall) {
-    console.log('  ⏭️  Dependency install skipped (--skip-install)')
   } else {
-    console.log(`  ⏭️  No requirements file at ${requirementsFile}`)
+    console.log('  ⏭️  Dependency install skipped (--skip-install)')
   }
 
   return { venvPath, python: pythonBin }
