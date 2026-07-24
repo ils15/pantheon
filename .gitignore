@@ -131,3 +131,4 @@ venv/
 
 # Session save artifacts
 .pantheon/memory-bank/.tmp/
+*.tgz
