@@ -2,6 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { homedir } from 'os';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '..');
@@ -12,58 +13,77 @@ const AGENTS = [
   'mnemosyne','talos'
 ];
 
+function printUsage() {
+  console.log('Pantheon v5.0 — OpenCode-native multi-agent orchestration');
+  console.log('');
+  console.log('Usage:');
+  console.log('  npx pantheon init              # Install agents globally (~/.config/opencode/agents/)');
+  console.log('  npx pantheon init --project    # Install agents locally (.opencode/agents/)');
+  console.log('  npx pantheon init --dry-run    # Preview without writing');
+  console.log('  npx pantheon --help            # Show this help');
+}
+
 async function main() {
   const args = process.argv.slice(2);
   const command = args[0];
 
-  if (command === 'init') {
-    await initProject();
+  if (command === '--help' || command === '-h' || args.includes('--help')) {
+    printUsage();
+    process.exit(0);
+  }
+
+  if (!command || command === 'init') {
+    const isProject = args.includes('--project') || args.includes('-p');
+    const isDryRun = args.includes('--dry-run');
+    await installAgents({ isProject, isDryRun });
   } else {
-    console.log('Pantheon v5.0 — Multi-agent orchestration platform');
-    console.log('Usage: npx pantheon init   # Initialize local project symlinks');
+    printUsage();
+    process.exit(1);
   }
 }
 
-async function initProject() {
-  const targetDir = path.join(process.cwd(), '.opencode', 'agents');
+async function installAgents({ isProject, isDryRun }) {
   const sourceDir = path.resolve(repoRoot, 'src', 'agents');
 
-  // Check if source agents exist
+  // Determine target
+  const targetDir = isProject
+    ? path.join(process.cwd(), '.opencode', 'agents')
+    : path.join(homedir(), '.config', 'opencode', 'agents');
+
+  // Check source agents exist
   for (const agent of AGENTS) {
     const srcFile = path.join(sourceDir, `${agent}.md`);
     if (!fs.existsSync(srcFile)) {
-      console.error(`❌ Source agent not found: ${srcFile}`);
+      console.error(`Source agent not found: ${srcFile}`);
       process.exit(1);
     }
   }
 
-  // Create target directory
+  const mode = isProject ? 'project-local' : 'global';
+  if (isDryRun) {
+    console.log(`[DRY-RUN] Would install ${AGENTS.length} agents to ${targetDir} (${mode})`);
+    return;
+  }
+
   fs.mkdirSync(targetDir, { recursive: true });
 
-  // Create symlinks
   let count = 0;
   for (const agent of AGENTS) {
     const src = path.join(sourceDir, `${agent}.md`);
     const dst = path.join(targetDir, `${agent}.md`);
 
     try {
-      // Remove existing if any
-      if (fs.existsSync(dst)) {
-        fs.unlinkSync(dst);
-      }
-      // Create relative symlink
-      const relative = path.relative(path.dirname(dst), src);
-      fs.symlinkSync(relative, dst);
+      fs.copyFileSync(src, dst);
       count++;
     } catch (err) {
-      console.error(`⚠️  Failed to link ${agent}: ${err.message}`);
+      console.error(`Failed to copy ${agent}: ${err.message}`);
     }
   }
 
-  console.log(`✅ Pantheon initialized — ${count} agent symlinks created in .opencode/agents/`);
+  console.log(`Pantheon initialized — ${count} agent files copied to ${targetDir} (${mode})`);
 }
 
 main().catch(err => {
-  console.error('❌ Error:', err.message);
+  console.error('Error:', err.message);
   process.exit(1);
 });

@@ -21,7 +21,7 @@ Add an MCP server to your platform config. All examples below use a fictional `m
 }
 ```
 
-**Claude Code** (`.mcp.json`):
+**** (`.mcp.json`):
 ```json
 {
   "mcpServers": {
@@ -33,7 +33,7 @@ Add an MCP server to your platform config. All examples below use a fictional `m
 }
 ```
 
-**VS Code / Cursor** (`.vscode/mcp.json` or `.cursor/mcp.json`):
+** / ** (`.vscode/mcp.json` or `./mcp.json`):
 ```json
 {
   "servers": {
@@ -46,7 +46,7 @@ Add an MCP server to your platform config. All examples below use a fictional `m
 }
 ```
 
-**Cline** (`cline_mcp_settings.json`):
+**** (`_mcp_settings.json`):
 ```json
 {
   "mcpServers": {

@@ -1,6 +1,6 @@
 # Pantheon Documentation Index
 
-> **A multi-agent orchestration framework** — 14 specialized agents, 7 platforms, 40 skills.
+> **A multi-agent orchestration framework** — 14 specialized agents, OpenCode, 40 skills.
 
 ---
 
@@ -38,13 +38,13 @@ All agents live as **canonical `.agent.md` files** in `agents/` and are auto-gen
 
 | Platform | Format | Status | Install Method |
 |---|---|---|---|
-| **VS Code Copilot** | `.agent.md` | ✅ Active | Plugin marketplace, `/pantheon-install`, or `./sync-platform.sh copilot` |
+| ** ** | `.agent.md` | ✅ Active | Plugin marketplace, `/pantheon-install`, or `./sync-platform.sh copilot` |
 | **OpenCode** | `.md` + `opencode.json` | ✅ Active | `/pantheon-install` or `./sync-platform.sh opencode` |
-| **Claude Code** | `.md` (comma-separated tools) | ✅ Active | `node scripts/install.mjs claude` or `./sync-platform.sh claude` |
-| **Cursor** | `.mdc` rules | ✅ Active | `node scripts/install.mjs cursor` or `./sync-platform.sh cursor` |
-| **Windsurf** | `.md` (stub) | ✅ Active | `node scripts/install.mjs windsurf` or `./sync-platform.sh windsurf` |
-| **Cline** | `.md` | ✅ Active | `node scripts/install.mjs cline` or `./sync-platform.sh cline` |
-| **Continue.dev** | `.md` rules | ✅ Active | `node scripts/install.mjs continue` or `./sync-platform.sh continue` |
+| **** | `.md` (comma-separated tools) | ✅ Active | `node scripts/install.mjs claude` or `./sync-platform.sh claude` |
+| **** | `.mdc` rules | ✅ Active | `node scripts/install.mjs cursor` or `./sync-platform.sh cursor` |
+| **** | `.md` (stub) | ✅ Active | `node scripts/install.mjs windsurf` or `./sync-platform.sh windsurf` |
+| **** | `.md` | ✅ Active | `node scripts/install.mjs cline` or `./sync-platform.sh cline` |
+| **** | `.md` rules | ✅ Active | `node scripts/install.mjs continue` or `./sync-platform.sh continue` |
 
 ---
 
@@ -73,9 +73,9 @@ All agents live as **canonical `.agent.md` files** in `agents/` and are auto-gen
 Each platform has its own README with installation notes and format details:
 
 - [OpenCode](../platform/opencode/README.md)
-- [Claude Code](../platform/claude/README.md)
-- [Cursor](../platform/cursor/README.md)
-- [Windsurf](../platform/windsurf/README.md)
-- [Cline](../platform/cline/README.md) *(coming soon)*
+- [](../platform/claude/README.md)
+- [](../platform/cursor/README.md)
+- [](../platform/windsurf/README.md)
+- [](../platform/cline/README.md) *(coming soon)*
 - [Continue](../platform/continue/README.md)
 - [Template (add new platform)](../platform/_template/README.md)

@@ -7,7 +7,14 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "scripts": {},
+  "scripts": {
+    "install": "node scripts/install.mjs",
+    "install:lite": "node scripts/install.mjs --clean --components agents,skills,instructions",
+    "doctor": "node scripts/doctor.mjs",
+    "init": "npx pantheon init",
+    "opencode": "OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true opencode",
+    "start": "OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true opencode"
+  },
   "bin": {
     "pantheon": "./bin/pantheon-init.mjs"
   },

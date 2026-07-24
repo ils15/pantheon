@@ -369,7 +369,7 @@ Fallback: web/fetch → unstructured, may be stale
 ## Security Notes
 
 - **Never commit secrets** in MCP config files. Use `${VAR}` interpolation for env variables.
-- **Sandbox local MCP servers** when possible (VS Code supports `sandboxEnabled: true`).
+- **Sandbox local MCP servers** when possible ( supports `sandboxEnabled: true`).
 - **Review MCP tool permissions** before enabling. Some servers expose destructive tools.
 - **Playwright** runs headless Chromium locally — ensure it's used in a controlled environment.
 
@@ -415,11 +415,11 @@ These constraints are enforced by @themis during code review.
 - Run `opencode mcp list` to see configured servers
 - Run `opencode mcp debug <name>` to test connectivity
 
-**VS Code / Cursor:**
-- Restart after modifying `.vscode/mcp.json` or `.cursor/mcp.json`
+** / :**
+- Restart after modifying `opencode.json` or `./mcp.json`
 - Open Command Palette → `MCP: List Servers` to verify connection
 
-**Claude Code:**
+**:**
 - Config is in `.mcp.json` (project) or `~/.claude/settings.json` (global)
 - Run `claude mcp list` to verify
 - Project config takes precedence over global
@@ -431,9 +431,9 @@ These constraints are enforced by @themis during code review.
 opencode mcp list
 opencode mcp debug context7
 
-# Claude Code
+# 
 claude mcp list
 
-# VS Code
+# 
 # Command Palette → MCP: List Servers
 ```

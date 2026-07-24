@@ -29,7 +29,7 @@ import yaml from 'js-yaml'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 export const ROOT = join(__dirname, '..', '..')
-export const AGENTS_DIR = join(ROOT, 'agents')
+export const AGENTS_DIR = join(ROOT, 'src', 'agents')
 
 // ---------------------------------------------------------------------------
 // Frontmatter parsing
@@ -76,7 +76,7 @@ export function readCanonicalAgents() {
   if (!existsSync(AGENTS_DIR)) return []
 
   const files = readdirSync(AGENTS_DIR)
-    .filter((f) => f.endsWith('.agent.md'))
+    .filter((f) => f.endsWith('.agent.md') || f.endsWith('.md'))
     .sort()
 
   const agents = []

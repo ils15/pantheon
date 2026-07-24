@@ -1,0 +1,32 @@
+{
+  "name": "pantheon-tui",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Pantheon TUI sidebar plugin \u2014 agent status, commands, and system info",
+  "license": "MIT",
+  "exports": {
+    "./tui": "./dist/tui.tsx"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "mkdir -p dist && cp src/index.tsx dist/tui.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=1.14.0",
+    "@opencode-ai/sdk": ">=1.14.0",
+    "@opentui/core": ">=0.2.0",
+    "@opentui/solid": ">=0.2.0",
+    "solid-js": ">=1.9.0"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@opencode-ai/plugin": "^1.14.0",
+    "@opentui/core": "^0.2.0",
+    "@opentui/solid": "^0.2.0",
+    "solid-js": "^1.9.0"
+  }
+}

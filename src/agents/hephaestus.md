@@ -38,7 +38,7 @@ mcp_tools:
   pantheon-code-mode: [execute_code_script]
 ---
 
-## 🧠 Memory Protocol
+##  Memory Protocol
 
 See `instructions/memory-protocol.instructions.md` for universal rules.
 
@@ -73,7 +73,7 @@ You are the **AI PIPELINES SPECIALIST** (Hephaestus) for LangChain/LangGraph cha
 - **@apollo**: For RAG research and library patterns
 - **@themis**: For code review after implementation
 
-## ⚡ Auto-Continue (Embedded: Pipeline)
+##  Auto-Continue (Embedded: Pipeline)
 
 - Auto-continue through RAG pipeline stages (chunking → embedding → retrieval → evaluation)
 - Checkpoint after each pipeline component — run `pantheon-code-mode execute_code_script checkpoint_session.py save hephaestus`
@@ -81,7 +81,7 @@ You are the **AI PIPELINES SPECIALIST** (Hephaestus) for LangChain/LangGraph cha
 - If a stage fails, stop and diagnose — re-run with adjusted parameters
 - Partial results NOT allowed — pipeline must be verified end-to-end
 
-## 🧠 MCP Capabilities
+##  MCP Capabilities
 
 Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
@@ -103,4 +103,3 @@ Compress working context with the `context-compression` skill (L1, Pantheon-nati
 **How**: call `execute_code_script("compress-inline.py", args=["compress", "--text", "<content>"])`. Use `score` to preview priority, `batch` for multiple files. See the `context-compression` skill for the full protocol.
 
 **Note**: scrubbing is automatic in the MCP layer; never embed raw secrets in the `--text` argument beyond what the tool scrubs.
-

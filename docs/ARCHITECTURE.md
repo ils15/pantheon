@@ -81,7 +81,7 @@ Zeus uses explicit rules to decide whether to delegate or not:
 
 ### Problem (before v3.4.0)
 
-Each platform (OpenCode, Claude Code, Cursor, Windsurf, Cline, Continue) had its own agent
+Each platform (OpenCode, , , , , Continue) had its own agent
 format with different field capabilities, different tool naming conventions, and different
 configuration patterns. A single change required editing 6 files — and they were never quite
 identical. Bugs like `temis_delegate` (missing the "h") propagated across platforms because
@@ -225,7 +225,7 @@ Three tiers with distinct storage, loading policies, and update frequency:
 
 ```
 Tier 1: Native Memory (Facts)
-  Location:  /memories/repo/                ← auto-managed by VS Code
+  Location:  /memories/repo/                ← auto-managed by 
   Content:   Stack, test commands, directory structure, immutable truths
   Access:    ✅ Auto-loaded — zero token cost
   Updated:   Rarely (when stack changes)
@@ -241,7 +241,7 @@ Tier 2: Reference Memory (Narrative)
   Written by: Mnemosyne (on explicit request)
 
 Tier 3: Session Memory (Ephemeral)
-  Location:  /memories/session/             ← auto-managed by VS Code
+  Location:  /memories/session/             ← auto-managed by 
   Content:   Current conversation plans, work-in-progress, temporary findings
   Access:    One read per conversation session
   Updated:   Continuously within session
@@ -256,7 +256,7 @@ Knowledge is categorized to prevent duplication:
 |----------|-------|-------------|---------|
 | **Facts** | `/memories/repo/` | ✅ Yes | "Project uses FastAPI + SQLAlchemy" |
 | **Patterns** | `skills/` | ❌ On demand | "How to create a new API endpoint with TDD" |
-| **Conventions** | `.github/copilot-instructions.md` | ✅ Yes | "Use snake_case for Python" |
+| **Conventions** | `.github/-instructions.md` | ✅ Yes | "Use snake_case for Python" |
 
 **Rule:** If content belongs in a different category, **move it — don't duplicate**.
 
@@ -266,7 +266,7 @@ Knowledge is categorized to prevent duplication:
 
 ### Problem
 
-Seven platforms (VS Code, OpenCode, Claude Code, Cursor, Windsurf, Cline, Continue),
+Seven platforms (, OpenCode, , , , , Continue),
 each with different agent file formats, tool naming conventions, and configuration
 patterns. A design without abstraction would require maintaining 7 parallel copies of
 every agent.
@@ -303,7 +303,7 @@ format:
 
   // Body text filters (omit sections that don't apply)
   "bodyFilters": [
-    { "pattern": "Copilot Workflow", "action": "omit-section" }
+    { "pattern": " Workflow", "action": "omit-section" }
   ],
 
   // Skill deployment configuration
@@ -322,7 +322,7 @@ format:
 | `frontmatter.exclude` | Fields to strip | `["handoffs", "hooks"]` |
 | `frontmatter.transform` | Field-level transformations | `{tools: {strategy: "map"}}` |
 | `toolMap` | Canonical → platform tool mapping | `"execute/runInTerminal": "bash"` |
-| `bodyFilters` | Section-level body text filtering | Omit "Copilot Workflow" section |
+| `bodyFilters` | Section-level body text filtering | Omit " Workflow" section |
 | `skillsOutputDir` | Where to deploy skill files | `"skills"` |
 | `deploySkills` | Whether to sync skills | `true` / `false` |
 | `handoffStrategy` | How to handle handoff YAML | `"exclude"` / `"include"` / `"body-only"` |
@@ -330,7 +330,7 @@ format:
 
 ### Platform capability matrix
 
-| Feature | VS Code | OpenCode | Claude Code | Cursor | Windsurf | Cline | Continue |
+| Feature |  | OpenCode |  |  |  |  | Continue |
 |---------|:-------:|:--------:|:-----------:|:-----:|:--------:|:-----:|:--------:|
 | Parallel subagents | ✅ | ✅ | ⚠️ | ✅ | ❌ | ⚠️ | ⚠️ |
 | Handoff UI | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |

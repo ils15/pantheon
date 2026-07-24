@@ -1,4 +1,36 @@
 # Changelog
+## [5.0.0] - 2026-07-24
+
+### Major Changes
+- **OpenCode-only**: Removed all multi-platform support (Claude Code, Cursor, Windsurf, Cline, Continue.dev, VS Code Copilot). Pantheon v5.0 is exclusively for OpenCode.
+- **Global installation**: `npx pantheon init` installs agents globally to `~/.config/opencode/agents/`. Optional `--project` flag for project-local install.
+- **Background subagents**: Native OpenCode `task(background=true)` + `task_status()` delegation. Max 5 concurrent subagents. Requires `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true`.
+- **Shared instructions**: Behavioral rules moved to `.instructions.md` files loaded via `instructions/*.instructions.md`. Eliminated duplicate rules between agents and instructions.
+- **TUI sidebar plugin**: Custom sidebar showing Pantheon version, sessions, commands, agents, config, and memory stats.
+- **Agent routing optimized**: Zeus routing decision tree prohibits `general`/`explore` subagent types. Each domain maps to a specialist.
+
+### Token Optimization
+- Instructions tokens reduced 10.3k → 7.5k (-18%)
+- Zeus.md reduced 431 → 144 lines
+- Skills reduced to 14 (from 40), with merged content
+- `skills-lock.json` regenerated (40 → 14 entries)
+
+### Removed
+- 6 platform-specific installers (claude, cline, continue, copilot, cursor, windsurf)
+- 6 platform-specific docs files
+- Legacy scripts: `pantheon-install.mjs`, `pantheon-update.mjs`
+- `platform/opencode/agents/` (agents now in `src/agents/`)
+- `auto-continue-template.md`
+- `checkpoint-standards.instructions.md`
+
+### Commands
+- Updated command list: 14 → 11 commands
+- Added: `/pantheon-bg`, `/pantheon-doc`
+- Removed: install, update, cancel, sketch, consolidate
+
+[5.0.0]: https://github.com/ils15/pantheon/compare/v4.0.0...v5.0.0
+
+
 
 All notable changes to this project will be documented in this file.
 

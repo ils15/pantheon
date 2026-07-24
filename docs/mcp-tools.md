@@ -126,12 +126,12 @@ Each platform exposes MCP tools with different naming. The same tool `memory_rec
 | Platform | Naming Pattern | Example for `memory_recall` |
 |----------|---------------|-----------------------------|
 | **OpenCode** | `{server}_{tool}` | `pantheon-memory_memory_recall` |
-| **Claude Code** | `mcp__{server}__{tool}` | `mcp__pantheon-memory__memory_recall` |
-| **Cline** | `<use_mcp_tool>` XML | `<use_mcp_tool><server_name>pantheon-memory</server_name><tool_name>memory_recall</tool_name></use_mcp_tool>` |
-| **Cursor** | Original name | `memory_recall` (injected via schema) |
-| **Windsurf** | Original name | `memory_recall` (injected via schema) |
+| **** | `mcp__{server}__{tool}` | `mcp__pantheon-memory__memory_recall` |
+| **** | `<use_mcp_tool>` XML | `<use_mcp_tool><server_name>pantheon-memory</server_name><tool_name>memory_recall</tool_name></use_mcp_tool>` |
+| **** | Original name | `memory_recall` (injected via schema) |
+| **** | Original name | `memory_recall` (injected via schema) |
 | **Continue** | Original name | `memory_recall` (injected via schema) |
-| **VS Code Copilot** | Original name | `memory_recall` (injected via schema) |
+| ** ** | Original name | `memory_recall` (injected via schema) |
 
 ---
 

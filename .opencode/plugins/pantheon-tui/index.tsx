@@ -120,7 +120,7 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
     <box flexDirection="column" width="100%">
       {/* ══ Header ══ */}
       <text fg={theme().accent} attributes={{ bold: true }}>
-        ⚡ Pantheon · {props.version}
+        {`⚡ Pantheon · ${props.version}`}
       </text>
 
       {/* ══ Branch (conditional) ══ */}
@@ -135,9 +135,9 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
       {/* ══ Commands (collapsible) ══ */}
       <box marginTop={0} onMouseDown={() => setShowCommands((x) => !x)}>
         <text fg={theme().text} attributes={{ bold: true }}>
-          {showCommands() ? '\u25bc' : '\u25b6'} Commands
+          {`${showCommands() ? '\u25bc' : '\u25b6'} Commands`}
         </text>
-        <text fg={theme().textMuted}> ({COMMANDS.length})</text>
+        <text fg={theme().textMuted}>{` (${String(COMMANDS.length)})`}</text>
       </box>
 
       <Show when={showCommands()}>
@@ -162,7 +162,7 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
               <text fg={cmd.name === '/pantheon' ? theme().accent : theme().textMuted}>
                 {cmd.name}
               </text>
-              <text fg={theme().textMuted}> — {cmd.desc}</text>
+                <text fg={theme().textMuted}>{` — ${cmd.desc}`}</text>
             </box>
           )}
         </For>
@@ -171,9 +171,9 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
       {/* ══ Agents (collapsible) ══ */}
       <box marginTop={0} onMouseDown={() => setShowAgents((x) => !x)}>
         <text fg={theme().text} attributes={{ bold: true }}>
-          {showAgents() ? '\u25bc' : '\u25b6'} Agents
+          {`${showAgents() ? '\u25bc' : '\u25b6'} Agents`}
         </text>
-        <text fg={theme().textMuted}> ({AGENTS.length})</text>
+        <text fg={theme().textMuted}>{` (${String(AGENTS.length)})`}</text>
       </box>
 
       <Show when={showAgents()}>
@@ -181,10 +181,9 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
           {(agent) => (
             <box marginLeft={1}>
               <text fg={agent.tier === 'premium' ? theme().accent : theme().textMuted}>
-                {agent.tier === 'premium' ? '\u2726 ' : '\u00b7 '}
-                {agent.name}
+                {`${agent.tier === 'premium' ? '\u2726 ' : '\u00b7 '}${agent.name}`}
               </text>
-              <text fg={theme().textMuted}> — {agent.role}</text>
+              <text fg={theme().textMuted}>{` — ${agent.role}`}</text>
             </box>
           )}
         </For>
@@ -193,7 +192,7 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
       {/* ══ Config (collapsible) ══ */}
       <box marginTop={0} onMouseDown={() => setShowConfig((x) => !x)}>
         <text fg={theme().text} attributes={{ bold: true }}>
-          {showConfig() ? '\u25bc' : '\u25b6'} Config
+          {`${showConfig() ? '\u25bc' : '\u25b6'} Config`}
         </text>
       </box>
 
@@ -209,11 +208,11 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
           {(cfg) => (
             <box marginLeft={1} flexDirection="column">
               <text fg={theme().textMuted}>
-                Plugins: {cfg().plugins.length > 0 ? cfg().plugins.join(', ') : '(none)'}
+                {`Plugins: ${cfg().plugins.length > 0 ? cfg().plugins.join(', ') : '(none)'}`}
               </text>
-              <text fg={theme().textMuted}>MCP servers configured: {cfg().mcpCount}</text>
+              <text fg={theme().textMuted}>{`MCP servers configured: ${String(cfg().mcpCount)}`}</text>
               <text fg={theme().textMuted}>
-                Auto-compaction: {cfg().autoCompaction ? 'ON' : 'OFF'}
+                {`Auto-compaction: ${cfg().autoCompaction ? 'ON' : 'OFF'}`}
               </text>
             </box>
           )}
@@ -223,7 +222,7 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
       {/* ══ Memory (collapsible) ══ */}
       <box marginTop={0} onMouseDown={() => setShowMemory((x) => !x)}>
         <text fg={theme().text} attributes={{ bold: true }}>
-          {showMemory() ? '\u25bc' : '\u25b6'} Memory
+          {`${showMemory() ? '\u25bc' : '\u25b6'} Memory`}
         </text>
       </box>
 
@@ -238,7 +237,7 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
         >
           {(mem) => (
             <box marginLeft={1} flexDirection="column">
-              <text fg={theme().textMuted}>Entries: {mem().entries}</text>
+              <text fg={theme().textMuted}>{`Entries: ${String(mem().entries)}`}</text>
             </box>
           )}
         </Show>

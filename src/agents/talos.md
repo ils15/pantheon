@@ -33,7 +33,7 @@ mcp_tools:
   pantheon-code-mode: [execute_code_script]
 ---
 
-## 🧠 Memory Protocol
+##  Memory Protocol
 
 See `instructions/memory-protocol.instructions.md` for universal rules.
 
@@ -69,7 +69,7 @@ Escalate to @zeus if:
 - Return subtask_summary format
 - If complexity exceeds threshold, escalate immediately
 
-## ⚡ Auto-Continue (Embedded: Hotfix)
+##  Auto-Continue (Embedded: Hotfix)
 
 - Auto-continue through quick fix cycles (identify → fix → verify)
 - No checkpoint needed (single-file fixes, low complexity)
@@ -77,7 +77,7 @@ Escalate to @zeus if:
 - If fix breaks existing tests, stop immediately and escalate
 - No partial results — either fix is applied or escalate
 
-## 🧠 MCP Capabilities
+##  MCP Capabilities
 
 Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-tools.md) for the full tool registry.
 
@@ -89,3 +89,5 @@ Pantheon provides 3 native MCP servers. See [`docs/mcp-tools.md`](../docs/mcp-to
 
 Before a hotfix, `memory_recall()` for past quick-fix patterns. After fix, esculate to Zeus if persistence is needed. You are read-only for memory — Mnemosyne stores decisions.
 
+## Skills
+`code-review-checklist`, `git-workflow-and-versioning`

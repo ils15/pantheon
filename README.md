@@ -5,7 +5,7 @@
 <h1 align="center">Pantheon</h1>
 
 <p align="center">
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v4.0.0-blue" alt="Version"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-v5.0.0-blue" alt="Version"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-14-purple" alt="Agents"></a>
@@ -24,7 +24,7 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 
 ---
 
-## 📋 v4.0 Changelog
+## 📋 v5.0 Changelog
 
 | Sprint | Feature |
 |--------|--------|
@@ -189,33 +189,9 @@ flowchart TD
 
 ---
 
-## Platform Support
+## Platform
 
-Pantheon runs on 7 platforms. Here is how each supports the framework's key features:
-
-| Feature | VS Code | OpenCode | Claude Code | Cursor | Windsurf | Cline | Continue.dev |
-|---------|:-------:|:--------:|:-----------:|:-----:|:--------:|:-----:|:------------:|
-| Custom Agents | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Skills System | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Parallel Execution | ✅ | ✅ | ⚠️ | ✅ | ❌ | ⚠️ | ⚠️ |
-| Handoff UI | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| MCP Servers | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ |
-| Agent Hooks | ✅ | ⚠️ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Status | ✅ Active | ✅ Active | ✅ Active | ✅ Active | ✅ Active | ✅ Active | ✅ Active |
-
-- **VS Code**: Best-in-class. Full subagent orchestration, handoff UI, lifecycle hooks.
-- **OpenCode**: Near-complete. Permission blocks via `opencode.json`, tool mapping adapter.
-- **Claude Code**: CLI-native. Agent handoff workflow, skills via markdown rules.
-- **Cursor**: `.mdc` rules with `alwaysApply` and `globs` for Agent mode.
-- **Windsurf**: Active. Markdown-based agent definitions, workflow support via `.windsurf/workflows/`.
-- **Cline**: Agent-mode focused. Custom agent definitions, skills via instruction files.
-- **Continue.dev**: IDE-agnostic. Rule-based agent configuration, skills via markdown.
-
-> See [docs/platforms/](docs/platforms/) for setup guides and limitations.
-
----
-
-## 5-Minute Quick Start
+- **OpenCode** — Pantheon v5.0 is OpenCode-only. [Installation guide](docs/INSTALLATION.md).
 
 ```bash
 # 1. Clone the repo
@@ -431,7 +407,7 @@ graph TB
 
 ## 🧠 Level 3 Vector Memory (v4.0)
 
-Pantheon v4.0.0 introduces a persistent two-tier memory system with semantic retrieval:
+Pantheon v5.0.0 introduces a persistent two-tier memory system with semantic retrieval:
 
 ### Tier 1 — Auto-Indexed Memory (`/memories/repo/`)
 Agent memory is automatically indexed at zero token cost. Every agent writes atomic facts on discovery:
@@ -535,7 +511,7 @@ See `platform/forge.json` for full preset definitions and `docs/platforms/` for 
 
 ### 1. Choose your platform
 
-Pantheon supports 7 platforms. Pick the one that matches your editor:
+Pantheon supports OpenCode. Pick the one that matches your editor:
 
 - **VS Code Copilot** — native `.agent.md` files, full subagent orchestration, lifecycle hooks
 - **OpenCode** — config-based agent loading, permission blocks, tool mapping adapter
@@ -958,7 +934,7 @@ You need an existing subscription for your AI coding editor (Copilot, Claude Pro
 Pro, or OpenCode). Pantheon itself is free and open-source (MIT).
 
 **Can I use this outside VS Code?**
-Yes — 7 platforms supported (VS Code, OpenCode, Claude Code, Cursor, Windsurf, Cline, Continue.dev). See
+Yes — OpenCode supported (VS Code, OpenCode, Claude Code, Cursor, Windsurf, Cline, Continue.dev). See
 [Platform Setup Guides](docs/platforms/).
 
 **How are platform configs synced?**
@@ -1009,7 +985,7 @@ Pantheon draws from the broader multi-agent landscape while diverging in key way
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to extend the framework |
 | [CHANGELOG.md](CHANGELOG.md) | Release history |
 | [docs/INSTALLATION.md](docs/INSTALLATION.md) | Generic installation guide |
-| [docs/platforms/](docs/platforms/) | Platform-specific setup guides (7 platforms) |
+| [docs/platforms/](docs/platforms/) | Platform-specific setup guides (OpenCode) |
 | [docs/platforms/vscode.md](docs/platforms/vscode.md) | VS Code setup |
 | [docs/platforms/opencode.md](docs/platforms/opencode.md) | OpenCode setup |
 | [docs/platforms/claude.md](docs/platforms/claude.md) | Claude Code setup |

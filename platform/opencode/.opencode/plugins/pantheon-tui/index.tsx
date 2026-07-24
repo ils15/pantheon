@@ -3,25 +3,18 @@
 /** @jsxImportSource @opentui/solid */
 
 import type { TuiPlugin, TuiPluginApi, TuiPluginModule } from '@opencode-ai/plugin/tui'
-import { createMemo, createSignal, For, Show } from 'solid-js'
-
-// ── Static Data ──────────────────────────────────────────────────────────────
+import { createMemo, createSignal, createResource, For, Show } from 'solid-js'
 
 async function readPantheonVersion(api: TuiPluginApi): Promise<string> {
-  // Try 1: package.json via worktree absolute path
   try {
     const worktree = ((api.state as any).path?.worktree ?? '') as string
     const filePath = worktree ? `${worktree}/package.json` : 'package.json'
     const result = await api.client.file.read({ query: { path: filePath } })
-    const content =
-      typeof result.content === 'string' ? result.content : String(result.content ?? '')
+    const content = typeof result.content === 'string' ? result.content : String(result.content ?? '')
     const match = content.match(/"version":\s*"([^"]+)"/)
     if (match?.[1]) return match[1]
-  } catch {
-    /* fall through */
-  }
+  } catch { /* fall through */ }
 
-  // Try 2: git describe (tag-based version)
   try {
     const proc = (api as any).client?.process
     if (typeof proc?.exec === 'function') {
@@ -30,26 +23,19 @@ async function readPantheonVersion(api: TuiPluginApi): Promise<string> {
       const tag = stdout.trim().replace(/^v/, '')
       if (tag) return tag
     }
-  } catch {
-    /* fall through */
-  }
+  } catch { /* fall through */ }
 
-  return '4.0.0'
+  return '5.0.0'
 }
 
 const COMMANDS = [
   { name: '/pantheon', desc: 'Council synthesis' },
   { name: '/pantheon-status', desc: 'System status' },
-  { name: '/pantheon-audit', desc: 'Full audit (v2)' },
+  { name: '/pantheon-audit', desc: 'Full audit' },
+  { name: '/pantheon-bg', desc: 'List background tasks' },
   { name: '/pantheon-cancel', desc: 'Cancel task' },
   { name: '/pantheon-deepwork', desc: 'Deep work mode' },
   { name: '/pantheon-focus', desc: 'Focus on scope' },
-
-  { name: '/pantheon-optimize', desc: 'Optimize + archive' },
-
-  { name: '/pantheon-sketch', desc: 'Quick prototype' },
-  { name: '/pantheon-install', desc: 'Install agents' },
-  { name: '/pantheon-update', desc: 'Create release' },
   { name: '/pantheon-remember', desc: 'Memory store/recall' },
   { name: '/pantheon-search', desc: 'Memory search' },
   { name: '/pantheon-consolidate', desc: 'Merge memories' },
@@ -73,21 +59,16 @@ const AGENTS = [
   { name: 'talos', tier: 'fast' as const, role: 'Hotfixes' },
 ] as const
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-function _fmt(v: number): string {
-  return new Intl.NumberFormat('en-US').format(Math.max(0, Math.round(v)))
-}
-
 function safeNum(v: unknown): number {
   return typeof v === 'number' && Number.isFinite(v) ? v : 0
 }
 
-// ── View ─────────────────────────────────────────────────────────────────────
 function View(props: { api: TuiPluginApi; sessionID: string; version: string }) {
   const [showCommands, setShowCommands] = createSignal(false)
   const [showAgents, setShowAgents] = createSignal(false)
   const [showConfig, setShowConfig] = createSignal(false)
   const [showMemory, setShowMemory] = createSignal(false)
+  const [showSubagents, setShowSubagents] = createSignal(false)
 
   const theme = () => props.api.theme.current
 
@@ -95,7 +76,6 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
     props.api.state.vcs?.branch ? `\u2387 ${props.api.state.vcs.branch}` : null,
   )
 
-  // Config info
   const configInfo = createMemo(() => {
     const cfg = (props.api.state as any).config
     if (!cfg) return null
@@ -106,7 +86,6 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
     }
   })
 
-  // Memory info
   const memoryInfo = createMemo(() => {
     const mem = (props.api.state as any).memory
     if (mem) {
@@ -116,64 +95,96 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
     return null
   })
 
+  const [subagents] = createResource(
+    () => showSubagents(),
+    async () => {
+      try {
+        const proc = (props.api as any).client?.process
+        if (typeof proc?.exec !== 'function') return null
+        const result = await proc.exec({
+          command: 'opencode',
+          args: ['session', 'list', '--format', 'json'],
+          timeoutMs: 5000,
+        })
+        const stdout = (result.stdout ?? result.output ?? '') as string
+        const sessions = JSON.parse(stdout)
+        if (!Array.isArray(sessions)) return null
+        return sessions
+          .filter((s: any) => s.id !== props.sessionID)
+          .sort((a: any, b: any) => (b.updated ?? 0) - (a.updated ?? 0))
+          .slice(0, 10)
+      } catch { return null }
+    },
+  )
+
   return (
     <box flexDirection="column" width="100%">
-      {/* ══ Header ══ */}
+      {/* Header */}
       <text fg={theme().accent} attributes={{ bold: true }}>
-        ⚡ Pantheon · {props.version}
+        {`Pantheon v${props.version}`}
       </text>
 
-      {/* ══ Branch (conditional) ══ */}
       <Show when={branch()}>
-        {(b) => (
-          <box marginTop={1}>
-            <text fg={theme().textMuted}>{b()}</text>
-          </box>
-        )}
+        {(b) => (<box marginTop={1}><text fg={theme().textMuted}>{b()}</text></box>)}
       </Show>
 
-      {/* ══ Commands (collapsible) ══ */}
+      {/* Subagents */}
+      <box marginTop={0} onMouseDown={() => setShowSubagents((x) => !x)}>
+        <text fg={theme().text} attributes={{ bold: true }}>
+          {`${showSubagents() ? '\u25bc' : '\u25b6'} Subagents`}
+        </text>
+        <text fg={theme().textMuted}>{` (${String(props.api.state.session.count())})`}</text>
+      </box>
+
+      <Show when={showSubagents()}>
+        <Show when={subagents()} fallback={<box marginLeft={1}><text fg={theme().textMuted}>{`sessions: ${String(props.api.state.session.count())}`}</text></box>}>
+          {(sessions) => (
+            <Show when={sessions().length > 0} fallback={<box marginLeft={1}><text fg={theme().textMuted}>(idle)</text></box>}>
+              <box marginLeft={1} flexDirection="column">
+                <For each={sessions().slice(0, 5)}>
+                  {(s: any) => (
+                    <text fg={theme().textMuted}>{`${s.id.slice(0, 8)}... ${s.title?.slice(0, 30) ?? ''}`}</text>
+                  )}
+                </For>
+              </box>
+            </Show>
+          )}
+        </Show>
+      </Show>
+
+      {/* Commands */}
       <box marginTop={0} onMouseDown={() => setShowCommands((x) => !x)}>
         <text fg={theme().text} attributes={{ bold: true }}>
-          {showCommands() ? '\u25bc' : '\u25b6'} Commands
+          {`${showCommands() ? '\u25bc' : '\u25b6'} Commands`}
         </text>
-        <text fg={theme().textMuted}> ({COMMANDS.length})</text>
+        <text fg={theme().textMuted}>{` (${String(COMMANDS.length)})`}</text>
       </box>
 
       <Show when={showCommands()}>
         <For each={COMMANDS}>
           {(cmd) => (
-            <box
-              marginLeft={1}
-              onMouseDown={(e) => {
-                e.stopPropagation()
-                try {
-                  const cmdApi = (props.api as any).command
-                  const cmdName = cmd.name.replace('/', '')
-                  if (cmdApi?.trigger?.(cmdName)) return
-                } catch {}
-                // Fallback: show toast with the command
-                props.api.ui?.toast?.({
-                  title: 'Command',
-                  message: `Type ${cmd.name} in chat`,
-                })
-              }}
-            >
-              <text fg={cmd.name === '/pantheon' ? theme().accent : theme().textMuted}>
-                {cmd.name}
-              </text>
-              <text fg={theme().textMuted}> — {cmd.desc}</text>
+            <box marginLeft={1} onMouseDown={(e) => {
+              e.stopPropagation()
+              try {
+                const cmdApi = (props.api as any).command
+                const cmdName = cmd.name.replace('/', '')
+                if (cmdApi?.trigger?.(cmdName)) return
+              } catch {}
+              props.api.ui?.toast?.({ title: 'Command', message: `Type ${cmd.name} in chat` })
+            }}>
+              <text fg={cmd.name === '/pantheon' ? theme().accent : theme().textMuted}>{cmd.name}</text>
+              <text fg={theme().textMuted}>{` — ${cmd.desc}`}</text>
             </box>
           )}
         </For>
       </Show>
 
-      {/* ══ Agents (collapsible) ══ */}
+      {/* Agents */}
       <box marginTop={0} onMouseDown={() => setShowAgents((x) => !x)}>
         <text fg={theme().text} attributes={{ bold: true }}>
-          {showAgents() ? '\u25bc' : '\u25b6'} Agents
+          {`${showAgents() ? '\u25bc' : '\u25b6'} Agents`}
         </text>
-        <text fg={theme().textMuted}> ({AGENTS.length})</text>
+        <text fg={theme().textMuted}>{` (${String(AGENTS.length)})`}</text>
       </box>
 
       <Show when={showAgents()}>
@@ -181,73 +192,48 @@ function View(props: { api: TuiPluginApi; sessionID: string; version: string }) 
           {(agent) => (
             <box marginLeft={1}>
               <text fg={agent.tier === 'premium' ? theme().accent : theme().textMuted}>
-                {agent.tier === 'premium' ? '\u2726 ' : '\u00b7 '}
-                {agent.name}
+                {`${agent.tier === 'premium' ? '\u2726 ' : '\u00b7 '}${agent.name}`}
               </text>
-              <text fg={theme().textMuted}> — {agent.role}</text>
+              <text fg={theme().textMuted}>{` — ${agent.role}`}</text>
             </box>
           )}
         </For>
       </Show>
 
-      {/* ══ Config (collapsible) ══ */}
+      {/* Config */}
       <box marginTop={0} onMouseDown={() => setShowConfig((x) => !x)}>
         <text fg={theme().text} attributes={{ bold: true }}>
-          {showConfig() ? '\u25bc' : '\u25b6'} Config
+          {`${showConfig() ? '\u25bc' : '\u25b6'} Config`}
         </text>
       </box>
 
       <Show when={showConfig()}>
-        <Show
-          when={configInfo()}
-          fallback={
-            <box marginLeft={1}>
-              <text fg={theme().textMuted}>(no config data)</text>
-            </box>
-          }
-        >
+        <Show when={configInfo()} fallback={<box marginLeft={1}><text fg={theme().textMuted}>(no config data)</text></box>}>
           {(cfg) => (
             <box marginLeft={1} flexDirection="column">
-              <text fg={theme().textMuted}>
-                Plugins: {cfg().plugins.length > 0 ? cfg().plugins.join(', ') : '(none)'}
-              </text>
-              <text fg={theme().textMuted}>MCP servers configured: {cfg().mcpCount}</text>
-              <text fg={theme().textMuted}>
-                Auto-compaction: {cfg().autoCompaction ? 'ON' : 'OFF'}
-              </text>
+              <text fg={theme().textMuted}>{`MCP servers: ${String(cfg().mcpCount)}`}</text>
+              <text fg={theme().textMuted}>{`Auto-compaction: ${cfg().autoCompaction ? 'ON' : 'OFF'}`}</text>
             </box>
           )}
         </Show>
       </Show>
 
-      {/* ══ Memory (collapsible) ══ */}
+      {/* Memory */}
       <box marginTop={0} onMouseDown={() => setShowMemory((x) => !x)}>
         <text fg={theme().text} attributes={{ bold: true }}>
-          {showMemory() ? '\u25bc' : '\u25b6'} Memory
+          {`${showMemory() ? '\u25bc' : '\u25b6'} Memory`}
         </text>
       </box>
 
       <Show when={showMemory()}>
-        <Show
-          when={memoryInfo()}
-          fallback={
-            <box marginLeft={1}>
-              <text fg={theme().textMuted}>(no memory data)</text>
-            </box>
-          }
-        >
-          {(mem) => (
-            <box marginLeft={1} flexDirection="column">
-              <text fg={theme().textMuted}>Entries: {mem().entries}</text>
-            </box>
-          )}
+        <Show when={memoryInfo()} fallback={<box marginLeft={1}><text fg={theme().textMuted}>(no data)</text></box>}>
+          {(mem) => (<box marginLeft={1}><text fg={theme().textMuted}>{`Entries: ${String(mem().entries)}`}</text></box>)}
         </Show>
       </Show>
     </box>
   )
 }
 
-// ── Plugin ───────────────────────────────────────────────────────────────────
 const tui: TuiPlugin = async (api, _options, _meta) => {
   const version = await readPantheonVersion(api)
   api.slots.register({

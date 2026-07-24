@@ -18,15 +18,15 @@ import yaml from 'js-yaml'
 
 export const __dirname = dirname(fileURLToPath(import.meta.url))
 export const ROOT = join(__dirname, '..', '..')
-export const AGENTS_DIR = join(ROOT, 'agents')
+export const AGENTS_DIR = join(ROOT, 'src', 'agents')
 export const PLATFORM_DIR = join(ROOT, 'platform')
 
 // Auto-detect agent names from agents/ directory
 export function getAgentNames() {
   if (!existsSync(AGENTS_DIR)) return []
   return readdirSync(AGENTS_DIR)
-    .filter((f) => f.endsWith('.agent.md'))
-    .map((f) => f.replace(/\.agent\.md$/, ''))
+    .filter((f) => f.endsWith('.agent.md') || f.endsWith('.md'))
+    .map((f) => f.replace(/\.(agent\.)?md$/, ''))
     .sort()
 }
 
@@ -331,7 +331,7 @@ export function writeIfChanged(filePath, content, dryRun) {
 }
 
 export function collectSkillNames() {
-  const skillsDir = join(ROOT, 'skills')
+  const skillsDir = join(ROOT, 'src', 'skills')
   if (!existsSync(skillsDir)) return []
   return readdirSync(skillsDir)
     .filter((entry) => {
@@ -372,7 +372,7 @@ export function serializeFm(fm) {
 }
 
 export function installSkills(skills, target, dryRun, subDir = '.opencode') {
-  const srcSkillsDir = join(ROOT, 'skills')
+  const srcSkillsDir = join(ROOT, 'src', 'skills')
   const dstSkillsDir = join(target, subDir, 'skills')
 
   let created = 0

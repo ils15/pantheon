@@ -98,7 +98,7 @@ export function installOpenCode(
   // 1. Install agents (--components agents)
   // -----------------------------------------------------------------------
   if (componentSet.has('agents')) {
-    const srcDir = join(PLATFORM_DIR, 'opencode', 'agents')
+    const srcDir = join(ROOT, 'src', 'agents')
     if (!sourceDirValid(srcDir)) {
       console.warn(`  ⚠️  Agent source directory not found: ${srcDir}`)
       stats.errors++
@@ -157,7 +157,7 @@ export function installOpenCode(
       else stats.skipped++
     }
     // instructions/ directory
-    const srcInstr = join(ROOT, 'instructions')
+    const srcInstr = join(ROOT, 'src', 'instructions')
     const dstInstr = join(target, 'instructions')
     if (existsSync(srcInstr)) {
       const instrResult = syncDir(srcInstr, dstInstr, dryRun, clean)
@@ -330,24 +330,24 @@ export function installOpenCode(
   //    and merge into opencode.json config.
   // --------------------------------------------------------------------
   function getAgentSources(agentPrefix) {
-    const agentsDir = join(ROOT, 'agents')
+    const agentsDir = join(ROOT, 'src', 'agents')
     if (!existsSync(agentsDir)) return {}
     const sources = {}
-    const files = readdirSync(agentsDir).filter((f) => f.endsWith('.agent.md'))
+    const files = readdirSync(agentsDir).filter((f) => f.endsWith('.agent.md') || f.endsWith('.md'))
     for (const f of files) {
-      const name = f.replace(/\.agent\.md$/, '')
+      const name = f.replace(/\.(agent\.)?md$/, '')
       sources[name] = `${agentPrefix}/${name}.md`
     }
     return sources
   }
 
   function readAgentConfigFromCanonical() {
-    const agentsDir = join(ROOT, 'agents')
+    const agentsDir = join(ROOT, 'src', 'agents')
     if (!existsSync(agentsDir)) return {}
     const config = {}
-    const files = readdirSync(agentsDir).filter((f) => f.endsWith('.agent.md'))
+    const files = readdirSync(agentsDir).filter((f) => f.endsWith('.agent.md') || f.endsWith('.md'))
     for (const f of files) {
-      const name = f.replace(/\.agent\.md$/, '')
+      const name = f.replace(/\.(agent\.)?md$/, '')
       const content = readFileSync(join(agentsDir, f), 'utf8')
       const parsed = parseFrontmatter(content)
       if (!parsed) continue

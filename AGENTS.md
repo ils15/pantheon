@@ -1,4 +1,4 @@
-# Pantheon Agent System — Cline
+# Pantheon Agent System — OpenCode
 
 This project uses the Pantheon multi-agent framework with 14 specialized agents.
 
@@ -21,14 +21,9 @@ This project uses the Pantheon multi-agent framework with 14 specialized agents.
 | @themis | Quality & security gate — ruff/Biome linting, dead/legacy code detection, OWASP Top 10, coverage >80%, correctness, deprecation audit. Called by implementers; escalates blockers to zeus. |
 | @zeus | Central orchestrator — never implements. Delegates to: athena, apollo, hermes, aphrodite, demeter, prometheus, themis, iris, mnemosyne, talos, hephaestus, nyx |
 
-## Cline Setup
+## OpenCode Setup
 
-- Agent rules are in `.clinerules/` (no extension, plain markdown)
-- Skills are in `.clinerules/skills/`
-- Commands are in `.clinerules/commands/`
-- Invoke agents with @agent-name in Cline chat
-
-## Commands
+See [INSTALLATION.md](docs/INSTALLATION.md) for setup instructions.
 
 - Build: `npm run build`
 - Test: `npm test`

@@ -2,7 +2,7 @@
 
 ## What is Pantheon
 
-A multi-agent framework for VS Code Copilot, OpenCode, Claude Code, Cursor, Windsurf, Cline, and Continue.dev. 14 specialized agents with TDD enforcement, quality gates (Themis), and memory MCP. **v4.0** — 100/100 audit score.
+A multi-agent framework for , OpenCode, , , , , and . 14 specialized agents with TDD enforcement, quality gates (Themis), and memory MCP. **v4.0** — 100/100 audit score.
 
 ## Installation
 
