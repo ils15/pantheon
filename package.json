@@ -1,8 +1,7 @@
 {
-  "name": "pantheon",
-  "version": "5.0.0",
+  "name": "pantheon-orchestrator",
+  "version": "1.0.0",
   "description": "Multi-agent orchestration platform with 14 specialized agents, 40 skills, TDD enforcement, RAG pipelines, and opencode-native deployment.",
-  "private": true,
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -35,7 +34,10 @@
     "README.md",
     "opencode.json",
     "pantheon.schema.json",
-    "skills-lock.json"
+    "skills-lock.json",
+    "src/plugins/tui/**",
+    "docs/*.md",
+    "commands/*.md"
   ],
   "dependencies": {
     "js-yaml": "^4.3.0"
