@@ -27,7 +27,7 @@ const ROOT = join(__dirname, '..', '..')
 export function setupVenv(target, { dryRun = false, skipInstall = false } = {}) {
   const venvPath = join(target, '.venv')
   const pythonBin = join(venvPath, 'bin', 'python3')
-  const requirementsFile = join(ROOT, 'scripts', 'requirements-mcp.txt')
+  const requirementsFile = join(ROOT, 'src', 'mcp', 'requirements-mcp.txt')
 
   // Step 1: Create venv if not exists
   if (!existsSync(pythonBin)) {
