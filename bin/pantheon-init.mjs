@@ -54,7 +54,8 @@ async function main() {
     // Clear cache when --force
     if (forceReinstall) updateNpxCache();
 
-    console.log(`Pantheon Orchestrator — ${isDryRun ? 'DRY RUN' : 'Installing...'}`);
+    const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
+  console.log(`Pantheon Orchestrator v${pkg.version} — ${isDryRun ? 'DRY RUN' : 'Installing...'}`);
     if (forceReinstall && !isDryRun) console.log('  🔄 Force reinstall — overwriting existing files');
     console.log(`Target: ${base}${isProject ? ' (project-local)' : ' (global)'}`);
     console.log('');
@@ -141,6 +142,11 @@ async function main() {
 
     // 7. .venv + MCP servers
     if (!skipMCP && !isDryRun) {
+    // Force recreate venv
+    const venvPath = path.join(base, '.venv');
+    if (forceReinstall && fs.existsSync(venvPath)) {
+      fs.rmSync(venvPath, { recursive: true, force: true });
+    }
       console.log('');
       console.log('  MCP Servers + .venv...');
       const installScript = path.resolve(ROOT, 'scripts', 'install.mjs');
