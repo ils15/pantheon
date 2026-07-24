@@ -1,6 +1,6 @@
 {
   "name": "pantheon-orchestrator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Multi-agent orchestration platform with 14 specialized agents, 40 skills, TDD enforcement, RAG pipelines, and opencode-native deployment.",
   "publishConfig": {
     "access": "public",
@@ -18,26 +18,31 @@
     "pantheon-orchestrator": "./bin/pantheon-init.mjs"
   },
   "files": [
-    "src/agents/*.md",
-    "src/skills/**/*.md",
-    "src/skills/**/*.txt",
-    "src/instructions/*.instructions.md",
-    "src/mcp/*.py",
-    "src/mcp/*.sh",
-    "src/mcp/*.mjs",
-    "src/mcp/*.txt",
-    "src/plugin.ts",
-    "src/routing.yml",
-    "bin/*.mjs",
-    "AGENTS.md",
     "LICENSE",
+    "scripts/install/*.mjs",
+    "scripts/*.py",
+    "src/plugin.ts",
     "README.md",
-    "opencode.json",
+    "src/mcp/*.txt",
+    "commands/*.md",
+    "src/skills/**/*.txt",
+    "src/skills/**/*.md",
     "pantheon.schema.json",
     "skills-lock.json",
+    "scripts/*.sh",
+    "src/agents/*.md",
+    "bin/*.mjs",
+    "AGENTS.md",
+    "src/mcp/*.py",
+    "src/instructions/*.instructions.md",
+    "src/mcp/*.mjs",
+    "scripts/*.mjs",
+    "opencode.json",
     "src/plugins/tui/**",
     "docs/*.md",
-    "commands/*.md"
+    "scripts/*.txt",
+    "src/mcp/*.sh",
+    "src/routing.yml"
   ],
   "dependencies": {
     "js-yaml": "^4.3.0"
