@@ -13,12 +13,19 @@ function printUsage() {
   console.log('Pantheon Orchestrator — Multi-agent orchestration platform');
   console.log('');
   console.log('Usage:');
-  console.log('  npx pantheon-orchestrator init              # Install everything globally');
-  console.log('  npx pantheon-orchestrator init --project    # Install in project (.opencode/)');
-  console.log('  npx pantheon-orchestrator init --dry-run    # Preview without writing');
-  console.log('  npx pantheon-orchestrator init --no-mcp     # Skip MCP + venv (agents only)');
-  console.log('  npx pantheon-orchestrator init --force      # Force reinstall (even if exists)');
+  console.log('  npx pantheon-orchestrator init              # Install globally');
+  console.log('  npx pantheon-orchestrator init --project    # Install in project');
+  console.log('  npx pantheon-orchestrator init --dry-run    # Preview only');
+  console.log('  npx pantheon-orchestrator init --no-mcp     # Skip MCP + venv');
+  console.log('  npx pantheon-orchestrator init --force      # Overwrite + recreate venv');
   console.log('  npx pantheon-orchestrator --help            # Show this help');
+}
+
+function getPkgVersion() {
+  try {
+    const p = path.join(ROOT, 'package.json');
+    return JSON.parse(fs.readFileSync(p, 'utf8')).version || '?';
+  } catch { return '?'; }
 }
 
 function getAgentList() {
@@ -27,13 +34,6 @@ function getAgentList() {
   return fs.readdirSync(agentsDir)
     .filter(f => f.endsWith('.md') && f !== 'README.md')
     .map(f => f.replace('.md', ''));
-}
-
-function updateNpxCache() {
-  // Clear npx cache so next run uses latest
-  try {
-    execSync('npx clear-npx-cache 2>/dev/null || npm cache clean --force 2>/dev/null', { stdio: 'ignore' });
-  } catch (_) { /* best effort */ }
 }
 
 async function main() {
@@ -51,16 +51,21 @@ async function main() {
       ? path.join(process.cwd(), '.opencode')
       : CFG;
 
-    // Clear cache when --force
-    if (forceReinstall) updateNpxCache();
-
-    const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'));
-  console.log(`Pantheon Orchestrator v${pkg.version} — ${isDryRun ? 'DRY RUN' : 'Installing...'}`);
-    if (forceReinstall && !isDryRun) console.log('  🔄 Force reinstall — overwriting existing files');
+    const version = getPkgVersion();
+    console.log(`Pantheon Orchestrator v${version} — ${isDryRun ? 'DRY RUN' : 'Installing...'}`);
+    if (forceReinstall && !isDryRun) console.log('  🔄 Force mode — overwriting existing files + recreating venv');
     console.log(`Target: ${base}${isProject ? ' (project-local)' : ' (global)'}`);
     console.log('');
 
-    // 1. Agents (14 files)
+    // Force: delete old venv to force clean install
+    if (forceReinstall && !isDryRun) {
+      const venvPath = path.join(base, '.venv');
+      if (fs.existsSync(venvPath)) {
+        fs.rmSync(venvPath, { recursive: true, force: true });
+      }
+    }
+
+    // 1. Agents
     console.log('  Agents:');
     const agentList = getAgentList();
     let count = 0;
@@ -140,13 +145,8 @@ async function main() {
       fs.copyFileSync(agentsMd, path.join(base, 'AGENTS.md'));
     }
 
-    // 7. .venv + MCP servers
+    // 7. .venv + MCP servers (skip if --no-mcp)
     if (!skipMCP && !isDryRun) {
-    // Force recreate venv
-    const venvPath = path.join(base, '.venv');
-    if (forceReinstall && fs.existsSync(venvPath)) {
-      fs.rmSync(venvPath, { recursive: true, force: true });
-    }
       console.log('');
       console.log('  MCP Servers + .venv...');
       const installScript = path.resolve(ROOT, 'scripts', 'install.mjs');
@@ -154,15 +154,15 @@ async function main() {
         try {
           execSync(`node "${installScript}" "${base}"`, { stdio: 'inherit', cwd: ROOT });
         } catch (e) {
-          console.log('  ⚠️  MCP install warning (non-fatal):', e.message.split('\n')[0]);
+          console.log('  ⚠️  MCP install issue (non-fatal):', e.message.split('\n')[0]);
         }
       }
     }
 
-    // 8. Background subagents hint
+    // 8. Done
     console.log('');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-    console.log('  ✅ Pantheon Orchestrator installed!');
+    console.log(`  ✅ Pantheon Orchestrator v${version} installed!`);
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     console.log('');
     console.log('  Next steps:');
