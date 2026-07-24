@@ -139,6 +139,22 @@ Wave N — revisao (SEMPRE sincrono)
 
 Wave announcement obrigatorio.
 
+
+## Depth Control (Previne Recursao Infinita)
+
+Limite maximo de 2 niveis de nesting: Zeus -> subagente -> sub-subagente.
+
+```
+depth = kv_get("deleg:depth") ?? 0
+if depth >= 2 → NAO delegar, execute voce mesmo
+else → kv_store("deleg:depth", depth + 1)
+
+Quando subagente retornar:
+  kv_store("deleg:depth", max(0, depth - 1))
+```
+
+Zeus (nivel 0) -> Apollo/Hermes (nivel 1) -> sub-subagente (nivel 2 max).
+
 ## Two-Tier Persistence
 
 | Tier | Trigger | Action |
