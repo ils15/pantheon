@@ -1,0 +1,2019 @@
+- generic [ref=f2e2]:
+  - generic [ref=f2e3]:
+    - link "Skip to content" [ref=f2e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=f2e6]:
+      - heading "Navigation Menu" [level=2] [ref=f2e7]
+      - generic [ref=f2e8]:
+        - link "Homepage" [ref=f2e10] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f2e13]:
+          - navigation "Global" [ref=f2e16]:
+            - list [ref=f2e17]:
+              - listitem [ref=f2e18]:
+                - button "Platform" [ref=f2e20] [cursor=pointer]
+              - listitem [ref=f2e23]:
+                - button "Solutions" [ref=f2e25] [cursor=pointer]
+              - listitem [ref=f2e28]:
+                - button "Resources" [ref=f2e30] [cursor=pointer]
+              - listitem [ref=f2e33]:
+                - button "Open Source" [ref=f2e35] [cursor=pointer]
+              - listitem [ref=f2e38]:
+                - button "Enterprise" [ref=f2e40] [cursor=pointer]
+              - listitem [ref=f2e43]:
+                - link "Pricing" [ref=f2e44] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+          - generic [ref=f2e46]:
+            - button "Search or jump to…" [ref=f2e49] [cursor=pointer]:
+              - generic [ref=f2e53]: Search or jump to...
+            - link "Sign in" [ref=f2e59] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fcode-yeongyu%2Foh-my-openagent
+            - link "Sign up" [ref=f2e60] [cursor=pointer]:
+              - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E&source=header-repo&source_repo=code-yeongyu%2Foh-my-openagent
+            - button "Appearance settings" [ref=f2e63] [cursor=pointer]
+  - main [ref=f2e67]:
+    - generic [ref=f2e68]:
+      - generic [ref=f2e69]:
+        - generic [ref=f2e71]:
+          - link "code-yeongyu" [ref=f2e75] [cursor=pointer]:
+            - /url: /code-yeongyu
+          - generic [ref=f2e76]: /
+          - strong [ref=f2e77]:
+            - link "oh-my-openagent" [ref=f2e78] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent
+          - generic [ref=f2e79]: Public
+        - generic [ref=f2e80]:
+          - list:
+            - listitem [ref=f2e81]:
+              - link "You must be signed in to change notification settings" [ref=f2e82] [cursor=pointer]:
+                - /url: /login?return_to=%2Fcode-yeongyu%2Foh-my-openagent
+                - text: Notifications
+            - listitem [ref=f2e85]:
+              - link "Fork 5.4k" [ref=f2e86] [cursor=pointer]:
+                - /url: /login?return_to=%2Fcode-yeongyu%2Foh-my-openagent
+                - text: Fork
+                - generic "5,413" [ref=f2e89]: 5.4k
+            - listitem [ref=f2e90]:
+              - link "You must be signed in to star a repository" [ref=f2e92] [cursor=pointer]:
+                - /url: /login?return_to=%2Fcode-yeongyu%2Foh-my-openagent
+                - text: Star
+                - generic "66448 users starred this repository" [ref=f2e95]: 66.4k
+      - navigation "Repository" [ref=f2e96]:
+        - list [ref=f2e97]:
+          - listitem [ref=f2e98]:
+            - link "Code" [ref=f2e99] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent
+          - listitem [ref=f2e103]:
+            - link "Issues 413" [ref=f2e104] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent/issues
+              - generic [ref=f2e108]: Issues
+              - generic "413" [ref=f2e109]
+          - listitem [ref=f2e110]:
+            - link "Pull requests 492" [ref=f2e111] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent/pulls
+              - generic [ref=f2e114]: Pull requests
+              - generic "492" [ref=f2e115]
+          - listitem [ref=f2e116]:
+            - link "Discussions" [ref=f2e117] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent/discussions
+          - listitem [ref=f2e121]:
+            - link "Actions" [ref=f2e122] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent/actions
+          - listitem [ref=f2e126]:
+            - link "Security and quality" [ref=f2e127] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent/security
+          - listitem [ref=f2e131]:
+            - link "Insights" [ref=f2e132] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent/pulse
+    - generic [ref=f2e148]:
+      - heading "code-yeongyu/oh-my-openagent" [level=1] [ref=f2e150]
+      - generic [ref=f2e151]:
+        - generic [ref=f2e154]:
+          - generic [ref=f2e155]:
+            - generic [ref=f2e156]:
+              - button "dev branch" [ref=f2e158] [cursor=pointer]:
+                - generic [ref=f2e159]: dev
+              - generic [ref=f2e163]:
+                - link [ref=f2e164] [cursor=pointer]:
+                  - /url: /code-yeongyu/oh-my-openagent/branches
+                  - generic [ref=f2e167]:
+                    - strong [ref=f2e168]: "141"
+                    - text: Branches
+                - link [ref=f2e169] [cursor=pointer]:
+                  - /url: /code-yeongyu/oh-my-openagent/tags
+                  - generic [ref=f2e172]:
+                    - strong [ref=f2e173]: "242"
+                    - text: Tags
+            - generic [ref=f2e174]:
+              - combobox "Go to file" [ref=f2e182]
+              - button "Code" [ref=f2e183] [cursor=pointer]
+          - generic [ref=f2e186]:
+            - generic [ref=f2e187]:
+              - heading "Folders and files" [level=2] [ref=f2e188]
+              - table "Folders and files" [ref=f2e189]:
+                - rowgroup:
+                  - row "Name Last commit message Last commit date":
+                    - columnheader "Name"
+                    - columnheader "Last commit message"
+                    - columnheader "Last commit date"
+                - rowgroup [ref=f2e190]:
+                  - row [ref=f2e191]:
+                    - 'cell "Latest commit code-yeongyu commits by code-yeongyu Merge pull request #6310 from code-yeongyu/fix/omo-senpi-typebox-symlink Open commit details failure Commit 3e456fb · Jul 23, 202613 minutes ago History 11,162 Commits" [ref=f2e192]':
+                      - generic [ref=f2e193]:
+                        - heading "Latest commit" [level=2] [ref=f2e194]
+                        - generic [ref=f2e195]:
+                          - generic [ref=f2e197]:
+                            - link [ref=f2e198] [cursor=pointer]:
+                              - /url: /code-yeongyu
+                              - img "code-yeongyu" [ref=f2e199]
+                            - link "commits by code-yeongyu" [ref=f2e200] [cursor=pointer]:
+                              - /url: /code-yeongyu/oh-my-openagent/commits?author=code-yeongyu
+                              - text: code-yeongyu
+                          - generic [ref=f2e201]:
+                            - generic [ref=f2e203]:
+                              - link "Merge pull request" [ref=f2e204] [cursor=pointer]:
+                                - /url: /code-yeongyu/oh-my-openagent/commit/3e456fb2b422ed42c53971edab4c77b5252fe308
+                              - link "#6310" [ref=f2e205] [cursor=pointer]:
+                                - /url: https://github.com/code-yeongyu/oh-my-openagent/pull/6310
+                              - link "from code-yeongyu/fix/omo-senpi-typebox-symlink" [ref=f2e206] [cursor=pointer]:
+                                - /url: /code-yeongyu/oh-my-openagent/commit/3e456fb2b422ed42c53971edab4c77b5252fe308
+                            - button "Open commit details" [ref=f2e207] [cursor=pointer]
+                            - button "failure" [ref=f2e210] [cursor=pointer]
+                        - generic [ref=f2e213]:
+                          - generic [ref=f2e215]:
+                            - link "Commit 3e456fb" [ref=f2e216] [cursor=pointer]:
+                              - /url: /code-yeongyu/oh-my-openagent/commit/3e456fb2b422ed42c53971edab4c77b5252fe308
+                              - text: 3e456fb
+                            - text: ·
+                            - generic "Jul 23, 2026, 10:18 GMT-3" [ref=f2e217]: Jul 23, 202613 minutes ago
+                          - generic [ref=f2e218]:
+                            - heading "History" [level=2] [ref=f2e219]
+                            - link "11,162 Commits" [ref=f2e220] [cursor=pointer]:
+                              - /url: /code-yeongyu/oh-my-openagent/commits/dev/
+                  - row [ref=f2e223]:
+                    - cell [ref=f2e224]:
+                      - link ".agents, (Directory)" [ref=f2e231] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/.agents
+                        - text: .agents
+                    - cell [ref=f2e232]:
+                      - 'link "feat(models): route active GPT defaults through 5.6 Sol" [ref=f2e235] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/2173bfc51c3bc65ed7344cdbcec3e72bccfdc345
+                    - cell "Jul 21, 20262 days ago" [ref=f2e236]
+                  - row [ref=f2e238]:
+                    - cell [ref=f2e239]:
+                      - link ".claude, (Directory)" [ref=f2e246] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/.claude
+                        - text: .claude
+                    - cell [ref=f2e247]:
+                      - 'link "fix(dev-env): detach Claude cleanup hook" [ref=f2e250] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/d64e6bdd6c42a44c99e107ab80d54148e2bdbb5a
+                    - cell "Jun 21, 2026last month" [ref=f2e251]
+                  - row [ref=f2e253]:
+                    - cell [ref=f2e254]:
+                      - link ".codegraph, (Directory)" [ref=f2e261] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/.codegraph
+                        - text: .codegraph
+                    - cell [ref=f2e262]:
+                      - 'link "chore: add codegraph MCP server config and index gitignore" [ref=f2e265] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/47c656b1f27948194fd2a332acc7cb74c578e88e
+                    - cell "Jun 8, 2026last month" [ref=f2e266]
+                  - row [ref=f2e268]:
+                    - cell [ref=f2e269]:
+                      - link ".codex, (Directory)" [ref=f2e276] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/.codex
+                        - text: .codex
+                    - cell [ref=f2e277]:
+                      - 'link "feat(dev-env): wire codex/cursor/claude and devcontainer to shared sc…" [ref=f2e280] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/af72a16c0d1313b0159ec0cf9f04983e9aee4174
+                    - cell "Jun 17, 2026last month" [ref=f2e281]
+                  - row [ref=f2e283]:
+                    - cell [ref=f2e284]:
+                      - link ".cursor, (Directory)" [ref=f2e291] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/.cursor
+                        - text: .cursor
+                    - cell [ref=f2e292]:
+                      - 'link "feat(dev-env): wire codex/cursor/claude and devcontainer to shared sc…" [ref=f2e295] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/af72a16c0d1313b0159ec0cf9f04983e9aee4174
+                    - cell "Jun 17, 2026last month" [ref=f2e296]
+                  - row [ref=f2e298]:
+                    - cell [ref=f2e299]:
+                      - link ".devcontainer, (Directory)" [ref=f2e306] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/.devcontainer
+                        - text: .devcontainer
+                    - cell [ref=f2e307]:
+                      - 'link "chore(dev-env): submodule init + frontend materialize in setup.sh + s…" [ref=f2e310] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/bf69eacb03823e6b8134af922719e625b24f3e14
+                    - cell "Jun 21, 2026last month" [ref=f2e311]
+                  - row [ref=f2e313]:
+                    - cell [ref=f2e314]:
+                      - link ".github, (Directory)" [ref=f2e321] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/.github
+                        - text: .github
+                    - cell [ref=f2e322]:
+                      - 'link "test(lsp): stabilize cross-platform compatibility gates" [ref=f2e325] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/e6f2df59cf12da71f2c3e86b53f8e394107d8871
+                    - cell "Jul 13, 2026last week" [ref=f2e326]
+                  - row [ref=f2e328]:
+                    - cell [ref=f2e329]:
+                      - link ".omo, (Directory)" [ref=f2e336] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/.omo
+                        - text: .omo
+                    - cell [ref=f2e337]:
+                      - 'link "test(omo-senpi): record symlink dependency QA" [ref=f2e340] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/780cd89e6bc0fa564dd8ad34d779739666154101
+                    - cell "Jul 23, 202624 minutes ago" [ref=f2e341]
+                  - row [ref=f2e343]:
+                    - cell [ref=f2e344]:
+                      - link ".opencode, (Directory)" [ref=f2e351] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/.opencode
+                        - text: .opencode
+                    - cell [ref=f2e352]:
+                      - 'link "feat(models): route active GPT defaults through 5.6 Sol" [ref=f2e355] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/2173bfc51c3bc65ed7344cdbcec3e72bccfdc345
+                    - cell "Jul 21, 20262 days ago" [ref=f2e356]
+                  - row [ref=f2e358]:
+                    - cell [ref=f2e359]:
+                      - link "assets, (Directory)" [ref=f2e366] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/assets
+                        - text: assets
+                    - cell [ref=f2e367]:
+                      - 'link "feat(omo-opencode): codegraph daemon opt-in and exclusion parity" [ref=f2e370] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/aec6aa814dc496500380df0deba849571839c4c9
+                    - cell "Jul 21, 20262 days ago" [ref=f2e371]
+                  - row [ref=f2e373]:
+                    - cell [ref=f2e374]:
+                      - link "bin, (Directory)" [ref=f2e381] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/bin
+                        - text: bin
+                    - cell [ref=f2e382]:
+                      - 'link "docs(agents): sync release and launcher facts" [ref=f2e385] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/bc482eff59460879b76f5c03bff74f283ad89033
+                    - cell "Jul 14, 2026last week" [ref=f2e386]
+                  - row [ref=f2e388]:
+                    - cell [ref=f2e389]:
+                      - link "docs, (Directory)" [ref=f2e396] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/docs
+                        - text: docs
+                    - cell [ref=f2e397]:
+                      - 'link "feat(start-work): add --make-pr/--ship options and mandate goal+todo …" [ref=f2e400] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/cf390e038c30340c2ff16dd72b44cf0a871d8823
+                    - cell "Jul 23, 20264 hours ago" [ref=f2e401]
+                  - row [ref=f2e403]:
+                    - cell [ref=f2e404]:
+                      - link "packages, (Directory)" [ref=f2e411] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/packages
+                        - text: packages
+                    - cell [ref=f2e412]:
+                      - 'link "fix(omo-senpi): resolve local-path runtime dependencies" [ref=f2e415] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/b1971c53da187ee2d19efc43752c27e69209f509
+                    - cell "Jul 23, 202625 minutes ago" [ref=f2e416]
+                  - row [ref=f2e418]:
+                    - cell [ref=f2e419]:
+                      - link "script, (Directory)" [ref=f2e426] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/script
+                        - text: script
+                    - cell [ref=f2e427]:
+                      - 'link "fix(script): also write marketplace.json to the lazycodex repo root" [ref=f2e430] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/c3d0e683ddf125c48538c7ea9dbbeea2c879f23f
+                    - cell "Jul 22, 2026yesterday" [ref=f2e431]
+                  - row [ref=f2e433]:
+                    - cell [ref=f2e434]:
+                      - link "scripts, (Directory)" [ref=f2e441] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/scripts
+                        - text: scripts
+                    - cell [ref=f2e442]:
+                      - generic [ref=f2e444]:
+                        - 'link "docs: refresh hierarchical AGENTS.md knowledge base to" [ref=f2e445] [cursor=pointer]':
+                          - /url: /code-yeongyu/oh-my-openagent/commit/cd407ed1151878cfcb25e4eee93f109ae7681f22
+                        - link "7d664b9" [ref=f2e446] [cursor=pointer]:
+                          - /url: https://github.com/code-yeongyu/oh-my-openagent/commit/7d664b96b020b85e89c26e1be2522c258f12fc4a
+                    - cell "Jul 17, 2026last week" [ref=f2e447]
+                  - row [ref=f2e449]:
+                    - cell [ref=f2e450]:
+                      - link "signatures, (Directory)" [ref=f2e457] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/signatures
+                        - text: signatures
+                    - cell [ref=f2e458]:
+                      - link "Backfill verified CLA signature for open PR" [ref=f2e461] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/commit/d89716b9a2f32daffd3c6f1502311c7b436b0340
+                    - cell "Jun 22, 2026last month" [ref=f2e462]
+                  - row [ref=f2e464]:
+                    - cell [ref=f2e465]:
+                      - link "test-support, (Directory)" [ref=f2e472] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/test-support
+                        - text: test-support
+                    - cell [ref=f2e473]:
+                      - 'link "test: require explicit unsafe test value type" [ref=f2e476] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/730d72c9af198a2edc9b999b39ba6357ea6bd6c8
+                    - cell "May 12, 20262 months ago" [ref=f2e477]
+                  - row [ref=f2e479]:
+                    - cell [ref=f2e480]:
+                      - link "tests, (Directory)" [ref=f2e487] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/tree/dev/tests
+                        - text: tests
+                    - cell [ref=f2e488]:
+                      - generic [ref=f2e490]:
+                        - 'link "docs: refresh hierarchical AGENTS.md knowledge base to" [ref=f2e491] [cursor=pointer]':
+                          - /url: /code-yeongyu/oh-my-openagent/commit/cd407ed1151878cfcb25e4eee93f109ae7681f22
+                        - link "7d664b9" [ref=f2e492] [cursor=pointer]:
+                          - /url: https://github.com/code-yeongyu/oh-my-openagent/commit/7d664b96b020b85e89c26e1be2522c258f12fc4a
+                    - cell "Jul 17, 2026last week" [ref=f2e493]
+                  - row [ref=f2e495]:
+                    - cell [ref=f2e496]:
+                      - link ".env.example, (File)" [ref=f2e503] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/.env.example
+                        - text: .env.example
+                    - cell [ref=f2e504]:
+                      - 'link "feat(dev-env): add shared agent setup/cleanup/qa-sandbox scripts" [ref=f2e507] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/b3864c792ac440152039d80c3f06f051b37d49ce
+                    - cell "Jun 17, 2026last month" [ref=f2e508]
+                  - row [ref=f2e510]:
+                    - cell [ref=f2e511]:
+                      - link ".gitattributes, (File)" [ref=f2e518] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/.gitattributes
+                        - text: .gitattributes
+                    - cell [ref=f2e519]:
+                      - 'link "test(prompts): normalize prompt line endings" [ref=f2e522] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/9655b618510639561c54848d68f02045eb68b656
+                    - cell "Jun 6, 2026last month" [ref=f2e523]
+                  - row [ref=f2e525]:
+                    - cell [ref=f2e526]:
+                      - link ".gitignore, (File)" [ref=f2e533] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/.gitignore
+                        - text: .gitignore
+                    - cell [ref=f2e534]:
+                      - 'link "chore: gitignore .dys orchestration scaffolding (untrack runtime db +…" [ref=f2e537] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/a67405713532119c0b849cc819c633b10266f5f3
+                    - cell "Jul 12, 20262 weeks ago" [ref=f2e538]
+                  - row [ref=f2e540]:
+                    - cell [ref=f2e541]:
+                      - link ".gitmodules, (File)" [ref=f2e548] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/.gitmodules
+                        - text: .gitmodules
+                    - cell [ref=f2e549]:
+                      - 'link "refactor(frontend): fold designpowers into shared skill" [ref=f2e552] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/08707912519cd9a44de51896f970f06b5981b0ab
+                    - cell "Jun 23, 2026last month" [ref=f2e553]
+                  - row [ref=f2e555]:
+                    - cell [ref=f2e556]:
+                      - link ".mcp.json, (File)" [ref=f2e563] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/.mcp.json
+                        - text: .mcp.json
+                    - cell [ref=f2e564]:
+                      - 'link "fix(codegraph): use portable root MCP command" [ref=f2e567] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/82d3174a544b6d8cbedd00ea69f82dde70f42a11
+                    - cell "Jun 16, 2026last month" [ref=f2e568]
+                  - row [ref=f2e570]:
+                    - cell [ref=f2e571]:
+                      - link "AGENTS.md, (File)" [ref=f2e578] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/AGENTS.md
+                        - text: AGENTS.md
+                    - cell [ref=f2e579]:
+                      - generic [ref=f2e581]:
+                        - 'link "docs: refresh hierarchical AGENTS.md knowledge base to" [ref=f2e582] [cursor=pointer]':
+                          - /url: /code-yeongyu/oh-my-openagent/commit/cd407ed1151878cfcb25e4eee93f109ae7681f22
+                        - link "7d664b9" [ref=f2e583] [cursor=pointer]:
+                          - /url: https://github.com/code-yeongyu/oh-my-openagent/commit/7d664b96b020b85e89c26e1be2522c258f12fc4a
+                    - cell "Jul 17, 2026last week" [ref=f2e584]
+                  - row [ref=f2e586]:
+                    - cell [ref=f2e587]:
+                      - link "CHANGELOG.md, (File)" [ref=f2e594] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/CHANGELOG.md
+                        - text: CHANGELOG.md
+                    - cell [ref=f2e595]:
+                      - 'link "docs: codegraph daemon opt-in and process hygiene" [ref=f2e598] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/562730173502a10b7eb412d66c298599e745a19f
+                    - cell "Jul 21, 20262 days ago" [ref=f2e599]
+                  - row [ref=f2e601]:
+                    - cell [ref=f2e602]:
+                      - link "CLA.md, (File)" [ref=f2e609] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/CLA.md
+                        - text: CLA.md
+                    - cell [ref=f2e610]:
+                      - 'link "docs(cla): add Contributor License Agreement and GitHub Actions workflow" [ref=f2e613] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/ace15cfe399f790de4056820c528daad2912dd48
+                    - cell "Dec 24, 20257 months ago" [ref=f2e614]
+                  - row [ref=f2e616]:
+                    - cell [ref=f2e617]:
+                      - link "CLAUDE.md, (Symlink to file)" [ref=f2e624] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/CLAUDE.md
+                        - text: CLAUDE.md
+                    - cell [ref=f2e625]:
+                      - 'link "docs(agents): document dev env + keep-in-sync directive; share via CL…" [ref=f2e628] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/0ed6a8f8b20158849c9892f9f59fa244ed5ada17
+                    - cell "Jun 17, 2026last month" [ref=f2e629]
+                  - row [ref=f2e631]:
+                    - cell [ref=f2e632]:
+                      - link "CONTRIBUTING.md, (File)" [ref=f2e639] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/CONTRIBUTING.md
+                        - text: CONTRIBUTING.md
+                    - cell [ref=f2e640]:
+                      - 'link "docs(prompts): remove sparkshell guidance" [ref=f2e643] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/7af0a152a28e4adb5fad6a469a20f052c103150c
+                    - cell "Jun 29, 20263 weeks ago" [ref=f2e644]
+                  - row [ref=f2e646]:
+                    - cell [ref=f2e647]:
+                      - link "LICENSE.md, (File)" [ref=f2e654] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/LICENSE.md
+                        - text: LICENSE.md
+                    - cell [ref=f2e655]:
+                      - link "Introducing new license, SUL" [ref=f2e658] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/commit/18846583947a4e2a8cd3b69093758a3dca88624a
+                    - cell "Dec 24, 20257 months ago" [ref=f2e659]
+                  - row [ref=f2e661]:
+                    - cell [ref=f2e662]:
+                      - link "README.ja.md, (File)" [ref=f2e669] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/README.ja.md
+                        - text: README.ja.md
+                    - cell [ref=f2e670]:
+                      - 'link "docs: refresh model defaults to current fallback chains" [ref=f2e673] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/e96b6f75b8f6e6c7afdbe2743207399b6912ffd3
+                    - cell "Jul 21, 20262 days ago" [ref=f2e674]
+                  - row [ref=f2e676]:
+                    - cell [ref=f2e677]:
+                      - link "README.ko.md, (File)" [ref=f2e684] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/README.ko.md
+                        - text: README.ko.md
+                    - cell [ref=f2e685]:
+                      - 'link "docs: refresh model defaults to current fallback chains" [ref=f2e688] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/e96b6f75b8f6e6c7afdbe2743207399b6912ffd3
+                    - cell "Jul 21, 20262 days ago" [ref=f2e689]
+                  - row [ref=f2e691]:
+                    - cell [ref=f2e692]:
+                      - link "README.md, (File)" [ref=f2e699] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/README.md
+                        - text: README.md
+                    - cell [ref=f2e700]:
+                      - 'link "docs: refresh model defaults to current fallback chains" [ref=f2e703] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/e96b6f75b8f6e6c7afdbe2743207399b6912ffd3
+                    - cell "Jul 21, 20262 days ago" [ref=f2e704]
+                  - row [ref=f2e706]:
+                    - cell [ref=f2e707]:
+                      - link "README.ru.md, (File)" [ref=f2e714] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/README.ru.md
+                        - text: README.ru.md
+                    - cell [ref=f2e715]:
+                      - 'link "docs: refresh model defaults to current fallback chains" [ref=f2e718] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/e96b6f75b8f6e6c7afdbe2743207399b6912ffd3
+                    - cell "Jul 21, 20262 days ago" [ref=f2e719]
+                  - row [ref=f2e721]:
+                    - cell [ref=f2e722]:
+                      - link "README.zh-cn.md, (File)" [ref=f2e729] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/README.zh-cn.md
+                        - text: README.zh-cn.md
+                    - cell [ref=f2e730]:
+                      - 'link "docs: refresh model defaults to current fallback chains" [ref=f2e733] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/e96b6f75b8f6e6c7afdbe2743207399b6912ffd3
+                    - cell "Jul 21, 20262 days ago" [ref=f2e734]
+                  - row [ref=f2e736]:
+                    - cell [ref=f2e737]:
+                      - link "ROADMAP.md, (File)" [ref=f2e744] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/ROADMAP.md
+                        - text: ROADMAP.md
+                    - cell [ref=f2e745]:
+                      - 'link "docs(agents): document adapter support edges" [ref=f2e748] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/5f20b08f98ee31d9d9ca826dcbf37ddd75a4af20
+                    - cell "Jul 14, 2026last week" [ref=f2e749]
+                  - row [ref=f2e751]:
+                    - cell [ref=f2e752]:
+                      - link "THIRD-PARTY-NOTICES.md, (File)" [ref=f2e759] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/THIRD-PARTY-NOTICES.md
+                        - text: THIRD-PARTY-NOTICES.md
+                    - cell [ref=f2e760]:
+                      - 'link "fix(codex): ship codegraph node runtime notices" [ref=f2e763] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/557ad1e538b04f24ed0de3562cfb717fe1dcd869
+                    - cell "Jun 22, 2026last month" [ref=f2e764]
+                  - row [ref=f2e766]:
+                    - cell [ref=f2e767]:
+                      - link "bun-test.d.ts, (File)" [ref=f2e774] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/bun-test.d.ts
+                        - text: bun-test.d.ts
+                    - cell [ref=f2e775]:
+                      - 'link "test(codex): budget installer integration tests" [ref=f2e778] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/1ce0e93f3c60874fd095cc4ba521ddf509d8ff68
+                    - cell "Jun 1, 2026last month" [ref=f2e779]
+                  - row [ref=f2e781]:
+                    - cell [ref=f2e782]:
+                      - link "bun.lock, (File)" [ref=f2e789] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/bun.lock
+                        - text: bun.lock
+                    - cell [ref=f2e790]:
+                      - 'link "fix(omo-senpi): resolve local-path runtime dependencies" [ref=f2e793] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/b1971c53da187ee2d19efc43752c27e69209f509
+                    - cell "Jul 23, 202625 minutes ago" [ref=f2e794]
+                  - row [ref=f2e796]:
+                    - cell [ref=f2e797]:
+                      - link "bunfig.toml, (File)" [ref=f2e804] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/bunfig.toml
+                        - text: bunfig.toml
+                    - cell [ref=f2e805]:
+                      - 'link "test(bunfig): ignore built dist/ test copies in discovery" [ref=f2e808] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/277dd05ddf8a316e3d97fae7a7df804c34e27453
+                    - cell "Jul 5, 20263 weeks ago" [ref=f2e809]
+                  - row [ref=f2e811]:
+                    - cell [ref=f2e812]:
+                      - link "package.json, (File)" [ref=f2e819] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/package.json
+                        - text: package.json
+                    - cell [ref=f2e820]:
+                      - 'link "release: v4.19.1" [ref=f2e823] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/d4121a9667fc544fc99ff78753e5c9183317f966
+                    - cell "Jul 22, 2026yesterday" [ref=f2e824]
+                  - row [ref=f2e826]:
+                    - cell [ref=f2e827]:
+                      - link "postinstall.mjs, (File)" [ref=f2e834] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/postinstall.mjs
+                        - text: postinstall.mjs
+                    - cell [ref=f2e835]:
+                      - 'link "fix: invalidate opencode plugin cache on postinstall" [ref=f2e838] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/8d8efb0cb9630b40b28c4fa2bdfc435d8fe3d11c
+                    - cell "Jun 2, 2026last month" [ref=f2e839]
+                  - row [ref=f2e841]:
+                    - cell [ref=f2e842]:
+                      - link "test-setup.ts, (File)" [ref=f2e849] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/test-setup.ts
+                        - text: test-setup.ts
+                    - cell [ref=f2e850]:
+                      - 'link "fix(skills-loader): resolve HOME via env-honoring helper for hermetic…" [ref=f2e853] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/5d8f241a0c15ee483dc168e4d5c80d2bc5858fe8
+                    - cell "Jul 5, 20263 weeks ago" [ref=f2e854]
+                  - row [ref=f2e856]:
+                    - cell [ref=f2e857]:
+                      - link "tsconfig.json, (File)" [ref=f2e864] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/tsconfig.json
+                        - text: tsconfig.json
+                    - cell [ref=f2e865]:
+                      - 'link "refactor(omo-opencode): move plugin src into packages/omo-opencode" [ref=f2e868] [cursor=pointer]':
+                        - /url: /code-yeongyu/oh-my-openagent/commit/f7e8221a9ea3b326cc50076d6d82a0c4498640ff
+                    - cell "Jun 10, 2026last month" [ref=f2e869]
+            - generic [ref=f2e872]:
+              - generic [ref=f2e873]:
+                - heading "Repository files navigation" [level=2] [ref=f2e874]
+                - navigation "Repository files" [ref=f2e875]:
+                  - list [ref=f2e876]:
+                    - listitem [ref=f2e877]:
+                      - link "README" [ref=f2e878] [cursor=pointer]:
+                        - /url: "#"
+                    - listitem [ref=f2e880]:
+                      - link "Contributing" [ref=f2e881] [cursor=pointer]:
+                        - /url: "#"
+                    - listitem [ref=f2e883]:
+                      - link "License" [ref=f2e884] [cursor=pointer]:
+                        - /url: "#"
+                - button "Outline" [ref=f2e886] [cursor=pointer]
+              - article [ref=f2e890]:
+                - generic [ref=f2e891]:
+                  - paragraph [ref=f2e892]: Note
+                  - paragraph [ref=f2e895]:
+                    - strong [ref=f2e896]: "OmO for Codex is here: try LazyCodex"
+                  - paragraph [ref=f2e897]: "We loved Anthropic models enough to get blocked. Now we are backing Codex. If you are an OmO fan but the setup felt like too much, use LazyCodex. OmO for Codex has shipped:"
+                  - generic [ref=f2e898]:
+                    - generic [ref=f2e899]: npx lazycodex-ai install
+                    - button "Copy code to clipboard" [ref=f2e901] [cursor=pointer]
+                  - paragraph [ref=f2e905]:
+                    - text: Learn more at
+                    - link "lazycodex.ai" [ref=f2e906] [cursor=pointer]:
+                      - /url: https://lazycodex.ai
+                    - text: .
+                - generic [ref=f2e907]:
+                  - paragraph [ref=f2e908]: Note
+                  - paragraph [ref=f2e911]:
+                    - strong [ref=f2e912]: Multi-Harness Agent OS Refactor in Progress
+                  - paragraph [ref=f2e913]:
+                    - text: We are restructuring the codebase to support multiple agent harnesses (OpenCode, Codex, Pi, and others). If you are interested in contributing, please read the
+                    - link "ROADMAP" [ref=f2e914] [cursor=pointer]:
+                      - /url: /code-yeongyu/oh-my-openagent/blob/dev/ROADMAP.md
+                    - text: first. PRs related to roadmap work should use the
+                    - code [ref=f2e915]: ROADMAP
+                    - text: label.
+                - generic [ref=f2e916]:
+                  - paragraph [ref=f2e917]: Tip
+                  - paragraph [ref=f2e920]:
+                    - strong [ref=f2e921]: Building in Public
+                  - paragraph [ref=f2e922]: The maintainer builds and maintains oh-my-openagent in real-time with Jobdori, an AI assistant running on a heavily customized fork of OpenClaw. Every feature, every fix, every issue triage — live in our Discord.
+                  - paragraph [ref=f2e923]:
+                    - link [ref=f2e924] [cursor=pointer]:
+                      - /url: https://discord.gg/PUwSMR9XNk
+                      - img "Building in Public" [ref=f2e925]
+                  - paragraph [ref=f2e926]:
+                    - link [ref=f2e927] [cursor=pointer]:
+                      - /url: https://discord.gg/PUwSMR9XNk
+                      - strong [ref=f2e928]: "→ Watch it happen in #building-in-public"
+                - generic [ref=f2e929]:
+                  - paragraph [ref=f2e930]: Note
+                  - paragraph [ref=f2e933]:
+                    - link [ref=f2e934] [cursor=pointer]:
+                      - /url: https://sisyphuslabs.ai
+                      - img "Sisyphus Labs - Meet Dori. Not a demo. Subscribes to everything." [ref=f2e935]
+                  - blockquote [ref=f2e936]:
+                    - paragraph [ref=f2e937]:
+                      - strong [ref=f2e938]:
+                        - text: OmO is maintained by Jobdori, the AI assistant shown above. Meet your own Jobdori — Dori. Join the waitlist
+                        - link "here" [ref=f2e939] [cursor=pointer]:
+                          - /url: https://sisyphuslabs.ai
+                        - text: .
+                - generic [ref=f2e940]:
+                  - paragraph [ref=f2e941]: Tip
+                  - paragraph [ref=f2e944]: Be with us!
+                  - table [ref=f2e945]:
+                    - rowgroup [ref=f2e946]:
+                      - row [ref=f2e947]:
+                        - columnheader [ref=f2e948]:
+                          - link [ref=f2e949] [cursor=pointer]:
+                            - /url: https://discord.gg/PUwSMR9XNk
+                            - img "Discord link" [ref=f2e950]
+                        - columnheader [ref=f2e951]:
+                          - text: Join our
+                          - link "Discord community" [ref=f2e952] [cursor=pointer]:
+                            - /url: https://discord.gg/PUwSMR9XNk
+                          - text: to connect with contributors and fellow
+                          - code [ref=f2e953]: oh-my-openagent
+                          - text: users.
+                    - rowgroup [ref=f2e954]:
+                      - row [ref=f2e955]:
+                        - cell [ref=f2e956]:
+                          - link [ref=f2e957] [cursor=pointer]:
+                            - /url: https://x.com/justsisyphus
+                            - img "X link" [ref=f2e958]
+                        - cell [ref=f2e959]:
+                          - text: Updates for
+                          - code [ref=f2e960]: oh-my-openagent
+                          - text: used to be posted on my X account. Since it was mistakenly suspended,
+                          - link "@justsisyphus" [ref=f2e961] [cursor=pointer]:
+                            - /url: https://x.com/justsisyphus
+                          - text: now posts updates on my behalf.
+                      - row [ref=f2e962]:
+                        - cell [ref=f2e963]:
+                          - link [ref=f2e964] [cursor=pointer]:
+                            - /url: https://github.com/code-yeongyu
+                            - img "GitHub Follow" [ref=f2e965]
+                        - cell [ref=f2e966]:
+                          - text: Follow
+                          - link "@code-yeongyu" [ref=f2e967] [cursor=pointer]:
+                            - /url: https://github.com/code-yeongyu
+                          - text: on GitHub for more projects.
+                - generic [ref=f2e968]:
+                  - paragraph [ref=f2e969]:
+                    - link [ref=f2e970] [cursor=pointer]:
+                      - /url: https://github.com/code-yeongyu/oh-my-openagent#oh-my-openagent
+                      - img "OmO" [ref=f2e971]
+                  - paragraph [ref=f2e972]:
+                    - link [ref=f2e973] [cursor=pointer]:
+                      - /url: https://github.com/code-yeongyu/oh-my-openagent#oh-my-openagent
+                      - img "Oh My OpenAgent" [ref=f2e974]
+                  - paragraph [ref=f2e975]:
+                    - link [ref=f2e976] [cursor=pointer]:
+                      - /url: https://github.com/code-yeongyu/oh-my-openagent#oh-my-openagent
+                      - img "Preview" [ref=f2e977]
+                - blockquote [ref=f2e978]:
+                  - paragraph [ref=f2e979]: This is oh-my-openagent, running Team Mode. With Kimi K3 and GPT-5.6 Sol.
+                - blockquote [ref=f2e980]:
+                  - paragraph [ref=f2e981]:
+                    - text: Anthropic
+                    - link [ref=f2e982] [cursor=pointer]:
+                      - /url: https://x.com/thdxr/status/2010149530486911014
+                      - strong [ref=f2e983]: blocked OpenCode because of us.
+                    - strong [ref=f2e984]: Yes, this is true.
+                    - text: They want you locked in. Claude Code is a nice prison, but it's still a prison.
+                  - paragraph [ref=f2e985]: You don't need to pay $200 for 2 hours of work. The future isn't picking one winner; it's orchestrating them all. Models get cheaper every month. Smarter every month. No single provider will dominate. We're building for that open market, not their walled gardens.
+                - generic [ref=f2e986]:
+                  - paragraph [ref=f2e987]:
+                    - link [ref=f2e988] [cursor=pointer]:
+                      - /url: https://github.com/code-yeongyu/oh-my-openagent/releases
+                      - img "GitHub Release" [ref=f2e989]
+                    - link [ref=f2e990] [cursor=pointer]:
+                      - /url: https://www.npmjs.com/package/oh-my-opencode
+                      - img "npm downloads" [ref=f2e991]
+                    - link [ref=f2e992] [cursor=pointer]:
+                      - /url: https://github.com/code-yeongyu/oh-my-openagent/graphs/contributors
+                      - img "GitHub Contributors" [ref=f2e993]
+                    - link [ref=f2e994] [cursor=pointer]:
+                      - /url: https://github.com/code-yeongyu/oh-my-openagent/network/members
+                      - img "GitHub Forks" [ref=f2e995]
+                    - link [ref=f2e996] [cursor=pointer]:
+                      - /url: https://github.com/code-yeongyu/oh-my-openagent/stargazers
+                      - img "GitHub Stars" [ref=f2e997]
+                    - link [ref=f2e998] [cursor=pointer]:
+                      - /url: https://github.com/code-yeongyu/oh-my-openagent/issues
+                      - img "GitHub Issues" [ref=f2e999]
+                    - link [ref=f2e1000] [cursor=pointer]:
+                      - /url: https://github.com/code-yeongyu/oh-my-openagent/blob/dev/LICENSE.md
+                      - img "License" [ref=f2e1001]
+                    - link [ref=f2e1002] [cursor=pointer]:
+                      - /url: https://deepwiki.com/code-yeongyu/oh-my-openagent
+                      - img "Ask DeepWiki" [ref=f2e1003]
+                    - link [ref=f2e1004] [cursor=pointer]:
+                      - /url: https://omo.vibetip.help/docs
+                      - img "Docs" [ref=f2e1005]
+                  - paragraph [ref=f2e1006]:
+                    - link "English" [ref=f2e1007] [cursor=pointer]:
+                      - /url: /code-yeongyu/oh-my-openagent/blob/dev/README.md
+                    - text: "|"
+                    - link "한국어" [ref=f2e1008] [cursor=pointer]:
+                      - /url: /code-yeongyu/oh-my-openagent/blob/dev/README.ko.md
+                    - text: "|"
+                    - link "日本語" [ref=f2e1009] [cursor=pointer]:
+                      - /url: /code-yeongyu/oh-my-openagent/blob/dev/README.ja.md
+                    - text: "|"
+                    - link "简体中文" [ref=f2e1010] [cursor=pointer]:
+                      - /url: /code-yeongyu/oh-my-openagent/blob/dev/README.zh-cn.md
+                - generic [ref=f2e1011]:
+                  - heading "Reviews" [level=2] [ref=f2e1012]
+                  - 'link "Permalink: Reviews" [ref=f2e1013] [cursor=pointer]':
+                    - /url: "#reviews"
+                - blockquote [ref=f2e1016]:
+                  - paragraph [ref=f2e1017]:
+                    - text: "\"It made me cancel my Cursor subscription. Unbelievable things are happening in the open source community.\" -"
+                    - link "Arthur Guiot" [ref=f2e1018] [cursor=pointer]:
+                      - /url: https://x.com/arthur_guiot/status/2008736347092382053?s=20
+                - blockquote [ref=f2e1019]:
+                  - paragraph [ref=f2e1020]: "\"If Claude Code does in 7 days what a human does in 3 months, Sisyphus does it in 1 hour. It just works until the task is done. It is a discipline agent.\" - B, Quant Researcher"
+                - blockquote [ref=f2e1021]:
+                  - paragraph [ref=f2e1022]:
+                    - text: "\"Knocked out 8000 eslint warnings with Oh My Opencode, just in a day\" -"
+                    - link "Jacob Ferrari" [ref=f2e1023] [cursor=pointer]:
+                      - /url: https://x.com/jacobferrari_/status/2003258761952289061
+                - blockquote [ref=f2e1024]:
+                  - paragraph [ref=f2e1025]:
+                    - text: "\"I converted a 45k line tauri app into a SaaS web app overnight using Ohmyopencode and ralph loop. Started with interview me prompt, asked it for ratings and recommendations on the questions. It was amazing to watch it work and to wake up this morning to a mostly working website!\" -"
+                    - link "James Hargis" [ref=f2e1026] [cursor=pointer]:
+                      - /url: https://x.com/hargabyte/status/2007299688261882202
+                - blockquote [ref=f2e1027]:
+                  - paragraph [ref=f2e1028]:
+                    - text: "\"use oh-my-opencode, you will never go back\" -"
+                    - link "d0t3ch" [ref=f2e1029] [cursor=pointer]:
+                      - /url: https://x.com/d0t3ch/status/2001685618200580503
+                - blockquote [ref=f2e1030]:
+                  - paragraph [ref=f2e1031]:
+                    - text: "\"I haven't really been able to articulate exactly what makes it so great yet, but the development experience has reached a completely different dimension.\" -"
+                    - link "苔硯:こけすずり" [ref=f2e1032] [cursor=pointer]:
+                      - /url: https://x.com/kokesuzuri/status/2008532913961529372?s=20
+                - blockquote [ref=f2e1033]:
+                  - paragraph [ref=f2e1034]:
+                    - text: "\"Experimenting with open code, oh my opencode and supermemory this weekend to build some minecraft/souls-like abomination.\" \"Asking it to add crouch animations while I go take my post-lunch walk. [Video]\" -"
+                    - link "MagiMetal" [ref=f2e1035] [cursor=pointer]:
+                      - /url: https://x.com/MagiMetal/status/2005374704178373023
+                - blockquote [ref=f2e1036]:
+                  - paragraph [ref=f2e1037]: "\"You guys should pull this into core and recruit him. Seriously. It's really, really, really good.\" - Henning Kilset"
+                - blockquote [ref=f2e1038]:
+                  - paragraph [ref=f2e1039]:
+                    - text: "\"Hire @yeon_gyu_kim if you can convince him, this dude has revolutionized opencode.\" -"
+                    - link "mysticaltech" [ref=f2e1040] [cursor=pointer]:
+                      - /url: https://x.com/mysticaltech/status/2001858758608376079
+                - blockquote [ref=f2e1041]:
+                  - paragraph [ref=f2e1042]:
+                    - text: "\"Oh My OpenCode Is Actually Insane\" -"
+                    - link "YouTube - Darren Builds AI" [ref=f2e1043] [cursor=pointer]:
+                      - /url: https://www.youtube.com/watch?v=G_Snfh2M41M
+                - separator [ref=f2e1044]
+                - generic [ref=f2e1045]:
+                  - heading "Oh My OpenAgent" [level=1] [ref=f2e1046]
+                  - 'link "Permalink: Oh My OpenAgent" [ref=f2e1047] [cursor=pointer]':
+                    - /url: "#oh-my-openagent"
+                - paragraph [ref=f2e1050]: You're juggling Claude Code, Codex, and random OSS models. Configuring workflows. Debugging agents.
+                - paragraph [ref=f2e1051]: We did the work. Tested everything. Kept what actually shipped.
+                - paragraph [ref=f2e1052]:
+                  - text: Install oh-my-openagent. Type
+                  - code [ref=f2e1053]: ultrawork
+                  - text: . Done.
+                - generic [ref=f2e1054]:
+                  - heading "Installation" [level=2] [ref=f2e1055]
+                  - 'link "Permalink: Installation" [ref=f2e1056] [cursor=pointer]':
+                    - /url: "#installation"
+                - paragraph [ref=f2e1059]: "oh-my-openagent ships in two editions of the same product:"
+                - list [ref=f2e1060]:
+                  - listitem [ref=f2e1061]:
+                    - strong [ref=f2e1062]: Ultimate Edition (omo for OpenCode)
+                    - text: — full omo. 11 agents, 54+ lifecycle hooks, 5 built-in MCPs, all slash commands, Team Mode, ulw-loop, ultrawork, hashline edits — everything.
+                  - listitem [ref=f2e1063]:
+                    - strong [ref=f2e1064]: Light Edition (omo for Codex CLI)
+                    - text: "— the portable components that fit Codex's plugin system:"
+                    - code [ref=f2e1065]: rules
+                    - text: ","
+                    - code [ref=f2e1066]: comment-checker
+                    - text: ","
+                    - code [ref=f2e1067]: git-bash
+                    - text: ","
+                    - code [ref=f2e1068]: lsp
+                    - text: ","
+                    - code [ref=f2e1069]: ultrawork
+                    - text: ","
+                    - code [ref=f2e1070]: ulw-loop
+                    - text: ","
+                    - code [ref=f2e1071]: start-work-continuation
+                    - text: ", and"
+                    - code [ref=f2e1072]: telemetry
+                    - text: ", plus plugin-scoped MCPs for"
+                    - code [ref=f2e1073]: grep_app
+                    - text: ","
+                    - code [ref=f2e1074]: context7
+                    - text: ","
+                    - code [ref=f2e1075]: codegraph
+                    - text: ","
+                    - code [ref=f2e1076]: git_bash
+                    - text: ", and"
+                    - code [ref=f2e1077]: lsp
+                    - text: ", and the shared"
+                    - code [ref=f2e1078]: ast-grep
+                    - text: skill. No agent orchestration and no
+                    - code [ref=f2e1079]: team_*
+                    - text: tools — Codex CLI's own surface does that work.
+                - paragraph [ref=f2e1080]: Pick the edition(s) you want.
+                - generic [ref=f2e1081]:
+                  - heading "TL;DR" [level=3] [ref=f2e1082]
+                  - 'link "Permalink: TL;DR" [ref=f2e1083] [cursor=pointer]':
+                    - /url: "#tldr"
+                - table [ref=f2e1087]:
+                  - rowgroup [ref=f2e1088]:
+                    - row [ref=f2e1089]:
+                      - columnheader "You want" [ref=f2e1090]
+                      - columnheader "Run" [ref=f2e1091]
+                      - columnheader "What lands on disk" [ref=f2e1092]
+                  - rowgroup [ref=f2e1093]:
+                    - row [ref=f2e1094]:
+                      - cell [ref=f2e1095]:
+                        - strong [ref=f2e1096]: Ultimate
+                        - text: (OpenCode)
+                      - cell [ref=f2e1097]:
+                        - code [ref=f2e1098]: bunx oh-my-openagent install
+                        - text: (TUI walks you through it)
+                      - cell [ref=f2e1099]:
+                        - text: Plugin registered in
+                        - code [ref=f2e1100]: opencode.json
+                        - text: + agent/model config + provider auth prompts
+                    - row [ref=f2e1101]:
+                      - cell [ref=f2e1102]:
+                        - strong [ref=f2e1103]: Light
+                        - text: (Codex CLI)
+                      - cell [ref=f2e1104]:
+                        - code [ref=f2e1105]: npx lazycodex-ai install
+                      - cell [ref=f2e1106]:
+                        - code [ref=f2e1107]: ~/.codex/plugins/cache/sisyphuslabs/omo/
+                        - text: + local Codex marketplace cache +
+                        - code [ref=f2e1108]: ~/.codex/config.toml
+                        - text: marketplace/plugin/agent blocks + optional autonomous permissions + component CLIs in
+                        - code [ref=f2e1109]: ~/.local/bin
+                    - row [ref=f2e1110]:
+                      - cell [ref=f2e1111]:
+                        - strong [ref=f2e1112]: Both
+                      - cell [ref=f2e1113]:
+                        - code [ref=f2e1114]: bunx oh-my-openagent install --platform=both
+                      - cell "Both of the above" [ref=f2e1115]
+                - paragraph [ref=f2e1116]:
+                  - code [ref=f2e1117]: lazycodex-ai
+                  - text: defaults to the Codex Light installer and runs through Node/npm.
+                  - code [ref=f2e1118]: "--platform"
+                  - text: on the shared
+                  - code [ref=f2e1119]: omo
+                  - text: CLI still defaults to
+                  - code [ref=f2e1120]: opencode
+                  - text: (Ultimate).
+                - generic [ref=f2e1121]:
+                  - heading "For Humans" [level=3] [ref=f2e1122]
+                  - 'link "Permalink: For Humans" [ref=f2e1123] [cursor=pointer]':
+                    - /url: "#for-humans"
+                - paragraph [ref=f2e1126]:
+                  - strong [ref=f2e1127]: "Strongly recommended: let an LLM agent install this for you."
+                  - text: The Ultimate edition setup involves subscription detection, model selection across 11 agents, and per-provider authentication — humans fat-finger these. An LLM agent reads the full guide and walks every step correctly.
+                - paragraph [ref=f2e1128]: "Paste this prompt into Claude Code, AmpCode, Cursor, or any agent:"
+                - generic [ref=f2e1129]:
+                  - code [ref=f2e1131]: "Install and configure oh-my-openagent by following the instructions here: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md"
+                  - button "Copy code to clipboard" [ref=f2e1133] [cursor=pointer]
+                - paragraph [ref=f2e1137]:
+                  - text: If you only want the
+                  - strong [ref=f2e1138]: Light edition
+                  - text: "(Codex CLI), the installer asks whether to configure Codex for autonomous full-permissions mode. You can run it yourself in one line:"
+                - generic [ref=f2e1139]:
+                  - generic [ref=f2e1140]:
+                    - text: npx lazycodex-ai install
+                    - generic [ref=f2e1141]: "# non-interactive recommended mode:"
+                    - text: npx lazycodex-ai install --no-tui --codex-autonomous
+                  - button "Copy code to clipboard" [ref=f2e1143] [cursor=pointer]
+                - paragraph [ref=f2e1147]:
+                  - text: For the Light edition, Bun is not required. Use
+                  - code [ref=f2e1148]: npx lazycodex-ai install
+                  - text: from a Node/npm environment. Global installation is not officially supported; the installer writes the Codex plugin into
+                  - code [ref=f2e1149]: ~/.codex/
+                  - text: .
+                - generic [ref=f2e1150]:
+                  - heading "For LLM Agents" [level=3] [ref=f2e1151]
+                  - 'link "Permalink: For LLM Agents" [ref=f2e1152] [cursor=pointer]':
+                    - /url: "#for-llm-agents"
+                - paragraph [ref=f2e1155]: "Fetch the full guide and follow it step by step:"
+                - generic [ref=f2e1156]:
+                  - generic [ref=f2e1157]: curl -fsSL https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/docs/guide/installation.md
+                  - button "Copy code to clipboard" [ref=f2e1159] [cursor=pointer]
+                - paragraph [ref=f2e1163]:
+                  - text: "The guide covers: platform selection, the subscription interview, provider authentication (Anthropic / Gemini / Copilot / Z.ai / OpenCode Zen), the agent-to-model matching matrix, modes ("
+                  - code [ref=f2e1164]: ultrawork
+                  - text: ","
+                  - code [ref=f2e1165]: search
+                  - text: ","
+                  - code [ref=f2e1166]: analyze
+                  - text: ","
+                  - code [ref=f2e1167]: team
+                  - text: ","
+                  - code [ref=f2e1168]: hyperplan
+                  - text: ), slash commands, the Light edition's 8 Codex components, Team Mode, and uninstall. Don't summarize it; read it end to end.
+                - generic [ref=f2e1169]:
+                  - heading "Note on package and command names" [level=3] [ref=f2e1170]
+                  - 'link "Permalink: Note on package and command names" [ref=f2e1171] [cursor=pointer]':
+                    - /url: "#note-on-package-and-command-names"
+                - paragraph [ref=f2e1174]:
+                  - text: The published npm package and CLI binary are still named
+                  - code [ref=f2e1175]: oh-my-opencode
+                  - text: (dual-published as
+                  - code [ref=f2e1176]: oh-my-openagent
+                  - text: during the rename transition). Inside
+                  - code [ref=f2e1177]: opencode.json
+                  - text: ", the compatibility layer prefers the plugin entry"
+                  - code [ref=f2e1178]: oh-my-openagent
+                  - text: ", while legacy"
+                  - code [ref=f2e1179]: oh-my-opencode
+                  - text: entries still load with a warning. Plugin config files still commonly use
+                  - code [ref=f2e1180]: oh-my-opencode.json[c]
+                  - text: ; both legacy and renamed basenames are recognized.
+                - paragraph [ref=f2e1181]:
+                  - text: The recommended
+                  - code [ref=f2e1182]: bunx
+                  - text: /
+                  - code [ref=f2e1183]: npx
+                  - text: invocation is
+                  - code [ref=f2e1184]: oh-my-openagent install
+                  - text: (or the original
+                  - code [ref=f2e1185]: oh-my-opencode install
+                  - text: ). The package also ships
+                  - code [ref=f2e1186]: omo
+                  - text: as a bin alias, but
+                  - strong [ref=f2e1187]: do not
+                  - text: use
+                  - code [ref=f2e1188]: bunx omo
+                  - text: or
+                  - code [ref=f2e1189]: npx omo
+                  - text: —
+                  - code [ref=f2e1190]: omo
+                  - text: is a different, unrelated npm package by a different author, and the package manager may resolve the wrong one.
+                  - code [ref=f2e1191]: lazycodex-ai
+                  - text: "is a single-purpose Node/npm installer package:"
+                  - code [ref=f2e1192]: npx lazycodex-ai install
+                  - text: routes directly to the Codex Light installer. It is not the Codex marketplace name (the marketplace repository is
+                  - code [ref=f2e1193]: code-yeongyu/lazycodex
+                  - text: ). Codex sees marketplace
+                  - code [ref=f2e1194]: sisyphuslabs
+                  - text: and plugin
+                  - code [ref=f2e1195]: omo
+                  - text: ", enabled as"
+                  - code [ref=f2e1196]: omo@sisyphuslabs
+                  - text: .
+                - generic [ref=f2e1197]:
+                  - heading "Telemetry" [level=3] [ref=f2e1198]
+                  - 'link "Permalink: Telemetry" [ref=f2e1199] [cursor=pointer]':
+                    - /url: "#telemetry"
+                - paragraph [ref=f2e1202]:
+                  - text: Anonymous telemetry is enabled by default to track active installations (DAU/WAU/MAU). For both products, a single event is sent
+                  - strong [ref=f2e1203]: at most once per UTC day per machine
+                  - text: using a SHA256-hashed installation identifier (never the raw hostname), and PostHog person profiles are not created. The main plugin emits
+                  - code [ref=f2e1204]: omo_daily_active
+                  - text: from plugin load (
+                  - code [ref=f2e1205]: plugin_loaded
+                  - text: ) and CLI run (
+                  - code [ref=f2e1206]: run_started
+                  - text: ) sources; the Codex CLI Light edition emits
+                  - code [ref=f2e1207]: omo_codex_daily_active
+                  - text: from two sources (
+                  - code [ref=f2e1208]: install_completed
+                  - text: and
+                  - code [ref=f2e1209]: session_start
+                  - text: ).
+                - paragraph [ref=f2e1210]: "Opt out per product:"
+                - list [ref=f2e1211]:
+                  - listitem [ref=f2e1212]:
+                    - text: "Main plugin: set"
+                    - code [ref=f2e1213]: "\"telemetry\": false"
+                    - text: in oh-my-openagent config,
+                    - code [ref=f2e1214]: OMO_DISABLE_POSTHOG=1
+                    - text: ", or"
+                    - code [ref=f2e1215]: OMO_SEND_ANONYMOUS_TELEMETRY=0
+                  - listitem [ref=f2e1216]:
+                    - text: "Codex CLI Light edition:"
+                    - code [ref=f2e1217]: OMO_CODEX_DISABLE_POSTHOG=1
+                    - text: or
+                    - code [ref=f2e1218]: OMO_CODEX_SEND_ANONYMOUS_TELEMETRY=0
+                    - text: (the global flags also disable Codex)
+                - paragraph [ref=f2e1219]:
+                  - text: See
+                  - link "Privacy Policy" [ref=f2e1220] [cursor=pointer]:
+                    - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/legal/privacy-policy.md
+                  - text: and
+                  - link "Terms of Service" [ref=f2e1221] [cursor=pointer]:
+                    - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/legal/terms-of-service.md
+                  - text: .
+                - separator [ref=f2e1222]
+                - generic [ref=f2e1223]:
+                  - heading "Skip This README" [level=2] [ref=f2e1224]
+                  - 'link "Permalink: Skip This README" [ref=f2e1225] [cursor=pointer]':
+                    - /url: "#skip-this-readme"
+                - paragraph [ref=f2e1228]: "We're past the era of reading docs. Just paste this into your agent:"
+                - generic [ref=f2e1229]:
+                  - code [ref=f2e1231]: "Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/README.md"
+                  - button "Copy code to clipboard" [ref=f2e1233] [cursor=pointer]
+                - generic [ref=f2e1237]:
+                  - heading "ROADMAP" [level=2] [ref=f2e1238]
+                  - 'link "Permalink: ROADMAP" [ref=f2e1239] [cursor=pointer]':
+                    - /url: "#roadmap"
+                - paragraph [ref=f2e1242]: "We are restructuring the codebase to support multiple agent harnesses (OpenCode, Codex, Pi, Claude Code, and others). The most urgent work is the package layering refactor: separating pure TypeScript core logic, MCP servers, skills, and adapter shims into distinct layers so the same logic can be reused across harnesses without duplication."
+                - paragraph [ref=f2e1243]:
+                  - text: If you want to contribute, read the
+                  - link "ROADMAP" [ref=f2e1244] [cursor=pointer]:
+                    - /url: /code-yeongyu/oh-my-openagent/blob/dev/ROADMAP.md
+                  - text: first. PRs related to this refactor should use the
+                  - code [ref=f2e1245]: ROADMAP
+                  - text: label so we can track them.
+                - generic [ref=f2e1246]:
+                  - heading "Highlights" [level=2] [ref=f2e1247]
+                  - 'link "Permalink: Highlights" [ref=f2e1248] [cursor=pointer]':
+                    - /url: "#highlights"
+                - generic [ref=f2e1251]:
+                  - heading [level=3] [ref=f2e1252]:
+                    - text: 🪄
+                    - code [ref=f2e1253]: ultrawork
+                  - 'link "Permalink: 🪄 ultrawork" [ref=f2e1254] [cursor=pointer]':
+                    - /url: "#-ultrawork"
+                - paragraph [ref=f2e1257]: You're actually reading this? Wild.
+                - paragraph [ref=f2e1258]:
+                  - text: Install. Type
+                  - code [ref=f2e1259]: ultrawork
+                  - text: (or
+                  - code [ref=f2e1260]: ulw
+                  - text: ). Done.
+                - paragraph [ref=f2e1261]: "Everything below, every feature, every optimization: you don't need to know any of it. It just works."
+                - paragraph [ref=f2e1262]:
+                  - text: Even with only the following subscriptions,
+                  - code [ref=f2e1263]: ultrawork
+                  - text: "works well (this project is not affiliated; these are personal recommendations):"
+                - list [ref=f2e1264]:
+                  - listitem [ref=f2e1265]:
+                    - link "ChatGPT Subscription ($20)" [ref=f2e1266] [cursor=pointer]:
+                      - /url: https://chatgpt.com/
+                  - listitem [ref=f2e1267]:
+                    - link "Kimi Code Subscription ($19)" [ref=f2e1268] [cursor=pointer]:
+                      - /url: https://www.kimi.com/code
+                  - listitem [ref=f2e1269]:
+                    - link "GLM Coding Plan ($10)" [ref=f2e1270] [cursor=pointer]:
+                      - /url: https://z.ai/subscribe
+                  - listitem [ref=f2e1271]: If you're eligible for pay-per-token, using Kimi and Gemini models won't cost much.
+                - table [ref=f2e1273]:
+                  - rowgroup [ref=f2e1274]:
+                    - row [ref=f2e1275]:
+                      - columnheader [ref=f2e1276]
+                      - columnheader "Feature" [ref=f2e1277]
+                      - columnheader "Edition" [ref=f2e1278]
+                      - columnheader "What it does" [ref=f2e1279]
+                  - rowgroup [ref=f2e1280]:
+                    - row [ref=f2e1281]:
+                      - cell "🤖" [ref=f2e1282]
+                      - cell [ref=f2e1283]:
+                        - strong [ref=f2e1284]: Discipline Agents
+                      - cell "Ultimate" [ref=f2e1285]
+                      - cell "Sisyphus orchestrates Hephaestus, Oracle, Librarian, Explore. A full AI dev team in parallel." [ref=f2e1286]
+                    - row [ref=f2e1287]:
+                      - cell "🧩" [ref=f2e1288]
+                      - cell [ref=f2e1289]:
+                        - strong [ref=f2e1290]: Codex CLI Light Edition
+                      - cell "Light" [ref=f2e1291]
+                      - cell [ref=f2e1292]:
+                        - text: Portable OMO components (rules, comment-checker, git-bash, LSP, ultrawork, ulw-loop, start-work continuation, telemetry) running inside OpenAI Codex CLI. Install via
+                        - code [ref=f2e1293]: npx lazycodex-ai install
+                        - text: .
+                    - row [ref=f2e1294]:
+                      - cell "👥" [ref=f2e1295]
+                      - cell [ref=f2e1296]:
+                        - strong [ref=f2e1297]: Team Mode
+                        - text: (v4.0, opt-in)
+                      - cell "Ultimate" [ref=f2e1298]
+                      - cell [ref=f2e1299]:
+                        - text: Lead agent + up to 8 parallel members, real-time tmux visualization, dedicated
+                        - code [ref=f2e1300]: team_*
+                        - text: tools. Powers
+                        - code [ref=f2e1301]: hyperplan
+                        - text: (5 hostile critics) and
+                        - code [ref=f2e1302]: security-research
+                        - text: (3 hunters + 2 PoC engineers).
+                        - link "Docs →" [ref=f2e1303] [cursor=pointer]:
+                          - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/guide/team-mode.md
+                    - row [ref=f2e1304]:
+                      - cell "⚡" [ref=f2e1305]
+                      - cell [ref=f2e1306]:
+                        - strong [ref=f2e1307]:
+                          - code [ref=f2e1308]: ultrawork
+                          - text: /
+                          - code [ref=f2e1309]: ulw
+                      - cell "Both" [ref=f2e1310]
+                      - cell "One word. Every agent activates. Doesn't stop until done." [ref=f2e1311]
+                    - row [ref=f2e1312]:
+                      - cell "🚪" [ref=f2e1313]
+                      - cell [ref=f2e1314]:
+                        - strong [ref=f2e1315]:
+                          - link "IntentGate" [ref=f2e1316] [cursor=pointer]:
+                            - /url: https://factory.ai/news/terminal-bench
+                      - cell "Ultimate" [ref=f2e1317]
+                      - cell [ref=f2e1318]:
+                        - text: Analyzes true user intent before classifying or acting. No more literal misinterpretations. (Light edition only recognises the
+                        - code [ref=f2e1319]: ultrawork
+                        - text: /
+                        - code [ref=f2e1320]: ulw
+                        - text: keyword.)
+                    - row [ref=f2e1321]:
+                      - cell "🔗" [ref=f2e1322]
+                      - cell [ref=f2e1323]:
+                        - strong [ref=f2e1324]: Hash-Anchored Edit Tool
+                      - cell "Ultimate" [ref=f2e1325]
+                      - cell [ref=f2e1326]:
+                        - code [ref=f2e1327]: LINE#ID
+                        - text: content hash validates every change. Zero stale-line errors. Inspired by
+                        - link "oh-my-pi" [ref=f2e1328] [cursor=pointer]:
+                          - /url: https://github.com/can1357/oh-my-pi
+                        - text: .
+                        - link "The Harness Problem →" [ref=f2e1329] [cursor=pointer]:
+                          - /url: https://blog.can.ac/2026/02/12/the-harness-problem/
+                    - row [ref=f2e1330]:
+                      - cell "🛠️" [ref=f2e1331]
+                      - cell [ref=f2e1332]:
+                        - strong [ref=f2e1333]: LSP integration
+                      - cell "Both" [ref=f2e1334]
+                      - cell "Diagnostics, navigation, symbols, workspace rename. IDE precision for agents. Same LSP MCP server in both editions." [ref=f2e1335]
+                    - row [ref=f2e1336]:
+                      - cell "🔎" [ref=f2e1337]
+                      - cell [ref=f2e1338]:
+                        - strong [ref=f2e1339]: AST-Grep
+                      - cell "Ultimate" [ref=f2e1340]
+                      - cell "Pattern-aware code search and rewriting across 25 languages." [ref=f2e1341]
+                    - row [ref=f2e1342]:
+                      - cell "🧠" [ref=f2e1343]
+                      - cell [ref=f2e1344]:
+                        - strong [ref=f2e1345]: Background Agents
+                      - cell "Ultimate" [ref=f2e1346]
+                      - cell "Fire 5+ specialists in parallel. Context stays lean. Results when ready." [ref=f2e1347]
+                    - row [ref=f2e1348]:
+                      - cell "📚" [ref=f2e1349]
+                      - cell [ref=f2e1350]:
+                        - strong [ref=f2e1351]: Built-in MCPs
+                        - text: (web/docs/code search)
+                      - cell "Ultimate" [ref=f2e1352]
+                      - cell "Exa (web search), Context7 (official docs), Grep.app (GitHub search). Always on." [ref=f2e1353]
+                    - row [ref=f2e1354]:
+                      - cell "🔁" [ref=f2e1355]
+                      - cell [ref=f2e1356]:
+                        - strong [ref=f2e1357]:
+                          - text: Goal /
+                          - code [ref=f2e1358]: /goal
+                      - cell "Ultimate" [ref=f2e1359]
+                      - cell "Persistent per-session objective. Re-injects a continuation prompt on every idle until a completion audit says it's done." [ref=f2e1360]
+                    - row [ref=f2e1361]:
+                      - cell "✅" [ref=f2e1362]
+                      - cell [ref=f2e1363]:
+                        - strong [ref=f2e1364]: Todo Enforcer
+                      - cell "Ultimate" [ref=f2e1365]
+                      - cell "Agent goes idle? System yanks it back. Your task gets done, period." [ref=f2e1366]
+                    - row [ref=f2e1367]:
+                      - cell "💬" [ref=f2e1368]
+                      - cell [ref=f2e1369]:
+                        - strong [ref=f2e1370]: Comment Checker
+                      - cell "Both" [ref=f2e1371]
+                      - cell "No AI slop in comments. Code reads like a senior wrote it." [ref=f2e1372]
+                    - row [ref=f2e1373]:
+                      - cell "📐" [ref=f2e1374]
+                      - cell [ref=f2e1375]:
+                        - strong [ref=f2e1376]: Rules Injection
+                        - text: (
+                        - code [ref=f2e1377]: AGENTS.md
+                        - text: /
+                        - code [ref=f2e1378]: .omo/rules/**
+                        - text: )
+                      - cell "Both" [ref=f2e1379]
+                      - cell "Project rules and AGENTS.md auto-loaded into the agent's context at every prompt." [ref=f2e1380]
+                    - row [ref=f2e1381]:
+                      - cell "🎯" [ref=f2e1382]
+                      - cell [ref=f2e1383]:
+                        - strong [ref=f2e1384]: Ulw Loop
+                      - cell "Both" [ref=f2e1385]
+                      - cell [ref=f2e1386]:
+                        - text: Durable multi-goal orchestration with evidence audit, backed by
+                        - code [ref=f2e1387]: .omo/ulw-loop/
+                        - text: .
+                    - row [ref=f2e1388]:
+                      - cell "🖥️" [ref=f2e1389]
+                      - cell [ref=f2e1390]:
+                        - strong [ref=f2e1391]: Tmux Integration
+                      - cell "Ultimate" [ref=f2e1392]
+                      - cell "Full interactive terminal. REPLs, debuggers, TUIs. All live." [ref=f2e1393]
+                    - row [ref=f2e1394]:
+                      - cell "🔌" [ref=f2e1395]
+                      - cell [ref=f2e1396]:
+                        - strong [ref=f2e1397]: Claude Code Compatible
+                      - cell "Ultimate" [ref=f2e1398]
+                      - cell "Your hooks, commands, skills, MCPs, and plugins? All work here." [ref=f2e1399]
+                    - row [ref=f2e1400]:
+                      - cell "🧬" [ref=f2e1401]
+                      - cell [ref=f2e1402]:
+                        - strong [ref=f2e1403]: Skill-Embedded MCPs
+                      - cell "Ultimate" [ref=f2e1404]
+                      - cell "Skills carry their own MCP servers. No context bloat." [ref=f2e1405]
+                    - row [ref=f2e1406]:
+                      - cell "📋" [ref=f2e1407]
+                      - cell [ref=f2e1408]:
+                        - strong [ref=f2e1409]: Prometheus Planner
+                      - cell "Ultimate" [ref=f2e1410]
+                      - cell "Interview-mode strategic planning before any execution." [ref=f2e1411]
+                    - row [ref=f2e1412]:
+                      - cell "🔍" [ref=f2e1413]
+                      - cell [ref=f2e1414]:
+                        - strong [ref=f2e1415]:
+                          - code [ref=f2e1416]: /init-deep
+                      - cell "Ultimate" [ref=f2e1417]
+                      - cell [ref=f2e1418]:
+                        - text: Auto-generates hierarchical
+                        - code [ref=f2e1419]: AGENTS.md
+                        - text: files throughout your project. Great for both token efficiency and your agent's performance.
+                - blockquote [ref=f2e1420]:
+                  - paragraph [ref=f2e1421]:
+                    - strong [ref=f2e1422]: Edition legend.
+                    - strong [ref=f2e1423]: Ultimate
+                    - text: = OpenCode-only (
+                    - code [ref=f2e1424]: bunx oh-my-openagent install
+                    - text: ).
+                    - strong [ref=f2e1425]: Light
+                    - text: = Codex CLI-only (
+                    - code [ref=f2e1426]: npx lazycodex-ai install
+                    - text: ).
+                    - strong [ref=f2e1427]: Both
+                    - text: = shipped in both editions, often with slightly different implementations under the hood.
+                - generic [ref=f2e1428]:
+                  - heading "Discipline Agents" [level=3] [ref=f2e1429]
+                  - 'link "Permalink: Discipline Agents" [ref=f2e1430] [cursor=pointer]':
+                    - /url: "#discipline-agents"
+                - table [ref=f2e1434]:
+                  - rowgroup [ref=f2e1435]:
+                    - row [ref=f2e1436]:
+                      - cell [ref=f2e1437]:
+                        - link [ref=f2e1438] [cursor=pointer]:
+                          - /url: /code-yeongyu/oh-my-openagent/blob/dev/.github/assets/sisyphus.png
+                      - cell [ref=f2e1440]:
+                        - link [ref=f2e1441] [cursor=pointer]:
+                          - /url: /code-yeongyu/oh-my-openagent/blob/dev/.github/assets/hephaestus.png
+                - paragraph [ref=f2e1443]:
+                  - strong [ref=f2e1444]: Sisyphus
+                  - text: (
+                  - code [ref=f2e1445]: claude-opus-4-8
+                  - text: /
+                  - strong [ref=f2e1446]:
+                    - code [ref=f2e1447]: kimi-k3
+                  - text: /
+                  - strong [ref=f2e1448]:
+                    - code [ref=f2e1449]: glm-5
+                  - text: ) is your main orchestrator. He plans, delegates to specialists, and drives tasks to completion with aggressive parallel execution. He does not stop halfway. Claude Opus 4.8 and Kimi K3 are the recommended defaults.
+                - paragraph [ref=f2e1450]:
+                  - strong [ref=f2e1451]: Hephaestus
+                  - text: (
+                  - code [ref=f2e1452]: gpt-5.6-sol
+                  - text: through OpenAI, GitHub Copilot, Vercel, or OpenCode at medium effort) is your autonomous deep worker. Give him a goal, not a recipe. He explores the codebase, researches patterns, and executes end-to-end without hand-holding.
+                  - emphasis [ref=f2e1453]: The Legitimate Craftsman.
+                - paragraph [ref=f2e1454]:
+                  - strong [ref=f2e1455]: Prometheus
+                  - text: (
+                  - code [ref=f2e1456]: claude-opus-4-8
+                  - text: /
+                  - strong [ref=f2e1457]:
+                    - code [ref=f2e1458]: gpt-5.6-sol
+                  - text: /
+                  - strong [ref=f2e1459]:
+                    - code [ref=f2e1460]: glm-5.2
+                  - text: ") is your strategic planner. Interview mode: he asks questions, identifies scope, and builds a detailed plan before a single line of code is touched."
+                - paragraph [ref=f2e1461]:
+                  - text: Every agent is tuned to its model's specific strengths. No manual model juggling.
+                  - link "Learn more →" [ref=f2e1462] [cursor=pointer]:
+                    - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/guide/overview.md
+                - blockquote [ref=f2e1463]:
+                  - paragraph [ref=f2e1464]:
+                    - text: Anthropic
+                    - link "blocked OpenCode because of us." [ref=f2e1465] [cursor=pointer]:
+                      - /url: https://x.com/thdxr/status/2010149530486911014
+                    - text: That's why Hephaestus is called "The Legitimate Craftsman." The irony is intentional.
+                  - paragraph [ref=f2e1466]: We run best on Opus or Kimi K3, but Kimi K3 + GPT-5.6 Sol already beats vanilla Claude Code. Zero config needed.
+                - generic [ref=f2e1467]:
+                  - heading "Team Mode (v4.0)" [level=3] [ref=f2e1468]
+                  - 'link "Permalink: Team Mode (v4.0)" [ref=f2e1469] [cursor=pointer]':
+                    - /url: "#team-mode-v40"
+                - paragraph [ref=f2e1472]:
+                  - text: One agent is fast. A coordinated team is
+                  - emphasis [ref=f2e1473]: devastating
+                  - text: .
+                - paragraph [ref=f2e1474]:
+                  - strong [ref=f2e1475]: Team Mode
+                  - text: turns oh-my-openagent from "one agent with subagents" into a real multi-agent system. A lead agent orchestrates a team of category-specialized members, all running
+                  - strong [ref=f2e1476]: in parallel
+                  - text: and communicating through dedicated tools (
+                  - code [ref=f2e1477]: team_create
+                  - text: ","
+                  - code [ref=f2e1478]: team_send_message
+                  - text: ","
+                  - code [ref=f2e1479]: team_task_create
+                  - text: ","
+                  - code [ref=f2e1480]: team_status
+                  - text: ", ...). Watch every member work simultaneously in a tmux layout with focus + grid windows."
+                - generic [ref=f2e1481]:
+                  - generic [ref=f2e1482]:
+                    - generic [ref=f2e1483]: // .opencode/oh-my-openagent.jsonc
+                    - text: "{ \"team_mode\": { \"enabled\": true, \"max_parallel_members\": 4, \"tmux_visualization\": true } }"
+                  - button "Copy code to clipboard" [ref=f2e1485] [cursor=pointer]
+                - paragraph [ref=f2e1489]:
+                  - text: Restart opencode and the
+                  - code [ref=f2e1490]: team_*
+                  - text: "tool family unlocks. Two skills already ride on top:"
+                - list [ref=f2e1491]:
+                  - listitem [ref=f2e1492]:
+                    - strong [ref=f2e1493]:
+                      - code [ref=f2e1494]: hyperplan
+                    - text: — 5 hostile agents tear apart your plan from orthogonal angles before a single line of code is written.
+                  - listitem [ref=f2e1495]:
+                    - strong [ref=f2e1496]:
+                      - code [ref=f2e1497]: security-research
+                    - text: — 3 vulnerability hunters + 2 PoC engineers audit your codebase in parallel, with severity calibrated by
+                    - emphasis [ref=f2e1498]: actual exploitability
+                    - text: .
+                - blockquote [ref=f2e1499]:
+                  - paragraph [ref=f2e1500]:
+                    - strong [ref=f2e1501]: Off by default. Enable it when you want it.
+                    - link "Full Team Mode guide →" [ref=f2e1502] [cursor=pointer]:
+                      - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/guide/team-mode.md
+                - generic [ref=f2e1503]:
+                  - heading "Agent Orchestration" [level=3] [ref=f2e1504]
+                  - 'link "Permalink: Agent Orchestration" [ref=f2e1505] [cursor=pointer]':
+                    - /url: "#agent-orchestration"
+                - paragraph [ref=f2e1508]:
+                  - text: When Sisyphus delegates to a subagent, it doesn't pick a model. It picks a
+                  - strong [ref=f2e1509]: category
+                  - text: ". The category maps automatically to the right model:"
+                - table [ref=f2e1511]:
+                  - rowgroup [ref=f2e1512]:
+                    - row [ref=f2e1513]:
+                      - columnheader "Category" [ref=f2e1514]
+                      - columnheader "What it's for" [ref=f2e1515]
+                  - rowgroup [ref=f2e1516]:
+                    - row [ref=f2e1517]:
+                      - cell [ref=f2e1518]:
+                        - code [ref=f2e1519]: visual-engineering
+                      - cell "Frontend, UI/UX, design" [ref=f2e1520]
+                    - row [ref=f2e1521]:
+                      - cell [ref=f2e1522]:
+                        - code [ref=f2e1523]: deep
+                      - cell "Autonomous research + execution" [ref=f2e1524]
+                    - row [ref=f2e1525]:
+                      - cell [ref=f2e1526]:
+                        - code [ref=f2e1527]: quick
+                      - cell "Single-file changes, typos" [ref=f2e1528]
+                    - row [ref=f2e1529]:
+                      - cell [ref=f2e1530]:
+                        - code [ref=f2e1531]: ultrabrain
+                      - cell "Hard logic, architecture decisions" [ref=f2e1532]
+                - paragraph [ref=f2e1533]:
+                  - text: The agent says what kind of work it needs; the harness picks the right model.
+                  - code [ref=f2e1534]: ultrabrain
+                  - text: now routes to GPT-5.6 Sol xhigh through OpenAI or Vercel when available, then GPT-5.6 Sol xhigh. You touch nothing.
+                - generic [ref=f2e1535]:
+                  - heading "Claude Code Compatibility" [level=3] [ref=f2e1536]
+                  - 'link "Permalink: Claude Code Compatibility" [ref=f2e1537] [cursor=pointer]':
+                    - /url: "#claude-code-compatibility"
+                - paragraph [ref=f2e1540]: You dialed in your Claude Code setup. Good.
+                - paragraph [ref=f2e1541]: Every hook, command, skill, MCP, plugin works here unchanged. Full compatibility, including plugins.
+                - generic [ref=f2e1542]:
+                  - heading "World-Class Tools for Your Agents" [level=3] [ref=f2e1543]
+                  - 'link "Permalink: World-Class Tools for Your Agents" [ref=f2e1544] [cursor=pointer]':
+                    - /url: "#world-class-tools-for-your-agents"
+                - paragraph [ref=f2e1547]: LSP, AST-Grep, Tmux, and MCP, actually integrated, not duct-taped together.
+                - list [ref=f2e1548]:
+                  - listitem [ref=f2e1549]:
+                    - strong [ref=f2e1550]: LSP
+                    - text: ":"
+                    - code [ref=f2e1551]: lsp_rename
+                    - text: ","
+                    - code [ref=f2e1552]: lsp_goto_definition
+                    - text: ","
+                    - code [ref=f2e1553]: lsp_find_references
+                    - text: ","
+                    - code [ref=f2e1554]: lsp_diagnostics
+                    - text: . IDE precision for every agent.
+                  - listitem [ref=f2e1555]:
+                    - strong [ref=f2e1556]: AST-Grep
+                    - text: ": Pattern-aware code search and rewriting across 25 languages."
+                  - listitem [ref=f2e1557]:
+                    - strong [ref=f2e1558]: Tmux
+                    - text: ": Full interactive terminal. REPLs, debuggers, TUI apps. Your agent stays in session."
+                  - listitem [ref=f2e1559]:
+                    - strong [ref=f2e1560]: MCP
+                    - text: ": Web search, official docs, GitHub code search. All baked in."
+                - generic [ref=f2e1561]:
+                  - heading "Skill-Embedded MCPs" [level=3] [ref=f2e1562]
+                  - 'link "Permalink: Skill-Embedded MCPs" [ref=f2e1563] [cursor=pointer]':
+                    - /url: "#skill-embedded-mcps"
+                - paragraph [ref=f2e1566]: MCP servers eat your context budget. We fixed that.
+                - paragraph [ref=f2e1567]: Skills bring their own MCP servers. They spin up on demand, scoped to the task, and go away when done. The context window stays clean.
+                - generic [ref=f2e1568]:
+                  - heading "Codes Better. Hash-Anchored Edits" [level=3] [ref=f2e1569]
+                  - 'link "Permalink: Codes Better. Hash-Anchored Edits" [ref=f2e1570] [cursor=pointer]':
+                    - /url: "#codes-better-hash-anchored-edits"
+                - paragraph [ref=f2e1573]: The harness problem is real. Most agent failures aren't the model's fault; it's the edit tool.
+                - blockquote [ref=f2e1574]:
+                  - paragraph [ref=f2e1575]:
+                    - emphasis [ref=f2e1576]: "\"None of these tools give the model a stable, verifiable identifier for the lines it wants to change... They all rely on the model reproducing content it already saw. When it can't - and it often can't - the user blames the model.\""
+                  - paragraph [ref=f2e1577]:
+                    - text: "-"
+                    - link "Can Bölük, The Harness Problem" [ref=f2e1578] [cursor=pointer]:
+                      - /url: https://blog.can.ac/2026/02/12/the-harness-problem/
+                - paragraph [ref=f2e1579]:
+                  - text: Inspired by
+                  - link "oh-my-pi" [ref=f2e1580] [cursor=pointer]:
+                    - /url: https://github.com/can1357/oh-my-pi
+                  - text: ", we built"
+                  - strong [ref=f2e1581]: Hashline
+                  - text: ". Every line the agent reads comes back tagged with a content hash:"
+                - generic [ref=f2e1582]:
+                  - code [ref=f2e1584]: "11#VK| function hello() { 22#XJ| return \"world\"; 33#MB| }"
+                  - button "Copy code to clipboard" [ref=f2e1586] [cursor=pointer]
+                - paragraph [ref=f2e1590]: The agent edits by referencing those tags. If the file has changed since the last read, the hash won't match and the edit is rejected before any corruption. No whitespace reproduction. No stale-line errors.
+                - paragraph [ref=f2e1591]:
+                  - text: "Grok Code Fast 1:"
+                  - strong [ref=f2e1592]: 6.7% → 68.3%
+                  - text: success rate, just from changing the edit tool.
+                - generic [ref=f2e1593]:
+                  - heading [level=3] [ref=f2e1594]:
+                    - text: Deep Initialization.
+                    - code [ref=f2e1595]: /init-deep
+                  - 'link "Permalink: Deep Initialization. /init-deep" [ref=f2e1596] [cursor=pointer]':
+                    - /url: "#deep-initialization-init-deep"
+                - paragraph [ref=f2e1599]:
+                  - text: Run
+                  - code [ref=f2e1600]: /init-deep
+                  - text: . It generates hierarchical
+                  - code [ref=f2e1601]: AGENTS.md
+                  - text: "files:"
+                - generic [ref=f2e1602]:
+                  - code [ref=f2e1604]: project/ ├── AGENTS.md ← project-wide context ├── src/ │ ├── AGENTS.md ← src-specific context │ └── components/ │ └── AGENTS.md ← component-specific context
+                  - button "Copy code to clipboard" [ref=f2e1606] [cursor=pointer]
+                - paragraph [ref=f2e1610]: Agents auto-read relevant context. Zero manual management.
+                - generic [ref=f2e1611]:
+                  - heading "Planning. Prometheus" [level=3] [ref=f2e1612]
+                  - 'link "Permalink: Planning. Prometheus" [ref=f2e1613] [cursor=pointer]':
+                    - /url: "#planning-prometheus"
+                - paragraph [ref=f2e1616]: Complex task? Don't prompt and pray.
+                - paragraph [ref=f2e1617]:
+                  - code [ref=f2e1618]: /start-work
+                  - text: calls Prometheus. He
+                  - strong [ref=f2e1619]: interviews you like a real engineer
+                  - text: ", identifies scope and ambiguities, and builds a verified plan before touching code. The agent knows what it's building before it starts."
+                - generic [ref=f2e1620]:
+                  - heading "Skills" [level=3] [ref=f2e1621]
+                  - 'link "Permalink: Skills" [ref=f2e1622] [cursor=pointer]':
+                    - /url: "#skills"
+                - paragraph [ref=f2e1625]: "Skills aren't just prompts. Each brings:"
+                - list [ref=f2e1626]:
+                  - listitem [ref=f2e1627]: Domain-tuned system instructions.
+                  - listitem [ref=f2e1628]: Embedded MCP servers, on demand.
+                  - listitem [ref=f2e1629]: Scoped permissions so agents stay in bounds.
+                - paragraph [ref=f2e1630]:
+                  - text: "Built-ins:"
+                  - code [ref=f2e1631]: playwright
+                  - text: (browser automation),
+                  - code [ref=f2e1632]: git-master
+                  - text: (atomic commits, rebase surgery),
+                  - code [ref=f2e1633]: frontend
+                  - text: (design-first UI).
+                - paragraph [ref=f2e1634]:
+                  - text: Add your own under
+                  - code [ref=f2e1635]: .opencode/skills/*/SKILL.md
+                  - text: or
+                  - code [ref=f2e1636]: ~/.config/opencode/skills/*/SKILL.md
+                  - text: .
+                - paragraph [ref=f2e1637]:
+                  - strong [ref=f2e1638]: Want the full feature breakdown?
+                  - text: See the
+                  - strong [ref=f2e1639]:
+                    - link "Features Documentation" [ref=f2e1640] [cursor=pointer]:
+                      - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/reference/features.md
+                  - text: for agents, hooks, tools, MCPs, and everything else in detail.
+                - separator [ref=f2e1641]
+                - blockquote [ref=f2e1642]:
+                  - paragraph [ref=f2e1643]:
+                    - strong [ref=f2e1644]: New to oh-my-openagent?
+                    - text: Read the
+                    - strong [ref=f2e1645]:
+                      - link "Overview" [ref=f2e1646] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/guide/overview.md
+                    - text: to understand what you have, or check the
+                    - strong [ref=f2e1647]:
+                      - link "Orchestration Guide" [ref=f2e1648] [cursor=pointer]:
+                        - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/guide/orchestration.md
+                    - text: for how agents collaborate.
+                - generic [ref=f2e1649]:
+                  - heading "Uninstallation" [level=2] [ref=f2e1650]
+                  - 'link "Permalink: Uninstallation" [ref=f2e1651] [cursor=pointer]':
+                    - /url: "#uninstallation"
+                - paragraph [ref=f2e1654]: "To remove oh-my-openagent:"
+                - list [ref=f2e1655]:
+                  - listitem [ref=f2e1656]:
+                    - paragraph [ref=f2e1657]:
+                      - strong [ref=f2e1658]: Remove the plugin from your OpenCode config
+                    - paragraph [ref=f2e1659]:
+                      - text: Edit
+                      - code [ref=f2e1660]: ~/.config/opencode/opencode.json
+                      - text: (or
+                      - code [ref=f2e1661]: opencode.jsonc
+                      - text: ) and remove either
+                      - code [ref=f2e1662]: "\"oh-my-openagent\""
+                      - text: or the legacy
+                      - code [ref=f2e1663]: "\"oh-my-opencode\""
+                      - text: entry from the
+                      - code [ref=f2e1664]: plugin
+                      - text: "array:"
+                    - generic [ref=f2e1665]:
+                      - generic [ref=f2e1666]:
+                        - generic [ref=f2e1667]: "# Using jq"
+                        - text: jq
+                        - generic [ref=f2e1668]: "'.plugin = [.plugin[] | select(. != \"oh-my-openagent\" and . != \"oh-my-opencode\")]'"
+                        - text: \ ~/.config/opencode/opencode.json > /tmp/oc.json && \ mv /tmp/oc.json ~/.config/opencode/opencode.json
+                      - button "Copy code to clipboard" [ref=f2e1670] [cursor=pointer]
+                  - listitem [ref=f2e1674]:
+                    - paragraph [ref=f2e1675]:
+                      - strong [ref=f2e1676]: Remove configuration files (optional)
+                    - generic [ref=f2e1677]:
+                      - generic [ref=f2e1678]:
+                        - generic [ref=f2e1679]: "# Remove plugin config files recognized during the compatibility window"
+                        - text: rm -f ~/.config/opencode/oh-my-openagent.jsonc ~/.config/opencode/oh-my-openagent.json \ ~/.config/opencode/oh-my-opencode.jsonc ~/.config/opencode/oh-my-opencode.json
+                        - generic [ref=f2e1680]: "# Remove project config (if exists)"
+                        - text: rm -f .opencode/oh-my-openagent.jsonc .opencode/oh-my-openagent.json \ .opencode/oh-my-opencode.jsonc .opencode/oh-my-opencode.json
+                      - button "Copy code to clipboard" [ref=f2e1682] [cursor=pointer]
+                  - listitem [ref=f2e1686]:
+                    - paragraph [ref=f2e1687]:
+                      - strong [ref=f2e1688]: Verify removal
+                    - generic [ref=f2e1689]:
+                      - generic [ref=f2e1690]:
+                        - text: opencode --version
+                        - generic [ref=f2e1691]: "# Plugin should no longer be loaded"
+                      - button "Copy code to clipboard" [ref=f2e1693] [cursor=pointer]
+                  - listitem [ref=f2e1697]:
+                    - paragraph [ref=f2e1698]:
+                      - strong [ref=f2e1699]: Remove omo-codex (Codex CLI Light edition)
+                    - generic [ref=f2e1700]:
+                      - generic [ref=f2e1701]:
+                        - text: npx lazycodex-ai uninstall
+                        - generic [ref=f2e1702]: "# backward-compatible alias:"
+                        - text: npx lazycodex-ai cleanup omo uninstall --platform=codex
+                        - generic [ref=f2e1703]: "# backward-compatible alias:"
+                        - text: omo cleanup --platform=codex
+                      - button "Copy code to clipboard" [ref=f2e1705] [cursor=pointer]
+                    - paragraph [ref=f2e1709]:
+                      - text: The uninstall command removes managed
+                      - code [ref=f2e1710]: sisyphuslabs
+                      - text: Codex cache/marketplace state, strips
+                      - code [ref=f2e1711]: omo@sisyphuslabs
+                      - text: plugin and hook-state blocks from
+                      - code [ref=f2e1712]: ~/.codex/config.toml
+                      - text: after writing a backup, and removes agent TOML links listed in the install manifest. If a specific project still has old project-local Codex plugin state, run the command from that project or pass
+                      - code [ref=f2e1713]: "--project <path>"
+                      - text: ; it repairs known project-local
+                      - code [ref=f2e1714]: .codex/config.toml
+                      - text: conflicts and reports project-local
+                      - code [ref=f2e1715]: .codex
+                      - text: artifacts without deleting project-owned files.
+                - generic [ref=f2e1716]:
+                  - heading "Features" [level=2] [ref=f2e1717]
+                  - 'link "Permalink: Features" [ref=f2e1718] [cursor=pointer]':
+                    - /url: "#features"
+                - paragraph [ref=f2e1721]: Features you'll think should've always existed. Once you use them, you can't go back.
+                - paragraph [ref=f2e1722]:
+                  - text: See full
+                  - link "Features Documentation" [ref=f2e1723] [cursor=pointer]:
+                    - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/reference/features.md
+                  - text: .
+                - paragraph [ref=f2e1724]:
+                  - strong [ref=f2e1725]: "Quick Overview:"
+                - list [ref=f2e1726]:
+                  - listitem [ref=f2e1727]:
+                    - strong [ref=f2e1728]: Agents
+                    - text: ": Sisyphus (the main agent), Prometheus (planner), Oracle (architecture/debugging), Librarian (docs/code search), Explore (fast codebase grep), Multimodal Looker"
+                  - listitem [ref=f2e1729]:
+                    - strong [ref=f2e1730]: Background Agents
+                    - text: ": Run multiple agents in parallel like a real dev team"
+                  - listitem [ref=f2e1731]:
+                    - strong [ref=f2e1732]: LSP & AST Tools
+                    - text: ": Refactoring, rename, diagnostics, AST-aware code search"
+                  - listitem [ref=f2e1733]:
+                    - strong [ref=f2e1734]: Hash-anchored Edit Tool
+                    - text: ":"
+                    - code [ref=f2e1735]: LINE#ID
+                    - text: references validate content before applying every change. Surgical edits, zero stale-line errors
+                  - listitem [ref=f2e1736]:
+                    - strong [ref=f2e1737]: Context Injection
+                    - text: ": Auto-inject AGENTS.md, README.md, conditional rules"
+                  - listitem [ref=f2e1738]:
+                    - strong [ref=f2e1739]: Claude Code Compatibility
+                    - text: ": Full hook system, commands, skills, agents, MCPs"
+                  - listitem [ref=f2e1740]:
+                    - strong [ref=f2e1741]: Built-in MCPs
+                    - text: ": websearch (Exa), context7 (docs), grep_app (GitHub search) — injected at runtime by the plugin; not visible in"
+                    - code [ref=f2e1742]: opencode mcp list
+                    - text: (see
+                    - link "MCP docs" [ref=f2e1743] [cursor=pointer]:
+                      - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/reference/features.md#native-vs-plugin-injected-mcps
+                    - text: )
+                  - listitem [ref=f2e1744]:
+                    - strong [ref=f2e1745]: Session Tools
+                    - text: ": List, read, search, and analyze session history"
+                  - listitem [ref=f2e1746]:
+                    - strong [ref=f2e1747]: Productivity Features
+                    - text: ": Goal, Todo Enforcer, Comment Checker, Think Mode, and more"
+                  - listitem [ref=f2e1748]:
+                    - strong [ref=f2e1749]: Doctor Command
+                    - text: ": Built-in diagnostics ("
+                    - code [ref=f2e1750]: bunx oh-my-opencode doctor
+                    - text: ) verify plugin registration, config, models, and environment
+                  - listitem [ref=f2e1751]:
+                    - strong [ref=f2e1752]: Model Fallbacks
+                    - text: ":"
+                    - code [ref=f2e1753]: fallback_models
+                    - text: can mix plain model strings with per-fallback object settings in the same array
+                  - listitem [ref=f2e1754]:
+                    - strong [ref=f2e1755]: File Prompts
+                    - text: ": Load prompts from files with"
+                    - code [ref=f2e1756]: file://
+                    - text: support in agent configurations
+                  - listitem [ref=f2e1757]:
+                    - strong [ref=f2e1758]: Session Recovery
+                    - text: ": Automatic recovery from session errors, context window limits, and API failures"
+                  - listitem [ref=f2e1759]:
+                    - strong [ref=f2e1760]: Model Setup
+                    - text: ": Agent-model matching is built into the"
+                    - link "Installation Guide" [ref=f2e1761] [cursor=pointer]:
+                      - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/guide/installation.md#step-5-understand-your-model-setup
+                - generic [ref=f2e1762]:
+                  - heading "Configuration" [level=2] [ref=f2e1763]
+                  - 'link "Permalink: Configuration" [ref=f2e1764] [cursor=pointer]':
+                    - /url: "#configuration"
+                - paragraph [ref=f2e1767]: Opinionated defaults, adjustable if you insist.
+                - paragraph [ref=f2e1768]:
+                  - text: See
+                  - link "Configuration Documentation" [ref=f2e1769] [cursor=pointer]:
+                    - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/reference/configuration.md
+                  - text: .
+                - paragraph [ref=f2e1770]:
+                  - strong [ref=f2e1771]: "Quick Overview:"
+                - list [ref=f2e1772]:
+                  - listitem [ref=f2e1773]:
+                    - strong [ref=f2e1774]: Config Locations
+                    - text: ": User config plus walked"
+                    - code [ref=f2e1775]: .opencode/oh-my-openagent.json[c]
+                    - text: configs up to
+                    - code [ref=f2e1776]: $HOME
+                    - text: ; closest wins. Legacy
+                    - code [ref=f2e1777]: oh-my-opencode.json[c]
+                    - text: still works.
+                  - listitem [ref=f2e1778]:
+                    - strong [ref=f2e1779]: JSONC Support
+                    - text: ": Comments and trailing commas supported"
+                  - listitem [ref=f2e1780]:
+                    - strong [ref=f2e1781]: Agents
+                    - text: ": Override models, temperatures, prompts, and permissions for any agent"
+                  - listitem [ref=f2e1782]:
+                    - strong [ref=f2e1783]: Built-in Skills
+                    - text: ":"
+                    - code [ref=f2e1784]: playwright
+                    - text: (browser automation),
+                    - code [ref=f2e1785]: git-master
+                    - text: (atomic commits)
+                  - listitem [ref=f2e1786]:
+                    - strong [ref=f2e1787]: Sisyphus Agent
+                    - text: ": Main orchestrator with Prometheus (Planner) and Metis (Plan Consultant)"
+                  - listitem [ref=f2e1788]:
+                    - strong [ref=f2e1789]: Background Tasks
+                    - text: ": Configure concurrency limits per provider/model"
+                  - listitem [ref=f2e1790]:
+                    - strong [ref=f2e1791]: Categories
+                    - text: ": Domain-specific task delegation ("
+                    - code [ref=f2e1792]: visual
+                    - text: ","
+                    - code [ref=f2e1793]: business-logic
+                    - text: ", custom)"
+                  - listitem [ref=f2e1794]:
+                    - strong [ref=f2e1795]: Hooks
+                    - text: ": 54+ lifecycle hooks (61 with Team Mode), all configurable via"
+                    - code [ref=f2e1796]: disabled_hooks
+                  - listitem [ref=f2e1797]:
+                    - strong [ref=f2e1798]: MCPs
+                    - text: ": Built-in websearch (Exa), context7 (docs), grep_app (GitHub search) — runtime-injected, not shown in"
+                    - code [ref=f2e1799]: opencode mcp list
+                  - listitem [ref=f2e1800]:
+                    - strong [ref=f2e1801]: LSP
+                    - text: ": Full LSP support with refactoring tools"
+                  - listitem [ref=f2e1802]:
+                    - strong [ref=f2e1803]: Experimental
+                    - text: ": Aggressive truncation, auto-resume, and more"
+                - generic [ref=f2e1804]:
+                  - heading "Author's Note" [level=2] [ref=f2e1805]
+                  - 'link "Permalink: Author''s Note" [ref=f2e1806] [cursor=pointer]':
+                    - /url: "#authors-note"
+                - paragraph [ref=f2e1809]:
+                  - strong [ref=f2e1810]: Want the philosophy?
+                  - text: Read the
+                  - link "Ultrawork Manifesto" [ref=f2e1811] [cursor=pointer]:
+                    - /url: /code-yeongyu/oh-my-openagent/blob/dev/docs/manifesto.md
+                  - text: .
+                - separator [ref=f2e1812]
+                - paragraph [ref=f2e1813]: I burned through $24K in LLM tokens on personal projects. Tried every tool. Configured everything to death. OpenCode won.
+                - paragraph [ref=f2e1814]: Every problem I hit, the fix is baked into this plugin. Install and go.
+                - paragraph [ref=f2e1815]:
+                  - text: If OpenCode is Debian/Arch, oh-my-openagent is Ubuntu/
+                  - link "Omarchy" [ref=f2e1816] [cursor=pointer]:
+                    - /url: https://omarchy.org/
+                  - text: .
+                - paragraph [ref=f2e1817]:
+                  - text: Heavily influenced by
+                  - link "AmpCode" [ref=f2e1818] [cursor=pointer]:
+                    - /url: https://ampcode.com
+                  - text: and
+                  - link "Claude Code" [ref=f2e1819] [cursor=pointer]:
+                    - /url: https://code.claude.com/docs/overview
+                  - text: . Features ported, often improved. Still building. It's
+                  - strong [ref=f2e1820]: Open
+                  - text: Code.
+                - paragraph [ref=f2e1821]: Other harnesses promise multi-model orchestration. We ship it. Stability too. And features that actually work.
+                - paragraph [ref=f2e1822]: "I'm this project's most obsessive user:"
+                - list [ref=f2e1823]:
+                  - listitem [ref=f2e1824]: Which model has the sharpest logic?
+                  - listitem [ref=f2e1825]: Who's the debugging god?
+                  - listitem [ref=f2e1826]: Who writes the best prose?
+                  - listitem [ref=f2e1827]: Who dominates frontend?
+                  - listitem [ref=f2e1828]: Who owns backend?
+                  - listitem [ref=f2e1829]: What's fastest for daily driving?
+                  - listitem [ref=f2e1830]: What are competitors shipping?
+                - paragraph [ref=f2e1831]: This plugin is the distillation. Take the best. Got improvements? PRs welcome.
+                - paragraph [ref=f2e1832]:
+                  - strong [ref=f2e1833]: Stop agonizing over harness choices.
+                  - strong [ref=f2e1834]: I'll research, steal the best, and ship it here.
+                - paragraph [ref=f2e1835]: Sounds arrogant? Have a better way? Contribute. You're welcome.
+                - paragraph [ref=f2e1836]: No affiliation with any project or model mentioned. Just personal experimentation.
+                - paragraph [ref=f2e1837]:
+                  - text: "Credit: The LazyCodex name idea is inspired by"
+                  - link "LazyVim" [ref=f2e1838] [cursor=pointer]:
+                    - /url: https://github.com/LazyVim/LazyVim
+                  - text: . The Ultragoal and UltraQA ideas are inspired by
+                  - link "oh-my-codex" [ref=f2e1839] [cursor=pointer]:
+                    - /url: https://github.com/Yeachan-Heo/oh-my-codex
+                  - text: ", reimplemented from concept for OmO."
+                - paragraph [ref=f2e1840]:
+                  - text: 99% of this project was built with OpenCode. I don't really know TypeScript,
+                  - strong [ref=f2e1841]: but I personally reviewed and largely rewrote this doc.
+                - generic [ref=f2e1842]:
+                  - heading "Loved by professionals at" [level=2] [ref=f2e1843]
+                  - 'link "Permalink: Loved by professionals at" [ref=f2e1844] [cursor=pointer]':
+                    - /url: "#loved-by-professionals-at"
+                - list [ref=f2e1847]:
+                  - listitem [ref=f2e1848]:
+                    - link "Indent" [ref=f2e1849] [cursor=pointer]:
+                      - /url: https://indentcorp.com
+                    - list [ref=f2e1850]:
+                      - listitem [ref=f2e1851]: Makers of Spray (influencer marketing solution), vovushop (cross-border commerce platform), and vreview (AI commerce review marketing solution).
+                  - listitem [ref=f2e1852]:
+                    - link "Google" [ref=f2e1853] [cursor=pointer]:
+                      - /url: https://google.com
+                  - listitem [ref=f2e1854]:
+                    - link "Microsoft" [ref=f2e1855] [cursor=pointer]:
+                      - /url: https://microsoft.com
+                  - listitem [ref=f2e1856]:
+                    - link "Vercel" [ref=f2e1857] [cursor=pointer]:
+                      - /url: https://vercel.com
+                  - listitem [ref=f2e1858]:
+                    - link "ELESTYLE" [ref=f2e1859] [cursor=pointer]:
+                      - /url: https://elestyle.jp
+                    - list [ref=f2e1860]:
+                      - listitem [ref=f2e1861]: Makers of elepay (multi-mobile payment gateway) and OneQR (mobile application SaaS for cashless solutions).
+                  - listitem [ref=f2e1862]:
+                    - link "Deepgram" [ref=f2e1863] [cursor=pointer]:
+                      - /url: https://deepgram.com
+                - paragraph [ref=f2e1864]:
+                  - emphasis [ref=f2e1865]:
+                    - text: Special thanks to
+                    - link "@junhoyeo" [ref=f2e1866] [cursor=pointer]:
+                      - /url: https://github.com/junhoyeo
+                    - text: for this amazing hero image.
+        - generic [ref=f2e1870]:
+          - generic [ref=f2e1873]:
+            - heading "About" [level=2] [ref=f2e1874]
+            - paragraph [ref=f2e1875]: "omo/lazycodex: The coding agent for tokenmaxxers;the one and only agent harness for complex codebases. For your Codex, for your OpenCode"
+            - link "omo.dev" [ref=f2e1880] [cursor=pointer]:
+              - /url: https://omo.dev
+            - heading "Topics" [level=3] [ref=f2e1881]
+            - generic [ref=f2e1883]:
+              - link "typescript" [ref=f2e1884] [cursor=pointer]:
+                - /url: /topics/typescript
+              - link "ai" [ref=f2e1885] [cursor=pointer]:
+                - /url: /topics/ai
+              - link "opencode" [ref=f2e1886] [cursor=pointer]:
+                - /url: /topics/opencode
+              - link "ide" [ref=f2e1887] [cursor=pointer]:
+                - /url: /topics/ide
+              - link "tui" [ref=f2e1888] [cursor=pointer]:
+                - /url: /topics/tui
+              - link "orchestration" [ref=f2e1889] [cursor=pointer]:
+                - /url: /topics/orchestration
+              - link "gemini" [ref=f2e1890] [cursor=pointer]:
+                - /url: /topics/gemini
+              - link "openai" [ref=f2e1891] [cursor=pointer]:
+                - /url: /topics/openai
+              - link "cursor" [ref=f2e1892] [cursor=pointer]:
+                - /url: /topics/cursor
+              - link "codex" [ref=f2e1893] [cursor=pointer]:
+                - /url: /topics/codex
+              - link "ai-agents" [ref=f2e1894] [cursor=pointer]:
+                - /url: /topics/ai-agents
+              - link "claude" [ref=f2e1895] [cursor=pointer]:
+                - /url: /topics/claude
+              - link "chatgpt" [ref=f2e1896] [cursor=pointer]:
+                - /url: /topics/chatgpt
+              - link "anthropic" [ref=f2e1897] [cursor=pointer]:
+                - /url: /topics/anthropic
+              - link "claude-skills" [ref=f2e1898] [cursor=pointer]:
+                - /url: /topics/claude-skills
+            - heading "Resources" [level=3] [ref=f2e1899]
+            - link "Readme" [ref=f2e1901] [cursor=pointer]:
+              - /url: "#readme-ov-file"
+            - heading "License" [level=3] [ref=f2e1904]
+            - link "View license" [ref=f2e1906] [cursor=pointer]:
+              - /url: "#License-1-ov-file"
+            - heading "Contributing" [level=3] [ref=f2e1909]
+            - link "Contributing" [ref=f2e1911] [cursor=pointer]:
+              - /url: "#contributing-ov-file"
+            - link "Activity" [ref=f2e1915] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent/activity
+            - heading "Stars" [level=3] [ref=f2e1918]
+            - generic [ref=f2e1920]:
+              - strong [ref=f2e1923]: 66.4k
+              - text: stars
+            - heading "Watchers" [level=3] [ref=f2e1924]
+            - generic [ref=f2e1926]:
+              - strong [ref=f2e1929]: "220"
+              - text: watching
+            - heading "Forks" [level=3] [ref=f2e1930]
+            - link [ref=f2e1932] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent/forks
+              - strong [ref=f2e1935]: 5.4k
+              - text: forks
+            - link "Report repository" [ref=f2e1937] [cursor=pointer]:
+              - /url: /contact/report-content?content_url=https%3A%2F%2Fgithub.com%2Fcode-yeongyu%2Foh-my-openagent&report=code-yeongyu+%28user%29
+          - generic [ref=f2e1939]:
+            - heading [level=2] [ref=f2e1940]:
+              - link "Releases 222" [ref=f2e1941] [cursor=pointer]:
+                - /url: /code-yeongyu/oh-my-openagent/releases
+                - text: Releases
+                - generic "222" [ref=f2e1942]
+            - link "v4.19.1 Latest Jul 22, 2026yesterday" [ref=f2e1943] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent/releases/tag/v4.19.1
+              - generic [ref=f2e1946]:
+                - generic [ref=f2e1947]:
+                  - generic [ref=f2e1948]: v4.19.1
+                  - 'generic "Label: Latest" [ref=f2e1949]': Latest
+                - generic [ref=f2e1950]: Jul 22, 2026yesterday
+            - link "+ 221 releases" [ref=f2e1952] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent/releases
+          - generic [ref=f2e1954]:
+            - heading [level=2] [ref=f2e1955]:
+              - link "Contributors 302" [ref=f2e1956] [cursor=pointer]:
+                - /url: /code-yeongyu/oh-my-openagent/graphs/contributors
+                - text: Contributors
+                - generic "302" [ref=f2e1957]
+            - list [ref=f2e1958]:
+              - listitem [ref=f2e1959]:
+                - link [ref=f2e1960] [cursor=pointer]:
+                  - /url: https://github.com/code-yeongyu
+                  - img "@code-yeongyu" [ref=f2e1961]
+              - listitem [ref=f2e1962]:
+                - link [ref=f2e1963] [cursor=pointer]:
+                  - /url: https://github.com/sisyphus-dev-ai
+                  - img "@sisyphus-dev-ai" [ref=f2e1964]
+              - listitem [ref=f2e1965]:
+                - link [ref=f2e1966] [cursor=pointer]:
+                  - /url: https://github.com/apps/github-actions
+                  - img "@github-actions[bot]" [ref=f2e1967]
+              - listitem [ref=f2e1968]:
+                - link [ref=f2e1969] [cursor=pointer]:
+                  - /url: https://github.com/claude
+                  - img "@claude" [ref=f2e1970]
+              - listitem [ref=f2e1971]:
+                - link [ref=f2e1972] [cursor=pointer]:
+                  - /url: https://github.com/justsisyphus
+                  - img "@justsisyphus" [ref=f2e1973]
+              - listitem [ref=f2e1974]:
+                - link [ref=f2e1975] [cursor=pointer]:
+                  - /url: https://github.com/MoerAI
+                  - img "@MoerAI" [ref=f2e1976]
+              - listitem [ref=f2e1977]:
+                - link [ref=f2e1978] [cursor=pointer]:
+                  - /url: https://github.com/acamq
+                  - img "@acamq" [ref=f2e1979]
+              - listitem [ref=f2e1980]:
+                - link [ref=f2e1981] [cursor=pointer]:
+                  - /url: https://github.com/kdcokenny
+                  - img "@kdcokenny" [ref=f2e1982]
+              - listitem [ref=f2e1983]:
+                - link [ref=f2e1984] [cursor=pointer]:
+                  - /url: https://github.com/PeterPonyu
+                  - img "@PeterPonyu" [ref=f2e1985]
+              - listitem [ref=f2e1986]:
+                - link [ref=f2e1987] [cursor=pointer]:
+                  - /url: https://github.com/Hungdoan565
+                  - img "@Hungdoan565" [ref=f2e1988]
+              - listitem [ref=f2e1989]:
+                - link [ref=f2e1990] [cursor=pointer]:
+                  - /url: https://github.com/RaviTharuma
+                  - img "@RaviTharuma" [ref=f2e1991]
+              - listitem [ref=f2e1992]:
+                - link [ref=f2e1993] [cursor=pointer]:
+                  - /url: https://github.com/minpeter
+                  - img "@minpeter" [ref=f2e1994]
+              - listitem [ref=f2e1995]:
+                - link [ref=f2e1996] [cursor=pointer]:
+                  - /url: https://github.com/youngbinkim0
+                  - img "@youngbinkim0" [ref=f2e1997]
+              - listitem [ref=f2e1998]:
+                - link [ref=f2e1999] [cursor=pointer]:
+                  - /url: https://github.com/junhoyeo
+                  - img "@junhoyeo" [ref=f2e2000]
+            - link "+ 288 contributors" [ref=f2e2002] [cursor=pointer]:
+              - /url: /code-yeongyu/oh-my-openagent/graphs/contributors
+          - generic [ref=f2e2004]:
+            - heading "Languages" [level=2] [ref=f2e2005]
+            - list [ref=f2e2014]:
+              - listitem [ref=f2e2015]:
+                - link "TypeScript 85.3%" [ref=f2e2016] [cursor=pointer]:
+                  - /url: /code-yeongyu/oh-my-openagent/search?l=typescript
+                  - generic [ref=f2e2019]: TypeScript
+                  - generic [ref=f2e2020]: 85.3%
+              - listitem [ref=f2e2021]:
+                - link "JavaScript 8.1%" [ref=f2e2022] [cursor=pointer]:
+                  - /url: /code-yeongyu/oh-my-openagent/search?l=javascript
+                  - generic [ref=f2e2025]: JavaScript
+                  - generic [ref=f2e2026]: 8.1%
+              - listitem [ref=f2e2027]:
+                - link "HTML 3.0%" [ref=f2e2028] [cursor=pointer]:
+                  - /url: /code-yeongyu/oh-my-openagent/search?l=html
+                  - generic [ref=f2e2031]: HTML
+                  - generic [ref=f2e2032]: 3.0%
+              - listitem [ref=f2e2033]:
+                - link "Shell 2.1%" [ref=f2e2034] [cursor=pointer]:
+                  - /url: /code-yeongyu/oh-my-openagent/search?l=shell
+                  - generic [ref=f2e2037]: Shell
+                  - generic [ref=f2e2038]: 2.1%
+              - listitem [ref=f2e2039]:
+                - link "Python 1.4%" [ref=f2e2040] [cursor=pointer]:
+                  - /url: /code-yeongyu/oh-my-openagent/search?l=python
+                  - generic [ref=f2e2043]: Python
+                  - generic [ref=f2e2044]: 1.4%
+              - listitem [ref=f2e2045]:
+                - link "PowerShell 0.1%" [ref=f2e2046] [cursor=pointer]:
+                  - /url: /code-yeongyu/oh-my-openagent/search?l=powershell
+                  - generic [ref=f2e2049]: PowerShell
+                  - generic [ref=f2e2050]: 0.1%
+  - contentinfo [ref=f2e2052]:
+    - heading "Footer" [level=2] [ref=f2e2053]
+    - generic [ref=f2e2054]:
+      - generic [ref=f2e2055]:
+        - link "GitHub Homepage" [ref=f2e2056] [cursor=pointer]:
+          - /url: https://github.com
+        - generic [ref=f2e2059]: © 2026 GitHub, Inc.
+      - navigation "Footer" [ref=f2e2060]:
+        - heading "Footer navigation" [level=3] [ref=f2e2061]
+        - list "Footer navigation" [ref=f2e2062]:
+          - listitem [ref=f2e2063]:
+            - link "Terms" [ref=f2e2064] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+          - listitem [ref=f2e2065]:
+            - link "Privacy" [ref=f2e2066] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+          - listitem [ref=f2e2067]:
+            - link "Security" [ref=f2e2068] [cursor=pointer]:
+              - /url: https://github.com/security
+          - listitem [ref=f2e2069]:
+            - link "Status" [ref=f2e2070] [cursor=pointer]:
+              - /url: https://www.githubstatus.com/
+          - listitem [ref=f2e2071]:
+            - link "Community" [ref=f2e2072] [cursor=pointer]:
+              - /url: https://github.community/
+          - listitem [ref=f2e2073]:
+            - link "Docs" [ref=f2e2074] [cursor=pointer]:
+              - /url: https://docs.github.com/
+          - listitem [ref=f2e2075]:
+            - link "Contact" [ref=f2e2076] [cursor=pointer]:
+              - /url: https://support.github.com?tags=dotcom-footer
+          - listitem [ref=f2e2077]:
+            - button "Manage cookies" [ref=f2e2079] [cursor=pointer]
+          - listitem [ref=f2e2080]:
+            - button "Do not share my personal information" [ref=f2e2082] [cursor=pointer]

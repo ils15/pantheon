@@ -29,7 +29,7 @@ def _text(contents: list | str) -> str:
     if isinstance(contents, list) and len(contents) > 0:
         item = contents[0]
         # ReadResourceContents has .content attribute
-        if hasattr(item, 'content'):
+        if hasattr(item, "content"):
             return item.content
         return str(item)
     return str(contents)
@@ -158,7 +158,9 @@ class TestResourceTemplates:
 
     async def test_deepwork_status_no_file(self, server: FastMCP) -> None:
         """deepwork/{slug}/status should return a default message when STATUS.md doesn't exist."""
-        result = await server.read_resource("pantheon://deepwork/nonexistent_slug_xyz/status")
+        result = await server.read_resource(
+            "pantheon://deepwork/nonexistent_slug_xyz/status"
+        )
         text = _text(result)
         assert "no STATUS.md" in text.lower() or "in progress" in text.lower()
 

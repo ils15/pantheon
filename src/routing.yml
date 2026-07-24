@@ -1,0 +1,499 @@
+# routing.yml — Canonical Routing Source for Pantheon
+# Version: 1.0 — Agent routing, delegation rules, and handoff contracts
+version: 1.0
+
+# Primary Delegation Flow
+# ```mermaid
+# flowchart LR
+#     Z[Zeus] --> A[Athena] --> AP[Apollo]
+#     Z --> H[Hermes] --> T[Themis]
+#     Z --> PH[Aphrodite] --> T
+#     Z --> D[Demeter] --> T
+#     Z --> R[Prometheus]
+#     Z --> HE[Hephaestus]
+#     Z --> N[Nyx]
+#     Z --> G[Gaia]
+#     Z --> I[Iris] --> M[Mnemosyne]
+#     Z --> M
+#     Z -.-> TA[Talos]
+#     T --> I
+#     T --> M
+# ```
+# Removed agents: argus, chiron, echo (merged/deprecated)
+
+# AGENT REGISTRY — 14 active agents
+agents:
+  zeus:
+    role: "Central orchestrator"
+    model_tier: default
+    reasoning_effort: medium
+    user_invocable: true
+    can_delegate: true
+    can_receive_delegation: true
+    capabilities:
+      - orchestration
+      - delegation
+      - context_conservation
+      - context_compression
+      - phase_management
+      - quality_gate_enforcement
+      - memory_recall
+      - pantheon_resources
+      - pantheon_code_mode
+      - pantheon_deepwork
+    subagent_can_delegate_to:
+      - athena
+      - apollo
+      - hermes
+      - aphrodite
+      - demeter
+      - themis
+      - prometheus
+      - hephaestus
+      - nyx
+      - gaia
+      - iris
+      - mnemosyne
+      - talos
+    skills:
+      - agent-coordination
+      - session-goal
+      - artifact-management
+      - context-compression
+      - auto-continue
+      - internet-search
+      - orchestration-workflow
+      - wisdom-accumulation
+
+  athena:
+    role: "Strategic planner"
+    model_tier: premium
+    reasoning_effort: high
+    user_invocable: true
+    can_delegate: true
+    can_receive_delegation: true
+    capabilities:
+      - strategic_planning
+      - tdd_planning
+      - architectural_design
+      - root_cause_analysis
+      - risk_assessment
+      - memory_recall
+      - pantheon_resources
+    subagent_can_delegate_to:
+      - apollo
+    skills:
+      - codemap
+      - init-deep
+      - interview
+      - metis-gap-analysis
+      - plan-architecture
+
+  apollo:
+    role: "Investigation scout"
+    model_tier: fast
+    reasoning_effort: low
+    user_invocable: false
+    can_delegate: false
+    can_receive_delegation: true
+    capabilities:
+      - codebase_discovery
+      - pattern_discovery
+      - dependency_research
+      - parallel_search
+      - codemap_generation
+      - memory_search
+      - pantheon_resources
+    subagent_can_delegate_to: []
+    skills:
+      - internet-search
+      - codemap
+
+  hermes:
+    role: "Backend specialist"
+    model_tier: default
+    reasoning_effort: medium
+    user_invocable: true
+    can_delegate: true
+    can_receive_delegation: true
+    capabilities:
+      - backend_implementation
+      - api_development
+      - service_layer
+      - async_programming
+      - obsolete_lib_detection
+      - memory_store
+      - pantheon_code_mode
+    skills:
+      - api-design-patterns
+      - cache-strategy
+      - database-optimization
+      - fastapi-async-patterns
+      - file-prompts
+      - quality-gate
+      - simplify
+      - streaming-patterns
+      - test-architecture
+      - tdd-with-agents
+
+  aphrodite:
+    role: "Frontend specialist"
+    model_tier: default
+    reasoning_effort: medium
+    user_invocable: true
+    can_delegate: false
+    can_receive_delegation: true
+    capabilities:
+      - frontend_implementation
+      - ui_component_design
+      - accessibility_audit
+      - responsive_design
+      - deprecated_npm_detection
+      - memory_store
+      - pantheon_resources_memory_bank
+    skills:
+      - frontend-analyzer
+      - nextjs-seo-optimization
+      - quality-gate
+      - simplify
+      - tdd-with-agents
+
+  demeter:
+    role: "Database specialist"
+    model_tier: default
+    reasoning_effort: medium
+    user_invocable: true
+    can_delegate: false
+    can_receive_delegation: true
+    capabilities:
+      - database_migration
+      - schema_design
+      - query_optimization
+      - n_plus_one_prevention
+      - index_strategy
+      - memory_store
+      - memory_recall
+    skills:
+      - database-migration
+      - database-optimization
+      - quality-gate
+      - cache-strategy
+      - simplify
+
+  themis:
+    role: "Quality gate"
+    model_tier: premium
+    reasoning_effort: high
+    user_invocable: true
+    can_delegate: true
+    can_receive_delegation: true
+    capabilities:
+      - code_review
+      - security_audit
+      - test_coverage_validation
+      - quality_gate
+      - dead_code_detection
+      - deprecation_audit
+      - memory_search
+      - pantheon_resources
+    subagent_can_delegate_to:
+      - mnemosyne
+    skills:
+      - code-review-checklist
+      - quality-gate
+      - security-audit-pro
+      - tdd-with-agents
+      - mcp-security
+
+  prometheus:
+    role: "Infrastructure specialist"
+    model_tier: default
+    reasoning_effort: medium
+    user_invocable: true
+    can_delegate: false
+    can_receive_delegation: true
+    capabilities:
+      - infrastructure_as_code
+      - docker_configuration
+      - ci_cd_pipelines
+      - deployment_strategy
+      - container_optimization
+      - pantheon_code_mode
+      - memory_store
+    skills:
+      - docker-best-practices
+      - agent-observability
+
+  hephaestus:
+    role: "AI pipelines"
+    model_tier: default
+    reasoning_effort: medium
+    user_invocable: true
+    can_delegate: false
+    can_receive_delegation: true
+    capabilities:
+      - rag_pipeline_design
+      - langchain_workflow
+      - vector_store_integration
+      - embedding_strategy
+      - ai_workflow_composition
+      - memory_search
+    skills:
+      - rag-pipelines
+      - mcp-server-development
+      - quality-gate
+      - agent-evaluation
+      - conversational-ai-design
+      - prompt-improver
+
+  nyx:
+    role: "Observability"
+    model_tier: fast
+    reasoning_effort: low
+    user_invocable: true
+    can_delegate: false
+    can_receive_delegation: true
+    capabilities:
+      - opentelemetry_setup
+      - token_cost_tracking
+      - agent_performance_analytics
+      - alerting
+      - monitoring_dashboards
+      - pantheon_resources_routing
+    skills:
+      - agent-evaluation
+      - agent-observability
+      - token-audit
+
+  gaia:
+    role: "Remote sensing"
+    model_tier: default
+    reasoning_effort: high
+    user_invocable: true
+    can_delegate: false
+    can_receive_delegation: true
+    capabilities:
+      - satellite_imagery_analysis
+      - spectral_indices
+      - land_cover_classification
+      - change_detection
+      - scientific_literature_review
+      - pantheon_resources
+    skills:
+      - remote-sensing-analysis
+      - internet-search
+
+  iris:
+    role: "GitHub operations"
+    model_tier: fast
+    reasoning_effort: low
+    user_invocable: true
+    can_delegate: false
+    can_receive_delegation: true
+    capabilities:
+      - branch_management
+      - pull_request_creation
+      - issue_tracking
+      - release_management
+      - changelog_generation
+      - pantheon_resources
+    subagent_can_delegate_to:
+      - mnemosyne
+    skills:
+      - artifact-management
+
+  mnemosyne:
+    role: "Memory bank"
+    model_tier: fast
+    reasoning_effort: low
+    user_invocable: true
+    can_delegate: true
+    can_receive_delegation: true
+    capabilities:
+      - memory_bank_management
+      - artifact_persistence
+      - adr_writing
+      - project_initialization
+      - sprint_documentation
+      - context_compression
+      - memory_store
+      - memory_recall
+      - pantheon_resources_memory_bank
+    subagent_can_delegate_to: []
+    skills:
+      - artifact-management
+      - handoff
+      - task-system
+      - context-compression
+
+  talos:
+    role: "Hotfix agent"
+    model_tier: fast
+    reasoning_effort: low
+    user_invocable: true
+    can_delegate: false
+    can_receive_delegation: true
+    capabilities:
+      - rapid_repair
+      - css_fix
+      - typo_correction
+      - minor_bug_fix
+      - escalation_detection
+      - pantheon_code_mode
+    subagent_can_delegate_to: []
+    skills:
+      - simplify
+
+# AUTO-CONTINUE CONFIGURATION
+# Checkpoint and heartbeat settings for autonomous sessions
+auto_continue:
+  checkpoint_script: ".pantheon/code-mode/checkpoint-session.sh"
+  heartbeat_interval: 5
+  idle:
+    warning: 60
+    stall: 120
+    pause: 300
+
+# DELEGATION RULES
+# Implicit default: any agent can delegate to apollo for codebase discovery.
+# Overrides are listed in agent subagent_can_delegate_to fields above.
+# See instructions/zeus-timeout-retry.instructions.md for timeout/retry defaults.
+# INTENT GATE — Heuristic request classification (zero LLM)
+# Zeus classifies the request BEFORE delegating to the correct agent.
+# Patterns are matched by keyword, not LLM call.
+intent_gate:
+  fix:
+    patterns: ["bug", "error", "crash", "broken", "fail", "wrong", "incorrect"]
+    target: talos
+  research:
+    patterns: ["how", "what", "why", "where", "find", "search", "lookup", "documentation"]
+    target: apollo
+  investigate:
+    patterns: ["compare", "vs", "trade.?off", "should", "which", "risk", "impact"]
+    target: athena
+  plan:
+    patterns: ["plan", "roadmap", "architecture", "design", "proposal", "strategy"]
+    target: athena
+  implement:
+    patterns: []
+    target: hermes  # default fallback
+
+delegation:
+  zeus:
+    - target: athena
+    - target: apollo
+    - target: hermes
+    - target: aphrodite
+    - target: demeter
+    - target: themis
+    - target: prometheus
+    - target: hephaestus
+    - target: nyx
+    - target: gaia
+    - target: iris
+    - target: mnemosyne
+    - target: talos
+
+  # Delegation conventions (documentation only — not programmatically enforced):
+  # - Implementers → themis for code review
+  # - Themis → zeus (blockers/escalation) or mnemosyne (documentation)
+  # - Others → zeus or athena as appropriate
+
+# HANDOFF DEFINITIONS — named contracts for delegation
+handoffs:
+  zeus:
+    compress_context:
+      label: "🗜️ Compress Context"
+      description: "Compress completed subtask_summaries and archive IMPL/REVIEW artifacts after Themis approval"
+      agent: mnemosyne
+      prompt: "Compress completed phase artifacts (Level 2): create ZZ-phase{N}-context.md with priority-scored entries, write compressed entries to 01-active-context.md (priority-aware, budget-allocated), archive IMPL/REVIEW to 02-progress-log.md, update _xref/index.md cross-references."
+
+# PLATFORM TOOL MAPPINGS
+platforms:
+  opencode:
+    display_name: "OpenCode"
+    tools:
+      delegate_agent: "agent"
+      delegate_subagent: "task"
+      ask_user: "question"
+      search_codebase: "grep"
+      search_files: "glob"
+      read_file: "read"
+      run_bash: "bash"
+      web_fetch: "webfetch"
+      web_search: "websearch"
+    capabilities:
+      - agent_delegation
+      - subagent_delegation
+      - bash_execution
+      - web_fetch
+      - web_search
+
+  vscode:
+    display_name: "VS Code (GitHub Copilot)"
+    tools:
+      delegate_agent: "agent"
+      delegate_subagent: "task"
+      ask_user: "vscode/askQuestions"
+      search_codebase: "search/codebase"
+      search_usages: "search/usages"
+      search_files: "search/fileSearch"
+      search_text: "search/textSearch"
+      search_changes: "search/changes"
+      list_directory: "search/listDirectory"
+      read_file: "read/readFile"
+      read_problems: "read/problems"
+      edit_file: "edit/editFiles"
+      run_terminal: "execute/runInTerminal"
+      test_failure: "execute/testFailure"
+      get_terminal_output: "execute/getTerminalOutput"
+      web_fetch: "web/fetch"
+      browser_open: "browser/openBrowserPage"
+      browser_navigate: "browser/navigatePage"
+      browser_read: "browser/readPage"
+      browser_click: "browser/clickElement"
+      browser_type: "browser/typeInPage"
+      browser_hover: "browser/hoverElement"
+      browser_drag: "browser/dragElement"
+      browser_dialog: "browser/handleDialog"
+      browser_screenshot: "browser/screenshotPage"
+    capabilities:
+      - agent_delegation
+      - subagent_delegation
+      - file_editing
+      - terminal_execution
+      - web_fetch
+      - browser_automation
+
+# ARTIFACT LIFECYCLE
+# See skill: artifact-management for full lifecycle rules.
+# Summary: PLAN, IMPL, REVIEW, DISC → .pantheon/memory-bank/.tmp/ (ephemeral, sprint-scoped).
+# ADR → .pantheon/memory-bank/_notes/ (permanent). Subtask → inline, no artifact.
+
+# MODEL FALLBACK CHAINS
+# When an agent's primary model is rate-limited (429) or unavailable,
+# the platform should attempt the next model in the chain.
+# Chain pattern: Primary → Secondary → Emergency
+# These chains are advisory — the platform's model routing determines
+# actual fallback behavior at runtime.
+fallback_chains:
+  premium_agents:
+    primary: "anthropic/claude-sonnet-4-20250514"
+    secondary: "openai/gpt-5.1"
+    emergency: "deepseek/deepseek-v4-pro"
+
+  default_agents:
+    primary: "anthropic/claude-sonnet-4-20250514"
+    secondary: "openai/gpt-4o"
+    emergency: "deepseek/deepseek-v4-pro"
+
+  fast_agents:
+    primary: "deepseek/deepseek-v4-pro"
+    secondary: "anthropic/claude-haiku-4-20250514"
+    emergency: "openai/gpt-4o-mini"
+
+  agent_overrides:
+    gaia:
+      primary: "anthropic/claude-sonnet-4-20250514"
+      secondary: "openai/gpt-4o"
+      emergency: "deepseek/deepseek-v4-pro"

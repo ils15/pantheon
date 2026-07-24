@@ -84,7 +84,10 @@ class TestServerLifecycle:
         """Server should have instructions set."""
         assert server.instructions is not None
         assert len(server.instructions) > 0
-        assert "code-mode" in server.instructions.lower() or "execute" in server.instructions.lower()
+        assert (
+            "code-mode" in server.instructions.lower()
+            or "execute" in server.instructions.lower()
+        )
 
 
 # =============================================================================
@@ -114,7 +117,9 @@ class TestTools:
 
     async def test_execute_valid_script(self, server: FastMCP) -> None:
         """Executing example-sync.sh should return success output."""
-        result = await server.call_tool("execute_code_script", {"script_name": "example-sync.sh"})
+        result = await server.call_tool(
+            "execute_code_script", {"script_name": "example-sync.sh"}
+        )
         text = _text_from_tool(result)
         assert "Script executed successfully" in text
         assert "exit code: 0" in text
@@ -133,7 +138,11 @@ class TestTools:
             "execute_code_script", {"script_name": "../../etc/passwd"}
         )
         text = _text_from_tool(result)
-        assert "traversal" in text.lower() or "blocked" in text.lower() or "invalid" in text.lower()
+        assert (
+            "traversal" in text.lower()
+            or "blocked" in text.lower()
+            or "invalid" in text.lower()
+        )
 
     async def test_non_allowed_extension_blocked(self, server: FastMCP) -> None:
         """Non-allowed extensions (.js, .txt, etc.) should be blocked."""
@@ -153,11 +162,11 @@ class TestTools:
 
     async def test_empty_script_name(self, server: FastMCP) -> None:
         """Empty script name should be rejected."""
-        result = await server.call_tool(
-            "execute_code_script", {"script_name": ""}
-        )
+        result = await server.call_tool("execute_code_script", {"script_name": ""})
         text = _text_from_tool(result)
         assert "empty" in text.lower() or "invalid" in text.lower()
+
+
 # =============================================================================
 # Resources
 # =============================================================================
@@ -185,9 +194,12 @@ class TestResources:
         uris = [str(t.uriTemplate) for t in templates]
         matches = [u for u in uris if "code-mode/scripts" in u]
         assert len(matches) > 0
+
     async def test_script_content_returns_source(self, server: FastMCP) -> None:
         """Reading a specific script should return its source."""
-        result = await server.read_resource("pantheon://code-mode/scripts/example-sync.sh")
+        result = await server.read_resource(
+            "pantheon://code-mode/scripts/example-sync.sh"
+        )
         text = _text(result)
         assert len(text) > 0
         assert "#!/bin/bash" in text
@@ -204,7 +216,11 @@ class TestResources:
     async def test_script_content_traversal_blocked(self, module) -> None:
         """Path traversal on script content should be blocked."""
         content = await module.get_code_mode_script("../../routing.yml")
-        assert "traversal" in content.lower() or "blocked" in content.lower() or "invalid" in content.lower()
+        assert (
+            "traversal" in content.lower()
+            or "blocked" in content.lower()
+            or "invalid" in content.lower()
+        )
 
     async def test_script_content_bad_extension(self, module) -> None:
         """Non-allowed extension on script content should be blocked."""
@@ -246,6 +262,7 @@ class TestHelpers:
         """Empty names should raise ValueError."""
         with pytest.raises(ValueError, match=r"(?i)empty|cannot be empty"):
             module._validate_script_name("")
+
     async def test_format_output_with_stderr(self, module) -> None:
         """Format output should include stderr section."""
         result = module._format_output("", "error occurred", 1)

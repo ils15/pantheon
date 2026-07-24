@@ -1,0 +1,1219 @@
+- generic [active] [ref=f1e1]:
+  - link "Pular para o conteúdo" [ref=f1e2] [cursor=pointer]:
+    - /url: "#_top"
+  - generic [ref=f1e3]:
+    - banner [ref=f1e4]:
+      - generic [ref=f1e5]:
+        - link "OpenCode" [ref=f1e7] [cursor=pointer]:
+          - /url: /docs/pt-br
+        - generic [ref=f1e9]:
+          - generic [ref=f1e10]:
+            - link [ref=f1e11] [cursor=pointer]:
+              - /url: https://github.com/anomalyco/opencode
+            - link [ref=f1e14] [cursor=pointer]:
+              - /url: https://opencode.ai/discord
+          - button "Pesquisar" [ref=f1e18] [cursor=pointer]:
+            - generic [ref=f1e20]:
+              - generic [ref=f1e21]: Ctrl
+              - generic [ref=f1e22]: K
+    - navigation "Principal":
+      - list [ref=f1e26]:
+        - listitem [ref=f1e27]:
+          - link "Introdução" [ref=f1e28] [cursor=pointer]:
+            - /url: /docs/pt-br/
+        - listitem [ref=f1e29]:
+          - link "Configuração" [ref=f1e30] [cursor=pointer]:
+            - /url: /docs/pt-br/config/
+        - listitem [ref=f1e31]:
+          - link "Provedores" [ref=f1e32] [cursor=pointer]:
+            - /url: /docs/pt-br/providers/
+        - listitem [ref=f1e33]:
+          - link "Rede" [ref=f1e34] [cursor=pointer]:
+            - /url: /docs/pt-br/network/
+        - listitem [ref=f1e35]:
+          - link "Empresa" [ref=f1e36] [cursor=pointer]:
+            - /url: /docs/pt-br/enterprise/
+        - listitem [ref=f1e37]:
+          - link "Solução de Problemas" [ref=f1e38] [cursor=pointer]:
+            - /url: /docs/pt-br/troubleshooting/
+        - listitem [ref=f1e39]:
+          - link "Windows" [ref=f1e40] [cursor=pointer]:
+            - /url: /docs/pt-br/windows-wsl
+        - listitem [ref=f1e41]:
+          - group [ref=f1e42]:
+            - generic "Uso" [ref=f1e43] [cursor=pointer]
+            - list [ref=f1e47]:
+              - listitem [ref=f1e48]:
+                - link "Go" [ref=f1e49] [cursor=pointer]:
+                  - /url: /docs/pt-br/go/
+              - listitem [ref=f1e50]:
+                - link "TUI" [ref=f1e51] [cursor=pointer]:
+                  - /url: /docs/pt-br/tui/
+              - listitem [ref=f1e52]:
+                - link "CLI" [ref=f1e53] [cursor=pointer]:
+                  - /url: /docs/pt-br/cli/
+              - listitem [ref=f1e54]:
+                - link "Web" [ref=f1e55] [cursor=pointer]:
+                  - /url: /docs/pt-br/web/
+              - listitem [ref=f1e56]:
+                - link "IDE" [ref=f1e57] [cursor=pointer]:
+                  - /url: /docs/pt-br/ide/
+              - listitem [ref=f1e58]:
+                - link "Zen" [ref=f1e59] [cursor=pointer]:
+                  - /url: /docs/pt-br/zen/
+              - listitem [ref=f1e60]:
+                - link "Compartilhar" [ref=f1e61] [cursor=pointer]:
+                  - /url: /docs/pt-br/share/
+              - listitem [ref=f1e62]:
+                - link "GitHub" [ref=f1e63] [cursor=pointer]:
+                  - /url: /docs/pt-br/github/
+              - listitem [ref=f1e64]:
+                - link "GitLab" [ref=f1e65] [cursor=pointer]:
+                  - /url: /docs/pt-br/gitlab/
+        - listitem [ref=f1e66]:
+          - group [ref=f1e67]:
+            - generic "Configuração" [ref=f1e68] [cursor=pointer]
+            - list [ref=f1e72]:
+              - listitem [ref=f1e73]:
+                - link "Ferramentas" [ref=f1e74] [cursor=pointer]:
+                  - /url: /docs/pt-br/tools/
+              - listitem [ref=f1e75]:
+                - link "Regras" [ref=f1e76] [cursor=pointer]:
+                  - /url: /docs/pt-br/rules/
+              - listitem [ref=f1e77]:
+                - link "Agentes" [ref=f1e78] [cursor=pointer]:
+                  - /url: /docs/pt-br/agents/
+              - listitem [ref=f1e79]:
+                - link "Modelos" [ref=f1e80] [cursor=pointer]:
+                  - /url: /docs/pt-br/models/
+              - listitem [ref=f1e81]:
+                - link "Temas" [ref=f1e82] [cursor=pointer]:
+                  - /url: /docs/pt-br/themes/
+              - listitem [ref=f1e83]:
+                - link "Atalhos de Teclado" [ref=f1e84] [cursor=pointer]:
+                  - /url: /docs/pt-br/keybinds/
+              - listitem [ref=f1e85]:
+                - link "Comandos" [ref=f1e86] [cursor=pointer]:
+                  - /url: /docs/pt-br/commands/
+              - listitem [ref=f1e87]:
+                - link "Formatadores" [ref=f1e88] [cursor=pointer]:
+                  - /url: /docs/pt-br/formatters/
+              - listitem [ref=f1e89]:
+                - link "Permissões" [ref=f1e90] [cursor=pointer]:
+                  - /url: /docs/pt-br/permissions/
+              - listitem [ref=f1e91]:
+                - link "Policies" [ref=f1e92] [cursor=pointer]:
+                  - /url: /docs/pt-br/policies/
+              - listitem [ref=f1e93]:
+                - link "Servidores LSP" [ref=f1e94] [cursor=pointer]:
+                  - /url: /docs/pt-br/lsp/
+              - listitem [ref=f1e95]:
+                - link "Servidores MCP" [ref=f1e96] [cursor=pointer]:
+                  - /url: /docs/pt-br/mcp-servers/
+              - listitem [ref=f1e97]:
+                - link "Suporte ACP" [ref=f1e98] [cursor=pointer]:
+                  - /url: /docs/pt-br/acp/
+              - listitem [ref=f1e99]:
+                - link "Habilidades do Agente" [ref=f1e100] [cursor=pointer]:
+                  - /url: /docs/pt-br/skills/
+              - listitem [ref=f1e101]:
+                - link "References" [ref=f1e102] [cursor=pointer]:
+                  - /url: /docs/pt-br/references/
+              - listitem [ref=f1e103]:
+                - link "Ferramentas Personalizadas" [ref=f1e104] [cursor=pointer]:
+                  - /url: /docs/pt-br/custom-tools/
+        - listitem [ref=f1e105]:
+          - group [ref=f1e106]:
+            - generic "Desenvolvimento" [ref=f1e107] [cursor=pointer]
+            - list [ref=f1e111]:
+              - listitem [ref=f1e112]:
+                - link "SDK" [ref=f1e113] [cursor=pointer]:
+                  - /url: /docs/pt-br/sdk/
+              - listitem [ref=f1e114]:
+                - link "Servidor" [ref=f1e115] [cursor=pointer]:
+                  - /url: /docs/pt-br/server/
+              - listitem [ref=f1e116]:
+                - link "Plugins" [ref=f1e117] [cursor=pointer]:
+                  - /url: /docs/pt-br/plugins/
+              - listitem [ref=f1e118]:
+                - link "Ecossistema" [ref=f1e119] [cursor=pointer]:
+                  - /url: /docs/pt-br/ecosystem/
+    - generic [ref=f1e121]:
+      - complementary [ref=f1e122]:
+        - navigation [ref=f1e127]:
+          - heading "Nesta página" [level=2] [ref=f1e128]
+          - list [ref=f1e129]:
+            - listitem [ref=f1e130]:
+              - link "Visão geral" [ref=f1e131] [cursor=pointer]:
+                - /url: "#_top"
+            - listitem [ref=f1e132]:
+              - link "Tipos" [ref=f1e133] [cursor=pointer]:
+                - /url: "#tipos"
+              - list [ref=f1e134]:
+                - listitem [ref=f1e135]:
+                  - link "Agentes primários" [ref=f1e136] [cursor=pointer]:
+                    - /url: "#agentes-primários"
+                - listitem [ref=f1e137]:
+                  - link "Subagentes" [ref=f1e138] [cursor=pointer]:
+                    - /url: "#subagentes"
+            - listitem [ref=f1e139]:
+              - link "Integrados" [ref=f1e140] [cursor=pointer]:
+                - /url: "#integrados"
+              - list [ref=f1e141]:
+                - listitem [ref=f1e142]:
+                  - link "build" [ref=f1e143] [cursor=pointer]:
+                    - /url: "#build"
+                - listitem [ref=f1e144]:
+                  - link "plan" [ref=f1e145] [cursor=pointer]:
+                    - /url: "#plan"
+                - listitem [ref=f1e146]:
+                  - link "general" [ref=f1e147] [cursor=pointer]:
+                    - /url: "#general"
+                - listitem [ref=f1e148]:
+                  - link "explore" [ref=f1e149] [cursor=pointer]:
+                    - /url: "#explore"
+                - listitem [ref=f1e150]:
+                  - link "Scout" [ref=f1e151] [cursor=pointer]:
+                    - /url: "#scout"
+                - listitem [ref=f1e152]:
+                  - link "compaction" [ref=f1e153] [cursor=pointer]:
+                    - /url: "#compaction"
+                - listitem [ref=f1e154]:
+                  - link "title" [ref=f1e155] [cursor=pointer]:
+                    - /url: "#title"
+                - listitem [ref=f1e156]:
+                  - link "summary" [ref=f1e157] [cursor=pointer]:
+                    - /url: "#summary"
+            - listitem [ref=f1e158]:
+              - link "Uso" [ref=f1e159] [cursor=pointer]:
+                - /url: "#uso"
+            - listitem [ref=f1e160]:
+              - link "Configuração" [ref=f1e161] [cursor=pointer]:
+                - /url: "#configuração"
+              - list [ref=f1e162]:
+                - listitem [ref=f1e163]:
+                  - link "JSON" [ref=f1e164] [cursor=pointer]:
+                    - /url: "#json"
+                - listitem [ref=f1e165]:
+                  - link "Markdown" [ref=f1e166] [cursor=pointer]:
+                    - /url: "#markdown"
+            - listitem [ref=f1e167]:
+              - link "Opções" [ref=f1e168] [cursor=pointer]:
+                - /url: "#opções"
+              - list [ref=f1e169]:
+                - listitem [ref=f1e170]:
+                  - link "Descrição" [ref=f1e171] [cursor=pointer]:
+                    - /url: "#descrição"
+                - listitem [ref=f1e172]:
+                  - link "Temperatura" [ref=f1e173] [cursor=pointer]:
+                    - /url: "#temperatura"
+                - listitem [ref=f1e174]:
+                  - link "Máximo de etapas" [ref=f1e175] [cursor=pointer]:
+                    - /url: "#máximo-de-etapas"
+                - listitem [ref=f1e176]:
+                  - link "Desativar" [ref=f1e177] [cursor=pointer]:
+                    - /url: "#desativar"
+                - listitem [ref=f1e178]:
+                  - link "Prompt" [ref=f1e179] [cursor=pointer]:
+                    - /url: "#prompt"
+                - listitem [ref=f1e180]:
+                  - link "Modelo" [ref=f1e181] [cursor=pointer]:
+                    - /url: "#modelo"
+                - listitem [ref=f1e182]:
+                  - link "Ferramentas" [ref=f1e183] [cursor=pointer]:
+                    - /url: "#ferramentas"
+                - listitem [ref=f1e184]:
+                  - link "Permissões" [ref=f1e185] [cursor=pointer]:
+                    - /url: "#permissões"
+                - listitem [ref=f1e186]:
+                  - link "Modo" [ref=f1e187] [cursor=pointer]:
+                    - /url: "#modo"
+                - listitem [ref=f1e188]:
+                  - link "Oculto" [ref=f1e189] [cursor=pointer]:
+                    - /url: "#oculto"
+                - listitem [ref=f1e190]:
+                  - link "Permissões de tarefa" [ref=f1e191] [cursor=pointer]:
+                    - /url: "#permissões-de-tarefa"
+                - listitem [ref=f1e192]:
+                  - link "Cor" [ref=f1e193] [cursor=pointer]:
+                    - /url: "#cor"
+                - listitem [ref=f1e194]:
+                  - link "Top P" [ref=f1e195] [cursor=pointer]:
+                    - /url: "#top-p"
+                - listitem [ref=f1e196]:
+                  - link "Adicional" [ref=f1e197] [cursor=pointer]:
+                    - /url: "#adicional"
+            - listitem [ref=f1e198]:
+              - link "Criando agentes" [ref=f1e199] [cursor=pointer]:
+                - /url: "#criando-agentes"
+            - listitem [ref=f1e200]:
+              - link "Casos de uso" [ref=f1e201] [cursor=pointer]:
+                - /url: "#casos-de-uso"
+            - listitem [ref=f1e202]:
+              - link "Exemplos" [ref=f1e203] [cursor=pointer]:
+                - /url: "#exemplos"
+              - list [ref=f1e204]:
+                - listitem [ref=f1e205]:
+                  - link "Agente de documentação" [ref=f1e206] [cursor=pointer]:
+                    - /url: "#agente-de-documentação"
+                - listitem [ref=f1e207]:
+                  - link "Auditor de segurança" [ref=f1e208] [cursor=pointer]:
+                    - /url: "#auditor-de-segurança"
+      - main [ref=f1e210]:
+        - generic [ref=f1e212]:
+          - heading "Agentes" [level=1] [ref=f1e213]
+          - paragraph [ref=f1e214]: Configure e use agentes especializados.
+        - generic [ref=f1e216]:
+          - generic [ref=f1e217]:
+            - paragraph [ref=f1e218]: Agentes são assistentes de IA especializados que podem ser configurados para tarefas e fluxos de trabalho específicos. Eles permitem que você crie ferramentas focadas com prompts, modelos e acesso a ferramentas personalizados.
+            - complementary "Dica" [ref=f1e219]:
+              - paragraph [ref=f1e220]: Dica
+              - paragraph [ref=f1e225]: Use o agente de planejamento (plan) para analisar código e revisar sugestões sem fazer alterações no código.
+            - paragraph [ref=f1e226]:
+              - text: Você pode alternar entre agentes durante uma sessão ou invocá-los com a menção
+              - code [ref=f1e227]: "`@`"
+              - text: .
+            - separator [ref=f1e228]
+            - heading [level=2] [ref=f1e229]:
+              - link "Tipos" [ref=f1e230]:
+                - /url: "#tipos"
+            - paragraph [ref=f1e231]: Existem dois tipos de agentes no opencode; agentes primários e subagentes.
+            - separator [ref=f1e232]
+            - heading [level=3] [ref=f1e233]:
+              - link "Agentes primários" [ref=f1e234]:
+                - /url: "#agentes-primários"
+            - paragraph [ref=f1e235]:
+              - text: Agentes primários são os principais assistentes com os quais você interage diretamente. Você pode alternar entre eles usando a tecla
+              - strong [ref=f1e236]: Tab
+              - text: ou sua tecla de atalho configurada
+              - code [ref=f1e237]: "`switch_agent`"
+              - text: . Esses agentes lidam com sua conversa principal. O acesso às ferramentas é configurado por meio de permissões — por exemplo, Build tem todas as ferramentas habilitadas, enquanto Plan é restrito.
+            - complementary "Dica" [ref=f1e238]:
+              - paragraph [ref=f1e239]: Dica
+              - paragraph [ref=f1e244]:
+                - text: Você pode usar a tecla
+                - strong [ref=f1e245]: Tab
+                - text: para alternar entre agentes primários durante uma sessão.
+            - paragraph [ref=f1e246]:
+              - text: opencode vem com dois agentes primários integrados,
+              - strong [ref=f1e247]: Build
+              - text: e
+              - strong [ref=f1e248]: Plan
+              - text: . Vamos ver isso abaixo.
+            - separator [ref=f1e249]
+            - heading [level=3] [ref=f1e250]:
+              - link "Subagentes" [ref=f1e251]:
+                - /url: "#subagentes"
+            - paragraph [ref=f1e252]:
+              - text: Subagentes são assistentes especializados que agentes primários podem invocar para tarefas específicas. Você também pode invocá-los manualmente mencionando-os com
+              - strong [ref=f1e253]: "@"
+              - text: em suas mensagens.
+            - paragraph [ref=f1e254]:
+              - text: OpenCode vem com três subagentes integrados,
+              - strong [ref=f1e255]: General
+              - text: ","
+              - strong [ref=f1e256]: Explore
+              - text: e
+              - strong [ref=f1e257]: Scout
+              - text: . Vamos ver isso abaixo.
+            - separator [ref=f1e258]
+            - heading [level=2] [ref=f1e259]:
+              - link "Integrados" [ref=f1e260]:
+                - /url: "#integrados"
+            - paragraph [ref=f1e261]: OpenCode vem com dois agentes primários integrados e três subagentes integrados.
+            - separator [ref=f1e262]
+            - heading [level=3] [ref=f1e263]:
+              - link "build" [ref=f1e264]:
+                - /url: "#build"
+            - paragraph [ref=f1e265]:
+              - emphasis [ref=f1e266]: Modo
+              - text: ":"
+              - code [ref=f1e267]: "`primary`"
+            - paragraph [ref=f1e268]:
+              - text: Build é o agente primário
+              - strong [ref=f1e269]: padrão
+              - text: com todas as ferramentas habilitadas. Este é o agente padrão para trabalho de desenvolvimento onde você precisa de acesso total a operações de arquivo e comandos do sistema.
+            - separator [ref=f1e270]
+            - heading [level=3] [ref=f1e271]:
+              - link "plan" [ref=f1e272]:
+                - /url: "#plan"
+            - paragraph [ref=f1e273]:
+              - emphasis [ref=f1e274]: Modo
+              - text: ":"
+              - code [ref=f1e275]: "`primary`"
+            - paragraph [ref=f1e276]:
+              - text: Um agente restrito projetado para planejamento e análise. Usamos um sistema de permissões para lhe dar mais controle e evitar alterações não intencionais. Por padrão, todos os seguintes estão configurados para
+              - code [ref=f1e277]: "`ask`"
+              - text: ":"
+            - list [ref=f1e278]:
+              - listitem [ref=f1e279]:
+                - code [ref=f1e280]: "`file edits`"
+                - text: ": Todas as gravações, patches e edições"
+              - listitem [ref=f1e281]:
+                - code [ref=f1e282]: "`bash`"
+                - text: ": Todos os comandos bash"
+            - paragraph [ref=f1e283]: Este agente é útil quando você deseja que o LLM analise código, sugira alterações ou crie planos sem fazer modificações reais em seu código.
+            - separator [ref=f1e284]
+            - heading [level=3] [ref=f1e285]:
+              - link "general" [ref=f1e286]:
+                - /url: "#general"
+            - paragraph [ref=f1e287]:
+              - emphasis [ref=f1e288]: Modo
+              - text: ":"
+              - code [ref=f1e289]: "`subagent`"
+            - paragraph [ref=f1e290]: Um agente de propósito geral para pesquisar questões complexas e executar tarefas em múltiplas etapas. Tem acesso total às ferramentas (exceto todo), portanto, pode fazer alterações em arquivos quando necessário. Use isso para executar várias unidades de trabalho em paralelo.
+            - separator [ref=f1e291]
+            - heading [level=3] [ref=f1e292]:
+              - link "explore" [ref=f1e293]:
+                - /url: "#explore"
+            - paragraph [ref=f1e294]:
+              - emphasis [ref=f1e295]: Modo
+              - text: ":"
+              - code [ref=f1e296]: "`subagent`"
+            - paragraph [ref=f1e297]: Um agente rápido e somente leitura para explorar bases de código. Não pode modificar arquivos. Use isso quando você precisar encontrar rapidamente arquivos por padrões, pesquisar código por palavras-chave ou responder perguntas sobre a base de código.
+            - separator [ref=f1e298]
+            - heading [level=3] [ref=f1e299]:
+              - link "Scout" [ref=f1e300]:
+                - /url: "#scout"
+            - paragraph [ref=f1e301]:
+              - emphasis [ref=f1e302]: Modo
+              - text: ":"
+              - code [ref=f1e303]: "`subagent`"
+            - paragraph [ref=f1e304]: Um agente somente leitura para pesquisa em documentação externa e dependências. Use-o quando você precisar clonar o repositório de uma dependência para o cache gerenciado do OpenCode, inspecionar o código-fonte de uma biblioteca ou cruzar o código local com implementações upstream sem modificar seu workspace.
+            - separator [ref=f1e305]
+            - heading [level=3] [ref=f1e306]:
+              - link "compaction" [ref=f1e307]:
+                - /url: "#compaction"
+            - paragraph [ref=f1e308]:
+              - emphasis [ref=f1e309]: Modo
+              - text: ":"
+              - code [ref=f1e310]: "`primary`"
+            - paragraph [ref=f1e311]: Agente de sistema oculto que compacta longos contextos em um resumo menor. Ele é executado automaticamente quando necessário e não é selecionável na interface.
+            - separator [ref=f1e312]
+            - heading [level=3] [ref=f1e313]:
+              - link "title" [ref=f1e314]:
+                - /url: "#title"
+            - paragraph [ref=f1e315]:
+              - emphasis [ref=f1e316]: Modo
+              - text: ":"
+              - code [ref=f1e317]: "`primary`"
+            - paragraph [ref=f1e318]: Agente de sistema oculto que gera títulos curtos para sessões. Ele é executado automaticamente e não é selecionável na interface.
+            - separator [ref=f1e319]
+            - heading [level=3] [ref=f1e320]:
+              - link "summary" [ref=f1e321]:
+                - /url: "#summary"
+            - paragraph [ref=f1e322]:
+              - emphasis [ref=f1e323]: Modo
+              - text: ":"
+              - code [ref=f1e324]: "`primary`"
+            - paragraph [ref=f1e325]: Agente de sistema oculto que cria resumos de sessões. Ele é executado automaticamente e não é selecionável na interface.
+            - separator [ref=f1e326]
+            - heading [level=2] [ref=f1e327]:
+              - link "Uso" [ref=f1e328]:
+                - /url: "#uso"
+            - list [ref=f1e329]:
+              - listitem [ref=f1e330]:
+                - paragraph [ref=f1e331]:
+                  - text: Para agentes primários, use a tecla
+                  - strong [ref=f1e332]: Tab
+                  - text: para alternar entre eles durante uma sessão. Você também pode usar sua tecla de atalho configurada
+                  - code [ref=f1e333]: "`switch_agent`"
+                  - text: .
+              - listitem [ref=f1e334]:
+                - paragraph [ref=f1e335]: "Subagentes podem ser invocados:"
+                - list [ref=f1e336]:
+                  - listitem [ref=f1e337]:
+                    - paragraph [ref=f1e338]:
+                      - strong [ref=f1e339]: Automaticamente
+                      - text: por agentes primários para tarefas especializadas com base em suas descrições.
+                  - listitem [ref=f1e340]:
+                    - paragraph [ref=f1e341]: Manualmente mencionando um subagente em sua mensagem. Por exemplo.
+                    - figure [ref=f1e343]:
+                      - code [ref=f1e345]:
+                        - generic [ref=f1e346]: "@general help me search for this function"
+                      - button "Copy to clipboard" [ref=f1e349] [cursor=pointer]
+              - listitem [ref=f1e351]:
+                - paragraph [ref=f1e352]:
+                  - strong [ref=f1e353]: Navegação entre sessões
+                  - text: ": Quando subagentes criam suas próprias sessões filhas, você pode navegar entre a sessão pai e todas as sessões filhas usando:"
+                - list [ref=f1e354]:
+                  - listitem [ref=f1e355]:
+                    - strong [ref=f1e356]: <Leader>+Right
+                    - text: (ou sua tecla de atalho configurada
+                    - code [ref=f1e357]: "`session_child_cycle`"
+                    - text: ) para alternar para frente através de pai → child1 → child2 → … → pai
+                  - listitem [ref=f1e358]:
+                    - strong [ref=f1e359]: <Leader>+Left
+                    - text: (ou sua tecla de atalho configurada
+                    - code [ref=f1e360]: "`session_child_cycle_reverse`"
+                    - text: ) para alternar para trás através de pai ← child1 ← child2 ← … ← pai
+                - paragraph [ref=f1e361]: Isso permite que você mude perfeitamente entre a conversa principal e o trabalho especializado do subagente.
+            - separator [ref=f1e362]
+            - heading [level=2] [ref=f1e363]:
+              - link "Configuração" [ref=f1e364]:
+                - /url: "#configuração"
+            - paragraph [ref=f1e365]: "Você pode personalizar os agentes integrados ou criar os seus próprios através da configuração. Os agentes podem ser configurados de duas maneiras:"
+            - separator [ref=f1e366]
+            - heading [level=3] [ref=f1e367]:
+              - link "JSON" [ref=f1e368]:
+                - /url: "#json"
+            - paragraph [ref=f1e369]:
+              - text: Configure os agentes em seu arquivo de configuração
+              - code [ref=f1e370]: "`opencode.json`"
+              - text: ":"
+            - figure "opencode.json" [ref=f1e372]:
+              - code [ref=f1e376]:
+                - generic [ref=f1e377]: "{"
+                - generic [ref=f1e379]: "\"$schema\": \"https://opencode.ai/config.json\","
+                - generic [ref=f1e381]: "\"agent\": {"
+                - generic [ref=f1e383]: "\"build\": {"
+                - generic [ref=f1e385]: "\"mode\": \"primary\","
+                - generic [ref=f1e387]: "\"model\": \"anthropic/claude-sonnet-4-20250514\","
+                - generic [ref=f1e389]: "\"prompt\": \"{file:./prompts/build.txt}\","
+                - generic [ref=f1e391]: "\"tools\": {"
+                - generic [ref=f1e393]: "\"write\": true,"
+                - generic [ref=f1e395]: "\"edit\": true,"
+                - generic [ref=f1e397]: "\"bash\": true"
+                - generic [ref=f1e399]: "}"
+                - generic [ref=f1e402]: "},"
+                - generic [ref=f1e405]: "\"plan\": {"
+                - generic [ref=f1e407]: "\"mode\": \"primary\","
+                - generic [ref=f1e409]: "\"model\": \"anthropic/claude-haiku-4-20250514\","
+                - generic [ref=f1e411]: "\"tools\": {"
+                - generic [ref=f1e413]: "\"write\": false,"
+                - generic [ref=f1e415]: "\"edit\": false,"
+                - generic [ref=f1e417]: "\"bash\": false"
+                - generic [ref=f1e419]: "}"
+                - generic [ref=f1e422]: "},"
+                - generic [ref=f1e425]: "\"code-reviewer\": {"
+                - generic [ref=f1e427]: "\"description\": \"Revisa código para melhores práticas e potenciais problemas\","
+                - generic [ref=f1e429]: "\"mode\": \"subagent\","
+                - generic [ref=f1e431]: "\"model\": \"anthropic/claude-sonnet-4-20250514\","
+                - generic [ref=f1e433]: "\"prompt\": \"Você é um revisor de código. Foque em segurança, performance e manutenibilidade.\","
+                - generic [ref=f1e435]: "\"tools\": {"
+                - generic [ref=f1e437]: "\"write\": false,"
+                - generic [ref=f1e439]: "\"edit\": false"
+                - generic [ref=f1e441]: "}"
+                - generic [ref=f1e444]: "}"
+                - generic [ref=f1e447]: "}"
+                - generic [ref=f1e450]: "}"
+              - button "Copy to clipboard" [ref=f1e453] [cursor=pointer]
+            - separator [ref=f1e455]
+            - heading [level=3] [ref=f1e456]:
+              - link "Markdown" [ref=f1e457]:
+                - /url: "#markdown"
+            - paragraph [ref=f1e458]: "Você também pode definir agentes usando arquivos markdown. Coloque-os em:"
+            - list [ref=f1e459]:
+              - listitem [ref=f1e460]:
+                - text: "Global:"
+                - code [ref=f1e461]: "`~/.config/opencode/agents/`"
+              - listitem [ref=f1e462]:
+                - text: "Por projeto:"
+                - code [ref=f1e463]: "`.opencode/agents/`"
+            - figure "~/.config/opencode/agents/review.md" [ref=f1e465]:
+              - code [ref=f1e469]:
+                - generic [ref=f1e470]: "---"
+                - generic [ref=f1e472]: "description: Revisa código para qualidade e melhores práticas"
+                - generic [ref=f1e474]: "mode: subagent"
+                - generic [ref=f1e476]: "model: anthropic/claude-sonnet-4-20250514"
+                - generic [ref=f1e478]: "temperature: 0.1"
+                - generic [ref=f1e480]: "tools:"
+                - generic [ref=f1e482]: "write: false"
+                - generic [ref=f1e484]: "edit: false"
+                - generic [ref=f1e486]: "bash: false"
+                - generic [ref=f1e488]: "---"
+                - generic [ref=f1e492]: "Você está no modo de revisão de código. Foque em:"
+                - generic [ref=f1e496]: "- Qualidade do código e melhores práticas"
+                - generic [ref=f1e498]: "- Bugs potenciais e casos de borda"
+                - generic [ref=f1e500]: "- Implicações de desempenho"
+                - generic [ref=f1e502]: "- Considerações de segurança"
+                - generic [ref=f1e506]: Forneça feedback construtivo sem fazer alterações diretas.
+              - button "Copy to clipboard" [ref=f1e509] [cursor=pointer]
+            - paragraph [ref=f1e511]:
+              - text: O nome do arquivo markdown se torna o nome do agente. Por exemplo,
+              - code [ref=f1e512]: "`review.md`"
+              - text: cria um agente
+              - code [ref=f1e513]: "`review`"
+              - text: .
+            - separator [ref=f1e514]
+            - heading [level=2] [ref=f1e515]:
+              - link "Opções" [ref=f1e516]:
+                - /url: "#opções"
+            - paragraph [ref=f1e517]: Vamos analisar essas opções de configuração em detalhes.
+            - separator [ref=f1e518]
+            - heading [level=3] [ref=f1e519]:
+              - link "Descrição" [ref=f1e520]:
+                - /url: "#descrição"
+            - paragraph [ref=f1e521]:
+              - text: Use a opção
+              - code [ref=f1e522]: "`description`"
+              - text: para fornecer uma breve descrição do que o agente faz e quando usá-lo.
+            - figure "opencode.json" [ref=f1e524]:
+              - code [ref=f1e528]:
+                - generic [ref=f1e529]: "{"
+                - generic [ref=f1e531]: "\"agent\": {"
+                - generic [ref=f1e533]: "\"review\": {"
+                - generic [ref=f1e535]: "\"description\": \"Revisa código para melhores práticas e potenciais problemas\""
+                - generic [ref=f1e537]: "}"
+                - generic [ref=f1e540]: "}"
+                - generic [ref=f1e543]: "}"
+              - button "Copy to clipboard" [ref=f1e546] [cursor=pointer]
+            - paragraph [ref=f1e548]:
+              - text: Esta é uma opção de configuração
+              - strong [ref=f1e549]: obrigatória
+              - text: .
+            - separator [ref=f1e550]
+            - heading [level=3] [ref=f1e551]:
+              - link "Temperatura" [ref=f1e552]:
+                - /url: "#temperatura"
+            - paragraph [ref=f1e553]:
+              - text: Controle a aleatoriedade e criatividade das respostas do LLM com a configuração
+              - code [ref=f1e554]: "`temperature`"
+              - text: .
+            - paragraph [ref=f1e555]: Valores mais baixos tornam as respostas mais focadas e determinísticas, enquanto valores mais altos aumentam a criatividade e variabilidade.
+            - figure "opencode.json" [ref=f1e557]:
+              - code [ref=f1e561]:
+                - generic [ref=f1e562]: "{"
+                - generic [ref=f1e564]: "\"agent\": {"
+                - generic [ref=f1e566]: "\"plan\": {"
+                - generic [ref=f1e568]: "\"temperature\": 0.1"
+                - generic [ref=f1e570]: "},"
+                - generic [ref=f1e573]: "\"creative\": {"
+                - generic [ref=f1e575]: "\"temperature\": 0.8"
+                - generic [ref=f1e577]: "}"
+                - generic [ref=f1e580]: "}"
+                - generic [ref=f1e583]: "}"
+              - button "Copy to clipboard" [ref=f1e586] [cursor=pointer]
+            - paragraph [ref=f1e588]: "Os valores de temperatura geralmente variam de 0.0 a 1.0:"
+            - list [ref=f1e589]:
+              - listitem [ref=f1e590]:
+                - strong [ref=f1e591]: 0.0-0.2
+                - text: ": Respostas muito focadas e determinísticas, ideais para análise de código e planejamento"
+              - listitem [ref=f1e592]:
+                - strong [ref=f1e593]: 0.3-0.5
+                - text: ": Respostas equilibradas com alguma criatividade, boas para tarefas de desenvolvimento gerais"
+              - listitem [ref=f1e594]:
+                - strong [ref=f1e595]: 0.6-1.0
+                - text: ": Respostas mais criativas e variadas, úteis para brainstorming e exploração"
+            - figure "opencode.json" [ref=f1e597]:
+              - code [ref=f1e601]:
+                - generic [ref=f1e602]: "{"
+                - generic [ref=f1e604]: "\"agent\": {"
+                - generic [ref=f1e606]: "\"analyze\": {"
+                - generic [ref=f1e608]: "\"temperature\": 0.1,"
+                - generic [ref=f1e610]: "\"prompt\": \"{file:./prompts/analysis.txt}\""
+                - generic [ref=f1e612]: "},"
+                - generic [ref=f1e615]: "\"build\": {"
+                - generic [ref=f1e617]: "\"temperature\": 0.3"
+                - generic [ref=f1e619]: "},"
+                - generic [ref=f1e622]: "\"brainstorm\": {"
+                - generic [ref=f1e624]: "\"temperature\": 0.7,"
+                - generic [ref=f1e626]: "\"prompt\": \"{file:./prompts/creative.txt}\""
+                - generic [ref=f1e628]: "}"
+                - generic [ref=f1e631]: "}"
+                - generic [ref=f1e634]: "}"
+              - button "Copy to clipboard" [ref=f1e637] [cursor=pointer]
+            - paragraph [ref=f1e639]: Se nenhuma temperatura for especificada, o opencode usa padrões específicos do modelo; tipicamente 0 para a maioria dos modelos, 0.55 para modelos Qwen.
+            - separator [ref=f1e640]
+            - heading [level=3] [ref=f1e641]:
+              - link "Máximo de etapas" [ref=f1e642]:
+                - /url: "#máximo-de-etapas"
+            - paragraph [ref=f1e643]: Controle o número máximo de iterações que um agente pode realizar antes de ser forçado a responder apenas com texto. Isso permite que usuários que desejam controlar custos definam um limite nas ações do agente.
+            - paragraph [ref=f1e644]: Se isso não for definido, o agente continuará a iterar até que o modelo decida parar ou o usuário interrompa a sessão.
+            - figure "opencode.json" [ref=f1e646]:
+              - code [ref=f1e650]:
+                - generic [ref=f1e651]: "{"
+                - generic [ref=f1e653]: "\"agent\": {"
+                - generic [ref=f1e655]: "\"quick-thinker\": {"
+                - generic [ref=f1e657]: "\"description\": \"Raciocínio rápido com iterações limitadas\","
+                - generic [ref=f1e659]: "\"prompt\": \"Você é um pensador rápido. Resolva problemas com etapas mínimas.\","
+                - generic [ref=f1e661]: "\"steps\": 5"
+                - generic [ref=f1e663]: "}"
+                - generic [ref=f1e666]: "}"
+                - generic [ref=f1e669]: "}"
+              - button "Copy to clipboard" [ref=f1e672] [cursor=pointer]
+            - paragraph [ref=f1e674]: Quando o limite é alcançado, o agente recebe um prompt especial do sistema instruindo-o a responder com um resumo de seu trabalho e tarefas recomendadas restantes.
+            - complementary "Cuidado" [ref=f1e675]:
+              - paragraph [ref=f1e676]: Cuidado
+              - paragraph [ref=f1e680]:
+                - text: O campo legado
+                - code [ref=f1e681]: "`maxSteps`"
+                - text: está obsoleto. Use
+                - code [ref=f1e682]: "`steps`"
+                - text: em vez disso.
+            - separator [ref=f1e683]
+            - heading [level=3] [ref=f1e684]:
+              - link "Desativar" [ref=f1e685]:
+                - /url: "#desativar"
+            - paragraph [ref=f1e686]:
+              - text: Defina como
+              - code [ref=f1e687]: "`true`"
+              - text: para desativar o agente.
+            - figure "opencode.json" [ref=f1e689]:
+              - code [ref=f1e693]:
+                - generic [ref=f1e694]: "{"
+                - generic [ref=f1e696]: "\"agent\": {"
+                - generic [ref=f1e698]: "\"review\": {"
+                - generic [ref=f1e700]: "\"disable\": true"
+                - generic [ref=f1e702]: "}"
+                - generic [ref=f1e705]: "}"
+                - generic [ref=f1e708]: "}"
+              - button "Copy to clipboard" [ref=f1e711] [cursor=pointer]
+            - separator [ref=f1e713]
+            - heading [level=3] [ref=f1e714]:
+              - link "Prompt" [ref=f1e715]:
+                - /url: "#prompt"
+            - paragraph [ref=f1e716]:
+              - text: Especifique um arquivo de prompt do sistema personalizado para este agente com a configuração
+              - code [ref=f1e717]: "`prompt`"
+              - text: . O arquivo de prompt deve conter instruções específicas para o propósito do agente.
+            - figure "opencode.json" [ref=f1e719]:
+              - code [ref=f1e723]:
+                - generic [ref=f1e724]: "{"
+                - generic [ref=f1e726]: "\"agent\": {"
+                - generic [ref=f1e728]: "\"review\": {"
+                - generic [ref=f1e730]: "\"prompt\": \"{file:./prompts/code-review.txt}\""
+                - generic [ref=f1e732]: "}"
+                - generic [ref=f1e735]: "}"
+                - generic [ref=f1e738]: "}"
+              - button "Copy to clipboard" [ref=f1e741] [cursor=pointer]
+            - paragraph [ref=f1e743]: Este caminho é relativo ao local onde o arquivo de configuração está localizado. Portanto, isso funciona tanto para a configuração global do opencode quanto para a configuração específica do projeto.
+            - separator [ref=f1e744]
+            - heading [level=3] [ref=f1e745]:
+              - link "Modelo" [ref=f1e746]:
+                - /url: "#modelo"
+            - paragraph [ref=f1e747]:
+              - text: Use a configuração
+              - code [ref=f1e748]: "`model`"
+              - text: para substituir o modelo para este agente. Útil para usar diferentes modelos otimizados para diferentes tarefas. Por exemplo, um modelo mais rápido para planejamento, um modelo mais capaz para implementação.
+            - complementary "Dica" [ref=f1e749]:
+              - paragraph [ref=f1e750]: Dica
+              - paragraph [ref=f1e755]:
+                - text: Se você não especificar um modelo, os agentes primários usam o
+                - link "modelo configurado globalmente" [ref=f1e756] [cursor=pointer]:
+                  - /url: /docs/config#models
+                - text: enquanto subagentes usarão o modelo do agente primário que invocou o subagente.
+            - figure "opencode.json" [ref=f1e758]:
+              - code [ref=f1e762]:
+                - generic [ref=f1e763]: "{"
+                - generic [ref=f1e765]: "\"agent\": {"
+                - generic [ref=f1e767]: "\"plan\": {"
+                - generic [ref=f1e769]: "\"model\": \"anthropic/claude-haiku-4-20250514\""
+                - generic [ref=f1e771]: "}"
+                - generic [ref=f1e774]: "}"
+                - generic [ref=f1e777]: "}"
+              - button "Copy to clipboard" [ref=f1e780] [cursor=pointer]
+            - paragraph [ref=f1e782]:
+              - text: O ID do modelo em sua configuração do opencode usa o formato
+              - code [ref=f1e783]: "`provider/model-id`"
+              - text: . Por exemplo, se você estiver usando
+              - link "OpenCode Zen" [ref=f1e784] [cursor=pointer]:
+                - /url: /docs/zen
+              - text: ", você usaria"
+              - code [ref=f1e785]: "`opencode/gpt-5.1-codex`"
+              - text: para GPT 5.1 Codex.
+            - separator [ref=f1e786]
+            - heading [level=3] [ref=f1e787]:
+              - link "Ferramentas" [ref=f1e788]:
+                - /url: "#ferramentas"
+            - paragraph [ref=f1e789]:
+              - text: Controle quais ferramentas estão disponíveis neste agente com a configuração
+              - code [ref=f1e790]: "`tools`"
+              - text: . Você pode habilitar ou desabilitar ferramentas específicas definindo-as como
+              - code [ref=f1e791]: "`true`"
+              - text: ou
+              - code [ref=f1e792]: "`false`"
+              - text: .
+            - figure "opencode.json" [ref=f1e794]:
+              - code [ref=f1e798]:
+                - generic [ref=f1e799]: "{"
+                - generic [ref=f1e801]: "\"$schema\": \"https://opencode.ai/config.json\","
+                - generic [ref=f1e803]: "\"tools\": {"
+                - generic [ref=f1e805]: "\"write\": true,"
+                - generic [ref=f1e807]: "\"bash\": true"
+                - generic [ref=f1e809]: "},"
+                - generic [ref=f1e812]: "\"agent\": {"
+                - generic [ref=f1e814]: "\"plan\": {"
+                - generic [ref=f1e816]: "\"tools\": {"
+                - generic [ref=f1e818]: "\"write\": false,"
+                - generic [ref=f1e820]: "\"bash\": false"
+                - generic [ref=f1e822]: "}"
+                - generic [ref=f1e825]: "}"
+                - generic [ref=f1e828]: "}"
+                - generic [ref=f1e831]: "}"
+              - button "Copy to clipboard" [ref=f1e834] [cursor=pointer]
+            - complementary "Nota" [ref=f1e836]:
+              - paragraph [ref=f1e837]: Nota
+              - paragraph [ref=f1e841]: A configuração específica do agente substitui a configuração global.
+            - paragraph [ref=f1e842]: "Você também pode usar curingas para controlar várias ferramentas ao mesmo tempo. Por exemplo, para desativar todas as ferramentas de um servidor MCP:"
+            - figure "opencode.json" [ref=f1e844]:
+              - code [ref=f1e848]:
+                - generic [ref=f1e849]: "{"
+                - generic [ref=f1e851]: "\"$schema\": \"https://opencode.ai/config.json\","
+                - generic [ref=f1e853]: "\"agent\": {"
+                - generic [ref=f1e855]: "\"readonly\": {"
+                - generic [ref=f1e857]: "\"tools\": {"
+                - generic [ref=f1e859]: "\"mymcp_*\": false,"
+                - generic [ref=f1e861]: "\"write\": false,"
+                - generic [ref=f1e863]: "\"edit\": false"
+                - generic [ref=f1e865]: "}"
+                - generic [ref=f1e868]: "}"
+                - generic [ref=f1e871]: "}"
+                - generic [ref=f1e874]: "}"
+              - button "Copy to clipboard" [ref=f1e877] [cursor=pointer]
+            - paragraph [ref=f1e879]:
+              - link "Saiba mais sobre ferramentas" [ref=f1e880] [cursor=pointer]:
+                - /url: /docs/tools
+              - text: .
+            - separator [ref=f1e881]
+            - heading [level=3] [ref=f1e882]:
+              - link "Permissões" [ref=f1e883]:
+                - /url: "#permissões"
+            - paragraph [ref=f1e884]:
+              - text: Você pode configurar permissões para gerenciar quais ações um agente pode realizar. Atualmente, as permissões para as ferramentas
+              - code [ref=f1e885]: "`edit`"
+              - text: ","
+              - code [ref=f1e886]: "`bash`"
+              - text: e
+              - code [ref=f1e887]: "`webfetch`"
+              - text: "podem ser configuradas para:"
+            - list [ref=f1e888]:
+              - listitem [ref=f1e889]:
+                - code [ref=f1e890]: "`\"ask\"`"
+                - text: — Solicitar aprovação antes de executar a ferramenta
+              - listitem [ref=f1e891]:
+                - code [ref=f1e892]: "`\"allow\"`"
+                - text: — Permitir todas as operações sem aprovação
+              - listitem [ref=f1e893]:
+                - code [ref=f1e894]: "`\"deny\"`"
+                - text: — Desativar a ferramenta
+            - figure "opencode.json" [ref=f1e896]:
+              - code [ref=f1e900]:
+                - generic [ref=f1e901]: "{"
+                - generic [ref=f1e903]: "\"$schema\": \"https://opencode.ai/config.json\","
+                - generic [ref=f1e905]: "\"permission\": {"
+                - generic [ref=f1e907]: "\"edit\": \"deny\""
+                - generic [ref=f1e909]: "}"
+                - generic [ref=f1e912]: "}"
+              - button "Copy to clipboard" [ref=f1e915] [cursor=pointer]
+            - paragraph [ref=f1e917]: Você pode substituir essas permissões por agente.
+            - figure "opencode.json" [ref=f1e919]:
+              - code [ref=f1e923]:
+                - generic [ref=f1e924]: "{"
+                - generic [ref=f1e926]: "\"$schema\": \"https://opencode.ai/config.json\","
+                - generic [ref=f1e928]: "\"permission\": {"
+                - generic [ref=f1e930]: "\"edit\": \"deny\""
+                - generic [ref=f1e932]: "},"
+                - generic [ref=f1e935]: "\"agent\": {"
+                - generic [ref=f1e937]: "\"build\": {"
+                - generic [ref=f1e939]: "\"permission\": {"
+                - generic [ref=f1e941]: "\"edit\": \"ask\""
+                - generic [ref=f1e943]: "}"
+                - generic [ref=f1e946]: "}"
+                - generic [ref=f1e949]: "}"
+                - generic [ref=f1e952]: "}"
+              - button "Copy to clipboard" [ref=f1e955] [cursor=pointer]
+            - paragraph [ref=f1e957]: Você também pode definir permissões em agentes Markdown.
+            - figure "~/.config/opencode/agents/review.md" [ref=f1e959]:
+              - code [ref=f1e963]:
+                - generic [ref=f1e964]: "---"
+                - generic [ref=f1e966]: "description: Revisão de código sem edições"
+                - generic [ref=f1e968]: "mode: subagent"
+                - generic [ref=f1e970]: "permission:"
+                - generic [ref=f1e972]: "edit: deny"
+                - generic [ref=f1e974]: "bash:"
+                - generic [ref=f1e976]: "\"*\": ask"
+                - generic [ref=f1e978]: "\"git diff\": allow"
+                - generic [ref=f1e980]: "\"git log*\": allow"
+                - generic [ref=f1e982]: "\"grep *\": allow"
+                - generic [ref=f1e984]: "webfetch: deny"
+                - generic [ref=f1e986]: "---"
+                - generic [ref=f1e990]: Apenas analise o código e sugira alterações.
+              - button "Copy to clipboard" [ref=f1e993] [cursor=pointer]
+            - paragraph [ref=f1e995]: Você pode definir permissões para comandos bash específicos.
+            - figure "opencode.json" [ref=f1e997]:
+              - code [ref=f1e1001]:
+                - generic [ref=f1e1002]: "{"
+                - generic [ref=f1e1004]: "\"$schema\": \"https://opencode.ai/config.json\","
+                - generic [ref=f1e1006]: "\"agent\": {"
+                - generic [ref=f1e1008]: "\"build\": {"
+                - generic [ref=f1e1010]: "\"permission\": {"
+                - generic [ref=f1e1012]: "\"bash\": {"
+                - generic [ref=f1e1014]: "\"git push\": \"ask\","
+                - generic [ref=f1e1016]: "\"grep *\": \"allow\""
+                - generic [ref=f1e1018]: "}"
+                - generic [ref=f1e1021]: "}"
+                - generic [ref=f1e1024]: "}"
+                - generic [ref=f1e1027]: "}"
+                - generic [ref=f1e1030]: "}"
+              - button "Copy to clipboard" [ref=f1e1033] [cursor=pointer]
+            - paragraph [ref=f1e1035]: Isso pode aceitar um padrão glob.
+            - figure "opencode.json" [ref=f1e1037]:
+              - code [ref=f1e1041]:
+                - generic [ref=f1e1042]: "{"
+                - generic [ref=f1e1044]: "\"$schema\": \"https://opencode.ai/config.json\","
+                - generic [ref=f1e1046]: "\"agent\": {"
+                - generic [ref=f1e1048]: "\"build\": {"
+                - generic [ref=f1e1050]: "\"permission\": {"
+                - generic [ref=f1e1052]: "\"bash\": {"
+                - generic [ref=f1e1054]: "\"git *\": \"ask\""
+                - generic [ref=f1e1056]: "}"
+                - generic [ref=f1e1059]: "}"
+                - generic [ref=f1e1062]: "}"
+                - generic [ref=f1e1065]: "}"
+                - generic [ref=f1e1068]: "}"
+              - button "Copy to clipboard" [ref=f1e1071] [cursor=pointer]
+            - paragraph [ref=f1e1073]:
+              - text: E você também pode usar o curinga
+              - code [ref=f1e1074]: "`*`"
+              - text: para gerenciar permissões para todos os comandos. Como a última regra correspondente tem precedência, coloque o curinga
+              - code [ref=f1e1075]: "`*`"
+              - text: primeiro e regras específicas depois.
+            - figure "opencode.json" [ref=f1e1077]:
+              - code [ref=f1e1081]:
+                - generic [ref=f1e1082]: "{"
+                - generic [ref=f1e1084]: "\"$schema\": \"https://opencode.ai/config.json\","
+                - generic [ref=f1e1086]: "\"agent\": {"
+                - generic [ref=f1e1088]: "\"build\": {"
+                - generic [ref=f1e1090]: "\"permission\": {"
+                - generic [ref=f1e1092]: "\"bash\": {"
+                - generic [ref=f1e1094]: "\"*\": \"ask\","
+                - generic [ref=f1e1096]: "\"git status *\": \"allow\""
+                - generic [ref=f1e1098]: "}"
+                - generic [ref=f1e1101]: "}"
+                - generic [ref=f1e1104]: "}"
+                - generic [ref=f1e1107]: "}"
+                - generic [ref=f1e1110]: "}"
+              - button "Copy to clipboard" [ref=f1e1113] [cursor=pointer]
+            - paragraph [ref=f1e1115]:
+              - link "Saiba mais sobre permissões" [ref=f1e1116] [cursor=pointer]:
+                - /url: /docs/permissions
+              - text: .
+            - separator [ref=f1e1117]
+            - heading [level=3] [ref=f1e1118]:
+              - link "Modo" [ref=f1e1119]:
+                - /url: "#modo"
+            - paragraph [ref=f1e1120]:
+              - text: Controle o modo do agente com a configuração
+              - code [ref=f1e1121]: "`mode`"
+              - text: . A opção
+              - code [ref=f1e1122]: "`mode`"
+              - text: é usada para determinar como o agente pode ser usado.
+            - figure "opencode.json" [ref=f1e1124]:
+              - code [ref=f1e1128]:
+                - generic [ref=f1e1129]: "{"
+                - generic [ref=f1e1131]: "\"agent\": {"
+                - generic [ref=f1e1133]: "\"review\": {"
+                - generic [ref=f1e1135]: "\"mode\": \"subagent\""
+                - generic [ref=f1e1137]: "}"
+                - generic [ref=f1e1140]: "}"
+                - generic [ref=f1e1143]: "}"
+              - button "Copy to clipboard" [ref=f1e1146] [cursor=pointer]
+            - paragraph [ref=f1e1148]:
+              - text: A opção
+              - code [ref=f1e1149]: "`mode`"
+              - text: pode ser definida como
+              - code [ref=f1e1150]: "`primary`"
+              - text: ","
+              - code [ref=f1e1151]: "`subagent`"
+              - text: ou
+              - code [ref=f1e1152]: "`all`"
+              - text: . Se nenhum
+              - code [ref=f1e1153]: "`mode`"
+              - text: for especificado, o padrão é
+              - code [ref=f1e1154]: "`all`"
+              - text: .
+            - separator [ref=f1e1155]
+            - heading [level=3] [ref=f1e1156]:
+              - link "Oculto" [ref=f1e1157]:
+                - /url: "#oculto"
+            - paragraph [ref=f1e1158]:
+              - text: Oculte um subagente do menu de autocompletar
+              - code [ref=f1e1159]: "`@`"
+              - text: com
+              - code [ref=f1e1160]: "`hidden: true`"
+              - text: . Útil para subagentes internos que devem ser invocados apenas programaticamente por outros agentes através da ferramenta Task.
+            - figure "opencode.json" [ref=f1e1162]:
+              - code [ref=f1e1166]:
+                - generic [ref=f1e1167]: "{"
+                - generic [ref=f1e1169]: "\"agent\": {"
+                - generic [ref=f1e1171]: "\"internal-helper\": {"
+                - generic [ref=f1e1173]: "\"mode\": \"subagent\","
+                - generic [ref=f1e1175]: "\"hidden\": true"
+                - generic [ref=f1e1177]: "}"
+                - generic [ref=f1e1180]: "}"
+                - generic [ref=f1e1183]: "}"
+              - button "Copy to clipboard" [ref=f1e1186] [cursor=pointer]
+            - paragraph [ref=f1e1188]: Isso afeta apenas a visibilidade do usuário no menu de autocompletar. Agentes ocultos ainda podem ser invocados pelo modelo através da ferramenta Task, se as permissões permitirem.
+            - complementary "Nota" [ref=f1e1189]:
+              - paragraph [ref=f1e1190]: Nota
+              - paragraph [ref=f1e1194]:
+                - text: Aplica-se apenas a agentes
+                - code [ref=f1e1195]: "`mode: subagent`"
+                - text: .
+            - separator [ref=f1e1196]
+            - heading [level=3] [ref=f1e1197]:
+              - link "Permissões de tarefa" [ref=f1e1198]:
+                - /url: "#permissões-de-tarefa"
+            - paragraph [ref=f1e1199]:
+              - text: Controle quais subagentes um agente pode invocar através da ferramenta Task com
+              - code [ref=f1e1200]: "`permission.task`"
+              - text: . Usa padrões globais para correspondência flexível.
+            - figure "opencode.json" [ref=f1e1202]:
+              - code [ref=f1e1206]:
+                - generic [ref=f1e1207]: "{"
+                - generic [ref=f1e1209]: "\"agent\": {"
+                - generic [ref=f1e1211]: "\"orchestrator\": {"
+                - generic [ref=f1e1213]: "\"mode\": \"primary\","
+                - generic [ref=f1e1215]: "\"permission\": {"
+                - generic [ref=f1e1217]: "\"task\": {"
+                - generic [ref=f1e1219]: "\"*\": \"deny\","
+                - generic [ref=f1e1221]: "\"orchestrator-*\": \"allow\","
+                - generic [ref=f1e1223]: "\"code-reviewer\": \"ask\""
+                - generic [ref=f1e1225]: "}"
+                - generic [ref=f1e1228]: "}"
+                - generic [ref=f1e1231]: "}"
+                - generic [ref=f1e1234]: "}"
+                - generic [ref=f1e1237]: "}"
+              - button "Copy to clipboard" [ref=f1e1240] [cursor=pointer]
+            - paragraph [ref=f1e1242]:
+              - text: Quando definido como
+              - code [ref=f1e1243]: "`deny`"
+              - text: ", o subagente é removido da descrição da ferramenta Task completamente, então o modelo não tentará invocá-lo."
+            - complementary "Dica" [ref=f1e1244]:
+              - paragraph [ref=f1e1245]: Dica
+              - paragraph [ref=f1e1250]:
+                - text: As regras são avaliadas em ordem, e a
+                - strong [ref=f1e1251]: última regra correspondente vence
+                - text: . No exemplo acima,
+                - code [ref=f1e1252]: "`orchestrator-planner`"
+                - text: corresponde a ambos
+                - code [ref=f1e1253]: "`*`"
+                - text: (deny) e
+                - code [ref=f1e1254]: "`orchestrator-*`"
+                - text: (allow), mas como
+                - code [ref=f1e1255]: "`orchestrator-*`"
+                - text: vem depois de
+                - code [ref=f1e1256]: "`*`"
+                - text: ", o resultado é"
+                - code [ref=f1e1257]: "`allow`"
+                - text: .
+            - complementary "Dica" [ref=f1e1258]:
+              - paragraph [ref=f1e1259]: Dica
+              - paragraph [ref=f1e1264]:
+                - text: Os usuários sempre podem invocar qualquer subagente diretamente através do menu de autocompletar
+                - code [ref=f1e1265]: "`@`"
+                - text: ", mesmo que as permissões de tarefa do agente o neguem."
+            - separator [ref=f1e1266]
+            - heading [level=3] [ref=f1e1267]:
+              - link "Cor" [ref=f1e1268]:
+                - /url: "#cor"
+            - paragraph [ref=f1e1269]:
+              - text: Personalize a aparência visual do agente na interface com a opção
+              - code [ref=f1e1270]: "`color`"
+              - text: . Isso afeta como o agente aparece na interface.
+            - paragraph [ref=f1e1271]:
+              - text: Use uma cor hex válida (por exemplo,
+              - code [ref=f1e1272]: "`#FF5733`"
+              - text: ") ou cor de tema:"
+              - code [ref=f1e1273]: "`primary`"
+              - text: ","
+              - code [ref=f1e1274]: "`secondary`"
+              - text: ","
+              - code [ref=f1e1275]: "`accent`"
+              - text: ","
+              - code [ref=f1e1276]: "`success`"
+              - text: ","
+              - code [ref=f1e1277]: "`warning`"
+              - text: ","
+              - code [ref=f1e1278]: "`error`"
+              - text: ","
+              - code [ref=f1e1279]: "`info`"
+              - text: .
+            - figure "opencode.json" [ref=f1e1281]:
+              - code [ref=f1e1285]:
+                - generic [ref=f1e1286]: "{"
+                - generic [ref=f1e1288]: "\"agent\": {"
+                - generic [ref=f1e1290]: "\"creative\": {"
+                - generic [ref=f1e1292]: "\"color\": \"#ff6b6b\""
+                - generic [ref=f1e1294]: "},"
+                - generic [ref=f1e1297]: "\"code-reviewer\": {"
+                - generic [ref=f1e1299]: "\"color\": \"accent\""
+                - generic [ref=f1e1301]: "}"
+                - generic [ref=f1e1304]: "}"
+                - generic [ref=f1e1307]: "}"
+              - button "Copy to clipboard" [ref=f1e1310] [cursor=pointer]
+            - separator [ref=f1e1312]
+            - heading [level=3] [ref=f1e1313]:
+              - link "Top P" [ref=f1e1314]:
+                - /url: "#top-p"
+            - paragraph [ref=f1e1315]:
+              - text: Controle a diversidade das respostas com a opção
+              - code [ref=f1e1316]: "`top_p`"
+              - text: . Alternativa à temperatura para controlar a aleatoriedade.
+            - figure "opencode.json" [ref=f1e1318]:
+              - code [ref=f1e1322]:
+                - generic [ref=f1e1323]: "{"
+                - generic [ref=f1e1325]: "\"agent\": {"
+                - generic [ref=f1e1327]: "\"brainstorm\": {"
+                - generic [ref=f1e1329]: "\"top_p\": 0.9"
+                - generic [ref=f1e1331]: "}"
+                - generic [ref=f1e1334]: "}"
+                - generic [ref=f1e1337]: "}"
+              - button "Copy to clipboard" [ref=f1e1340] [cursor=pointer]
+            - paragraph [ref=f1e1342]: Os valores variam de 0.0 a 1.0. Valores mais baixos são mais focados, valores mais altos são mais diversos.
+            - separator [ref=f1e1343]
+            - heading [level=3] [ref=f1e1344]:
+              - link "Adicional" [ref=f1e1345]:
+                - /url: "#adicional"
+            - paragraph [ref=f1e1346]:
+              - text: Quaisquer outras opções que você especificar em sua configuração de agente serão
+              - strong [ref=f1e1347]: passadas diretamente
+              - text: para o provedor como opções de modelo. Isso permite que você use recursos e parâmetros específicos do provedor.
+            - paragraph [ref=f1e1348]: "Por exemplo, com os modelos de raciocínio da OpenAI, você pode controlar o esforço de raciocínio:"
+            - figure "opencode.json" [ref=f1e1350]:
+              - code [ref=f1e1354]:
+                - generic [ref=f1e1355]: "{"
+                - generic [ref=f1e1357]: "\"agent\": {"
+                - generic [ref=f1e1359]: "\"deep-thinker\": {"
+                - generic [ref=f1e1361]: "\"description\": \"Agente que usa alto esforço de raciocínio para problemas complexos\","
+                - generic [ref=f1e1363]: "\"model\": \"openai/gpt-5\","
+                - generic [ref=f1e1365]: "\"reasoningEffort\": \"high\","
+                - generic [ref=f1e1367]: "\"textVerbosity\": \"low\""
+                - generic [ref=f1e1369]: "}"
+                - generic [ref=f1e1372]: "}"
+                - generic [ref=f1e1375]: "}"
+              - button "Copy to clipboard" [ref=f1e1378] [cursor=pointer]
+            - paragraph [ref=f1e1380]: Essas opções adicionais são específicas do modelo e do provedor. Verifique a documentação do seu provedor para parâmetros disponíveis.
+            - complementary "Dica" [ref=f1e1381]:
+              - paragraph [ref=f1e1382]: Dica
+              - paragraph [ref=f1e1387]:
+                - text: Execute
+                - code [ref=f1e1388]: "`opencode models`"
+                - text: para ver uma lista dos modelos disponíveis.
+            - separator [ref=f1e1389]
+            - heading [level=2] [ref=f1e1390]:
+              - link "Criando agentes" [ref=f1e1391]:
+                - /url: "#criando-agentes"
+            - paragraph [ref=f1e1392]: "Você pode criar novos agentes usando o seguinte comando:"
+            - figure "Terminal window" [ref=f1e1394]:
+              - code [ref=f1e1399]:
+                - generic [ref=f1e1400]: opencode agent create
+              - button "Copy to clipboard" [ref=f1e1403] [cursor=pointer]
+            - paragraph [ref=f1e1405]: "Este comando interativo irá:"
+            - list [ref=f1e1406]:
+              - listitem [ref=f1e1407]: Perguntar onde salvar o agente; global ou específico do projeto.
+              - listitem [ref=f1e1408]: Descrição do que o agente deve fazer.
+              - listitem [ref=f1e1409]: Gerar um prompt de sistema apropriado e identificador.
+              - listitem [ref=f1e1410]: Permitir que você selecione quais ferramentas o agente pode acessar.
+              - listitem [ref=f1e1411]: Finalmente, criar um arquivo markdown com a configuração do agente.
+            - separator [ref=f1e1412]
+            - heading [level=2] [ref=f1e1413]:
+              - link "Casos de uso" [ref=f1e1414]:
+                - /url: "#casos-de-uso"
+            - paragraph [ref=f1e1415]: Aqui estão alguns casos de uso comuns para diferentes agentes.
+            - list [ref=f1e1416]:
+              - listitem [ref=f1e1417]:
+                - strong [ref=f1e1418]: Agente Build
+                - text: ": Trabalho de desenvolvimento completo com todas as ferramentas habilitadas"
+              - listitem [ref=f1e1419]:
+                - strong [ref=f1e1420]: Agente Plan
+                - text: ": Análise e planejamento sem fazer alterações"
+              - listitem [ref=f1e1421]:
+                - strong [ref=f1e1422]: Agente Review
+                - text: ": Revisão de código com acesso somente leitura e ferramentas de documentação"
+              - listitem [ref=f1e1423]:
+                - strong [ref=f1e1424]: Agente Debug
+                - text: ": Focado em investigação com ferramentas bash e de leitura habilitadas"
+              - listitem [ref=f1e1425]:
+                - strong [ref=f1e1426]: Agente Docs
+                - text: ": Redação de documentação com operações de arquivo, mas sem comandos do sistema"
+            - separator [ref=f1e1427]
+            - heading [level=2] [ref=f1e1428]:
+              - link "Exemplos" [ref=f1e1429]:
+                - /url: "#exemplos"
+            - paragraph [ref=f1e1430]: Aqui estão alguns agentes de exemplo que você pode achar úteis.
+            - complementary "Dica" [ref=f1e1431]:
+              - paragraph [ref=f1e1432]: Dica
+              - paragraph [ref=f1e1437]:
+                - text: Você tem um agente que gostaria de compartilhar?
+                - link "Envie um PR" [ref=f1e1438] [cursor=pointer]:
+                  - /url: https://github.com/anomalyco/opencode
+                - text: .
+            - separator [ref=f1e1439]
+            - heading [level=3] [ref=f1e1440]:
+              - link "Agente de documentação" [ref=f1e1441]:
+                - /url: "#agente-de-documentação"
+            - figure "~/.config/opencode/agents/docs-writer.md" [ref=f1e1443]:
+              - code [ref=f1e1447]:
+                - generic [ref=f1e1448]: "---"
+                - generic [ref=f1e1450]: "description: Escreve e mantém a documentação do projeto"
+                - generic [ref=f1e1452]: "mode: subagent"
+                - generic [ref=f1e1454]: "tools:"
+                - generic [ref=f1e1456]: "bash: false"
+                - generic [ref=f1e1458]: "---"
+                - generic [ref=f1e1462]: Você é um escritor técnico. Crie documentação clara e abrangente.
+                - generic [ref=f1e1466]: "Foque em:"
+                - generic [ref=f1e1470]: "- Explicações claras"
+                - generic [ref=f1e1472]: "- Estrutura adequada"
+                - generic [ref=f1e1474]: "- Exemplos de código"
+                - generic [ref=f1e1476]: "- Linguagem amigável ao usuário"
+              - button "Copy to clipboard" [ref=f1e1479] [cursor=pointer]
+            - separator [ref=f1e1481]
+            - heading [level=3] [ref=f1e1482]:
+              - link "Auditor de segurança" [ref=f1e1483]:
+                - /url: "#auditor-de-segurança"
+            - figure "~/.config/opencode/agents/security-auditor.md" [ref=f1e1485]:
+              - code [ref=f1e1489]:
+                - generic [ref=f1e1490]: "---"
+                - generic [ref=f1e1492]: "description: Realiza auditorias de segurança e identifica vulnerabilidades"
+                - generic [ref=f1e1494]: "mode: subagent"
+                - generic [ref=f1e1496]: "tools:"
+                - generic [ref=f1e1498]: "write: false"
+                - generic [ref=f1e1500]: "edit: false"
+                - generic [ref=f1e1502]: "---"
+                - generic [ref=f1e1506]: Você é um especialista em segurança. Foque em identificar potenciais problemas de segurança.
+                - generic [ref=f1e1510]: "Procure por:"
+                - generic [ref=f1e1514]: "- Vulnerabilidades de validação de entrada"
+                - generic [ref=f1e1516]: "- Falhas de autenticação e autorização"
+                - generic [ref=f1e1518]: "- Riscos de exposição de dados"
+                - generic [ref=f1e1520]: "- Vulnerabilidades de dependência"
+                - generic [ref=f1e1522]: "- Problemas de segurança de configuração"
+              - button "Copy to clipboard" [ref=f1e1525] [cursor=pointer]
+          - generic [ref=f1e1528]:
+            - generic [ref=f1e1529]:
+              - link "Editar página" [ref=f1e1530] [cursor=pointer]:
+                - /url: https://github.com/anomalyco/opencode/edit/dev/packages/web/src/content/docs/pt-br/agents.mdx
+              - link "Encontrou um bug? Abra uma issue" [ref=f1e1533] [cursor=pointer]:
+                - /url: https://github.com/anomalyco/opencode/issues/new
+              - link "Participe da nossa comunidade no Discord" [ref=f1e1536] [cursor=pointer]:
+                - /url: https://opencode.ai/discord
+              - generic [ref=f1e1541]:
+                - generic [ref=f1e1542]: Selecionar língua
+                - combobox "Selecionar língua" [ref=f1e1543] [cursor=pointer]:
+                  - option "English"
+                  - option "العربية"
+                  - option "Bosanski"
+                  - option "Dansk"
+                  - option "Deutsch"
+                  - option "Español"
+                  - option "Français"
+                  - option "Italiano"
+                  - option "日本語"
+                  - option "한국어"
+                  - option "Norsk Bokmål"
+                  - option "Polski"
+                  - option "Português (Brasil)" [selected]
+                  - option "Русский"
+                  - option "ไทย"
+                  - option "Türkçe"
+                  - option "简体中文"
+                  - option "繁體中文"
+            - generic [ref=f1e1544]:
+              - paragraph [ref=f1e1545]:
+                - text: ©
+                - link "Anomaly" [ref=f1e1546] [cursor=pointer]:
+                  - /url: https://anoma.ly
+              - paragraph [ref=f1e1547]:
+                - text: "Última atualização:"
+                - time [ref=f1e1548]: 22 de jul. de 2026

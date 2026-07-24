@@ -1,0 +1,729 @@
+- generic [active] [ref=e1]:
+  - link "Pular para o conteúdo" [ref=e2] [cursor=pointer]:
+    - /url: "#_top"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "OpenCode" [ref=e7] [cursor=pointer]:
+          - /url: /docs/pt-br
+        - generic [ref=e9]:
+          - generic [ref=e10]:
+            - link [ref=e11] [cursor=pointer]:
+              - /url: https://github.com/anomalyco/opencode
+            - link [ref=e14] [cursor=pointer]:
+              - /url: https://opencode.ai/discord
+          - button "Pesquisar" [ref=e18] [cursor=pointer]:
+            - generic [ref=e20]:
+              - generic [ref=e21]: Ctrl
+              - generic [ref=e22]: K
+    - navigation "Principal":
+      - list [ref=e26]:
+        - listitem [ref=e27]:
+          - link "Introdução" [ref=e28] [cursor=pointer]:
+            - /url: /docs/pt-br/
+        - listitem [ref=e29]:
+          - link "Configuração" [ref=e30] [cursor=pointer]:
+            - /url: /docs/pt-br/config/
+        - listitem [ref=e31]:
+          - link "Provedores" [ref=e32] [cursor=pointer]:
+            - /url: /docs/pt-br/providers/
+        - listitem [ref=e33]:
+          - link "Rede" [ref=e34] [cursor=pointer]:
+            - /url: /docs/pt-br/network/
+        - listitem [ref=e35]:
+          - link "Empresa" [ref=e36] [cursor=pointer]:
+            - /url: /docs/pt-br/enterprise/
+        - listitem [ref=e37]:
+          - link "Solução de Problemas" [ref=e38] [cursor=pointer]:
+            - /url: /docs/pt-br/troubleshooting/
+        - listitem [ref=e39]:
+          - link "Windows" [ref=e40] [cursor=pointer]:
+            - /url: /docs/pt-br/windows-wsl
+        - listitem [ref=e41]:
+          - group [ref=e42]:
+            - generic "Uso" [ref=e43] [cursor=pointer]
+            - list [ref=e47]:
+              - listitem [ref=e48]:
+                - link "Go" [ref=e49] [cursor=pointer]:
+                  - /url: /docs/pt-br/go/
+              - listitem [ref=e50]:
+                - link "TUI" [ref=e51] [cursor=pointer]:
+                  - /url: /docs/pt-br/tui/
+              - listitem [ref=e52]:
+                - link "CLI" [ref=e53] [cursor=pointer]:
+                  - /url: /docs/pt-br/cli/
+              - listitem [ref=e54]:
+                - link "Web" [ref=e55] [cursor=pointer]:
+                  - /url: /docs/pt-br/web/
+              - listitem [ref=e56]:
+                - link "IDE" [ref=e57] [cursor=pointer]:
+                  - /url: /docs/pt-br/ide/
+              - listitem [ref=e58]:
+                - link "Zen" [ref=e59] [cursor=pointer]:
+                  - /url: /docs/pt-br/zen/
+              - listitem [ref=e60]:
+                - link "Compartilhar" [ref=e61] [cursor=pointer]:
+                  - /url: /docs/pt-br/share/
+              - listitem [ref=e62]:
+                - link "GitHub" [ref=e63] [cursor=pointer]:
+                  - /url: /docs/pt-br/github/
+              - listitem [ref=e64]:
+                - link "GitLab" [ref=e65] [cursor=pointer]:
+                  - /url: /docs/pt-br/gitlab/
+        - listitem [ref=e66]:
+          - group [ref=e67]:
+            - generic "Configuração" [ref=e68] [cursor=pointer]
+            - list [ref=e72]:
+              - listitem [ref=e73]:
+                - link "Ferramentas" [ref=e74] [cursor=pointer]:
+                  - /url: /docs/pt-br/tools/
+              - listitem [ref=e75]:
+                - link "Regras" [ref=e76] [cursor=pointer]:
+                  - /url: /docs/pt-br/rules/
+              - listitem [ref=e77]:
+                - link "Agentes" [ref=e78] [cursor=pointer]:
+                  - /url: /docs/pt-br/agents/
+              - listitem [ref=e79]:
+                - link "Modelos" [ref=e80] [cursor=pointer]:
+                  - /url: /docs/pt-br/models/
+              - listitem [ref=e81]:
+                - link "Temas" [ref=e82] [cursor=pointer]:
+                  - /url: /docs/pt-br/themes/
+              - listitem [ref=e83]:
+                - link "Atalhos de Teclado" [ref=e84] [cursor=pointer]:
+                  - /url: /docs/pt-br/keybinds/
+              - listitem [ref=e85]:
+                - link "Comandos" [ref=e86] [cursor=pointer]:
+                  - /url: /docs/pt-br/commands/
+              - listitem [ref=e87]:
+                - link "Formatadores" [ref=e88] [cursor=pointer]:
+                  - /url: /docs/pt-br/formatters/
+              - listitem [ref=e89]:
+                - link "Permissões" [ref=e90] [cursor=pointer]:
+                  - /url: /docs/pt-br/permissions/
+              - listitem [ref=e91]:
+                - link "Policies" [ref=e92] [cursor=pointer]:
+                  - /url: /docs/pt-br/policies/
+              - listitem [ref=e93]:
+                - link "Servidores LSP" [ref=e94] [cursor=pointer]:
+                  - /url: /docs/pt-br/lsp/
+              - listitem [ref=e95]:
+                - link "Servidores MCP" [ref=e96] [cursor=pointer]:
+                  - /url: /docs/pt-br/mcp-servers/
+              - listitem [ref=e97]:
+                - link "Suporte ACP" [ref=e98] [cursor=pointer]:
+                  - /url: /docs/pt-br/acp/
+              - listitem [ref=e99]:
+                - link "Habilidades do Agente" [ref=e100] [cursor=pointer]:
+                  - /url: /docs/pt-br/skills/
+              - listitem [ref=e101]:
+                - link "References" [ref=e102] [cursor=pointer]:
+                  - /url: /docs/pt-br/references/
+              - listitem [ref=e103]:
+                - link "Ferramentas Personalizadas" [ref=e104] [cursor=pointer]:
+                  - /url: /docs/pt-br/custom-tools/
+        - listitem [ref=e105]:
+          - group [ref=e106]:
+            - generic "Desenvolvimento" [ref=e107] [cursor=pointer]
+            - list [ref=e111]:
+              - listitem [ref=e112]:
+                - link "SDK" [ref=e113] [cursor=pointer]:
+                  - /url: /docs/pt-br/sdk/
+              - listitem [ref=e114]:
+                - link "Servidor" [ref=e115] [cursor=pointer]:
+                  - /url: /docs/pt-br/server/
+              - listitem [ref=e116]:
+                - link "Plugins" [ref=e117] [cursor=pointer]:
+                  - /url: /docs/pt-br/plugins/
+              - listitem [ref=e118]:
+                - link "Ecossistema" [ref=e119] [cursor=pointer]:
+                  - /url: /docs/pt-br/ecosystem/
+    - generic [ref=e121]:
+      - complementary [ref=e122]:
+        - navigation [ref=e127]:
+          - heading "Nesta página" [level=2] [ref=e128]
+          - list [ref=e129]:
+            - listitem [ref=e130]:
+              - link "Visão geral" [ref=e131] [cursor=pointer]:
+                - /url: "#_top"
+            - listitem [ref=e132]:
+              - link "Usando um plugin" [ref=e133] [cursor=pointer]:
+                - /url: "#usando-um-plugin"
+              - list [ref=e134]:
+                - listitem [ref=e135]:
+                  - link "De arquivos locais" [ref=e136] [cursor=pointer]:
+                    - /url: "#de-arquivos-locais"
+                - listitem [ref=e137]:
+                  - link "Do npm" [ref=e138] [cursor=pointer]:
+                    - /url: "#do-npm"
+                - listitem [ref=e139]:
+                  - link "Como os plugins são instalados" [ref=e140] [cursor=pointer]:
+                    - /url: "#como-os-plugins-são-instalados"
+                - listitem [ref=e141]:
+                  - link "Ordem de carregamento" [ref=e142] [cursor=pointer]:
+                    - /url: "#ordem-de-carregamento"
+            - listitem [ref=e143]:
+              - link "Criando um plugin" [ref=e144] [cursor=pointer]:
+                - /url: "#criando-um-plugin"
+              - list [ref=e145]:
+                - listitem [ref=e146]:
+                  - link "Dependências" [ref=e147] [cursor=pointer]:
+                    - /url: "#dependências"
+                - listitem [ref=e148]:
+                  - link "Estrutura básica" [ref=e149] [cursor=pointer]:
+                    - /url: "#estrutura-básica"
+                - listitem [ref=e150]:
+                  - link "Suporte a TypeScript" [ref=e151] [cursor=pointer]:
+                    - /url: "#suporte-a-typescript"
+                - listitem [ref=e152]:
+                  - link "Eventos" [ref=e153] [cursor=pointer]:
+                    - /url: "#eventos"
+            - listitem [ref=e154]:
+              - link "Exemplos" [ref=e155] [cursor=pointer]:
+                - /url: "#exemplos"
+              - list [ref=e156]:
+                - listitem [ref=e157]:
+                  - link "Enviando notificações" [ref=e158] [cursor=pointer]:
+                    - /url: "#enviando-notificações"
+                - listitem [ref=e159]:
+                  - link "Proteção .env" [ref=e160] [cursor=pointer]:
+                    - /url: "#proteção-env"
+                - listitem [ref=e161]:
+                  - link "Injetando variáveis de ambiente" [ref=e162] [cursor=pointer]:
+                    - /url: "#injetando-variáveis-de-ambiente"
+                - listitem [ref=e163]:
+                  - link "Ferramentas personalizadas" [ref=e164] [cursor=pointer]:
+                    - /url: "#ferramentas-personalizadas"
+                - listitem [ref=e165]:
+                  - link "Registro" [ref=e166] [cursor=pointer]:
+                    - /url: "#registro"
+                - listitem [ref=e167]:
+                  - link "Hooks de compactação" [ref=e168] [cursor=pointer]:
+                    - /url: "#hooks-de-compactação"
+      - main [ref=e170]:
+        - generic [ref=e172]:
+          - heading "Plugins" [level=1] [ref=e173]
+          - paragraph [ref=e174]: Escreva seus próprios plugins para estender o opencode.
+        - generic [ref=e176]:
+          - generic [ref=e177]:
+            - paragraph [ref=e178]: Plugins permitem que você estenda o opencode conectando-se a vários eventos e personalizando o comportamento. Você pode criar plugins para adicionar novos recursos, integrar-se a serviços externos ou modificar o comportamento padrão do opencode.
+            - paragraph [ref=e179]:
+              - text: Para exemplos, confira os
+              - link "plugins" [ref=e180] [cursor=pointer]:
+                - /url: /docs/ecosystem#plugins
+              - text: criados pela comunidade.
+            - separator [ref=e181]
+            - heading [level=2] [ref=e182]:
+              - link "Usando um plugin" [ref=e183]:
+                - /url: "#usando-um-plugin"
+            - paragraph [ref=e184]: Existem duas maneiras de carregar plugins.
+            - separator [ref=e185]
+            - heading [level=3] [ref=e186]:
+              - link "De arquivos locais" [ref=e187]:
+                - /url: "#de-arquivos-locais"
+            - paragraph [ref=e188]: Coloque arquivos JavaScript ou TypeScript no diretório de plugins.
+            - list [ref=e189]:
+              - listitem [ref=e190]:
+                - code [ref=e191]: "`.opencode/plugins/`"
+                - text: "- Plugins em nível de projeto"
+              - listitem [ref=e192]:
+                - code [ref=e193]: "`~/.config/opencode/plugins/`"
+                - text: "- Plugins globais"
+            - paragraph [ref=e194]: Os arquivos nesses diretórios são carregados automaticamente na inicialização.
+            - separator [ref=e195]
+            - heading [level=3] [ref=e196]:
+              - link "Do npm" [ref=e197]:
+                - /url: "#do-npm"
+            - paragraph [ref=e198]: Especifique pacotes npm no seu arquivo de configuração.
+            - figure "opencode.json" [ref=e200]:
+              - code [ref=e204]:
+                - generic [ref=e205]: "{"
+                - generic [ref=e207]: "\"$schema\": \"https://opencode.ai/config.json\","
+                - generic [ref=e209]: "\"plugin\": [\"opencode-helicone-session\", \"opencode-wakatime\", \"@my-org/custom-plugin\"]"
+                - generic [ref=e211]: "}"
+              - button "Copy to clipboard" [ref=e214] [cursor=pointer]
+            - paragraph [ref=e216]: Pacotes npm regulares e escopados são suportados.
+            - paragraph [ref=e217]:
+              - text: Navegue pelos plugins disponíveis no
+              - link "ecossistema" [ref=e218] [cursor=pointer]:
+                - /url: /docs/ecosystem#plugins
+              - text: .
+            - separator [ref=e219]
+            - heading [level=3] [ref=e220]:
+              - link "Como os plugins são instalados" [ref=e221]:
+                - /url: "#como-os-plugins-são-instalados"
+            - paragraph [ref=e222]:
+              - strong [ref=e223]: Plugins npm
+              - text: são instalados automaticamente usando Bun na inicialização. Pacotes e suas dependências são armazenados em cache em
+              - code [ref=e224]: "`~/.cache/opencode/node_modules/`"
+              - text: .
+            - paragraph [ref=e225]:
+              - strong [ref=e226]: Plugins locais
+              - text: são carregados diretamente do diretório de plugins. Para usar pacotes externos, você deve criar um
+              - code [ref=e227]: "`package.json`"
+              - text: dentro do seu diretório de configuração (veja
+              - link "Dependências" [ref=e228] [cursor=pointer]:
+                - /url: "#dependencies"
+              - text: ), ou publicar o plugin no npm e
+              - link "adicioná-lo à sua configuração" [ref=e229] [cursor=pointer]:
+                - /url: /docs/config#plugins
+              - text: .
+            - separator [ref=e230]
+            - heading [level=3] [ref=e231]:
+              - link "Ordem de carregamento" [ref=e232]:
+                - /url: "#ordem-de-carregamento"
+            - paragraph [ref=e233]: "Os plugins são carregados de todas as fontes e todos os hooks são executados em sequência. A ordem de carregamento é:"
+            - list [ref=e234]:
+              - listitem [ref=e235]:
+                - text: Configuração global (
+                - code [ref=e236]: "`~/.config/opencode/opencode.json`"
+                - text: )
+              - listitem [ref=e237]:
+                - text: Configuração do projeto (
+                - code [ref=e238]: "`opencode.json`"
+                - text: )
+              - listitem [ref=e239]:
+                - text: Diretório de plugins global (
+                - code [ref=e240]: "`~/.config/opencode/plugins/`"
+                - text: )
+              - listitem [ref=e241]:
+                - text: Diretório de plugins do projeto (
+                - code [ref=e242]: "`.opencode/plugins/`"
+                - text: )
+            - paragraph [ref=e243]: Pacotes npm duplicados com o mesmo nome e versão são carregados uma vez. No entanto, um plugin local e um plugin npm com nomes semelhantes são carregados separadamente.
+            - separator [ref=e244]
+            - heading [level=2] [ref=e245]:
+              - link "Criando um plugin" [ref=e246]:
+                - /url: "#criando-um-plugin"
+            - paragraph [ref=e247]:
+              - text: Um plugin é um
+              - strong [ref=e248]: módulo JavaScript/TypeScript
+              - text: que exporta uma ou mais funções de plugin. Cada função recebe um objeto de contexto e retorna um objeto de hooks.
+            - separator [ref=e249]
+            - heading [level=3] [ref=e250]:
+              - link "Dependências" [ref=e251]:
+                - /url: "#dependências"
+            - paragraph [ref=e252]:
+              - text: Plugins locais e ferramentas personalizadas podem usar pacotes npm externos. Adicione um
+              - code [ref=e253]: "`package.json`"
+              - text: ao seu diretório de configuração com as dependências necessárias.
+            - figure ".opencode/package.json" [ref=e255]:
+              - code [ref=e259]:
+                - generic [ref=e260]: "{"
+                - generic [ref=e262]: "\"dependencies\": {"
+                - generic [ref=e264]: "\"shescape\": \"^2.1.0\""
+                - generic [ref=e266]: "}"
+                - generic [ref=e269]: "}"
+              - button "Copy to clipboard" [ref=e272] [cursor=pointer]
+            - paragraph [ref=e274]:
+              - text: O opencode executa
+              - code [ref=e275]: "`bun install`"
+              - text: na inicialização para instalar esses pacotes. Seus plugins e ferramentas podem então importá-los.
+            - figure ".opencode/plugins/my-plugin.ts" [ref=e277]:
+              - code [ref=e281]:
+                - generic [ref=e282]: "import { escape } from \"shescape\""
+                - generic [ref=e286]: "export const MyPlugin = async (ctx) => {"
+                - generic [ref=e288]: "return {"
+                - generic [ref=e290]: "\"tool.execute.before\": async (input, output) => {"
+                - generic [ref=e292]: "if (input.tool === \"bash\") {"
+                - generic [ref=e294]: output.args.command = escape(output.args.command)
+                - generic [ref=e297]: "}"
+                - generic [ref=e300]: "},"
+                - generic [ref=e303]: "}"
+                - generic [ref=e306]: "}"
+              - button "Copy to clipboard" [ref=e309] [cursor=pointer]
+            - separator [ref=e311]
+            - heading [level=3] [ref=e312]:
+              - link "Estrutura básica" [ref=e313]:
+                - /url: "#estrutura-básica"
+            - figure ".opencode/plugins/example.js" [ref=e315]:
+              - code [ref=e319]:
+                - generic [ref=e320]: "export const MyPlugin = async ({ project, client, $, directory, worktree }) => {"
+                - generic [ref=e322]: console.log("Plugin initialized!")
+                - generic [ref=e327]: "return {"
+                - generic [ref=e329]: // Hook implementations go here
+                - generic [ref=e331]: "}"
+                - generic [ref=e334]: "}"
+              - button "Copy to clipboard" [ref=e337] [cursor=pointer]
+            - paragraph [ref=e339]: "A função do plugin recebe:"
+            - list [ref=e340]:
+              - listitem [ref=e341]:
+                - code [ref=e342]: "`project`"
+                - text: ": As informações do projeto atual."
+              - listitem [ref=e343]:
+                - code [ref=e344]: "`directory`"
+                - text: ": O diretório de trabalho atual."
+              - listitem [ref=e345]:
+                - code [ref=e346]: "`worktree`"
+                - text: ": O caminho do worktree do git."
+              - listitem [ref=e347]:
+                - code [ref=e348]: "`client`"
+                - text: ": Um cliente SDK do opencode para interagir com a AI."
+              - listitem [ref=e349]:
+                - code [ref=e350]: "`$`"
+                - text: ": A"
+                - link "API shell" [ref=e351] [cursor=pointer]:
+                  - /url: https://bun.com/docs/runtime/shell
+                - text: do Bun para executar comandos.
+            - separator [ref=e352]
+            - heading [level=3] [ref=e353]:
+              - link "Suporte a TypeScript" [ref=e354]:
+                - /url: "#suporte-a-typescript"
+            - paragraph [ref=e355]: "Para plugins TypeScript, você pode importar tipos do pacote de plugin:"
+            - figure "my-plugin.ts" [ref=e357]:
+              - code [ref=e361]:
+                - generic [ref=e362]: "import type { Plugin } from \"@opencode-ai/plugin\""
+                - generic [ref=e366]: "export const MyPlugin: Plugin = async ({ project, client, $, directory, worktree }) => {"
+                - generic [ref=e368]: "return {"
+                - generic [ref=e370]: // Type-safe hook implementations
+                - generic [ref=e372]: "}"
+                - generic [ref=e375]: "}"
+              - button "Copy to clipboard" [ref=e378] [cursor=pointer]
+            - separator [ref=e380]
+            - heading [level=3] [ref=e381]:
+              - link "Eventos" [ref=e382]:
+                - /url: "#eventos"
+            - paragraph [ref=e383]: Plugins podem se inscrever em eventos como visto abaixo na seção Exemplos. Aqui está uma lista dos diferentes eventos disponíveis.
+            - heading [level=4] [ref=e384]:
+              - link "Eventos de Comando" [ref=e385]:
+                - /url: "#eventos-de-comando"
+            - list [ref=e386]:
+              - listitem [ref=e387]:
+                - code [ref=e388]: "`command.executed`"
+            - heading [level=4] [ref=e389]:
+              - link "Eventos de Arquivo" [ref=e390]:
+                - /url: "#eventos-de-arquivo"
+            - list [ref=e391]:
+              - listitem [ref=e392]:
+                - code [ref=e393]: "`file.edited`"
+              - listitem [ref=e394]:
+                - code [ref=e395]: "`file.watcher.updated`"
+            - heading [level=4] [ref=e396]:
+              - link "Eventos de Instalação" [ref=e397]:
+                - /url: "#eventos-de-instalação"
+            - list [ref=e398]:
+              - listitem [ref=e399]:
+                - code [ref=e400]: "`installation.updated`"
+            - heading [level=4] [ref=e401]:
+              - link "Eventos LSP" [ref=e402]:
+                - /url: "#eventos-lsp"
+            - list [ref=e403]:
+              - listitem [ref=e404]:
+                - code [ref=e405]: "`lsp.client.diagnostics`"
+              - listitem [ref=e406]:
+                - code [ref=e407]: "`lsp.updated`"
+            - heading [level=4] [ref=e408]:
+              - link "Eventos de Mensagem" [ref=e409]:
+                - /url: "#eventos-de-mensagem"
+            - list [ref=e410]:
+              - listitem [ref=e411]:
+                - code [ref=e412]: "`message.part.removed`"
+              - listitem [ref=e413]:
+                - code [ref=e414]: "`message.part.updated`"
+              - listitem [ref=e415]:
+                - code [ref=e416]: "`message.removed`"
+              - listitem [ref=e417]:
+                - code [ref=e418]: "`message.updated`"
+            - heading [level=4] [ref=e419]:
+              - link "Eventos de Permissão" [ref=e420]:
+                - /url: "#eventos-de-permissão"
+            - list [ref=e421]:
+              - listitem [ref=e422]:
+                - code [ref=e423]: "`permission.asked`"
+              - listitem [ref=e424]:
+                - code [ref=e425]: "`permission.replied`"
+            - heading [level=4] [ref=e426]:
+              - link "Eventos de Servidor" [ref=e427]:
+                - /url: "#eventos-de-servidor"
+            - list [ref=e428]:
+              - listitem [ref=e429]:
+                - code [ref=e430]: "`server.connected`"
+            - heading [level=4] [ref=e431]:
+              - link "Eventos de Sessão" [ref=e432]:
+                - /url: "#eventos-de-sessão"
+            - list [ref=e433]:
+              - listitem [ref=e434]:
+                - code [ref=e435]: "`session.created`"
+              - listitem [ref=e436]:
+                - code [ref=e437]: "`session.compacted`"
+              - listitem [ref=e438]:
+                - code [ref=e439]: "`session.deleted`"
+              - listitem [ref=e440]:
+                - code [ref=e441]: "`session.diff`"
+              - listitem [ref=e442]:
+                - code [ref=e443]: "`session.error`"
+              - listitem [ref=e444]:
+                - code [ref=e445]: "`session.idle`"
+              - listitem [ref=e446]:
+                - code [ref=e447]: "`session.status`"
+              - listitem [ref=e448]:
+                - code [ref=e449]: "`session.updated`"
+            - heading [level=4] [ref=e450]:
+              - link "Eventos de Todo" [ref=e451]:
+                - /url: "#eventos-de-todo"
+            - list [ref=e452]:
+              - listitem [ref=e453]:
+                - code [ref=e454]: "`todo.updated`"
+            - heading [level=4] [ref=e455]:
+              - link "Eventos de Shell" [ref=e456]:
+                - /url: "#eventos-de-shell"
+            - list [ref=e457]:
+              - listitem [ref=e458]:
+                - code [ref=e459]: "`shell.env`"
+            - heading [level=4] [ref=e460]:
+              - link "Eventos de Ferramenta" [ref=e461]:
+                - /url: "#eventos-de-ferramenta"
+            - list [ref=e462]:
+              - listitem [ref=e463]:
+                - code [ref=e464]: "`tool.execute.after`"
+              - listitem [ref=e465]:
+                - code [ref=e466]: "`tool.execute.before`"
+            - heading [level=4] [ref=e467]:
+              - link "Eventos TUI" [ref=e468]:
+                - /url: "#eventos-tui"
+            - list [ref=e469]:
+              - listitem [ref=e470]:
+                - code [ref=e471]: "`tui.prompt.append`"
+              - listitem [ref=e472]:
+                - code [ref=e473]: "`tui.command.execute`"
+              - listitem [ref=e474]:
+                - code [ref=e475]: "`tui.toast.show`"
+            - separator [ref=e476]
+            - heading [level=2] [ref=e477]:
+              - link "Exemplos" [ref=e478]:
+                - /url: "#exemplos"
+            - paragraph [ref=e479]: Aqui estão alguns exemplos de plugins que você pode usar para estender o opencode.
+            - separator [ref=e480]
+            - heading [level=3] [ref=e481]:
+              - link "Enviando notificações" [ref=e482]:
+                - /url: "#enviando-notificações"
+            - paragraph [ref=e483]: "Envie notificações quando certos eventos ocorrerem:"
+            - figure ".opencode/plugins/notification.js" [ref=e485]:
+              - code [ref=e489]:
+                - generic [ref=e490]: "export const NotificationPlugin = async ({ project, client, $, directory, worktree }) => {"
+                - generic [ref=e492]: "return {"
+                - generic [ref=e494]: "event: async ({ event }) => {"
+                - generic [ref=e496]: // Send notification on session completion
+                - generic [ref=e498]: "if (event.type === \"session.idle\") {"
+                - generic [ref=e500]: "await $`osascript -e 'display notification \"Session completed!\" with title \"opencode\"'`"
+                - generic [ref=e502]: "}"
+                - generic [ref=e505]: "},"
+                - generic [ref=e508]: "}"
+                - generic [ref=e511]: "}"
+              - button "Copy to clipboard" [ref=e514] [cursor=pointer]
+            - paragraph [ref=e516]:
+              - text: Estamos usando
+              - code [ref=e517]: "`osascript`"
+              - text: para executar AppleScript no macOS. Aqui estamos usando para enviar notificações.
+            - complementary "Nota" [ref=e518]:
+              - paragraph [ref=e519]: Nota
+              - paragraph [ref=e523]: Se você estiver usando o aplicativo desktop opencode, ele pode enviar notificações do sistema automaticamente quando uma resposta estiver pronta ou quando ocorrer um erro na sessão.
+            - separator [ref=e524]
+            - heading [level=3] [ref=e525]:
+              - link "Proteção .env" [ref=e526]:
+                - /url: "#proteção-env"
+            - paragraph [ref=e527]:
+              - text: Impeça o opencode de ler arquivos
+              - code [ref=e528]: "`.env`"
+              - text: ":"
+            - figure ".opencode/plugins/env-protection.js" [ref=e530]:
+              - code [ref=e534]:
+                - generic [ref=e535]: "export const EnvProtection = async ({ project, client, $, directory, worktree }) => {"
+                - generic [ref=e537]: "return {"
+                - generic [ref=e539]: "\"tool.execute.before\": async (input, output) => {"
+                - generic [ref=e541]: "if (input.tool === \"read\" && output.args.filePath.includes(\".env\")) {"
+                - generic [ref=e543]: throw new Error("Do not read .env files")
+                - generic [ref=e545]: "}"
+                - generic [ref=e548]: "},"
+                - generic [ref=e551]: "}"
+                - generic [ref=e554]: "}"
+              - button "Copy to clipboard" [ref=e557] [cursor=pointer]
+            - separator [ref=e559]
+            - heading [level=3] [ref=e560]:
+              - link "Injetando variáveis de ambiente" [ref=e561]:
+                - /url: "#injetando-variáveis-de-ambiente"
+            - paragraph [ref=e562]: "Injete variáveis de ambiente em todas as execuções de shell (ferramentas de AI e terminais de usuário):"
+            - figure ".opencode/plugins/inject-env.js" [ref=e564]:
+              - code [ref=e568]:
+                - generic [ref=e569]: "export const InjectEnvPlugin = async () => {"
+                - generic [ref=e571]: "return {"
+                - generic [ref=e573]: "\"shell.env\": async (input, output) => {"
+                - generic [ref=e575]: output.env.MY_API_KEY = "secret"
+                - generic [ref=e578]: output.env.PROJECT_ROOT = input.cwd
+                - generic [ref=e581]: "},"
+                - generic [ref=e584]: "}"
+                - generic [ref=e587]: "}"
+              - button "Copy to clipboard" [ref=e590] [cursor=pointer]
+            - separator [ref=e592]
+            - heading [level=3] [ref=e593]:
+              - link "Ferramentas personalizadas" [ref=e594]:
+                - /url: "#ferramentas-personalizadas"
+            - paragraph [ref=e595]: "Plugins também podem adicionar ferramentas personalizadas ao opencode:"
+            - figure ".opencode/plugins/custom-tools.ts" [ref=e597]:
+              - code [ref=e601]:
+                - generic [ref=e602]: "import { type Plugin, tool } from \"@opencode-ai/plugin\""
+                - generic [ref=e606]: "export const CustomToolsPlugin: Plugin = async (ctx) => {"
+                - generic [ref=e608]: "return {"
+                - generic [ref=e610]: "tool: {"
+                - generic [ref=e613]: "mytool: tool({"
+                - generic [ref=e616]: "description: \"This is a custom tool\","
+                - generic [ref=e619]: "args: {"
+                - generic [ref=e622]: "foo: tool.schema.string(),"
+                - generic [ref=e625]: "},"
+                - generic [ref=e628]: "async execute(args, context) {"
+                - generic [ref=e630]: "const { directory, worktree } = context"
+                - generic [ref=e632]: "return `Hello ${args.foo} from ${directory} (worktree: ${worktree})`"
+                - generic [ref=e634]: "},"
+                - generic [ref=e637]: "}),"
+                - generic [ref=e640]: "},"
+                - generic [ref=e643]: "}"
+                - generic [ref=e646]: "}"
+              - button "Copy to clipboard" [ref=e649] [cursor=pointer]
+            - paragraph [ref=e651]:
+              - text: O helper
+              - code [ref=e652]: "`tool`"
+              - text: "cria uma ferramenta personalizada que o opencode pode chamar. Ele aceita uma função de esquema Zod e retorna uma definição de ferramenta com:"
+            - list [ref=e653]:
+              - listitem [ref=e654]:
+                - code [ref=e655]: "`description`"
+                - text: ": O que a ferramenta faz"
+              - listitem [ref=e656]:
+                - code [ref=e657]: "`args`"
+                - text: ": Esquema Zod para os argumentos da ferramenta"
+              - listitem [ref=e658]:
+                - code [ref=e659]: "`execute`"
+                - text: ": Função que é executada quando a ferramenta é chamada"
+            - paragraph [ref=e660]: Suas ferramentas personalizadas estarão disponíveis para o opencode junto com as ferramentas integradas.
+            - complementary "Nota" [ref=e661]:
+              - paragraph [ref=e662]: Nota
+              - paragraph [ref=e666]: Se uma ferramenta de plugin usar o mesmo nome que uma ferramenta integrada, a ferramenta de plugin tem precedência.
+            - separator [ref=e667]
+            - heading [level=3] [ref=e668]:
+              - link "Registro" [ref=e669]:
+                - /url: "#registro"
+            - paragraph [ref=e670]:
+              - text: Use
+              - code [ref=e671]: "`client.app.log()`"
+              - text: em vez de
+              - code [ref=e672]: "`console.log`"
+              - text: "para registro estruturado:"
+            - figure ".opencode/plugins/my-plugin.ts" [ref=e674]:
+              - code [ref=e678]:
+                - generic [ref=e679]: "export const MyPlugin = async ({ client }) => {"
+                - generic [ref=e681]: "await client.app.log({"
+                - generic [ref=e683]: "body: {"
+                - generic [ref=e686]: "service: \"my-plugin\","
+                - generic [ref=e689]: "level: \"info\","
+                - generic [ref=e692]: "message: \"Plugin initialized\","
+                - generic [ref=e695]: "extra: { foo: \"bar\" },"
+                - generic [ref=e698]: "},"
+                - generic [ref=e701]: "})"
+                - generic [ref=e704]: "}"
+              - button "Copy to clipboard" [ref=e707] [cursor=pointer]
+            - paragraph [ref=e709]:
+              - text: "Níveis:"
+              - code [ref=e710]: "`debug`"
+              - text: ","
+              - code [ref=e711]: "`info`"
+              - text: ","
+              - code [ref=e712]: "`warn`"
+              - text: ","
+              - code [ref=e713]: "`error`"
+              - text: . Veja a
+              - link "documentação do SDK" [ref=e714] [cursor=pointer]:
+                - /url: https://opencode.ai/docs/sdk
+              - text: para detalhes.
+            - separator [ref=e715]
+            - heading [level=3] [ref=e716]:
+              - link "Hooks de compactação" [ref=e717]:
+                - /url: "#hooks-de-compactação"
+            - paragraph [ref=e718]: "Personalize o contexto incluído quando uma sessão é compactada:"
+            - figure ".opencode/plugins/compaction.ts" [ref=e720]:
+              - code [ref=e724]:
+                - generic [ref=e725]: "import type { Plugin } from \"@opencode-ai/plugin\""
+                - generic [ref=e729]: "export const CompactionPlugin: Plugin = async (ctx) => {"
+                - generic [ref=e731]: "return {"
+                - generic [ref=e733]: "\"experimental.session.compacting\": async (input, output) => {"
+                - generic [ref=e735]: // Inject additional context into the compaction prompt
+                - generic [ref=e737]: "output.context.push(`"
+                - generic [ref=e740]: "## Custom Context"
+                - generic [ref=e744]: "Include any state that should persist across compaction:"
+                - generic [ref=e746]: "- Current task status"
+                - generic [ref=e748]: "- Important decisions made"
+                - generic [ref=e750]: "- Files being actively worked on"
+                - generic [ref=e752]: "`)"
+                - generic [ref=e754]: "},"
+                - generic [ref=e757]: "}"
+                - generic [ref=e760]: "}"
+              - button "Copy to clipboard" [ref=e763] [cursor=pointer]
+            - paragraph [ref=e765]:
+              - text: O hook
+              - code [ref=e766]: "`experimental.session.compacting`"
+              - text: é acionado antes que o LLM gere um resumo de continuação. Use-o para injetar contexto específico de domínio que o prompt de compactação padrão poderia perder.
+            - paragraph [ref=e767]:
+              - text: Você também pode substituir o prompt de compactação completamente definindo
+              - code [ref=e768]: "`output.prompt`"
+              - text: ":"
+            - figure ".opencode/plugins/custom-compaction.ts" [ref=e770]:
+              - code [ref=e774]:
+                - generic [ref=e775]: "import type { Plugin } from \"@opencode-ai/plugin\""
+                - generic [ref=e779]: "export const CustomCompactionPlugin: Plugin = async (ctx) => {"
+                - generic [ref=e781]: "return {"
+                - generic [ref=e783]: "\"experimental.session.compacting\": async (input, output) => {"
+                - generic [ref=e785]: // Replace the entire compaction prompt
+                - generic [ref=e787]: "output.prompt = `"
+                - generic [ref=e790]: You are generating a continuation prompt for a multi-agent swarm session.
+                - generic [ref=e794]: "Summarize:"
+                - generic [ref=e796]: 1. The current task and its status
+                - generic [ref=e798]: 2. Which files are being modified and by whom
+                - generic [ref=e800]: 3. Any blockers or dependencies between agents
+                - generic [ref=e802]: 4. The next steps to complete the work
+                - generic [ref=e806]: Format as a structured prompt that a new agent can use to resume work.
+                - generic [ref=e808]: "`"
+                - generic [ref=e810]: "},"
+                - generic [ref=e813]: "}"
+                - generic [ref=e816]: "}"
+              - button "Copy to clipboard" [ref=e819] [cursor=pointer]
+            - paragraph [ref=e821]:
+              - text: Quando
+              - code [ref=e822]: "`output.prompt`"
+              - text: é definido, ele substitui completamente o prompt de compactação padrão. O array
+              - code [ref=e823]: "`output.context`"
+              - text: é ignorado neste caso.
+          - generic [ref=e825]:
+            - generic [ref=e826]:
+              - link "Editar página" [ref=e827] [cursor=pointer]:
+                - /url: https://github.com/anomalyco/opencode/edit/dev/packages/web/src/content/docs/pt-br/plugins.mdx
+              - link "Encontrou um bug? Abra uma issue" [ref=e830] [cursor=pointer]:
+                - /url: https://github.com/anomalyco/opencode/issues/new
+              - link "Participe da nossa comunidade no Discord" [ref=e833] [cursor=pointer]:
+                - /url: https://opencode.ai/discord
+              - generic [ref=e838]:
+                - generic [ref=e839]: Selecionar língua
+                - combobox "Selecionar língua" [ref=e840] [cursor=pointer]:
+                  - option "English"
+                  - option "العربية"
+                  - option "Bosanski"
+                  - option "Dansk"
+                  - option "Deutsch"
+                  - option "Español"
+                  - option "Français"
+                  - option "Italiano"
+                  - option "日本語"
+                  - option "한국어"
+                  - option "Norsk Bokmål"
+                  - option "Polski"
+                  - option "Português (Brasil)" [selected]
+                  - option "Русский"
+                  - option "ไทย"
+                  - option "Türkçe"
+                  - option "简体中文"
+                  - option "繁體中文"
+            - generic [ref=e841]:
+              - paragraph [ref=e842]:
+                - text: ©
+                - link "Anomaly" [ref=e843] [cursor=pointer]:
+                  - /url: https://anoma.ly
+              - paragraph [ref=e844]:
+                - text: "Última atualização:"
+                - time [ref=e845]: 22 de jul. de 2026

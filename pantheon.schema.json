@@ -1,0 +1,158 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://pantheon.orchestrator/schema.json",
+  "title": "Pantheon Configuration Schema",
+  "description": "Configuration schema for Pantheon multi-agent orchestration platform",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Schema version — must follow semantic versioning (e.g., \"5.0.0\")",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "agents": {
+      "type": "object",
+      "description": "Per-agent configuration overrides. Keys must match registered agent names.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model identifier assigned to this agent (e.g., \"gpt-4o\", \"claude-sonnet-4\")"
+          },
+          "temperature": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2,
+            "description": "Sampling temperature (0 = deterministic, 2 = maximum creativity)"
+          },
+          "disabled": {
+            "type": "boolean",
+            "description": "If true, the agent is excluded from routing"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Custom system prompt override for this agent"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "presets": {
+      "type": "object",
+      "description": "Named model presets for quick assignment to agents",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Model identifier (e.g., \"gpt-4o\", \"claude-sonnet-4-20250514\")"
+          },
+          "temperature": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 2,
+            "description": "Default sampling temperature for this preset"
+          },
+          "maxTokens": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1048576,
+            "description": "Maximum output tokens for this preset"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "disabled_agents": {
+      "type": "array",
+      "description": "List of agent names to globally disable from routing",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "disabled_skills": {
+      "type": "array",
+      "description": "List of skill names to disable from loading",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "disabled_mcps": {
+      "type": "array",
+      "description": "List of MCP server names to disable from initialization",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "skills": {
+      "type": "object",
+      "description": "Skill loading configuration",
+      "properties": {
+        "paths": {
+          "type": "array",
+          "description": "Additional filesystem paths to search for SKILL.md files",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "fallback": {
+      "type": "array",
+      "description": "Ordered model fallback chain. If primary model fails, fallback models are tried in sequence.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string",
+            "description": "Fallback model identifier"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Provider name (e.g., \"openai\", \"anthropic\", \"google\")"
+          }
+        },
+        "required": ["model"],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "routing": {
+      "type": "object",
+      "description": "Routing configuration — task-to-agent mapping rules",
+      "properties": {
+        "default_model": {
+          "type": "string",
+          "description": "Default model to use when no agent override or preset is matched"
+        },
+        "rules": {
+          "type": "array",
+          "description": "Route matching rules evaluated in order (first match wins)",
+          "items": {
+            "type": "object",
+            "properties": {
+              "pattern": {
+                "type": "string",
+                "description": "Task pattern to match (glob or regex)"
+              },
+              "agent": {
+                "type": "string",
+                "description": "Target agent name for matched tasks"
+              }
+            },
+            "required": ["pattern", "agent"],
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["version"],
+  "additionalProperties": false
+}

@@ -1,0 +1,1382 @@
+- generic [ref=f3e2]:
+  - generic [ref=f3e3]:
+    - link "Skip to content" [ref=f3e4] [cursor=pointer]:
+      - /url: "#start-of-content"
+    - banner [ref=f3e6]:
+      - heading "Navigation Menu" [level=2] [ref=f3e7]
+      - generic [ref=f3e8]:
+        - link "Homepage" [ref=f3e10] [cursor=pointer]:
+          - /url: /
+        - generic [ref=f3e13]:
+          - navigation "Global" [ref=f3e16]:
+            - list [ref=f3e17]:
+              - listitem [ref=f3e18]:
+                - button "Platform" [ref=f3e20] [cursor=pointer]
+              - listitem [ref=f3e23]:
+                - button "Solutions" [ref=f3e25] [cursor=pointer]
+              - listitem [ref=f3e28]:
+                - button "Resources" [ref=f3e30] [cursor=pointer]
+              - listitem [ref=f3e33]:
+                - button "Open Source" [ref=f3e35] [cursor=pointer]
+              - listitem [ref=f3e38]:
+                - button "Enterprise" [ref=f3e40] [cursor=pointer]
+              - listitem [ref=f3e43]:
+                - link "Pricing" [ref=f3e44] [cursor=pointer]:
+                  - /url: https://github.com/pricing
+          - generic [ref=f3e46]:
+            - button "Search or jump to…" [ref=f3e49] [cursor=pointer]:
+              - generic [ref=f3e53]: Search or jump to...
+            - link "Sign in" [ref=f3e59] [cursor=pointer]:
+              - /url: /login?return_to=https%3A%2F%2Fgithub.com%2Fawesome-opencode%2Fawesome-opencode
+            - link "Sign up" [ref=f3e60] [cursor=pointer]:
+              - /url: /signup?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F%3Cuser-name%3E%2F%3Crepo-name%3E&source=header-repo&source_repo=awesome-opencode%2Fawesome-opencode
+            - button "Appearance settings" [ref=f3e63] [cursor=pointer]
+  - main [ref=f3e67]:
+    - generic [ref=f3e68]:
+      - generic [ref=f3e69]:
+        - generic [ref=f3e71]:
+          - link "awesome-opencode" [ref=f3e75] [cursor=pointer]:
+            - /url: /awesome-opencode
+          - generic [ref=f3e76]: /
+          - strong [ref=f3e77]:
+            - link "awesome-opencode" [ref=f3e78] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode
+          - generic [ref=f3e79]: Public
+        - generic [ref=f3e80]:
+          - list:
+            - listitem [ref=f3e81]:
+              - link "You must be signed in to change notification settings" [ref=f3e82] [cursor=pointer]:
+                - /url: /login?return_to=%2Fawesome-opencode%2Fawesome-opencode
+                - text: Notifications
+            - listitem [ref=f3e85]:
+              - link "Fork 667" [ref=f3e86] [cursor=pointer]:
+                - /url: /login?return_to=%2Fawesome-opencode%2Fawesome-opencode
+                - text: Fork
+                - generic "667" [ref=f3e89]
+            - listitem [ref=f3e90]:
+              - link "You must be signed in to star a repository" [ref=f3e92] [cursor=pointer]:
+                - /url: /login?return_to=%2Fawesome-opencode%2Fawesome-opencode
+                - text: Star
+                - generic "9090 users starred this repository" [ref=f3e95]: 9.1k
+      - navigation "Repository" [ref=f3e96]:
+        - list [ref=f3e97]:
+          - listitem [ref=f3e98]:
+            - link "Code" [ref=f3e99] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode
+          - listitem [ref=f3e103]:
+            - link "Issues 22" [ref=f3e104] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode/issues
+              - generic [ref=f3e108]: Issues
+              - generic "22" [ref=f3e109]
+          - listitem [ref=f3e110]:
+            - link "Pull requests 174" [ref=f3e111] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode/pulls
+              - generic [ref=f3e114]: Pull requests
+              - generic "174" [ref=f3e115]
+          - listitem [ref=f3e116]:
+            - link "Discussions" [ref=f3e117] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode/discussions
+          - listitem [ref=f3e121]:
+            - link "Actions" [ref=f3e122] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode/actions
+          - listitem [ref=f3e126]:
+            - link "Projects" [ref=f3e127] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode/projects
+          - listitem [ref=f3e131]:
+            - link "Security and quality" [ref=f3e132] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode/security
+          - listitem [ref=f3e136]:
+            - link "Insights" [ref=f3e137] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode/pulse
+    - generic [ref=f3e153]:
+      - heading "awesome-opencode/awesome-opencode" [level=1] [ref=f3e155]
+      - generic [ref=f3e156]:
+        - generic [ref=f3e159]:
+          - generic [ref=f3e160]:
+            - generic [ref=f3e161]:
+              - button "main branch" [ref=f3e163] [cursor=pointer]:
+                - generic [ref=f3e164]: main
+              - generic [ref=f3e168]:
+                - link [ref=f3e169] [cursor=pointer]:
+                  - /url: /awesome-opencode/awesome-opencode/branches
+                  - generic [ref=f3e172]:
+                    - strong [ref=f3e173]: "8"
+                    - text: Branches
+                - link [ref=f3e174] [cursor=pointer]:
+                  - /url: /awesome-opencode/awesome-opencode/tags
+                  - generic [ref=f3e177]:
+                    - strong [ref=f3e178]: "0"
+                    - text: Tags
+            - generic [ref=f3e179]:
+              - combobox "Go to file" [ref=f3e187]
+              - button "Code" [ref=f3e188] [cursor=pointer]
+          - generic [ref=f3e191]:
+            - generic [ref=f3e192]:
+              - heading "Folders and files" [level=2] [ref=f3e193]
+              - table "Folders and files" [ref=f3e194]:
+                - rowgroup:
+                  - row "Name Last commit message Last commit date":
+                    - columnheader "Name"
+                    - columnheader "Last commit message"
+                    - columnheader "Last commit date"
+                - rowgroup [ref=f3e195]:
+                  - row [ref=f3e196]:
+                    - 'cell "Latest commit github-actions[bot] commits by github-actions[bot] docs: auto-regenerate README and registry data Commit bcc5c03 · Jul 3, 20263 weeks ago History 504 Commits" [ref=f3e197]':
+                      - generic [ref=f3e198]:
+                        - heading "Latest commit" [level=2] [ref=f3e199]
+                        - generic [ref=f3e200]:
+                          - generic [ref=f3e202]:
+                            - link [ref=f3e203] [cursor=pointer]:
+                              - /url: /apps/github-actions
+                              - img "github-actions[bot]" [ref=f3e204]
+                            - link "commits by github-actions[bot]" [ref=f3e205] [cursor=pointer]:
+                              - /url: /awesome-opencode/awesome-opencode/commits?author=github-actions%5Bbot%5D
+                              - text: github-actions[bot]
+                          - 'link "docs: auto-regenerate README and registry data" [ref=f3e209] [cursor=pointer]':
+                            - /url: /awesome-opencode/awesome-opencode/commit/bcc5c03cec19789b45ef9af4a969e3fe3fd7431b
+                        - generic [ref=f3e210]:
+                          - generic [ref=f3e212]:
+                            - link "Commit bcc5c03" [ref=f3e213] [cursor=pointer]:
+                              - /url: /awesome-opencode/awesome-opencode/commit/bcc5c03cec19789b45ef9af4a969e3fe3fd7431b
+                              - text: bcc5c03
+                            - text: ·
+                            - generic "Jul 3, 2026, 11:10 GMT-3" [ref=f3e214]: Jul 3, 20263 weeks ago
+                          - generic [ref=f3e215]:
+                            - heading "History" [level=2] [ref=f3e216]
+                            - link "504 Commits" [ref=f3e217] [cursor=pointer]:
+                              - /url: /awesome-opencode/awesome-opencode/commits/main/
+                  - row [ref=f3e220]:
+                    - cell [ref=f3e221]:
+                      - link ".github, (Directory)" [ref=f3e228] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/tree/main/.github
+                        - text: .github
+                    - cell [ref=f3e229]:
+                      - 'link "ci: serialize README regeneration pushes" [ref=f3e232] [cursor=pointer]':
+                        - /url: /awesome-opencode/awesome-opencode/commit/25a9aac9d56e218593f5d2a8219eb4fd137f4026
+                    - cell "Jun 12, 2026last month" [ref=f3e233]
+                  - row [ref=f3e235]:
+                    - cell [ref=f3e236]:
+                      - link "data, (Directory)" [ref=f3e243] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/tree/main/data
+                        - text: data
+                    - cell [ref=f3e244]:
+                      - generic [ref=f3e246]:
+                        - link "Merge pull request" [ref=f3e247] [cursor=pointer]:
+                          - /url: /awesome-opencode/awesome-opencode/commit/92a55c089478bb63bf7931b3b29e2f5cf335f800
+                        - link "#408" [ref=f3e248] [cursor=pointer]:
+                          - /url: https://github.com/awesome-opencode/awesome-opencode/pull/408
+                        - link "from JiaHuiRed/main" [ref=f3e249] [cursor=pointer]:
+                          - /url: /awesome-opencode/awesome-opencode/commit/92a55c089478bb63bf7931b3b29e2f5cf335f800
+                    - cell "Jul 3, 20263 weeks ago" [ref=f3e250]
+                  - row [ref=f3e252]:
+                    - cell [ref=f3e253]:
+                      - link "dist, (Directory)" [ref=f3e260] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/tree/main/dist
+                        - text: dist
+                    - cell [ref=f3e261]:
+                      - 'link "docs: auto-regenerate README and registry data" [ref=f3e264] [cursor=pointer]':
+                        - /url: /awesome-opencode/awesome-opencode/commit/bcc5c03cec19789b45ef9af4a969e3fe3fd7431b
+                    - cell "Jul 3, 20263 weeks ago" [ref=f3e265]
+                  - row [ref=f3e267]:
+                    - cell [ref=f3e268]:
+                      - link "docs, (Directory)" [ref=f3e275] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/tree/main/docs
+                        - text: docs
+                    - cell [ref=f3e276]:
+                      - 'link "refactor(examples): move example files to data/examples" [ref=f3e279] [cursor=pointer]':
+                        - /url: /awesome-opencode/awesome-opencode/commit/050d3b488910519ff1d43e351a19ee9b76f9861e
+                    - cell "Jan 12, 20266 months ago" [ref=f3e280]
+                  - row [ref=f3e282]:
+                    - cell [ref=f3e283]:
+                      - link "scripts, (Directory)" [ref=f3e290] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/tree/main/scripts
+                        - text: scripts
+                    - cell [ref=f3e291]:
+                      - 'link "feat: add JSON registry export script and CI integration" [ref=f3e294] [cursor=pointer]':
+                        - /url: /awesome-opencode/awesome-opencode/commit/24bf0d040359e666316a101c8fe8a610561418a1
+                    - cell "Jan 19, 20266 months ago" [ref=f3e295]
+                  - row [ref=f3e297]:
+                    - cell [ref=f3e298]:
+                      - link "templates, (Directory)" [ref=f3e305] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/tree/main/templates
+                        - text: templates
+                    - cell [ref=f3e306]:
+                      - 'link "fix: update repository links and team name in README and plugin YAML" [ref=f3e309] [cursor=pointer]':
+                        - /url: /awesome-opencode/awesome-opencode/commit/4927dbbbc45b6f80d319aadacdbe17d3b8ddaa55
+                    - cell "Jan 12, 20266 months ago" [ref=f3e310]
+                  - row [ref=f3e312]:
+                    - cell [ref=f3e313]:
+                      - link ".gitignore, (File)" [ref=f3e320] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/blob/main/.gitignore
+                        - text: .gitignore
+                    - cell [ref=f3e321]:
+                      - 'link "feat: data-driven README automation with YAML entries and GitHub Actions" [ref=f3e324] [cursor=pointer]':
+                        - /url: /awesome-opencode/awesome-opencode/commit/25446b49eba5d3b422fd74a909acffab5c5539ac
+                    - cell "Jan 11, 20266 months ago" [ref=f3e325]
+                  - row [ref=f3e327]:
+                    - cell [ref=f3e328]:
+                      - link "LICENSE, (File)" [ref=f3e335] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/blob/main/LICENSE
+                        - text: LICENSE
+                    - cell [ref=f3e336]:
+                      - link "Add CC0 1.0 Universal license" [ref=f3e339] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/commit/2010872804dc1986d83be7ac7b7fa90795debe25
+                    - cell "Sep 22, 202510 months ago" [ref=f3e340]
+                  - row [ref=f3e342]:
+                    - cell [ref=f3e343]:
+                      - link "README.md, (File)" [ref=f3e350] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/blob/main/README.md
+                        - text: README.md
+                    - cell [ref=f3e351]:
+                      - 'link "docs: auto-regenerate README and registry data" [ref=f3e354] [cursor=pointer]':
+                        - /url: /awesome-opencode/awesome-opencode/commit/bcc5c03cec19789b45ef9af4a969e3fe3fd7431b
+                    - cell "Jul 3, 20263 weeks ago" [ref=f3e355]
+                  - row [ref=f3e357]:
+                    - cell [ref=f3e358]:
+                      - link "code-of-conduct.md, (File)" [ref=f3e365] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/blob/main/code-of-conduct.md
+                        - text: code-of-conduct.md
+                    - cell [ref=f3e366]:
+                      - link "Add Contributor Covenant Code of Conduct" [ref=f3e369] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/commit/4423eccae623421319b8a68e77a36c583b962a22
+                    - cell "Sep 22, 202510 months ago" [ref=f3e370]
+                  - row [ref=f3e372]:
+                    - cell [ref=f3e373]:
+                      - link "contributing.md, (File)" [ref=f3e380] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/blob/main/contributing.md
+                        - text: contributing.md
+                    - cell [ref=f3e381]:
+                      - 'link "refactor: Rename description to tagline and description" [ref=f3e384] [cursor=pointer]':
+                        - /url: /awesome-opencode/awesome-opencode/commit/2199d330715f1c7a094d2f63a534559612b9de9c
+                    - cell "Jan 11, 20266 months ago" [ref=f3e385]
+                  - row [ref=f3e387]:
+                    - cell [ref=f3e388]:
+                      - link "package-lock.json, (File)" [ref=f3e395] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/blob/main/package-lock.json
+                        - text: package-lock.json
+                    - cell [ref=f3e396]:
+                      - 'link "feat: data-driven README automation with YAML entries and GitHub Actions" [ref=f3e399] [cursor=pointer]':
+                        - /url: /awesome-opencode/awesome-opencode/commit/25446b49eba5d3b422fd74a909acffab5c5539ac
+                    - cell "Jan 11, 20266 months ago" [ref=f3e400]
+                  - row [ref=f3e402]:
+                    - cell [ref=f3e403]:
+                      - link "package.json, (File)" [ref=f3e410] [cursor=pointer]:
+                        - /url: /awesome-opencode/awesome-opencode/blob/main/package.json
+                        - text: package.json
+                    - cell [ref=f3e411]:
+                      - 'link "feat: data-driven README automation with YAML entries and GitHub Actions" [ref=f3e414] [cursor=pointer]':
+                        - /url: /awesome-opencode/awesome-opencode/commit/25446b49eba5d3b422fd74a909acffab5c5539ac
+                    - cell "Jan 11, 20266 months ago" [ref=f3e415]
+            - generic [ref=f3e418]:
+              - generic [ref=f3e419]:
+                - heading "Repository files navigation" [level=2] [ref=f3e420]
+                - navigation "Repository files" [ref=f3e421]:
+                  - list [ref=f3e422]:
+                    - listitem [ref=f3e423]:
+                      - link "README" [ref=f3e424] [cursor=pointer]:
+                        - /url: "#"
+                    - listitem [ref=f3e426]:
+                      - link "Code of conduct" [ref=f3e427] [cursor=pointer]:
+                        - /url: "#"
+                    - listitem [ref=f3e429]:
+                      - link "Contributing" [ref=f3e430] [cursor=pointer]:
+                        - /url: "#"
+                    - listitem [ref=f3e432]:
+                      - link "CC0-1.0 license" [ref=f3e433] [cursor=pointer]:
+                        - /url: "#"
+                - button "Outline" [ref=f3e435] [cursor=pointer]
+              - article [ref=f3e439]:
+                - generic [ref=f3e440]:
+                  - link [ref=f3e441] [cursor=pointer]:
+                    - /url: https://private-user-images.githubusercontent.com/90007349/492422211-aced1e8e-e6be-485a-9015-b822d01ab064.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODQ4MTM4MzgsIm5iZiI6MTc4NDgxMzUzOCwicGF0aCI6Ii85MDAwNzM0OS80OTI0MjIyMTEtYWNlZDFlOGUtZTZiZS00ODVhLTkwMTUtYjgyMmQwMWFiMDY0LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA3MjMlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNzIzVDEzMzIxOFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTkxOGQzOTM5MzY0OWFjNjIxODlkNWYxNTVhNjlkM2QwNGNhYjBjNjRhMzM5ZjZhYmRkMWE2NTlhZmU1YzBjOWImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRnBuZyJ9.22soXkJgIbXcgF4ZwxtkAEPzUGuGJa9kGYkXOcVfr1E
+                    - img "Awesome Opencode" [ref=f3e442]
+                  - generic [ref=f3e443]:
+                    - heading "Awesome Opencode" [level=1] [ref=f3e444]
+                    - 'link "Permalink: Awesome Opencode" [ref=f3e445] [cursor=pointer]':
+                      - /url: "#awesome-opencode"
+                  - paragraph [ref=f3e448]:
+                    - link [ref=f3e449] [cursor=pointer]:
+                      - /url: https://github.com/sindresorhus/awesome
+                      - img "Awesome" [ref=f3e450]
+                    - link [ref=f3e451] [cursor=pointer]:
+                      - /url: https://github.com/anomalyco/opencode
+                      - img "Opencode Stars" [ref=f3e452]
+                  - generic [ref=f3e453]:
+                    - heading [level=3] [ref=f3e454]:
+                      - text: A curated list of plugins, themes, agents, and resources for
+                      - link "Opencode" [ref=f3e455] [cursor=pointer]:
+                        - /url: https://opencode.ai/
+                      - text: .
+                    - 'link "Permalink: A curated list of plugins, themes, agents, and resources for Opencode." [ref=f3e456] [cursor=pointer]':
+                      - /url: "#a-curated-list-of-plugins-themes-agents-and-resources-for-opencode"
+                  - generic [ref=f3e459]:
+                    - heading [level=3] [ref=f3e460]:
+                      - text: The AI coding agent for the terminal, built by the team at
+                      - link "Anomaly" [ref=f3e461] [cursor=pointer]:
+                        - /url: https://github.com/anomalyco
+                      - text: .
+                    - 'link "Permalink: The AI coding agent for the terminal, built by the team at Anomaly." [ref=f3e462] [cursor=pointer]':
+                      - /url: "#the-ai-coding-agent-for-the-terminal-built-by-the-team-at-anomaly"
+                  - paragraph [ref=f3e465]:
+                    - link [ref=f3e466] [cursor=pointer]:
+                      - /url: "#official"
+                      - strong [ref=f3e467]: OFFICIAL
+                    - text: •
+                    - link [ref=f3e468] [cursor=pointer]:
+                      - /url: "#plugins"
+                      - strong [ref=f3e469]: PLUGINS
+                    - text: •
+                    - link [ref=f3e470] [cursor=pointer]:
+                      - /url: "#themes"
+                      - strong [ref=f3e471]: THEMES
+                    - text: •
+                    - link [ref=f3e472] [cursor=pointer]:
+                      - /url: "#agents"
+                      - strong [ref=f3e473]: AGENTS
+                    - text: •
+                    - link [ref=f3e474] [cursor=pointer]:
+                      - /url: "#projects"
+                      - strong [ref=f3e475]: PROJECTS
+                    - text: •
+                    - link [ref=f3e476] [cursor=pointer]:
+                      - /url: "#resources"
+                      - strong [ref=f3e477]: RESOURCES
+                  - separator [ref=f3e478]
+                - generic [ref=f3e479]:
+                  - heading "⭐️ Official Repositories" [level=3] [ref=f3e480]
+                  - 'link "Permalink: ⭐️ Official Repositories" [ref=f3e481] [cursor=pointer]':
+                    - /url: "#️-official-repositories"
+                - table [ref=f3e485]:
+                  - rowgroup [ref=f3e486]:
+                    - row [ref=f3e487]:
+                      - columnheader "Project" [ref=f3e488]
+                      - columnheader "Stars" [ref=f3e489]
+                      - columnheader "Description" [ref=f3e490]
+                  - rowgroup [ref=f3e491]:
+                    - row [ref=f3e492]:
+                      - cell [ref=f3e493]:
+                        - strong [ref=f3e494]:
+                          - link "opencode" [ref=f3e495] [cursor=pointer]:
+                            - /url: https://github.com/anomalyco/opencode
+                      - cell [ref=f3e496]:
+                        - link [ref=f3e497] [cursor=pointer]:
+                          - /url: https://camo.githubusercontent.com/c14e651c6676248fb93cf2c437d83295a7f9c9cbc2a073b0cb1f87298725e987/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f616e6f6d616c79636f2f6f70656e636f6465
+                          - img "Stars" [ref=f3e498]
+                      - cell "The official opencode AI coding agent." [ref=f3e499]
+                    - row [ref=f3e500]:
+                      - cell [ref=f3e501]:
+                        - strong [ref=f3e502]:
+                          - link "opencode-sdk-js" [ref=f3e503] [cursor=pointer]:
+                            - /url: https://github.com/anomalyco/opencode-sdk-js
+                      - cell [ref=f3e504]:
+                        - link [ref=f3e505] [cursor=pointer]:
+                          - /url: https://camo.githubusercontent.com/4bab6ec8bf269f747151cfbe15612c118756100e6297faf497181c097c71fc52/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f616e6f6d616c79636f2f6f70656e636f64652d73646b2d6a73
+                          - img "Stars" [ref=f3e506]
+                      - cell "Official JavaScript/TypeScript SDK for opencode." [ref=f3e507]
+                    - row [ref=f3e508]:
+                      - cell [ref=f3e509]:
+                        - strong [ref=f3e510]:
+                          - link "opencode-sdk-go" [ref=f3e511] [cursor=pointer]:
+                            - /url: https://github.com/anomalyco/opencode-sdk-go
+                      - cell [ref=f3e512]:
+                        - link [ref=f3e513] [cursor=pointer]:
+                          - /url: https://camo.githubusercontent.com/32d14a6b90c8d715d1eded2a0cbca86ab5a8f9137722258e28472bd027f5b49f/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f616e6f6d616c79636f2f6f70656e636f64652d73646b2d676f
+                          - img "Stars" [ref=f3e514]
+                      - cell "Official Go SDK for opencode." [ref=f3e515]
+                    - row [ref=f3e516]:
+                      - cell [ref=f3e517]:
+                        - strong [ref=f3e518]:
+                          - link "opencode-sdk-python" [ref=f3e519] [cursor=pointer]:
+                            - /url: https://github.com/anomalyco/opencode-sdk-python
+                      - cell [ref=f3e520]:
+                        - link [ref=f3e521] [cursor=pointer]:
+                          - /url: https://camo.githubusercontent.com/4d28b59785d8e32ef2b6c1d0988a2a3543a6ecfa0b918119775b311758d8dc47/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f616e6f6d616c79636f2f6f70656e636f64652d73646b2d707974686f6e
+                          - img "Stars" [ref=f3e522]
+                      - cell "Official Python SDK for opencode." [ref=f3e523]
+                - group [ref=f3e524]:
+                  - strong [ref=f3e526] [cursor=pointer]: 🧩 PLUGINS
+                  - group [ref=f3e527]:
+                    - generic "@bluelovers/opencode-arise - 「⚔️ ARISE!」 A Solo Leveling themed orchestrator harness for OpenCode" [ref=f3e528] [cursor=pointer]:
+                      - text: "@bluelovers/opencode-arise"
+                      - link [ref=f3e529]:
+                        - /url: https://camo.githubusercontent.com/fe69795b9fde030108c196921090feb0b57107bf0ef819fb5f0612d4155a1202/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f626c75656c6f766572732f6f70656e636f64652d6172697365
+                      - text: "- 「⚔️ ARISE!」 A Solo Leveling themed orchestrator harness for OpenCode"
+                  - group [ref=f3e531]:
+                    - generic "aerovato/opencode-quotes-plugin - Display inspirational quotes instead of tips" [ref=f3e532] [cursor=pointer]:
+                      - text: aerovato/opencode-quotes-plugin
+                      - link [ref=f3e533]:
+                        - /url: https://camo.githubusercontent.com/8729164dafca19a88cb5a1f40cce687f94d0b517a7ac4e669b1d91eb4ecafd5a/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6165726f7661746f2f6f70656e636f64652d71756f7465732d706c7567696e
+                      - text: "- Display inspirational quotes instead of tips"
+                  - group [ref=f3e535]:
+                    - generic "Agent Identity - Agent self-identity and per-message attribution for multi-agent sessions" [ref=f3e536] [cursor=pointer]:
+                      - text: Agent Identity
+                      - link [ref=f3e537]:
+                        - /url: https://camo.githubusercontent.com/dae4658a12118ea2aae06a95335c1e63123833f90157eeffd9ce0fbd259d5e4b/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f676f7467656e65732f6f70656e636f64652d6167656e742d6964656e74697479
+                      - text: "- Agent self-identity and per-message attribution for multi-agent sessions"
+                  - group [ref=f3e539]:
+                    - generic "Agent Memory - Letta-inspired memory" [ref=f3e540] [cursor=pointer]:
+                      - text: Agent Memory
+                      - link [ref=f3e541]:
+                        - /url: https://camo.githubusercontent.com/1f504899ba872222a56f0d982c19c8c0286cef3716340279d072d430e6c429de/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6a6f73687561646176696474686f6d61732f6f70656e636f64652d6167656e742d6d656d6f7279
+                      - text: "- Letta-inspired memory"
+                  - group [ref=f3e543]:
+                    - generic "Agent Skills (JDT) - Dynamic skills loader" [ref=f3e544] [cursor=pointer]:
+                      - text: Agent Skills (JDT)
+                      - link [ref=f3e545]:
+                        - /url: https://camo.githubusercontent.com/1a61dfe0da47c108adb0f9be3c24f0e7f5c29f0633403fb53209af14757e61bc/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6a6f73687561646176696474686f6d61732f6f70656e636f64652d6167656e742d736b696c6c73
+                      - text: "- Dynamic skills loader"
+                  - group [ref=f3e547]:
+                    - generic "Antigravity Auth - Google Antigravity models" [ref=f3e548] [cursor=pointer]:
+                      - text: Antigravity Auth
+                      - link [ref=f3e549]:
+                        - /url: https://camo.githubusercontent.com/01b2fb4c6c124565e9c82be4ac356025f76663aa075177d991a6be13a4ef60e1/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4e6f654661627269732f6f70656e636f64652d616e7469677261766974792d61757468
+                      - text: "- Google Antigravity models"
+                  - group [ref=f3e551]:
+                    - generic "Antigravity Multi-Auth - Multiple Google accounts" [ref=f3e552] [cursor=pointer]:
+                      - text: Antigravity Multi-Auth
+                      - link [ref=f3e553]:
+                        - /url: https://camo.githubusercontent.com/c41d279aa7697bc405b45e935e4fb6b2bd8508fdf7265ae5ae08a46cb8439c2c/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f746865626c617a6568656e2f6f70656e636f64652d616e7469677261766974792d6d756c74692d61757468
+                      - text: "- Multiple Google accounts"
+                  - group [ref=f3e555]:
+                    - generic "Autotitle - AI-powered automatic session naming" [ref=f3e556] [cursor=pointer]:
+                      - text: Autotitle
+                      - link [ref=f3e557]:
+                        - /url: https://camo.githubusercontent.com/34c8a137275ee9fb50a002c730b0b1430e96f309ebad874e5177e2901427f979/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f706177656c6d612f6f70656e636f64652d6175746f7469746c65
+                      - text: "- AI-powered automatic session naming"
+                  - group [ref=f3e559]:
+                    - generic "Background - Background process management" [ref=f3e560] [cursor=pointer]:
+                      - text: Background
+                      - link [ref=f3e561]:
+                        - /url: https://camo.githubusercontent.com/7a3d56d3fce0779a4a92ba8e68e5397581f55d742a291df545151db4b5e7dd25/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f7a656e6f62692d75732f6f70656e636f64652d6261636b67726f756e64
+                      - text: "- Background process management"
+                  - group [ref=f3e563]:
+                    - generic "Background Agents - Async agent delegation" [ref=f3e564] [cursor=pointer]:
+                      - text: Background Agents
+                      - link [ref=f3e565]:
+                        - /url: https://camo.githubusercontent.com/c8dd52a73370bc7f55157d2f725bbf68fe119297f387fb826f36f3ef210ae126/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6b64636f6b656e6e792f6f70656e636f64652d6261636b67726f756e642d6167656e7473
+                      - text: "- Async agent delegation"
+                  - group [ref=f3e567]:
+                    - generic "Beads Plugin - Beads issue tracker integration" [ref=f3e568] [cursor=pointer]:
+                      - text: Beads Plugin
+                      - link [ref=f3e569]:
+                        - /url: https://camo.githubusercontent.com/75a9adf4541e75a679564fe2ddf3c4c38c3cc67e3d01218b394ea2d1e71f463a/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6a6f73687561646176696474686f6d61732f6f70656e636f64652d6265616473
+                      - text: "- Beads issue tracker integration"
+                  - group [ref=f3e571]:
+                    - generic "BRHP - Persistent planning state" [ref=f3e572] [cursor=pointer]:
+                      - text: BRHP
+                      - link [ref=f3e573]:
+                        - /url: https://camo.githubusercontent.com/6b9554b462ab9c79a91e0f455ffa23393a75e0c5b9074166f8f2cc604900f799/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f5a616e7a795448456261722f62726870
+                      - text: "- Persistent planning state"
+                  - group [ref=f3e575]:
+                    - generic "CC Safety Net - Safety net catching destructive commands" [ref=f3e576] [cursor=pointer]:
+                      - text: CC Safety Net
+                      - link [ref=f3e577]:
+                        - /url: https://camo.githubusercontent.com/43411c4169073dd96be6da335de9ad64972e7e3052ee55dab159d7189b8df5a5/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6b656e72797534322f636c617564652d636f64652d7361666574792d6e6574
+                      - text: "- Safety net catching destructive commands"
+                  - group [ref=f3e579]:
+                    - generic "Claude Code Switch (CCS) OpenCode Sync - Claude Code Switch (CCS) to OpenCode sync" [ref=f3e580] [cursor=pointer]:
+                      - text: Claude Code Switch (CCS) OpenCode Sync
+                      - link [ref=f3e581]:
+                        - /url: https://camo.githubusercontent.com/81e1c17412d19075e215ab406c56cb8ae052809ea5c79a0c0e874d448ed7f7bf/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4a61736f6e4c616e646272696467652f6f70656e636f64652d6363732d73796e63
+                      - text: "- Claude Code Switch (CCS) to OpenCode sync"
+                  - group [ref=f3e583]:
+                    - generic "Command Inject - Auto-inject project commands into OpenCode" [ref=f3e584] [cursor=pointer]:
+                      - text: Command Inject
+                      - link [ref=f3e585]:
+                        - /url: https://camo.githubusercontent.com/0e9387d8a9029ce7cf560636dfbb1e34000f811c1fe41adc9851a7fa493dd910/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f736869687975686f2f6f70656e636f64652d636f6d6d616e642d696e6a656374
+                      - text: "- Auto-inject project commands into OpenCode"
+                  - group [ref=f3e587]:
+                    - generic "Context Analysis - Token usage analysis" [ref=f3e588] [cursor=pointer]:
+                      - text: Context Analysis
+                      - link [ref=f3e589]:
+                        - /url: https://camo.githubusercontent.com/19a8e8fd0b13a50b42f03f5518816354a47b46e24491db1f9155a2e682e474f7/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f49676f725761727a6f6368612f4f70656e636f64652d436f6e746578742d416e616c797369732d506c7567696e
+                      - text: "- Token usage analysis"
+                  - group [ref=f3e591]:
+                    - generic "Crawlberg - Web crawling and scraping tools for opencode" [ref=f3e592] [cursor=pointer]:
+                      - text: Crawlberg
+                      - link [ref=f3e593]:
+                        - /url: https://camo.githubusercontent.com/47a77083316c5d4d0336013c29bab86e7e280b80e201e72c024d2fc16170b868/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f78626572672d696f2f706c7567696e73
+                      - text: "- Web crawling and scraping tools for opencode"
+                  - group [ref=f3e595]:
+                    - generic "CrewBee - Task-specific Agent Teams for OpenCode" [ref=f3e596] [cursor=pointer]:
+                      - text: CrewBee
+                      - link [ref=f3e597]:
+                        - /url: https://camo.githubusercontent.com/9c976d5bb2c7fa0fb7b72bda23561011b9439ca364bd3c3d76b7d32e133e5bde/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f437265774265654c61622f43726577426565
+                      - text: "- Task-specific Agent Teams for OpenCode"
+                  - group [ref=f3e599]:
+                    - generic "Devcontainers - Multi-branch devcontainers" [ref=f3e600] [cursor=pointer]:
+                      - text: Devcontainers
+                      - link [ref=f3e601]:
+                        - /url: https://camo.githubusercontent.com/e54adae6b30546c9e05ddb545137fe89ef9c5e0b1c81216f2a94e84acab797a5/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f617468616c372f6f70656e636f64652d646576636f6e7461696e657273
+                      - text: "- Multi-branch devcontainers"
+                  - group [ref=f3e603]:
+                    - generic "Direnv - Load direnv variables" [ref=f3e604] [cursor=pointer]:
+                      - text: Direnv
+                      - link [ref=f3e605]:
+                        - /url: https://camo.githubusercontent.com/14299ef0c5bb4a274d9ecf252f08e3342b1b4f3ee410fb33fb1431b77a8b9ff7/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f73696d6f6e776a61636b736f6e2f6f70656e636f64652d646972656e76
+                      - text: "- Load direnv variables"
+                  - group [ref=f3e607]:
+                    - generic "Dodo Payments - Payments, subscriptions, webhooks, and billing for OpenCode agents" [ref=f3e608] [cursor=pointer]:
+                      - text: Dodo Payments
+                      - link [ref=f3e609]:
+                        - /url: https://camo.githubusercontent.com/4ba26c5469479aa505853c5576fd3fac6d76a49e231bd4c7e591d1dd0119bc01/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f646f646f7061796d656e74732f646f646f2d6167656e742d706c7567696e
+                      - text: "- Payments, subscriptions, webhooks, and billing for OpenCode agents"
+                  - group [ref=f3e611]:
+                    - generic "Dynamic Context Pruning - Optimize token usage" [ref=f3e612] [cursor=pointer]:
+                      - text: Dynamic Context Pruning
+                      - link [ref=f3e613]:
+                        - /url: https://camo.githubusercontent.com/5054ac8901b7b3b2a20d03069968a70ff1850202d0407529c834c777f15da55c/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f5461727175696e656e2f6f70656e636f64652d64796e616d69632d636f6e746578742d7072756e696e67
+                      - text: "- Optimize token usage"
+                  - group [ref=f3e615]:
+                    - generic "Ejentum - MCP server with reasoning, code, anti-deception, and memory tools for AI agents" [ref=f3e616] [cursor=pointer]:
+                      - text: Ejentum
+                      - link [ref=f3e617]:
+                        - /url: https://camo.githubusercontent.com/c4fcf3b2ae02f3d9338445d6794aefb56ca997a65bb2ce07907d88a0643b1ed7/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f656a656e74756d2f656a656e74756d2d6d6370
+                      - text: "- MCP server with reasoning, code, anti-deception, and memory tools for AI agents"
+                  - group [ref=f3e619]:
+                    - generic "Envsitter Guard - Prevent .env leaks" [ref=f3e620] [cursor=pointer]:
+                      - text: Envsitter Guard
+                      - link [ref=f3e621]:
+                        - /url: https://camo.githubusercontent.com/6ee68e49a4f7345d987bc024a51b3c86dfb7453abfe61dec8a99514feb774e37/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f626f78706f736974726f6e2f656e767369747465722d6775617264
+                      - text: "- Prevent .env leaks"
+                  - group [ref=f3e623]:
+                    - generic "FlowDeck - AI-powered multi-agent workflow orchestration with built-in safety intelligence" [ref=f3e624] [cursor=pointer]:
+                      - text: FlowDeck
+                      - link [ref=f3e625]:
+                        - /url: https://camo.githubusercontent.com/b126196fbefcd718b23bfb90e95d36228711a90046f5ea265c6217503fafe041/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f44564e676869656d2f466c6f774465636b
+                      - text: "- AI-powered multi-agent workflow orchestration with built-in safety intelligence"
+                  - group [ref=f3e627]:
+                    - generic "ForLoop Planner - Autopilot development. Plan with ForLoop agent. Build, Test, Deploy on cloud in one go." [ref=f3e628] [cursor=pointer]:
+                      - text: ForLoop Planner
+                      - link [ref=f3e629]:
+                        - /url: https://camo.githubusercontent.com/cf8396ba91e2334a9800b00a0a00a767b5b8565a426ba3d39289c15ba00fd183/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f666f726c6f6f702d63632f666f726c6f6f702d6f70656e636f64652d706c7567696e2d706c616e6e6572
+                      - text: "- Autopilot development. Plan with ForLoop agent. Build, Test, Deploy on cloud in one go."
+                  - group [ref=f3e631]:
+                    - generic "Froggy - Hooks and specialized agents" [ref=f3e632] [cursor=pointer]:
+                      - text: Froggy
+                      - link [ref=f3e633]:
+                        - /url: https://camo.githubusercontent.com/082d201ba2318d82fe2725a1309328f88ba4bfb1e5dd64cb1bfb2485a67ca67f/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f736d61727466726f672f6f70656e636f64652d66726f676779
+                      - text: "- Hooks and specialized agents"
+                  - group [ref=f3e635]:
+                    - generic "Gemini Auth - Google account auth" [ref=f3e636] [cursor=pointer]:
+                      - text: Gemini Auth
+                      - link [ref=f3e637]:
+                        - /url: https://camo.githubusercontent.com/c62e06ff9a99c8e0dd54066a495bd74cbaf805a3ad444c95978b18362d3653c5/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6a656e736c79732f6f70656e636f64652d67656d696e692d61757468
+                      - text: "- Google account auth"
+                  - group [ref=f3e639]:
+                    - generic "GitHub Release - Automated GitHub releases" [ref=f3e640] [cursor=pointer]:
+                      - text: GitHub Release
+                      - link [ref=f3e641]:
+                        - /url: https://camo.githubusercontent.com/f7d3cb1f8b0ab129e2f0ccf6aa033c98707c6fc7fc4f033a8aa004f9f9b1233f/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f616d65737473616e74696d2f6f70656e636f64652d6769746875622d72656c65617365
+                      - text: "- Automated GitHub releases"
+                  - group [ref=f3e643]:
+                    - generic "Google AI Search - Query Google AI Mode (SGE)" [ref=f3e644] [cursor=pointer]:
+                      - text: Google AI Search
+                      - link [ref=f3e645]:
+                        - /url: https://camo.githubusercontent.com/97fcc15120656305cf9826eaebe828ae372c1297cb478f6327777872833d5cf6/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f49676f725761727a6f6368612f4f70656e636f64652d476f6f676c652d41492d5365617263682d506c7567696e
+                      - text: "- Query Google AI Mode (SGE)"
+                  - group [ref=f3e647]:
+                    - generic "GoopSpec - Spec-driven development workflow" [ref=f3e648] [cursor=pointer]:
+                      - text: GoopSpec
+                      - link [ref=f3e649]:
+                        - /url: https://camo.githubusercontent.com/a38aa64a4382eda4b2c750008f8b0ad1cf2820323364f2511772e6b3e4b4ee8d/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6866666d6e6e6a2f6f70656e636f64652d676f6f7073706563
+                      - text: "- Spec-driven development workflow"
+                  - group [ref=f3e651]:
+                    - generic "GPT Imagegen - gpt-image-2 in OpenCode — no API cost when using your ChatGPT subscription" [ref=f3e652] [cursor=pointer]:
+                      - text: GPT Imagegen
+                      - link [ref=f3e653]:
+                        - /url: https://camo.githubusercontent.com/0508c6286fac3f87906654d1e638acf8462a6efbd22b28f1dfcfe25360fdc23e/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f79756a692d686174616b6579616d612f6f70656e636f64652d6770742d696d61676567656e
+                      - text: "- gpt-image-2 in OpenCode — no API cost when using your ChatGPT subscription"
+                  - group [ref=f3e655]:
+                    - generic "Handoff - Session handoff prompts" [ref=f3e656] [cursor=pointer]:
+                      - text: Handoff
+                      - link [ref=f3e657]:
+                        - /url: https://camo.githubusercontent.com/7cc47f10f981316fd6d48252260a6328d976521a536f6585460e81381c868331/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6a6f73687561646176696474686f6d61732f6f70656e636f64652d68616e646f6666
+                      - text: "- Session handoff prompts"
+                  - group [ref=f3e659]:
+                    - generic "Harness Memory - Persistent project memory - 73 percent fewer tokens than CLAUDE.md, with human review" [ref=f3e660] [cursor=pointer]:
+                      - text: Harness Memory
+                      - link [ref=f3e661]:
+                        - /url: https://camo.githubusercontent.com/ce1597d4604aa412f98095f587127d8b786f94628c3f60646447680554bdb7a0/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f736d63323331352f6861726e6573732d6d656d6f7279
+                      - text: "- Persistent project memory - 73 percent fewer tokens than CLAUDE.md, with human review"
+                  - group [ref=f3e663]:
+                    - generic "hiai-opencode - Canonical 12-agent model with bundled skills, MCP, LSP, and ralph-loop" [ref=f3e664] [cursor=pointer]:
+                      - text: hiai-opencode
+                      - link [ref=f3e665]:
+                        - /url: https://camo.githubusercontent.com/1e268b3544f407613bf0ffc7522ec92d4341c171255d613819577dc90770e7ce/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f486941692d67672f686961692d6f70656e636f6465
+                      - text: "- Canonical 12-agent model with bundled skills, MCP, LSP, and ralph-loop"
+                  - group [ref=f3e667]:
+                    - generic "Honcho - AI-native long-term memory for OpenCode" [ref=f3e668] [cursor=pointer]:
+                      - text: Honcho
+                      - link [ref=f3e669]:
+                        - /url: https://camo.githubusercontent.com/8c903be59d8807a9bbfee23b08fa8ed5c77fa3039109182aae22c566c466a380/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f706c61737469632d6c6162732f6f70656e636f64652d686f6e63686f
+                      - text: "- AI-native long-term memory for OpenCode"
+                  - group [ref=f3e671]:
+                    - generic "HTML to Markdown - Fast, lossless HTML to Markdown conversion" [ref=f3e672] [cursor=pointer]:
+                      - text: HTML to Markdown
+                      - link [ref=f3e673]:
+                        - /url: https://camo.githubusercontent.com/47a77083316c5d4d0336013c29bab86e7e280b80e201e72c024d2fc16170b868/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f78626572672d696f2f706c7567696e73
+                      - text: "- Fast, lossless HTML to Markdown conversion"
+                  - group [ref=f3e675]:
+                    - generic "kibi-opencode - Repo-local, branch-scoped knowledge and traceability for OpenCode" [ref=f3e676] [cursor=pointer]:
+                      - text: kibi-opencode
+                      - link [ref=f3e677]:
+                        - /url: https://camo.githubusercontent.com/85de3f4a31c695d3c99daf7494c01e941a9c297c28b1426c49923064cb98e0d0/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4c6f6f7465642f6b696269
+                      - text: "- Repo-local, branch-scoped knowledge and traceability for OpenCode"
+                  - group [ref=f3e679]:
+                    - generic "Kilo Gateway Auth - Kilo Gateway provider" [ref=f3e680] [cursor=pointer]:
+                      - text: Kilo Gateway Auth
+                      - link [ref=f3e681]:
+                        - /url: https://camo.githubusercontent.com/ffeeaa4ecde3dd6cd9b40dc345bc6d612a816bbb1e04108e1e36d6592acfba11/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4a756e67486f6f6e476861652f6f70656e636f64652d6b696c6f2d61757468
+                      - text: "- Kilo Gateway provider"
+                  - group [ref=f3e683]:
+                    - generic "Lemma - Persistent memory layer for LLMs via MCP - local, zero-dependency, works on all clients" [ref=f3e684] [cursor=pointer]:
+                      - text: Lemma
+                      - link [ref=f3e685]:
+                        - /url: https://camo.githubusercontent.com/027fe963a7d7316f956ae9639d5b31dba70e7d0e6d0e4731d437eb6ca3f5ba58/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f78656e697456312f6c656d6d61
+                      - text: "- Persistent memory layer for LLMs via MCP - local, zero-dependency, works on all clients"
+                  - group [ref=f3e687]:
+                    - generic "liter-llm - Universal LLM API client for 143 providers" [ref=f3e688] [cursor=pointer]:
+                      - text: liter-llm
+                      - link [ref=f3e689]:
+                        - /url: https://camo.githubusercontent.com/47a77083316c5d4d0336013c29bab86e7e280b80e201e72c024d2fc16170b868/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f78626572672d696f2f706c7567696e73
+                      - text: "- Universal LLM API client for 143 providers"
+                  - group [ref=f3e691]:
+                    - generic "Magic Context - Lossless context management with background compression" [ref=f3e692] [cursor=pointer]:
+                      - text: Magic Context
+                      - link [ref=f3e693]:
+                        - /url: https://camo.githubusercontent.com/ea1cd1242821c314f356198570a04ba5f58c55932e890c80a3373827807e62f6/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f636f727465786b69742f6f70656e636f64652d6d616769632d636f6e74657874
+                      - text: "- Lossless context management with background compression"
+                  - group [ref=f3e695]:
+                    - generic "Manage Skills - Wizard-driven skills management for OpenCode." [ref=f3e696] [cursor=pointer]:
+                      - text: Manage Skills
+                      - link [ref=f3e697]:
+                        - /url: https://camo.githubusercontent.com/28d80c266b8d46bc63a9ab44a39d98267b9617ca08d5387b2f43669cda22e040/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f52616e64726f6964732d446f6a6f2f4d616e616765536b696c6c73
+                      - text: "- Wizard-driven skills management for OpenCode."
+                  - group [ref=f3e699]:
+                    - generic "Micode - Brainstorm-Plan-Implement workflow" [ref=f3e700] [cursor=pointer]:
+                      - text: Micode
+                      - link [ref=f3e701]:
+                        - /url: https://camo.githubusercontent.com/7f8fc2504ea00480d3628648d0de92c4c33dd09824ed74651c4074a2a0a49419/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f7674656d69616e2f6d69636f6465
+                      - text: "- Brainstorm-Plan-Implement workflow"
+                  - group [ref=f3e703]:
+                    - generic "Model Announcer - Model self-awareness" [ref=f3e704] [cursor=pointer]:
+                      - text: Model Announcer
+                      - link [ref=f3e705]:
+                        - /url: https://camo.githubusercontent.com/5a7351632919df38269cffd1c0348e40bada44dc70069609b54e49b7e731d022/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f72616d617269766572612f6f70656e636f64652d6d6f64656c2d616e6e6f756e636572
+                      - text: "- Model self-awareness"
+                  - group [ref=f3e707]:
+                    - generic "Morph Fast Apply - 10,500+ tokens/sec code editing" [ref=f3e708] [cursor=pointer]:
+                      - text: Morph Fast Apply
+                      - link [ref=f3e709]:
+                        - /url: https://camo.githubusercontent.com/ec5da304944f59ecfef62838798bdfb5ce1d939513fc6ff106ba948b870f25bc/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4a526564656b65722f6f70656e636f64652d6d6f7270682d666173742d6170706c79
+                      - text: "- 10,500+ tokens/sec code editing"
+                  - group [ref=f3e711]:
+                    - generic "oc-mnemoria - Persistent shared memory (hive mind) for OpenCode agents across sessions" [ref=f3e712] [cursor=pointer]:
+                      - text: oc-mnemoria
+                      - link [ref=f3e713]:
+                        - /url: https://camo.githubusercontent.com/17c463c421d327ad89c180477947d76acac8b15d55715cb53d1d80e890e597e0/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6f6e652d6269742f6f632d6d6e656d6f726961
+                      - text: "- Persistent shared memory (hive mind) for OpenCode agents across sessions"
+                  - group [ref=f3e715]:
+                    - generic "Oh My Opencode - Agents & Pre-built tools" [ref=f3e716] [cursor=pointer]:
+                      - text: Oh My Opencode
+                      - link [ref=f3e717]:
+                        - /url: https://camo.githubusercontent.com/49bbdb2773f1ced0ad6a75c7a1a060076ae1989101db2e8d3a7f224f534dabdb/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f636f64652d79656f6e6779752f6f682d6d792d6f70656e636f6465
+                      - text: "- Agents & Pre-built tools"
+                  - group [ref=f3e719]:
+                    - generic "Oh My Opencode Slim - Lightweight agent orchestration with reduced token usage" [ref=f3e720] [cursor=pointer]:
+                      - text: Oh My Opencode Slim
+                      - link [ref=f3e721]:
+                        - /url: https://camo.githubusercontent.com/69c1873f353815d20839a873dbb08159cf4c35d22307d8ba81c887a65d8a2293/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f616c76696e756e7265616c2f6f682d6d792d6f70656e636f64652d736c696d
+                      - text: "- Lightweight agent orchestration with reduced token usage"
+                  - group [ref=f3e723]:
+                    - generic "Omniroute Auth - Omniroute authentication provider" [ref=f3e724] [cursor=pointer]:
+                      - text: Omniroute Auth
+                      - link [ref=f3e725]:
+                        - /url: https://camo.githubusercontent.com/a64afdbd28ef90ec9a0d6919c551cc9d20b7e74b454612b91d905b41b1a1599f/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f416c7068346430672f6f70656e636f64652d6f6d6e69726f7574652d61757468
+                      - text: "- Omniroute authentication provider"
+                  - group [ref=f3e727]:
+                    - generic "Open Conclave - Multi-agent debates, moderated by a captain agent until they reach consensus" [ref=f3e728] [cursor=pointer]:
+                      - text: Open Conclave
+                      - link [ref=f3e729]:
+                        - /url: https://camo.githubusercontent.com/81b056caa1a0b3861798abe7c1287c1bb8086c9ada113e56f0fa4210b4d7967d/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6d617274696e7a6f6b6f762f6f70656e2d636f6e636c617665
+                      - text: "- Multi-agent debates, moderated by a captain agent until they reach consensus"
+                  - group [ref=f3e731]:
+                    - generic "Open Dynamic Workflows - Dynamic multi-agent workflows for OpenCode — plan, orchestrate, and verify with the script as the orchestrator" [ref=f3e732] [cursor=pointer]:
+                      - text: Open Dynamic Workflows
+                      - link [ref=f3e733]:
+                        - /url: https://camo.githubusercontent.com/bdc337b4dc48d6648db56150152c26fc5a810859bd422aae72c63d1884edef66/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f537572616a313233352f6f70656e2d64796e616d69632d776f726b666c6f7773
+                      - text: "- Dynamic multi-agent workflows for OpenCode — plan, orchestrate, and verify with the script as the orchestrator"
+                  - group [ref=f3e735]:
+                    - generic "open-plan-annotator - Annotate LLM plans like a Google Doc!" [ref=f3e736] [cursor=pointer]:
+                      - text: open-plan-annotator
+                      - link [ref=f3e737]:
+                        - /url: https://camo.githubusercontent.com/ac2dcfde9b42496183b4c9fa234ede5fa5725b2fa3505c2fd6d5e61dce56dbe7/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6e646f6d39312f6f70656e2d706c616e2d616e6e6f7461746f72
+                      - text: "- Annotate LLM plans like a Google Doc!"
+                  - group [ref=f3e739]:
+                    - generic "OpenAI Codex Auth - ChatGPT Plus/Pro OAuth" [ref=f3e740] [cursor=pointer]:
+                      - text: OpenAI Codex Auth
+                      - link [ref=f3e741]:
+                        - /url: https://camo.githubusercontent.com/d77cc97a32d314e7a565993c35bd9e4882b7e2c754a3900cc4531732b0fc8ed7/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6e756d6d616e2d616c692f6f70656e636f64652d6f70656e61692d636f6465782d61757468
+                      - text: "- ChatGPT Plus/Pro OAuth"
+                  - group [ref=f3e743]:
+                    - generic "OpenCode Adaptive Thinking - Adaptive reasoning-effort control" [ref=f3e744] [cursor=pointer]:
+                      - text: OpenCode Adaptive Thinking
+                      - link [ref=f3e745]:
+                        - /url: https://camo.githubusercontent.com/a2fc53688e7145ccc339a672b47dfaf96ac2fa5ec8aaa535620d9daaa982b2b4/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f69616e2d706173636f652f6f70656e636f64652d61646170746976652d7468696e6b696e67
+                      - text: "- Adaptive reasoning-effort control"
+                  - group [ref=f3e747]:
+                    - generic "OpenCode Agent Tmux - Real-time tmux panes for OpenCode agents with auto-launch, streaming, and cleanup." [ref=f3e748] [cursor=pointer]:
+                      - text: OpenCode Agent Tmux
+                      - link [ref=f3e749]:
+                        - /url: https://camo.githubusercontent.com/6a8c1736d146db77a9d574cc23bb46be25a4641208251cf5ff5de8cdd346be5c/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f416e67616e53616d61646465722f6f70656e636f64652d6167656e742d746d7578
+                      - text: "- Real-time tmux panes for OpenCode agents with auto-launch, streaming, and cleanup."
+                  - group [ref=f3e751]:
+                    - generic "Opencode Agents Sidebar - Browse configured OhMyOpenAgent agents in the TUI" [ref=f3e752] [cursor=pointer]:
+                      - text: Opencode Agents Sidebar
+                      - link [ref=f3e753]:
+                        - /url: https://camo.githubusercontent.com/ec9aa117dc650b134410eae4e4ec050e6ecf925cf9f8546c364cbe49b868f9fd/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4d61726b313730382f6f70656e636f64652d6167656e74732d73696465626172
+                      - text: "- Browse configured OhMyOpenAgent agents in the TUI"
+                  - group [ref=f3e755]:
+                    - generic "Opencode Canvas - Interactive terminal canvases in tmux splits" [ref=f3e756] [cursor=pointer]:
+                      - text: Opencode Canvas
+                      - link [ref=f3e757]:
+                        - /url: https://camo.githubusercontent.com/4410a3e443c46173464bd1f67673215658c30783a1c67fa1e7880746d54ed555/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6d61696c736869656c6461692f6f70656e636f64652d63616e766173
+                      - text: "- Interactive terminal canvases in tmux splits"
+                  - group [ref=f3e759]:
+                    - generic "OpenCode Chromium Browser Plugin - Browser automation for Chromium browsers with a readable extension and native host" [ref=f3e760] [cursor=pointer]:
+                      - text: OpenCode Chromium Browser Plugin
+                      - link [ref=f3e761]:
+                        - /url: https://camo.githubusercontent.com/f0cee4d9f433488e6fa6dc02bce343e9930fac80af2b7e7c31ab03f00127d24f/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f444a4f434b45522d464143452f6f70656e636f64652d6368726f6d69756d2d62726f777365722d706c7567696e
+                      - text: "- Browser automation for Chromium browsers with a readable extension and native host"
+                  - group [ref=f3e763]:
+                    - generic "OpenCode Claude Memory - Claude Code-compatible memory" [ref=f3e764] [cursor=pointer]:
+                      - text: OpenCode Claude Memory
+                      - link [ref=f3e765]:
+                        - /url: https://camo.githubusercontent.com/8fe3f6d391dd625493c097224f6708580b1cafbe6418a9a3125503be41bc376e/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6b7569746f732f6f70656e636f64652d636c617564652d6d656d6f7279
+                      - text: "- Claude Code-compatible memory"
+                  - group [ref=f3e767]:
+                    - generic "OpenCode Ensemble - Parallel agent teams for OpenCode" [ref=f3e768] [cursor=pointer]:
+                      - text: OpenCode Ensemble
+                      - link [ref=f3e769]:
+                        - /url: https://camo.githubusercontent.com/ab98a66930bee1b994a1963e713dd7b555078516a7b4caa76bfc60ee130b2210/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f687565796578652f6f70656e636f64652d656e73656d626c65
+                      - text: "- Parallel agent teams for OpenCode"
+                  - group [ref=f3e771]:
+                    - generic "Opencode Hooks Plugin - Claude code compatible hooks" [ref=f3e772] [cursor=pointer]:
+                      - text: Opencode Hooks Plugin
+                      - link [ref=f3e773]:
+                        - /url: https://camo.githubusercontent.com/21b3a3be92270ab1840eaadece2565fe7585cf7343b29b13f76809f456c5fa20/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f726f6d61696e3332352f6f70656e636f64652d686f6f6b732d706c7567696e
+                      - text: "- Claude code compatible hooks"
+                  - group [ref=f3e775]:
+                    - generic "Opencode Host Notify Bridge - Devcontainer notifications bridged back to the host" [ref=f3e776] [cursor=pointer]:
+                      - text: Opencode Host Notify Bridge
+                      - link [ref=f3e777]:
+                        - /url: https://camo.githubusercontent.com/41468106017cfc4f79315bce31cd85769f24d80e2858907b6cd2314c80c2300e/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f5a61726164616368742f6f70656e636f64652d686f73742d6e6f746966792d627269646765
+                      - text: "- Devcontainer notifications bridged back to the host"
+                  - group [ref=f3e779]:
+                    - generic "Opencode Ignore - Ignore files based on pattern" [ref=f3e780] [cursor=pointer]:
+                      - text: Opencode Ignore
+                      - link [ref=f3e781]:
+                        - /url: https://camo.githubusercontent.com/52cb424435590834dec0c76b4ef848882c376d74229a007c78f1d54ef159f0cf/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6c676c616479737a2f6f70656e636f64652d69676e6f7265
+                      - text: "- Ignore files based on pattern"
+                  - group [ref=f3e783]:
+                    - generic "Opencode LiteLLM - Auto-discover models from a LiteLLM proxy" [ref=f3e784] [cursor=pointer]:
+                      - text: Opencode LiteLLM
+                      - link [ref=f3e785]:
+                        - /url: https://camo.githubusercontent.com/e6ba873eab8c7b55d44a378d38ac482fde0f18ce826619e0ad92c15712888a0e/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f79757365666572692f6f70656e636f64652d6c6974656c6c6d
+                      - text: "- Auto-discover models from a LiteLLM proxy"
+                  - group [ref=f3e787]:
+                    - generic "Opencode Log Sanitizer - Sanitizes pasted logs by redacting long strings, JWTs, bcrypt hashes, and base64 blobs" [ref=f3e788] [cursor=pointer]:
+                      - text: Opencode Log Sanitizer
+                      - link [ref=f3e789]:
+                        - /url: https://camo.githubusercontent.com/ead85376cec4e07789efb1da56937fcfe8af14f9dfbfb07a591dd3ee9827c3c7/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f657272687974686d2f6f70656e636f64652d6c6f672d73616e6974697a6572
+                      - text: "- Sanitizes pasted logs by redacting long strings, JWTs, bcrypt hashes, and base64 blobs"
+                  - group [ref=f3e791]:
+                    - generic "Opencode Mem - Persistent memory with vector database" [ref=f3e792] [cursor=pointer]:
+                      - text: Opencode Mem
+                      - link [ref=f3e793]:
+                        - /url: https://camo.githubusercontent.com/e6ef4743d742a58ace58a3bb2e824250f11a67b1838c89eb781c55e0814de644/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f7469636b65726e656c7a2f6f70656e636f64652d6d656d
+                      - text: "- Persistent memory with vector database"
+                  - group [ref=f3e795]:
+                    - generic "OpenCode Mission Control - Command center for parallel agents — worktree isolation, DAG plans, merge train, PRs" [ref=f3e796] [cursor=pointer]:
+                      - text: OpenCode Mission Control
+                      - link [ref=f3e797]:
+                        - /url: https://camo.githubusercontent.com/2d42f770fdf2cf32a8cac204a35a1e906333593b189baf5a22c0ca5360802382/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6e6967656c2d6465762f6f70656e636f64652d6d697373696f6e2d636f6e74726f6c
+                      - text: "- Command center for parallel agents — worktree isolation, DAG plans, merge train, PRs"
+                  - group [ref=f3e799]:
+                    - generic "Opencode Models Discovery - Configurable model discovery and filtering without long manual config" [ref=f3e800] [cursor=pointer]:
+                      - text: Opencode Models Discovery
+                      - link [ref=f3e801]:
+                        - /url: https://camo.githubusercontent.com/ce6ef0efebee8dcdadfa04ad7fbffd9d86b0d98b78a61c804fcf60bf42359894/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f797568702f6f70656e636f64652d6d6f64656c732d646973636f76657279
+                      - text: "- Configurable model discovery and filtering without long manual config"
+                  - group [ref=f3e803]:
+                    - generic "Opencode Notify - Native OS notifications" [ref=f3e804] [cursor=pointer]:
+                      - text: Opencode Notify
+                      - link [ref=f3e805]:
+                        - /url: https://camo.githubusercontent.com/f002df652b68f07867e1d491527806df9dbf18b3b239dcd46c6bd045f81e1102/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6b64636f6b656e6e792f6f70656e636f64652d6e6f74696679
+                      - text: "- Native OS notifications"
+                  - group [ref=f3e807]:
+                    - generic "OpenCode ntfy.sh - Push notifications to keep you in the know, even when you're on the go." [ref=f3e808] [cursor=pointer]:
+                      - text: OpenCode ntfy.sh
+                      - link [ref=f3e809]:
+                        - /url: https://camo.githubusercontent.com/f419fe7a0bdd587070e7ad369d2d2ef629d8f09d1194479fee30c8640a1d3d5a/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6c616e6e75747469612f6f70656e636f64652d6e7466792e7368
+                      - text: "- Push notifications to keep you in the know, even when you're on the go."
+                  - group [ref=f3e811]:
+                    - generic "OpenCode Plan Manager - AI-Native Implementation Planning for Modern Agentic Workflows" [ref=f3e812] [cursor=pointer]:
+                      - text: OpenCode Plan Manager
+                      - link [ref=f3e813]:
+                        - /url: https://camo.githubusercontent.com/da6171baed40a64e04f774c041e817b7a45ec59b51cc3611589a5e330e2cbb69/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f7975726968626d2f6f70656e636f64652d706c616e2d6d616e61676572
+                      - text: "- AI-Native Implementation Planning for Modern Agentic Workflows"
+                  - group [ref=f3e815]:
+                    - generic "OpenCode Provider Alias - Alias and curate OpenCode providers with model metadata from models.dev." [ref=f3e816] [cursor=pointer]:
+                      - text: OpenCode Provider Alias
+                      - link [ref=f3e817]:
+                        - /url: https://camo.githubusercontent.com/92837bb4f3cebb1cc9c8953d7e5b76e5e4c7f6111aeb169c23d5fb9f5535e9b1/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f626172616e77616e672f6f70656e636f64652d70726f76696465722d616c696173
+                      - text: "- Alias and curate OpenCode providers with model metadata from models.dev."
+                  - group [ref=f3e819]:
+                    - generic "Opencode Quota - Quota toasts and token tracking" [ref=f3e820] [cursor=pointer]:
+                      - text: Opencode Quota
+                      - link [ref=f3e821]:
+                        - /url: https://camo.githubusercontent.com/b357304ba83e925fda9d78418a82be033ceb1cc2040ae841d64a5ed6bcbda5d2/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f736c6b697365722f6f70656e636f64652d71756f7461
+                      - text: "- Quota toasts and token tracking"
+                  - group [ref=f3e823]:
+                    - generic "Opencode Roadmap - Strategic planning" [ref=f3e824] [cursor=pointer]:
+                      - text: Opencode Roadmap
+                      - link [ref=f3e825]:
+                        - /url: https://camo.githubusercontent.com/687e9101cc1185799de89b784fcefb220bec48d0f4488c20f265988a842d29c9/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f49676f725761727a6f6368612f4f70656e636f64652d526f61646d6170
+                      - text: "- Strategic planning"
+                  - group [ref=f3e827]:
+                    - generic "Opencode Sessions - Session management" [ref=f3e828] [cursor=pointer]:
+                      - text: Opencode Sessions
+                      - link [ref=f3e829]:
+                        - /url: https://camo.githubusercontent.com/f43368fd455288beae89776b78826a47f4f7d8cf8a8073e4cc6d4afea5b6c458/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6d616c68617368656d692f6f70656e636f64652d73657373696f6e73
+                      - text: "- Session management"
+                  - group [ref=f3e831]:
+                    - generic "Opencode Snippets - Instant inline text expansion" [ref=f3e832] [cursor=pointer]:
+                      - text: Opencode Snippets
+                      - link [ref=f3e833]:
+                        - /url: https://camo.githubusercontent.com/ab83ba1f9efe8c13acb0f34e38b6f0a610678e405880df93b9a18fade6d1b525/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4a6f7358612f6f70656e636f64652d736e697070657473
+                      - text: "- Instant inline text expansion"
+                  - group [ref=f3e835]:
+                    - generic "OpenCode Swarm - Verification-gated swarm with architect, review, test, and security agents" [ref=f3e836] [cursor=pointer]:
+                      - text: OpenCode Swarm
+                      - link [ref=f3e837]:
+                        - /url: https://camo.githubusercontent.com/d7409ddc94975fe7b47076e7b6301380f7930b029ffcbadda0a6112d145695ad/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f7a6178627973617563652f6f70656e636f64652d737761726d
+                      - text: "- Verification-gated swarm with architect, review, test, and security agents"
+                  - group [ref=f3e839]:
+                    - generic "Opencode Synced - Sync configs across machines" [ref=f3e840] [cursor=pointer]:
+                      - text: Opencode Synced
+                      - link [ref=f3e841]:
+                        - /url: https://camo.githubusercontent.com/15b6bd1eafb691141c0ddf7241ad5bd2908211ea9cdefa95d96afacc33737006/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6948696c64792f6f70656e636f64652d73796e636564
+                      - text: "- Sync configs across machines"
+                  - group [ref=f3e843]:
+                    - generic "Opencode Telemetry - Passive cross-session telemetry to local SQLite; cost rollups across agent orchestration chains" [ref=f3e844] [cursor=pointer]:
+                      - text: Opencode Telemetry
+                      - link [ref=f3e845]:
+                        - /url: https://camo.githubusercontent.com/eb702f2e4458704c640b03ef67556a07df9f65c52e92c3c1ea35bc48af6ad909/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f61676f7374696e696c616273726c2f6f70656e636f64652d74656c656d65747279
+                      - text: "- Passive cross-session telemetry to local SQLite; cost rollups across agent orchestration chains"
+                  - group [ref=f3e847]:
+                    - generic "OpenCode Throughput - Real-time LLM performance monitoring" [ref=f3e848] [cursor=pointer]:
+                      - text: OpenCode Throughput
+                      - link [ref=f3e849]:
+                        - /url: https://camo.githubusercontent.com/559c5f3ec611299bc429fe650aaf8f522abbfaf061e7169ec29a9d700aad17ce/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f486f776172647a68616e676471732f6f70656e636f64652d7468726f756768707574
+                      - text: "- Real-time LLM performance monitoring"
+                  - group [ref=f3e851]:
+                    - generic "OpenCode Token Tracker - Real-time token usage, cost, and latency tracking for every AI request in OpenCode" [ref=f3e852] [cursor=pointer]:
+                      - text: OpenCode Token Tracker
+                      - link [ref=f3e853]:
+                        - /url: https://camo.githubusercontent.com/91ad0079a0262dbc838879fb853aab456ed1bd12cc0378bebbf24bd9df39d5ac/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f657365726574652f6f70656e636f64652d746f6b656e2d747261636b6572
+                      - text: "- Real-time token usage, cost, and latency tracking for every AI request in OpenCode"
+                  - group [ref=f3e855]:
+                    - generic "Opencode TTS - Voice summaries for idle responses" [ref=f3e856] [cursor=pointer]:
+                      - text: Opencode TTS
+                      - link [ref=f3e857]:
+                        - /url: https://camo.githubusercontent.com/6a2f3f57d368c822dd80fae9ee32e3c152645d770622e469486d684342f6ebe5/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f53746566616e6f4368696f64696e6f2f6f70656e636f64652d747473
+                      - text: "- Voice summaries for idle responses"
+                  - group [ref=f3e859]:
+                    - generic "Opencode update notifier - Notify about plugin updates." [ref=f3e860] [cursor=pointer]:
+                      - text: Opencode update notifier
+                      - link [ref=f3e861]:
+                        - /url: https://camo.githubusercontent.com/9b4e72fe29d9c058c3bc97a88614c817e35b413766e630c8b56667095d3afbf8/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f74696d2d68696c64652f6f70656e636f64652d7570646174652d6e6f746966696572
+                      - text: "- Notify about plugin updates."
+                  - group [ref=f3e863]:
+                    - generic "Opencode Usage Monitor - Monitor OpenAI and Z.AI usage quotas in the TUI" [ref=f3e864] [cursor=pointer]:
+                      - text: Opencode Usage Monitor
+                      - link [ref=f3e865]:
+                        - /url: https://camo.githubusercontent.com/7f507cd77da90f2c053c4ce2cadd7be13d95f09afab4ef03ce0aa2f4500d9b93/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4d61726b313730382f6f70656e636f64652d75736167652d6d6f6e69746f72
+                      - text: "- Monitor OpenAI and Z.AI usage quotas in the TUI"
+                  - group [ref=f3e867]:
+                    - generic "Opencode Visualizer - 2D pixel-art office for AI agents" [ref=f3e868] [cursor=pointer]:
+                      - text: Opencode Visualizer
+                      - link [ref=f3e869]:
+                        - /url: https://camo.githubusercontent.com/7c79cac26c687c0cf8ec58a17558bf65e11eef92cdf4941e2324ee3e3fe450d9/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f7073696e6574726f6e2f6f70656e636f64652d76697375616c69736572
+                      - text: "- 2D pixel-art office for AI agents"
+                  - group [ref=f3e871]:
+                    - generic "OpenCode Workaholic - Enforce mandatory working time and prevents premature \"done\" responses" [ref=f3e872] [cursor=pointer]:
+                      - text: OpenCode Workaholic
+                      - link [ref=f3e873]:
+                        - /url: https://camo.githubusercontent.com/7085e79654e2bb83982e8a1c64f00bf8a2f86537838daad1b41818816835a8b7/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f526f64657269636b5169752f6f70656e636f64652d776f726b61686f6c6963
+                      - text: "- Enforce mandatory working time and prevents premature \"done\" responses"
+                  - group [ref=f3e875]:
+                    - generic "Opencode Workspace - Multi-agent orchestration" [ref=f3e876] [cursor=pointer]:
+                      - text: Opencode Workspace
+                      - link [ref=f3e877]:
+                        - /url: https://camo.githubusercontent.com/8b0e29a1b7ad070d8f8e6dd3aaad352d816178ab540e1833eaecf9d416a7700e/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6b64636f6b656e6e792f6f70656e636f64652d776f726b7370616365
+                      - text: "- Multi-agent orchestration"
+                  - group [ref=f3e879]:
+                    - generic "Opencode Worktree - Zero-friction git worktrees" [ref=f3e880] [cursor=pointer]:
+                      - text: Opencode Worktree
+                      - link [ref=f3e881]:
+                        - /url: https://camo.githubusercontent.com/657909473e9233790c998bb1bb8ac6d16cca247bed713e33f0a23acf22d3edc4/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6b64636f6b656e6e792f6f70656e636f64652d776f726b74726565
+                      - text: "- Zero-friction git worktrees"
+                  - group [ref=f3e883]:
+                    - generic "opencode-ascii - Strip unicode characters from output and replace them by their ASCII equivalents" [ref=f3e884] [cursor=pointer]:
+                      - text: opencode-ascii
+                      - link [ref=f3e885]:
+                        - /url: https://camo.githubusercontent.com/99dd79448ab395d9b651103198ae7cecccf601a92356e66d2ec018b9ff537324/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f64337676332f6f70656e636f64652d6173636969
+                      - text: "- Strip unicode characters from output and replace them by their ASCII equivalents"
+                  - group [ref=f3e887]:
+                    - generic "opencode-bmad-workflow - BMAD workflow plugin — automates epic, feature, sprint and code review workflows using specialized AI agents" [ref=f3e888] [cursor=pointer]:
+                      - text: opencode-bmad-workflow
+                      - link [ref=f3e889]:
+                        - /url: https://camo.githubusercontent.com/dccafe4c959c50dd09e589f2453399d818e3a467c804df38c26e8c68a8da64df/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f416c65782d737461636b2d63656c6c2f6f70656e636f64652d626d61642d776f726b666c6f77
+                      - text: "- BMAD workflow plugin — automates epic, feature, sprint and code review workflows using specialized AI agents"
+                  - group [ref=f3e891]:
+                    - generic "opencode-mystatus - Check AI subscription quotas" [ref=f3e892] [cursor=pointer]:
+                      - text: opencode-mystatus
+                      - link [ref=f3e893]:
+                        - /url: https://camo.githubusercontent.com/268e4f95a0133de3dc218e16acf34c1ffc2ccf3264a4100f3467ed94e598a02e/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f7662676174652f6f70656e636f64652d6d79737461747573
+                      - text: "- Check AI subscription quotas"
+                  - group [ref=f3e895]:
+                    - generic "opencode-personality - A configurable personality and mood system plugin for OpenCode." [ref=f3e896] [cursor=pointer]:
+                      - text: opencode-personality
+                      - link [ref=f3e897]:
+                        - /url: https://camo.githubusercontent.com/ccc84e034fe400f0c0cd11e2df38683cff882dd7f1073d7bd5a4c0fdc4c37075/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6a6f6f737476616e776f6c6c696e67656e2f6f70656e636f64652d706572736f6e616c697479
+                      - text: "- A configurable personality and mood system plugin for OpenCode."
+                  - group [ref=f3e899]:
+                    - generic "opencode-plugin-otel - OpenTelemetry telemetry exporter for opencode sessions, mirroring Claude Code monitoring signals" [ref=f3e900] [cursor=pointer]:
+                      - text: opencode-plugin-otel
+                      - link [ref=f3e901]:
+                        - /url: https://camo.githubusercontent.com/60614f8068400ec6fd032332872ebc1331d1136a7745bd15892a099301b9e37a/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4445567468654f50532f6f70656e636f64652d706c7567696e2d6f74656c
+                      - text: "- OpenTelemetry telemetry exporter for opencode sessions, mirroring Claude Code monitoring signals"
+                  - group [ref=f3e903]:
+                    - generic "opencode-review - Automatic structured code review with configurable dimensions and auto-fix" [ref=f3e904] [cursor=pointer]:
+                      - text: opencode-review
+                      - link [ref=f3e905]:
+                        - /url: https://camo.githubusercontent.com/416b81b69e1d08eb8b054a548c70022725b8f7498b7f254370e4620e92445850/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f73756e2d7072616973652f6f70656e636f64652d726576696577
+                      - text: "- Automatic structured code review with configurable dimensions and auto-fix"
+                  - group [ref=f3e907]:
+                    - generic "opencode-short-term-memory - Maintain user instructions and preferences throughout long sessions. No more repeating yourself." [ref=f3e908] [cursor=pointer]:
+                      - text: opencode-short-term-memory
+                      - link [ref=f3e909]:
+                        - /url: https://camo.githubusercontent.com/a581b382ae6037404fbe4f6e9c33c9b0be69395e2fe95c991389fc7d782dcdc4/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f616e6472656a746f6e65762f6f70656e636f64652d73686f72742d7465726d2d6d656d6f7279
+                      - text: "- Maintain user instructions and preferences throughout long sessions. No more repeating yourself."
+                  - group [ref=f3e911]:
+                    - generic "opencode-snip - OpenCode plugin that prefixes shell commands with snip to reduce LLM token consumption by 60-90%" [ref=f3e912] [cursor=pointer]:
+                      - text: opencode-snip
+                      - link [ref=f3e913]:
+                        - /url: https://camo.githubusercontent.com/19fb830bb7969e0cb23b4d03e60f95d19c9d1012e3ace1772994de3cd0263bc8/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f56696e63656e74486172646f75696e2f6f70656e636f64652d736e6970
+                      - text: "- OpenCode plugin that prefixes shell commands with snip to reduce LLM token consumption by 60-90%"
+                  - group [ref=f3e915]:
+                    - generic "OpenCodeRAG - Local-first RAG plugin for semantic code search with tree-sitter chunking and LanceDB" [ref=f3e916] [cursor=pointer]:
+                      - text: OpenCodeRAG
+                      - link [ref=f3e917]:
+                        - /url: https://camo.githubusercontent.com/9cdba937d0cf7487a46ea2dbb92a762e94aa71de094576931c2cd1412f016b20/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4d72446f652f4f70656e436f6465524147
+                      - text: "- Local-first RAG plugin for semantic code search with tree-sitter chunking and LanceDB"
+                  - group [ref=f3e919]:
+                    - generic "OpenHax Codex - OAuth authentication" [ref=f3e920] [cursor=pointer]:
+                      - text: OpenHax Codex
+                      - link [ref=f3e921]:
+                        - /url: https://camo.githubusercontent.com/8416784cc8b6b3419dd50dab743d7a5589de43cf70aa0b390bcd055806f95381/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6f70656e2d6861782f636f646578
+                      - text: "- OAuth authentication"
+                  - group [ref=f3e923]:
+                    - generic "Openskills - Alternative skills manager" [ref=f3e924] [cursor=pointer]:
+                      - text: Openskills
+                      - link [ref=f3e925]:
+                        - /url: https://camo.githubusercontent.com/f9a29c05d640675ed25bfaed8349effee86959bfeb7c8bb2f5a9060e02e1c469/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6e756d6d616e2d616c692f6f70656e736b696c6c73
+                      - text: "- Alternative skills manager"
+                  - group [ref=f3e927]:
+                    - generic "OpenSpec - Add Architecture planning and specification agent for OpenSpec" [ref=f3e928] [cursor=pointer]:
+                      - text: OpenSpec
+                      - link [ref=f3e929]:
+                        - /url: https://camo.githubusercontent.com/baaf9a782cbcf2afcdc7051244b489079f3b53d3fd32819b468a66c5ffb1c80d/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4f6374616e65303431312f6f70656e636f64652d706c7567696e2d6f70656e73706563
+                      - text: "- Add Architecture planning and specification agent for OpenSpec"
+                  - group [ref=f3e931]:
+                    - generic "Optimal Model Temps - Optimal sampling temperatures" [ref=f3e932] [cursor=pointer]:
+                      - text: Optimal Model Temps
+                      - link [ref=f3e933]:
+                        - /url: https://camo.githubusercontent.com/950cf9b68c5ddcefe45aed63e721c8a3d0a6579244ed17d9651400eaf2f3e017/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4c7961707375732f6f70656e636f64652d6f7074696d616c2d6d6f64656c2d74656d7073
+                      - text: "- Optimal sampling temperatures"
+                  - group [ref=f3e935]:
+                    - generic "OrgX OpenCode Plugin - OrgX Work Graph peer for task dispatch, receipts, deviations, and passive reconciliation" [ref=f3e936] [cursor=pointer]:
+                      - text: OrgX OpenCode Plugin
+                      - link [ref=f3e937]:
+                        - /url: https://camo.githubusercontent.com/8f059e82e2145b1f88af9b39b5f7cb7725ca04629e8013c8322aae23759092c6/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f7573656f7267782f6f7267782d6f70656e636f64652d706c7567696e
+                      - text: "- OrgX Work Graph peer for task dispatch, receipts, deviations, and passive reconciliation"
+                  - group [ref=f3e939]:
+                    - generic "Pilot - Automation daemon" [ref=f3e940] [cursor=pointer]:
+                      - text: Pilot
+                      - link [ref=f3e941]:
+                        - /url: https://camo.githubusercontent.com/d8d8d1075731d9c62ddeb6f4759af6374016e9220dc68738e0ac5d90adbb4c2c/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f617468616c372f6f70656e636f64652d70696c6f74
+                      - text: "- Automation daemon"
+                  - group [ref=f3e943]:
+                    - generic "Plannotator - Interactive plan review UI" [ref=f3e944] [cursor=pointer]:
+                      - text: Plannotator
+                      - link [ref=f3e945]:
+                        - /url: https://camo.githubusercontent.com/afc9da11fc52d20a07127a3aec3858241923b2dbebf71f50c37ea2aefcf29be3/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6261636b6e6f7470726f702f706c616e6e6f7461746f72
+                      - text: "- Interactive plan review UI"
+                  - group [ref=f3e947]:
+                    - generic "Plugin Template - CICD setup for plugins" [ref=f3e948] [cursor=pointer]:
+                      - text: Plugin Template
+                      - link [ref=f3e949]:
+                        - /url: https://camo.githubusercontent.com/ef9a884502109db4ea286841caf5273e087854908d3e11202842e25f83e0232a/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f7a656e6f62692d75732f6f70656e636f64652d706c7567696e2d74656d706c617465
+                      - text: "- CICD setup for plugins"
+                  - group [ref=f3e951]:
+                    - generic "Pocket Universe - A subagent driven pocket universe for your primary agent" [ref=f3e952] [cursor=pointer]:
+                      - text: Pocket Universe
+                      - link [ref=f3e953]:
+                        - /url: https://camo.githubusercontent.com/69be18b44847495e6b80d49d4e748830d393355603d52c4bd006f2321561d340/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f73706f6f6e732d616e642d6d6972726f72732f706f636b65742d756e697665727365
+                      - text: "- A subagent driven pocket universe for your primary agent"
+                  - group [ref=f3e955]:
+                    - generic "PR Auto-Signature - Automatically adds AI model signature to PRs, Issues, and Commits" [ref=f3e956] [cursor=pointer]:
+                      - text: PR Auto-Signature
+                      - link [ref=f3e957]:
+                        - /url: https://camo.githubusercontent.com/88dc5c0f034a89db1d0b64d2f7eb044a53d4ed166a4ba61ab2837c90c5fbe747/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f617274747474742f6f70656e636f64652d70722d7369676e6174757265
+                      - text: "- Automatically adds AI model signature to PRs, Issues, and Commits"
+                  - group [ref=f3e959]:
+                    - generic "Ralph Wiggum - Self-correcting agent loops" [ref=f3e960] [cursor=pointer]:
+                      - text: Ralph Wiggum
+                      - link [ref=f3e961]:
+                        - /url: https://camo.githubusercontent.com/2568154e800b725e78ad88c536a0b02aa26a7ac032b18f7a2ffe01897d4141c8/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f5468307267616c2f6f70656e636f64652d72616c70682d77696767756d
+                      - text: "- Self-correcting agent loops"
+                  - group [ref=f3e963]:
+                    - generic "Research Papers - Search arXiv and OpenAlex for research papers with recency and citation filtering" [ref=f3e964] [cursor=pointer]:
+                      - text: Research Papers
+                      - link [ref=f3e965]:
+                        - /url: https://camo.githubusercontent.com/9b2f8b28e1ed2c5c77a7bd6c55aee401442f2c51fc3c88af9ec3754d7d99ba50/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f7361696d2d782f6f70656e636f64652d72657365617263682d706170657273
+                      - text: "- Search arXiv and OpenAlex for research papers with recency and citation filtering"
+                  - group [ref=f3e967]:
+                    - generic "Ring a Bell Example - Simple terminal bell plugin" [ref=f3e968] [cursor=pointer]
+                  - group [ref=f3e969]:
+                    - generic "Semantic Anchors - Runtime contract enforcement for safe, traceable AI agents" [ref=f3e970] [cursor=pointer]:
+                      - text: Semantic Anchors
+                      - link [ref=f3e971]:
+                        - /url: https://camo.githubusercontent.com/2ec4458e7baa91dd86223d37973cf8c662c6017443fe9f2cd0205316ad36cf8f/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4a656e7347726f74652f6f70656e636f64652d73656d616e7469632d616e63686f7273
+                      - text: "- Runtime contract enforcement for safe, traceable AI agents"
+                  - group [ref=f3e973]:
+                    - generic "Shell Strategy - Avoid interactive shell hangs" [ref=f3e974] [cursor=pointer]:
+                      - text: Shell Strategy
+                      - link [ref=f3e975]:
+                        - /url: https://camo.githubusercontent.com/7472dbccc9353be98be48f8728a476f3eaed5d62bd80a03cf7bdd61232fc77f0/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4a526564656b65722f6f70656e636f64652d7368656c6c2d7374726174656779
+                      - text: "- Avoid interactive shell hangs"
+                  - group [ref=f3e977]:
+                    - generic "Simple Memory - Git-based memory" [ref=f3e978] [cursor=pointer]:
+                      - text: Simple Memory
+                      - link [ref=f3e979]:
+                        - /url: https://camo.githubusercontent.com/8b07f55de84e4ff2fdf26cb5753cff5520f4bb6f285e6d1c90984224e7400c52/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f636e69636f6c6f762f6f70656e636f64652d706c7567696e2d73696d706c652d6d656d6f7279
+                      - text: "- Git-based memory"
+                  - group [ref=f3e981]:
+                    - generic "Simple Notify - Native desktop notifications with near-zero dependencies" [ref=f3e982] [cursor=pointer]:
+                      - text: Simple Notify
+                      - link [ref=f3e983]:
+                        - /url: https://camo.githubusercontent.com/09ab8637f9ade6862f5bc09221c022995696f720e5832b94a51ff27f195cc468/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f597573757a68616e2f6f70656e636f64652d73696d706c652d6e6f74696679
+                      - text: "- Native desktop notifications with near-zero dependencies"
+                  - group [ref=f3e985]:
+                    - generic "Smart Title - Auto-generate session titles" [ref=f3e986] [cursor=pointer]:
+                      - text: Smart Title
+                      - link [ref=f3e987]:
+                        - /url: https://camo.githubusercontent.com/dc18160af88a0de4a46036a13cbed632d05a5301cab5257882355ee77382f255/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f5461727175696e656e2f6f70656e636f64652d736d6172742d7469746c65
+                      - text: "- Auto-generate session titles"
+                  - group [ref=f3e989]:
+                    - generic "Smart Voice Notify - Intelligent voice notifications" [ref=f3e990] [cursor=pointer]:
+                      - text: Smart Voice Notify
+                      - link [ref=f3e991]:
+                        - /url: https://camo.githubusercontent.com/24f881bdd66665f10c767ae7c6526e0c519cd1ee9fd5ac9fcabe19ccbd56cdaa/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f4d6173755269692f6f70656e636f64652d736d6172742d766f6963652d6e6f74696679
+                      - text: "- Intelligent voice notifications"
+                  - group [ref=f3e993]:
+                    - 'generic "Subagent Reporter - See exactly what your subagents are up to (in the terminal) when invoked during an `opencode run _____` session." [ref=f3e994] [cursor=pointer]':
+                      - text: Subagent Reporter
+                      - link [ref=f3e995]:
+                        - /url: https://camo.githubusercontent.com/9bc179f41557b8f91194c2e9d9e84d025ae9b2d2164f37c8dce72a9b8cd00120/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f726169736265636b612f6f70656e636f64652d7375626167656e742d6f7574707574
+                      - text: "- See exactly what your subagents are up to (in the terminal) when invoked during an `opencode run _____` session."
+                  - group [ref=f3e997]:
+                    - generic "Subtask2 - Orchestration system" [ref=f3e998] [cursor=pointer]:
+                      - text: Subtask2
+                      - link [ref=f3e999]:
+                        - /url: https://camo.githubusercontent.com/e4c9fe395cb445f72620e923cb6de4282511a5cefbf6c73b6a8e85c691076686/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f73706f6f6e732d616e642d6d6972726f72732f7375627461736b32
+                      - text: "- Orchestration system"
+                  - group [ref=f3e1001]:
+                    - generic "Swarm Plugin - Swarm intelligence" [ref=f3e1002] [cursor=pointer]:
+                      - text: Swarm Plugin
+                      - link [ref=f3e1003]:
+                        - /url: https://camo.githubusercontent.com/f6e059f9108452baebd1e8e3cedff0afe2075a5499bff4976bb1d1b3597291bb/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6a6f656c686f6f6b732f6f70656e636f64652d737761726d2d706c7567696e
+                      - text: "- Swarm intelligence"
+                  - group [ref=f3e1005]:
+                    - generic "System Prompt Logger - System prompt logger" [ref=f3e1006] [cursor=pointer]:
+                      - text: System Prompt Logger
+                      - link [ref=f3e1007]:
+                        - /url: https://camo.githubusercontent.com/8bdfe59f94a24fdc77291a3d264a4b190997ca6836bc847bd37f7133c0635c1e/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f746c696e686172742f6f70656e636f64652d73797374656d2d70726f6d70742d6c6f67676572
+                      - text: "- System prompt logger"
+                  - group [ref=f3e1009]:
+                    - generic "Token Monitor - Token analysis & cost tracking with budgets, trends, and per-project analytics" [ref=f3e1010] [cursor=pointer]:
+                      - text: Token Monitor
+                      - link [ref=f3e1011]:
+                        - /url: https://camo.githubusercontent.com/7db5437e7261fbb4761f359d638cd599e8dd7004e3c1cdf1da728049bc9557e0/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f41696e736c6579303931372f6f70656e636f64652d746f6b656e2d6d6f6e69746f72
+                      - text: "- Token analysis & cost tracking with budgets, trends, and per-project analytics"
+                  - group [ref=f3e1013]:
+                    - generic "Tokenscope - Token analysis & cost tracking" [ref=f3e1014] [cursor=pointer]:
+                      - text: Tokenscope
+                      - link [ref=f3e1015]:
+                        - /url: https://camo.githubusercontent.com/98323aadfb75b008028bb4ee45687f1ee3ae694a1fbbafae48b9216125edaf34/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f72616d74696e4a39352f6f70656e636f64652d746f6b656e73636f7065
+                      - text: "- Token analysis & cost tracking"
+                  - group [ref=f3e1017]:
+                    - generic "toon-config - Loads TOON based, AGENTS.toon rather than Markdown" [ref=f3e1018] [cursor=pointer]:
+                      - text: toon-config
+                      - link [ref=f3e1019]:
+                        - /url: https://camo.githubusercontent.com/d83ced586e772750763e055f10d21432690066307f8e1df1ef8423bc5b901f0d/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f6d6d796e737465642f6f70656e636f64652d746f6f6e2d636f6e6669672d706c7567696e
+                      - text: "- Loads TOON based, AGENTS.toon rather than Markdown"
+                  - group [ref=f3e1021]:
+                    - generic "Tree-sitter Language Pack - Code intelligence for 300+ languages" [ref=f3e1022] [cursor=pointer]:
+                      - text: Tree-sitter Language Pack
+                      - link [ref=f3e1023]:
+                        - /url: https://camo.githubusercontent.com/47a77083316c5d4d0336013c29bab86e7e280b80e201e72c024d2fc16170b868/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f78626572672d696f2f706c7567696e73
+                      - text: "- Code intelligence for 300+ languages"
+                  - group [ref=f3e1025]:
+                    - generic "TypeUI - Design systems, UI prompts, and layout variation guidance" [ref=f3e1026] [cursor=pointer]:
+                      - text: TypeUI
+                      - link [ref=f3e1027]:
+                        - /url: https://camo.githubusercontent.com/c7337413163c03a0b67331b2ab45ba93278c9906c589623676c16ab167402ab2/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f62657267736964652f747970657569
+                      - text: "- Design systems, UI prompts, and layout variation guidance"
+                  - group [ref=f3e1029]:
+                    - generic "ul-opencode-event - Multi-channel notifications (SMTP, DingTalk, Feishu) and token usage analytics" [ref=f3e1030] [cursor=pointer]
+                  - group [ref=f3e1031]:
+                    - generic "UNMOJI - Strip emojis from output" [ref=f3e1032] [cursor=pointer]
+                  - group [ref=f3e1033]:
+                    - generic "Vibe Coding Slack Notifier - Slack DM alerts for OpenCode task completion" [ref=f3e1034] [cursor=pointer]:
+                      - text: Vibe Coding Slack Notifier
+                      - link [ref=f3e1035]:
+                        - /url: https://camo.githubusercontent.com/107c727edd7143c3e73cf57639a154c8c9a90c94fb320fd7a359f244a5fc7db2/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f57616e676d65726c796e2f766962652d636f64696e672d736c61636b2d6e6f746966696572
+                      - text: "- Slack DM alerts for OpenCode task completion"
+                  - group [ref=f3e1037]:
+                    - generic "WakaTime - WakaTime integration" [ref=f3e1038] [cursor=pointer]:
+                      - text: WakaTime
+                      - link [ref=f3e1039]:
+                        - /url: https://camo.githubusercontent.com/e66a8c4a22ab6039b1cfbeea63253e0fc5bcf54850ef815eb359ccbbc9a586e7/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f616e6772697374616e2f6f70656e636f64652d77616b6174696d65
+                      - text: "- WakaTime integration"
+                  - group [ref=f3e1041]:
+                    - generic "Warcraft Notifications - Fun sound notifications" [ref=f3e1042] [cursor=pointer]:
+                      - text: Warcraft Notifications
+                      - link [ref=f3e1043]:
+                        - /url: https://camo.githubusercontent.com/c5d5e1cd00fff61b40a1c75d928de8505f9c947a3a297e6db6dda53b99324a7d/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f70616e7468656f6e2d6f72672f6f70656e636f64652d77617263726166742d6e6f74696669636174696f6e73
+                      - text: "- Fun sound notifications"
+                  - group [ref=f3e1045]:
+                    - generic "With Context MCP - Project-specific markdown notes" [ref=f3e1046] [cursor=pointer]:
+                      - text: With Context MCP
+                      - link [ref=f3e1047]:
+                        - /url: https://camo.githubusercontent.com/e90455268e7b63019e72a45ff59726bf4550cbc46d0f3dfa55f37fcfa692f9b2/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f626f78706f736974726f6e2f776974682d636f6e746578742d6d6370
+                      - text: "- Project-specific markdown notes"
+                  - group [ref=f3e1049]:
+                    - generic "Worktree Memory Sync - Auto-sync memory to git worktrees" [ref=f3e1050] [cursor=pointer]:
+                      - text: Worktree Memory Sync
+                      - link [ref=f3e1051]:
+                        - /url: https://camo.githubusercontent.com/a21822f0e5e9d6782e9e34c3c13f0da8988ffb75f525c6085b66f57b94cc45c1/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f456469736f6e2d412d4e2f6f70656e636f64652d776f726b747265652d6d656d6f72792d73796e63
+                      - text: "- Auto-sync memory to git worktrees"
+                  - group [ref=f3e1053]:
+                    - generic "Xberg - Local document extraction for 97+ formats" [ref=f3e1054] [cursor=pointer]:
+                      - text: Xberg
+                      - link [ref=f3e1055]:
+                        - /url: https://camo.githubusercontent.com/47a77083316c5d4d0336013c29bab86e7e280b80e201e72c024d2fc16170b868/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f78626572672d696f2f706c7567696e73
+                      - text: "- Local document extraction for 97+ formats"
+                  - group [ref=f3e1057]:
+                    - generic "Xquik - X/Twitter data skill & MCP server" [ref=f3e1058] [cursor=pointer]:
+                      - text: Xquik
+                      - link [ref=f3e1059]:
+                        - /url: https://camo.githubusercontent.com/85349e467b1b30835142cbb184645593cd4d00426335adb5d20565ad92d36058/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f587175696b2d6465762f782d747769747465722d73637261706572
+                      - text: "- X/Twitter data skill & MCP server"
+                  - group [ref=f3e1061]:
+                    - generic "Zellij Namer - Auto-rename Zellij sessions" [ref=f3e1062] [cursor=pointer]:
+                      - text: Zellij Namer
+                      - link [ref=f3e1063]:
+                        - /url: https://camo.githubusercontent.com/80656715fcf1429994f68a4584ec9561c467a1b36ed4ae8059ce4b808f561625/68747470733a2f2f62616467656e2e6e65742f6769746875622f73746172732f32343630312f6f70656e636f64652d7a656c6c696a2d6e616d6572
+                      - text: "- Auto-rename Zellij sessions"
+                  - link "➕ Add a Plugin via PR" [ref=f3e1065] [cursor=pointer]:
+                    - /url: https://github.com/awesome-opencode/awesome-opencode/blob/main/contributing.md
+                - group [ref=f3e1066]:
+                  - strong [ref=f3e1068] [cursor=pointer]: 🎨 THEMES
+                - group [ref=f3e1069]:
+                  - strong [ref=f3e1071] [cursor=pointer]: 🤖 AGENTS
+                - group [ref=f3e1072]:
+                  - strong [ref=f3e1074] [cursor=pointer]: 🛠 PROJECTS
+                - group [ref=f3e1075]:
+                  - strong [ref=f3e1077] [cursor=pointer]: 📚 RESOURCES
+                - paragraph [ref=f3e1078]
+                - generic [ref=f3e1079]:
+                  - generic [ref=f3e1080]:
+                    - heading "🤝 Contributing" [level=3] [ref=f3e1081]
+                    - 'link "Permalink: 🤝 Contributing" [ref=f3e1082] [cursor=pointer]':
+                      - /url: "#-contributing"
+                  - text: Found an Awesome Opencode project?
+                  - link "Submit a Pull Request" [ref=f3e1085] [cursor=pointer]:
+                    - /url: https://github.com/awesome-opencode/awesome-opencode/blob/main/contributing.md
+                  - text: to add it to the list!
+                  - subscript [ref=f3e1086]:
+                    - text: Released under
+                    - link "CC0 1.0 Universal" [ref=f3e1087] [cursor=pointer]:
+                      - /url: https://creativecommons.org/publicdomain/zero/1.0/
+                    - text: .
+        - generic [ref=f3e1091]:
+          - generic [ref=f3e1094]:
+            - heading "About" [level=2] [ref=f3e1095]
+            - paragraph [ref=f3e1096]:
+              - text: A curated list of awesome plugins, themes, agents, projects, and resources for
+              - link "https://opencode.ai" [ref=f3e1097] [cursor=pointer]:
+                - /url: https://opencode.ai
+            - heading "Resources" [level=3] [ref=f3e1098]
+            - link "Readme" [ref=f3e1100] [cursor=pointer]:
+              - /url: "#readme-ov-file"
+            - heading "License" [level=3] [ref=f3e1103]
+            - link "CC0-1.0 license" [ref=f3e1105] [cursor=pointer]:
+              - /url: "#CC0-1.0-1-ov-file"
+            - heading "Code of conduct" [level=3] [ref=f3e1108]
+            - link "Code of conduct" [ref=f3e1110] [cursor=pointer]:
+              - /url: "#coc-ov-file"
+            - heading "Contributing" [level=3] [ref=f3e1113]
+            - link "Contributing" [ref=f3e1115] [cursor=pointer]:
+              - /url: "#contributing-ov-file"
+            - link "Activity" [ref=f3e1119] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode/activity
+            - link "Custom properties" [ref=f3e1123] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode/custom-properties
+            - heading "Stars" [level=3] [ref=f3e1126]
+            - generic [ref=f3e1128]:
+              - strong [ref=f3e1131]: 9.1k
+              - text: stars
+            - heading "Watchers" [level=3] [ref=f3e1132]
+            - generic [ref=f3e1134]:
+              - strong [ref=f3e1137]: "67"
+              - text: watching
+            - heading "Forks" [level=3] [ref=f3e1138]
+            - link [ref=f3e1140] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode/forks
+              - strong [ref=f3e1143]: "667"
+              - text: forks
+            - link "Report repository" [ref=f3e1145] [cursor=pointer]:
+              - /url: /contact/report-content?content_url=https%3A%2F%2Fgithub.com%2Fawesome-opencode%2Fawesome-opencode&report=awesome-opencode+%28user%29
+          - generic [ref=f3e1147]:
+            - heading [level=2] [ref=f3e1148]:
+              - link "Releases" [ref=f3e1149] [cursor=pointer]:
+                - /url: /awesome-opencode/awesome-opencode/releases
+            - generic [ref=f3e1150]: No releases published
+          - generic [ref=f3e1152]:
+            - heading [level=2] [ref=f3e1153]:
+              - link "Packages" [ref=f3e1154] [cursor=pointer]:
+                - /url: /orgs/awesome-opencode/packages?repo_name=awesome-opencode
+            - generic [ref=f3e1155]: No packages published
+          - generic [ref=f3e1157]:
+            - heading [level=2] [ref=f3e1158]:
+              - link "Contributors 143" [ref=f3e1159] [cursor=pointer]:
+                - /url: /awesome-opencode/awesome-opencode/graphs/contributors
+                - text: Contributors
+                - generic "143" [ref=f3e1160]
+            - list [ref=f3e1161]:
+              - listitem [ref=f3e1162]:
+                - link [ref=f3e1163] [cursor=pointer]:
+                  - /url: https://github.com/ShamanicArts
+                  - img "@ShamanicArts" [ref=f3e1164]
+              - listitem [ref=f3e1165]:
+                - link [ref=f3e1166] [cursor=pointer]:
+                  - /url: https://github.com/apps/github-actions
+                  - img "@github-actions[bot]" [ref=f3e1167]
+              - listitem [ref=f3e1168]:
+                - link [ref=f3e1169] [cursor=pointer]:
+                  - /url: https://github.com/rhighs
+                  - img "@rhighs" [ref=f3e1170]
+              - listitem [ref=f3e1171]:
+                - link [ref=f3e1172] [cursor=pointer]:
+                  - /url: https://github.com/ahosker
+                  - img "@ahosker" [ref=f3e1173]
+              - listitem [ref=f3e1174]:
+                - link [ref=f3e1175] [cursor=pointer]:
+                  - /url: https://github.com/claude
+                  - img "@claude" [ref=f3e1176]
+              - listitem [ref=f3e1177]:
+                - link [ref=f3e1178] [cursor=pointer]:
+                  - /url: https://github.com/shuv1337
+                  - img "@shuv1337" [ref=f3e1179]
+              - listitem [ref=f3e1180]:
+                - link [ref=f3e1181] [cursor=pointer]:
+                  - /url: https://github.com/spoons-and-mirrors
+                  - img "@spoons-and-mirrors" [ref=f3e1182]
+              - listitem [ref=f3e1183]:
+                - link [ref=f3e1184] [cursor=pointer]:
+                  - /url: https://github.com/apps/copilot-swe-agent
+                  - img "@Copilot" [ref=f3e1185]
+              - listitem [ref=f3e1186]:
+                - link [ref=f3e1187] [cursor=pointer]:
+                  - /url: https://github.com/JRedeker
+                  - img "@JRedeker" [ref=f3e1188]
+              - listitem [ref=f3e1189]:
+                - link [ref=f3e1190] [cursor=pointer]:
+                  - /url: https://github.com/liujuanjuan1984
+                  - img "@liujuanjuan1984" [ref=f3e1191]
+              - listitem [ref=f3e1192]:
+                - link [ref=f3e1193] [cursor=pointer]:
+                  - /url: https://github.com/JungHoonGhae
+                  - img "@JungHoonGhae" [ref=f3e1194]
+              - listitem [ref=f3e1195]:
+                - link [ref=f3e1196] [cursor=pointer]:
+                  - /url: https://github.com/amrahman90
+                  - img "@amrahman90" [ref=f3e1197]
+              - listitem [ref=f3e1198]:
+                - link [ref=f3e1199] [cursor=pointer]:
+                  - /url: https://github.com/Howardzhangdqs
+                  - img "@Howardzhangdqs" [ref=f3e1200]
+              - listitem [ref=f3e1201]:
+                - link [ref=f3e1202] [cursor=pointer]:
+                  - /url: https://github.com/vtemian
+                  - img "@vtemian" [ref=f3e1203]
+            - link "+ 129 contributors" [ref=f3e1205] [cursor=pointer]:
+              - /url: /awesome-opencode/awesome-opencode/graphs/contributors
+          - generic [ref=f3e1207]:
+            - heading "Languages" [level=2] [ref=f3e1208]
+            - list [ref=f3e1212]:
+              - listitem [ref=f3e1213]:
+                - link "JavaScript 100.0%" [ref=f3e1214] [cursor=pointer]:
+                  - /url: /awesome-opencode/awesome-opencode/search?l=javascript
+                  - generic [ref=f3e1217]: JavaScript
+                  - generic [ref=f3e1218]: 100.0%
+  - contentinfo [ref=f3e1220]:
+    - heading "Footer" [level=2] [ref=f3e1221]
+    - generic [ref=f3e1222]:
+      - generic [ref=f3e1223]:
+        - link "GitHub Homepage" [ref=f3e1224] [cursor=pointer]:
+          - /url: https://github.com
+        - generic [ref=f3e1227]: © 2026 GitHub, Inc.
+      - navigation "Footer" [ref=f3e1228]:
+        - heading "Footer navigation" [level=3] [ref=f3e1229]
+        - list "Footer navigation" [ref=f3e1230]:
+          - listitem [ref=f3e1231]:
+            - link "Terms" [ref=f3e1232] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+          - listitem [ref=f3e1233]:
+            - link "Privacy" [ref=f3e1234] [cursor=pointer]:
+              - /url: https://docs.github.com/site-policy/privacy-policies/github-privacy-statement
+          - listitem [ref=f3e1235]:
+            - link "Security" [ref=f3e1236] [cursor=pointer]:
+              - /url: https://github.com/security
+          - listitem [ref=f3e1237]:
+            - link "Status" [ref=f3e1238] [cursor=pointer]:
+              - /url: https://www.githubstatus.com/
+          - listitem [ref=f3e1239]:
+            - link "Community" [ref=f3e1240] [cursor=pointer]:
+              - /url: https://github.community/
+          - listitem [ref=f3e1241]:
+            - link "Docs" [ref=f3e1242] [cursor=pointer]:
+              - /url: https://docs.github.com/
+          - listitem [ref=f3e1243]:
+            - link "Contact" [ref=f3e1244] [cursor=pointer]:
+              - /url: https://support.github.com?tags=dotcom-footer
+          - listitem [ref=f3e1245]:
+            - button "Manage cookies" [ref=f3e1247] [cursor=pointer]
+          - listitem [ref=f3e1248]:
+            - button "Do not share my personal information" [ref=f3e1250] [cursor=pointer]

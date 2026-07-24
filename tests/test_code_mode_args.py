@@ -18,9 +18,7 @@ SCRIPTS_DIR = ROOT / ".pantheon" / "code-mode"
 # A tiny script that echoes its forwarded argv so the test can assert the
 # args actually reached the subprocess.
 ECHO_SCRIPT = (
-    "#!/usr/bin/env python3\n"
-    "import sys\n"
-    "print('ARGV:' + ' '.join(sys.argv[1:]))\n"
+    "#!/usr/bin/env python3\nimport sys\nprint('ARGV:' + ' '.join(sys.argv[1:]))\n"
 )
 
 

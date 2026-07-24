@@ -30,9 +30,9 @@ SCRIPT_TIMEOUT: int = 30
 
 # ── Scripts Directory Resolution ─────────────────────────────────────────────
 # Priority:
-# 1. $PANTHEON_HOME/.pantheon/code-mode/   (global install)
-# 2. $PANTHEON_PROJECT/.opencode/.pantheon/code-mode/  (project install)
-# 3. $PANTHEON_PROJECT/.pantheon/code-mode/            (legacy fallback)
+# 1. /.opencode/.pantheon/code-mode/  (project install)
+# 2. /.pantheon/code-mode/            (legacy fallback)
+# 3. /.pantheon/code-mode/               (global fallback)
 _PANTHEON_HOME: Path = pantheon_home()
 _SCRIPTS_DIR_CANDIDATES: list[Path] = []
 _proj = pantheon_project()
