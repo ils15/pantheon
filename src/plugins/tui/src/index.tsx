@@ -14,6 +14,7 @@ const CMDS = [
   '/pantheon-bg', '/pantheon-deepwork', '/pantheon-focus',
   '/pantheon-optimize', '/pantheon-doc',
   '/pantheon-remember', '/pantheon-search', '/pantheon-forget',
+  '/pantheon-consolidate', '/pantheon-todo', '/pantheon-hash',
 ] as const
 
 function PantheonPanel(props: { api: TuiPluginApi; version: string }): JSX.Element {
