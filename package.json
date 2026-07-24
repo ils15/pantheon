@@ -1,7 +1,7 @@
 {
   "name": "pantheon-orchestrator",
   "version": "1.0.9",
-  "description": "Multi-agent orchestration platform with 14 specialized agents, 40 skills, TDD enforcement, RAG pipelines, and opencode-native deployment.",
+  "description": "Multi-agent orchestration platform with 14 specialized agents, 14 skills, TDD enforcement, RAG pipelines, and opencode-native deployment.",
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

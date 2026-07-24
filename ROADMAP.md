@@ -1,233 +1,234 @@
 # 🗺️ Pantheon Roadmap
 
-> **Last updated:** v4.0-dev (2026-07-22)
+> **Last updated:** v5.0-dev (2026-07-24)
 >
-> Roadmap atualizado com base em pesquisa competitiva do ecossistema
-> awesome-opencode, análise do OpenCode v1.18, e decisões alinhadas com o usuário.
+> Roadmap atualizado com base em pesquisa do ecossistema awesome-opencode.
+> Sem referências a concorrentes. Foco no que Pantheon já tem e no que falta.
 
 ---
 
-## ✅ v3.19.3 — Atual (Julho 2026)
+## ✅ v5.0-dev — Em desenvolvimento (Julho 2026)
 
 ### Entregue desde v3.14.0
 
 | Versão | O que foi entregue |
 |--------|-------------------|
-| **v3.15.0** | Memory MCP com sqlite-vec + fastembed (substituiu ChromaDB, ~50MB vs ~1.4GB) |
-| **v3.16.0** | Level 2 Context Compression, agent frontmatter cleanup, sync engine |
-| **v3.17.0** | MCP Resources Server (pantheon:// URIs), Code Mode Server |
-| **v3.18.0** | Themis formal review gate, routing.yml com handoffs, reasoning effort por agente |
-| **v3.19.0** | Memory Persistence Protocol, ADR-006, doc audit, 44 skills |
-| **v3.19.1-3** | Patches: sync engine fixes, opencode.json tuning |
+| **v3.15.0** | Memory MCP com sqlite-vec + fastembed |
+| **v3.16.0** | Level 2 Context Compression, sync engine |
+| **v3.17.0** | MCP Resources Server, Code Mode Server |
+| **v3.18.0** | Themis review gate, routing.yml, reasoning effort |
+| **v3.19.0** | Memory Persistence Protocol, ADR-006, 14 skills |
 
 ---
 
-## 🔜 v4.0 — Próximo Release
-
-**Tema:** Comandos consolidados, qualidade implacável, distribuição npm, background agents.
+## 🔜 v5.0 — Próximos Sprints
 
 ### Sprint 1 ✅ — Memory Commands & Limpeza (Concluído)
 
 | Item | Status |
 |------|--------|
-| `/pantheon-remember` — memory_store + recall interativo | ✅ |
-| `/pantheon-search` — memory_search com filtros | ✅ |
-| `/pantheon-consolidate` — merge de duplicatas | ✅ |
-| `/pantheon-forget` — range compression | ✅ |
-| Consolidar 23→14 comandos (todos `/pantheon-*`) | ✅ |
+| `/pantheon-remember`, `/pantheon-search`, `/pantheon-consolidate`, `/pantheon-forget` | ✅ |
+| Consolidar 23→14 comandos `/pantheon-*` | ✅ |
 | Remover 9 comandos obsoletos | ✅ |
-| `/pantheon-optimize` melhorado (archive + cache + dry-run) | ✅ |
-| Deepwork archive (20→9 ativos, 7 arquivados, 4 deletados) | ✅ |
-| Sync engine consertado (spawnSync import faltando) | ✅ |
-| MCP servers corrigidos (FastMCP description→instructions) | ✅ |
-| ROADMAP.md reescrito com análise competitiva | ✅ |
-| Research awesome-opencode (OMO, OMO-slim, weisser-dev) | ✅ |
-| Research OpenCode v1.18 (subagent_depth, auto-compact) | ✅ |
+| `/pantheon-optimize` (archive + cache + dry-run) | ✅ |
+| Deepwork archive (20→9 ativos) | ✅ |
+| Sync engine, MCP servers, ROADMAP.md, research | ✅ |
 
-### Sprint 2 🔜 — NPM + CLI Installer (3-5d)
-
-**Prioridade #1 — Adoção.** OMO (25.3k+ downloads npm) e weisser-dev provaram que npm publish é o que move adoção.
+### Sprint 2 — NPM + CLI Installer (3-5d)
 
 ```
 @pantheon/cli (npm)
-├── npx pantheon init          → detecta plataforma, copia configs, setup MCPs
-├── npx pantheon update        → sync latest agents/skills/commands
-├── npx pantheon doctor        → valida instalação, corrige problemas
-├── npx pantheon status        → versão + agentes carregados
-└── TUI interativo de setup    → perguntas → config (weisser-dev style)
-
-Plugin OpenCode oficial
-├── contributes.agents → 14 agentes
-├── contributes.skills → 44 skills (on-demand)
-├── contributes.commands → 14 comandos /pantheon-*
-└── contributes.mcpServers → memory + resources + code-mode
+├── npx pantheon init / update / doctor / status
+├── TUI interativo de setup
+└── Plugin OpenCode: 14 agentes + 14 skills + 14 comandos + 3 MCPs
 ```
 
-### Sprint 3 🔜 — Themis 2.0 + IntentGate (4-5d)
-
-**Diferencial competitivo mais forte.** Nenhum concorrente tem revisão de qualidade real. Enquanto OMO e weisser competem em número de agentes, a gente compete em qualidade de entrega.
+### Sprint 3 — Themis 2.0 + IntentGate (4-5d) 🚧 Já planejado
 
 ```
-Layer 1 — Heuristic Scanner (zero LLM, pré-commit)
-├── Anti-pattern scanner: 50+ padrões de IA slop
-│   ├── Comentários óbvios ("// This function increments x")
-│   ├── Boilerplate genérico, nomes placeholder
-│   ├── Error handling genérico ("except: pass")
-│   └── Código morto detectado por ruff (F401, F841)
-│
+Layer 1 — Heuristic Scanner (zero LLM)
+├── 50+ anti-patterns de IA slop
 ├── Hash-anchored edit verification
-│   ├── Antes: hash do arquivo
-│   ├── Depois: compara hash + diff mínimo esperado
-│   └── Se não mudou → edição falhou (retry)
-│
-├── Ruff + Biome + coverage delta → tudo 0 tokens, <2s
-└── Score consolidado (0-100) → blocking? sim/não
+├── ruff + Biome + coverage delta (<2s, zero tokens)
+└── Score 0-100 + blocking?
 
-Layer 2 — Themis Review Otimizado (LLM leve, ~500 tokens)
+Layer 2 — Themis Review (LLM leve, ~500 tokens)
 ├── Só roda se Layer 1 passar
-├── Prompt minimalista com confidence score por arquivo
-└── Regression prediction (diff analysis)
+├── Confidence score por arquivo
+└── Regression prediction
 
-Layer 3 — Verification Planning (pré-mudança)
-├── Antes de mudanças complexas (N>5 files)
-├── Themis sugere: "Para mudar X, preciso verificar Y"
-└── Executa verificações automaticamente
+Layer 3 — Verification Planning
+├── Pré-análise para mudanças N>5 files
+└── Themis sugere + executa verificações
 
-IntentGate Heurístico (zero LLM)
-├── routing.yml: classifica request antes de delegar
-├── "bug|error|crash" → FIX
-├── "how|what|compare" → RESEARCH/INVESTIGATE
-├── "plan|architecture" → PLAN
-├── "implement|create|add" → IMPLEMENT
-└── fallback → IMPLEMENT
+IntentGate: routing.yml classifica request antes de delegar (regex, zero LLM)
 ```
 
-### Sprint 4 🔜 — Background Agents + Qualidade (4-6d)
-
-**Nota:** OpenCode v1.18.2 (Jul 2026) introduziu `subagent_depth` — subagentes não lançam subagentes aninhados por padrão. Pantheon deve respeitar `subagent_depth: 2` (Zeus → Hermes, mas Hermes não → sub-sub-agent).
+### Sprint 4 — Background Agents + Full-Auto (4-6d) 🚧 Já planejado
 
 ```
-├── Background agents first-class
-│   ├── Paralelo real: dispatch 5+ agents simultaneamente
-│   ├── Scheduler nativo do OpenCode v1.16.2+
-│   ├── Respeitar subagent_depth: 2 (OpenCode v1.18.2)
-│   └── Sem polling — push notification
-│
-├── TODO Enforcer
-│   ├── Se agente ficar ocioso >N turns → força continuar
-│   ├── Não para até tarefa completar
-│   └── Idle detection + retry automático
-│
-├── Hash-anchored edits (validação de edição)
-│
-└── /pantheon-deepwork --full-auto
-    ├── Modo autônomo: assume aprovado em gates
-    └── Equivalente ao "ultrawork" do OMO
+├── Background agents first-class (parallel dispatch, push notification)
+├── TODO Enforcer (idle detection, retry automático)
+├── Hash-anchored edits
+├── /pantheon-deepwork --full-auto (modo autônomo, gates automáticos)
+└── Respeitar subagent_depth: 2
 ```
 
-### Sprint 5 🔜 — Pruning + Cache + Memory (3-4d)
-
-**Nota:** OpenCode v1.18 tem `auto-compact` nativo — compressão automática de histórico quando bate no limite de contexto. Pantheon deve integrar com isso, não duplicar.
+### Sprint 5 — Pruning + Cache + Memory (3-4d) 🚧 Já planejado
 
 ```
-├── Tool Output Pruning (Level 2 Compression v2)
-│   ├── Poda outputs obsoletos do histórico (>5 turns)
-│   ├── Relevance scoring por idade/tamanho/tipo
-│   ├── Auto-tagging de relevância
-│   └── Integrar com auto-compact do OpenCode (não recompactar)
-│
-├── Memory recall tuning
-│   ├── Importance scoring (0.0-1.0) por entrada
-│   ├── Anti-junk filter aprimorado
-│   └── memory_search com reranking
-│
+├── Tool output pruning (relevance scoring, auto-tagging)
+├── Memory importance scoring + decay (entradas velhas perdem peso)
+├── memory_search reranking
+├── Anti-junk filter (threshold 0.4)
 └── /pantheon-optimize --cache
-    ├── Script memory-cache.py
-    ├── Lê memory-bank flat files → memory_store() no MCP
-    └── Archive opcional dos originais
 ```
 
-### Contínuo — Memory & Qualidade (sem sprint dedicado)
+### Sprint 6 — YAGNI + Code Reuse (2-3d) 🚧 Já planejado
 
-Melhorias incrementais na memory ao longo de todos os sprints:
-
-| Item | Quando |
-|------|--------|
-| Memory recall tuning (top_k dinâmico, score threshold) | Contínuo |
-| memory_search reranking (cross-encoder leve) | Sprint 5 |
-| Importância decay (entradas velhas perdem peso) | Sprint 5 |
-| memory_consolidate automático semanal | Pós-v4.0 |
+```
+├── Escada YAGNI no Zeus (antes de cada delegação)
+├── Anti-overengineering no Themis (10+ padrões)
+└── Consulta ao codebase antes de implementar
+```
 
 ---
 
-## 📊 Comparação Competitiva
+## 🆕 v5.0+ — Novos Sprints (Pesquisa Community-Informed)
 
-| Feature | Pantheon v4.0 | Oh My OpenCode | weisser-dev | OMO-slim |
-|---------|---------------|----------------|-------------|----------|
-| **Plataformas** | 7 | 2 | 1 | 1 |
-| **Agentes** | 14 | 11 | 108 | 7 |
-| **Skills** | 44 | ~8 | 15 | 8 |
-| **TDD enforcement** | ✅ | ❌ | ❌ | ❌ |
-| **Themis review gate** | ✅ | ❌ | ❌ | ❌ |
-| **npm publish** | 🔜 Sprint 2 | ✅ | ✅ | ✅ |
-| **Memory MCP** | ✅ | básico | ❌ | ❌ |
-| **Background agents** | 🔜 Sprint 4 | ✅ | ❌ | ✅ |
-| **AI Slop detection** | 🔜 Sprint 3 | comment checker | ❌ | ❌ |
-| **Multi-model** | ❌ (deliberado) | council | ❌ | council |
-| **subagent_depth limit** | 🔜 Sprint 4 | configurável | ❌ | configurável |
-| **Auto-compact nativo** | integração 🔜 S5 | nativo OpenCode | nativo | nativo |
+**Baseado em pesquisa do ecossistema awesome-opencode (9k⭐, 300+ plugins)
+por 5 agentes — 2.717 linhas de análise.**
+
+### Sprint 7 — Background Architecture (4-6d)
+
+*Expande Sprint 4: runtime → API formal de desenvolvedor.*
+
+```
+├── Delegate/Read/List 3-Tool API
+│   ├── delegate(prompt, agent?) → task_id
+│   ├── delegation_read(id) → result
+│   └── delegation_list() → tasks[]
+├── Read-only background enforcement (edit=deny, write=deny)
+├── 15-min timeout + persistence before notification
+├── Compaction-aware context (experimental.session.compacting hook)
+└── Auth interceptor: plugin hook para providers + multi-account rotation
+```
+
+### Sprint 8 — Community Integration (3-5d)
+
+```
+├── awesome-opencode listing
+├── Plugin template repo (pantheon-org/plugin-template)
+├── Publicar agentes como templates (canais comunitários)
+├── Cross-orchestrator adapters
+├── Skill registry leve (YAML catalog + npx pantheon install)
+└── Plugin API contract documentado
+```
+
+### Sprint 9 — Dashboard UX (4-6d)
+
+```
+├── Token/cost tracking widget (footer: last + total, per-agent)
+├── Agent status summary (idle/working/blocked/complete)
+├── Multi-channel notifications (OS + push + webhook)
+└── Accessibility mode (emoji→ASCII, reduced animation, high contrast)
+```
+
+### Sprint 10 — Memory 2.0 (5-8d)
+
+*Expande Sprint 5: importância estática → sistema dinâmico.*
+
+```
+├── Confidence/decay system (boost no acesso, decay diário, archive <0.2)
+├── Agent self-editable memory (memory_write, memory_forget tools)
+├── Memory feedback tool (reforça/penaliza por score)
+├── Security scanner em memory_store (detecta secrets antes de persistir)
+├── Auto-deduplication (fuzzy matching + merge)
+└── Cross-project memory (global namespace + TTL longo)
+```
+
+### Sprint 11 — Themis 2.5: Safety (5-7d)
+
+*Expande Sprint 3: código → governança.*
+
+```
+├── Agent contract registry (allowed/forbidden per agent, YAML + Zod)
+├── Step confirmation hooks (pause a cada N tool calls)
+├── Output redaction (API keys, tokens, 74+ patterns)
+└── Regression prediction from diff
+```
+
+### Sprint 12 — Multi-Model Routing (3-5d)
+
+```
+├── Tier 1 (cheap): exploração → flash/haiku
+├── Tier 2 (balanced): implementação → sonnet/gpt-4o
+└── Auto-select baseado na tarefa
+```
+
+### Sprint 13 — Stabilization (3-5d)
+
+`Buffer: integração, documentação, performance, tech debt.`
 
 ---
 
-## 🧠 Decisões de Arquitetura (v4.0)
+## 🧠 Decisões de Arquitetura (v5.x)
 
-1. **Sem multi-model council** — Custo alto, benefício nicho. Foco em qualidade (Themis 2.0) em vez de quantidade de modelos.
-2. **Sem "ultrawork" keyword** — `/pantheon-deepwork --full-auto` já cobre o caso de uso sem criar jargão novo.
-3. **IntentGate heurístico** — Zero LLM, zero latência. Regex no routing.yml em vez de chamada de modelo. OMO gasta tokens pra classificar; a gente não.
-4. **Themis 2.0 é o diferencial real** — Nenhum concorrente tem gate de qualidade. Enquanto eles competem em número de agentes, a gente compete em qualidade de entrega.
-5. **npm primeiro** — Sem adoção, não importa o quão bom é o produto.
-6. **Integrar com OpenCode, não competir** — OpenCode v1.18 já tem auto-compact, subagent_depth, background dispatch. A gente usa e estende, não recria.
-7. **subagent_depth: 2** — Zeus → Especialista, nunca Especialista → sub-sub. Respeita limite do OpenCode v1.18.2.
-8. **Memory improvements contínuos** — Memory não é sprint único, é melhoria contínua.
-
----
-
-## 🔬 Referências da Pesquisa
-
-| Fonte | Insights |
-|-------|----------|
-| [awesome-opencode/awesome-opencode](https://github.com/awesome-opencode/awesome-opencode) | Lista curada central do ecossistema |
-| [weisser-dev/awesome-opencode](https://github.com/weisser-dev/awesome-opencode) | 108 agentes, CLI interativo, Docker sandbox |
-| [opensoft/oh-my-opencode](https://github.com/opensoft/oh-my-opencode) | Sisyphus orchestrator, background agents, LSP |
-| [alvinunreal/oh-my-opencode-slim](https://github.com/alvinunreal/oh-my-opencode-slim) | 7 agentes, council, verification-planning skill |
-| [code-yeongyu/oh-my-openagent](https://github.com/code-yeongyu/oh-my-openagent) | 11 agentes, 54 hooks, ultrawork, IntentGate |
-| [OpenCode v1.18 Changelog](https://opencode.ai/changelog) | subagent_depth, auto-compact, Desktop v2 |
-| [OpenCode Context Management](https://deepwiki.com/sst/opencode/2.4-context-management-and-compaction) | Auto-compact, overflow detection, tool output pruning |
+1. **IntentGate heurístico** — Zero LLM, regex no routing.yml.
+2. **Themis é o diferencial** — Gate de qualidade multi-camada.
+3. **npm primeiro** — Sem adoção, não importa o quão bom é.
+4. **Integrar com OpenCode, não competir** — Usar APIs nativas.
+5. **subagent_depth: 2** — Zeus → Especialista, nunca sub-sub.
+6. **Memory contínuo** — Confidence decay, agent-writable, auto-dedup.
+7. **Background first-class** — Delegate/read/list API.
+8. **Sem Rego/OPA por enquanto** — JSON/YAML + Zod é suficiente.
+9. **Acessibilidade como diferencial** — Ninguém resolve isso em terminal.
+10. **Sem tmux isolation** — Git worktree basta, menos complexidade.
 
 ---
 
-## Como Contribuir
+## 📈 Métricas de Sucesso
 
-### Prioridades definidas por:
-
-1. **Issues** com label `roadmap`
-2. **Votação** nas issues existentes
-3. **PRs** com a mudança desejada
-
-### Release cadence
-
-| Tipo | Frequência | Exemplo |
-|------|-----------|---------|
-| Major | A cada 3-6 meses | v4.0.0 |
-| Minor | 1-2 meses | v4.1.0 |
-| Patch | Imediato para fixes críticos | v4.0.1 |
+| Métrica | Atual | v5.0 Target |
+|---------|-------|-------------|
+| **npm downloads** | 0 | 500/mo |
+| **awesome-opencode listed** | ❌ | ✅ |
+| **GitHub stars** | — | 500+ |
+| **Community plugins** | 0 | 5+ |
+| **Themis patterns** | 20 | 50+ |
+| **Tests** | ~50 | 200+ |
+| **Coverage** | ~60% | >80% |
 
 ---
 
-## Changelog do Roadmap
+## 🔬 Fontes da Pesquisa
+
+### Deepwork Session: roadmap-v4-community
+5 agentes, 2.717 linhas de análise:
+
+| Agente | Relatório | Foco |
+|--------|-----------|------|
+| 🛸 Apollo | DISCOVERY-APOLLO.md | Mapeamento do ecossistema |
+| 🏛 Hermes | DISCOVERY-HERMES.md | Backend e infraestrutura |
+| 🎨 Aphrodite | DISCOVERY-APHRODITE.md | UX e frontend |
+| 🌾 Demeter | DISCOVERY-DEMETER.md | Memória e dados |
+| ⚖️ Themis | DISCOVERY-THEMIS.md | Segurança e governança |
+
+### Repositórios de Referência
+- [awesome-opencode/awesome-opencode](https://github.com/awesome-opencode/awesome-opencode)
+- [smc2315/harness-memory](https://github.com/smc2315/harness-memory)
+- [xenitV1/lemma](https://github.com/xenitV1/lemma)
+- [kdcokenny/opencode-background-agents](https://github.com/kdcokenny/opencode-background-agents)
+
+---
+
+## Changelog
 
 | Data | Mudança |
 |------|---------|
-| 2026-07-22 v2 | Adicionado: OpenCode v1.18 insights (subagent_depth, auto-compact), memory improvements contínuos, referências da pesquisa, decisão de arquitetura #6-8 |
-| 2026-07-22 v1 | Roadmap reescrito para v4.0 com 4 sprints, análise competitiva |
-| 2026-06-20 | Última atualização v3.14.0 |
+| 2026-07-24 v6 | **Cleanup:** removidas referências a concorrentes, tabela competitiva removida. Sprints reorganizados: S6 (YAGNI) reconhecido como já planejado, S4 full-auto = modo autônomo, S5 decay já existe. Novos sprints (S7-S13) são expansões do que já existe, não features do zero. |
+| 2026-07-24 v5 | Corrigido para v5.0. Revisão Themis aplicada. |
+| 2026-07-24 v4 | Pesquisa comunitária. 6 novos sprints. |
+| 2026-07-22 v3 | OpenCode v1.18 insights |
+| 2026-07-22 v2 | Roadmap reescrito |
+| 2026-06-20 | Última v3.14.0 |

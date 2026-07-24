@@ -177,3 +177,33 @@ Zeus (nivel 0) -> Apollo/Hermes (nivel 1) -> sub-subagente (nivel 2 max).
 - Context compression: `skill: context-compression`
 - Env var: `OPENCODE_EXPERIMENTAL_BACKGROUND_SUBAGENTS=true`
 - Guards: `instructions/zeus-timeout-retry.instructions.md`
+
+## TODO Enforcer (Auto-Retry)
+
+**Se um agente delegado falhar ou travar, recupere automaticamente.**
+
+### Idle Detection
+```
+Apos task_status(wait=true), verifique:
+  result.state == "error" ou timeout?
+    SIM → retry 1x com prompt rephrased (diferente, mais especifico)
+    Ainda erro → escalate: "Agente X falhou 2x. Opcoes: (a) tentar outro, (b) simplificar, (c) pular"
+```
+
+### Regras
+- **1 retry automatico** — 2a falha = escalate, nao loop infinito
+- **Rephrase o prompt** — nao mande o mesmo texto. Mais especifico, menos escopo
+- **Timeout** — sempre `timeout_ms=120000` em task_status(). Pesquisa leva tempo
+- **Stall** — 3+ turns sem progresso util? Troque de agente ou abordagem
+
+### Waves com Retry
+```
+Wave: dispare N, colete com tolerancia a falha
+  ids = [task(bg, a1, p1).task_id, task(bg, a2, p2).task_id]
+  for id in ids:
+    try:
+      r = task_status(id, wait=true, timeout_ms=120000)
+      if r.state == "error": r = retry(agente, prompt_alternativo)
+    catch:
+      r = retry(agente, prompt_alternativo)
+```

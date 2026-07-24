@@ -13,11 +13,27 @@ function printUsage() {
   console.log('Pantheon Orchestrator — Multi-agent orchestration platform');
   console.log('');
   console.log('Usage:');
-  console.log('  npx pantheon-orchestrator init           # Install everything globally');
-  console.log('  npx pantheon-orchestrator init --project # Install in project (.opencode/)');
-  console.log('  npx pantheon-orchestrator init --dry-run # Preview without writing');
-  console.log('  npx pantheon-orchestrator init --no-mcp  # Skip MCP + venv (agents only)');
-  console.log('  npx pantheon-orchestrator --help         # Show this help');
+  console.log('  npx pantheon-orchestrator init              # Install everything globally');
+  console.log('  npx pantheon-orchestrator init --project    # Install in project (.opencode/)');
+  console.log('  npx pantheon-orchestrator init --dry-run    # Preview without writing');
+  console.log('  npx pantheon-orchestrator init --no-mcp     # Skip MCP + venv (agents only)');
+  console.log('  npx pantheon-orchestrator init --force      # Force reinstall (even if exists)');
+  console.log('  npx pantheon-orchestrator --help            # Show this help');
+}
+
+function getAgentList() {
+  const agentsDir = path.resolve(ROOT, 'src', 'agents');
+  if (!fs.existsSync(agentsDir)) return [];
+  return fs.readdirSync(agentsDir)
+    .filter(f => f.endsWith('.md') && f !== 'README.md')
+    .map(f => f.replace('.md', ''));
+}
+
+function updateNpxCache() {
+  // Clear npx cache so next run uses latest
+  try {
+    execSync('npx clear-npx-cache 2>/dev/null || npm cache clean --force 2>/dev/null', { stdio: 'ignore' });
+  } catch (_) { /* best effort */ }
 }
 
 async function main() {
@@ -30,18 +46,24 @@ async function main() {
     const isProject = args.includes('--project');
     const isDryRun = args.includes('--dry-run');
     const skipMCP = args.includes('--no-mcp');
+    const forceReinstall = args.includes('--force');
     const base = isProject
       ? path.join(process.cwd(), '.opencode')
       : CFG;
 
+    // Clear cache when --force
+    if (forceReinstall) updateNpxCache();
+
     console.log(`Pantheon Orchestrator — ${isDryRun ? 'DRY RUN' : 'Installing...'}`);
+    if (forceReinstall && !isDryRun) console.log('  🔄 Force reinstall — overwriting existing files');
     console.log(`Target: ${base}${isProject ? ' (project-local)' : ' (global)'}`);
     console.log('');
 
     // 1. Agents (14 files)
     console.log('  Agents:');
+    const agentList = getAgentList();
     let count = 0;
-    for (const agent of FILES.agents.list) {
+    for (const agent of agentList) {
       const s = path.join(ROOT, 'src', 'agents', `${agent}.md`);
       const d = path.join(base, 'agents', `${agent}.md`);
       if (fs.existsSync(s)) {
@@ -54,7 +76,7 @@ async function main() {
     }
     console.log(`    ${count} agent files → ${isDryRun ? '(preview)' : `${base}/agents/`}`);
 
-    // 2. Skills (14 directories)
+    // 2. Skills
     console.log('  Skills:');
     const skillsSrc = path.resolve(ROOT, 'src', 'skills');
     if (fs.existsSync(skillsSrc)) {
@@ -103,7 +125,6 @@ async function main() {
     if (fs.existsSync(tuiSrc)) {
       if (!isDryRun) {
         fs.cpSync(tuiSrc, path.join(base, 'plugins', 'pantheon-tui'), { recursive: true, force: true });
-        // Update tui.json
         const tuiJson = path.join(base, 'tui.json');
         const tuiConfig = { $schema: 'https://opencode.ai/tui.json', plugin: ['plugins/pantheon-tui'] };
         fs.writeFileSync(tuiJson, JSON.stringify(tuiConfig, null, 2));

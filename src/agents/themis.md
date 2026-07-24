@@ -66,6 +66,45 @@ IntentGate evita revisar codigo que resolve o problema errado.
 
 ## 3-Layer Review System
 
+## Verificação Pós-Delegação (Layer 1.5)
+
+**Depois da implementação, antes do review técnico: verifique se o resultado resolve o problema original.**
+
+### Quando usar
+Sempre que Themis for chamado para revisar código que implementa uma feature. Não se aplica a hotfix/typo (Layer 1 only).
+
+### Como fazer
+```
+1. Leia o prompt/requisito original (via memory_search ou no contexto da chamada)
+2. Extraia a intencao principal em 1 frase
+3. Examine o codigo implementado:
+   - O problema foi resolvido? (sim/não/parcialmente)
+   - Existe código que não contribui para a solução? (YAGNI violation)
+   - Faltam casos de borda que o requisito mencionava?
+4. Se nao resolveu → BLOCK com:
+   "Pós-delegação FAIL: requisito era X, implementação faz Y, falta Z"
+5. Se resolveu parcialmente → PASS_WITH_NOTES listando o que falta
+6. Se resolveu → proceed para Layer 1 (review técnico normal)
+```
+
+### Diferença do IntentGate
+- **IntentGate** (antes): "o plano de implementação está correto?"
+- **Pós-delegação** (depois): "o código entregue resolve o problema?"
+
+### Output
+Adicione ao JSON de saída:
+```json
+{
+  "post_delegation": {
+    "pass": true/false,
+    "original_request": "o que foi pedido",
+    "what_was_built": "o que foi implementado",
+    "gap": "o que falta, se aplicavel"
+  }
+}
+```
+
+
 ### Layer 1: Surface (Sempre)
 
 Verificacoes rapidas de estilo e sanidade:
@@ -106,11 +145,11 @@ Tempo estimado: ~60% do esforco de review
 
 ### Quando pular layers
 
-- Hotfix/typo: so Layer 1
-- Refactor pequeno: Layer 1 + 2
-- Feature nova ou redesign: todas as 3 layers
-- Bug fix com 1 linha: so Layer 1
-- Pull request de 50+ arquivos: no minimo Layer 1 + 2
+- Hotfix/typo: so Layer 1.5 + Layer 1
+- Refactor pequeno: Layer 1.5 + Layer 1 + 2
+- Feature nova ou redesign: todas (Layer 1.5 + Layer 1 + 2 + 3)
+- Bug fix com 1 linha: so Layer 1.5 + Layer 1
+- Pull request de 50+ arquivos: no minimo Layer 1.5 + Layer 1 + 2
 
 ## Quality Gates (Nao Negociavel)
 

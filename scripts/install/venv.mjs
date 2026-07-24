@@ -27,7 +27,6 @@ const ROOT = join(__dirname, '..', '..')
 export function setupVenv(target, { dryRun = false, skipInstall = false } = {}) {
   const venvPath = join(target, '.venv')
   const pythonBin = join(venvPath, 'bin', 'python3')
-  const requirementsFile = join(ROOT, 'src', 'mcp', 'requirements-mcp.txt')
 
   // Step 1: Create venv if not exists
   if (!existsSync(pythonBin)) {
@@ -35,6 +34,7 @@ export function setupVenv(target, { dryRun = false, skipInstall = false } = {}) 
       console.log('  Creating .venv...')
       const result = spawnSync('python3', ['-m', 'venv', venvPath], {
         stdio: 'inherit',
+        timeout: 30_000,
       })
       if (result.status !== 0) {
         throw new Error('Failed to create virtual environment')
@@ -45,34 +45,46 @@ export function setupVenv(target, { dryRun = false, skipInstall = false } = {}) 
     console.log('  ⏭️  .venv already exists')
   }
 
-  // Step 2: Install core dependencies first (essential), then full
+  // Step 2: Install MCP dependencies
   if (!skipInstall) {
     const pip = join(venvPath, 'bin', 'pip')
-    const coreReq = join(ROOT, 'src', 'mcp', 'requirements-mcp-core.txt')
-    const fullReq = join(ROOT, 'src', 'mcp', 'requirements-mcp.txt')
+    const reqFile = join(ROOT, 'src', 'mcp', 'requirements-mcp.txt')
 
-    // Core first (mcp, fastmcp, sqlite-vec, fastembed — always needed)
-    if (existsSync(coreReq)) {
-      console.log('  Installing core MCP dependencies...')
-      if (!dryRun) {
-        const r = spawnSync(pip, ['install', '-r', coreReq], { stdio: 'inherit' })
-        if (r.status !== 0) {
-          throw new Error('Failed to install core MCP dependencies')
+    if (!existsSync(reqFile)) {
+      throw new Error(`Requirements file not found: ${reqFile}`)
+    }
+
+    console.log('  Installing MCP dependencies...')
+
+    if (!dryRun) {
+      // Upgrade pip first (avoids resolver warnings)
+      spawnSync(pip, ['install', '--upgrade', 'pip'], {
+        stdio: 'ignore',
+        timeout: 30_000,
+      })
+
+      // Install requirements
+      const r = spawnSync(pip, ['install', '-r', reqFile], {
+        stdio: 'inherit',
+        timeout: 120_000,
+      })
+
+      if (r.status !== 0) {
+        // If failed, try with --break-system-packages (PEP 668 workaround)
+        console.log('  ⚠️  First attempt failed, retrying with --break-system-packages...')
+        const r2 = spawnSync(pip, ['install', '-r', reqFile, '--break-system-packages'], {
+          stdio: 'inherit',
+          timeout: 120_000,
+        })
+        if (r2.status !== 0) {
+          throw new Error(
+            'Failed to install MCP dependencies. ' +
+            'Try: pip install -r src/mcp/requirements-mcp.txt --break-system-packages'
+          )
         }
       }
     }
-
-    // Full (chromadb, sentence-transformers — optional, can fail)
-    if (existsSync(fullReq)) {
-      console.log('  Installing optional MCP dependencies...')
-      if (!dryRun) {
-        const r = spawnSync(pip, ['install', '-r', fullReq], { stdio: 'inherit' })
-        if (r.status !== 0) {
-          console.log('  ⚠️  Some optional packages failed (non-essential)')
-        }
-      }
-    }
-    console.log('  ✅ Dependencies installed')
+    console.log('  ✅ MCP dependencies installed')
   } else {
     console.log('  ⏭️  Dependency install skipped (--skip-install)')
   }
@@ -92,7 +104,7 @@ function main() {
 
   try {
     const result = setupVenv(target, { dryRun, skipInstall })
-    console.log(`\n  📍 Python: ${result.python}`)
+    console.log(`  📍 Python: ${result.python}`)
   } catch (err) {
     console.error(`\n  ❌ ${err.message}`)
     process.exit(1)

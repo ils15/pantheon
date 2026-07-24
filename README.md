@@ -9,7 +9,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/platforms-vscode|opencode|claude|cursor|windsurf|cline|continue-green" alt="Platforms"></a>
   <a href="agents/README.md"><img src="https://img.shields.io/badge/agents-14-purple" alt="Agents"></a>
-  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-44-orange" alt="Skills"></a>
+  <a href="skills/README.md"><img src="https://img.shields.io/badge/skills-14-orange" alt="Skills"></a>
   <a href="commands/"><img src="https://img.shields.io/badge/commands-14-red" alt="Commands"></a>
   <a href="docs/platforms/"><img src="https://img.shields.io/badge/built%20with-copilot|opencode|claude|cursor|windsurf|cline|continue-8250DF" alt="Built with"></a>
   <a href="https://github.com/ils15/pantheon/actions"><img src="https://img.shields.io/github/actions/workflow/status/ils15/pantheon/ci.yml?branch=main&label=CI" alt="CI"></a>
@@ -44,7 +44,7 @@ Supports **VS Code Copilot**, **OpenCode**, **Claude Code**, **Cursor**, **Winds
 | Resource | Link |
 |----------|------|
 | 📖 **Agent Reference** | [agents/README.md](agents/README.md) — all 14 agents |
-| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 44 skills |
+| 📖 **Skills Reference** | [skills/README.md](skills/README.md) — all 14 skills |
 | 🚀 **Installation Guide** | [docs/INSTALLATION.md](docs/INSTALLATION.md) |
 | 🔌 **MCP Servers** | [docs/mcp-recommendations.md](docs/mcp-recommendations.md) — recommended MCP servers for each project type |
 | 🔌 **MCP Tool Registry** | [docs/mcp-tools.md](docs/mcp-tools.md) — canonical MCP tool reference |
@@ -437,7 +437,7 @@ On-demand compression pipeline archives completed phases into structured context
 
 ## Skill Ecosystem
 
-Pantheon bundles **43 cross-platform skills** — modular instruction sets that agents load
+Pantheon bundles **14 cross-platform skills** — modular instruction sets that agents load
 on demand to perform specialized tasks. Skills are organized into domains:
 
 | Domain | Skills |
@@ -611,7 +611,7 @@ pantheon/
 │   ├── hephaestus.agent.md    — AI pipelines
 │   └── README.md
 │
-├── skills/                    — 44 cross-platform skill modules
+├── skills/                    — 14 cross-platform skill modules
 │   ├── README.md
 │   ├── agent-coordination/    * orchestration & coordination
 │   ├── artifact-management/
