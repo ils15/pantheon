@@ -1,6 +1,6 @@
 {
   "name": "pantheon-orchestrator",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Multi-agent orchestration platform with 14 specialized agents, 40 skills, TDD enforcement, RAG pipelines, and opencode-native deployment.",
   "publishConfig": {
     "access": "public",
